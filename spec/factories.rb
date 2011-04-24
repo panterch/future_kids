@@ -1,7 +1,3 @@
-Factory.define :post do |f|
-  f.title 'Post title'
-end
-
 Factory.define :mentor do |f|
   f.sequence(:email) { |n| "mentor_#{n}@example.com" }
   f.password 'welcome'
