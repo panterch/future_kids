@@ -5,4 +5,19 @@ describe Mentor do
     mentor = Factory.build(:mentor)
     mentor.should be_valid
   end
+  context 'validations' do
+    let(:mentor) { Factory(:mentor) }
+    it 'does not require password again' do
+      mentor.should be_valid
+    end
+    it 'does ignore password overwrite with nil' do
+      mentor.password = mentor.password_confirmation = nil
+      mentor.should be_valid
+    end
+    # this is what happens when sending empty password field with a form
+    it 'does trigger an error on blank password' do
+      mentor.password = mentor.password_confirmation = ''
+      mentor.should_not be_valid
+    end
+  end
 end

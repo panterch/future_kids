@@ -1,0 +1,13 @@
+= link_to 'Übersicht', collection_path
+= link_to 'Bearbeiten', edit_resource_path
+
+= show_for resource do |show|
+  = show.attribute :email
+  = show.attribute :name
+  = show.attribute :address
+  = show.attribute :phone
+  = show.attribute :personnel_number
+  = show.attribute :field_of_study
+  = show.attribute :education
+  = show.attribute :etcs
+  = show.attribute :entry_date

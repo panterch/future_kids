@@ -1,0 +1,12 @@
+= semantic_form_for resource do |form|
+  = form.inputs do
+    = form.input :email
+    = form.input :name
+    = form.input :address
+    = form.input :phone
+    = form.input :personnel_number
+    = form.input :field_of_study
+    = form.input :education
+    = form.input :etcs, :as => :boolean
+    = form.input :entry_date, :as => :date
+  = form.buttons 

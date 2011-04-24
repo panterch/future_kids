@@ -1,0 +1,6 @@
+= link_to 'Add record', new_resource_path
+%table
+  - collection.each do |mentor|
+    %tr
+      %td
+        = link_to mentor.email, mentor
