@@ -1,6 +1,9 @@
 = semantic_form_for resource do |form|
+  = form.semantic_errors
   = form.inputs do
     = form.input :email
+    = form.input :password
+    = form.input :password_confirmation
     = form.input :name
     = form.input :address
     = form.input :phone
