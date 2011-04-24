@@ -1,0 +1,4 @@
+= link_to 'Add record', new_resource_path
+- collection.each do |post|
+  = render :partial => 'post', :object => post
+  %hr

@@ -1,0 +1,11 @@
+%dl
+  %dt Title
+  %dd= post.title
+  %dt Body
+  %dd= post.body
+  %dt Actions
+  %dd
+    =link_to 'show', resource_path(post)
+    =link_to 'edit', edit_resource_path(post)
+    =link_to 'destroy', resource_path(post), :method => :delete
+    

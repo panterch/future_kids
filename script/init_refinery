@@ -1,0 +1,75 @@
+#!/bin/bash
+# define a rails application name and a folder name where you want to
+# checkout your project
+
+# change to the correct directory
+cd "$(dirname $0)/.."
+
+if [ "_$1" == "_" ] ; then
+  echo "Makes a Refinery-Project from this Project"
+  echo "Usage: $0 RAILS_NAME"
+  exit 0
+fi
+
+RAILS_NAME=$1
+FS_NAME="$(basename $(pwd))"
+
+if [ "$FS_NAME" == "project_zero" ] ; then
+  echo "It is not allowed to call this script in ProjectZero"
+  echo "Rename the Directory to the Name of your Project and restart this script"
+  exit 1
+fi
+
+# remove git history
+rm -rf .git
+
+# Set the correct gemset and use it
+echo "rvm ruby-1.8.7@$FS_NAME" > .rvmrc
+rvm gemset create "$FS_NAME"
+
+. rvm "ruby-1.8.7@$FS_NAME"
+
+# run some search replace on project name
+perl -p -i -e "s/ProjectZero/$RAILS_NAME/" config/*
+perl -p -i -e "s/ProjectZero/$RAILS_NAME/" config/initializers/*
+perl -p -i -e "s/ProjectZero/$RAILS_NAME/" config/environments/*
+perl -p -i -e "s/ProjectZero/$RAILS_NAME/" *
+perl -p -i -e "s/ProjectZero/$RAILS_NAME/" spec/*
+perl -p -i -e "s/ProjectZero/$RAILS_NAME/" app/views/layouts/*
+perl -p -i -e "s/project_zero/$FS_NAME/" config/initializers/*
+
+# Extend Gemfile by refinery
+echo "gem 'refinerycms', '>=0.9.9.17', :git=>'git://github.com/koa/refinerycms.git'" >>Gemfile
+
+# Activate sqlite3 local
+ln -s database.sqlite3.yml config/database.yml
+gem install bundler
+bundle
+
+# Generate refinerycms files
+rails generate refinerycms
+# remove some generated files
+rm config/database.yml.*
+# Store .rvmrc in git
+grep -v rvm .gitignore >.gitignore.new
+mv .gitignore.new .gitignore
+# remove root route
+grep -v root config/routes.rb >routes.rb
+mv routes.rb config/
+rake db:migrate
+
+# commit suizide
+rm script/$(basename $0)
+
+# Initialize new Repository
+git init
+git add .
+git commit -am"adapted from https://github.com/panter/project_zero and added refinerycms"
+
+echo
+echo "Now Start the Application with "
+echo
+echo "cd $(pwd)"
+echo "rails s"
+echo
+echo "and point your Browser to http://localhost:3000/ to Test your new CMS-Site"

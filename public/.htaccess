@@ -1,0 +1,12 @@
+# y default, Rails appends asset‘s timestamps to all asset paths. This allows
+# you to set a cache-expiration date for the asset far into the future
+ExpiresActive on
+ExpiresByType image/gif "access plus 1 year"
+ExpiresByType image/png "access plus 1 year"
+ExpiresByType image/jpeg "access plus 1 year"
+ExpiresByType image/x-icon "access plus 1 year"
+ExpiresByType text/css "access plus 1 year"
+ExpiresByType application/javascript "access plus 1 year"
+
+# compress static text files
+AddOutputFilterByType DEFLATE text/html text/plain text/xml text/javascript text/css application/javascript
