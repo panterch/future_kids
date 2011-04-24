@@ -7,6 +7,9 @@ gem 'exception_notification_rails3', '1.2.0', :require => 'exception_notifier'
 gem 'formtastic', '1.2.3'
 gem 'haml', '3.0.25'
 gem 'inherited_resources', '1.2.1'
+gem 'mongoid', '2.0.1'
+gem 'bson_ext', '1.3.0'
+gem 'SystemTimer', '1.2.3'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
@@ -21,6 +24,7 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'guard-spork'
   gem 'factory_girl_rails'
+  gem 'database_cleaner'
 
 #  Below an ideaf how to enable operating system dependant gems.
 #  Sadly it does cause errors on deployment.

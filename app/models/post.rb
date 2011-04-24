@@ -1,4 +1,6 @@
-class Post < ActiveRecord::Base
-  attr_accessible :title, :body
+class Post 
+  include Mongoid::Document
+  field :title
+  field :body
 
 end

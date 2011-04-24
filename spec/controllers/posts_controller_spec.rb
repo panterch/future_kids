@@ -21,7 +21,7 @@ describe PostsController do
   context 'persisted post' do
     let(:post) { Factory(:post) }
     context 'GET on edit' do
-      before(:each) { get :edit, :id => post }
+      before(:each) { get :edit, :id => post.to_param }
       it('respons with success'){ response.code.should eq('200') }
     end
     context 'GET on index' do
