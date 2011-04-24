@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe PostsController do
 
+  before(:each) do
+    sign_in Factory(:mentor)
+  end
+
   context 'GET on new' do
     before(:each) { get :new }
     it 'assigns a new post record' do

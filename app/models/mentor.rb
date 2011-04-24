@@ -1,0 +1,4 @@
+class Mentor < User
+
+
+end

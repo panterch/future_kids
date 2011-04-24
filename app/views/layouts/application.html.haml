@@ -11,7 +11,17 @@
 
   %body
     #container
+      #header
+        %ul#nav
+          - if user_signed_in?
+            %li
+              Eingeloggt als
+              = current_user.email
+              = "(#{current_user.class.human_name})"
+            %li
+              = link_to 'Abmelden', destroy_user_session_path
       - flash.each do |name, msg|
         = content_tag :div, msg, :id => "flash_#{name}"
-      = yield
+      #content
+        = yield
 
