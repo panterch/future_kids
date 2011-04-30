@@ -1,6 +1,7 @@
 class Mentor < User
 
   field :name
+  field :prename
   field :address
   field :phone
   field :personnel_number

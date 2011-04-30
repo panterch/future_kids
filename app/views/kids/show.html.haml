@@ -1,0 +1,14 @@
+= link_to 'Übersicht', collection_path
+= link_to 'Bearbeiten', edit_resource_path
+
+= show_for resource do |show|
+  = show.attribute :name
+  = show.attribute :prename
+
+  = show.association :journals do |journal|
+    = show_for journal do |nested_show|
+      = nested_show.attribute :subject
+      = nested_show.attribute :goal
+      = nested_show.attribute :subject
+      = nested_show.attribute :method
+      = nested_show.attribute :outcome

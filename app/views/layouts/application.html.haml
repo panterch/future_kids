@@ -13,6 +13,8 @@
     #container
       #header
         %ul#nav
+          %li= link_to Mentor.human_name, mentors_path
+          %li= link_to Kid.human_name, kids_path
           - if user_signed_in?
             %li
               Eingeloggt als

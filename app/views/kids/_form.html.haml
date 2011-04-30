@@ -1,0 +1,13 @@
+= semantic_form_for resource do |form|
+  = form.semantic_errors
+  = form.inputs do
+    = form.input :name
+    = form.input :prename
+
+  = form.semantic_fields_for :journals do |nested_form|
+    = nested_form.input :held_at, :as => :date
+    = nested_form.input :goal
+    = nested_form.input :subject
+    = nested_form.input :method
+    = nested_form.input :outcome
+  = form.buttons 

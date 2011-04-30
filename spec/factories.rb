@@ -9,3 +9,7 @@ Factory.define :admin do |f|
   f.password 'welcome'
   f.password_confirmation 'welcome'
 end
+
+Factory.define :kid do |f|
+end
+

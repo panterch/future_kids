@@ -7,6 +7,11 @@ describe "FactoryGirl" do
     it("should be valid") { mentor.should be_valid }
   end
 
+  describe "a kid by factory" do
+    let(:kid) { Factory.build(:kid) }
+    it("should be valid") { kid.should be_valid }
+  end
+
   # this test assures that the database is cleaned up before each
   # example.
   describe "a persisted mentor by factory" do

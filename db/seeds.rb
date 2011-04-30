@@ -6,12 +6,15 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 
-unless Mentor.exists?
+unless Mentor.count > 0
   Mentor.create!(:email => 'mentor@example.com', :password => 'welcome',
                  :password_confirmation => 'welcome')
 end
 
-unless Admin.exists?
+unless Admin.count > 0
   Admin.create!(:email => 'admin@example.com', :password => 'welcome',
                  :password_confirmation => 'welcome')
 end
+
+Kid.destroy_all
+Kid.create!(:name => 'Future', :prename => 'Kid')
