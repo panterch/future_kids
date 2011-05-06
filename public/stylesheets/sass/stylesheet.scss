@@ -94,21 +94,22 @@ a {
 }
 
 
-div.show_for {
+.show_for {
   display: table;
 }
 
-.show_for > p.wrapper {
+.show_for > .wrapper {
   display: table-row;
 }
 
-.show_for > p.wrapper > strong.label,
-.show_for > p.wrapper > span.content
+.show_for > .wrapper > .label,
+.show_for > .wrapper > .content
 {
   display: table-cell;
 }
 
-.show_for > p.wrapper > strong.label {
+.show_for > .wrapper > .label {
+  font-weight: bold;
   padding-right: 1em;
   min-width: 10em;
 }

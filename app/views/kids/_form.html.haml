@@ -4,9 +4,9 @@
     = form.input :name
     = form.input :prename
 
-  %h2 Lernjournal
+  %h2= Journal.model_name.human
 
-  = form.semantic_fields_for :journals do |nested_form|
+  = form.semantic_fields_for :journals, resource.journals_sorted do |nested_form|
     %h3= nested_form.object.display_name
     = form.inputs do
       = nested_form.input :held_at, :as => :date
@@ -15,9 +15,9 @@
       = nested_form.input :method
       = nested_form.input :outcome, :as => :text
 
-  %h2 Gesprächsdoku
+  %h2= Review.model_name.human
 
-  = form.semantic_fields_for :reviews do |nested_form|
+  = form.semantic_fields_for :reviews, resource.reviews_sorted do |nested_form|
     %h3= nested_form.object.display_name
     = form.inputs do
       = nested_form.input :held_at, :as => :date
@@ -26,5 +26,6 @@
       = nested_form.input :content, :as => :text
       = nested_form.input :outcome, :as => :text
       = nested_form.input :note, :as => :text
+
 
   = form.buttons 

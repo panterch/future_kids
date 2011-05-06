@@ -17,4 +17,16 @@ class Review
     "Gesprächsdoku vom #{I18n.l(held_at)}"
   end
 
+  def human_content
+    content.textilize
+  end
+
+  def human_reason
+    reason.textilize
+  end
+
+  def human_outcome
+    outcome.textilize
+  end
+
 end

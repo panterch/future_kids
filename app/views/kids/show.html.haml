@@ -7,12 +7,11 @@
 
 %h2= Journal.model_name.human
 
-- resource.journals.each do |journal|
+- resource.journals_sorted.each do |journal|
 
   %h3= journal.display_name
 
   = show_for journal do |journal_show|
-    = journal_show.attribute :subject
     = journal_show.attribute :goal
     = journal_show.attribute :subject
     = journal_show.attribute :method
@@ -20,7 +19,7 @@
 
 %h2= Review.model_name.human
 
-- resource.reviews.each do |review|
+- resource.reviews_sorted.each do |review|
 
   %h3= review.display_name
 
