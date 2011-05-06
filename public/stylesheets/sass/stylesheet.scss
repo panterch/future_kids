@@ -1,42 +1,53 @@
 body {
   background-color: #4B7399;
   font-family: Verdana, Helvetica, Arial;
-  font-size: 14px; }
+  font-size: 14px;
+}
 
 a img {
-  border: none; }
+  border: none;
+}
 
 a {
-  color: #0000FF; }
+  color: #0000FF;
+}
 
 .clear {
   clear: both;
   height: 0;
-  overflow: hidden; }
+  overflow: hidden;
+}
 
 #container {
   width: 75%;
   margin: 0 auto;
   background-color: #FFF;
   border: solid 1px black;
-  margin-top: 20px; }
+  margin-top: 20px;
+}
 
 #header {
   border-bottom: 1px solid;
-  margin-bottom: 2em; }
+  margin-bottom: 2em;
+}
+
 
 #header, #content,
 #flash_notice, #flash_error, #flash_alert {
-  padding: 20px; }
+  padding: 20px;
+}
 
 #flash_notice {
-  background-color: #CFC; }
+  background-color: #CFC;
+}
 
 #flash_error, #flash_alert {
-  background-color: #FCC; }
+  background-color: #FCC;
+}
 
 .fieldWithErrors {
-  display: inline; }
+  display: inline;
+}
 
 .error_messages {
   width: 400px;
@@ -45,7 +56,8 @@ a {
   padding-bottom: 12px;
   margin-bottom: 20px;
   background-color: #f0f0f0;
-  font-size: 12px; }
+  font-size: 12px;
+}
 
 .error_messages h2 {
   text-align: left;
@@ -54,37 +66,51 @@ a {
   font-size: 12px;
   margin: 0;
   background-color: #c00;
-  color: #fff; }
+  color: #fff;
+}
 
 .error_messages p {
-  margin: 8px 10px; }
+  margin: 8px 10px;
+}
 
 .error_messages ul {
-  margin: 0; }
+  margin: 0;
+}
 
 #nav {
   padding-left: 0;
-  overflow: hidden; }
+  overflow: hidden;
+}
 
 #nav li {
   display: block;
   float: left;
-  padding-right: 1em; }
+  padding-right: 1em;
+}
 
 #nav li:last-child {
   float: right;
-  padding-right: 0; }
+  padding-right: 0;
+}
+
 
 div.show_for {
-  display: table; }
+  display: table;
+}
 
 .show_for > p.wrapper {
-  display: table-row; }
+  display: table-row;
+}
 
 .show_for > p.wrapper > strong.label,
-.show_for > p.wrapper > span.content {
-  display: table-cell; }
+.show_for > p.wrapper > span.content
+{
+  display: table-cell;
+}
 
 .show_for > p.wrapper > strong.label {
   padding-right: 1em;
-  min-width: 10em; }
+  min-width: 10em;
+}
+
+

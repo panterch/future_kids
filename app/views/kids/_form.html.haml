@@ -4,10 +4,27 @@
     = form.input :name
     = form.input :prename
 
+  %h2 Lernjournal
+
   = form.semantic_fields_for :journals do |nested_form|
-    = nested_form.input :held_at, :as => :date
-    = nested_form.input :goal
-    = nested_form.input :subject
-    = nested_form.input :method
-    = nested_form.input :outcome
+    %h3= nested_form.object.display_name
+    = form.inputs do
+      = nested_form.input :held_at, :as => :date
+      = nested_form.input :goal
+      = nested_form.input :subject, :as => :text
+      = nested_form.input :method
+      = nested_form.input :outcome, :as => :text
+
+  %h2 Gesprächsdoku
+
+  = form.semantic_fields_for :reviews do |nested_form|
+    %h3= nested_form.object.display_name
+    = form.inputs do
+      = nested_form.input :held_at, :as => :date
+      = nested_form.input :reason
+      = nested_form.input :kind
+      = nested_form.input :content, :as => :text
+      = nested_form.input :outcome, :as => :text
+      = nested_form.input :note, :as => :text
+
   = form.buttons 

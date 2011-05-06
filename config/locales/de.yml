@@ -191,3 +191,30 @@ de:
 
       full_messages:
         format: "%{attribute} %{message}"
+
+
+  mongoid:
+    models:
+      kid: "Future Kid"
+      journal: "Lernjournal"
+
+    attributes:
+      kid:
+        prename: "Vorname"
+      journal:
+        held_at: Datum
+        goal: Lernziel
+        subject: Thema
+        method: Methode
+        outcome: "Erfolge / Schwierigkeiten"
+      review:
+        held_at: Datum
+        reason: Anlass
+        kind: "Art des Gesprächs"
+        members: "Teilnehmende"
+        content: "Inhalt" 
+        outcome: "Abmachungen"
+        note: "Beobachtungen"
+
+
+        

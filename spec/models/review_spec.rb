@@ -1,5 +1,4 @@
 require 'spec_helper'
 
-describe Journal do
-
+describe Review do
 end

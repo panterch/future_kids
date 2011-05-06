@@ -7,16 +7,16 @@ ShowFor.setup do |config|
   # config.wrapper_tag = :dl
 
   # The tag used to wrap each label. Default is :strong.
-  # config.label_tag = :dt
+  config.label_tag = :strong
 
   # The tag used to wrap each content (value). Default is nil.
-  # config.content_tag = :dd
+  config.content_tag = :span
 
   # The DOM class set for blank content tags. Default is "blank".
   # config.blank_content_class = 'no_content'
 
   # The separator between label and content. Default is "<br />".
-  # config.separator = "<br />"
+  config.separator = ""
 
   # The tag used to wrap collections. Default is :ul.
   # config.collection_tag = :ul

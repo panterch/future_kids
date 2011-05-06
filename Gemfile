@@ -13,6 +13,7 @@ gem 'exception_notification_rails3', '1.2.0', :require => 'exception_notifier'
 gem 'formtastic', '1.2.3'
 gem 'haml', '3.0.25'
 gem 'inherited_resources', '1.2.1'
+gem 'sass', '3.1.1'
 gem 'show_for', '0.2.4'
 gem 'SystemTimer', '1.2.3'
 

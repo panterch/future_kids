@@ -13,14 +13,13 @@
     #container
       #header
         %ul#nav
-          %li= link_to Mentor.human_name, mentors_path
-          %li= link_to Kid.human_name, kids_path
+          %li= link_to Mentor.model_name.human, mentors_path
+          %li= link_to Kid.model_name.human, kids_path
           - if user_signed_in?
             %li
               Eingeloggt als
               = current_user.email
-              = "(#{current_user.class.human_name})"
-            %li
+              = "(#{current_user.class.model_name.human})"
               = link_to 'Abmelden', destroy_user_session_path
       - flash.each do |name, msg|
         = content_tag :div, msg, :id => "flash_#{name}"
