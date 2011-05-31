@@ -43,6 +43,19 @@ describe Kid do
       kid.save! && kid.reload
       kid.mentor.should be_present
     end
+    it 'does associate a secondary mentor' do
+      kid.secondary_mentor_id = Factory(:mentor).id
+      kid.save! && kid.reload
+      kid.secondary_mentor.should be_present
+    end
+    it 'can associate both mentors' do
+      kid.mentor = Factory(:mentor)
+      kid.secondary_mentor = Factory(:mentor)
+      kid.save! && kid.reload
+      kid.mentor.should be_present
+      kid.secondary_mentor.should be_present
+      kid.mentor.should_not eql(kid.secondary_mentor)
+    end
   end
 
 end

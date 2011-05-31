@@ -14,6 +14,9 @@
     %li#kid_mentor_id_input.select.optional
       %label Mentor
       = form.collection_select(:mentor_id, Mentor.all, :id, :display_name, {:prompt => true})
+    %li#kid_secondary_mentor_id_input.select.optional
+      %label Zweiter Mentor
+      = form.collection_select(:secondary_mentor_id, Mentor.all, :id, :display_name, {:prompt => true})
 
   %h2= Journal.model_name.human
 

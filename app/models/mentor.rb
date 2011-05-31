@@ -3,6 +3,7 @@ class Mentor < User
   default_scope :ascending => [ :name, :prename ]
 
   has_one :kid
+  has_one :secondary_kid, :class_name => 'Kid'
 
   field :name
   field :prename

@@ -6,6 +6,7 @@ class Kid
   default_scope :ascending => [ :name, :prename ]
 
   belongs_to :mentor
+  belongs_to :secondary_mentor, :class_name => 'Mentor'
 
   embeds_many :journals
   embeds_many :reviews
@@ -54,6 +55,10 @@ class Kid
 
   def human_mentor
     mentor.display_name
+  end
+
+  def human_secondary_mentor
+    secondary_mentor.display_name
   end
 
   # mongoid doesn't such a good job when sorting embedded fields (there is an
