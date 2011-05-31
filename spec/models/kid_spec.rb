@@ -29,7 +29,20 @@ describe Kid do
       kid.journals_sorted.map(&:held_at).should eq(
         [new_record, recent_record, old_record, very_old_record].map(&:held_at))
     end
+  end
 
+  context 'relation to mentor' do
+    let(:kid) { Factory.build(:kid) }
+    it 'does associate a mentor' do
+      kid.mentor = Factory(:mentor)
+      kid.save! && kid.reload
+      kid.mentor.should be_present
+    end
+    it 'sets mentor via mentor_id' do
+      kid.mentor_id = Factory(:mentor).id
+      kid.save! && kid.reload
+      kid.mentor.should be_present
+    end
   end
 
 end

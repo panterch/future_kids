@@ -7,7 +7,8 @@
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 
 unless Mentor.count > 0
-  Mentor.create!(:email => 'mentor@example.com', :password => 'welcome',
+  Mentor.create!(:name => 'Mentor', :prename => 'Mental',
+                 :email => 'mentor@example.com', :password => 'welcome',
                  :password_confirmation => 'welcome')
 end
 

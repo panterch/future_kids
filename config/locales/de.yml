@@ -201,6 +201,11 @@ de:
     attributes:
       kid:
         prename: "Vorname"
+        parent: "Name der/s Erziehungsberechtigten"
+        address: "Adresse"
+        sex: "Geschlecht"
+        grade: "Klassenstufe"
+        entered_at: "Datum des Einstiegs"
       journal:
         held_at: Datum
         goal: Lernziel

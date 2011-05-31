@@ -1,3 +1,15 @@
+GIT
+  remote: git://github.com/jnicklas/capybara.git
+  revision: 36a0aa942b27e142cc72260f9ccf051999627769
+  specs:
+    capybara (1.0.0.beta1)
+      mime-types (>= 1.16)
+      nokogiri (>= 1.3.3)
+      rack (>= 1.0.0)
+      rack-test (>= 0.5.4)
+      selenium-webdriver (~> 0.2.0)
+      xpath (~> 0.1.4)
+
 GEM
   remote: http://rubygems.org/
   specs:
@@ -36,20 +48,9 @@ GEM
     bson_ext (1.3.0)
     builder (2.1.2)
     cancan (1.6.4)
-    capybara (0.4.1.2)
-      celerity (>= 0.7.9)
-      culerity (>= 0.2.4)
-      mime-types (>= 1.16)
-      nokogiri (>= 1.3.3)
-      rack (>= 1.0.0)
-      rack-test (>= 0.5.4)
-      selenium-webdriver (>= 0.0.27)
-      xpath (~> 0.1.3)
-    celerity (0.8.9)
-    childprocess (0.1.8)
+    childprocess (0.1.9)
       ffi (~> 1.0.6)
     columnize (0.3.2)
-    culerity (0.2.15)
     database_cleaner (0.6.7)
     devise (1.3.3)
       bcrypt-ruby (~> 2.1.2)
@@ -63,8 +64,7 @@ GEM
     factory_girl_rails (1.0.1)
       factory_girl (~> 1.3)
       railties (>= 3.0.0)
-    ffi (1.0.7)
-      rake (>= 0.8.7)
+    ffi (1.0.9)
     formtastic (1.2.3)
       actionpack (>= 2.3.7)
       activesupport (>= 2.3.7)
@@ -143,7 +143,7 @@ GEM
       linecache (>= 0.3)
     rubyzip (0.9.4)
     sass (3.1.1)
-    selenium-webdriver (0.1.4)
+    selenium-webdriver (0.2.0)
       childprocess (>= 0.1.7)
       ffi (>= 1.0.7)
       json_pure
@@ -159,7 +159,7 @@ GEM
     warden (1.0.3)
       rack (>= 1.0.0)
     will_paginate (3.0.pre2)
-    xpath (0.1.3)
+    xpath (0.1.4)
       nokogiri (~> 1.3)
     yard (0.6.8)
 
@@ -171,7 +171,7 @@ DEPENDENCIES
   SystemTimer (= 1.2.3)
   bson_ext (= 1.3.0)
   cancan (= 1.6.4)
-  capybara
+  capybara!
   database_cleaner
   devise (= 1.3.3)
   exception_notification_rails3 (= 1.2.0)

@@ -3,11 +3,20 @@ class Kid
   include Mongoid::MultiParameterAttributes
   include Mongoid::Timestamps
 
+  default_scope :ascending => [ :name, :prename ]
+
+  belongs_to :mentor
+
   embeds_many :journals
   embeds_many :reviews
 
   field :name
   field :prename
+  field :parent
+  field :address
+  field :sex
+  field :grade
+  field :entered_at, :type => Date
 
   accepts_nested_attributes_for :journals, :reviews,
     :reject_if => proc { |attributes| empty_nested_entry?(attributes) }
@@ -29,7 +38,6 @@ class Kid
     sort_by_new_record_and_held_at(reviews)
   end
 
-
   # entries that were just built by the prepare_ methods should not be saved
   # we detect them by checking for non-blank parameters other than held_at
   def self.empty_nested_entry?(attributes)
@@ -41,7 +49,11 @@ class Kid
   end
 
   def display_name
-    [ prename, name].reject(&:blank?).join(' ')
+    [ name, prename].reject(&:blank?).join(' ')
+  end
+
+  def human_mentor
+    mentor.display_name
   end
 
   # mongoid doesn't such a good job when sorting embedded fields (there is an

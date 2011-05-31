@@ -3,6 +3,17 @@
   = form.inputs do
     = form.input :name
     = form.input :prename
+    = form.input :parent
+    = form.input :address, :as => :text
+    = form.input :sex, :as => :select, :collection => { "Mädchen" => 'f', "Knabe" => 'm' }
+    = form.input :grade
+    = form.input :entered_at, :as => :date
+
+    -# mongoid relations are not yet supported, we have to build the selection
+    -# manually
+    %li#kid_mentor_id_input.select.optional
+      %label Mentor
+      = form.collection_select(:mentor_id, Mentor.all, :id, :display_name, {:prompt => true})
 
   %h2= Journal.model_name.human
 

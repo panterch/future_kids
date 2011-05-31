@@ -1,9 +1,17 @@
 = link_to 'Übersicht', collection_path
 = link_to 'Bearbeiten', edit_resource_path
 
+%h2= resource.display_name
+
 = show_for resource do |show|
   = show.attribute :name
   = show.attribute :prename
+  = show.attribute :parent
+  = show.attribute :address
+  = show.attribute :sex
+  = show.attribute :grade
+  = show.attribute :entered_at
+  = show.attribute :mentor
 
 %h2= Journal.model_name.human
 

@@ -25,7 +25,7 @@ group :development, :test do
   gem 'yard'
   gem 'rspec-rails'
   gem 'steak'
-  gem 'capybara'
+  gem 'capybara', :git => 'git://github.com/jnicklas/capybara.git'
   gem 'spork', "0.9.0.rc3"
   gem 'guard-rspec'
   gem 'guard-spork'
