@@ -50,15 +50,7 @@ class Kid
   end
 
   def display_name
-    [ name, prename].reject(&:blank?).join(' ')
-  end
-
-  def human_mentor
-    mentor.display_name
-  end
-
-  def human_secondary_mentor
-    secondary_mentor.display_name
+    [ name, prename ].reject(&:blank?).join(' ')
   end
 
   # mongoid doesn't such a good job when sorting embedded fields (there is an

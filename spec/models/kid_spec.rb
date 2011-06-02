@@ -56,6 +56,11 @@ describe Kid do
       kid.secondary_mentor.should be_present
       kid.mentor.should_not eql(kid.secondary_mentor)
     end
+    it 'can be called via secondary_kid accessor'  do
+      kid.secondary_mentor = mentor = Factory(:mentor)
+      kid.save! && kid.reload && mentor.reload
+      mentor.secondary_kids.first.should eq(kid)
+    end
   end
 
 end

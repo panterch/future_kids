@@ -15,4 +15,6 @@ form.formtastic fieldset ol li fieldset legend { margin-left: -6px;}
 
 form.formtastic fieldset > ol > li {
   overflow: visible;
+  min-height: 25px;
 }
+

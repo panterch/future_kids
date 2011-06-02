@@ -11,8 +11,10 @@
   = show.attribute :sex
   = show.attribute :grade
   = show.attribute :entered_at
-  = show.attribute :mentor
-  = show.attribute :secondary_mentor
+  = show.attribute :mentor do 
+    = link_to resource.mentor.display_name, resource.mentor
+  = show.attribute :seconday_mentor do 
+    = link_to resource.secondary_mentor.display_name, resource.secondary_mentor
 
 %h2= Journal.model_name.human
 

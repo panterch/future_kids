@@ -2,8 +2,9 @@ class Mentor < User
 
   default_scope :ascending => [ :name, :prename ]
 
-  has_one :kid
-  has_one :secondary_kid, :class_name => 'Kid'
+  has_many :kids
+  has_many :secondary_kids, :class_name => 'Kid',
+           :foreign_key => 'secondary_mentor_id'
 
   field :name
   field :prename

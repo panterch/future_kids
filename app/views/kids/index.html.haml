@@ -1,6 +1,5 @@
 = link_to 'Add record', new_resource_path
-%table
+
+%ul
   - collection.each do |resource|
-    %tr
-      %td
-        = link_to resource.display_name, resource
+    %li= link_to resource.display_name, resource
