@@ -7,15 +7,25 @@
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 
 unless Mentor.count > 0
-  Mentor.create!(:name => 'Mentor', :prename => 'Mental',
+  Mentor.create!(:name => 'Haller', :prename => 'Frederik',
                  :email => 'mentor@example.com', :password => 'welcome',
                  :password_confirmation => 'welcome')
 end
 
 unless Admin.count > 0
-  Admin.create!(:email => 'admin@example.com', :password => 'welcome',
-                 :password_confirmation => 'welcome')
+  Admin.create!(:name => 'AOZ', :prename => 'Admin',
+                :email => 'admin@example.com', :password => 'welcome',
+                :password_confirmation => 'welcome')
 end
 
-Kid.destroy_all
-Kid.create!(:name => 'Future', :prename => 'Kid')
+unless Teacher.count > 0
+  Teacher.create!(:name => 'Meckler', :prename => 'Janine',
+                  :email => 'teacher@example.com', :password => 'welcome',
+                  :password_confirmation => 'welcome')
+end
+
+unless Kid.count > 0
+  Kid.create!(:name => 'Meier', :prename => 'Max')
+  Kid.create!(:name => 'Hodler', :prename => 'Rolf')
+  Kid.create!(:name => 'Schwarz', :prename => 'Sandra')
+end

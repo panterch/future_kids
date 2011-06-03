@@ -3,6 +3,9 @@ class User
   include Mongoid::MultiParameterAttributes
   include Mongoid::Timestamps
 
+  field :name
+  field :prename
+
   # Include default devise modules. Others available are:
   # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
@@ -11,6 +14,13 @@ class User
   # attr_accessible :email, :password, :password_confirmation, :remember_me
   
   before_validation :nilify_blank_password
+
+  validates_presence_of :name, :prename
+
+  def display_name
+    [ name, prename].reject(&:blank?).join(' ')
+  end
+
 
 protected
 

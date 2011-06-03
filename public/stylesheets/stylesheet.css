@@ -15,19 +15,18 @@ a {
   overflow: hidden; }
 
 #container {
-  width: 75%;
-  margin: 0 auto;
   background-color: #FFF;
-  border: solid 1px black;
-  margin-top: 20px; }
-
-#header {
-  border-bottom: 1px solid;
-  margin-bottom: 2em; }
+  padding: 0;
+  margin: 0; }
 
 #header, #content,
 #flash_notice, #flash_error, #flash_alert {
-  padding: 20px; }
+  margin: 0px;
+  padding: 20px;
+  border-bottom: 1px solid #CCC; }
+
+#header {
+  border-top: 1px solid #CCC; }
 
 #flash_notice {
   background-color: #CFC; }
@@ -90,7 +89,7 @@ a {
   padding-right: 1em;
   min-width: 10em; }
 
-.show_for > .wrapper ul.collection {
+.show_for > .wrapper ul {
   margin: 0;
   padding: 0;
   list-style: none; }

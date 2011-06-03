@@ -7,6 +7,7 @@ class Kid
 
   belongs_to :mentor
   belongs_to :secondary_mentor, :class_name => 'Mentor'
+  belongs_to :teacher
 
   embeds_many :journals
   embeds_many :reviews

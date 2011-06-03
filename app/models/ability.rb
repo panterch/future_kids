@@ -29,6 +29,11 @@ class Ability
     elsif user.is_a?(Mentor)
       can :read,   Mentor, :_id => user.id
       can :update, Mentor, :_id => user.id
+      can [:read, :update], Kid, :mentor_id => user.id
+      can [:read, :update], Kid, :secondary_mentor_id => user.id
+    elsif user.is_a?(Teacher)
+      can :read,   Teacher, :_id => user.id
+      can :update, Teacher, :_id => user.id
     end
   end
 end

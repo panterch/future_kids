@@ -6,8 +6,6 @@ class Mentor < User
   has_many :secondary_kids, :class_name => 'Kid',
            :foreign_key => 'secondary_mentor_id'
 
-  field :name
-  field :prename
   field :address
   field :phone
   field :personnel_number
@@ -15,12 +13,5 @@ class Mentor < User
   field :education
   field :etcs, :type => Boolean
   field :entry_date, :type => Date
-
-  validates_presence_of :name, :prename
-
-  def display_name
-    [ name, prename].reject(&:blank?).join(' ')
-  end
-
 
 end
