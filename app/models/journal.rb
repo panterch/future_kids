@@ -13,7 +13,7 @@ class Journal
 
   def display_name
     return "Neuer Lernjournal Eintrag" if new_record?
-    "Lernjournal Eintrag vom #{I18n.l(held_at)}"
+    "Journal vom #{I18n.l(held_at.to_date)}"
   end
 
   def human_goal; goal.textilize; end

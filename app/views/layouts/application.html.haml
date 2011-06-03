@@ -10,15 +10,35 @@
     %meta{"http-equiv"=>"Content-Type", :content=>"text/html; charset=utf-8"}/
 
   %body
+    = image_tag("bg0#{rand(8)}.jpg", :id => 'bg')
     #container
+      - if user_signed_in?
+        #nav
+          %h4 Navigation
+          %ul.site
+            -if can? :read, Mentor
+              %li= link_to Mentor.model_name.human, mentors_path
+            -if can? :read, Kid
+              %li= link_to Kid.model_name.human, kids_path
+            -if can? :read, Teacher
+              %li= link_to Teacher.model_name.human, teachers_path
+          %h4 Aktionen
+          %ul.actions
+            %li= link_to 'Übersicht', collection_path
+            %li= link_to 'Neuer Eintrag', new_resource_path
+            -if %w(show edit).include?(@controller.action_name)
+              %li= link_to 'Anzeigen', resource_path
+              %li= link_to 'Bearbeiten', edit_resource_path
+              %li= link_to 'Löschen', resource_path, :action => :delete,
+              :confirm => "Soll der Datensatz wirklich gelöscht werden?"
+            = yield :actions
+          %h4 Auf dieser Seite
+          %ul.subnav
+            %li= link_to 'Seitenbeginn', :anchor => 'header'
+            = yield :subnav
+            %li= link_to 'Seitenende', :anchor => 'footer'
       #header
-        %ul#nav
-          -if can? :read, Mentor
-            %li= link_to Mentor.model_name.human, mentors_path
-          -if can? :read, Kid
-            %li= link_to Kid.model_name.human, kids_path
-          -if can? :read, Teacher
-            %li= link_to Teacher.model_name.human, teachers_path
+        %ul
           - if user_signed_in?
             %li
               Eingeloggt als
@@ -29,6 +49,8 @@
             %li= link_to 'Anmelden', new_user_session_path
       - flash.each do |name, msg|
         = content_tag :div, msg, :id => "flash_#{name}"
+          
       #content
         = yield
+      #footer
 

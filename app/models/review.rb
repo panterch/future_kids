@@ -14,7 +14,7 @@ class Review
 
   def display_name
     return "Neue Gesprächsdoku" if new_record?
-    "Gesprächsdoku vom #{I18n.l(held_at)}"
+    "Gespräch vom #{I18n.l(held_at.to_date)}"
   end
 
   def human_content; content.textilize; end

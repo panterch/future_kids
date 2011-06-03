@@ -1,9 +1,8 @@
-= link_to 'Übersicht', collection_path
-= link_to 'Bearbeiten', edit_resource_path
+= render :partial => 'subnav'
 
-%h2= resource.display_name
+%h2#kid= resource.display_name
 
-= show_for resource do |show|
+= show_for resource, :id => nil do |show|
   = show.attribute :name
   = show.attribute :prename
   = show.attribute :parent
@@ -18,10 +17,9 @@
   = show.attribute :seconday_mentor do 
     = can_link_to(resource.secondary_mentor)
 
-%h2= Journal.model_name.human
+%h2#journals= Journal.model_name.human
 
 - resource.journals_sorted.each do |journal|
-
   %h3= journal.display_name
 
   = show_for journal do |journal_show|
@@ -30,10 +28,9 @@
     = journal_show.attribute :method
     = journal_show.attribute :outcome
 
-%h2= Review.model_name.human
+%h2#reviews= Review.model_name.human
 
 - resource.reviews_sorted.each do |review|
-
   %h3= review.display_name
 
   = show_for review do |review_show|
