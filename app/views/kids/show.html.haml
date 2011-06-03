@@ -2,14 +2,18 @@
 
 %h2#kid= resource.display_name
 
-= show_for resource, :id => nil do |show|
+= show_for resource do |show|
   = show.attribute :name
   = show.attribute :prename
   = show.attribute :parent
   = show.attribute :address
   = show.attribute :sex
-  = show.attribute :grade
   = show.attribute :entered_at
+
+%h2#school Allgemeine Informationen
+= show_for resource do |show|
+  = show.attribute :goal
+  = show.attribute :grade
   = show.attribute :teacher do 
     = can_link_to(resource.teacher)
   = show.attribute :mentor do 

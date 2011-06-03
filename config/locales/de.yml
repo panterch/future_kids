@@ -203,6 +203,7 @@ de:
         prename: "Vorname"
         parent: "Name der/s Erziehungsberechtigten"
         address: "Adresse"
+        goal: "Förderziele"
         sex: "Geschlecht"
         grade: "Klassenstufe"
         entered_at: "Datum des Einstiegs"

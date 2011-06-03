@@ -29,7 +29,7 @@
             -if %w(show edit).include?(@controller.action_name)
               %li= link_to 'Anzeigen', resource_path
               %li= link_to 'Bearbeiten', edit_resource_path
-              %li= link_to 'Löschen', resource_path, :action => :delete,
+              %li= link_to 'Löschen', resource_path, :method => :delete,
               :confirm => "Soll der Datensatz wirklich gelöscht werden?"
             = yield :actions
           %h4 Auf dieser Seite

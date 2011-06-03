@@ -1,5 +1,5 @@
 - content_for :subnav do
-  %li= link_to resource.display_name, :anchor => 'kid'
+  %li= link_to 'Allgemeine Information', :anchor => 'school'
   %li= link_to Journal.model_name.human, :anchor => 'journals'
   - resource.journals_sorted.each do |journal|
     %li= link_to journal.display_name, :anchor => dom_id(journal)

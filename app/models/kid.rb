@@ -18,6 +18,7 @@ class Kid
   field :address
   field :sex
   field :grade
+  field :goal
   field :entered_at, :type => Date
 
   accepts_nested_attributes_for :journals, :reviews,
@@ -51,8 +52,11 @@ class Kid
   end
 
   def display_name
+    return "Neuer Eintrag" if new_record?
     [ name, prename ].reject(&:blank?).join(' ')
   end
+
+  def human_goal; goal.textilize; end
 
   # mongoid doesn't such a good job when sorting embedded fields (there is an
   # open bug). we sort them manually:

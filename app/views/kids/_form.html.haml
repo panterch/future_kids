@@ -1,6 +1,8 @@
 = render :partial => 'subnav'
 
 = semantic_form_for resource do |form|
+  %h2#kid= resource.display_name
+
   = form.semantic_errors
   = form.inputs do
     = form.input :name
@@ -8,9 +10,12 @@
     = form.input :parent
     = form.input :address, :as => :text
     = form.input :sex, :as => :select, :collection => { "Mädchen" => 'f', "Knabe" => 'm' }
-    = form.input :grade
     = form.input :entered_at, :as => :date
 
+  %h2#school Allgemeine Informationen
+  = form.inputs do
+    = form.input :goal, :as => :text
+    = form.input :grade
     -# mongoid relations are not yet supported, we have to build the selection
     -# manually
     %li#kid_teacher_id_input.select.optional
