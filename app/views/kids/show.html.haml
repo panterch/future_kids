@@ -1,8 +1,8 @@
 = render :partial => 'subnav'
 
-%h2#kid= resource.display_name
 
 = show_for resource do |show|
+  %h2#kid= resource.display_name
   = show.attribute :name
   = show.attribute :prename
   = show.attribute :parent
@@ -10,8 +10,8 @@
   = show.attribute :sex
   = show.attribute :entered_at
 
-%h2#school Allgemeine Informationen
 = show_for resource do |show|
+  %h2#school Allgemeine Informationen
   = show.attribute :goal
   = show.attribute :grade
   = show.attribute :teacher do 
@@ -21,23 +21,17 @@
   = show.attribute :seconday_mentor do 
     = can_link_to(resource.secondary_mentor)
 
-%h2#journals= Journal.model_name.human
-
 - resource.journals_sorted.each do |journal|
-  %h3= journal.display_name
-
   = show_for journal do |journal_show|
+    %h2= journal.display_name
     = journal_show.attribute :goal
     = journal_show.attribute :subject
     = journal_show.attribute :method
     = journal_show.attribute :outcome
 
-%h2#reviews= Review.model_name.human
-
 - resource.reviews_sorted.each do |review|
-  %h3= review.display_name
-
   = show_for review do |review_show|
+    %h2= review.display_name
     = review_show.attribute :reason
     = review_show.attribute :kind
     = review_show.attribute :content

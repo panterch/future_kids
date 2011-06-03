@@ -17,9 +17,9 @@ class Review
     "Gespräch vom #{I18n.l(held_at.to_date)}"
   end
 
-  def human_content; content.textilize; end
-  def human_reason; reason.textilize; end
-  def human_outcome; outcome.textilize; end
-  def human_note; note.textilize; end
+  def human_content; content.try(:textilize); end
+  def human_reason; reason.try(:textilize); end
+  def human_outcome; outcome.try(:textilize); end
+  def human_note; note.try(:textilize); end
 
 end

@@ -56,7 +56,11 @@ class Kid
     [ name, prename ].reject(&:blank?).join(' ')
   end
 
-  def human_goal; goal.textilize; end
+  def human_goal; goal.try(:textilize); end
+
+  def human_sex
+    { 'm' => '♂', 'f' => '♀' }[sex]
+  end
 
   # mongoid doesn't such a good job when sorting embedded fields (there is an
   # open bug). we sort them manually:

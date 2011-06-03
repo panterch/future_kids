@@ -26,7 +26,7 @@
           %ul.actions
             %li= link_to 'Übersicht', collection_path
             %li= link_to 'Neuer Eintrag', new_resource_path
-            -if %w(show edit).include?(@controller.action_name)
+            -if %w(show edit).include?(controller.action_name)
               %li= link_to 'Anzeigen', resource_path
               %li= link_to 'Bearbeiten', edit_resource_path
               %li= link_to 'Löschen', resource_path, :method => :delete,

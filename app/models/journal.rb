@@ -16,9 +16,9 @@ class Journal
     "Journal vom #{I18n.l(held_at.to_date)}"
   end
 
-  def human_goal; goal.textilize; end
-  def human_subject; subject.textilize; end
-  def human_method; method.textilize; end
-  def human_outcome; outcome.textilize; end
+  def human_goal; goal.try(:textilize); end
+  def human_subject; subject.try(:textilize); end
+  def human_method; method.try(:textilize); end
+  def human_outcome; outcome.try(:textilize); end
 
 end

@@ -109,16 +109,16 @@ ul {
   padding-right: 0; }
 
 .show_for {
-  display: table; }
+  overflow: hidden;
+  margin-bottom: 20px; }
 
 .show_for > .wrapper {
-  display: table-row; }
-
-.show_for > .wrapper > .label,
-.show_for > .wrapper > .content {
-  display: table-cell; }
+  clear: both; }
 
 .show_for > .wrapper > .label {
   font-weight: bold;
-  padding-right: 1em;
-  min-width: 10em; }
+  float: left;
+  width: 15em; }
+
+.show_for > .wrapper > .content {
+  margin-left: 16em; }

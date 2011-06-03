@@ -33,4 +33,5 @@ group :development, :test do
   gem 'database_cleaner'
   gem 'mongoid-rspec'
   gem 'ruby-debug'
+  gem 'capistrano'
 end
