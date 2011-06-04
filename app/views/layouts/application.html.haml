@@ -29,8 +29,10 @@
             -if %w(show edit).include?(controller.action_name)
               %li= link_to 'Anzeigen', resource_path
               %li= link_to 'Bearbeiten', edit_resource_path
-              %li= link_to 'Löschen', resource_path, :method => :delete,
+              %li= button_to 'Löschen', resource_path, :method => :delete,
               :confirm => "Soll der Datensatz wirklich gelöscht werden?"
+            -if %w(new edit).include?(controller.action_name)
+              %li= button_to_function 'Speichern', "$('#content_form').submit()"
             = yield :actions
           %h4 Auf dieser Seite
           %ul.subnav

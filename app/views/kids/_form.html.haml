@@ -1,6 +1,6 @@
 = render :partial => 'subnav'
 
-= semantic_form_for resource do |form|
+= semantic_form_for resource, :html => { :id => 'content_form' } do |form|
   %h2#kid= resource.display_name
 
   = form.semantic_errors

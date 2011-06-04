@@ -1,4 +1,4 @@
-= semantic_form_for resource do |form|
+= semantic_form_for resource, :html => { :id => 'content_form' } do |form|
   = form.semantic_errors
   = form.inputs do
     = form.input :email
