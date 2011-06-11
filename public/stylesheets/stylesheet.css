@@ -54,6 +54,13 @@ ul {
 #nav li.topic {
   margin-top: 10px; }
 
+#nav ul > li > ul {
+  list-style: disc inside; }
+
+#nav ul > li > form,
+#nav ul > li > input {
+  margin: 4px 0; }
+
 #content {
   min-height: 600px;
   border-left: 1px solid #CCC; }

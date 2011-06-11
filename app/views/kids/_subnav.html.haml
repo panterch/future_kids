@@ -1,7 +1,13 @@
 - content_for :subnav do
   %li= link_to 'Allgemeine Information', :anchor => 'school'
-  - resource.journals_sorted.each do |journal|
-    %li= link_to journal.display_name, :anchor => dom_id(journal)
-  - resource.reviews_sorted.each do |review|
-    %li= link_to review.display_name, :anchor => dom_id(review)
+  %li= link_to 'Lernjournale', :anchor => dom_id(resource.journals_sorted.first)
+  %li
+    %ul
+      - resource.journals_sorted.each do |journal|
+        %li= link_to journal.display_name, :anchor => dom_id(journal)
+  %li= link_to 'Gesprächsdokumentationen', :anchor => dom_id(resource.reviews_sorted.first)
+  %li
+    %ul
+      - resource.reviews_sorted.each do |review|
+        %li= link_to review.display_name, :anchor => dom_id(review)
 
