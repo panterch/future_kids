@@ -21,7 +21,7 @@
   = show.attribute :seconday_mentor do 
     = can_link_to(resource.secondary_mentor)
 
-- resource.journals_sorted.each do |journal|
+- resource.journals.each do |journal|
   = show_for journal do |journal_show|
     %h2= journal.display_name
     = journal_show.attribute :goal
@@ -29,7 +29,7 @@
     = journal_show.attribute :method
     = journal_show.attribute :outcome
 
-- resource.reviews_sorted.each do |review|
+- resource.reviews.each do |review|
   = show_for review do |review_show|
     %h2= review.display_name
     = review_show.attribute :reason

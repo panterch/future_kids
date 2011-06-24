@@ -193,7 +193,7 @@ de:
         format: "%{attribute} %{message}"
 
 
-  mongoid:
+  active_record:
     models:
       kid: "Future Kid"
       journal: "Lernjournal"

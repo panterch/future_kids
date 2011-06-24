@@ -5,6 +5,13 @@ describe "FactoryGirl" do
   describe "a mentor by factory" do
     let(:mentor) { Factory.build(:mentor) }
     it("should be valid") { mentor.should be_valid }
+    it("should be a mentor") { mentor.class.should eq(Mentor) }
+  end
+
+  describe "a admin by factory" do
+    let(:admin) { Factory.build(:admin) }
+    it("should be valid") { admin.should be_valid }
+    it("should be a admin") { admin.class.should eq(Admin) }
   end
 
   describe "a kid by factory" do

@@ -6,13 +6,16 @@ Factory.define :user do |f|
   f.password_confirmation 'welcome'
 end
 
-Factory.define :admin, :class => Admin, :parent => :user do |f|
+Factory.define :admin, :class => 'Admin', :parent => :user do |f|
+  f.sequence(:email) { |n| "admin_#{n}@example.com" }
 end
 
-Factory.define :mentor, :class => Mentor, :parent => :user do |f|
+Factory.define :mentor, :class => 'Mentor', :parent => :user do |f|
+  f.sequence(:email) { |n| "mentor_#{n}@example.com" }
 end
 
-Factory.define :teacher, :class => Teacher, :parent => :user do |f|
+Factory.define :teacher, :parent => :user do |f|
+  f.sequence(:email) { |n| "teacher_#{n}@example.com" }
 end
 
 Factory.define :kid do |f|

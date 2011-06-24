@@ -1,15 +1,7 @@
-class Journal
-  include Mongoid::Document
-  include Mongoid::MultiParameterAttributes
-  include Mongoid::Timestamps
+class Journal < ActiveRecord::Base
 
-  embedded_in :kid
-
-  field :held_at, :type => Date
-  field :goal
-  field :subject
-  field :method
-  field :outcome
+  belongs_to :kid
+  belongs_to :mentor
 
   def display_name
     return "Neuer Lernjournal Eintrag" if new_record?

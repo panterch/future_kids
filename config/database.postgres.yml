@@ -1,0 +1,24 @@
+development:
+  adapter: postgresql
+  database: kids_development
+  encoding: UTF8
+  username: 
+  password: 
+  host: 
+
+test:
+  adapter: postgresql
+  database: kids_test
+  encoding: UTF8
+  username: 
+  password: 
+  host: 
+
+production:
+  adapter: postgresql
+  database: kids_production
+  encoding: UTF8
+  username: 
+  password: 
+  host: 
+

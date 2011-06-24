@@ -1,25 +1,14 @@
-class Kid
-  include Mongoid::Document
-  include Mongoid::MultiParameterAttributes
-  include Mongoid::Timestamps
+class Kid < ActiveRecord::Base
 
-  default_scope :ascending => [ :name, :prename ]
+  # default_scope :ascending => [ :name, :prename ]
 
   belongs_to :mentor
   belongs_to :secondary_mentor, :class_name => 'Mentor'
   belongs_to :teacher
+  belongs_to :secondary_teacher, :class_name => 'Teacher'
 
-  embeds_many :journals
-  embeds_many :reviews
-
-  field :name
-  field :prename
-  field :parent
-  field :address
-  field :sex
-  field :grade
-  field :goal
-  field :entered_at, :type => Date
+  has_many :journals
+  has_many :reviews
 
   accepts_nested_attributes_for :journals, :reviews,
     :reject_if => proc { |attributes| empty_nested_entry?(attributes) }

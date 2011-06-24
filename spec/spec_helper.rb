@@ -6,10 +6,6 @@ ENV["RAILS_ENV"] ||= 'test'
 Spork.prefork do
 
   # https://github.com/timcharper/spork/wiki/Spork.trap_method-Jujutsu
-  require "rails/mongoid"
-  Spork.trap_class_method(Rails::Mongoid, :load_models)
-
-  # https://github.com/timcharper/spork/wiki/Spork.trap_method-Jujutsu
   require "rails/application"
   Spork.trap_method(Rails::Application, :reload_routes!)
 
@@ -39,18 +35,10 @@ RSpec.configure do |config|
   # == Mock Framework
   config.mock_with :rspec
 
-  config.before(:suite) do
-    DatabaseCleaner.orm = "mongoid" 
-    DatabaseCleaner.strategy = :truncation
-  end
-
-  config.before(:each) do
-    DatabaseCleaner.start
-  end
-
-  config.after(:each) do
-    DatabaseCleaner.clean
-  end
-
+  # If you're not using ActiveRecord, or you'd prefer not to run each of your
+  # examples within a transaction, remove the following line or assign false
+  # instead of true.
+  config.use_transactional_fixtures = true
+  config.use_transactional_examples = true
 
 end

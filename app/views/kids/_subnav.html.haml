@@ -1,13 +1,13 @@
 - content_for :subnav do
   %li= link_to 'Allgemeine Information', :anchor => 'school'
-  %li= link_to 'Lernjournale', :anchor => dom_id(resource.journals_sorted.first)
+  %li= 'Lernjournale'
   %li
     %ul
-      - resource.journals_sorted.each do |journal|
+      - resource.journals.each do |journal|
         %li= link_to journal.display_name, :anchor => dom_id(journal)
-  %li= link_to 'Gesprächsdokumentationen', :anchor => dom_id(resource.reviews_sorted.first)
+  %li= 'Gesprächsdokumentationen'
   %li
     %ul
-      - resource.reviews_sorted.each do |review|
+      - resource.reviews.each do |review|
         %li= link_to review.display_name, :anchor => dom_id(review)
 

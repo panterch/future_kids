@@ -2,21 +2,18 @@ source 'http://rubygems.org'
 
 gem 'rails', '3.0.7'
 
-# mongoid has to be mentioned before cancan
-gem 'mongoid', '2.0.2'
-
 # gems in alphabetic order
 gem 'bson_ext', '1.3.1'
 gem 'cancan', '1.6.5'
 gem 'devise', '1.3.3'
 gem 'exception_notification_rails3', '1.2.0', :require => 'exception_notifier'
 gem 'formtastic', '1.2.4'
+gem 'pg', '0.11.0'
 gem 'haml', '3.0.25'
 gem 'inherited_resources', '1.2.1'
 gem 'RedCloth', '4.2.7'
 gem 'sass', '3.1.1'
 gem 'show_for', '0.2.4'
-gem 'SystemTimer', '1.2.3'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
@@ -25,13 +22,11 @@ group :development, :test do
   gem 'yard'
   gem 'rspec-rails'
   gem 'steak'
-  gem 'capybara', :git => 'git://github.com/jnicklas/capybara.git'
+  gem 'capybara', '1.0.0'
   gem 'spork', "0.9.0.rc3"
   gem 'guard-rspec'
   gem 'guard-spork'
   gem 'factory_girl_rails'
-  gem 'database_cleaner'
-  gem 'mongoid-rspec'
   gem 'ruby-debug'
   gem 'capistrano'
 end
