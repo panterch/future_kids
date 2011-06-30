@@ -24,7 +24,7 @@ group :development, :test do
   gem 'steak'
   gem 'capybara', '1.0.0'
   gem 'spork', "0.9.0.rc3"
-  gem 'rb-fsevent', :require => false if RUBY_PLATFORM =~ /darwin/i 
+  gem 'rb-fsevent'
   gem 'guard-rspec'
   gem 'guard-spork'
   gem 'growl'
