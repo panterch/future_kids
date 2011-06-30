@@ -1,3 +1,6 @@
+- content_for :actions do
+  %li= link_to "Neuer Journal Eintrag", new_journal_path(:kid_id => resource)
+
 - content_for :subnav do
   %li= link_to 'Allgemeine Information', :anchor => 'school'
   %li= link_to 'Lernjournale', :anchor => 'journals'
