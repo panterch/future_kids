@@ -22,8 +22,6 @@
               %li= link_to Kid.model_name.human, kids_path
             -if can? :read, Teacher
               %li= link_to Teacher.model_name.human, teachers_path
-            -if can? :read, Journal
-              %li= link_to Journal.model_name.human, journals_path
           %h4 Aktionen
           %ul.actions
             %li= link_to 'Übersicht', collection_path

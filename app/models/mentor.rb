@@ -5,4 +5,8 @@ class Mentor < User
            :foreign_key => 'secondary_mentor_id'
   has_many :journals
 
+  def total_work_duration
+    journals.sum(:duration)
+  end
+
 end

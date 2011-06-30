@@ -13,3 +13,19 @@
     %li= link_to k.display_name, k
   = show.association :secondary_kids do |k|
     %li= link_to k.display_name, k
+
+- if resource.journals.present?
+  %h2= Journal.model_name.human
+  %table
+    - resource.journals.each do |journal|
+      %tr
+        %td= I18n.l(journal.held_at)
+        %td= journal.kid.display_name
+        %td= "#{journal.duration} Minuten"
+    %tfoot
+      %tr
+        %td Total
+        %td
+        %td
+          = (resource.total_work_duration / 60.0)
+          Stunden

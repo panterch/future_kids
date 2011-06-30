@@ -16,6 +16,7 @@ ActiveRecord::Schema.define(:version => 20110211123618) do
     t.date     "held_at",    :null => false
     t.time     "start_at",   :null => false
     t.time     "end_at",     :null => false
+    t.integer  "duration",   :null => false
     t.string   "title"
     t.text     "body"
     t.text     "goal"

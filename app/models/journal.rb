@@ -7,6 +7,8 @@ class Journal < ActiveRecord::Base
 
   validates_presence_of :kid, :mentor, :held_at, :start_at, :end_at
 
+  before_save :calculate_duration
+
   def display_name
     return "Neuer Lernjournal Eintrag" if new_record?
     "Journal vom #{I18n.l(held_at.to_date)}"
@@ -19,5 +21,11 @@ class Journal < ActiveRecord::Base
   
   def human_start_at; I18n.l(start_at, :format => :time); end
   def human_end_at; I18n.l(end_at, :format => :time); end
+
+protected
+
+  def calculate_duration
+    self.duration = (end_at - start_at) / 60
+  end
 
 end
