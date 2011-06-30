@@ -24,18 +24,18 @@
               %li= link_to Teacher.model_name.human, teachers_path
           %h4 Aktionen
           %ul.actions
-            %li= link_to 'Übersicht', collection_path
-            -if can? :create, resource_class
-              %li= link_to 'Neuer Eintrag', new_resource_path
-            -if %w(show edit).include?(controller.action_name)
-              %li= link_to 'Anzeigen', resource_path
-              -if can? :update, resource.class
-                %li= link_to 'Bearbeiten', edit_resource_path
+            -# %li= link_to 'Übersicht', collection_path
+            -# -if can? :create, resource_class
+            -#   %li= link_to 'Neuer Eintrag', new_resource_path
+            -# -if %w(show edit).include?(controller.action_name)
+            -#   %li= link_to 'Anzeigen', resource_path
+            -#   -if can? :update, resource.class
+            -#     %li= link_to 'Bearbeiten', edit_resource_path
               -# -if can? :delete, resource.class
               -#   %li= button_to 'Löschen', resource_path, :method => :delete,
               -#   :confirm => "Soll der Datensatz wirklich gelöscht werden?"
-            -if %w(new edit).include?(controller.action_name)
-              %li= button_to_function 'Speichern', "$('#content_form').submit()"
+            -# -if %w(new edit).include?(controller.action_name)
+            -#   %li= button_to_function 'Speichern', "$('#content_form').submit()"
             = yield :actions
           %h4 Auf dieser Seite
           %ul.subnav

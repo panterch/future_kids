@@ -4,9 +4,10 @@ FutureKids::Application.routes.draw do
 
   root :to => 'kids#index'
   resources :mentors
-  resources :kids
+  resources :kids do
+    resources :journals
+  end
   resources :teachers
-  resources :journals
 
   match '/exception_test' => 'exception_test#error'
 end

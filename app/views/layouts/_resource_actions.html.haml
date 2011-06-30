@@ -1,0 +1,12 @@
+-# entries for the actions navigation that should fit for most resources
+- content_for :actions do
+  %li= link_to 'Übersicht', collection_path
+  -if can? :create, resource_class
+    %li= link_to 'Neuer Eintrag', new_resource_path
+  -if %w(show edit).include?(controller.action_name)
+    %li= link_to 'Anzeigen', resource_path
+  -if %w(show).include?(controller.action_name) && can?(:update, resource.class)
+    %li= link_to 'Bearbeiten', edit_resource_path
+  -if %w(new edit).include?(controller.action_name)
+    %li= button_to_function 'Speichern', "$('#content_form').submit()"
+
