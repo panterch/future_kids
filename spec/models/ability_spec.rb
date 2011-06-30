@@ -13,7 +13,6 @@ describe Ability do
     let(:foreign_journal) { Factory(:journal, :kid => foreign_kid) }
     let(:direct_associated_journal) { Factory(:journal, :kid => foreign_kid,
                                               :mentor => mentor) }
-
     context "mentors" do
       it "can access mentors in general" do
         assert ability.can?(:read, Mentor)
@@ -65,7 +64,19 @@ describe Ability do
         assert journals.include?(direct_associated_journal)
         assert !journals.include?(foreign_journal)
       end
-    end
+
+      context "review" do
+        it "can create reviews for kids he is set as mentor" do
+          review = Factory.build(:review, :kid => kid)
+          assert ability.can?(:create, review)
+        end
+        it "cannot create reviews for kids he is not associated" do
+          review = Factory.build(:review, :kid => foreign_kid)
+          assert ability.cannot?(:create, review)
+        end
+      end
+
+    end # end of tests for mentors
 
     context "teacher" do
       it "cannot access teachers in general" do

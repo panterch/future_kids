@@ -24,6 +24,11 @@ describe "FactoryGirl" do
     it("should be valid") { journal.should be_valid }
   end
 
+  describe "a review by factory" do
+    let(:review) { Factory.build(:review) }
+    it("should be valid") { review.should be_valid }
+  end
+
   # this test assures that the database is cleaned up before each
   # example.
   describe "a persisted mentor by factory" do

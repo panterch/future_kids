@@ -31,3 +31,8 @@ Factory.define :journal do |f|
   f.end_at Time.parse("14:00")
 end
 
+Factory.define :review do |f|
+  f.association :kid
+  f.held_at Date.parse("2011-05-30")
+end
+

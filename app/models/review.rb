@@ -4,6 +4,8 @@ class Review < ActiveRecord::Base
 
   belongs_to :kid
 
+  validates_presence_of :kid, :held_at
+
   def display_name
     return "Neue Gesprächsdoku" if new_record?
     "Gespräch vom #{I18n.l(held_at.to_date)}"

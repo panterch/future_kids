@@ -64,6 +64,9 @@ ActiveRecord::Schema.define(:version => 20110211123618) do
     t.datetime "updated_at"
   end
 
+  add_index "reviews", ["held_at"], :name => "index_reviews_on_held_at"
+  add_index "reviews", ["kid_id"], :name => "index_reviews_on_kid_id"
+
   create_table "users", :force => true do |t|
     t.string   "type"
     t.string   "name"
@@ -89,5 +92,7 @@ ActiveRecord::Schema.define(:version => 20110211123618) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
   end
+
+  add_index "users", ["email"], :name => "index_users_on_email"
 
 end

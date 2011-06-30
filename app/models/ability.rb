@@ -44,6 +44,11 @@ class Ability
       # himself must be set on the journal entry and must be associated with
       # the kid
       can :create, Journal, :mentor_id => user.id, :kid => { :mentor_id => user.id }
+
+      # reviews can be edited by mentors who are associated with the kids
+      # about whom the entry is
+      can [ :read, :create ], Review, :kid => { :mentor_id => user.id }
+      can [ :read, :create ], Review, :kid => { :secondary_mentor_id => user.id }
     elsif user.is_a?(Teacher)
       can :read,   Teacher, :_id => user.id
       can :update, Teacher, :_id => user.id

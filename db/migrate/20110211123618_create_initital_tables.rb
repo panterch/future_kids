@@ -50,6 +50,9 @@ class CreateInititalTables < ActiveRecord::Migration
       t.timestamps
     end
 
+    add_index(:reviews, :kid_id)
+    add_index(:reviews, :held_at)
+
     create_table :users do |t|
       t.string     :type
       t.string     :name
@@ -70,7 +73,7 @@ class CreateInititalTables < ActiveRecord::Migration
       t.trackable
     end
 
-
+    add_index(:users, :email)
     
   end
 
