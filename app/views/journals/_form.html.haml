@@ -1,6 +1,3 @@
-- content_for :actions do
-  %li= button_to_function 'Speichern', "$('#content_form').submit()"
-
 = semantic_form_for [resource.kid, resource], :html => { :id => 'content_form' } do |form|
 
   = form.semantic_errors
@@ -17,6 +14,5 @@
     = form.input :method
     = form.input :outcome
     = form.input :note
-    = form.input :kid_id, :as => :hidden
 
   = form.buttons 

@@ -1,29 +1,11 @@
 require 'spec/spec_helper'
 
-describe JournalsController do
+describe ReviewsController do
 
   before(:each) do
     @mentor = Factory(:mentor)
     @kid = Factory(:kid, :mentor => @mentor)
   end
-
-  context 'as an admin' do
-    before(:each) do
-      @admin = Factory(:admin)
-      sign_in @admin
-    end
-  
-    it 'should render the new template' do
-      get :new, :kid_id => @kid.id
-      response.should be_successful
-      response.should render_template(:new)
-    end
-
-    it 'should create a new entry' do
-      post :create, valid_attributes
-      assigns(:journal).should_not be_new_record
-    end
-  end # end of 'as an admin'
 
   context 'as a mentor' do
     before(:each) do
@@ -42,14 +24,7 @@ describe JournalsController do
 
     it 'should create a new entry' do
       post :create, valid_attributes
-      assigns(:journal).should_not be_new_record
-    end
-
-    it 'should not be able to create entries for other mentors' do
-      attrs = valid_attributes
-      attrs[:journal][:mentor_id] = Factory(:mentor).id
-      post :create, attrs
-      assigns(:journal).mentor.should eq(@mentor)
+      assigns(:review).should_not be_new_record
     end
 
     it 'should not be able to create entries for other kids' do
@@ -59,9 +34,11 @@ describe JournalsController do
         raise_error(CanCan::AccessDenied)
     end
 
-    it 'should not be able to taint kid_id via journal attributes' do
+    # kid_id is submitted as url parameter - it should not be taintable
+    # via the attributes hash for review
+    it 'should not be able to taint kid_id via review parameters' do
       attrs = valid_attributes
-      attrs[:journal][:kid_id] = Factory(:kid).id
+      attrs[:review][:kid_id] = Factory(:kid).id
       expect { post :create, attrs }.to
         raise_error(CanCan::AccessDenied)
     end
@@ -72,12 +49,7 @@ describe JournalsController do
   # want to submit via the jquery widgets
   def valid_attributes
     attrs = {}
-    attrs[:journal] =  Factory.attributes_for(:journal,
-      :title => 'journal spec',
-      :mentor_id => @mentor.id,
-      :held_at   => '2011-05-30',
-      :start_at  => '12:00',
-      :end_at    => '12:30')
+    attrs[:review] =  Factory.attributes_for(:review)
     attrs[:kid_id] = @kid.id
     attrs
   end

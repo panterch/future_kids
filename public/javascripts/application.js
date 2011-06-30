@@ -26,5 +26,7 @@ function register_datepickers() {
     timeInterval: 30
   });
 
+  $('#review_held_at').datepicker();
+
 }
 

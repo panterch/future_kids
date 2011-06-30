@@ -6,6 +6,7 @@ FutureKids::Application.routes.draw do
   resources :mentors
   resources :kids do
     resources :journals
+    resources :reviews
   end
   resources :teachers
 

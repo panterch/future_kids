@@ -1,0 +1,14 @@
+= semantic_form_for [resource.kid, resource], :html => { :id => 'content_form' } do |form|
+
+  = form.semantic_errors
+
+  = form.inputs do
+    = form.input :held_at, :as => :string
+    = form.input :reason
+    = form.input :kind
+    = form.input :content
+    = form.input :outcome
+    = form.input :note
+    = form.input :attendee
+
+  = form.buttons 
