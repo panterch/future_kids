@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.0.7'
+gem 'rails', '3.0.9'
 
 # gems in alphabetic order
 gem 'bson_ext', '1.3.1'
@@ -9,7 +9,7 @@ gem 'devise', '1.3.3'
 gem 'exception_notification_rails3', '1.2.0', :require => 'exception_notifier'
 gem 'formtastic', '1.2.4'
 gem 'pg', '0.11.0'
-gem 'haml', '3.0.25'
+gem 'haml', '3.1.2'
 gem 'inherited_resources', '1.2.1'
 gem 'RedCloth', '4.2.7'
 gem 'sass', '3.1.1'
