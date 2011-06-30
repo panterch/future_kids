@@ -27,10 +27,15 @@ class CreateInititalTables < ActiveRecord::Migration
       t.text       :subject
       t.text       :method
       t.text       :outcome
+      t.text       :note
       t.integer    :kid_id, :null => false
       t.integer    :mentor_id, :null => false
       t.timestamps
     end
+
+    add_index(:journals, :kid_id)
+    add_index(:journals, :mentor_id)
+    add_index(:journals, :held_at)
 
     create_table :reviews do |t|
       t.date       :held_at
@@ -54,6 +59,7 @@ class CreateInititalTables < ActiveRecord::Migration
       t.string     :personnel_number 
       t.string     :field_of_study 
       t.string     :education 
+      t.string     :school
       t.boolean    :etcs
       t.date       :entry_date
       t.timestamps

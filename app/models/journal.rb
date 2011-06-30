@@ -18,6 +18,7 @@ class Journal < ActiveRecord::Base
   def human_subject; subject.try(:textilize); end
   def human_method; method.try(:textilize); end
   def human_outcome; outcome.try(:textilize); end
+  def human_note; note.try(:textilize); end
   
   def human_start_at; I18n.l(start_at, :format => :time); end
   def human_end_at; I18n.l(end_at, :format => :time); end

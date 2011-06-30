@@ -23,11 +23,16 @@ ActiveRecord::Schema.define(:version => 20110211123618) do
     t.text     "subject"
     t.text     "method"
     t.text     "outcome"
+    t.text     "note"
     t.integer  "kid_id",     :null => false
     t.integer  "mentor_id",  :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  add_index "journals", ["held_at"], :name => "index_journals_on_held_at"
+  add_index "journals", ["kid_id"], :name => "index_journals_on_kid_id"
+  add_index "journals", ["mentor_id"], :name => "index_journals_on_mentor_id"
 
   create_table "kids", :force => true do |t|
     t.string   "name"
@@ -68,6 +73,7 @@ ActiveRecord::Schema.define(:version => 20110211123618) do
     t.string   "personnel_number"
     t.string   "field_of_study"
     t.string   "education"
+    t.string   "school"
     t.boolean  "etcs"
     t.date     "entry_date"
     t.datetime "created_at"

@@ -24,3 +24,8 @@ namespace :deploy do
   end
 end
 
+task :update_config_links, :roles => [:app] do
+  run "ln -sf #{shared_path}/config/* #{release_path}/config/"
+end
+after "deploy:update_code", :update_config_links
+

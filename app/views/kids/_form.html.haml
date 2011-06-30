@@ -16,16 +16,9 @@
   = form.inputs do
     = form.input :goal, :as => :text
     = form.input :grade
-    -# mongoid relations are not yet supported, we have to build the selection
-    -# manually
-    %li#kid_teacher_id_input.select.optional
-      %label Lehrer
-      = can_select(form, 'teacher_id', Teacher)
-    %li#kid_mentor_id_input.select.optional
-      %label Mentor
-      = can_select(form, 'mentor_id', Mentor)
-    %li#kid_secondary_mentor_id_input.select.optional
-      %label Zweiter Mentor
-      = can_select(form, 'secondary_mentor_id', Mentor)
+    = form.input :teacher
+    = form.input :secondary_teacher
+    = form.input :mentor
+    = form.input :secondary_mentor
 
   = form.buttons 
