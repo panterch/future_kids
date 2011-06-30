@@ -27,13 +27,23 @@ class Ability
     if user.is_a?(Admin)
       can :manage, :all
     elsif user.is_a?(Mentor)
-      can :read,   Mentor, :_id => user.id
-      can :update, Mentor, :_id => user.id
-      can [:read, :update], Kid, :mentor_id => user.id
-      can [:read, :update], Kid, :secondary_mentor_id => user.id
+      # own record may be read
+      can [ :read, :update ],   Mentor, :id => user.id
+
+      # mentor may be associated via two fields to a kid
+      can :read, Kid, :mentor_id => user.id
+      can :read, Kid, :secondary_mentor_id => user.id
+
+      # jornals can be read indirect via kids or direct if they are associated
+      can [ :read, :update ], Journal, :mentor_id => user.id
+      can [ :read, :update ], Journal, :kid => { :mentor_id => user.id }
+      can [ :read, :update ], Journal, :kid => { :secondary_mentor_id => user.id }
     elsif user.is_a?(Teacher)
       can :read,   Teacher, :_id => user.id
       can :update, Teacher, :_id => user.id
     end
   end
 end
+
+
+

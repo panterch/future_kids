@@ -28,28 +28,4 @@
       %label Zweiter Mentor
       = can_select(form, 'secondary_mentor_id', Mentor)
 
-  %h2#journals= Journal.model_name.human
-
-  = form.semantic_fields_for :journals, resource.journals_sorted do |nested_form|
-    %h3{:id => dom_id(nested_form.object)}= nested_form.object.display_name
-    = form.inputs do
-      = nested_form.input :held_at, :as => :date
-      = nested_form.input :goal
-      = nested_form.input :subject, :as => :text
-      = nested_form.input :method
-      = nested_form.input :outcome, :as => :text
-
-  %h2#reviews= Review.model_name.human
-
-  = form.semantic_fields_for :reviews, resource.reviews_sorted do |nested_form|
-    %h3{:id => dom_id(nested_form.object)}= nested_form.object.display_name
-    = form.inputs do
-      = nested_form.input :held_at, :as => :date
-      = nested_form.input :reason
-      = nested_form.input :kind
-      = nested_form.input :content, :as => :text
-      = nested_form.input :outcome, :as => :text
-      = nested_form.input :note, :as => :text
-
-
   = form.buttons 

@@ -5,6 +5,7 @@ describe Mentor do
     mentor = Factory.build(:mentor)
     mentor.should be_valid
   end
+
   context 'validations' do
     let(:mentor) { Factory(:mentor) }
     it 'does not require password again' do

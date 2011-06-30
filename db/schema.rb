@@ -13,17 +13,17 @@
 ActiveRecord::Schema.define(:version => 20110211123618) do
 
   create_table "journals", :force => true do |t|
-    t.date     "held_at"
-    t.time     "start_at"
-    t.time     "end_at"
+    t.date     "held_at",    :null => false
+    t.time     "start_at",   :null => false
+    t.time     "end_at",     :null => false
     t.string   "title"
     t.text     "body"
     t.text     "goal"
     t.text     "subject"
     t.text     "method"
     t.text     "outcome"
-    t.integer  "kid_id"
-    t.integer  "mentor_id"
+    t.integer  "kid_id",     :null => false
+    t.integer  "mentor_id",  :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(:version => 20110211123618) do
     t.text     "outcome"
     t.text     "note"
     t.text     "attendee"
-    t.integer  "kid_id"
+    t.integer  "kid_id",     :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

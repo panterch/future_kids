@@ -6,6 +6,7 @@ FutureKids::Application.routes.draw do
   resources :mentors
   resources :kids
   resources :teachers
+  resources :journals
 
   match '/exception_test' => 'exception_test#error'
 end

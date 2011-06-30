@@ -1,5 +1,7 @@
 class Review < ActiveRecord::Base
 
+  default_scope :order => 'held_at DESC'
+
   belongs_to :kid
 
   def display_name

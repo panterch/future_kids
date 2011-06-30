@@ -23,3 +23,11 @@ Factory.define :kid do |f|
   f.prename 'Prename'
 end
 
+Factory.define :journal do |f|
+  f.association :kid
+  f.association :mentor
+  f.held_at Date.parse("2011-05-30")
+  f.start_at Time.parse("13:00")
+  f.end_at Time.parse("14:00")
+end
+

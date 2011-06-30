@@ -1,5 +1,6 @@
 $(function () {
   register_subnav_expand();
+  register_datepickers();
 });
 
 // navigation items with further nesting are handled specially:
@@ -12,5 +13,18 @@ function register_subnav_expand() {
 		  return false;
     });
   });
+}
+
+// registers jquery ui datepickers on given fields when applicable
+function register_datepickers() {
+  $('#journal_held_at').datepicker();
+
+  $('#journal_start_at, #journal_end_at').calendricalTimeRange({
+    isoTime: true,
+    minTime: {hour: 13, minute: 0},
+    maxTime: {hour: 19, minute: 0},
+    timeInterval: 30
+  });
+
 }
 

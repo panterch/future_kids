@@ -4,7 +4,7 @@ class User < ActiveRecord::Base
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  # attr_accessible :email, :password, :password_confirmation, :remember_me
+  default_scope :order => [ :name, :prename ]
   
   before_validation :nilify_blank_password
 

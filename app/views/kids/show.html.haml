@@ -18,20 +18,26 @@
     = can_link_to(resource.teacher)
   = show.attribute :mentor do 
     = can_link_to(resource.mentor)
-  = show.attribute :seconday_mentor do 
+  = show.attribute :secondary_mentor do 
     = can_link_to(resource.secondary_mentor)
 
+%h2#journals Lernjournale
 - resource.journals.each do |journal|
   = show_for journal do |journal_show|
-    %h2= journal.display_name
+    %h3= journal.display_name
+    = journal_show.attribute :start_at
+    = journal_show.attribute :end_at
     = journal_show.attribute :goal
     = journal_show.attribute :subject
     = journal_show.attribute :method
     = journal_show.attribute :outcome
+    = journal_show.attribute :mentor do 
+      = can_link_to(journal.mentor)
 
+%h2#reviews Gesprächsdokumentationen
 - resource.reviews.each do |review|
   = show_for review do |review_show|
-    %h2= review.display_name
+    %h3= review.display_name
     = review_show.attribute :reason
     = review_show.attribute :kind
     = review_show.attribute :content

@@ -17,17 +17,17 @@ class CreateInititalTables < ActiveRecord::Migration
     end
 
     create_table :journals do |t|
-      t.date       :held_at
-      t.time       :start_at
-      t.time       :end_at
+      t.date       :held_at, :null => false
+      t.time       :start_at, :null => false
+      t.time       :end_at, :null => false
       t.string     :title
       t.text       :body
       t.text       :goal
       t.text       :subject
       t.text       :method
       t.text       :outcome
-      t.references :kid
-      t.references :mentor
+      t.integer    :kid_id, :null => false
+      t.integer    :mentor_id, :null => false
       t.timestamps
     end
 
@@ -40,7 +40,7 @@ class CreateInititalTables < ActiveRecord::Migration
       t.text       :note
       t.text       :outcome
       t.text       :attendee
-      t.references :kid
+      t.references :kid, :null => false
       t.timestamps
     end
 
