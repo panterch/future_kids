@@ -17,7 +17,7 @@ function register_subnav_expand() {
 
 // registers jquery ui datepickers on given fields when applicable
 function register_datepickers() {
-  $('#journal_held_at').datepicker();
+  $('#journal_held_at').calendricalDate();
 
   $('#journal_start_at, #journal_end_at').calendricalTimeRange({
     isoTime: true,

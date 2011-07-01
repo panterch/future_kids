@@ -4,7 +4,7 @@
   %head
     %title FutureKids
     = stylesheet_link_tag :all, :media => :all, :recursive => true
-    = javascript_include_tag %w(jquery jquery-ui jquery.calendrical rails application)
+    = javascript_include_tag %w(jquery jquery.calendrical rails application)
     = csrf_meta_tag
     %meta{'charset' => 'utf-8'}/
     %meta{"http-equiv"=>"Content-Type", :content=>"text/html; charset=utf-8"}/
@@ -37,7 +37,7 @@
             - if defined?(parent)
               %li= link_to 'Abbrechen', parent
             -# common actions
-            -if %w(new edit).include?(controller.action_name)
+            -if %w(new edit create update).include?(controller.action_name)
               %li= button_to_function 'Speichern', "$('#content_form').submit()"
             = yield :actions
           %h4 Auf dieser Seite

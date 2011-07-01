@@ -18,3 +18,10 @@ form.formtastic fieldset > ol > li {
   min-height: 25px;
 }
 
+
+#journal_held_at,
+#journal_start_at,
+#journal_end_at,
+#review_held_at {
+  width: 8em;
+}
