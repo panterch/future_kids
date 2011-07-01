@@ -1,0 +1,11 @@
+%table
+  - collection.each do |resource|
+    %tr
+      %td= I18n.l(resource.held_at)
+      %td= link_to resource.kid.display_name, resource.kid
+      %td= link_to resource.mentor.display_name, resource.mentor
+      %td
+        -if resource.secondary_mentor
+          = link_to resource.secondary_mentor.display_name, resource.secondary_mentor
+      %td= I18n.l(resource.created_at, :format => :short) if resource.created_at
+      %td= I18n.l(resource.sent_at, :format => :short) if resource.sent_at

@@ -17,6 +17,8 @@ ActiveRecord::Schema.define(:version => 20110211123618) do
     t.time     "start_at",   :null => false
     t.time     "end_at",     :null => false
     t.integer  "duration",   :null => false
+    t.integer  "week",       :null => false
+    t.integer  "year",       :null => false
     t.string   "title"
     t.text     "body"
     t.text     "goal"
@@ -53,6 +55,23 @@ ActiveRecord::Schema.define(:version => 20110211123618) do
     t.datetime "created_at"
     t.datetime "updated_at"
   end
+
+  create_table "reminders", :force => true do |t|
+    t.date     "held_at",             :null => false
+    t.integer  "week",                :null => false
+    t.integer  "year",                :null => false
+    t.integer  "kid_id",              :null => false
+    t.integer  "mentor_id",           :null => false
+    t.datetime "sent_at"
+    t.integer  "secondary_mentor_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "reminders", ["kid_id"], :name => "index_reminders_on_kid_id"
+  add_index "reminders", ["mentor_id"], :name => "index_reminders_on_mentor_id"
+  add_index "reminders", ["secondary_mentor_id"], :name => "index_reminders_on_secondary_mentor_id"
+  add_index "reminders", ["sent_at"], :name => "index_reminders_on_sent_at"
 
   create_table "reviews", :force => true do |t|
     t.date     "held_at"

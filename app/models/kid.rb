@@ -9,8 +9,40 @@ class Kid < ActiveRecord::Base
 
   has_many :journals
   has_many :reviews
+  has_many :reminders
 
   accepts_nested_attributes_for :journals, :reviews
+
+  # takes the given time argument (or Time.now) and calculates the
+  # date and time for that weeks meeting
+  def calculate_meeting_time(time = Time.now)
+    return nil if meeting_day.blank? || meeting_start_at.blank?
+    time = time.monday
+    time = time + (meeting_day - 1).days
+    time = time + meeting_start_at.hour.hours
+    time = time + meeting_start_at.min.minutes
+    time
+  end
+
+  # tries to retrieve the journal entry for the week given by time
+  def journal_entry_for_week(time = Time.now)
+    journals.find(:first, :conditions => { :week => time.strftime('%U').to_i,
+                                           :year => time.year })
+  end
+
+  # tries to retrieve the reminder for the week given by time
+  def reminder_entry_for_week(time = Time.now)
+    reminders.find(:first, :conditions => { :week => time.strftime('%U').to_i,
+                                            :year => time.year })
+  end
+
+
+  # checks wether a journal entry is already due for the week given by time
+  def journal_entry_due?(time = Time.now)
+    meeting_time = calculate_meeting_time(time)
+    return false if meeting_time.nil?
+    (meeting_time + 1.day) < time
+  end
 
   def display_name
     return "Neuer Eintrag" if new_record?
@@ -23,7 +55,14 @@ class Kid < ActiveRecord::Base
     { 'm' => '♂', 'f' => '♀' }[sex]
   end
 
-  def human_meeting_day; I18n.t('date.day_names')[meeting_day]; end
-  def human_meeting_start_at; I18n.l(meeting_start_at, :format => :time); end
+  def human_meeting_day
+    return nil if meeting_day.nil?
+    I18n.t('date.day_names')[meeting_day]
+  end
+
+  def human_meeting_start_at
+    return nil if meeting_start_at.nil?
+    I18n.l(meeting_start_at, :format => :time)
+  end
 
 end

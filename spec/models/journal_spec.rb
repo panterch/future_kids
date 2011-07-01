@@ -7,6 +7,19 @@ describe Journal do
     j.duration.should eq(30)
   end
 
+  it "should calculate the year" do
+    j = Factory(:journal, :held_at => '12/31/2010')
+    j.year.should eq(2010)
+  end
 
+  it "should calculate week end of year" do
+    j = Factory(:journal, :held_at => '12/31/2010')
+    j.week.should eq(52)
+  end
+
+  it "should calculate week begin of year" do
+    j = Factory(:journal, :held_at => '01/01/2010')
+    j.week.should eq(0)
+  end
 
 end

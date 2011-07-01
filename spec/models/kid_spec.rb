@@ -2,6 +2,10 @@ require 'spec_helper'
 
 describe Kid do
 
+  let(:monday) { Time.parse('01/03/2011 22:00') }
+  let(:thursday) { Time.parse('01/06/2011 22:00') }
+  let(:friday) { Time.parse('01/07/2011 22:00') }
+
   context 'embedded journals' do
     let(:kid) { Factory(:kid) }
     let(:mentor) { Factory(:mentor) }
@@ -54,6 +58,48 @@ describe Kid do
       kid.secondary_mentor = mentor = Factory(:mentor)
       kid.save! && kid.reload && mentor.reload
       mentor.secondary_kids.first.should eq(kid)
+    end
+  end
+
+  context 'meeting time calculation' do
+    before(:each) do
+      @kid = Factory(:kid, :meeting_day => 3,
+                     :meeting_start_at => Time.parse('18:00'))
+    end
+    it 'should return nil when not enough information' do
+      @kid.meeting_day = nil
+      @kid.calculate_meeting_time.should be_nil
+    end
+    it 'should calculate the correct meeting time in past' do
+      meeting = @kid.calculate_meeting_time(thursday)
+      meeting.should eq(Time.parse('01/05/2011 18:00'))
+    end
+    it 'should calculate the correct meeting time in future' do
+      meeting = @kid.calculate_meeting_time(monday)
+      meeting.should eq(Time.parse('01/05/2011 18:00'))
+    end
+    it 'has no journal entry due at monday' do
+      @kid.journal_entry_due?(monday).should be_false
+    end
+    it 'has journal entry due at friday' do
+      @kid.journal_entry_due?(friday).should be_true
+    end
+  end
+
+  context 'journal entry for week' do
+    before(:each) do
+      @kid = Factory(:kid)
+      @journal = Factory(:journal, :kid => @kid, :held_at => thursday)
+    end
+    it 'finds journal entry in future' do
+      @kid.journal_entry_for_week(monday).should eq(@journal)
+    end
+    it 'finds journal entry in past' do
+      @kid.journal_entry_for_week(friday).should eq(@journal)
+    end
+    it 'detects missing journal entries' do
+      @journal.destroy
+      @kid.journal_entry_for_week(friday).should be_nil
     end
   end
 

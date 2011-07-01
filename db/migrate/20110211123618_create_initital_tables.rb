@@ -24,6 +24,8 @@ class CreateInititalTables < ActiveRecord::Migration
       t.time       :start_at, :null => false
       t.time       :end_at, :null => false
       t.integer    :duration, :null => false
+      t.integer    :week, :null => false
+      t.integer    :year, :null => false
       t.string     :title
       t.text       :body
       t.text       :goal
@@ -79,6 +81,22 @@ class CreateInititalTables < ActiveRecord::Migration
 
     add_index(:users, :email)
     
+    create_table :reminders do |t|
+      t.date       :held_at, :null => false
+      t.integer    :week, :null => false
+      t.integer    :year, :null => false
+      t.integer    :kid_id, :null => false
+      t.integer    :mentor_id, :null => false
+      t.timestamp  :sent_at
+      t.integer    :secondary_mentor_id
+      t.timestamps
+    end
+
+    add_index(:reminders, :sent_at)
+    add_index(:reminders, :kid_id)
+    add_index(:reminders, :mentor_id)
+    add_index(:reminders, :secondary_mentor_id)
+
   end
 
   def self.down
@@ -86,5 +104,6 @@ class CreateInititalTables < ActiveRecord::Migration
     drop_table :journals
     drop_table :reviews
     drop_table :users
+    drop_table :reminders
   end
 end

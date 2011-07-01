@@ -8,6 +8,8 @@ class Journal < ActiveRecord::Base
   validates_presence_of :kid, :mentor, :held_at, :start_at, :end_at
 
   before_save :calculate_duration
+  before_save :calculate_week
+  before_save :calculate_year
 
   def display_name
     return "Neuer Lernjournal Eintrag" if new_record?
@@ -27,6 +29,14 @@ protected
 
   def calculate_duration
     self.duration = (end_at - start_at) / 60
+  end
+
+  def calculate_week
+    self.week = held_at.strftime('%U').to_i
+  end
+
+  def calculate_year
+    self.year = held_at.year
   end
 
 end
