@@ -220,7 +220,10 @@ de:
         goal: "Förderziele"
         sex: "Geschlecht"
         grade: "Klassenstufe"
+        available: "Mögliche Termine"
         entered_at: "Datum des Einstiegs"
+        meeting_day: "Treffen Wochentag"
+        meeting_start_at: "Treffen Beginn um"
         mentor: "Mentor/in"
         secondary_mentor: "Ersatz Mentor/in"
         teacher: "Lehrperson"
@@ -263,6 +266,7 @@ de:
         entry_date: Datum des Einstiges
         remember_me: Angemeldet bleiben
       mentor:
+        available: "Mögliche Termine"
         kids: Kinder
         secondary_kids: Kinder (Vertretung)
         journals: "Lernjournal Einträge"

@@ -1,3 +1,6 @@
 %ul
   - collection.each do |resource|
     %li= link_to resource.display_name, resource
+
+- if collection.empty?
+  Zur Zeit sind Ihnen keine Kinder zugeordnet.

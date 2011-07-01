@@ -9,6 +9,7 @@
   = show.attribute :education
   = show.attribute :etcs
   = show.attribute :entry_date
+  = show.attribute :available
   = show.association :kids do |k|
     %li= link_to k.display_name, k
   = show.association :secondary_kids do |k|

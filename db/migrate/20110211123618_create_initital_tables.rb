@@ -8,7 +8,10 @@ class CreateInititalTables < ActiveRecord::Migration
       t.string     :sex
       t.string     :grade
       t.string     :goal
+      t.text       :available
       t.date       :entered_at, :type => Date
+      t.integer    :meeting_day
+      t.time       :meeting_start_at
       t.references :mentor
       t.integer    :secondary_mentor_id
       t.references :teacher
@@ -63,6 +66,7 @@ class CreateInititalTables < ActiveRecord::Migration
       t.string     :field_of_study 
       t.string     :education 
       t.string     :school
+      t.text       :available
       t.boolean    :etcs
       t.date       :entry_date
       t.timestamps

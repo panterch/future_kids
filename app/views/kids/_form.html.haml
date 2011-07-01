@@ -9,13 +9,16 @@
     = form.input :prename
     = form.input :parent
     = form.input :address
-    = form.input :sex, :as => :select, :collection => { "Mädchen" => 'f', "Knabe" => 'm' }
+    = form.input :sex, :as => :select, :collection => sex_collection
     = form.input :entered_at, :as => :string
 
   %h2#school Allgemeine Informationen
   = form.inputs do
     = form.input :goal
     = form.input :grade
+    = form.input :available
+    = form.input :meeting_day, :as => :select, :collection => wday_collection
+    = form.input :meeting_start_at, :as => :string
     = form.input :teacher
     = form.input :secondary_teacher
     = form.input :mentor

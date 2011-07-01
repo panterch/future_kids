@@ -14,6 +14,9 @@
   %h2#school Allgemeine Informationen
   = show.attribute :goal
   = show.attribute :grade
+  = show.attribute :available
+  = show.attribute :meeting_day
+  = show.attribute :meeting_start_at
   = show.attribute :teacher do 
     = can_link_to(resource.teacher)
   = show.attribute :secondary_teacher do 

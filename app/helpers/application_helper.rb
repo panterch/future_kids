@@ -19,4 +19,15 @@ module ApplicationHelper
     end
   end
 
+  # values for the collection select 'sex'
+  def sex_collection
+    { "Mädchen" => 'f', "Knabe" => 'm' }
+  end
+
+  # values for the collection select 'weekday'
+  # weekdays are mapped to integers, as in ruby core's Time, Sunday is 0
+  def wday_collection
+    (1..5).map{ |i| [I18n.t('date.day_names')[i], i] }
+  end
+
 end

@@ -23,4 +23,7 @@ class Kid < ActiveRecord::Base
     { 'm' => '♂', 'f' => '♀' }[sex]
   end
 
+  def human_meeting_day; I18n.t('date.day_names')[meeting_day]; end
+  def human_meeting_start_at; I18n.l(meeting_start_at, :format => :time); end
+
 end
