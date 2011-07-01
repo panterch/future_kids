@@ -192,14 +192,28 @@ de:
       full_messages:
         format: "%{attribute} %{message}"
 
+  formtastic:
+    :yes: 'Ja'
+    :no: 'Nein'
+    :create: '%{model} anlegen'
+    :update: '%{model} speichern'
+    :submit: '%{model} speichern'
+    :required: 'Pflichtfeld'
 
-  active_record:
+  show_for:
+    blank: "Nicht angegeben"
+    "yes": "Ja"
+    "no": "Nein"
+
+  activerecord:
     models:
       kid: "Future Kid"
       journal: "Lernjournal"
+      teacher: "Lehrperson"
 
     attributes:
       kid:
+        name: "Name"
         prename: "Vorname"
         parent: "Name der/s Erziehungsberechtigten"
         address: "Adresse"
@@ -207,13 +221,25 @@ de:
         sex: "Geschlecht"
         grade: "Klassenstufe"
         entered_at: "Datum des Einstiegs"
+        mentor: "Mentor/in"
+        secondary_mentor: "Ersatz Mentor/in"
+        teacher: "Lehrperson"
+        secondary_teacher: "Zweite Lehrperson"
       journal:
         held_at: Datum
+        start_at: Von
+        end_at: Bis
+        duration: Dauer
+        title: Titel
         goal: Lernziel
         subject: Thema
         method: Methode
         outcome: "Erfolge / Schwierigkeiten"
+        note: Bemerkungen
+        mentor: "Mentor/in"
+        kid: Kind
       review:
+        kid: Kind
         held_at: Datum
         reason: Anlass
         kind: "Art des Gesprächs"
@@ -221,6 +247,26 @@ de:
         content: "Inhalt" 
         outcome: "Abmachungen"
         note: "Beobachtungen"
+        attendee: "Teilnehmer"
+      user:
+        email: "E-Mail"
+        password: Passwort
+        name: Name
+        prename: Vorname
+        address: Adresse
+        phone: Telefon
+        personnel_number: Personalnummer
+        field_of_study: Studienfach
+        education: Ausbildungsstuffe
+        school: Schulhaus
+        etcs: ETCS
+        entry_date: Datum des Einstiges
+        remember_me: Angemeldet bleiben
+      mentor:
+        kids: Kinder
+        secondary_kids: Kinder (Vertretung)
+        journals: "Lernjournal Einträge"
+
 
 
         

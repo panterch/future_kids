@@ -26,7 +26,11 @@ function register_datepickers() {
     timeInterval: 30
   });
 
-  $('#review_held_at').datepicker();
+  $('#review_held_at').calendricalDate();
+
+  $('#kid_entered_at').calendricalDate();
+
+  $('#mentor_entry_date').calendricalDate();
 
 }
 

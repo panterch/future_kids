@@ -8,13 +8,13 @@
     = form.input :name
     = form.input :prename
     = form.input :parent
-    = form.input :address, :as => :text
+    = form.input :address
     = form.input :sex, :as => :select, :collection => { "Mädchen" => 'f', "Knabe" => 'm' }
-    = form.input :entered_at, :as => :date
+    = form.input :entered_at, :as => :string
 
   %h2#school Allgemeine Informationen
   = form.inputs do
-    = form.input :goal, :as => :text
+    = form.input :goal
     = form.input :grade
     = form.input :teacher
     = form.input :secondary_teacher
