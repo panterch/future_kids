@@ -15,6 +15,7 @@ describe Reminder do
 
   it 'creates a reminder by factory method' do
     r = Reminder.create_for(@kid, tuesday)
+    r.recipient.should_not be_nil
     r.held_at.should eq(Time.parse('01/03/2011 13:30'))
     r.week.should eq(1)
     r.year.should eq(2011)

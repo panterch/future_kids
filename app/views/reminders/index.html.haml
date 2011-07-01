@@ -7,5 +7,6 @@
       %td
         -if resource.secondary_mentor
           = link_to resource.secondary_mentor.display_name, resource.secondary_mentor
+      %td= resource.recipient
       %td= I18n.l(resource.created_at, :format => :short) if resource.created_at
       %td= I18n.l(resource.sent_at, :format => :short) if resource.sent_at

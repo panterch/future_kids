@@ -14,6 +14,8 @@ class Reminder < ActiveRecord::Base
   def self.create_for(kid, time)
     r = Reminder.new
     r.kid = kid
+    r.recipient ||= kid.secondary_mentor.try(:email)
+    r.recipient ||= kid.mentor.try(:email)
     r.mentor = kid.mentor || kid.secondary_mentor
     r.secondary_mentor = kid.secondary_mentor
     r.held_at = kid.calculate_meeting_time(time)

@@ -83,6 +83,7 @@ class CreateInititalTables < ActiveRecord::Migration
     
     create_table :reminders do |t|
       t.date       :held_at, :null => false
+      t.string     :recipient, :null => false
       t.integer    :week, :null => false
       t.integer    :year, :null => false
       t.integer    :kid_id, :null => false
