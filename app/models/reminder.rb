@@ -34,7 +34,7 @@ class Reminder < ActiveRecord::Base
   end
 
   # scans all kids and creates reminders for kids that meet the conditions
-  def self.conditionally_create_reminders(time)
+  def self.conditionally_create_reminders(time = Time.now)
     Kid.all.each do |kid|
       logger.info("[#{kid.id}] #{kid.display_name}: checking journal entries")
       if !kid.journal_entry_due?(time)

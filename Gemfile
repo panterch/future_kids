@@ -14,6 +14,7 @@ gem 'inherited_resources', '1.2.1'
 gem 'RedCloth', '4.2.7'
 gem 'sass', '3.1.1'
 gem 'show_for', '0.2.4'
+gem 'whenever', '0.6.8', :require => false
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
