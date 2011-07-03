@@ -272,6 +272,7 @@ de:
         secondary_kids: Kinder (Vertretung)
         journals: "Lernjournal Einträge"
 
+  notifications:
+    remind:
+      subject: Future Kids Erinnerung
 
-
-        

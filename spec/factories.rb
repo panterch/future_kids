@@ -36,3 +36,12 @@ Factory.define :review do |f|
   f.held_at Date.parse("2011-05-30")
 end
 
+Factory.define :reminder do |f|
+  f.association :kid
+  f.association :mentor
+  f.recipient { |r| r.mentor.email }
+  f.held_at Date.parse("2011-05-30")
+  f.week { |r| r.held_at.strftime('%U') }
+  f.year { |r| r.held_at.year }
+end
+

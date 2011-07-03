@@ -29,6 +29,12 @@ describe "FactoryGirl" do
     it("should be valid") { review.should be_valid }
   end
 
+  describe "a reminder by factory" do
+    let(:reminder) { Factory.build(:reminder) }
+    it("should be valid") { reminder.should be_valid }
+    it("should be persistable") { reminder.save!.should be_true }
+  end
+
   # this test assures that the database is cleaned up before each
   # example.
   describe "a persisted mentor by factory" do

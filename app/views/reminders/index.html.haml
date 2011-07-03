@@ -1,4 +1,13 @@
 %table
+  %thead
+    %tr
+      %th Meeting vom
+      %th Future Kid
+      %th Mentor
+      %th Zweiter Mentor
+      %th Empfänger
+      %th Erstellt am
+      %th Gesendet am
   - collection.each do |resource|
     %tr
       %td= I18n.l(resource.held_at)
@@ -9,4 +18,9 @@
           = link_to resource.secondary_mentor.display_name, resource.secondary_mentor
       %td= resource.recipient
       %td= I18n.l(resource.created_at, :format => :short) if resource.created_at
-      %td= I18n.l(resource.sent_at, :format => :short) if resource.sent_at
+      %td
+        - if resource.sent_at
+          = I18n.l(resource.sent_at, :format => :short)
+        - else
+          = button_to "Zustellen", { :action => "update", :id => resource.id }, :method => :put
+        

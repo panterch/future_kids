@@ -1,8 +1,16 @@
 class Reminder < ActiveRecord::Base
 
+  default_scope :order => 'held_at DESC'
+
   belongs_to :mentor
   belongs_to :secondary_mentor, :class_name => 'Mentor'
   belongs_to :kid
+
+  def deliver_mail
+    mail = Notifications.remind(self)
+    mail.deliver
+    update_attributes!(:sent_at => Time.now)
+  end
 
   # create a reminder for the given kid and the given time
   #

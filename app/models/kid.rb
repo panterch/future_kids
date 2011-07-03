@@ -26,12 +26,16 @@ class Kid < ActiveRecord::Base
 
   # tries to retrieve the journal entry for the week given by time
   def journal_entry_for_week(time = Time.now)
+    time = calculate_meeting_time(time)
+    return nil if time.nil?
     journals.find(:first, :conditions => { :week => time.strftime('%U').to_i,
                                            :year => time.year })
   end
 
   # tries to retrieve the reminder for the week given by time
   def reminder_entry_for_week(time = Time.now)
+    time = calculate_meeting_time(time)
+    return nil if time.nil?
     reminders.find(:first, :conditions => { :week => time.strftime('%U').to_i,
                                             :year => time.year })
   end

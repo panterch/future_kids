@@ -26,6 +26,12 @@ ul {
   padding: 0;
   list-style: none; }
 
+th {
+  text-align: left; }
+
+tr:nth-child(even) {
+  background: #CCC; }
+
 .clear {
   clear: both;
   height: 0;

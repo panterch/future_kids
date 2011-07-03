@@ -88,7 +88,7 @@ describe Kid do
 
   context 'journal entry for week' do
     before(:each) do
-      @kid = Factory(:kid)
+      @kid = Factory(:kid, :meeting_day => 2, :meeting_start_at => '13:00')
       @journal = Factory(:journal, :kid => @kid, :held_at => thursday)
     end
     it 'finds journal entry in future' do
