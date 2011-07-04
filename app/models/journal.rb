@@ -5,8 +5,10 @@ class Journal < ActiveRecord::Base
   belongs_to :kid
   belongs_to :mentor
 
-  validates_presence_of :kid, :mentor, :held_at, :start_at, :end_at
+  validates_presence_of :kid, :mentor, :held_at
+  validates_presence_of :start_at, :end_at, :unless => :cancelled
 
+  before_validation :clean_times, :if => :cancelled
   before_save :calculate_duration
   before_save :calculate_week
   before_save :calculate_year
@@ -22,13 +24,29 @@ class Journal < ActiveRecord::Base
   def human_outcome; outcome.try(:textilize); end
   def human_note; note.try(:textilize); end
   
-  def human_start_at; I18n.l(start_at, :format => :time); end
-  def human_end_at; I18n.l(end_at, :format => :time); end
+  def human_start_at
+    return nil unless start_at
+    I18n.l(start_at, :format => :time)
+  end
+
+  def human_end_at
+    return nil unless end_at
+    I18n.l(end_at, :format => :time)
+  end
 
 protected
+  
+  def clean_times
+    self.end_at = nil
+    self.start_at = nil
+  end
 
   def calculate_duration
-    self.duration = (end_at - start_at) / 60
+    if cancelled?
+      self.duration = 0
+    else
+      self.duration = (end_at - start_at) / 60
+    end
   end
 
   def calculate_week

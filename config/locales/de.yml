@@ -233,6 +233,7 @@ de:
         held_at: Datum
         start_at: Von
         end_at: Bis
+        cancelled: Ausgefallen
         duration: Dauer
         title: Titel
         goal: Lernziel

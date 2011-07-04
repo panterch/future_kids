@@ -21,11 +21,12 @@ class CreateInititalTables < ActiveRecord::Migration
 
     create_table :journals do |t|
       t.date       :held_at, :null => false
-      t.time       :start_at, :null => false
-      t.time       :end_at, :null => false
+      t.time       :start_at
+      t.time       :end_at
       t.integer    :duration, :null => false
       t.integer    :week, :null => false
       t.integer    :year, :null => false
+      t.boolean    :cancelled, :null => false, :default => false
       t.text       :goal
       t.text       :subject
       t.text       :method

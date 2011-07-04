@@ -22,7 +22,11 @@
       %tr
         %td= I18n.l(journal.held_at)
         %td= journal.kid.display_name
-        %td= "#{journal.duration} Minuten"
+        %td
+          - if journal.cancelled?
+            ausgefallen
+          - else
+            = "#{journal.duration} Minuten"
     %tfoot
       %tr
         %td Total

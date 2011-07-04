@@ -1,6 +1,7 @@
 $(function () {
   register_subnav_expand();
   register_datepickers();
+  register_journal_controls();
 });
 
 // navigation items with further nesting are handled specially:
@@ -38,3 +39,11 @@ function register_datepickers() {
 
 }
 
+// register active features on the journal entry form
+function register_journal_controls() {
+  $('#journal_cancelled').change(function() {
+    var show_times = !($(this).is(':checked'));
+    $('#journal_start_at_input, #journal_end_at_input').toggle(show_times);
+  });
+  $('#journal_cancelled').change();
+}

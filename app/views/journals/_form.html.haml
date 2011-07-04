@@ -5,6 +5,7 @@
     - if current_user.is_a?(Admin)
       = form.input :mentor
     = form.input :held_at, :as => :string
+    = form.input :cancelled
     = form.input :start_at, :as => :string
     = form.input :end_at, :as => :string
     = form.input :goal

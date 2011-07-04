@@ -22,6 +22,13 @@ describe "FactoryGirl" do
   describe "a journal by factory" do
     let(:journal) { Factory.build(:journal) }
     it("should be valid") { journal.should be_valid }
+    it("should be persistable") { journal.save!.should be_true }
+  end
+
+  describe "a cancelled journal by factory" do
+    let(:journal) { Factory.build(:cancelled_journal) }
+    it("should be valid") { journal.should be_valid }
+    it("should be persistable") { journal.save!.should be_true }
   end
 
   describe "a review by factory" do

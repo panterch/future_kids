@@ -13,19 +13,20 @@
 ActiveRecord::Schema.define(:version => 20110211123618) do
 
   create_table "journals", :force => true do |t|
-    t.date     "held_at",    :null => false
-    t.time     "start_at",   :null => false
-    t.time     "end_at",     :null => false
-    t.integer  "duration",   :null => false
-    t.integer  "week",       :null => false
-    t.integer  "year",       :null => false
+    t.date     "held_at",                       :null => false
+    t.time     "start_at"
+    t.time     "end_at"
+    t.integer  "duration",                      :null => false
+    t.integer  "week",                          :null => false
+    t.integer  "year",                          :null => false
+    t.boolean  "cancelled",  :default => false, :null => false
     t.text     "goal"
     t.text     "subject"
     t.text     "method"
     t.text     "outcome"
     t.text     "note"
-    t.integer  "kid_id",     :null => false
-    t.integer  "mentor_id",  :null => false
+    t.integer  "kid_id",                        :null => false
+    t.integer  "mentor_id",                     :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
   end

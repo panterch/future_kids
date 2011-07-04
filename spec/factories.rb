@@ -31,6 +31,13 @@ Factory.define :journal do |f|
   f.end_at Time.parse("14:00")
 end
 
+Factory.define :cancelled_journal, :parent => :journal do |f|
+  f.held_at Date.parse("2011-05-30")
+  f.cancelled true
+  f.start_at nil
+  f.end_at nil
+end
+
 Factory.define :review do |f|
   f.association :kid
   f.held_at Date.parse("2011-05-30")
