@@ -73,7 +73,6 @@ describe JournalsController do
   def valid_attributes
     attrs = {}
     attrs[:journal] =  Factory.attributes_for(:journal,
-      :title => 'journal spec',
       :mentor_id => @mentor.id,
       :held_at   => '2011-05-30',
       :start_at  => '12:00',

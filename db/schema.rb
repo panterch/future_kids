@@ -19,8 +19,6 @@ ActiveRecord::Schema.define(:version => 20110211123618) do
     t.integer  "duration",   :null => false
     t.integer  "week",       :null => false
     t.integer  "year",       :null => false
-    t.string   "title"
-    t.text     "body"
     t.text     "goal"
     t.text     "subject"
     t.text     "method"
