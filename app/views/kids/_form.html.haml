@@ -10,7 +10,7 @@
     = form.input :parent
     = form.input :address
     = form.input :sex, :as => :select, :collection => sex_collection
-    = form.input :entered_at, :as => :string
+    = date_picker(form, :entered_at)
 
   %h2#school Allgemeine Informationen
   = form.inputs do

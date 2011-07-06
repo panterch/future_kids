@@ -12,6 +12,6 @@
     = form.input :field_of_study
     = form.input :education
     = form.input :etcs, :as => :boolean
-    = form.input :entry_date, :as => :string
+    = date_picker(form, :entry_date)
     = form.input :available
   = form.buttons 

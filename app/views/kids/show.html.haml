@@ -29,16 +29,24 @@
 %h2#journals Lernjournale
 - resource.journals.each do |journal|
   = show_for journal do |journal_show|
-    %h3= journal.display_name
+    %h3
+      = journal.display_name
     = journal_show.attribute :mentor do 
       = can_link_to(journal.mentor)
-    = journal_show.attribute :start_at
-    = journal_show.attribute :end_at
+    = journal_show.attribute :held_at
+    - if journal.cancelled?
+      = journal_show.attribute :cancelled
+    - else
+      = journal_show.attribute :start_at
+      = journal_show.attribute :end_at
     = journal_show.attribute :goal
     = journal_show.attribute :subject
     = journal_show.attribute :method
     = journal_show.attribute :outcome
     = journal_show.attribute :note
+    .wrapper
+      .content
+        = link_to "[bearbeiten]", edit_kid_journal_path(resource, journal)
 
 %h2#reviews Gesprächsdokumentationen
 - resource.reviews.each do |review|
@@ -50,3 +58,6 @@
     = review_show.attribute :content
     = review_show.attribute :outcome
     = review_show.attribute :note
+    .wrapper
+      .content
+        = link_to "[bearbeiten]", edit_kid_review_path(resource, review)

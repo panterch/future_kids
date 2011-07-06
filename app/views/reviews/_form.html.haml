@@ -3,7 +3,7 @@
   = form.semantic_errors
 
   = form.inputs do
-    = form.input :held_at, :as => :string
+    = date_picker(form, :held_at)
     = form.input :attendee
     = form.input :reason
     = form.input :kind

@@ -7,6 +7,8 @@ describe JournalsController do
     @kid = Factory(:kid, :mentor => @mentor)
   end
 
+  let(:journal) { Factory(:journal, :kid => @kid, :mentor => @mentor) }
+
   context 'as an admin' do
     before(:each) do
       @admin = Factory(:admin)
@@ -41,6 +43,12 @@ describe JournalsController do
       attrs[:journal][:held_at] = '31.12.2010'
       post :create, attrs
       assigns(:journal).held_at.should eq(Date.parse('2010-12-31'))
+    end
+
+    context 'with render views' do
+      render_views
+      it('news') { get :new, :kid_id => @kid.id }
+      it('edits') { get :edit, :kid_id => @kid.id, :id => journal.id }
     end
   end # end of 'as an admin'
 

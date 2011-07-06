@@ -32,16 +32,9 @@ function register_datepickers() {
     timeInterval: 30
   };
 
-  $('#journal_held_at').calendricalDate(date_settings);
-
+  $('input.calendricalDate').calendricalDate(date_settings);
   $('#journal_start_at, #journal_end_at').calendricalTimeRange(time_settings)
-
-  $('#review_held_at').calendricalDate(date_settings);
-
-  $('#kid_entered_at').calendricalDate(date_settings);
   $('#kid_meeting_start_at').calendricalTime(time_settings);
-
-  $('#mentor_entry_date').calendricalDate(date_settings);
 
 }
 

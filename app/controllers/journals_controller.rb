@@ -14,6 +14,10 @@ class JournalsController < ApplicationController
     create!{ kid_url(resource.kid) }
   end
   
+  def update
+    update!{ kid_url(resource.kid) }
+  end
+  
 protected
 
   # before giving cancan the control over the resource loading we influence

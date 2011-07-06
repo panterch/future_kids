@@ -30,4 +30,12 @@ module ApplicationHelper
     (1..5).map{ |i| [I18n.t('date.day_names')[i], i] }
   end
 
+  # renders a formtastic field that is taken over by the datepicker js
+  def date_picker(form, field)
+    value = resource[field] ? I18n.l(resource[field]) : nil
+    form.input field, :as => :string, :input_html => {
+      :value => value, :class => 'calendricalDate'
+      }
+  end
+
 end
