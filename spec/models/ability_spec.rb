@@ -78,15 +78,24 @@ describe Ability do
 
     end # end of tests for mentors
 
+    context "An admin" do
+      before(:each) do
+        @admin = Factory(:admin)
+        @ability = Ability.new(@admin)
+      end
+
+      context "kid" do
+        let(:kid) { Factory(:kid) }
+        it("can read a kid") { assert @ability.can?(:read, Kid) }
+        it("can create a kid") { assert @ability.can?(:create, Kid) }
+        it("can update a kid") { assert @ability.can?(:update, Kid) }
+        it("cannot destroy a kid") { assert @ability.cannot?(:destroy, Kid) }
+      end
+    end # end of tests for admin role
+
     context "teacher" do
       it "cannot access teachers in general" do
         assert ability.cannot?(:read, Teacher)
-      end
-    end
-
-    context "admin" do
-      it "cannot access admins in general" do
-        assert ability.cannot?(:read, Admin)
       end
     end
 

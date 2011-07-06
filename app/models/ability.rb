@@ -53,6 +53,9 @@ class Ability
       can :read,   Teacher, :_id => user.id
       can :update, Teacher, :_id => user.id
     end
+
+    # destruction of records is generally not allowed
+    cannot :destroy, :all
   end
 end
 
