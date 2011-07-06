@@ -3,7 +3,7 @@
   = form.semantic_errors
   = form.inputs do
     - if current_user.is_a?(Admin)
-      = form.input :mentor
+      = form.input :mentor, :collection => @mentors
     = form.input :held_at, :as => :string
     = form.input :cancelled
     = form.input :start_at, :as => :string

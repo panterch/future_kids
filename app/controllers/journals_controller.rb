@@ -7,6 +7,8 @@ class JournalsController < ApplicationController
   belongs_to :kid
   load_and_authorize_resource
 
+  # these filters have to run after the resource is initialized
+  before_filter :prepare_mentors, :only => [ :new ], :if => :admin?
 
   def create
     create!{ kid_url(resource.kid) }
@@ -24,6 +26,14 @@ protected
     if current_user.is_a?(Mentor)
       params[:journal][:mentor_id] = current_user.id
     end
+  end
+
+  # for admins a dropdown to select a mentor is displayed, its data is
+  # collected here
+  def prepare_mentors
+    @mentors = [ resource.kid.mentor, resource.kid.secondary_mentor].compact
+    return unless @mentors.empty?
+    redirect_to kid_url(resource.kid), :alert => "Bitte vorher einen Mentor zuordnen."
   end
 
 end

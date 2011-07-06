@@ -44,6 +44,7 @@
 - resource.reviews.each do |review|
   = show_for review do |review_show|
     %h3= review.display_name
+    = review_show.attribute :attendee
     = review_show.attribute :reason
     = review_show.attribute :kind
     = review_show.attribute :content

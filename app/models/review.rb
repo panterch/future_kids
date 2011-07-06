@@ -15,5 +15,6 @@ class Review < ActiveRecord::Base
   def human_reason; reason.try(:textilize); end
   def human_outcome; outcome.try(:textilize); end
   def human_note; note.try(:textilize); end
+  def human_attendee; attendee.try(:textilize); end
 
 end

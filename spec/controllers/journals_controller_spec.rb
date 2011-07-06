@@ -19,6 +19,18 @@ describe JournalsController do
       response.should render_template(:new)
     end
 
+    it 'should render assign only selectable mentors' do
+      @foreign_mentor = Factory(:mentor)
+      get :new, :kid_id => @kid.id
+      assigns(:mentors).should eq([@mentor])
+    end
+
+    it 'should not access new when no mentors available' do
+      Mentor.destroy_all
+      get :new, :kid_id => @kid.id
+      response.should be_redirect
+    end
+
     it 'should create a new entry' do
       post :create, valid_attributes
       assigns(:journal).should_not be_new_record
@@ -33,6 +45,11 @@ describe JournalsController do
     it 'should render the new template' do
       get :new, :kid_id => @kid.id
       response.should be_successful
+    end
+
+    it 'should not assign mentors for selectbox' do
+      get :new, :kid_id => @kid.id
+      assigns(:mentors).should be_nil
     end
 
     it 'should deny access for foreign kids' do
