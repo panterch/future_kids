@@ -12,7 +12,7 @@ describe JournalsController do
       @admin = Factory(:admin)
       sign_in @admin
     end
-  
+
     it 'should render the new template' do
       get :new, :kid_id => @kid.id
       response.should be_successful
@@ -31,9 +31,16 @@ describe JournalsController do
       response.should be_redirect
     end
 
-    it 'should create a new entry' do
+    it 'should create a new entry posting valid attributes' do
       post :create, valid_attributes
       assigns(:journal).should_not be_new_record
+    end
+
+    it 'should parse ch date formatted strings for held_at' do
+      attrs = valid_attributes
+      attrs[:journal][:held_at] = '31.12.2010'
+      post :create, attrs
+      assigns(:journal).held_at.should eq(Date.parse('2010-12-31'))
     end
   end # end of 'as an admin'
 
