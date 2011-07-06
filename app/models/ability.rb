@@ -40,15 +40,15 @@ class Ability
       can :read, Journal, :mentor_id => user.id
       can :read, Journal, :kid => { :mentor_id => user.id }
       can :read, Journal, :kid => { :secondary_mentor_id => user.id }
-      # to create an entry there have to be more criterias fulfilled: the mentor
+      # to change an entry there have to be more criterias fulfilled: the mentor
       # himself must be set on the journal entry and must be associated with
       # the kid
-      can :create, Journal, :mentor_id => user.id, :kid => { :mentor_id => user.id }
+      can :manage, Journal, :mentor_id => user.id, :kid => { :mentor_id => user.id }
 
       # reviews can be edited by mentors who are associated with the kids
       # about whom the entry is
-      can [ :read, :create ], Review, :kid => { :mentor_id => user.id }
-      can [ :read, :create ], Review, :kid => { :secondary_mentor_id => user.id }
+      can :manage, Review, :kid => { :mentor_id => user.id }
+      can :manage, Review, :kid => { :secondary_mentor_id => user.id }
     elsif user.is_a?(Teacher)
       can :read,   Teacher, :_id => user.id
       can :update, Teacher, :_id => user.id

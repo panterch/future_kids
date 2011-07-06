@@ -9,10 +9,11 @@ describe Ability do
     let(:foreign_kid) { Factory(:kid) }
     let(:kid) { Factory(:kid, :mentor => mentor) }
     let(:secondary_kid) { Factory(:kid, :secondary_mentor => mentor) }
-    let(:journal) { Factory(:journal, :kid => kid) }
+    let(:journal) { Factory(:journal, :kid => kid, :mentor => mentor) }
     let(:foreign_journal) { Factory(:journal, :kid => foreign_kid) }
     let(:direct_associated_journal) { Factory(:journal, :kid => foreign_kid,
                                               :mentor => mentor) }
+    let(:review) { Factory.build(:review, :kid => kid) }
     context "mentors" do
       it "can access mentors in general" do
         assert ability.can?(:read, Mentor)
@@ -51,7 +52,13 @@ describe Ability do
       it "can read journals of kids he is set as mentor" do
         assert ability.can?(:read, journal)
       end
-      it "cannot read journals where he is set as mentor" do
+      it "can update journals of he is directly associated" do
+        assert ability.can?(:update, journal)
+      end
+      it "cannot destroy journals of he is directly associated" do
+        assert ability.cannot?(:destroy, journal)
+      end
+      it "cannot read journals where he is not set as mentor" do
         assert ability.cannot?(:read, foreign_journal)
       end
       it "can read a foreign journal when he is set as mentor on it" do
@@ -67,8 +74,13 @@ describe Ability do
 
       context "review" do
         it "can create reviews for kids he is set as mentor" do
-          review = Factory.build(:review, :kid => kid)
           assert ability.can?(:create, review)
+        end
+        it "can update reviews for kids he is set as mentor" do
+          assert ability.can?(:update, review)
+        end
+        it "cannot destroy reviews for kids he is set as mentor" do
+          assert ability.cannot?(:destroy, review)
         end
         it "cannot create reviews for kids he is not associated" do
           review = Factory.build(:review, :kid => foreign_kid)
