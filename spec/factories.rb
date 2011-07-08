@@ -14,7 +14,7 @@ Factory.define :mentor, :class => 'Mentor', :parent => :user do |f|
   f.sequence(:email) { |n| "mentor_#{n}@example.com" }
 end
 
-Factory.define :teacher, :parent => :user do |f|
+Factory.define :teacher, :class => 'Teacher', :parent => :user do |f|
   f.sequence(:email) { |n| "teacher_#{n}@example.com" }
 end
 

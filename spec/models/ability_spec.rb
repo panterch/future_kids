@@ -89,28 +89,39 @@ describe Ability do
       end
 
     end # end of tests for mentors
+  end
 
-    context "An admin" do
-      before(:each) do
-        @admin = Factory(:admin)
-        @ability = Ability.new(@admin)
-      end
-
-      context "kid" do
-        let(:kid) { Factory(:kid) }
-        it("can read a kid") { assert @ability.can?(:read, Kid) }
-        it("can create a kid") { assert @ability.can?(:create, Kid) }
-        it("can update a kid") { assert @ability.can?(:update, Kid) }
-        it("cannot destroy a kid") { assert @ability.cannot?(:destroy, Kid) }
-      end
-    end # end of tests for admin role
-
-    context "teacher" do
-      it "cannot access teachers in general" do
-        assert ability.cannot?(:read, Teacher)
-      end
+  describe "An admin" do
+    before(:each) do
+      @admin = Factory(:admin)
+      @ability = Ability.new(@admin)
     end
 
+    context "kid" do
+      let(:kid) { Factory(:kid) }
+      it("can read a kid") { assert @ability.can?(:read, Kid) }
+      it("can create a kid") { assert @ability.can?(:create, Kid) }
+      it("can update a kid") { assert @ability.can?(:update, Kid) }
+      it("cannot destroy a kid") { assert @ability.cannot?(:destroy, Kid) }
+    end
+  end # end of tests for admin role
+
+  describe "teacher" do
+    before(:each) do
+      @teacher = Factory(:teacher)
+      @ability = Ability.new(@teacher)
+    end
+    let(:foreign_teacher) { Factory(:teacher) }
+    let(:kid) { Factory(:kid, :teacher => @teacher) }
+    let(:secondary_kid) { Factory(:kid, :secondary_teacher => @teacher) }
+    let(:foreign_kid) { Factory(:kid) }
+
+    it "cannot access teachers in general" do
+      assert @ability.cannot?(:read, foreign_teacher)
+    end
+    it "can update its own record" do
+      assert @ability.can?(:update, @teacher)
+    end
   end
 
 end

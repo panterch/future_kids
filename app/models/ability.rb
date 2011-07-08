@@ -50,8 +50,7 @@ class Ability
       can :manage, Review, :kid => { :mentor_id => user.id }
       can :manage, Review, :kid => { :secondary_mentor_id => user.id }
     elsif user.is_a?(Teacher)
-      can :read,   Teacher, :_id => user.id
-      can :update, Teacher, :_id => user.id
+      can :manage, Teacher, :id => user.id
     end
 
     # destruction of records is generally not allowed
