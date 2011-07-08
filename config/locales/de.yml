@@ -175,6 +175,7 @@ de:
       odd: "muss ungerade sein"
       even: "muss gerade sein"
       not_an_integer: "muss ganzzahlig sein"
+      taken: "bereits vergeben"
       
   activerecord:
     errors:

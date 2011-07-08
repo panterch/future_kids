@@ -16,6 +16,8 @@
         #nav
           %h4 Navigation
           %ul.site
+            -if can? :read, Admin
+              %li= link_to Admin.model_name.human, admins_path
             -if can? :read, Mentor
               %li= link_to Mentor.model_name.human, mentors_path
             -if can? :read, Kid
