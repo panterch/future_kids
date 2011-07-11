@@ -49,6 +49,6 @@ FutureKids::Application.configure do
 
   config.middleware.use ExceptionNotifier,
       :email_prefix => "[FutureKids] ",
-      :sender_address => %{"notifier" <panter@mailantor.com>},
-      :exception_recipients => %w(panter@mailinator.com)
+      :sender_address => %{"notifier" <futurekids@panter.ch>},
+      :exception_recipients => %w(futurekids@panter.ch)
 end
