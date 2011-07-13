@@ -8,6 +8,7 @@ describe JournalsController do
   end
 
   let(:journal) { Factory(:journal, :kid => @kid, :mentor => @mentor) }
+  let(:secondary_kid) { Factory(:kid, :secondary_mentor => @mentor) }
 
   context 'as an admin' do
     before(:each) do
@@ -59,6 +60,11 @@ describe JournalsController do
   
     it 'should render the new template' do
       get :new, :kid_id => @kid.id
+      response.should be_successful
+    end
+
+    it 'should render the new template for secondary kids' do
+      get :new, :kid_id => secondary_kid.id
       response.should be_successful
     end
 

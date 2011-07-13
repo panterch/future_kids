@@ -43,7 +43,10 @@ class Ability
       # to change an entry there have to be more criterias fulfilled: the mentor
       # himself must be set on the journal entry and must be associated with
       # the kid
-      can :manage, Journal, :mentor_id => user.id, :kid => { :mentor_id => user.id }
+      can :manage, Journal, :mentor_id => user.id,
+                            :kid => { :mentor_id => user.id }
+      can :manage, Journal, :mentor_id => user.id,
+                            :kid => { :secondary_mentor_id => user.id }
 
       # reviews can be edited by mentors who are associated with the kids
       # about whom the entry is
@@ -51,6 +54,12 @@ class Ability
       can :manage, Review, :kid => { :secondary_mentor_id => user.id }
     elsif user.is_a?(Teacher)
       can :manage, Teacher, :id => user.id
+      can :read, Kid, :teacher_id => user.id
+      can :read, Kid, :secondary_teacher_id => user.id
+      can :read, Mentor, :kids => { :teacher_id => user.id }
+      can :read, Mentor, :kids => { :secondary_teacher_id => user.id }
+      can :read, Mentor, :secondary_kids => { :teacher_id => user.id }
+      can :read, Mentor, :secondary_kids => { :secondary_teacher_id => user.id }
     end
 
     # destruction of records is generally not allowed

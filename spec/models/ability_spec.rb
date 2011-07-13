@@ -122,6 +122,40 @@ describe Ability do
     it "can update its own record" do
       assert @ability.can?(:update, @teacher)
     end
+    it "can read assigned kid" do
+      assert @ability.can?(:read, kid)
+    end
+    it "cannot update assigned kid" do
+      assert @ability.cannot?(:update, kid)
+    end
+    it "can read secondary assigned kid" do
+      assert @ability.can?(:read, secondary_kid)
+    end
+    it "cannot read foreign kid" do
+      assert @ability.cannot?(:read, foreign_kid)
+    end
+    it "can read mentor of assigned kid" do
+      mentor = Factory(:mentor)
+      mentor.kids << kid
+      assert @ability.can?(:read, mentor)
+    end
+    it "can read secondary mentor of assigned kid" do
+      mentor = Factory(:mentor)
+      mentor.secondary_kids << kid
+      assert @ability.can?(:read, mentor)
+    end
+    it "can read mentor of assigned secondary kid" do
+      mentor = Factory(:mentor)
+      mentor.kids << secondary_kid
+      assert @ability.can?(:read, mentor)
+    end
+    it "cannot read foreign mentor" do
+      assert @ability.cannot?(:read, Factory(:mentor))
+    end
+    it "fetches only assigned kids" do
+      kid && secondary_kid && foreign_kid # trigger factory
+      Kid.accessible_by(@ability, :read).should eq([kid, secondary_kid])
+    end
   end
 
 end
