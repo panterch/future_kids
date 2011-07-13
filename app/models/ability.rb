@@ -64,6 +64,9 @@ class Ability
 
     # destruction of records is generally not allowed
     cannot :destroy, :all
+
+    # reminders are only created by a batch job
+    cannot :create, Reminder
   end
 end
 
