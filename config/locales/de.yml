@@ -271,8 +271,9 @@ de:
       mentor:
         available: "Mögliche Termine"
         kids: Kinder
-        secondary_kids: Kinder (Vertretung)
+        secondary_kids: "Kinder (Vertretung)"
         journals: "Lernjournal Einträge"
+        school: "Ausbildungsinstitut"
 
   notifications:
     remind:
