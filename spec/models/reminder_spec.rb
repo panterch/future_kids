@@ -2,6 +2,8 @@ require 'spec_helper'
 
 describe Reminder do
 
+  after(:each) { ActionMailer::Base.deliveries.clear }
+
   context 'creation' do
 
     before(:each) do
@@ -62,6 +64,17 @@ describe Reminder do
                         :held_at => wednesday)
       Reminder.conditionally_create_reminders(tuesday)
       @mentor.reminders.count.should eq(0)
+    end
+
+    it 'does not send admin mail when no reminders created' do
+      Kid.destroy_all
+      Reminder.conditionally_create_reminders(tuesday)
+      ActionMailer::Base.deliveries.should be_empty
+    end
+
+    it 'does not send admin mail when reminder are created' do
+      Reminder.conditionally_create_reminders(tuesday)
+      ActionMailer::Base.deliveries.should_not be_empty
     end
 
   end

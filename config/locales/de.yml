@@ -278,4 +278,6 @@ de:
   notifications:
     remind:
       subject: Future Kids Erinnerung
+    reminders_created:
+      subject: Neue Erinnerungen
 

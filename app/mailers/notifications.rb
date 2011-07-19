@@ -10,4 +10,9 @@ class Notifications < ActionMailer::Base
     @reminder = reminder
     mail :to => @reminder.recipient, :cc => "futurekids@panter.ch"
   end
+
+  def reminders_created(count)
+    @count = count
+    mail :to => "futurekids@panter.ch"
+  end
 end

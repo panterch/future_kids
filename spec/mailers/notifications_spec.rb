@@ -2,7 +2,7 @@ require "spec_helper"
 
 describe Notifications do
 
-  describe "reminder" do
+  describe "remind" do
 
     before(:each) do
       @reminder = Factory(:reminder)
@@ -28,6 +28,19 @@ describe Notifications do
       @mail.deliver
       ActionMailer::Base.deliveries.should_not be_empty
     end
+
+  end
+
+  describe "reminders created" do
+
+    before(:each) do
+      @mail = Notifications.reminders_created(10)
+    end
+
+    it "renders the body" do
+      @mail.body.encoded.should match("Liebe")
+    end
+
 
   end
 
