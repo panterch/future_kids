@@ -28,7 +28,7 @@ function register_datepickers() {
     isoTime: true,
     separator: '.',
     minTime: {hour: 13, minute: 0},
-    maxTime: {hour: 19, minute: 0},
+    maxTime: {hour: 20, minute: 30},
     timeInterval: 30
   };
 
