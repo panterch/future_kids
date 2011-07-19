@@ -65,8 +65,10 @@ class Ability
     # destruction of records is generally not allowed
     cannot :destroy, :all
 
-    # reminders are only created by a batch job
+    # reminders are only created by a batch job, but the destruction is
+    # customized in the controller to allow setting the acknowledged_at date
     cannot :create, Reminder
+    can :destroy, Reminder if user.is_a?(Admin)
   end
 end
 

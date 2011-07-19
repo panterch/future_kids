@@ -8,6 +8,7 @@
       %th Empfänger
       %th Erstellt am
       %th Gesendet am
+      %th Quittieren
   - collection.each do |resource|
     %tr
       %td= I18n.l(resource.held_at)
@@ -23,4 +24,5 @@
           = I18n.l(resource.sent_at, :format => :short)
         - else
           = button_to "Zustellen", { :action => "update", :id => resource.id }, :method => :put
-        
+      %td
+        = button_to "Quittieren", { :action => "destroy", :id => resource.id }, :method => :delete

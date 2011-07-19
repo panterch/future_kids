@@ -79,12 +79,25 @@ describe Reminder do
 
   end
 
-
   it 'delivers reminders' do
     @reminder = Factory(:reminder)
     @reminder.deliver_mail
     @reminder.sent_at.should_not be_nil
     ActionMailer::Base.deliveries.should_not be_empty
+  end
+
+  context 'reminder scopes' do
+
+    it 'finds active reminders' do
+      reminder = Factory(:reminder)
+      Reminder.active.should eq([reminder])
+    end
+
+    it 'finds ignores acknologed reminders' do
+      reminder = Factory(:reminder, :acknowledged_at => Time.now)
+      Reminder.active.should be_empty
+    end
+
   end
 
 end

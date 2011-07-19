@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110211123618) do
+ActiveRecord::Schema.define(:version => 20110719193512) do
 
   create_table "journals", :force => true do |t|
     t.date     "held_at",                       :null => false
@@ -66,6 +66,7 @@ ActiveRecord::Schema.define(:version => 20110211123618) do
     t.integer  "secondary_mentor_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "acknowledged_at"
   end
 
   add_index "reminders", ["kid_id"], :name => "index_reminders_on_kid_id"

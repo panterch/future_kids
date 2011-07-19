@@ -1,6 +1,7 @@
 class Reminder < ActiveRecord::Base
 
   default_scope :order => 'held_at DESC'
+  scope :active, where("reminders.acknowledged_at IS NULL")
 
   belongs_to :mentor
   belongs_to :secondary_mentor, :class_name => 'Mentor'
