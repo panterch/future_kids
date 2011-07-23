@@ -2,6 +2,7 @@ $(function () {
   register_subnav_expand();
   register_datepickers();
   register_journal_controls();
+  register_mentor_journal_date_selectors();
 });
 
 // navigation items with further nesting are handled specially:
@@ -45,4 +46,14 @@ function register_journal_controls() {
     $('#journal_start_at_input, #journal_end_at_input').toggle(show_times);
   });
   $('#journal_cancelled').change();
+}
+
+// on the mentors page, two selectors allow choosing a filter data for journal
+function register_mentor_journal_date_selectors() {
+  $('select.select_mentor_journal_date').change(function() {
+    var href =  window.location.pathname;
+    href += '?month='+$('#date_month').val();
+    href += '&year='+$('#date_year').val();
+    window.location = href;
+  });
 }

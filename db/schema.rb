@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110719193512) do
+ActiveRecord::Schema.define(:version => 20110723124455) do
 
   create_table "journals", :force => true do |t|
     t.date     "held_at",                       :null => false
@@ -29,11 +29,13 @@ ActiveRecord::Schema.define(:version => 20110719193512) do
     t.integer  "mentor_id",                     :null => false
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.integer  "month"
   end
 
   add_index "journals", ["held_at"], :name => "index_journals_on_held_at"
   add_index "journals", ["kid_id"], :name => "index_journals_on_kid_id"
   add_index "journals", ["mentor_id"], :name => "index_journals_on_mentor_id"
+  add_index "journals", ["month"], :name => "index_journals_on_month"
 
   create_table "kids", :force => true do |t|
     t.string   "name"

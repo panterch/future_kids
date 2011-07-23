@@ -22,4 +22,10 @@ describe Journal do
     j.week.should eq(0)
   end
 
+  it "creates a coaching entry at the end of the month" do
+    mentor = Factory.build(:mentor)
+    j = Journal.coaching_entry(mentor, '2', '2009')
+    j.held_at.should eq(Date.parse('2/28/2009'))
+  end
+
 end

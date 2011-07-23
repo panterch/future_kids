@@ -28,11 +28,4 @@ describe Mentor do
     end
   end
 
-  it 'should calculate sum of all journal entries' do
-    mentor = Factory(:mentor)
-    Factory(:journal, :mentor => mentor, :start_at => '12:00', :end_at => '13:30')
-    Factory(:journal, :mentor => mentor, :start_at => '14:00', :end_at => '14:30')
-    mentor.total_work_duration.should eq(120)
-  end
-
 end

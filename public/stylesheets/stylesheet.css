@@ -32,6 +32,9 @@ th {
 tr:nth-child(even) {
   background: #CCC; }
 
+td {
+  padding: 1px 3px; }
+
 .clear {
   clear: both;
   height: 0;

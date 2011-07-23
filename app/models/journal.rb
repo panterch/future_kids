@@ -12,6 +12,7 @@ class Journal < ActiveRecord::Base
   before_save :calculate_duration
   before_save :calculate_week
   before_save :calculate_year
+  before_save :calculate_month
 
   def display_name
     return "Neuer Lernjournal Eintrag" if new_record?
@@ -32,6 +33,15 @@ class Journal < ActiveRecord::Base
   def human_end_at
     return nil unless end_at
     I18n.l(end_at, :format => :time)
+  end
+
+  # there is a default entry per month which represents the administrative
+  # costs.
+  #
+  # This is display only yet.
+  def self.coaching_entry(mentor, month, year)
+    held_at = Date.new(year.to_i, month.to_i).end_of_month
+    Journal.new(:mentor => mentor, :held_at => held_at, :duration => 60)
   end
 
 protected
@@ -55,6 +65,10 @@ protected
 
   def calculate_year
     self.year = held_at.year
+  end
+
+  def calculate_month
+    self.month = held_at.month
   end
 
 end
