@@ -1,0 +1,23 @@
+body {
+  background-color: #FFF; }
+
+img#bg {
+  display: none; }
+
+#container {
+  margin: 0; }
+
+#header {
+  display: none; }
+
+#nav {
+  display: none; }
+
+#content {
+  min-height: 0;
+  border: 0;
+  margin: 0;
+  padding: 0; }
+
+#footer {
+  display: none; }

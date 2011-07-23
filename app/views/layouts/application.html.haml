@@ -3,7 +3,9 @@
 %html
   %head
     %title FutureKids
-    = stylesheet_link_tag :all, :media => :all, :recursive => true, :cache => true
+    = stylesheet_link_tag %w(formtastic formtastic_changes calendrical stylesheet),
+      :media => :all, :cache => true
+    = stylesheet_link_tag 'print', :media => :print
     = javascript_include_tag %w(jquery jquery.calendrical rails application), :cache => true
     = csrf_meta_tag
     %meta{'charset' => 'utf-8'}/
