@@ -88,6 +88,31 @@ describe Ability do
         end
       end
 
+      context "teacher" do
+        it "cannot read foreign teachers" do
+          assert ability.cannot?(:read, Factory(:teacher))
+        end
+        it "can read teacher of assigned kid" do
+          assert ability.can?(:read, Factory(:teacher, :kids => [kid]))
+        end
+        it "can read secondary teacher of assigned kid" do
+          assert ability.can?(:read, Factory(:teacher, :secondary_kids => [kid]))
+        end
+        it "can read teacher of secondary kid" do
+          assert ability.can?(:read, Factory(:teacher, :kids => [secondary_kid]))
+        end
+        it "can read secondary teacher of secondary kid" do
+          assert ability.can?(:read, Factory(:teacher,
+                                             :secondary_kids => [secondary_kid]))
+        end
+        # FIXME cancan accessible_by for mentor - teacher relation
+        # this test does not work, this seems to be a problem in cancan...
+        # it "does retrieve teachers that can be read" do
+        #   teacher = Factory(:teacher, :kids => [kid])
+        #   Teacher.accessible_by(ability, :read).should eq([teacher])
+        # end
+      end
+
     end # end of tests for mentors
   end
 

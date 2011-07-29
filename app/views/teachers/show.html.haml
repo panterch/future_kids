@@ -6,4 +6,4 @@
   = show.attribute :address
   = show.attribute :phone
   = show.association :kids do |k|
-    %li= link_to k.display_name, k
+    %li= can_link_to(k)

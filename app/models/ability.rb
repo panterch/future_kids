@@ -28,7 +28,7 @@ class Ability
       can :manage, :all
     elsif user.is_a?(Mentor)
       # own record may be read
-      can [ :read, :update ],   Mentor, :id => user.id
+      can [ :read, :update ], Mentor, :id => user.id
 
       # mentor may be associated via two fields to a kid
       can :read, Kid, :mentor_id => user.id
@@ -52,6 +52,11 @@ class Ability
       # about whom the entry is
       can :manage, Review, :kid => { :mentor_id => user.id }
       can :manage, Review, :kid => { :secondary_mentor_id => user.id }
+      # has read access to teachers he is connected
+      can :read, Teacher, :kids => { :mentor_id => user.id }
+      can :read, Teacher, :secondary_kids => { :mentor_id => user.id }
+      can :read, Teacher, :kids => { :secondary_mentor_id => user.id }
+      can :read, Teacher, :secondary_kids => { :secondary_mentor_id => user.id }
     elsif user.is_a?(Teacher)
       can :manage, Teacher, :id => user.id
       can :read, Kid, :teacher_id => user.id
