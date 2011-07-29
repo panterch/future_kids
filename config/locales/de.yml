@@ -217,6 +217,7 @@ de:
       kid:
         name: "Name"
         prename: "Vorname"
+        phone: "Telefon"
         parent: "Name der/s Erziehungsberechtigten"
         address: "Adresse"
         goal: "Förderziele"

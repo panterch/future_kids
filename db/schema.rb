@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110723124455) do
+ActiveRecord::Schema.define(:version => 20110729092432) do
 
   create_table "journals", :force => true do |t|
     t.date     "held_at",                       :null => false
@@ -55,6 +55,7 @@ ActiveRecord::Schema.define(:version => 20110723124455) do
     t.integer  "secondary_teacher_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "phone"
   end
 
   create_table "reminders", :force => true do |t|
