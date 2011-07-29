@@ -20,14 +20,13 @@
           %ul.site
             -if can? :read, Admin
               %li= link_to Admin.model_name.human, admins_path
-            -if can? :read, Mentor
-              %li= link_to Mentor.model_name.human, mentors_path
             -if can? :read, Kid
               %li= link_to Kid.model_name.human, kids_path
             -# FIXME load of teachers for mentors via cancan does not yet
             -#       work correctly, see ability_spec.rb. till this is fixed
             -#       we do not display this option to mentors
             -if current_user.is_a?(Admin)
+              %li= link_to Mentor.model_name.human, mentors_path
               %li= link_to Teacher.model_name.human, teachers_path
             -if can? :read, Reminder
               %li= link_to Reminder.model_name.human, reminders_path
