@@ -50,17 +50,19 @@
         .content
           = link_to "[bearbeiten]", edit_kid_journal_path(resource, journal)
 
-%h2#reviews Gesprächsdokumentationen
-- resource.reviews.each do |review|
-  = show_for review do |review_show|
-    %h3= review.display_name
-    = review_show.attribute :attendee
-    = review_show.attribute :reason
-    = review_show.attribute :kind
-    = review_show.attribute :content
-    = review_show.attribute :outcome
-    = review_show.attribute :note
-    - if can?(:edit, review)
-      .wrapper
-        .content
-          = link_to "[bearbeiten]", edit_kid_review_path(resource, review)
+-# reviews are only visible for admins and first mentors
+- if resource.mentor == current_user || current_user.is_a?(Admin)
+  %h2#reviews Gesprächsdokumentationen
+  - resource.reviews.each do |review|
+    = show_for review do |review_show|
+      %h3= review.display_name
+      = review_show.attribute :attendee
+      = review_show.attribute :reason
+      = review_show.attribute :kind
+      = review_show.attribute :content
+      = review_show.attribute :outcome
+      = review_show.attribute :note
+      - if can?(:edit, review)
+        .wrapper
+          .content
+            = link_to "[bearbeiten]", edit_kid_review_path(resource, review)

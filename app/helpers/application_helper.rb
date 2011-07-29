@@ -38,4 +38,11 @@ module ApplicationHelper
       }
   end
 
+  def private_block
+    if current_user == resource || current_user.is_a?(Admin)
+      yield
+    end
+  end
+    
+
 end

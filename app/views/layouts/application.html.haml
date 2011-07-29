@@ -30,6 +30,7 @@
               %li= link_to Mentor.model_name.human, mentors_path
             -if can? :read, Reminder
               %li= link_to Reminder.model_name.human, reminders_path
+            %li= link_to 'Eigene Daten', current_user
           %h4 Aktionen
           %ul.actions
             -# actions for direct accessible resources

@@ -2,7 +2,8 @@
   = show.attribute :name
   = show.attribute :prename
   = show.attribute :email
-  = show.attribute :address
+  - private_block do
+    = show.attribute :address
   = show.attribute :phone
   = show.attribute :personnel_number
   = show.attribute :school
@@ -12,36 +13,38 @@
   = show.attribute :entry_date
   = show.attribute :available
   = show.association :kids do |k|
-    %li= link_to k.display_name, k
+    %li= can_link_to k
   = show.association :secondary_kids do |k|
-    %li= link_to k.display_name, k
+    %li= can_link_to k
 
-%h2
-  Zeiterfassung
-  = select_month(@month, {}, :class => 'select_mentor_journal_date')
-  = select_year(@year, {}, :class => 'select_mentor_journal_date')
-%table
-  - @journals.each do |journal|
-    %tr
-      %td= I18n.l(journal.held_at)
-      %td
-        - if journal.kid
-          = journal.kid.display_name
-        - else
-          Coaching Pauschale
-      %td
-        - if journal.cancelled?
-          ausgefallen
-        - else
-          = "#{journal.duration} Minuten"
-  %tfoot
-    %tr
-      %td Total
-      %td
-      %td
-        = (@journals.sum(&:duration) / 60.0)
-        Stunden
+-# times are only visible to the mentor himself or an admin
+- private_block do
+  %h2
+    Zeiterfassung
+    = select_month(@month, {}, :class => 'select_mentor_journal_date')
+    = select_year(@year, {}, :class => 'select_mentor_journal_date')
+  %table
+    - @journals.each do |journal|
+      %tr
+        %td= I18n.l(journal.held_at)
+        %td
+          - if journal.kid
+            = journal.kid.display_name
+          - else
+            Coaching Pauschale
+        %td
+          - if journal.cancelled?
+            ausgefallen
+          - else
+            = "#{journal.duration} Minuten"
+    %tfoot
+      %tr
+        %td Total
+        %td
+        %td
+          = (@journals.sum(&:duration) / 60.0)
+          Stunden
 
-.printonly
-  %p.signature Unterschrift Mentor/in
-  %p.signature Unterschrift Vorgesetze/r
+  .printonly
+    %p.signature Unterschrift Mentor/in
+    %p.signature Unterschrift Vorgesetze/r

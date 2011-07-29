@@ -86,6 +86,10 @@ describe Ability do
           review = Factory.build(:review, :kid => foreign_kid)
           assert ability.cannot?(:create, review)
         end
+        it "cannot read reviews for kids he is set as secondary mentor" do
+          review = Factory.build(:review, :kid => secondary_kid)
+          assert ability.cannot?(:read, review)
+        end
       end
 
       context "teacher" do

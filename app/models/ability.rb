@@ -51,7 +51,6 @@ class Ability
       # reviews can be edited by mentors who are associated with the kids
       # about whom the entry is
       can :manage, Review, :kid => { :mentor_id => user.id }
-      can :manage, Review, :kid => { :secondary_mentor_id => user.id }
       # has read access to teachers he is connected
       can :read, Teacher, :kids => { :mentor_id => user.id }
       can :read, Teacher, :secondary_kids => { :mentor_id => user.id }

@@ -30,7 +30,7 @@ function register_datepickers() {
     separator: '.',
     minTime: {hour: 13, minute: 0},
     maxTime: {hour: 20, minute: 30},
-    timeInterval: 30
+    timeInterval: 15
   };
 
   $('input.calendricalDate').calendricalDate(date_settings);
