@@ -229,6 +229,7 @@ de:
         meeting_start_at: "Treffen Beginn um"
         mentor: "Mentor/in"
         secondary_mentor: "Ersatz Mentor/in"
+        secondary_active: "Stellvertretung aktiv"
         teacher: "Lehrperson"
         secondary_teacher: "Zweite Lehrperson"
       journal:

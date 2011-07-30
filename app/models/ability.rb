@@ -32,21 +32,23 @@ class Ability
 
       # mentor may be associated via two fields to a kid
       can :read, Kid, :mentor_id => user.id
-      can :read, Kid, :secondary_mentor_id => user.id
+      can :read, Kid, :secondary_mentor_id => user.id, :secondary_active => true
 
       # journals can be read indirect via kids or direct if they are associated
       # a mentor may read all journal entries with whom he is directly or
       # indirectly (via the kid) associated
       can :read, Journal, :mentor_id => user.id
       can :read, Journal, :kid => { :mentor_id => user.id }
-      can :read, Journal, :kid => { :secondary_mentor_id => user.id }
+      can :read, Journal, :kid => { :secondary_mentor_id => user.id,
+                                    :secondary_active => true }
       # to change an entry there have to be more criterias fulfilled: the mentor
       # himself must be set on the journal entry and must be associated with
       # the kid
       can :manage, Journal, :mentor_id => user.id,
                             :kid => { :mentor_id => user.id }
       can :manage, Journal, :mentor_id => user.id,
-                            :kid => { :secondary_mentor_id => user.id }
+                            :kid => { :secondary_mentor_id => user.id,
+                                      :secondary_active => true }
 
       # reviews can be edited by mentors who are associated with the kids
       # about whom the entry is
@@ -54,8 +56,10 @@ class Ability
       # has read access to teachers he is connected
       can :read, Teacher, :kids => { :mentor_id => user.id }
       can :read, Teacher, :secondary_kids => { :mentor_id => user.id }
-      can :read, Teacher, :kids => { :secondary_mentor_id => user.id }
-      can :read, Teacher, :secondary_kids => { :secondary_mentor_id => user.id }
+      can :read, Teacher, :kids => { :secondary_mentor_id => user.id,
+                                     :secondary_active => true }
+      can :read, Teacher, :secondary_kids => { :secondary_mentor_id => user.id,
+                                               :secondary_active => true }
     elsif user.is_a?(Teacher)
       can :manage, Teacher, :id => user.id
       can :read, Kid, :teacher_id => user.id
@@ -63,7 +67,8 @@ class Ability
       can :read, Mentor, :kids => { :teacher_id => user.id }
       can :read, Mentor, :kids => { :secondary_teacher_id => user.id }
       can :read, Mentor, :secondary_kids => { :teacher_id => user.id }
-      can :read, Mentor, :secondary_kids => { :secondary_teacher_id => user.id }
+      can :read, Mentor, :secondary_kids => { :secondary_teacher_id => user.id,
+                                              :secondary_active => true }
     end
 
     # destruction of records is generally not allowed

@@ -26,6 +26,7 @@
     = can_link_to(resource.mentor)
   = show.attribute :secondary_mentor do 
     = can_link_to(resource.secondary_mentor)
+  = show.attribute :secondary_active
 
 %h2#journals Lernjournale
 - resource.journals.each do |journal|

@@ -8,7 +8,8 @@ describe Ability do
     let(:ability) { Ability.new(mentor) }
     let(:foreign_kid) { Factory(:kid) }
     let(:kid) { Factory(:kid, :mentor => mentor) }
-    let(:secondary_kid) { Factory(:kid, :secondary_mentor => mentor) }
+    let(:secondary_kid) { Factory(:kid, :secondary_mentor => mentor,
+                                        :secondary_active => true ) }
     let(:journal) { Factory(:journal, :kid => kid, :mentor => mentor) }
     let(:foreign_journal) { Factory(:journal, :kid => foreign_kid) }
     let(:direct_associated_journal) { Factory(:journal, :kid => foreign_kid,
@@ -46,6 +47,11 @@ describe Ability do
       it "can read kid where he is set as secondary mentor" do
         assert ability.can?(:read, secondary_kid)
       end
+      it "cannot read kid where he is set as secondary inactive" do
+        inactive_kid = Factory(:kid, :secondary_mentor => mentor,
+                                     :secondary_active => false)
+        assert ability.cannot?(:read, inactive_kid)
+      end
     end
 
     context "journal" do
@@ -60,6 +66,16 @@ describe Ability do
       end
       it "cannot read journals where he is not set as mentor" do
         assert ability.cannot?(:read, foreign_journal)
+      end
+      it "can read journals of other mentors where he is set as secondary" do
+        journal = Factory(:journal, :kid => secondary_kid)
+        assert ability.can?(:read, journal)
+      end
+      it "cannot read journals wher he is not set active as secondary" do
+        inactive_secondary_kid = Factory(:kid, :secondary_mentor => mentor,
+                                         :secondary_active => false )
+        journal = Factory(:journal, :kid => inactive_secondary_kid)
+        assert ability.cannot?(:read, journal)
       end
       it "can read a foreign journal when he is set as mentor on it" do
         assert ability.can?(:read, direct_associated_journal)

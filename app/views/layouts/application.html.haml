@@ -58,12 +58,13 @@
         %ul
           - if user_signed_in?
             %li
-              Eingeloggt als
-              = current_user.email
-              = "(#{current_user.class.model_name.human})"
+              Angemeldet als
+              = link_to(current_user.display_name, current_user)
+            %li
               = link_to 'Abmelden', destroy_user_session_path
           - else
             %li= link_to 'Anmelden', new_user_session_path
+          %li= link_to 'AOZ', 'http://www.aoz.ch'
       - flash.each do |name, msg|
         = content_tag :div, msg, :id => "flash_#{name}"
           

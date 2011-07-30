@@ -8,7 +8,8 @@ describe JournalsController do
   end
 
   let(:journal) { Factory(:journal, :kid => @kid, :mentor => @mentor) }
-  let(:secondary_kid) { Factory(:kid, :secondary_mentor => @mentor) }
+  let(:secondary_kid) { Factory(:kid, :secondary_mentor => @mentor,
+                                      :secondary_active => true) }
 
   context 'as an admin' do
     before(:each) do
@@ -66,6 +67,13 @@ describe JournalsController do
     it 'should render the new template for secondary kids' do
       get :new, :kid_id => secondary_kid.id
       response.should be_successful
+    end
+
+    it 'should not render the new template for inactive secondary kids' do
+      inactive_kid = Factory(:kid, :secondary_mentor => @mentor,
+                                   :secondary_active => false)
+      expect { get :new, :kid_id => inactive_kid.id }.to
+        raise_error(CanCan::AccessDenied)
     end
 
     it 'should not assign mentors for selectbox' do
