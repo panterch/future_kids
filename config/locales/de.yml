@@ -272,6 +272,7 @@ de:
         remember_me: Angemeldet bleiben
       mentor:
         available: "Mögliche Termine"
+        absence: "Bekannte Absenzen"
         kids: Kinder
         secondary_kids: "Kinder (Vertretung)"
         journals: "Lernjournal Einträge"

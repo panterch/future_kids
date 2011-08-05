@@ -14,6 +14,8 @@ class User < ActiveRecord::Base
     [ name, prename].reject(&:blank?).join(' ')
   end
 
+  def human_absence; absence.try(:textilize); end
+  def human_available; available.try(:textilize); end
 
 protected
 
