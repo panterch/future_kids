@@ -16,7 +16,7 @@ feature "SESSION::LOGIN", %q{
     fill_in 'user_email',    :with => @mentor.email
     fill_in 'user_password', :with => @pw
     click_button 'user_submit'
-    page.should have_content('Eingeloggt als')
+    page.should have_content('Angemeldet als')
   end
 
 end

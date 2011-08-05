@@ -72,7 +72,10 @@ td {
 
 #content {
   min-height: 600px;
-  border-left: 1px solid #CCC; }
+  border-left: 1px solid #CCC;
+  background-image: url("../images/logo.gif");
+  background-repeat: no-repeat;
+  background-position: 99% 99%; }
 
 #footer {
   clear: both;
