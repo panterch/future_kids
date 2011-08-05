@@ -1,4 +1,4 @@
-- unless resource.new_record?
+- unless %w(new edit).include?(controller.action_name)
   - content_for :actions do
     - if can?(:create, Journal)
       %li= link_to "Neuer Journal Eintrag", new_kid_journal_path(:kid_id => resource)
