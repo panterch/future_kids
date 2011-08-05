@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110805073858) do
+ActiveRecord::Schema.define(:version => 20110805103654) do
 
   create_table "journals", :force => true do |t|
     t.date     "held_at",                       :null => false
@@ -93,6 +93,18 @@ ActiveRecord::Schema.define(:version => 20110805073858) do
 
   add_index "reviews", ["held_at"], :name => "index_reviews_on_held_at"
   add_index "reviews", ["kid_id"], :name => "index_reviews_on_kid_id"
+
+  create_table "schedules", :force => true do |t|
+    t.integer  "person_id",   :null => false
+    t.string   "person_type", :null => false
+    t.integer  "day",         :null => false
+    t.integer  "hour",        :null => false
+    t.integer  "minute",      :null => false
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "schedules", ["person_id", "person_type", "day", "hour", "minute"], :name => "index_schedules_on_uniqueness", :unique => true
 
   create_table "users", :force => true do |t|
     t.string   "type"

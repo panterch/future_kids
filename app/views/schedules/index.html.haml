@@ -1,0 +1,25 @@
+- content_for :actions do
+  %li= link_to "Zurück", :back
+
+%h2= @person.display_name
+
+%input{ :type => :hidden, :id => 'person_id', :value => @person_id }
+%input{ :type => :hidden, :id => 'person_type', :value => @person_type }
+%table.schedule
+  %tr
+    %th.time &nbsp;
+    - (1..@week.length).each do |day|
+      %th= I18n.t('date.day_names')[day]
+  - @week.transpose.each do |row|
+    %tr
+      %th.time= "#{row.first.hour}:#{row.first.human_minute}"
+      - row.each do |schedule|
+        %td
+          %input{ :type => :checkbox,
+            :id => schedule.id,
+            :checked => schedule.id.present?,
+            'data-day' => schedule.day,
+            'data-hour' => schedule.hour,
+            'data-minute' => schedule.minute }
+
+  

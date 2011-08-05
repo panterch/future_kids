@@ -10,8 +10,12 @@ class Kid < ActiveRecord::Base
   has_many :journals
   has_many :reviews
   has_many :reminders
+  has_many :schedules, :as => :person
 
   accepts_nested_attributes_for :journals, :reviews
+
+  validates_numericality_of :meeting_day, :only_integer => true, :allow_blank => true,
+                            :greater_than_or_equal_to => 1, :less_than_or_equal_to => 5
 
   # takes the given time argument (or Time.now) and calculates the
   # date and time for that weeks meeting

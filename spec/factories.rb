@@ -52,3 +52,10 @@ Factory.define :reminder do |f|
   f.year { |r| r.held_at.year }
 end
 
+Factory.define :schedule do |f|
+  f.person {|p| p.association(:mentor) }
+  f.day 1
+  f.hour 14
+  f.minute 0
+end
+

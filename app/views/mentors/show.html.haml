@@ -1,3 +1,7 @@
+- content_for :actions do
+  - if current_user.is_a?(Admin)
+    %li= link_to "Stundenplan bearbeiten", schedules_path(:mentor_id => resource)
+
 = show_for resource do |show|
   = show.attribute :name
   = show.attribute :prename

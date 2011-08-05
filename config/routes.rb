@@ -9,6 +9,7 @@ FutureKids::Application.routes.draw do
     resources :journals
     resources :reviews
   end
+  resources :schedules
   resources :reminders
   resources :teachers
 

@@ -144,3 +144,19 @@ td {
 
 .printonly {
   display: none; }
+
+table.schedule th, table.schedule td {
+  min-width: 100px;
+  text-align: center; }
+
+table.schedule th.time {
+  min-width: 50px; }
+
+table.schedule td {
+  margin: 0;
+  padding: 0; }
+
+table.schedule input {
+  display: block;
+  width: 100%;
+  margin: 0; }

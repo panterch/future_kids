@@ -34,8 +34,8 @@
           %h4 Aktionen
           %ul.actions
 
-            -# actions for direct accessible resources
-            - unless defined?(parent)
+            -# actions for resource controllers, not nested
+            - if defined?(resource) and !defined?(parent)
               - unless 'index' == controller.action_name
                 %li= link_to 'Übersicht', collection_path
               -if can?(:create, resource_class) && %w(index show).include?(controller.action_name)

@@ -38,6 +38,8 @@ module ApplicationHelper
       }
   end
 
+  # can be used in view to display private data only to their owners (and
+  # admins)
   def is_viewing_own_data
     current_user == resource || current_user.is_a?(Admin)
   end
