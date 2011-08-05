@@ -2,7 +2,7 @@
   = show.attribute :name
   = show.attribute :prename
   = show.attribute :email
-  - private_block do
+  - if is_viewing_own_data
     = show.attribute :address
   = show.attribute :phone
   = show.attribute :personnel_number
@@ -19,7 +19,7 @@
     %li= can_link_to k
 
 -# times are only visible to the mentor himself or an admin
-- private_block do
+- is_viewing_own_data 
   %h2
     Zeiterfassung
     = select_month(@month, {}, :class => 'select_mentor_journal_date')
