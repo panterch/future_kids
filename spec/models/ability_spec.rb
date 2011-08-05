@@ -184,9 +184,16 @@ describe Ability do
       mentor.kids << kid
       assert @ability.can?(:read, mentor)
     end
-    it "can read secondary mentor of assigned kid" do
+    it "cannot read secondary mentor of assigned kid when secondary not active" do
       mentor = Factory(:mentor)
       mentor.secondary_kids << kid
+      kid.update_attribute(:secondary_active, false)
+      assert @ability.cannot?(:read, mentor)
+    end
+    it "can read secondary mentor of assigned kid when secondary active" do
+      mentor = Factory(:mentor)
+      mentor.secondary_kids << kid
+      kid.update_attribute(:secondary_active, true)
       assert @ability.can?(:read, mentor)
     end
     it "can read mentor of assigned secondary kid" do
