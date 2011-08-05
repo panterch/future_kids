@@ -19,7 +19,7 @@
     %li= can_link_to k
 
 -# times are only visible to the mentor himself or an admin
-- is_viewing_own_data 
+- if is_viewing_own_data 
   %h2
     Zeiterfassung
     = select_month(@month, {}, :class => 'select_mentor_journal_date')

@@ -38,10 +38,8 @@ module ApplicationHelper
       }
   end
 
-  def private_block
-    if current_user == resource || current_user.is_a?(Admin)
-      yield
-    end
+  def is_viewing_own_data
+    current_user == resource || current_user.is_a?(Admin)
   end
     
 
