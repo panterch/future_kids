@@ -65,7 +65,8 @@ class Ability
                                                :secondary_active => true }
     elsif user.is_a?(Teacher)
       can :manage, Teacher, :id => user.id
-      can :read, Kid, :teacher_id => user.id
+      can :create, Kid
+      can :manage, Kid, :teacher_id => user.id
       can :read, Kid, :secondary_teacher_id => user.id
       can :read, Mentor, :kids => { :teacher_id => user.id }
       can :read, Mentor, :kids => { :secondary_teacher_id => user.id }

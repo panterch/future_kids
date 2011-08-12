@@ -4,16 +4,21 @@
   %h2#kid= resource.display_name
   = show.attribute :name
   = show.attribute :prename
-  = show.attribute :phone
+  = show.attribute :sex
+  = show.attribute :dob
+  = show.attribute :grade
+  = show.attribute :language
   = show.attribute :parent
   = show.attribute :address
-  = show.attribute :sex
+  = show.attribute :phone
+  = show.attribute :translator
   = show.attribute :entered_at
 
 = show_for resource do |show|
   %h2#school Allgemeine Informationen
+  = show.attribute :goal_1
+  = show.attribute :goal_2
   = show.attribute :goal
-  = show.attribute :grade
   = show.attribute :available
   = show.attribute :meeting_day
   = show.attribute :meeting_start_at

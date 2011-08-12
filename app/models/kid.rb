@@ -14,6 +14,8 @@ class Kid < ActiveRecord::Base
 
   accepts_nested_attributes_for :journals, :reviews
 
+  validates_presence_of :name, :prename
+
   validates_numericality_of :meeting_day, :only_integer => true, :allow_blank => true,
                             :greater_than_or_equal_to => 1, :less_than_or_equal_to => 5
 

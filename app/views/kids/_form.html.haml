@@ -7,23 +7,33 @@
   = form.inputs do
     = form.input :name
     = form.input :prename
-    = form.input :phone
+    = form.input :sex, :as => :select, :collection => sex_collection
+    = date_picker(form, :dob)
+    = form.input :grade
+    = form.input :language
     = form.input :parent
     = form.input :address
-    = form.input :sex, :as => :select, :collection => sex_collection
+    = form.input :phone
+    = form.input :translator
     = date_picker(form, :entered_at)
 
   %h2#school Allgemeine Informationen
   = form.inputs do
+    = form.input :goal_1
+    = form.input :goal_2
     = form.input :goal
-    = form.input :grade
     = form.input :available
     = form.input :meeting_day, :as => :select, :collection => wday_collection
     = form.input :meeting_start_at, :as => :string
-    = form.input :teacher
+    -# this form is accessible by admins and teachers. teachers can only set the
+    -# the secondary_mentor and ara automatically assigned as first mentor for any kid
+    -# they are working on
+    - if current_user.is_a?(Admin)
+      = form.input :teacher
     = form.input :secondary_teacher
-    = form.input :mentor
-    = form.input :secondary_mentor
-    = form.input :secondary_active
+    - if current_user.is_a?(Admin)
+      = form.input :mentor
+      = form.input :secondary_mentor
+      = form.input :secondary_active
 
   = form.buttons 

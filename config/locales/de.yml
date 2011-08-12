@@ -217,7 +217,6 @@ de:
       kid:
         name: "Name"
         prename: "Vorname"
-        phone: "Telefon"
         parent: "Name der/s Erziehungsberechtigten"
         address: "Adresse"
         goal: "Förderziele"
@@ -232,6 +231,12 @@ de:
         secondary_active: "Stellvertretung aktiv"
         teacher: "Lehrperson"
         secondary_teacher: "Zweite Lehrperson"
+        dob: Geburtstag
+        language: Erstsprache
+        phone: Telefonnummer
+        translator: 'Eltern brauchen bei Gesprächen einen Dolmetscher'
+        goal_1: 'Fachliche Lernziele'
+        goal_2: 'Überfachliche Lernziele'
       journal:
         held_at: Datum
         start_at: Von

@@ -29,10 +29,10 @@
   = form_tag(schedules_url, :method => :get, :class => 'schedule') do
     %h3 Mentor Daten einblenden
     %fieldset
+      = submit_tag 'Anzeige anpassen'
+    %fieldset
       = hidden_field_tag "kid_id", @person_id
       = select_tag "mentor_ids",
         options_from_collection_for_select(@mentors, 'id', 'display_name', @mentor_ids),
         :multiple => true
 
-    %fieldset
-      = submit_tag 'Anzeige anpassen'

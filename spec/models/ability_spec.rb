@@ -178,14 +178,17 @@ describe Ability do
     it "can read assigned kid" do
       assert @ability.can?(:read, kid)
     end
-    it "cannot update assigned kid" do
-      assert @ability.cannot?(:update, kid)
+    it "can update assigned kid" do
+      assert @ability.can?(:update, kid)
     end
     it "can read secondary assigned kid" do
       assert @ability.can?(:read, secondary_kid)
     end
     it "cannot read foreign kid" do
       assert @ability.cannot?(:read, foreign_kid)
+    end
+    it "cannot update foreign kid" do
+      assert @ability.cannot?(:update, foreign_kid)
     end
     it "can read mentor of assigned kid" do
       mentor = Factory(:mentor)
