@@ -12,13 +12,17 @@ class SchedulesController < ApplicationController
       @person = Kid.find(params[:kid_id])
       @mentors = Mentor.all
       @mentor_ids = params[:mentor_ids]
-      @selected_mentors = Mentor.find(@mentor_ids) unless @mentor_ids.blank?
+      @selected_people = Mentor.find(@mentor_ids) unless @mentor_ids.blank?
     end
     @person_id = @person.id
 
     # we combine the @week collection which holds all possible schedules with
     # the schedules found on the person to know the ids of already persisted
-    # schedules in the gui
+    # schedules in the gui.
+    # After this, week is a combination of newly built records and already
+    # persisted and associated records. When a new record get's created the data
+    # from the built-only schedule is used and a persisted one is created
+    # (action create in this controller).
     @schedules = @person.schedules.to_a
     @week.each do |day|
       day.map! do |built|
@@ -26,17 +30,16 @@ class SchedulesController < ApplicationController
         nil == i ? built : @schedules.delete_at(i)
       end
     end
-    # mark the schedules with the data of any selected mentor
-    (@selected_mentors || []).each do |mentor|
+    # mark the schedules with the data of any selected mentor: the weeks entries
+    # can hold mentor_tags which are displayed on the calendar. these are
+    # highlighted to represent the matches between the different calendars.
+    (@selected_people || []).each do |mentor|
       mentor_schedules = mentor.schedules.to_a
       @week.flatten.each do |schedule|
         next unless mentor_schedules.include?(schedule)
         schedule.mentor_tags << mentor.display_name
       end
     end
-
-
-
   end
 
   def create
