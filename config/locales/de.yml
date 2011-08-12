@@ -208,7 +208,7 @@ de:
 
   activerecord:
     models:
-      kid: "Future Kid"
+      kid: "Schüler/in"
       journal: "Lernjournal"
       teacher: "Lehrperson"
       reminder: "Erinnerung"
