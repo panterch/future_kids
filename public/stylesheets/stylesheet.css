@@ -186,3 +186,6 @@ form.schedule h3 {
   margin: 0;
   font-size: 11px;
   line-height: 25px; }
+
+form.schedule select#mentor_ids {
+  height: 500px; }
