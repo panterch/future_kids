@@ -240,8 +240,8 @@ de:
         duration: Dauer
         title: Titel
         goal: Lernziel
-        subject: Thema
-        method: Methode
+        subject: "Fach / Thema"
+        method: Vorgehensweise
         outcome: "Erfolge / Schwierigkeiten"
         note: Bemerkungen
         mentor: "Mentor/in"
