@@ -1,9 +1,9 @@
 - unless %w(new edit).include?(controller.action_name)
   - content_for :actions do
     - if can?(:create, Journal)
-      %li= link_to "Neuer Journal Eintrag", new_kid_journal_path(:kid_id => resource)
+      %li= link_to "Neues Lernjournal", new_kid_journal_path(:kid_id => resource)
     - if can?(:create, Review)
-      %li= link_to "Neuer Review Eintrag", new_kid_review_path(:kid_id => resource)
+      %li= link_to "Neues Gespräch", new_kid_review_path(:kid_id => resource)
     - if current_user.is_a?(Admin)
       %li= link_to "Stundenplan bearbeiten", schedules_path(:kid_id => resource)
 
