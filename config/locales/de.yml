@@ -277,6 +277,9 @@ de:
         secondary_kids: "Kinder (Vertretung)"
         journals: "Lernjournal Einträge"
         school: "Ausbildungsinstitut"
+      teacher:
+        kids: Kinder
+        secondary_kids: "Kinder (als 2. Lehrperson)"
 
   notifications:
     remind:
