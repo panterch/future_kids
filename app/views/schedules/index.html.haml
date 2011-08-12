@@ -14,7 +14,7 @@
     %tr
       %th.time= "#{row.first.hour}:#{row.first.human_minute}"
       - row.each do |schedule|
-        %td{:class => schedule.mentor_tags.empty? ? '' : 'highlight'}
+        %td{:class => schedule_class(schedule)}
           %input{ :type => :checkbox,
             :id => schedule.id,
             :checked => schedule.id.present?,

@@ -43,6 +43,13 @@ module ApplicationHelper
   def is_viewing_own_data
     current_user == resource || current_user.is_a?(Admin)
   end
+
+  # determines style class of scheduler cells
+  def schedule_class(schedule)
+    return nil if schedule.mentor_tags.empty?
+    return 'mark' if schedule.new_record?
+    'highlight'
+  end
     
 
 end

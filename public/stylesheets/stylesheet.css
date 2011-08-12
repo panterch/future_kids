@@ -162,8 +162,10 @@ table.schedule td {
 
 table.schedule input {
   display: block;
-  width: 100%;
-  margin: 0; }
+  margin: 0 auto; }
+
+table.schedule td.mark {
+  background-color: #FFC; }
 
 table.schedule td.highlight {
   background-color: #CFC; }
