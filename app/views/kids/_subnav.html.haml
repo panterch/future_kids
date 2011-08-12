@@ -9,14 +9,17 @@
 
 - content_for :subnav do
   %li= link_to 'Allgemeine Information', :anchor => 'school'
+
   %li= link_to 'Lernjournale', :anchor => 'journals'
   %li
     %ul
       - resource.journals.each do |journal|
         %li= link_to journal.display_name, :anchor => dom_id(journal)
-  %li= link_to 'Gesprächsdokumentationen', :anchor => 'reviews'
-  %li
-    %ul
-      - resource.reviews.each do |review|
-        %li= link_to review.display_name, :anchor => dom_id(review)
+
+  - if resource.mentor == current_user || current_user.is_a?(Admin)
+    %li= link_to 'Gesprächsdokumentationen', :anchor => 'reviews'
+    %li
+      %ul
+        - resource.reviews.each do |review|
+          %li= link_to review.display_name, :anchor => dom_id(review)
 
