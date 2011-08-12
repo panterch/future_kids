@@ -7,15 +7,6 @@ describe MentorsController do
     sign_in @mentor
   end
 
-  context 'index' do
-  
-    it 'should directly display the mentor when there is only one' do
-      get :index
-      response.should be_redirect
-    end
-
-  end 
-
   context 'show' do
     before(:each) do
       @journal = Factory(:journal, :mentor => @mentor, :held_at => '2011-01-01')

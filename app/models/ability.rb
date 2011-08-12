@@ -29,6 +29,9 @@ class Ability
     elsif user.is_a?(Mentor)
       # own record may be read
       can [ :read, :update ], Mentor, :id => user.id
+      # mentor can read records of other mentors associated indirectly via kid
+      can :read, Mentor, :kids => { :secondary_mentor_id => user.id }
+      can :read, Mentor, :secondary_kids => { :mentor_id => user.id }
 
       # mentor may be associated via two fields to a kid
       can :read, Kid, :mentor_id => user.id

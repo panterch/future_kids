@@ -28,6 +28,14 @@ describe Ability do
       it "cannot read other mentor records" do
         assert ability.cannot?(:read, other_mentor)
       end
+      it "can read other mentor records if they work with the same kid" do
+        other_mentor.secondary_kids << kid
+        assert ability.can?(:read, other_mentor)
+      end
+      it "can read other mentor records if he is secondary mentor on the same kid" do
+        other_mentor.kids << secondary_kid
+        assert ability.can?(:read, other_mentor)
+      end
     end
 
     context "kids" do
