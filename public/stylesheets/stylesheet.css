@@ -30,7 +30,7 @@ th {
   text-align: left; }
 
 tr:nth-child(even) {
-  background: #CCC; }
+  background: #EEE; }
 
 td {
   padding: 1px 3px; }
@@ -75,7 +75,8 @@ td {
   border-left: 1px solid #CCC;
   background-image: url("../images/logo.gif");
   background-repeat: no-repeat;
-  background-position: 99% 99%; }
+  background-position: 99% 99%;
+  overflow: hidden; }
 
 #footer {
   clear: both;
@@ -145,6 +146,9 @@ td {
 .printonly {
   display: none; }
 
+table.schedule {
+  float: left; }
+
 table.schedule th, table.schedule td {
   min-width: 100px;
   text-align: center; }
@@ -160,3 +164,25 @@ table.schedule input {
   display: block;
   width: 100%;
   margin: 0; }
+
+table.schedule td.highlight {
+  background-color: #CFC; }
+
+table.schedule td p {
+  margin: 0;
+  padding: 0; }
+
+form.schedule {
+  float: left;
+  clear: right;
+  padding-left: 15px; }
+
+form.schedule fieldset {
+  border: 0;
+  margin: 0;
+  padding: 0 0 10px 0; }
+
+form.schedule h3 {
+  margin: 0;
+  font-size: 11px;
+  line-height: 25px; }
