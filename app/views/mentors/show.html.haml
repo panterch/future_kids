@@ -1,3 +1,5 @@
+%h2= resource.display_name
+
 - content_for :actions do
   - if current_user.is_a?(Admin)
     %li= link_to "Stundenplan bearbeiten", schedules_path(:mentor_id => resource)
