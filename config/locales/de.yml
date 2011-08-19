@@ -219,7 +219,7 @@ de:
         prename: "Vorname"
         parent: "Name der/s Erziehungsberechtigten"
         address: "Adresse"
-        goal: "Förderziele"
+        note: "Weitere Bemerkungen"
         sex: "Geschlecht"
         grade: "Klassenstufe"
         available: "Mögliche Termine"
