@@ -189,5 +189,15 @@ form.schedule h3 {
   font-size: 11px;
   line-height: 25px; }
 
-form.schedule select#mentor_ids {
-  height: 500px; }
+form.schedule div.mentor_select {
+  float: left; }
+
+form.schedule div.mentor_select > * {
+  display: block;
+  width: 175px; }
+
+form.schedule div.mentor_select > label {
+  height: 60px; }
+
+form.schedule div.mentor_select > select {
+  height: 400px; }

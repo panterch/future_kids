@@ -28,4 +28,22 @@ describe Mentor do
     end
   end
 
+  context 'mentors grouped bu assigned kids' do
+    it 'does correctly group' do
+      @both = Factory(:mentor)
+      Factory(:kid, :mentor => @both)
+      Factory(:kid, :secondary_mentor => @both)
+      @only_primary = Factory(:mentor)
+      Factory(:kid, :mentor => @only_primary)
+      @only_secondary = Factory(:mentor)
+      Factory(:kid, :secondary_mentor => @only_secondary)
+      @none = Factory(:mentor)
+
+      res = Mentor.mentors_grouped_by_assigned_kids
+      assert_equal [@both], res[:both]
+      assert_equal [@only_primary], res[:only_primary]
+      assert_equal [@only_secondary], res[:only_secondary]
+      assert_equal [@none], res[:none]
+    end
+  end
 end
