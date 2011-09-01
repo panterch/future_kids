@@ -165,6 +165,10 @@ GEM
       linecache (>= 0.3)
     rubyzip (0.9.4)
     sass (3.1.7)
+    sass-rails (3.1.0)
+      actionpack (~> 3.1.0)
+      railties (~> 3.1.0)
+      sass (>= 3.1.4)
     selenium-webdriver (2.5.0)
       childprocess (>= 0.2.1)
       ffi (>= 1.0.7)
@@ -206,7 +210,7 @@ PLATFORMS
 DEPENDENCIES
   RedCloth (= 4.2.7)
   cancan (= 1.6.5)
-  capistrano
+  capistrano (= 2.8.0)
   capybara
   coffee-script (= 2.2.0)
   devise (= 1.4.4)
@@ -225,7 +229,7 @@ DEPENDENCIES
   rb-fsevent
   rspec-rails
   ruby-debug
-  sass (= 3.1.7)
+  sass-rails (= 3.1.0)
   show_for (= 0.2.4)
   spork (= 0.9.0.rc3)
   steak
