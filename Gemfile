@@ -39,5 +39,5 @@ group :development, :test do
   gem 'growl'
   gem 'factory_girl_rails'
   gem 'ruby-debug'
-  gem 'capistrano'
+  gem 'capistrano', '2.8.0'
 end
