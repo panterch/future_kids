@@ -8,6 +8,7 @@ gem 'haml', '3.1.2'
 gem 'sass', '3.1.7'
 gem 'coffee-script', '2.2.0'
 gem 'uglifier', '1.0.2'
+gem 'therubyracer', '0.9.4'
 
 # Rails 3.1 - JavaScript
 gem 'jquery-rails', '1.0.13'
