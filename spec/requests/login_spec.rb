@@ -15,7 +15,7 @@ feature "SESSION::LOGIN", %q{
     visit new_user_session_path
     fill_in 'user_email',    :with => @mentor.email
     fill_in 'user_password', :with => @pw
-    click_button 'user_submit'
+    click_button 'Sign in'
     page.should have_content('Angemeldet als')
   end
 
