@@ -54,7 +54,7 @@ td {
   margin: 20px;
 }
 
-#header, #content, #nav,
+#header, #content, #footer, #nav,
 #flash_notice, #flash_error, #flash_alert {
   margin: 0 0 0 240px;
   padding: 10px;
@@ -95,15 +95,14 @@ td {
 #content {
   min-height: 600px;
   border-left: 1px solid #CCC;
-  background-image: image-url("logo.gif");
-  background-repeat:no-repeat;
-  background-position: 99% 99% ;
   overflow: hidden;
 }
 
 #footer {
+  background-image: image-url("logo.gif");
+  background-repeat:no-repeat;
+  background-position: right;
   clear: both;
-  margin: 0;
 }  
 
 #flash_notice {

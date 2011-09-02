@@ -70,5 +70,14 @@
           
       #content
         = yield
+
       #footer
+        .contact
+          AOZ
+          Zypressenstrasse 60
+          8040 Zürich
+
+          Telefon: 044 415 65 91
+          = mail_to 'futurekids@aoz.ch', nil, :encode => "hex"
+        
 
