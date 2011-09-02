@@ -26,7 +26,7 @@ Spork.each_run do
 end
 
 Spork.each_run do
-  Factory.factories.clear
+  FactoryGirl.factories.clear
   load 'spec/factories.rb'
 end
 

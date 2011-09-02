@@ -35,9 +35,7 @@
 
             -# actions for resource controllers, not nested
             - if defined?(resource) and !defined?(parent)
-              - unless 'index' == controller.action_name
-                %li= link_to 'Übersicht', collection_path
-              -if can?(:create, resource_class) && %w(index show).include?(controller.action_name)
+              -if can?(:create, resource_class.new) && %w(index show).include?(controller.action_name)
                 %li= link_to 'Neuer Eintrag', new_resource_path
               -if %w(edit).include?(controller.action_name)
                 %li= link_to 'Anzeigen', resource_path
