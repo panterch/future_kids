@@ -11,6 +11,8 @@ class Schedule < ActiveRecord::Base
 
   validates_uniqueness_of :person_id, :scope => [:person_type, :day, :hour, :minute]
 
+  validates_presence_of :person
+
   # overwrite == to simplificate comparison of collections
   def ==(other)
     other.is_a?(Schedule) &&

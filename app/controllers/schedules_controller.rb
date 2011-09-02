@@ -10,6 +10,7 @@ class SchedulesController < ApplicationController
     end
     if params[:kid_id]
       @person = Kid.find(params[:kid_id])
+      @person_type = 'Kid'
       @mentor_groups = Mentor.mentors_grouped_by_assigned_kids
       @mentor_ids = params[:mentor_ids]
       @selected_people = Mentor.find(@mentor_ids) unless @mentor_ids.blank?
