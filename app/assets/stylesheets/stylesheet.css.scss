@@ -1,20 +1,12 @@
 body {
-  background-color: #4B7399;
+  background-image: image-url('gradient.png');
+  background-repeat: repeat-x;
+  background-color: #1f4461;
   font-family: verdana,arial,geneva;
   font-size: 11px;
   line-height: 18px;
   color: #333;
   margin: 0;
-}
-
-img#bg {
-  left: 0;
-  min-height: 1503px;
-  min-width: 1000px;
-  position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: -1;
 }
 
 a img {

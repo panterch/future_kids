@@ -40,7 +40,5 @@ module FutureKids
     config.filter_parameters += [:password, :password_confirmation]
 
     config.assets.enabled = true
-
-    # config.action_view.javascript_expansions[:defaults] = %w(jquery rails)
   end
 end
