@@ -259,7 +259,7 @@ de:
         members: "Teilnehmende"
         content: "Inhalt" 
         outcome: "Abmachungen"
-        note: "Beobachtungen"
+        note: "Beobachtungen / Anmerkungen"
         attendee: "Teilnehmer"
       user:
         email: "E-Mail"
