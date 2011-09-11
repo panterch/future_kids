@@ -212,6 +212,7 @@ de:
       journal: "Lernjournal"
       teacher: "Lehrperson"
       reminder: "Erinnerung"
+      document: "Dokument"
 
     attributes:
       kid:
@@ -285,6 +286,10 @@ de:
       teacher:
         kids: Kinder
         secondary_kids: "Kinder (als 2. Lehrperson)"
+      document:
+        title: Titel
+        description: Beschreibung
+        attachment: Datei
 
   notifications:
     remind:

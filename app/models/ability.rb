@@ -76,6 +76,9 @@ class Ability
                                               :secondary_active => true }
     end
 
+    # documents can be read by any users
+    can :read, Document
+
     # destruction of records is generally not allowed
     cannot :destroy, :all
 
@@ -83,6 +86,7 @@ class Ability
     # customized in the controller to allow setting the acknowledged_at date
     cannot :create, Reminder
     can :destroy, Reminder if user.is_a?(Admin)
+    can :destroy, Document if user.is_a?(Admin)
   end
 end
 

@@ -4,6 +4,7 @@ FutureKids::Application.routes.draw do
 
   root :to => 'kids#index'
   resources :admins
+  resources :documents
   resources :mentors
   resources :kids do
     resources :journals

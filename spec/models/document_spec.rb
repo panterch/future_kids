@@ -1,0 +1,10 @@
+require 'spec_helper'
+
+describe Document do
+  it "attaches files" do
+    d = Document.new
+    d.attachment = File.new(File.join(Rails.root, 'doc/gespraechsdoku.pdf'))
+    d.save!
+    File.exists?(d.reload.attachment.path)
+  end
+end
