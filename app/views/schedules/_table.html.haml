@@ -1,0 +1,27 @@
+- clazz = resource.class.to_s.downcase # kid or mentor
+
+= semantic_form_for resource, :url => { :action => 'update_schedules' }, :html => { :id => 'content_form', :class => 'schedule' } do |form|
+  %h3 Stundenplandaten erfassen
+  %table.schedule
+    %tr
+      %th.time &nbsp;
+      - (1..@week.length).each do |day|
+        %th= I18n.t('date.day_names')[day]
+    - @week.transpose.each do |row|
+      %tr
+        %th.time= "#{row.first.hour}:#{row.first.human_minute}"
+        - row.each do |schedule|
+          - active = @schedules.include?(schedule)
+          %td{:class => schedule_class(schedule)}
+            %input{:type => :checkbox, :checked => active}
+            - param_name = "#{clazz}[schedules_attributes][]"
+            %input{:type => :hidden, :value => schedule.day,
+              :name => "#{param_name}[day]"}
+            %input{:type => :hidden, :value => schedule.hour,
+              :name => "#{param_name}[hour]"}
+            %input{:type => :hidden, :value => schedule.minute,
+              :name => "#{param_name}[minute]"}
+            - schedule_tags(schedule).each do |tag|
+              %p= tag
+
+  = form.submit 'Stundenplandaten speichern'

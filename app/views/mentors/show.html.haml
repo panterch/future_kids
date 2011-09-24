@@ -1,8 +1,8 @@
 %h2= resource.display_name
 
 - content_for :actions do
-  - if current_user.is_a?(Admin)
-    %li= link_to "Stundenplan bearbeiten", schedules_path(:mentor_id => resource)
+  - if can?(:edit_schedules, resource)
+    %li= link_to "Stundenplan bearbeiten", edit_schedules_mentor_path(resource)
 
 = show_for resource do |show|
   = show.attribute :name
@@ -17,7 +17,6 @@
   = show.attribute :education
   = show.attribute :etcs
   = show.attribute :entry_date
-  = show.attribute :available
   = show.attribute :absence
   = show.association :kids do |k|
     %li= can_link_to k

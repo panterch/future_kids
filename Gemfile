@@ -31,9 +31,8 @@ gem 'whenever', '0.6.8', :require => false
 group :development, :test do
   gem 'yard'
   gem 'rspec-rails'
-  gem 'steak'
-  gem 'capybara'
-  gem 'spork', "0.9.0.rc3"
+  gem 'capybara', '1.1.1'
+  gem 'spork'  
   gem 'rb-fsevent'
   gem 'guard-rspec'
   gem 'guard-spork'

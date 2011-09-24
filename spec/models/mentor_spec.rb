@@ -28,6 +28,17 @@ describe Mentor do
     end
   end
 
+  context 'schedules association' do
+    it 'should create associated schedules' do
+      @mentor = Factory(:mentor)
+      @mentor.update_attributes(:schedules_attributes => [
+         { :day => 1, :hour => 15, :minute => 0 },
+         { :day => 2, :hour => 16, :minute => 30 }
+      ])
+      @mentor.reload.schedules.count.should eq(2)
+    end
+  end
+
   context 'mentors grouped bu assigned kids' do
     it 'does correctly group' do
       @both = Factory(:mentor)

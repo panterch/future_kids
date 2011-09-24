@@ -2,10 +2,14 @@ class MentorsController < ApplicationController
 
   inherit_resources
   load_and_authorize_resource
+  include ManageSchedules # edit_schedules & update_schedules
 
   def index
     return redirect_to collection.first if (1 == collection.count)
     index!
+  end
+
+  def update
   end
 
   def show
@@ -21,5 +25,7 @@ class MentorsController < ApplicationController
     @journals << Journal.coaching_entry(@mentor, @month, @year)
     show!
   end
+
+protected
 
 end

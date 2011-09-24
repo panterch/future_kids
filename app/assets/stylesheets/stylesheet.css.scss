@@ -185,25 +185,24 @@ td {
 }
 
 table.schedule {
-  float: left;
+  margin-bottom: 20px
 }
 
 table.schedule th, table.schedule td {
-  min-width: 100px;
+  width: 100px;
   text-align: center;
 }
 
 table.schedule th.time {
-  min-width: 50px;
+  width: 50px;
 }
 
 table.schedule td {
   margin: 0;
   padding: 0;
+  text-align: middle;
 }
 table.schedule input {
-  display: block;
-  margin: 0 auto;
 }
 
 table.schedule td.mark {
@@ -221,8 +220,7 @@ table.schedule td p {
 
 form.schedule {
   float: left;
-  clear: right;
-  padding-left: 15px;
+  margin: 15px;
 }
 
 form.schedule fieldset {

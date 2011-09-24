@@ -60,6 +60,12 @@ function register_mentor_journal_date_selectors() {
 }
 
 function register_schedule_checkboxes() {
+  $('table.schedule input[type=checkbox]').change(function(){
+    $(this).siblings('input').toggleEnabled(this.checked) });
+  $('table.schedule input[type=checkbox]').each(function(){
+    $(this).siblings('input').toggleEnabled(this.checked) });
+}
+/* function register_schedule_checkboxes() {
   $('table.schedule input').change(function(){
     var checkbox = $(this);
     checkbox.attr('disabled', 'disabled'); // disable during ajax request
@@ -96,3 +102,4 @@ function register_schedule_checkboxes() {
 
 function createSchedule(data) {
 }
+*/

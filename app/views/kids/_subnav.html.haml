@@ -4,8 +4,8 @@
       %li= link_to "Neues Lernjournal", new_kid_journal_path(:kid_id => resource)
     - if can?(:create, Review)
       %li= link_to "Neues Gespräch", new_kid_review_path(:kid_id => resource)
-    - if current_user.is_a?(Admin)
-      %li= link_to "Stundenplan bearbeiten", schedules_path(:kid_id => resource)
+    - if can?(:edit_schedules, resource)
+      %li= link_to "Stundenplan bearbeiten", edit_schedules_kid_path(resource)
 
 - content_for :subnav do
   %li= link_to 'Lernjournale', :anchor => 'journals'

@@ -9,6 +9,8 @@ class Mentor < User
            :foreign_key => 'secondary_mentor_id'
   has_many :schedules, :as => :person
 
+  accepts_nested_attributes_for :schedules
+
   def self.mentors_grouped_by_assigned_kids
     groups = { :both => [], :only_primary => [], :only_secondary => [], :none => [] }
     Mentor.all.each do |m|

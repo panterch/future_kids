@@ -12,7 +12,7 @@ class Kid < ActiveRecord::Base
   has_many :reminders
   has_many :schedules, :as => :person
 
-  accepts_nested_attributes_for :journals, :reviews
+  accepts_nested_attributes_for :journals, :reviews, :schedules
 
   validates_presence_of :name, :prename
 

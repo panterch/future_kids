@@ -23,5 +23,16 @@ describe MentorsController do
     end
   end
 
+  context 'update_schedules' do
+    it 'creates schedule entries' do
+      put :update_schedules, :id => @mentor.id, :mentor => {
+        :schedules_attributes => [
+        { :day => 1, :hour => 15, :minute => 0 },
+        { :day => 2, :hour => 16, :minute => 30 }
+      ] }
+      @mentor.reload.schedules.count.should eq(2)
+    end
+  end
+
 
 end

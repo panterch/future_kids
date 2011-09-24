@@ -46,9 +46,22 @@ module ApplicationHelper
 
   # determines style class of scheduler cells
   def schedule_class(schedule)
-    return nil if schedule.mentor_tags.empty?
-    return 'mark' if schedule.new_record?
-    'highlight'
+    return nil unless @mentor_schedules
+    @mentor_schedules.each do |tag, schedules|
+      next unless schedules.include?(schedule)
+      return 'highlight'
+    end
+    ''
+  end
+    
+  def schedule_tags(schedule)
+    return [] unless @mentor_schedules
+    tags = []
+    @mentor_schedules.each do |tag, schedules|
+      next unless schedules.include?(schedule)
+      tags << tag
+    end
+    tags
   end
     
 

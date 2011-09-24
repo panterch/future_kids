@@ -36,6 +36,12 @@ describe Ability do
         other_mentor.kids << secondary_kid
         assert ability.can?(:read, other_mentor)
       end
+      it "can edit its schedules" do
+        assert ability.can?(:edit_schedules, mentor)
+      end
+      it "cannot edit foreign mentors schedules" do
+        assert ability.cannot?(:edit_schedules, other_mentor)
+      end
     end
 
     context "kids" do
@@ -48,6 +54,9 @@ describe Ability do
       end
       it "can read kid where he is set as mentor" do
         assert ability.can?(:read, kid)
+      end
+      it "cannot edit kids schedules" do
+        assert ability.cannot?(:edit_schedules, kid)
       end
       it "cannot update kid where he is set as mentor" do
         assert ability.cannot?(:update, kid)
@@ -180,6 +189,9 @@ describe Ability do
     end
     it "can update assigned kid" do
       assert @ability.can?(:update, kid)
+    end
+    it "cannot edit schedules of assigned kid" do
+      assert @ability.cannot?(:edit_schedules, kid)
     end
     it "can read secondary assigned kid" do
       assert @ability.can?(:read, secondary_kid)
