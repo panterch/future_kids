@@ -9,9 +9,6 @@ class MentorsController < ApplicationController
     index!
   end
 
-  def update
-  end
-
   def show
     # together with the mentor, a list of journal entries is shown for the
     # given year / month

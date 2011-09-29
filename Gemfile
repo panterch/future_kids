@@ -40,4 +40,5 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'ruby-debug'
   gem 'capistrano', '2.8.0'
+  gem 'capistrano-ext'
 end
