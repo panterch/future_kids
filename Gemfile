@@ -15,7 +15,7 @@ gem 'jquery-rails', '1.0.13'
 
 # gems in alphabetic order
 gem 'cancan', '1.6.5'
-gem 'devise', '1.4.4'
+gem 'devise', '1.4.7'
 gem 'exception_notification_rails3', '1.2.0', :require => 'exception_notifier'
 gem 'formtastic', '1.2.4'
 gem 'paperclip', '2.4.1'
