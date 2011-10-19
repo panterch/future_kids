@@ -7,7 +7,7 @@
 = show_for resource do |show|
   = show.attribute :name
   = show.attribute :prename
-  = show.attribute :email
+  = show.attribute(:email) { mail_to resource.email }
   - if is_viewing_own_data
     = show.attribute :address
   = show.attribute :phone
