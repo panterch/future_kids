@@ -48,7 +48,7 @@
         %td Total
         %td
         %td
-          = (@journals.sum(&:duration) / 60.0)
+          = (@journals.sum(&:duration) / 60.0).round(2)
           Stunden
 
   .printonly
