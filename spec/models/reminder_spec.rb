@@ -30,6 +30,19 @@ describe Reminder do
       r.sent_at.should be_nil
     end
 
+    it 'uses first mentor as recepient even when secondary mentor set' do
+      @kid.secondary_mentor = Factory(:mentor)
+      r = Reminder.create_for(@kid, tuesday)
+      r.recipient.should eq(@kid.mentor.email)
+    end
+
+    it 'uses secondary mentor as recepient even when active' do
+      secondary = @kid.secondary_mentor = Factory(:mentor)
+      @kid.secondary_active = true
+      r = Reminder.create_for(@kid, tuesday)
+      r.recipient.should eq(secondary.email)
+    end
+
     it 'creates a reminder by batch method when criterias met' do
       Reminder.conditionally_create_reminders(tuesday)
       @mentor.reminders.count.should eq(1)

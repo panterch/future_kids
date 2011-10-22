@@ -46,12 +46,17 @@ class Kid < ActiveRecord::Base
                                             :year => time.year })
   end
 
-
   # checks wether a journal entry is already due for the week given by time
   def journal_entry_due?(time = Time.now)
     meeting_time = calculate_meeting_time(time)
     return false if meeting_time.nil?
     (meeting_time + 1.day) < time
+  end
+
+  # when controlling reminders it is useful to know the date of the most recent
+  # journal entry made for the associated kid
+  def last_journal_entry
+    journals.find(:first, :order => 'held_at DESC')
   end
 
   def display_name

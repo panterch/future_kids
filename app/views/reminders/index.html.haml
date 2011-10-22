@@ -9,6 +9,7 @@
       %th Zweiter Mentor
       %th Empfänger
       %th Erstellt am
+      %th Letzer Lernjournal Eintrag am
       %th Gesendet am
       %th Quittieren
   - collection.each do |resource|
@@ -20,10 +21,14 @@
         -if resource.secondary_mentor
           = link_to resource.secondary_mentor.display_name, resource.secondary_mentor
       %td= resource.recipient
-      %td= I18n.l(resource.created_at, :format => :short) if resource.created_at
+      %td= I18n.l(resource.created_at.to_date) if resource.created_at
+      %td
+        -if resource.kid.last_journal_entry
+          = link_to kid_path(resource.kid, :anchor => 'journals') do
+            = I18n.l(resource.kid.last_journal_entry.held_at)
       %td
         - if resource.sent_at
-          = I18n.l(resource.sent_at, :format => :short)
+          = I18n.l(resource.sent_at.to_date)
         - else
           = button_to "Zustellen", { :action => "update", :id => resource.id }, :method => :put
       %td

@@ -7,6 +7,9 @@ class Reminder < ActiveRecord::Base
   belongs_to :secondary_mentor, :class_name => 'Mentor'
   belongs_to :kid
 
+  validates_presence_of :kid
+
+  # sends the reminder to the appropriate recipient
   def deliver_mail
     mail = Notifications.remind(self)
     mail.deliver
@@ -23,18 +26,25 @@ class Reminder < ActiveRecord::Base
   def self.create_for(kid, time)
     r = Reminder.new
     r.kid = kid
-    r.recipient ||= kid.secondary_mentor.try(:email)
-    r.recipient ||= kid.mentor.try(:email)
-    r.mentor = kid.mentor || kid.secondary_mentor
+    r.mentor = kid.mentor
     r.secondary_mentor = kid.secondary_mentor
     r.held_at = kid.calculate_meeting_time(time)
     r.week = r.held_at.strftime('%U')
     r.year = r.held_at.year
+    # the recipient of the reminder should be the active mentor
+    if kid.secondary_active? and kid.secondary_mentor
+      r.recipient = kid.secondary_mentor.email
+      r.mentor = kid.secondary_mentor
+    else
+      r.recipient = kid.mentor.try(:email)
+    end
     r.save!
     r
   end
 
   # scans all kids and creates reminders for kids that meet the conditions
+  #
+  # typically called via cron once a day
   def self.conditionally_create_reminders(time = Time.now)
     reminders_created = 0
 
