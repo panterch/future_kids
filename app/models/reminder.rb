@@ -34,7 +34,6 @@ class Reminder < ActiveRecord::Base
     # the recipient of the reminder should be the active mentor
     if kid.secondary_active? and kid.secondary_mentor
       r.recipient = kid.secondary_mentor.email
-      r.mentor = kid.secondary_mentor
     else
       r.recipient = kid.mentor.try(:email)
     end
