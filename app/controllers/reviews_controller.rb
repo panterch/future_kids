@@ -13,8 +13,12 @@ class ReviewsController < ApplicationController
     update!{ kid_url(resource.kid) }
   end
 
-  def show
+  def show # not supported action
     redirect_to edit_kid_review_url(resource.kid, resource)
+  end
+
+  def index # not supported action
+    redirect_to kid_url(parent)
   end
   
 protected

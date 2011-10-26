@@ -42,6 +42,17 @@ describe ReviewsController do
       expect { post :create, attrs }.to
         raise_error(CanCan::AccessDenied)
     end
+
+    it 'redirects on show' do
+      get :show, :kid_id => @kid.id, :id => Factory(:review, :kid => @kid)
+      response.should be_redirect
+    end
+
+    it 'redirects on index' do
+      get :index, :kid_id => @kid.id
+      response.should be_redirect
+    end
+
   end # end of as a mentor
 
   # valid attributes to create a journal

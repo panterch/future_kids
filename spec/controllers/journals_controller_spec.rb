@@ -58,6 +58,11 @@ describe JournalsController do
       response.should be_redirect
     end
 
+    it 'redirects on index' do
+      get :index, :kid_id => @kid.id
+      response.should be_redirect
+    end
+
   end # end of 'as an admin'
 
   context 'as a mentor' do

@@ -22,8 +22,12 @@ class JournalsController < ApplicationController
   # when a users re-loads the url after and unsuccesul edit, the url
   # points to show. show does not exist in our applications context, but
   # we want to avoid error messages sent to those users
-  def show
+  def show # not supported action
     redirect_to edit_kid_journal_url(resource.kid, resource)
+  end
+
+  def index # not supported action
+    redirect_to kid_url(parent)
   end
   
 protected
