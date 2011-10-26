@@ -12,6 +12,10 @@ class ReviewsController < ApplicationController
   def update
     update!{ kid_url(resource.kid) }
   end
+
+  def show
+    redirect_to edit_kid_review_url(resource.kid, resource)
+  end
   
 protected
 

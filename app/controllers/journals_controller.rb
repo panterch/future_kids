@@ -18,6 +18,13 @@ class JournalsController < ApplicationController
   def update
     update!{ kid_url(resource.kid) }
   end
+
+  # when a users re-loads the url after and unsuccesul edit, the url
+  # points to show. show does not exist in our applications context, but
+  # we want to avoid error messages sent to those users
+  def show
+    redirect_to edit_kid_journal_url(resource.kid, resource)
+  end
   
 protected
 

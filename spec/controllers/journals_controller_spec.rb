@@ -52,6 +52,12 @@ describe JournalsController do
       it('news') { get :new, :kid_id => @kid.id }
       it('edits') { get :edit, :kid_id => @kid.id, :id => journal.id }
     end
+
+    it 'redirects on show' do
+      get :show, :kid_id => @kid.id, :id => journal.id
+      response.should be_redirect
+    end
+
   end # end of 'as an admin'
 
   context 'as a mentor' do

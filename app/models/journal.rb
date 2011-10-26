@@ -16,7 +16,11 @@ class Journal < ActiveRecord::Base
 
   def display_name
     return "Neuer Lernjournal Eintrag" if new_record?
-    "Journal vom #{I18n.l(held_at.to_date)}"
+    # altough held_at is mandatory for saved records, it may be
+    # temporarily be nil (edit with invalid data), this has to
+    # be guarded
+    return "Journal vom #{I18n.l(held_at.to_date)}" if held_at
+    return "Journal"
   end
 
   def human_goal; goal.try(:textilize); end

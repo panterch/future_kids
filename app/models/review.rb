@@ -8,7 +8,8 @@ class Review < ActiveRecord::Base
 
   def display_name
     return "Neue Gesprächsdoku" if new_record?
-    "Gespräch vom #{I18n.l(held_at.to_date)}"
+    return "Gespräch vom #{I18n.l(held_at.to_date)}" if held_at
+    "Gespräch"
   end
 
   def human_content; content.try(:textilize); end

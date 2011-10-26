@@ -1,3 +1,5 @@
+%h2="Stundenplan von #{resource.display_name}"
+
 - clazz = resource.class.to_s.downcase # kid or mentor
 
 = semantic_form_for resource, :url => { :action => 'update_schedules' }, :html => { :id => 'content_form', :class => 'schedule' } do |form|
