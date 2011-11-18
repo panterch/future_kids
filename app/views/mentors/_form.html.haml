@@ -7,12 +7,14 @@
     = form.input :password
     = form.input :password_confirmation
     = form.input :address
+    = form.input :city
     = form.input :phone
     = form.input :personnel_number
     = form.input :school
     = form.input :field_of_study
     = form.input :education
     = form.input :etcs, :as => :boolean
+    = form.input :transport, :as => :select, :collection => transport_collection
     = date_picker(form, :entry_date)
     = form.input :absence
   = form.buttons

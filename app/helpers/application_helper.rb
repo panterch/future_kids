@@ -24,6 +24,10 @@ module ApplicationHelper
     { "Mädchen" => 'f', "Knabe" => 'm' }
   end
 
+  def transport_collection
+    %w(Halbtax GA)
+  end
+
   # values for the collection select 'weekday'
   # weekdays are mapped to integers, as in ruby core's Time, Sunday is 0
   def wday_collection

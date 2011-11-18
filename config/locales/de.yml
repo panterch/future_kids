@@ -220,6 +220,7 @@ de:
         prename: "Vorname"
         parent: "Name der/s Erziehungsberechtigten"
         address: "Adresse"
+        city: "Wohnort"
         note: "Weitere Bemerkungen"
         sex: "Geschlecht"
         grade: "Klassenstufe"
@@ -268,6 +269,8 @@ de:
         name: Name
         prename: Vorname
         address: Adresse
+        city: "Wohnort"
+        transport: "ÖV"
         phone: Telefon
         personnel_number: Personalnummer
         field_of_study: Studienfach

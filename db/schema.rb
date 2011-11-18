@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20110911185441) do
+ActiveRecord::Schema.define(:version => 20111118162206) do
 
   create_table "documents", :force => true do |t|
     t.string   "title"
@@ -73,6 +73,7 @@ ActiveRecord::Schema.define(:version => 20110911185441) do
     t.text     "goal_1"
     t.text     "goal_2"
     t.text     "note"
+    t.string   "city"
   end
 
   create_table "reminders", :force => true do |t|
@@ -148,6 +149,8 @@ ActiveRecord::Schema.define(:version => 20110911185441) do
     t.string   "current_sign_in_ip"
     t.string   "last_sign_in_ip"
     t.text     "absence"
+    t.string   "city"
+    t.string   "transport"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

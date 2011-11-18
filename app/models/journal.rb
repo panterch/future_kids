@@ -16,7 +16,7 @@ class Journal < ActiveRecord::Base
 
   def display_name
     return "Neuer Lernjournal Eintrag" if new_record?
-    # altough held_at is mandatory for saved records, it may be
+    # altough held_at is mandatory for saved records, it may
     # temporarily be nil (edit with invalid data), this has to
     # be guarded
     return "Journal vom #{I18n.l(held_at.to_date)}" if held_at

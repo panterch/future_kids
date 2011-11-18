@@ -10,6 +10,7 @@
   = show.attribute(:email) { mail_to resource.email }
   - if is_viewing_own_data
     = show.attribute :address
+    = show.attribute :city
   = show.attribute :phone
   = show.attribute :personnel_number
   = show.attribute :school
@@ -18,10 +19,15 @@
   = show.attribute :etcs
   = show.attribute :entry_date
   = show.attribute :absence
+  = show.attribute :transport
   = show.association :kids do |k|
-    %li= can_link_to k
+    %li
+      = can_link_to k
+      = "(#{k.city})" if k.city.present?
   = show.association :secondary_kids do |k|
-    %li= can_link_to k
+    %li
+      = can_link_to k
+      = "(#{k.city})" if k.city.present?
 
 -# times are only visible to the mentor himself or an admin
 - if is_viewing_own_data 
