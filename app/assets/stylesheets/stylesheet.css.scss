@@ -251,5 +251,17 @@ form.schedule div.mentor_select > select {
   height: 400px;
 }
 
+form.filter {
+  overflow: hidden;
+  clear: both;
+}
 
+form.filter > .filterfield {
+  padding-right: 5px;
+  float: left;
+}
+
+form.filter > .filterfield label{
+  display: block;
+}
 

@@ -1,4 +1,25 @@
+-if current_user.is_a?(Admin)
+  %h2 Filterkriterium f&uuml;r Sch&uuml;ler/innen
+  = form_for :kid, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
+    .filterfield
+      %label Startzeit
+      = f.select :term, term_collection, { :include_blank => true }
+    .filterfield
+      %label Schulhaus
+      = f.select :school, school_collection, { :include_blank => true }
+    .filterfield
+      %label Übersetzer
+      = f.select :translator, translator_collection, { :include_blank => true }
+    .filterfield
+      %label Name
+      = f.text_field :name
+    .filterfield
+      %label Aktion
+      = f.submit 'Filter anwenden'
+      = link_to 'Filter aufheben', kids_path
+
 %h2 Sch&uuml;ler/innen
+
 %ul
   - collection.each do |resource|
     %li= link_to resource.display_name, resource

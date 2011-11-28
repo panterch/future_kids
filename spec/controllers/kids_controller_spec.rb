@@ -21,6 +21,19 @@ describe KidsController do
         Factory(:kid, :mentor => @mentor)
         get :index
         response.should be_successful
+        assigns(:kids).length.should eq(2)
+      end
+
+      it 'should filter kids when criteria given' do
+        Factory(:kid, :mentor => @mentor, :translator => true)
+        Factory(:kid, :mentor => @mentor, :translator => true)
+        get :index, :kid => { :translator => '1' }
+        assigns(:kids).length.should eq(2)
+      end
+      
+      it 'should create a criteria instance for search' do
+        get :index, :kid => { :translator => '1' }
+        assigns(:kid).translator.should eq(true)
       end
       
     end

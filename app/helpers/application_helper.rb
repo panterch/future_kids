@@ -28,6 +28,21 @@ module ApplicationHelper
     %w(Halbtax GA)
   end
 
+  def translator_collection
+    { "Ja" => true, "Nein" => false }
+  end
+
+  def school_collection
+    Kid.connection.select_values("SELECT distinct school FROM kids").compact.sort
+  end
+
+  def term_collection
+    ['2011 Frühling', '2011 Herbst',
+     '2012 Frühling', '2012 Herbst',
+     '2013 Frühling', '2013 Herbst',
+     '2014 Frühling', '2014 Herbst']
+  end
+
   # values for the collection select 'weekday'
   # weekdays are mapped to integers, as in ruby core's Time, Sunday is 0
   def wday_collection

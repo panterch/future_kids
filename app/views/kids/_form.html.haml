@@ -16,8 +16,9 @@
     = form.input :city
     = form.input :phone
     = form.input :translator
+    = form.input :school
     = form.input :note
-    = date_picker(form, :entered_at)
+    = form.input :term, :as => :select, :collection => term_collection
 
   %h2#school Allgemeine Informationen
   = form.inputs do

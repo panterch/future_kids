@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20111118162206) do
+ActiveRecord::Schema.define(:version => 20111122080547) do
 
   create_table "documents", :force => true do |t|
     t.string   "title"
@@ -74,6 +74,8 @@ ActiveRecord::Schema.define(:version => 20111118162206) do
     t.text     "goal_2"
     t.text     "note"
     t.string   "city"
+    t.string   "school"
+    t.string   "term"
   end
 
   create_table "reminders", :force => true do |t|

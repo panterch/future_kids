@@ -226,6 +226,7 @@ de:
         grade: "Klassenstufe"
         available: "Mögliche Termine"
         entered_at: "Datum des Einstiegs"
+        term: "Startzeit"
         meeting_day: "Treffen Wochentag"
         meeting_start_at: "Treffen beginnt um"
         mentor: "Mentor/in"
@@ -237,6 +238,7 @@ de:
         language: Erstsprache
         phone: Telefonnummer
         translator: 'Eltern brauchen bei Gesprächen unbedingt einen Dolmetscher'
+        school: Schulhaus
         goal_1: 'Fachliche Lernziele'
         goal_2: 'Überfachliche Lernziele'
       journal:

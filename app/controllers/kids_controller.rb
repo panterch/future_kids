@@ -9,6 +9,10 @@ class KidsController < ApplicationController
   before_filter :assign_mentor_selection, :only => [:edit_schedules]
 
   def index
+    if params[:kid]
+      @kids = @kids.where(params[:kid].delete_if {|key, val| val.blank? })
+    end
+    @kid = Kid.new(params[:kid])
     return redirect_to collection.first if (1 == collection.count)
     index!
   end
