@@ -1,3 +1,23 @@
+-if current_user.is_a?(Admin)
+  %h2 Filterkriterium f&uuml;r Mentoren
+  = form_for :mentor, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
+    .filterfield
+      %label Startzeit
+      = f.select :term, term_collection, { :include_blank => true }
+    .filterfield
+      %label Einsatzort
+      = f.select :primary_kids_school, school_collection_for_mentors, { :include_blank => true }
+    .filterfield
+      %label &Ouml;V
+      = f.select :transport, transport_collection, { :include_blank => true }
+    .filterfield
+      %label Name
+      = f.text_field :name
+    .filterfield
+      %label Aktion
+      = f.submit 'Filter anwenden'
+      = link_to 'Filter aufheben', collection_path
+
 %h2 Mentoren
 %ul
   - collection.each do |mentor|

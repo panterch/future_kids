@@ -285,10 +285,11 @@ de:
       mentor:
         available: "Mögliche Termine"
         absence: "Bekannte Absenzen"
+        primary_kids_school: "Einsatzort"
+        term: "Startzeit"
         kids: Kinder
         secondary_kids: "Kinder (Vertretung)"
         journals: "Lernjournal Einträge"
-        school: "Ausbildungsinstitut"
       teacher:
         kids: Kinder
         secondary_kids: "Kinder (als 2. Lehrperson)"

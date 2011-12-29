@@ -6,6 +6,7 @@ class TeachersController < InheritedResources::Base
       @teachers = @teachers.where(params[:teacher].delete_if {|key, val| val.blank? })
     end
     @teacher = Kid.new(params[:teacher])
+    return redirect_to collection.first if (1 == collection.count)
     index!
   end
 

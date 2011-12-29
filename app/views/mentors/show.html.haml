@@ -17,9 +17,10 @@
   = show.attribute :field_of_study
   = show.attribute :education
   = show.attribute :etcs
-  = show.attribute :entry_date
   = show.attribute :absence
+  = show.attribute :term
   = show.attribute :transport
+  = show.attribute :primary_kids_school
   = show.association :kids do |k|
     %li
       = can_link_to k

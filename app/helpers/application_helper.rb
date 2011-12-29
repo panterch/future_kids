@@ -42,6 +42,11 @@ module ApplicationHelper
     values.compact.sort.reject(&:blank?)
   end
 
+  def school_collection_for_mentors
+    values = Teacher.connection.select_values("SELECT distinct primary_kids_school FROM users WHERE type='Mentor'")
+    values.compact.sort.reject(&:blank?)
+  end
+
   def term_collection
     ['2011 Frühling', '2011 Herbst',
      '2012 Frühling', '2012 Herbst',

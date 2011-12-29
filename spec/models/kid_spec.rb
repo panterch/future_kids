@@ -59,6 +59,12 @@ describe Kid do
       kid.save! && kid.reload && mentor.reload
       mentor.secondary_kids.first.should eq(kid)
     end
+    it 'does sync its school with the mentors primary_kid_school field' do
+      kid.school = 'University of Berlin'
+      kid.mentor = mentor = Factory(:mentor)
+      kid.save!
+      assert_equal 'University of Berlin', mentor.reload.primary_kids_school
+    end
   end
 
   context 'meeting time calculation' do

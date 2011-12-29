@@ -5,6 +5,12 @@ class MentorsController < ApplicationController
   include ManageSchedules # edit_schedules & update_schedules
 
   def index
+    # filter mentors with additional criterias if any
+    if params[:mentor]
+      @mentors = @mentors.where(params[:mentor].delete_if {|key, val| val.blank? })
+    end
+    # provide a prototype mentor for the filter form
+    @mentor = Mentor.new(params[:mentor])
     return redirect_to collection.first if (1 == collection.count)
     index!
   end

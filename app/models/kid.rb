@@ -19,6 +19,8 @@ class Kid < ActiveRecord::Base
   validates_numericality_of :meeting_day, :only_integer => true, :allow_blank => true,
                             :greater_than_or_equal_to => 1, :less_than_or_equal_to => 5
 
+  after_save :sync_school_field_with_mentor
+
   # takes the given time argument (or Time.now) and calculates the
   # date and time for that weeks meeting
   def calculate_meeting_time(time = Time.now)
@@ -78,6 +80,13 @@ class Kid < ActiveRecord::Base
   def human_meeting_start_at
     return nil if meeting_start_at.nil?
     I18n.l(meeting_start_at, :format => :time)
+  end
+
+  # mentors can be filtered by the scool of their primary kids. therefore we use
+  # a field on mentor which has to be synced on each write
+  def sync_school_field_with_mentor
+    return true unless self.mentor
+    self.mentor.update_attribute(:primary_kids_school, self.school)
   end
 
 end

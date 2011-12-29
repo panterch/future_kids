@@ -14,7 +14,7 @@
     = form.input :field_of_study
     = form.input :education
     = form.input :etcs, :as => :boolean
-    = form.input :transport, :as => :select, :collection => transport_collection
-    = date_picker(form, :entry_date)
     = form.input :absence
+    = form.input :term, :as => :select, :collection => term_collection
+    = form.input :transport, :as => :select, :collection => transport_collection
   = form.buttons
