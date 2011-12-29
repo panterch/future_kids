@@ -32,8 +32,6 @@ end
 
 
 RSpec.configure do |config|
-  # == Mock Framework
-  config.mock_with :rspec
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

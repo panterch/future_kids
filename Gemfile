@@ -1,17 +1,17 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.0'
+gem 'rails', '3.1.3'
 
 # Rails 3.1 - Asset Pipeline
-gem 'json', '1.5.4'
-gem 'haml', '3.1.2'
-gem 'sass-rails', '3.1.0'
+gem 'json', '1.6.4'
+gem 'haml', '3.1.4'
+gem 'sass-rails', '3.1.5'
 gem 'coffee-script', '2.2.0'
-gem 'uglifier', '1.0.2'
-gem 'therubyracer', '0.9.4'
+gem 'uglifier', '1.2.1'
+gem 'therubyracer', '0.9.9'
 
 # Rails 3.1 - JavaScript
-gem 'jquery-rails', '1.0.13'
+gem 'jquery-rails', '1.0.19'
 
 # gems in alphabetic order
 gem 'cancan', '1.6.5'
