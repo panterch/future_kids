@@ -1,6 +1,7 @@
 source 'http://rubygems.org'
 
 gem 'rails', '3.1.3'
+gem 'rake', '0.9.2'
 
 # Rails 3.1 - Asset Pipeline
 gem 'json', '1.6.4'
