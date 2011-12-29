@@ -1,3 +1,14 @@
+-if current_user.is_a?(Admin)
+  %h2 Filterkriterium f&uuml;r Lehrpersonen
+  = form_for :teacher, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
+    .filterfield
+      %label Schulhaus
+      = f.select :school, school_collection_for_teachers, { :include_blank => true }
+    .filterfield
+      %label Aktion
+      = f.submit 'Filter anwenden'
+      = link_to 'Filter aufheben', collection_path
+
 %h2 Lehrpersonen
 %ul
   - collection.each do |o|

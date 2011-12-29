@@ -6,7 +6,7 @@
       = f.select :term, term_collection, { :include_blank => true }
     .filterfield
       %label Schulhaus
-      = f.select :school, school_collection, { :include_blank => true }
+      = f.select :school, school_collection_for_kids, { :include_blank => true }
     .filterfield
       %label Übersetzer
       = f.select :translator, translator_collection, { :include_blank => true }
@@ -16,7 +16,7 @@
     .filterfield
       %label Aktion
       = f.submit 'Filter anwenden'
-      = link_to 'Filter aufheben', kids_path
+      = link_to 'Filter aufheben', collection_path
 
 %h2 Sch&uuml;ler/innen
 

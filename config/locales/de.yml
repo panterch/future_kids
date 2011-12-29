@@ -268,6 +268,7 @@ de:
       user:
         email: "E-Mail"
         password: Passwort
+        password_confirmation: "Passwort Bestätigung"
         name: Name
         prename: Vorname
         address: Adresse

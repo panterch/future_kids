@@ -32,8 +32,14 @@ module ApplicationHelper
     { "Ja" => true, "Nein" => false }
   end
 
-  def school_collection
-    Kid.connection.select_values("SELECT distinct school FROM kids").compact.sort
+  def school_collection_for_kids
+    values = Kid.connection.select_values("SELECT distinct school FROM kids")
+    values.compact.sort.reject(&:blank?)
+  end
+
+  def school_collection_for_teachers
+    values = Teacher.connection.select_values("SELECT distinct school FROM users WHERE type='Teacher'")
+    values.compact.sort.reject(&:blank?)
   end
 
   def term_collection
