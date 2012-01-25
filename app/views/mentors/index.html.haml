@@ -21,4 +21,7 @@
 %h2 Mentoren
 %ul
   - collection.each do |mentor|
-    %li= link_to mentor.display_name, mentor
+    %li
+      = link_to mentor.display_name, mentor
+      - if current_user.is_a?(Admin)
+        = mail_to mentor.email, "<#{mentor.email}>"

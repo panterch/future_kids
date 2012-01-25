@@ -234,7 +234,7 @@ de:
         secondary_active: "Stellvertretung aktiv"
         teacher: "Lehrperson"
         secondary_teacher: "Zweite Lehrperson"
-        dob: Geburtstag
+        dob: Geburtsdatum
         language: Erstsprache
         phone: Telefonnummer
         translator: 'Eltern brauchen bei Gesprächen unbedingt einen Dolmetscher'
@@ -273,6 +273,7 @@ de:
         prename: Vorname
         address: Adresse
         city: "Wohnort"
+        dob: Geburtsdatum
         transport: "ÖV"
         phone: Telefon
         personnel_number: Personalnummer
@@ -288,6 +289,7 @@ de:
         primary_kids_school: "Einsatzort"
         term: "Startzeit"
         kids: Kinder
+        school: Ausbildungsinstution
         secondary_kids: "Kinder (Vertretung)"
         journals: "Lernjournal Einträge"
       teacher:
