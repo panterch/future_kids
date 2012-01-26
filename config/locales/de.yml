@@ -278,7 +278,7 @@ de:
         phone: Telefon
         personnel_number: Personalnummer
         field_of_study: Studienfach
-        education: Ausbildungsstuffe
+        education: Ausbildungsstufe
         school: Schulhaus
         etcs: ETCS
         entry_date: Datum des Einstiges
@@ -289,7 +289,7 @@ de:
         primary_kids_school: "Einsatzort"
         term: "Startzeit"
         kids: Kinder
-        school: Ausbildungsinstution
+        school: Ausbildungsinstitution
         secondary_kids: "Kinder (Vertretung)"
         journals: "Lernjournal Einträge"
       teacher:
