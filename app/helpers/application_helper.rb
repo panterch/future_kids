@@ -25,7 +25,7 @@ module ApplicationHelper
   end
 
   def transport_collection
-    %w(Halbtax GA Zone\ 10)
+    %w(Halbtax GA Zone\ 10\ mit\ Halbtax Zone\ 10\ ohne\ Halbtax)
   end
 
   def translator_collection
