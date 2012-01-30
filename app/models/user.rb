@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
          :recoverable, :rememberable, :trackable, :validatable
 
   default_scope :order => [ :name, :prename ]
+  scope :active, :conditions => { :inactive => false }
   
   before_validation :nilify_blank_password
 

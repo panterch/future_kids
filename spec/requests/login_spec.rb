@@ -19,4 +19,21 @@ feature "SESSION::LOGIN", %q{
     page.should have_content('Angemeldet als')
   end
 
+  scenario "should not login the user w/ invalid credentials" do
+    visit new_user_session_path
+    fill_in 'user_email',    :with => @mentor.email
+    fill_in 'user_password', :with => 'invalid'
+    click_button 'Sign in'
+    page.should have_content('Ungültige Anmeldedaten')
+  end
+
+  scenario "should not login inactive users" do
+    @mentor.update_attribute(:inactive, true)
+    visit new_user_session_path
+    fill_in 'user_email',    :with => @mentor.email
+    fill_in 'user_password', :with => @pw
+    click_button 'Sign in'
+    page.should have_content('Anmelden')
+  end
+
 end

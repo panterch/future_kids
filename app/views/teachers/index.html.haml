@@ -8,6 +8,9 @@
       %label Name
       = f.text_field :name
     .filterfield
+      %label Inaktiv
+      = f.check_box :inactive
+    .filterfield
       %label Aktion
       = f.submit 'Filter anwenden'
       = link_to 'Filter aufheben', collection_path

@@ -241,6 +241,7 @@ de:
         school: Schulhaus
         goal_1: 'Fachliche Lernziele'
         goal_2: 'Überfachliche Lernziele'
+        inactive: Inaktiv gesetzt
       journal:
         held_at: Datum
         start_at: Von
@@ -283,6 +284,7 @@ de:
         etcs: ETCS
         entry_date: Datum des Einstiges
         remember_me: Angemeldet bleiben
+        inactive: Inaktiv gesetzt
       mentor:
         available: "Mögliche Termine"
         absence: "Bekannte Absenzen"

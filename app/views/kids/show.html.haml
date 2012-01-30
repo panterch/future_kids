@@ -33,6 +33,8 @@
   = show.attribute :secondary_mentor do 
     = can_link_to(resource.secondary_mentor)
   = show.attribute :secondary_active
+  -if current_user.is_a?(Admin)
+    = show.attribute :inactive
 
 %h2#journals Lernjournale
 - resource.journals.each do |journal|

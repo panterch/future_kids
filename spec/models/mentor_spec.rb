@@ -57,4 +57,15 @@ describe Mentor do
       assert_equal [@none], res[:none]
     end
   end
+
+  context 'inactive setting' do
+    it 'should release kids when set inactive' do
+      @mentor = Factory(:mentor)
+      Factory(:kid, :mentor => @mentor)
+      Factory(:kid, :secondary_mentor => @mentor)
+      @mentor.reload.update_attributes(:inactive => true)
+      @mentor.reload.kids.count.should eq(0)
+      @mentor.secondary_kids.count.should eq(0)
+    end
+  end
 end

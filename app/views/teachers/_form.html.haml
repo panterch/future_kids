@@ -9,4 +9,6 @@
     = form.input :school
     = form.input :address
     = form.input :phone
+    -if current_user.is_a?(Admin)
+      = form.input :inactive
   = form.buttons 

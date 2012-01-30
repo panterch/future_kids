@@ -41,6 +41,8 @@
                 %li= link_to 'Anzeigen', resource_path
               -if %w(show).include?(controller.action_name) && can?(:update, resource.class)
                 %li= link_to 'Bearbeiten', edit_resource_path
+              -if %w(show).include?(controller.action_name) && can?(:destroy, resource.class)
+                %li= button_to "Löschen", { :action => "destroy", :id => resource.id }, :method => :delete
 
             -# actions for nested resources
             - if defined?(parent)

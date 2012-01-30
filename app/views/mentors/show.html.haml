@@ -30,6 +30,8 @@
     %li
       = can_link_to k
       = "(#{k.city})" if k.city.present?
+  -if current_user.is_a?(Admin)
+    = show.attribute :inactive
 
 -# times are only visible to the mentor himself or an admin
 - if is_viewing_own_data 

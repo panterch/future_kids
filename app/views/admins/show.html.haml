@@ -4,3 +4,5 @@
   = show.attribute :name
   = show.attribute :prename
   = show.attribute(:email) { mail_to resource.email }
+  -if current_user.is_a?(Admin)
+    = form.input :inactive

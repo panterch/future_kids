@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120125105317) do
+ActiveRecord::Schema.define(:version => 20120127194743) do
 
   create_table "documents", :force => true do |t|
     t.string   "title"
@@ -76,7 +76,10 @@ ActiveRecord::Schema.define(:version => 20120125105317) do
     t.string   "city"
     t.string   "school"
     t.string   "term"
+    t.boolean  "inactive",             :default => false
   end
+
+  add_index "kids", ["inactive"], :name => "index_kids_on_inactive"
 
   create_table "reminders", :force => true do |t|
     t.date     "held_at",             :null => false
@@ -140,8 +143,8 @@ ActiveRecord::Schema.define(:version => 20120125105317) do
     t.date     "entry_date"
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "email",                                 :default => "", :null => false
-    t.string   "encrypted_password",     :limit => 128, :default => "", :null => false
+    t.string   "email",                                 :default => "",    :null => false
+    t.string   "encrypted_password",     :limit => 128, :default => "",    :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
@@ -156,8 +159,10 @@ ActiveRecord::Schema.define(:version => 20120125105317) do
     t.string   "term"
     t.string   "primary_kids_school"
     t.date     "dob"
+    t.boolean  "inactive",                              :default => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"
+  add_index "users", ["inactive"], :name => "index_users_on_inactive"
 
 end

@@ -11,9 +11,11 @@ class Mentor < User
 
   accepts_nested_attributes_for :schedules
 
+  after_save :release_relations, :if => :inactive?
+
   def self.mentors_grouped_by_assigned_kids
     groups = { :both => [], :only_primary => [], :only_secondary => [], :none => [] }
-    Mentor.all.each do |m|
+    Mentor.active.each do |m|
       case [ m.kids.present?, m.secondary_kids.present? ]
       when [ true, true ]; groups[:both] << m
       when [ true, false ]; groups[:only_primary] << m
@@ -22,6 +24,14 @@ class Mentor < User
       end
     end
     groups
+  end
+
+protected
+
+  # inactive mentors should not be connected to other persons
+  def release_relations
+    self.kids.clear
+    self.secondary_kids.clear
   end
 
 end

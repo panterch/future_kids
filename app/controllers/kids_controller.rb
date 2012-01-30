@@ -9,14 +9,23 @@ class KidsController < ApplicationController
   before_filter :assign_mentor_selection, :only => [:edit_schedules]
 
   def index
-    # filter kids with additional criterias if any
-    if params[:kid]
-      @kids = @kids.where(params[:kid].delete_if {|key, val| val.blank? })
-    end
+    # a prototyped kid is submitted with each index query. if the prototype
+    # is not present, it is built here with default values
+    params[:kid] ||= {}
+    params[:kid][:inactive] = "0" if params[:kid][:inactive].nil?
+
+    @kids = @kids.where(params[:kid].delete_if {|key, val| val.blank? })
     # provide a prototype kid for the filter form
     @kid = Kid.new(params[:kid])
-    return redirect_to collection.first if (1 == collection.count)
-    index!
+
+    # when only one record is present, show it immediatelly. this is not for
+    # admins, since they could have no chance to alter their filter settings in
+    # some cases
+    if !current_user.is_a?(Admin) && (1 == collection.count)
+      redirect_to collection.first 
+    else
+      index!
+    end
   end
 
 protected

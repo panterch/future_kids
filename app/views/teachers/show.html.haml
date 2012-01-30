@@ -11,3 +11,5 @@
     %li= can_link_to(k)
   = show.association :secondary_kids do |k|
     %li= can_link_to(k)
+  -if current_user.is_a?(Admin)
+    = show.attribute :inactive

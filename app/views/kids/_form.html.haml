@@ -37,5 +37,7 @@
       = form.input :mentor
       = form.input :secondary_mentor
       = form.input :secondary_active
+    -if current_user.is_a?(Admin)
+      = form.input :inactive
 
   = form.buttons 

@@ -5,14 +5,25 @@ class MentorsController < ApplicationController
   include ManageSchedules # edit_schedules & update_schedules
 
   def index
-    # filter mentors with additional criterias if any
-    if params[:mentor]
-      @mentors = @mentors.where(params[:mentor].delete_if {|key, val| val.blank? })
-    end
+    # a prototyped mentor is submitted with each index query. if the prototype
+    # is not present, it is built here with default values
+    params[:mentor] ||= {}
+    params[:mentor][:inactive] = "0" if params[:mentor][:inactive].nil?
+
+    # mentors are filtered by the criteria above
+    @mentors = @mentors.where(params[:mentor].delete_if {|key, val| val.blank? })
+
     # provide a prototype mentor for the filter form
     @mentor = Mentor.new(params[:mentor])
-    return redirect_to collection.first if (1 == collection.count)
-    index!
+
+    # when only one record is present, show it immediatelly. this is not for
+    # admins, since they could have no chance to alter their filter settings in
+    # some cases
+    if !current_user.is_a?(Admin) && (1 == collection.count)
+      redirect_to collection.first 
+    else
+      index!
+    end
   end
 
   def show

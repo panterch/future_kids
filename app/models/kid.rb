@@ -20,6 +20,7 @@ class Kid < ActiveRecord::Base
                             :greater_than_or_equal_to => 1, :less_than_or_equal_to => 5
 
   after_save :sync_school_field_with_mentor
+  after_validation :release_relations, :if => :inactive?
 
   # takes the given time argument (or Time.now) and calculates the
   # date and time for that weeks meeting
@@ -87,6 +88,14 @@ class Kid < ActiveRecord::Base
   def sync_school_field_with_mentor
     return true unless self.mentor
     self.mentor.update_attribute(:primary_kids_school, self.school)
+  end
+
+protected
+
+  def release_relations
+    self.mentor = nil
+    self.secondary_mentor = nil
+    self.teacher = nil
   end
 
 end
