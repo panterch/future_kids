@@ -11,9 +11,6 @@
       %label &Ouml;V
       = f.select :transport, transport_collection, { :include_blank => true }
     .filterfield
-      %label Name
-      = f.text_field :name
-    .filterfield
       %label Inaktiv
       = f.check_box :inactive
     .filterfield
@@ -21,7 +18,9 @@
       = f.submit 'Filter anwenden'
       = link_to 'Filter aufheben', collection_path
 
-%h2 Mentoren
+%h2
+  = collection.count if current_user.is_a?(Admin)
+  Mentoren
 %ul
   - collection.each do |mentor|
     %li

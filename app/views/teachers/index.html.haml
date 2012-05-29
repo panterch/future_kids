@@ -5,9 +5,6 @@
       %label Schulhaus
       = f.select :school, school_collection_for_teachers, { :include_blank => true }
     .filterfield
-      %label Name
-      = f.text_field :name
-    .filterfield
       %label Inaktiv
       = f.check_box :inactive
     .filterfield
@@ -15,7 +12,9 @@
       = f.submit 'Filter anwenden'
       = link_to 'Filter aufheben', collection_path
 
-%h2 Lehrpersonen
+%h2
+  = collection.count if current_user.is_a?(Admin)
+  Lehrpersonen
 %ul
   - collection.each do |o|
     %li= link_to o.display_name, o

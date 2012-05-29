@@ -11,8 +11,8 @@
       %label Übersetzer
       = f.select :translator, translator_collection, { :include_blank => true }
     .filterfield
-      %label Name
-      = f.text_field :name
+      %label Treffen Wochentag
+      = f.select :meeting_day, wday_collection, { :include_blank => true }
     .filterfield
       %label Inaktiv
       = f.check_box :inactive
@@ -21,7 +21,9 @@
       = f.submit 'Filter anwenden'
       = link_to 'Filter aufheben', collection_path
 
-%h2 Sch&uuml;ler/innen
+%h2
+  = collection.count if current_user.is_a?(Admin)
+  Sch&uuml;ler/innen
 
 %ul
   - collection.each do |resource|

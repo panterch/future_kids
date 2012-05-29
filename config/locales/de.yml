@@ -297,6 +297,7 @@ de:
       teacher:
         kids: Kinder
         secondary_kids: "Kinder (als 2. Lehrperson)"
+        school: Schule
       document:
         title: Titel
         description: Beschreibung

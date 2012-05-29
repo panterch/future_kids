@@ -25,7 +25,7 @@ class Schedule < ActiveRecord::Base
   #   [schedule_day_2, another_schedule_day_2 ] ]
   def self.build_week()
     (1..5).map do |day|
-      (13..20).map do |hour|
+      (13..19).map do |hour|
         [0, 30].map do |minute|
           Schedule.new(:day => day, :hour => hour, :minute => minute)
         end

@@ -1,5 +1,5 @@
 class Notifications < ActionMailer::Base
-  default :from => "futurekids@panter.ch"
+  default :from => "futurekids@aoz.ch"
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
@@ -8,11 +8,11 @@ class Notifications < ActionMailer::Base
   #
   def remind(reminder)
     @reminder = reminder
-    mail :to => @reminder.recipient, :cc => "futurekids@panter.ch"
+    mail :to => @reminder.recipient, :cc => "futurekids@aoz.ch"
   end
 
   def reminders_created(count)
     @count = count
-    mail :to => "futurekids@panter.ch"
+    mail :to => "futurekids@aoz.ch"
   end
 end

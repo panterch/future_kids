@@ -1,4 +1,6 @@
-%h2 Administratoren
+%h2
+  = collection.count if current_user.is_a?(Admin)
+  Administratoren
 %ul
   - collection.each do |resource|
     %li= link_to resource.display_name, resource

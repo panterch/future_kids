@@ -13,7 +13,7 @@ describe Kid do
       attrs = Factory.attributes_for(:journal, :mentor => mentor, :kid => nil)
       attrs.delete(:kid)
       kid.journals.create!(attrs)
-      Kid.find(kid._id).journals.size.should eq(1)
+      Kid.find(kid.id).journals.size.should eq(1)
     end
     it 'can populate journal via nested attributes' do
       kid.update_attributes(:journals_attributes =>

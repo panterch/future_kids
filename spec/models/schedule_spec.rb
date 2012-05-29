@@ -23,7 +23,7 @@ describe Schedule do
   it "builds schedules for a whole week" do
     week = Schedule.build_week
     week.length.should eq(5)
-    week.flatten.length.should eq(5*8*2)
+    week.flatten.length.should eq(5*7*2)
   end
 
   context "equality and enumerable methods" do

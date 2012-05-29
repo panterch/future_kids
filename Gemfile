@@ -1,18 +1,13 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.1.3'
-gem 'rake', '0.9.2'
+gem 'rails', '3.2.3'
 
-# Rails 3.1 - Asset Pipeline
-gem 'json', '1.6.4'
+gem 'json'
 gem 'haml', '3.1.4'
-gem 'sass-rails', '3.1.5'
-gem 'coffee-script', '2.2.0'
-gem 'uglifier', '1.2.1'
 gem 'therubyracer', '0.9.9'
 
 # Rails 3.1 - JavaScript
-gem 'jquery-rails', '1.0.19'
+gem 'jquery-rails'
 
 # gems in alphabetic order
 gem 'cancan', '1.6.5'
@@ -26,6 +21,12 @@ gem 'RedCloth', '4.2.7'
 gem 'show_for', '0.2.4'
 gem 'whenever', '0.6.8', :require => false
 
+group :assets do
+  gem 'sass-rails'
+  gem 'coffee-rails'
+  gem 'uglifier'
+end
+
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
@@ -38,7 +39,8 @@ group :development, :test do
   gem 'guard-rspec'
   gem 'guard-spork'
   gem 'growl'
-  gem 'factory_girl_rails'
+  gem 'factory_girl_rails', '1.4.0'
+  gem 'factory_girl', '2.3.2'
   gem 'ruby-debug'
   gem 'capistrano', '2.8.0'
   gem 'capistrano-ext'
