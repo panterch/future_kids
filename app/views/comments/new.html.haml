@@ -1,0 +1,10 @@
+%h2= "Neuer Kommentar zu #{@journal.display_name}"
+
+= semantic_form_for [@journal.kid, @journal, @comment], :html => { :id => 'content_form' } do |form|
+
+  = form.semantic_errors
+  = form.inputs do
+    = form.input :by
+    = form.input :body
+
+  = form.buttons 

@@ -57,6 +57,12 @@
       .wrapper
         .content
           = link_to "[bearbeiten]", edit_kid_journal_path(resource, journal)
+      - journal.comments.each do |comment|
+        .wrapper
+          .label= comment.display_name
+          .content= comment.body.textilize
+      .wrapper
+        .content
           = link_to "[kommentieren]", new_kid_journal_comment_path(resource, journal)
 
 -# reviews are only visible for admins and first mentors
