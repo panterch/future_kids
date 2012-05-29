@@ -16,8 +16,7 @@ describe Schedule do
 
   it "should does not create the same entry twice" do
     mentor.schedules.create!(:day => 1, :hour => 13, :minute => 0)
-    expect { mentor.schedules.create!(:day => 1, :hour => 13, :minute => 0) }.to
-      raise_error(ActiveRecord::RecordInvalid)
+    expect { mentor.schedules.create!(:day => 1, :hour => 13, :minute => 0) }.to raise_error(ActiveRecord::RecordInvalid)
   end
 
   it "builds schedules for a whole week" do

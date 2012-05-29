@@ -83,8 +83,7 @@ describe JournalsController do
     it 'should not render the new template for inactive secondary kids' do
       inactive_kid = Factory(:kid, :secondary_mentor => @mentor,
                                    :secondary_active => false)
-      expect { get :new, :kid_id => inactive_kid.id }.to
-        raise_error(CanCan::AccessDenied)
+      expect { get :new, :kid_id => inactive_kid.id }.to raise_error(CanCan::AccessDenied)
     end
 
     it 'should not assign mentors for selectbox' do
@@ -93,8 +92,7 @@ describe JournalsController do
     end
 
     it 'should deny access for foreign kids' do
-      expect { get :new, :kid_id => Factory(:kid).id }.to
-        raise_error(CanCan::AccessDenied)
+      expect { get :new, :kid_id => Factory(:kid).id }.to raise_error(CanCan::AccessDenied)
     end
 
     it 'should create a new entry' do
@@ -112,15 +110,14 @@ describe JournalsController do
     it 'should not be able to create entries for other kids' do
       attrs = valid_attributes
       attrs[:kid_id] = Factory(:kid).id
-      expect { post :create, attrs }.to
-        raise_error(CanCan::AccessDenied)
+      expect { post :create, attrs }.to raise_error(CanCan::AccessDenied)
     end
 
     it 'should not be able to taint kid_id via journal attributes' do
       attrs = valid_attributes
       attrs[:journal][:kid_id] = Factory(:kid).id
-      expect { post :create, attrs }.to
-        raise_error(CanCan::AccessDenied)
+      post :create, attrs
+      assigns(:journal).kid.should eq(@kid)
     end
   end # end of as a mentor
 

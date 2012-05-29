@@ -18,8 +18,7 @@ describe ReviewsController do
     end
 
     it 'should deny access for foreign kids' do
-      expect { get :new, :kid_id => Factory(:kid).id }.to
-        raise_error(CanCan::AccessDenied)
+      expect { get :new, :kid_id => Factory(:kid).id }.to raise_error(CanCan::AccessDenied)
     end
 
     it 'should create a new entry' do
@@ -30,8 +29,7 @@ describe ReviewsController do
     it 'should not be able to create entries for other kids' do
       attrs = valid_attributes
       attrs[:kid_id] = Factory(:kid).id
-      expect { post :create, attrs }.to
-        raise_error(CanCan::AccessDenied)
+      expect { post :create, attrs }.to raise_error(CanCan::AccessDenied)
     end
 
     # kid_id is submitted as url parameter - it should not be taintable
@@ -39,8 +37,8 @@ describe ReviewsController do
     it 'should not be able to taint kid_id via review parameters' do
       attrs = valid_attributes
       attrs[:review][:kid_id] = Factory(:kid).id
-      expect { post :create, attrs }.to
-        raise_error(CanCan::AccessDenied)
+      post :create, attrs
+      assigns(:review).kid.should eq(@kid)
     end
 
     it 'redirects on show' do

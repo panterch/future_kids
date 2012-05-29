@@ -12,7 +12,9 @@ FutureKids::Application.routes.draw do
     end
   end
   resources :kids do
-    resources :journals
+    resources :journals do
+      resources :comments
+    end
     resources :reviews
     member do
        get 'edit_schedules'

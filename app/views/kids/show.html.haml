@@ -57,6 +57,7 @@
       .wrapper
         .content
           = link_to "[bearbeiten]", edit_kid_journal_path(resource, journal)
+          = link_to "[kommentieren]", new_kid_journal_comment_path(resource, journal)
 
 -# reviews are only visible for admins and first mentors
 - if resource.mentor == current_user || current_user.is_a?(Admin)

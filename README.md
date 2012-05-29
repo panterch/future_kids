@@ -1,4 +1,4 @@
-Future Kids in Kürze
+[![Build Status](https://secure.travis-ci.org/panter/future_kids.png?branch=master)](http://travis-ci.org/panter/future_kids)
 
 Future Kids fördert Primarschüler/innen, welche zu Hause bei schulischen
 Aufgaben kaum oder keine Unterstützung erhalten. Dieser Heimnachteil
@@ -38,5 +38,3 @@ Die AOZ strebt die nachhaltige institutionelle Verankerung von Future Kids als
 Angebot der schulergänzenden Lern- und Integrationsförderung an. Dazu sind im
 Raum Zürich bis im Jahr 2015 die zuständigen Behörden und Verwaltungseinheiten
 in die Verantwortung einzubinden.
-
-[![Build Status](https://secure.travis-ci.org/panter/future_kids.png?branch=master)](http://travis-ci.org/panter/future_kids)

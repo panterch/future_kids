@@ -41,13 +41,11 @@ describe KidsController do
     context 'schedules' do
 
       it 'should not allow displaying the kids schedule' do
-        expect { get :edit_schedules, :id => @kid }.to
-          raise_error(CanCan::AccessDenied)
+        expect { get :edit_schedules, :id => @kid }.to raise_error(CanCan::AccessDenied)
       end
 
       it 'should not allow updating the kids schedule' do
-        expect { post :update_schedules, :id => @kid }.to
-          raise_error(CanCan::AccessDenied)
+        expect { post :update_schedules, :id => @kid }.to raise_error(CanCan::AccessDenied)
       end
 
     end

@@ -213,6 +213,7 @@ de:
       teacher: "Lehrperson"
       reminder: "Erinnerung"
       document: "Dokument"
+      comment: Kommentar
 
     attributes:
       kid:
@@ -302,6 +303,9 @@ de:
         title: Titel
         description: Beschreibung
         attachment: Datei
+      comment:
+        by: 'Verfasser/in'
+        body: Kommentar
 
   notifications:
     remind:
