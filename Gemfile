@@ -17,7 +17,7 @@ gem 'formtastic', '1.2.4'
 gem 'paperclip', '2.4.1'
 gem 'pg', '0.11.0'
 gem 'inherited_resources', '1.2.1'
-gem 'RedCloth', '4.2.7'
+gem 'RedCloth', '4.2.9'
 gem 'show_for', '0.2.4'
 gem 'whenever', '0.6.8', :require => false
 
