@@ -39,4 +39,4 @@ Angebot der schulergänzenden Lern- und Integrationsförderung an. Dazu sind i
 Raum Zürich bis im Jahr 2015 die zuständigen Behörden und Verwaltungseinheiten
 in die Verantwortung einzubinden.
 
-
+[![Build Status](https://secure.travis-ci.org/panter/future_kids.png?branch=master)](http://travis-ci.org/panter/future_kids)
