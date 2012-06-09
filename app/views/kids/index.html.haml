@@ -2,19 +2,19 @@
   %h2 Filterkriterium f&uuml;r Sch&uuml;ler/innen
   = form_for :kid, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
     .filterfield
-      %label Startzeit
+      %label= Kid.human_attribute_name(:term)
       = f.select :term, term_collection, { :include_blank => true }
     .filterfield
-      %label Schulhaus
+      %label= Kid.human_attribute_name(:school)
       = f.select :school, school_collection_for_kids, { :include_blank => true }
     .filterfield
       %label Übersetzer
       = f.select :translator, translator_collection, { :include_blank => true }
     .filterfield
-      %label Treffen Wochentag
+      %label=Kid.human_attribute_name(:meeting_day)
       = f.select :meeting_day, wday_collection, { :include_blank => true }
     .filterfield
-      %label Inaktiv
+      %label=Kid.human_attribute_name(:inactive)
       = f.check_box :inactive
     .filterfield
       %label Aktion
