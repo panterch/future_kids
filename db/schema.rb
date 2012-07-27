@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120529151824) do
+ActiveRecord::Schema.define(:version => 20120727115954) do
 
   create_table "comments", :force => true do |t|
     t.integer  "journal_id", :null => false
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(:version => 20120529151824) do
     t.datetime "attachment_updated_at"
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
+    t.string   "category"
   end
 
   create_table "journals", :force => true do |t|

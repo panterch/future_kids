@@ -1,9 +1,13 @@
 %h2 Dokumente und Anleitungen
-%ul
-  - collection.each do |o|
-    %li
-      = link_to o.title, o.attachment.url
-      - if can?(:destroy, o)
-        [
-        = link_to "Löschen", o, :method => :delete
-        ]
+
+
+- @documents_by_category.keys.sort.each do |category|
+  %h3= category
+  %ul
+    - @documents_by_category[category].each do |o|
+      %li
+        = link_to o.title, o.attachment.url
+        - if can?(:destroy, o)
+          [
+          = link_to "Löschen", o, :method => :delete
+          ]

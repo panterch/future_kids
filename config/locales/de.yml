@@ -301,6 +301,7 @@ de:
         school: Schule
       document:
         title: Titel
+        category: Kategorie
         description: Beschreibung
         attachment: Datei
       comment:
