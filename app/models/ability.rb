@@ -71,10 +71,14 @@ class Ability
       can :read, Kid, :secondary_teacher_id => user.id
       can :read, Mentor, :kids => { :teacher_id => user.id }
       can :read, Mentor, :kids => { :secondary_teacher_id => user.id }
-      can :read, Mentor, :secondary_kids => { :teacher_id => user.id,
+      can :read, Mentor, :secondary_kids => { :teacher_id => user.id ,
                                               :secondary_active => true }
       can :read, Mentor, :secondary_kids => { :secondary_teacher_id => user.id,
                                               :secondary_active => true }
+
+      # journals can be read indirect via kids
+      can :read, Journal, :kid => { :teacher_id => user.id }
+      can :read, Journal, :kid => { :secondary_teacher_id => user.id }
     end
 
     # documents can be read by any users

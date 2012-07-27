@@ -177,6 +177,8 @@ describe Ability do
     let(:kid) { Factory(:kid, :teacher => @teacher) }
     let(:secondary_kid) { Factory(:kid, :secondary_teacher => @teacher) }
     let(:foreign_kid) { Factory(:kid) }
+    let(:journal) { Factory(:journal, :kid => kid) }
+    let(:foreign_journal) { Factory(:journal, :kid => foreign_kid) }
 
     it "cannot access teachers in general" do
       assert @ability.cannot?(:read, foreign_teacher)
@@ -230,6 +232,17 @@ describe Ability do
     it "fetches only assigned kids" do
       kid && secondary_kid && foreign_kid # trigger factory
       Kid.accessible_by(@ability, :read).should eq([kid, secondary_kid])
+    end
+    it "can read journals of kids he is set as teacher" do
+      assert @ability.can?(:read, journal)
+    end
+    it "can read journals of kids he is set as secondary teacher" do
+      foreign_journal.kid.secondary_teacher = @teacher
+      foreign_journal.kid.save!
+      assert @ability.can?(:read, journal)
+    end
+    it "cannot read journals of kids he is not set as teacher" do
+      assert @ability.cannot?(:read, foreign_journal)
     end
   end
 

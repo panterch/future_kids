@@ -20,6 +20,8 @@ private
   
   def prepare_journal
     @journal = Journal.find(params[:journal_id])
+    # all users that can read a journal, may comment on it. there are no other
+    # special security constraints on comments.
     authorize! :read, @journal
   end
 
