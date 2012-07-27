@@ -1,6 +1,6 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.7'
+gem 'rails', '3.2.6'
 
 gem 'json'
 gem 'haml', '3.1.4'
@@ -10,7 +10,7 @@ gem 'therubyracer', '0.9.9'
 gem 'jquery-rails'
 
 # gems in alphabetic order
-gem 'cancan', '1.6.5'
+gem 'cancan', '1.6.8'
 gem 'devise', '1.4.7'
 gem 'exception_notification_rails3', '1.2.0', :require => 'exception_notifier'
 gem 'formtastic', '1.2.4'

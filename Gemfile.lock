@@ -34,7 +34,7 @@ GEM
     arel (3.0.2)
     bcrypt-ruby (3.0.1)
     builder (3.0.0)
-    cancan (1.6.5)
+    cancan (1.6.8)
     capistrano (2.8.0)
       highline
       net-scp (>= 1.0.0)
@@ -218,7 +218,7 @@ PLATFORMS
 
 DEPENDENCIES
   RedCloth (= 4.2.9)
-  cancan (= 1.6.5)
+  cancan (= 1.6.8)
   capistrano (= 2.8.0)
   capistrano-ext
   capybara (= 1.1.1)

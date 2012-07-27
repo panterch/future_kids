@@ -4,6 +4,7 @@ $(function () {
   register_journal_controls();
   register_mentor_journal_date_selectors();
   register_schedule_checkboxes();
+  $('input.submit_content_form').click(function() { $('#content_form').submit() } )
 });
 
 // navigation items with further nesting are handled specially:

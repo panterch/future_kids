@@ -50,7 +50,8 @@
 
             -# common actions
             -if %w(new edit create update).include?(controller.action_name)
-              %li= button_to_function 'Speichern', "$('#content_form').submit()"
+              %li
+                %input.submit_content_form(type='button' value='Speichern')
             = yield :actions
           %h4 Auf dieser Seite
           %ul.subnav
