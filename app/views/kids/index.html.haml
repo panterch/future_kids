@@ -14,7 +14,10 @@
       %label=Kid.human_attribute_name(:meeting_day)
       = f.select :meeting_day, wday_collection, { :include_blank => true }
     .filterfield
-      %label=Kid.human_attribute_name(:inactive)
+      %label=Kid.human_attribute_name(:grade)
+      = f.select :grade, grade_collection, { :include_blank => true }
+    .filterfield
+      %label Inaktiv
       = f.check_box :inactive
     .filterfield
       %label Aktion

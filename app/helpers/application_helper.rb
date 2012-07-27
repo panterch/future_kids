@@ -60,6 +60,10 @@ module ApplicationHelper
     (1..5).map{ |i| [I18n.t('date.day_names')[i], i] }
   end
 
+  def grade_collection
+    (1..6).to_a.reverse
+  end
+
   # renders a formtastic field that is taken over by the datepicker js
   def date_picker(form, field)
     value = resource[field] ? I18n.l(resource[field]) : nil
