@@ -17,6 +17,7 @@ class User < ActiveRecord::Base
 
   def human_absence; absence.try(:textilize); end
   def human_available; available.try(:textilize); end
+  def human_todo; todo.try(:textilize); end
 
 protected
 

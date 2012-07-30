@@ -1,5 +1,5 @@
 class Notifications < ActionMailer::Base
-  default :from => "Future Kids <futurekids@aoz.ch>"
+  default :from => "AOZ Future Kids <futurekids@panter.ch>"
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:

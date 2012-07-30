@@ -243,6 +243,7 @@ de:
         goal_1: 'Fachliche Lernziele'
         goal_2: 'Überfachliche Lernziele'
         inactive: Inaktiv gesetzt
+        todo: Pendenzen
       journal:
         held_at: Datum
         start_at: Von
@@ -286,6 +287,7 @@ de:
         entry_date: Datum des Einstiges
         remember_me: Angemeldet bleiben
         inactive: Inaktiv gesetzt
+        todo: Pendenzen
       mentor:
         available: "Mögliche Termine"
         absence: "Bekannte Absenzen"

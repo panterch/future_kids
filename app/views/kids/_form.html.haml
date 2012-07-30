@@ -19,6 +19,8 @@
     = form.input :school
     = form.input :note
     = form.input :term, :as => :select, :collection => term_collection
+    -if current_user.is_a?(Admin)
+      = form.input :todo
 
   %h2#school Allgemeine Informationen
   = form.inputs do

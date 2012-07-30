@@ -69,6 +69,8 @@ class Kid < ActiveRecord::Base
 
   def human_goal; goal.try(:textilize); end
 
+  def human_todo; todo.try(:textilize); end
+
   def human_sex
     { 'm' => '♂', 'f' => '♀' }[sex]
   end

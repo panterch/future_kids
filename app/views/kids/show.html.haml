@@ -16,6 +16,8 @@
   = show.attribute :school
   = show.attribute :note
   = show.attribute :term
+  -if current_user.is_a?(Admin)
+    = show.attribute :todo
 
 = show_for resource do |show|
   %h2#school Allgemeine Informationen
