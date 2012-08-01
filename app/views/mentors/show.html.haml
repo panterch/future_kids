@@ -31,6 +31,7 @@
       = can_link_to k
       = "(#{k.city})" if k.city.present?
   -if current_user.is_a?(Admin)
+    = show.attribute :todo
     = show.attribute :inactive
 
 -# times are only visible to the mentor himself or an admin

@@ -10,5 +10,7 @@
     = form.input :address
     = form.input :phone
     -if current_user.is_a?(Admin)
+      %a(name='todo')
+      = form.input :todo
       = form.input :inactive
   = form.buttons 

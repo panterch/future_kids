@@ -19,5 +19,7 @@
     = form.input :term, :as => :select, :collection => term_collection
     = form.input :transport, :as => :select, :collection => transport_collection
     -if current_user.is_a?(Admin)
+      %a(name='todo')
+      = form.input :todo
       = form.input :inactive
   = form.buttons

@@ -268,3 +268,21 @@ form.filter > .filterfield label{
   display: block;
 }
 
+.todoholder {
+  overflow: hidden;
+  display: none;
+  .todo {
+    display: block;
+    float: left;
+    background-color: yellow;
+    padding: 3px;
+    border: 1px solid #AAAA00;
+
+    p.control {
+      margin: 0;
+      text-align: center;
+    }
+  }
+}
+
+

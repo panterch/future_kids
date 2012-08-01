@@ -15,6 +15,5 @@
 %h2
   = collection.count if current_user.is_a?(Admin)
   Lehrpersonen
-%ul
-  - collection.each do |o|
-    %li= link_to o.display_name, o
+
+= render :partial => '/users/list'

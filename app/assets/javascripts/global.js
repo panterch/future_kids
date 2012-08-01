@@ -4,6 +4,7 @@ $(function () {
   register_journal_controls();
   register_mentor_journal_date_selectors();
   register_schedule_checkboxes();
+  register_todotogglers();
   $('input.submit_content_form').click(function() { $('#content_form').submit() } )
 });
 
@@ -104,3 +105,10 @@ function register_schedule_checkboxes() {
 function createSchedule(data) {
 }
 */
+
+function register_todotogglers() {
+  $('a.todotoggle').click(function(event) {
+    event.preventDefault();
+    $(this).next().toggle();
+  });
+}

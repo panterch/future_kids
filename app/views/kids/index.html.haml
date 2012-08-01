@@ -30,7 +30,15 @@
 
 %ul
   - collection.each do |resource|
-    %li= link_to resource.display_name, resource
+    %li
+      = link_to resource.display_name, resource
+      -if current_user.is_a?(Admin) && resource.todo.present?
+        %a.todotoggle(href='#')= image_tag('task-due.png')
+        .todoholder
+          .todo
+            = resource.human_todo
+            %p.control= link_to 'edit', edit_kid_path(resource, :anchor => 'todo')
+
 
 - if collection.empty?
   Zur Zeit sind Ihnen keine Kinder zugeordnet.
