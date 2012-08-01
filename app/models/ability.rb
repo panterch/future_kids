@@ -45,14 +45,9 @@ class Ability
       can :read, Journal, :kid => { :mentor_id => user.id }
       can :read, Journal, :kid => { :secondary_mentor_id => user.id,
                                     :secondary_active => true }
-      # to change an entry there have to be more criterias fulfilled: the mentor
-      # himself must be set on the journal entry and must be associated with
-      # the kid
-      can :manage, Journal, :mentor_id => user.id,
-                            :kid => { :mentor_id => user.id }
-      can :manage, Journal, :mentor_id => user.id,
-                            :kid => { :secondary_mentor_id => user.id,
-                                      :secondary_active => true }
+
+      # manage - since it is possible for mentors to even destroy journals, the
+      # management is defined further below, after the global destroy rules
 
       # reviews can be edited by mentors who are associated with the kids
       # about whom the entry is
@@ -92,7 +87,20 @@ class Ability
     cannot :create, Reminder
     can :destroy, Reminder if user.is_a?(Admin)
     can :destroy, Document if user.is_a?(Admin)
+    can :destroy, Journal if user.is_a?(Admin)
 
+    # special manage definition for mentors - OVERWRITING even the global
+    # destroy protection
+    if user.is_a?(Mentor)
+      # to change a journal there have to be more criterias fulfilled: the mentor
+      # himself must be set on the journal entry and must be associated with
+      # the kid
+      can :manage, Journal, :mentor_id => user.id,
+                            :kid => { :mentor_id => user.id }
+      can :manage, Journal, :mentor_id => user.id,
+                            :kid => { :secondary_mentor_id => user.id,
+                                      :secondary_active => true }
+    end
   end
 end
 

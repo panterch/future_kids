@@ -71,28 +71,49 @@ describe Ability do
       end
     end
 
-    context "journal" do
+    context "journal as primary mentor" do
       it "can read journals of kids he is set as mentor" do
         assert ability.can?(:read, journal)
+      end
+      it "cannot destroy journals of he is directly associated" do
+        assert ability.can?(:destroy, journal)
       end
       it "can update journals of he is directly associated" do
         assert ability.can?(:update, journal)
       end
-      it "cannot destroy journals of he is directly associated" do
-        assert ability.cannot?(:destroy, journal)
-      end
-      it "cannot read journals where he is not set as mentor" do
-        assert ability.cannot?(:read, foreign_journal)
-      end
+    end
+
+    context "journal as secondary mentor" do
       it "can read journals of other mentors where he is set as secondary" do
         journal = Factory(:journal, :kid => secondary_kid)
         assert ability.can?(:read, journal)
       end
-      it "cannot read journals wher he is not set active as secondary" do
+      it "cannot read journals where he is not set active as secondary" do
         inactive_secondary_kid = Factory(:kid, :secondary_mentor => mentor,
                                          :secondary_active => false )
         journal = Factory(:journal, :kid => inactive_secondary_kid)
         assert ability.cannot?(:read, journal)
+      end
+      it "can update journals where he is set active as secondary" do
+        journal = Factory(:journal, :kid => secondary_kid, :mentor => mentor)
+        assert ability.can?(:update, journal)
+      end
+      it "can destroy journals where he is set active as secondary" do
+        journal = Factory(:journal, :kid => secondary_kid, :mentor => mentor)
+        assert ability.can?(:destroy, journal)
+      end
+      it "cannot update journals where he is not set active as secondary" do
+        inactive_secondary_kid = Factory(:kid, :secondary_mentor => mentor,
+                                         :secondary_active => false )
+        journal = Factory(:journal, :kid => inactive_secondary_kid, :mentor => mentor)
+        assert ability.cannot?(:update, journal)
+        assert ability.cannot?(:destroy, journal)
+      end
+    end
+
+    context "journals associated otherwise" do
+      it "cannot read journals where he is not set as mentor" do
+        assert ability.cannot?(:read, foreign_journal)
       end
       it "can read a foreign journal when he is set as mentor on it" do
         assert ability.can?(:read, direct_associated_journal)
@@ -104,51 +125,51 @@ describe Ability do
         assert journals.include?(direct_associated_journal)
         assert !journals.include?(foreign_journal)
       end
+    end
 
-      context "review" do
-        it "can create reviews for kids he is set as mentor" do
-          assert ability.can?(:create, review)
-        end
-        it "can update reviews for kids he is set as mentor" do
-          assert ability.can?(:update, review)
-        end
-        it "cannot destroy reviews for kids he is set as mentor" do
-          assert ability.cannot?(:destroy, review)
-        end
-        it "cannot create reviews for kids he is not associated" do
-          review = Factory.build(:review, :kid => foreign_kid)
-          assert ability.cannot?(:create, review)
-        end
-        it "cannot read reviews for kids he is set as secondary mentor" do
-          review = Factory.build(:review, :kid => secondary_kid)
-          assert ability.cannot?(:read, review)
-        end
+    context "review" do
+      it "can create reviews for kids he is set as mentor" do
+        assert ability.can?(:create, review)
       end
+      it "can update reviews for kids he is set as mentor" do
+        assert ability.can?(:update, review)
+      end
+      it "cannot destroy reviews for kids he is set as mentor" do
+        assert ability.cannot?(:destroy, review)
+      end
+      it "cannot create reviews for kids he is not associated" do
+        review = Factory.build(:review, :kid => foreign_kid)
+        assert ability.cannot?(:create, review)
+      end
+      it "cannot read reviews for kids he is set as secondary mentor" do
+        review = Factory.build(:review, :kid => secondary_kid)
+        assert ability.cannot?(:read, review)
+      end
+    end
 
-      context "teacher" do
-        it "cannot read foreign teachers" do
-          assert ability.cannot?(:read, Factory(:teacher))
-        end
-        it "can read teacher of assigned kid" do
-          assert ability.can?(:read, Factory(:teacher, :kids => [kid]))
-        end
-        it "can read secondary teacher of assigned kid" do
-          assert ability.can?(:read, Factory(:teacher, :secondary_kids => [kid]))
-        end
-        it "can read teacher of secondary kid" do
-          assert ability.can?(:read, Factory(:teacher, :kids => [secondary_kid]))
-        end
-        it "can read secondary teacher of secondary kid" do
-          assert ability.can?(:read, Factory(:teacher,
-                                             :secondary_kids => [secondary_kid]))
-        end
-        # FIXME cancan accessible_by for mentor - teacher relation
-        # this test does not work, this seems to be a problem in cancan...
-        # it "does retrieve teachers that can be read" do
-        #   teacher = Factory(:teacher, :kids => [kid])
-        #   Teacher.accessible_by(ability, :read).should eq([teacher])
-        # end
+    context "teacher" do
+      it "cannot read foreign teachers" do
+        assert ability.cannot?(:read, Factory(:teacher))
       end
+      it "can read teacher of assigned kid" do
+        assert ability.can?(:read, Factory(:teacher, :kids => [kid]))
+      end
+      it "can read secondary teacher of assigned kid" do
+        assert ability.can?(:read, Factory(:teacher, :secondary_kids => [kid]))
+      end
+      it "can read teacher of secondary kid" do
+        assert ability.can?(:read, Factory(:teacher, :kids => [secondary_kid]))
+      end
+      it "can read secondary teacher of secondary kid" do
+        assert ability.can?(:read, Factory(:teacher,
+                                           :secondary_kids => [secondary_kid]))
+      end
+      # FIXME cancan accessible_by for mentor - teacher relation
+      # this test does not work, this seems to be a problem in cancan...
+      # it "does retrieve teachers that can be read" do
+      #   teacher = Factory(:teacher, :kids => [kid])
+      #   Teacher.accessible_by(ability, :read).should eq([teacher])
+      # end
 
     end # end of tests for mentors
   end

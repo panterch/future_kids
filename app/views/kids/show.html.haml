@@ -55,18 +55,18 @@
     = journal_show.attribute :method
     = journal_show.attribute :outcome
     = journal_show.attribute :note
-    - if can?(:edit, journal)
-      .wrapper
-        .content
+    .wrapper
+      .content.journal_buttons
+        - if can?(:edit, journal)
           = link_to "[bearbeiten]", edit_kid_journal_path(resource, journal)
+        = link_to "[kommentieren]", new_kid_journal_comment_path(resource, journal)
+        - if can?(:destroy, journal)
+          = button_to "löschen", kid_journal_path(resource, journal), :confirm => "Sind Sie sicher? Der Eintrag und alle Kommentare werden unwiderruflich gelöscht.", :method => :delete
     -# everybody that has access to the journal (even read) may comment on it
     - journal.comments.each do |comment|
       .wrapper
         .label= comment.display_name
         .content= comment.body.textilize
-    .wrapper
-      .content
-        = link_to "[kommentieren]", new_kid_journal_comment_path(resource, journal)
 
 -# reviews are only visible for admins and first mentors
 - if resource.mentor == current_user || current_user.is_a?(Admin)

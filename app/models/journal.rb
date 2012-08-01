@@ -4,7 +4,7 @@ class Journal < ActiveRecord::Base
 
   belongs_to :kid
   belongs_to :mentor
-  has_many   :comments
+  has_many   :comments, :dependent => :destroy
 
   validates_presence_of :kid, :mentor, :held_at
   validates_presence_of :start_at, :end_at, :unless => :cancelled

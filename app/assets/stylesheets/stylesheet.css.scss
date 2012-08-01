@@ -285,4 +285,10 @@ form.filter > .filterfield label{
   }
 }
 
+// edit and delete buttons in journal overview of a kid
+.journal .content.journal_buttons > * {
+  float: left;
+  margin-right: 15px;
+}
+
 
