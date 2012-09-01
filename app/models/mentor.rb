@@ -14,8 +14,15 @@ class Mentor < User
   after_save :release_relations, :if => :inactive?
 
   def self.mentors_grouped_by_assigned_kids
-    groups = { :both => [], :only_primary => [], :only_secondary => [], :none => [] }
+    groups = { :both => [], :only_primary => [], :only_secondary => [],
+               :none => [], :substitute => [] }
+
+
     Mentor.active.each do |m|
+      if m.substitute?
+        groups[:substitute] << m
+        next
+      end
       case [ m.kids.present?, m.secondary_kids.present? ]
       when [ true, true ]; groups[:both] << m
       when [ true, false ]; groups[:only_primary] << m

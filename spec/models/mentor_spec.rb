@@ -48,12 +48,14 @@ describe Mentor do
       Factory(:kid, :mentor => @only_primary)
       @only_secondary = Factory(:mentor)
       Factory(:kid, :secondary_mentor => @only_secondary)
+      @substitute = Factory(:mentor, :substitute => true)
       @none = Factory(:mentor)
 
       res = Mentor.mentors_grouped_by_assigned_kids
       assert_equal [@both], res[:both]
       assert_equal [@only_primary], res[:only_primary]
       assert_equal [@only_secondary], res[:only_secondary]
+      assert_equal [@substitute], res[:substitute]
       assert_equal [@none], res[:none]
     end
   end

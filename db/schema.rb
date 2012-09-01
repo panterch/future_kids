@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120901162007) do
+ActiveRecord::Schema.define(:version => 20120901171111) do
 
   create_table "comments", :force => true do |t|
     t.integer  "journal_id", :null => false
@@ -172,6 +172,7 @@ ActiveRecord::Schema.define(:version => 20120901162007) do
     t.date     "dob"
     t.boolean  "inactive",                              :default => false
     t.text     "todo"
+    t.boolean  "substitute",                            :default => false
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

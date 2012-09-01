@@ -23,6 +23,11 @@
       = select_tag "mentor_ids",
         options_from_collection_for_select(@mentor_groups[:both], 'id', 'display_name', @mentor_ids),
         :multiple => true
+    %div.mentor_select
+      %label Ersatzmentoren
+      = select_tag "mentor_ids",
+        options_from_collection_for_select(@mentor_groups[:substitute], 'id', 'display_name', @mentor_ids),
+        :multiple => true
   %fieldset
     = submit_tag 'Anzeige anpassen'
     = link_to 'Auswahl aufheben', edit_schedules_kid_path(resource)

@@ -32,6 +32,7 @@
       = "(#{k.city})" if k.city.present?
   -if current_user.is_a?(Admin)
     = show.attribute :todo
+    = show.attribute :substitute
     = show.attribute :inactive
 
 -# times are only visible to the mentor himself or an admin
