@@ -4,7 +4,8 @@ gem 'rails', '3.2.6'
 
 gem 'json'
 gem 'haml', '3.1.4'
-gem 'therubyracer', '0.9.9'
+gem 'therubyracer', '0.10.1'
+gem 'libv8', '3.3.10.2'
 
 # Rails 3.1 - JavaScript
 gem 'jquery-rails'
