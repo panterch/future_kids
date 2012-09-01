@@ -71,6 +71,8 @@ class Kid < ActiveRecord::Base
 
   def human_todo; todo.try(:textilize); end
 
+  def human_relation_archive; relation_archive.try(:textilize); end
+
   def human_sex
     { 'm' => '♂', 'f' => '♀' }[sex]
   end
@@ -95,9 +97,18 @@ class Kid < ActiveRecord::Base
 protected
 
   def release_relations
+    self.relation_archive =
+      "#{Kid.human_attribute_name(:mentor)}: #{self.mentor.try(:display_name)}\n"
+    self.relation_archive <<
+      "#{Kid.human_attribute_name(:secondary_mentor)}: #{self.secondary_mentor.try(:display_name)}\n"
+    self.relation_archive <<
+      "#{Kid.human_attribute_name(:teacher)}: #{self.teacher.try(:display_name)}\n"
+    self.relation_archive <<
+      "#{Kid.human_attribute_name(:secondary_teacher)}: #{self.secondary_teacher.try(:display_name)}"
     self.mentor = nil
     self.secondary_mentor = nil
     self.teacher = nil
+    self.secondary_teacher = nil
   end
 
 end

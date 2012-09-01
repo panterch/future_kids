@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120727130553) do
+ActiveRecord::Schema.define(:version => 20120901162007) do
 
   create_table "comments", :force => true do |t|
     t.integer  "journal_id", :null => false
@@ -87,6 +87,7 @@ ActiveRecord::Schema.define(:version => 20120727130553) do
     t.string   "term"
     t.boolean  "inactive",             :default => false
     t.text     "todo"
+    t.text     "relation_archive"
   end
 
   add_index "kids", ["inactive"], :name => "index_kids_on_inactive"

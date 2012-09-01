@@ -66,12 +66,14 @@ describe Kid do
       assert_equal 'University of Berlin', mentor.reload.primary_kids_school
     end
     it 'does nilify mentors when set inactive' do
-      kid.mentor = Factory(:mentor)
-      kid.secondary_mentor = Factory(:mentor)
+      mentor = kid.mentor = Factory(:mentor)
+      secondary_mentor = kid.secondary_mentor = Factory(:mentor)
       kid.inactive = true
       kid.save!
       kid.mentor.should be_nil
       kid.secondary_mentor.should be_nil
+      kid.relation_archive.should match(mentor.display_name)
+      kid.relation_archive.should match(secondary_mentor.display_name)
     end
   end
 
