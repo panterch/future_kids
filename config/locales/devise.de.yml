@@ -14,6 +14,7 @@ de:
       invalid_token: 'Invalid authentication token.'
       timeout: 'Ihre Sitzung ist abgelaufen, bitte melden Sie sich erneut an.'
       inactive: 'Ihr Account ist nicht aktiv.'
+      already_authenticated: 'Erfolgreich angemeldet.'
     sessions:
       signed_in: 'Erfolgreich angemeldet.'
       signed_out: 'Erfolgreich abgemeldet.'
