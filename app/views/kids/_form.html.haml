@@ -17,7 +17,8 @@
     = form.input :phone
     = form.input :translator
     = form.input :school
-    = form.input :note
+    - if current_user.is_a?(Admin)
+      = form.input :note
     = form.input :term, :as => :select, :collection => term_collection
     -if current_user.is_a?(Admin)
       = form.input :todo
@@ -27,8 +28,9 @@
   = form.inputs do
     = form.input :goal_1
     = form.input :goal_2
-    = form.input :meeting_day, :as => :select, :collection => wday_collection
-    = form.input :meeting_start_at, :as => :string
+    - if current_user.is_a?(Admin)
+      = form.input :meeting_day, :as => :select, :collection => wday_collection
+      = form.input :meeting_start_at, :as => :string
     -# this form is accessible by admins and teachers. teachers can only set the
     -# the secondary_mentor and ara automatically assigned as first mentor for any kid
     -# they are working on
@@ -39,7 +41,6 @@
       = form.input :mentor
       = form.input :secondary_mentor
       = form.input :secondary_active
-    -if current_user.is_a?(Admin)
       = form.input :inactive
 
   = form.buttons 
