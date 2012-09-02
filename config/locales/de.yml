@@ -220,8 +220,10 @@ de:
         name: "Name"
         prename: "Vorname"
         parent: "Name der/s Erziehungsberechtigten"
-        address: "Adresse"
+        address: Strasse
         city: "Wohnort"
+        zip: "PLZ"
+        street_no: "Strassennummer"
         note: "Weitere Bemerkungen"
         sex: "Geschlecht"
         grade: "Klassenstufe"
@@ -274,8 +276,10 @@ de:
         password_confirmation: "Passwort Bestätigung"
         name: Name
         prename: Vorname
-        address: Adresse
+        address: Strasse
         city: "Wohnort"
+        zip: "PLZ"
+        street_no: "Strassennummer"
         dob: Geburtsdatum
         transport: "ÖV"
         phone: Telefon

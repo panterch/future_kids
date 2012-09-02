@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120901171111) do
+ActiveRecord::Schema.define(:version => 20120902212518) do
 
   create_table "comments", :force => true do |t|
     t.integer  "journal_id", :null => false
@@ -88,6 +88,8 @@ ActiveRecord::Schema.define(:version => 20120901171111) do
     t.boolean  "inactive",             :default => false
     t.text     "todo"
     t.text     "relation_archive"
+    t.string   "zip"
+    t.string   "street_no"
   end
 
   add_index "kids", ["inactive"], :name => "index_kids_on_inactive"
@@ -173,6 +175,8 @@ ActiveRecord::Schema.define(:version => 20120901171111) do
     t.boolean  "inactive",                              :default => false
     t.text     "todo"
     t.boolean  "substitute",                            :default => false
+    t.string   "zip"
+    t.string   "street_no"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

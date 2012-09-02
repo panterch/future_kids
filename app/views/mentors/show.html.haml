@@ -10,6 +10,8 @@
   = show.attribute(:email) { mail_to resource.email }
   - if is_viewing_own_data
     = show.attribute :address
+    = show.attribute :street_no
+    = show.attribute :zip
     = show.attribute :city
     = show.attribute :dob
   = show.attribute :phone

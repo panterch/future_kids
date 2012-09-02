@@ -8,6 +8,9 @@
     = form.input :password_confirmation, :input_html => { :autocomplete => 'off' }
     = form.input :school
     = form.input :address
+    = form.input :street_no
+    = form.input :zip
+    = form.input :city
     = form.input :phone
     -if current_user.is_a?(Admin)
       %a(name='todo')
