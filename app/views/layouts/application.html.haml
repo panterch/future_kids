@@ -12,62 +12,63 @@
 
   %body
     #container
-      - if user_signed_in?
-        #nav
-          %h4 Navigation
-          %ul.site
-            -if can? :read, Admin
-              %li= link_to Admin.model_name.human, admins_path
-            -if can? :read, Kid
-              %li= link_to Kid.model_name.human, kids_path
-            -# FIXME load of teachers for mentors via cancan does not yet
-            -#       work correctly, see ability_spec.rb. till this is fixed
-            -#       we do not display this option to mentors
-            -if current_user.is_a?(Admin)
-              %li= link_to Teacher.model_name.human, teachers_path
-              %li= link_to Mentor.model_name.human, mentors_path
-            -if can? :read, Reminder
-              %li= link_to Reminder.model_name.human, reminders_path
-            %li= link_to 'Eigene Daten', current_user
-            %li= link_to 'Anleitungen & Dokumente', documents_path
-          %h4 Aktionen
-          %ul.actions
-
-            -# actions for resource controllers, not nested
-            - if defined?(resource) and !defined?(parent)
-              -if can?(:create, resource_class.new) && %w(index show).include?(controller.action_name)
-                %li= link_to 'Neuer Eintrag', new_resource_path
-              -if %w(edit).include?(controller.action_name)
-                %li= link_to 'Anzeigen', resource_path
-              -if %w(show).include?(controller.action_name) && can?(:update, resource.class)
-                %li= link_to 'Bearbeiten', edit_resource_path
-              -if %w(show).include?(controller.action_name) && can?(:destroy, resource.class)
-                %li= button_to "Löschen", { :action => "destroy", :id => resource.id }, :method => :delete
-
-            -# actions for nested resources
-            - if defined?(parent)
-              %li= link_to 'Abbrechen', parent
-
-            -# common actions
-            -if %w(new edit create update).include?(controller.action_name)
-              %li
-                %input.submit_content_form(type='button' value='Speichern')
-            = yield :actions
-          %h4 Auf dieser Seite
-          %ul.subnav
-            %li= link_to 'Seitenbeginn', :anchor => 'header'
-            = yield :subnav
-            %li= link_to 'Seitenende', :anchor => 'footer'
-      #header
-        %ul
+      #nav
+        #logo
+          %span
+          = image_tag 'logo.jpg'
+        .bullets
           - if user_signed_in?
-            %li
-              Angemeldet als
-              = link_to(current_user.display_name, current_user)
-            %li
-              = link_to 'Abmelden', destroy_user_session_path
-          - else
-            %li= link_to 'Anmelden', new_user_session_path
+            %h4 Navigation
+            %ul.site
+              -if can? :read, Admin
+                %li= link_to Admin.model_name.human, admins_path
+              -if can? :read, Kid
+                %li= link_to Kid.model_name.human, kids_path
+              -# FIXME load of teachers for mentors via cancan does not yet
+              -#       work correctly, see ability_spec.rb. till this is fixed
+              -#       we do not display this option to mentors
+              -if current_user.is_a?(Admin)
+                %li= link_to Teacher.model_name.human, teachers_path
+                %li= link_to Mentor.model_name.human, mentors_path
+              -if can? :read, Reminder
+                %li= link_to Reminder.model_name.human, reminders_path
+              %li= link_to 'Eigene Daten', current_user
+              %li= link_to 'Anleitungen & Dokumente', documents_path
+            %h4 Aktionen
+            %ul.actions
+
+              -# actions for resource controllers, not nested
+              - if defined?(resource) and !defined?(parent)
+                -if can?(:create, resource_class.new) && %w(index show).include?(controller.action_name)
+                  %li= link_to 'Neuer Eintrag', new_resource_path
+                -if %w(edit).include?(controller.action_name)
+                  %li= link_to 'Anzeigen', resource_path
+                -if %w(show).include?(controller.action_name) && can?(:update, resource.class)
+                  %li= link_to 'Bearbeiten', edit_resource_path
+                -if %w(show).include?(controller.action_name) && can?(:destroy, resource.class)
+                  %li= button_to "Löschen", { :action => "destroy", :id => resource.id }, :method => :delete
+
+              -# actions for nested resources
+              - if defined?(parent)
+                %li= link_to 'Abbrechen', parent
+
+              -# common actions
+              -if %w(new edit create update).include?(controller.action_name)
+                %li
+                  %input.submit_content_form(type='button' value='Speichern')
+              = yield :actions
+            %h4 Auf dieser Seite
+            %ul.subnav
+              %li= link_to 'Seitenbeginn', :anchor => 'header'
+              = yield :subnav
+              %li= link_to 'Seitenende', :anchor => 'footer'
+            %h4
+            %ul.session
+              %li Angemeldet als
+              %li= link_to(current_user.display_name, current_user)
+              %li= link_to 'Abmelden', destroy_user_session_path
+      #header
+        = image_tag 'teaser.jpg'
       - flash.each do |name, msg|
         = content_tag :div, msg, :id => "flash_#{name}"
           

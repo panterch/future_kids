@@ -1,7 +1,5 @@
 body {
-  background-image: image-url('gradient.png');
-  background-repeat: repeat-x;
-  background-color: #1f4461;
+  background-color: white;
   font-family: verdana,arial,geneva;
   font-size: 11px;
   line-height: 18px;
@@ -14,7 +12,7 @@ a img {
 }
 
 a {
-  color: #0000FF;
+  color: inherit;
 }
 
 ul {
@@ -43,7 +41,7 @@ td {
 
 #container {
   padding: 0;
-  margin: 20px auto;
+  margin: 0px auto;
   max-width: 1200px;
 }
 
@@ -51,12 +49,19 @@ td {
 #flash_notice, #flash_error, #flash_alert {
   margin: 0 0 0 240px;
   padding: 10px;
-  border: 1px solid #CCC;
   background-color: #FFF;
   margin-bottom: 20px;
 }
 
-#header {
+#header, #logo {
+  padding: 0;
+  height: 113px;
+  overflow: hidden;
+}
+
+#logo {
+  display: table-cell;
+  vertical-align: middle;
 }
 
 #nav {
@@ -65,6 +70,11 @@ td {
   max-height: 80%;
   overflow: auto;
   position: fixed;
+  padding-top: 0px;
+}
+
+#nav .bullets {
+  margin-top: 40px;
 }
 
 #nav h4 {
@@ -89,16 +99,13 @@ td {
 
 #content {
   min-height: 600px;
-  border-left: 1px solid #CCC;
   overflow: hidden;
 }
 
 #footer {
-  background-image: image-url("logo.gif");
-  background-repeat:no-repeat;
-  background-position: right;
+  border-top: 1px solid gray;
   clear: both;
-}  
+}
 
 #flash_notice {
   background-color: #CFC;
