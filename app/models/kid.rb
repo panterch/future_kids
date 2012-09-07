@@ -90,8 +90,12 @@ class Kid < ActiveRecord::Base
   # mentors can be filtered by the scool of their primary kids. therefore we use
   # a field on mentor which has to be synced on each write
   def sync_school_field_with_mentor
-    return true unless self.mentor
-    self.mentor.update_attribute(:primary_kids_school, self.school)
+    return true unless self.mentor_id_changed?
+    if self.mentor
+      self.mentor.update_attribute(:primary_kids_school, self.school)
+    elsif self.mentor_id_was
+      Mentor.find(self.mentor_id_was).update_attribute(:primary_kids_school, nil)
+    end
   end
 
 protected

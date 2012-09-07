@@ -64,6 +64,9 @@ describe Kid do
       kid.mentor = mentor = Factory(:mentor)
       kid.save!
       assert_equal 'University of Berlin', mentor.reload.primary_kids_school
+      kid.mentor = nil
+      kid.save!
+      assert_nil mentor.reload.primary_kids_school
     end
     it 'does nilify mentors when set inactive' do
       mentor = kid.mentor = Factory(:mentor)
