@@ -15,7 +15,7 @@
       #nav
         #logo
           %span
-          = image_tag 'logo.jpg'
+          = link_to(image_tag('logo.jpg'), '/')
         .bullets
           - if user_signed_in?
             %h4 Navigation
