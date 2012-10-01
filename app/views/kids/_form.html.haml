@@ -18,14 +18,13 @@
     = form.input :city
     = form.input :phone
     = form.input :translator
+    = form.input :note
     -# the school field is a freeform field just for admins, other users
     -# can only select already present schools
     - if current_user.is_a?(Admin)
       = form.input :school
     - else
       = form.input :school, :as => :select, :collection => school_collection_for_kids
-    - if current_user.is_a?(Admin)
-      = form.input :note
     = form.input :term, :as => :select, :collection => term_collection
     -if current_user.is_a?(Admin)
       = form.input :todo
