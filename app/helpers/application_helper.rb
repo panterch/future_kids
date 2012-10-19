@@ -64,6 +64,10 @@ module ApplicationHelper
     (1..6).to_a.reverse
   end
 
+  def criticality_collection
+    (1..3).to_a.reverse
+  end
+
   # renders a formtastic field that is taken over by the datepicker js
   def date_picker(form, field)
     value = resource[field] ? I18n.l(resource[field]) : nil

@@ -246,6 +246,10 @@ de:
         goal_2: 'Überfachliche Lernziele'
         inactive: Inaktiv gesetzt
         todo: Pendenzen
+        checked_at: 'Letztes Kontrolldatum'
+        coached_at: 'Letztes Telefoncoaching'
+        abnormality: 'Auffälligkeiten'
+        abnormality_criticality: 'Kritikalität der Auffälligkeiten'
       journal:
         held_at: Datum
         start_at: Von

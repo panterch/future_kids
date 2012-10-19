@@ -71,6 +71,8 @@ class Kid < ActiveRecord::Base
 
   def human_todo; todo.try(:textilize); end
 
+  def human_abnormality; abnormality.try(:textilize); end
+
   def human_relation_archive; relation_archive.try(:textilize); end
 
   def human_sex

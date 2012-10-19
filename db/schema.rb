@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120902212518) do
+ActiveRecord::Schema.define(:version => 20121019122834) do
 
   create_table "comments", :force => true do |t|
     t.integer  "journal_id", :null => false
@@ -72,10 +72,10 @@ ActiveRecord::Schema.define(:version => 20120902212518) do
     t.integer  "secondary_mentor_id"
     t.integer  "teacher_id"
     t.integer  "secondary_teacher_id"
-    t.datetime "created_at",                              :null => false
-    t.datetime "updated_at",                              :null => false
+    t.datetime "created_at",                                 :null => false
+    t.datetime "updated_at",                                 :null => false
     t.string   "phone"
-    t.boolean  "secondary_active",     :default => false, :null => false
+    t.boolean  "secondary_active",        :default => false, :null => false
     t.date     "dob"
     t.string   "language"
     t.boolean  "translator"
@@ -85,11 +85,15 @@ ActiveRecord::Schema.define(:version => 20120902212518) do
     t.string   "city"
     t.string   "school"
     t.string   "term"
-    t.boolean  "inactive",             :default => false
+    t.boolean  "inactive",                :default => false
     t.text     "todo"
     t.text     "relation_archive"
     t.string   "zip"
     t.string   "street_no"
+    t.date     "checked_at"
+    t.date     "coached_at"
+    t.text     "abnormality"
+    t.integer  "abnormality_criticality"
   end
 
   add_index "kids", ["inactive"], :name => "index_kids_on_inactive"

@@ -18,14 +18,11 @@ form.formtastic fieldset > ol > li {
   min-height: 25px;
 }
 
-#mentor_entry_date,
-#mentor_dob,
-#kid_dob,
-#kid_entered_at,
 #kid_meeting_start_at,
 #journal_held_at,
 #journal_start_at,
 #journal_end_at,
-#review_held_at {
-  width: 8em;
+#review_held_at,
+input.calendricalDate {
+  width: 8em !important;
 }

@@ -26,9 +26,6 @@
     - else
       = form.input :school, :as => :select, :collection => school_collection_for_kids
     = form.input :term, :as => :select, :collection => term_collection
-    -if current_user.is_a?(Admin)
-      = form.input :todo
-      %a(name='todo')
 
   %h2#school Allgemeine Informationen
   = form.inputs do
@@ -47,6 +44,16 @@
       = form.input :mentor
       = form.input :secondary_mentor
       = form.input :secondary_active
+
+  - if current_user.is_a?(Admin)
+    %h2#internal Projektinterne Informationen
+    = form.inputs do
+      = date_picker(form, :checked_at)
+      = date_picker(form, :coached_at)
+      = form.input :abnormality
+      = form.input :abnormality_criticality, :as => :select, :collection => criticality_collection
+      = form.input :todo
+      %a(name='todo')
       = form.input :inactive
 
   = form.buttons 

@@ -18,8 +18,6 @@
   = show.attribute :note
   = show.attribute :school
   = show.attribute :term
-  -if current_user.is_a?(Admin)
-    = show.attribute :todo
 
 = show_for resource do |show|
   %h2#school Allgemeine Informationen
@@ -36,10 +34,18 @@
   = show.attribute :secondary_mentor do 
     = can_link_to(resource.secondary_mentor)
   = show.attribute :secondary_active
-  - if current_user.is_a?(Admin)
+
+- if current_user.is_a?(Admin)
+  = show_for resource do |show|
+    %h2#internal Projektinterne Informationen
+    = show.attribute :checked_at
+    = show.attribute :coached_at
+    = show.attribute :abnormality
+    = show.attribute :abnormality_criticality
+    = show.attribute :todo
     = show.attribute :inactive
-  - if resource.inactive?
-    = show.attribute :relation_archive
+    - if resource.inactive?
+      = show.attribute :relation_archive
 
 %h2#journals Lernjournale
 - resource.journals.each do |journal|
