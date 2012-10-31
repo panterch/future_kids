@@ -325,3 +325,10 @@ de:
     reminders_created:
       subject: Neue Erinnerungen
 
+
+  kids:
+    criticality:
+      '1': Hoch
+      '2': Mittel
+      '3': Tief
+

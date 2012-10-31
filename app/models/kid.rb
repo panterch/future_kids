@@ -73,6 +73,11 @@ class Kid < ActiveRecord::Base
 
   def human_abnormality; abnormality.try(:textilize); end
 
+  def human_abnormality_criticality
+    return '' unless abnormality_criticality
+    I18n.t(abnormality_criticality, :scope => 'kids.criticality')
+  end
+
   def human_relation_archive; relation_archive.try(:textilize); end
 
   def human_sex

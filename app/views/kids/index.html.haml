@@ -20,6 +20,9 @@
       %label Inaktiv
       = f.check_box :inactive
     .filterfield
+      %label Ordnen nach
+      = select_tag 'order_by', order_by_collection_for_kids(params[:order_by])
+    .filterfield
       %label Aktion
       = f.submit 'Filter anwenden'
       = link_to 'Filter aufheben', collection_path

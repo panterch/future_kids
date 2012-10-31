@@ -54,6 +54,14 @@ module ApplicationHelper
      '2014 Frühling', '2014 Herbst']
   end
 
+  def order_by_collection_for_kids(selected)
+    options = [['Name', 'name, prename' ],
+               ['Kontrolldatum', 'checked_at ASC' ],
+               ['Coachingdatum', 'coached_at ASC' ],
+               ['Kritikalität', 'abnormality_criticality']]
+    options_for_select(options, selected)
+  end
+
   # values for the collection select 'weekday'
   # weekdays are mapped to integers, as in ruby core's Time, Sunday is 0
   def wday_collection
@@ -65,7 +73,7 @@ module ApplicationHelper
   end
 
   def criticality_collection
-    (1..3).to_a.reverse
+    (1..3).map{ |i| [I18n.t(i, :scope => 'kids.criticality'), i] }
   end
 
   # renders a formtastic field that is taken over by the datepicker js
