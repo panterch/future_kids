@@ -57,6 +57,15 @@ describe KidsController do
         assigns(:kids).length.should eq(2)
       end
       
+      it 'should order kids by criticality' do
+        @low  = Factory(:kid, :abnormality_criticality => 3)
+        @high = Factory(:kid, :abnormality_criticality => 1)
+        get :index, :order_by => 'abnormality_criticality'
+        assigns(:kids).first.should eq(@high)
+        assigns(:kids).second.should eq(@low)
+        assigns(:kids).last.should eq(@kid)
+      end
+      
       it 'should create a criteria instance for search' do
         get :index, :kid => { :translator => '1' }
         assigns(:kid).translator.should eq(true)
