@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121019122834) do
+ActiveRecord::Schema.define(:version => 20121102212736) do
 
   create_table "comments", :force => true do |t|
     t.integer  "journal_id", :null => false
@@ -94,6 +94,7 @@ ActiveRecord::Schema.define(:version => 20121019122834) do
     t.date     "coached_at"
     t.text     "abnormality"
     t.integer  "abnormality_criticality"
+    t.integer  "admin_id"
   end
 
   add_index "kids", ["inactive"], :name => "index_kids_on_inactive"

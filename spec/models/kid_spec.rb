@@ -80,6 +80,16 @@ describe Kid do
     end
   end
 
+  context 'relation to admin' do
+    let(:kid) { Factory.build(:kid) }
+    it 'does associate a mentor' do
+      admin = kid.admin = Factory(:admin)
+      kid.save! && kid.reload
+      kid.admin.should be_present
+      kid.admin.should eq(admin)
+    end
+  end
+
   context 'meeting time calculation' do
     before(:each) do
       @kid = Factory(:kid, :meeting_day => 3,

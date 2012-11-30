@@ -47,6 +47,10 @@ module ApplicationHelper
     values.compact.sort.reject(&:blank?)
   end
 
+  def admin_collection
+    Admin.all.map { |a| [a.display_name, a.id] }
+  end
+
   def term_collection
     ['2011 Frühling', '2011 Herbst',
      '2012 Frühling', '2012 Herbst',

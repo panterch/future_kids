@@ -5,6 +5,7 @@ $(function () {
   register_mentor_journal_date_selectors();
   register_schedule_checkboxes();
   register_todotogglers();
+  register_kidsfilter();
   $('input.submit_content_form').click(function() { $('#content_form').submit() } )
 });
 
@@ -110,5 +111,12 @@ function register_todotogglers() {
   $('a.todotoggle').click(function(event) {
     event.preventDefault();
     $(this).next().toggle();
+  });
+}
+
+function register_kidsfilter() {
+  $('form.filter select').change(function(event) {
+    // alert('change');
+    $('form.filter').submit();
   });
 }

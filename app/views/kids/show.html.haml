@@ -38,6 +38,8 @@
 - if current_user.is_a?(Admin)
   = show_for resource do |show|
     %h2#internal Projektinterne Informationen
+    = show.attribute :admin do
+      = can_link_to(resource.admin)
     = show.attribute :checked_at
     = show.attribute :coached_at
     = show.attribute :abnormality

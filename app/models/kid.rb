@@ -6,6 +6,7 @@ class Kid < ActiveRecord::Base
   belongs_to :secondary_mentor, :class_name => 'Mentor'
   belongs_to :teacher
   belongs_to :secondary_teacher, :class_name => 'Teacher'
+  belongs_to :admin
 
   has_many :journals
   has_many :reviews

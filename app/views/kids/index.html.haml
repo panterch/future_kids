@@ -8,13 +8,16 @@
       %label= Kid.human_attribute_name(:school)
       = f.select :school, school_collection_for_kids, { :include_blank => true }
     .filterfield
+      %label Coach
+      = f.select :admin_id, admin_collection, { :include_blank => true }
+    .filterfield
       %label Übersetzer
       = f.select :translator, translator_collection, { :include_blank => true }
     .filterfield
       %label=Kid.human_attribute_name(:meeting_day)
       = f.select :meeting_day, wday_collection, { :include_blank => true }
     .filterfield
-      %label=Kid.human_attribute_name(:grade)
+      %label Klasse
       = f.select :grade, grade_collection, { :include_blank => true }
     .filterfield
       %label Inaktiv

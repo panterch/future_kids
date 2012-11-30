@@ -48,6 +48,7 @@
   - if current_user.is_a?(Admin)
     %h2#internal Projektinterne Informationen
     = form.inputs do
+      = form.input :admin_id, :as => :select, :collection => admin_collection
       = date_picker(form, :checked_at)
       = date_picker(form, :coached_at)
       = form.input :abnormality
