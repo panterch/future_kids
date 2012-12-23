@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121102212736) do
+ActiveRecord::Schema.define(:version => 20121223105522) do
 
   create_table "comments", :force => true do |t|
     t.integer  "journal_id", :null => false
@@ -95,9 +95,11 @@ ActiveRecord::Schema.define(:version => 20121102212736) do
     t.text     "abnormality"
     t.integer  "abnormality_criticality"
     t.integer  "admin_id"
+    t.integer  "school_id"
   end
 
   add_index "kids", ["inactive"], :name => "index_kids_on_inactive"
+  add_index "kids", ["school_id"], :name => "index_kids_on_school_id"
 
   create_table "reminders", :force => true do |t|
     t.date     "held_at",             :null => false
@@ -145,6 +147,13 @@ ActiveRecord::Schema.define(:version => 20121102212736) do
   end
 
   add_index "schedules", ["person_id", "person_type", "day", "hour", "minute"], :name => "index_schedules_on_uniqueness", :unique => true
+
+  create_table "schools", :force => true do |t|
+    t.string   "name"
+    t.integer  "principal_id"
+    t.datetime "created_at",   :null => false
+    t.datetime "updated_at",   :null => false
+  end
 
   create_table "users", :force => true do |t|
     t.string   "type"

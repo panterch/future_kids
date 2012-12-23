@@ -59,3 +59,6 @@ Factory.define :schedule do |f|
   f.minute 0
 end
 
+Factory.define :school do |f|
+  f.name "The school"
+end

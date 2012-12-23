@@ -34,6 +34,8 @@
                 %li= link_to Reminder.model_name.human, reminders_path
               %li= link_to 'Eigene Daten', current_user
               %li= link_to 'Anleitungen & Dokumente', documents_path
+              -if can? :read, School
+                %li= link_to School.model_name.human, schools_path
             %h4 Aktionen
             %ul.actions
 

@@ -22,6 +22,7 @@ FutureKids::Application.routes.draw do
     end
   end
   resources :schedules
+  resources :schools
   resources :reminders
   resources :teachers
 

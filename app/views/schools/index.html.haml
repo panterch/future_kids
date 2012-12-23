@@ -1,0 +1,6 @@
+%h2 Schulhäuser
+
+%ul
+  - collection.each do |school|
+    %li
+      = link_to school.name, edit_school_path(school)

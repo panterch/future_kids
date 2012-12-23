@@ -170,7 +170,12 @@ describe Ability do
       #   teacher = Factory(:teacher, :kids => [kid])
       #   Teacher.accessible_by(ability, :read).should eq([teacher])
       # end
+    end
 
+    context "various" do
+      it "cannot read schools" do
+        assert ability.cannot?(:read, Factory(:school))
+      end
     end # end of tests for mentors
   end
 
@@ -182,10 +187,16 @@ describe Ability do
 
     context "kid" do
       let(:kid) { Factory(:kid) }
-      it("can read a kid") { assert @ability.can?(:read, Kid) }
+      it("can read a kid") { assert @ability.can?(:read, kid) }
       it("can create a kid") { assert @ability.can?(:create, Kid) }
-      it("can update a kid") { assert @ability.can?(:update, Kid) }
-      it("cannot destroy a kid") { assert @ability.cannot?(:destroy, Kid) }
+      it("can update a kid") { assert @ability.can?(:update, kid) }
+      it("cannot destroy a kid") { assert @ability.cannot?(:destroy, kid) }
+    end
+
+    context "school" do
+      let(:school) { Factory(:school) }
+      it("can read a school") { assert @ability.can?(:read, school) }
+      it("can create a school") { assert @ability.can?(:create, School) }
     end
   end # end of tests for admin role
 
