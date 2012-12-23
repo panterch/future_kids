@@ -308,6 +308,7 @@ de:
         secondary_kids: "Kinder (Vertretung)"
         journals: "Lernjournal Einträge"
         substitute: "Ersatzmentor"
+        college: 'Hochschule'
       teacher:
         kids: Kinder
         secondary_kids: "Kinder (als 2. Lehrperson)"

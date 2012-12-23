@@ -6,7 +6,7 @@
     = form.input :email, :input_html => { :autocomplete => 'off' }
     = form.input :password, :input_html => { :autocomplete => 'off' }
     = form.input :password_confirmation, :input_html => { :autocomplete => 'off' }
-    = form.input :school
+    = form.input :school, :as => :select, :collection => school_collection
     = form.input :address
     = form.input :street_no
     = form.input :zip

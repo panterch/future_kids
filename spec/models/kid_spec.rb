@@ -60,10 +60,11 @@ describe Kid do
       mentor.secondary_kids.first.should eq(kid)
     end
     it 'does sync its school with the mentors primary_kid_school field' do
-      kid.school = 'University of Berlin'
+      kid.school = Factory(:school)
       kid.mentor = mentor = Factory(:mentor)
       kid.save!
-      assert_equal 'University of Berlin', mentor.reload.primary_kids_school
+      assert_equal kid.school_id, mentor.reload.primary_kids_school_id
+      assert_equal kid.school.name, mentor.reload.primary_kids_school.name
       kid.mentor = nil
       kid.save!
       assert_nil mentor.reload.primary_kids_school

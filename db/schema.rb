@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121223113911) do
+ActiveRecord::Schema.define(:version => 20121223113912) do
 
   create_table "comments", :force => true do |t|
     t.integer  "journal_id", :null => false
@@ -163,7 +163,6 @@ ActiveRecord::Schema.define(:version => 20121223113911) do
     t.string   "personnel_number"
     t.string   "field_of_study"
     t.string   "education"
-    t.string   "school"
     t.text     "available"
     t.boolean  "etcs"
     t.date     "entry_date"

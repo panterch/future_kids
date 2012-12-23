@@ -4,7 +4,7 @@
   = show.attribute :name
   = show.attribute :prename
   = show.attribute(:email) { mail_to resource.email }
-  = show.attribute :school
+  = show.association :school
   = show.attribute :address
   = show.attribute :street_no
   = show.attribute :zip
