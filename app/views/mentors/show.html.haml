@@ -23,7 +23,7 @@
   = show.attribute :absence
   = show.attribute :term
   = show.attribute :transport
-  = show.attribute :primary_kids_school
+  = show.association :primary_kids_school
   = show.association :kids do |k|
     %li
       = can_link_to k
