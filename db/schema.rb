@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121223105522) do
+ActiveRecord::Schema.define(:version => 20121223113911) do
 
   create_table "comments", :force => true do |t|
     t.integer  "journal_id", :null => false
@@ -83,7 +83,6 @@ ActiveRecord::Schema.define(:version => 20121223105522) do
     t.text     "goal_2"
     t.text     "note"
     t.string   "city"
-    t.string   "school"
     t.string   "term"
     t.boolean  "inactive",                :default => false
     t.text     "todo"
@@ -184,13 +183,15 @@ ActiveRecord::Schema.define(:version => 20121223105522) do
     t.string   "city"
     t.string   "transport"
     t.string   "term"
-    t.string   "primary_kids_school"
     t.date     "dob"
     t.boolean  "inactive",                              :default => false
     t.text     "todo"
     t.boolean  "substitute",                            :default => false
     t.string   "zip"
     t.string   "street_no"
+    t.integer  "primary_kids_school_id"
+    t.string   "college"
+    t.integer  "school_id"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

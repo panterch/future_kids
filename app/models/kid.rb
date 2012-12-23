@@ -101,9 +101,9 @@ class Kid < ActiveRecord::Base
   def sync_school_field_with_mentor
     return true unless self.mentor_id_changed?
     if self.mentor
-      self.mentor.update_attribute(:primary_kids_school, self.school)
+      self.mentor.update_attribute(:primary_kids_school_id, self.school_id)
     elsif self.mentor_id_was
-      Mentor.find(self.mentor_id_was).update_attribute(:primary_kids_school, nil)
+      Mentor.find(self.mentor_id_was).update_attribute(:primary_kids_school_id, nil)
     end
   end
 

@@ -16,7 +16,8 @@
   = show.attribute :phone
   = show.attribute :translator
   = show.attribute :note
-  = show.attribute :school
+  = show.attribute :school do
+    = can_link_to(resource.school)
   = show.attribute :term
 
 = show_for resource do |show|

@@ -6,7 +6,7 @@
       = f.select :term, term_collection, { :include_blank => true }
     .filterfield
       %label Einsatzort
-      = f.select :primary_kids_school, school_collection_for_mentors, { :include_blank => true }
+      = f.select :primary_kids_school_id, school_collection, { :include_blank => true }
     .filterfield
       %label &Ouml;V
       = f.select :transport, transport_collection, { :include_blank => true }

@@ -3,7 +3,7 @@
   = form_for :teacher, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
     .filterfield
       %label Schulhaus
-      = f.select :school, school_collection_for_teachers, { :include_blank => true }
+      = f.select :school_id, school_collection, { :include_blank => true }
     .filterfield
       %label Inaktiv
       = f.check_box :inactive

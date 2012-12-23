@@ -8,6 +8,7 @@ class Mentor < User
   has_many :secondary_reminders, :class_name => 'Reminder',
            :foreign_key => 'secondary_mentor_id'
   has_many :schedules, :as => :person
+  belongs_to :primary_kids_school, :class_name => 'School'
 
   accepts_nested_attributes_for :schedules
 

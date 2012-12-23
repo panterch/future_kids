@@ -32,19 +32,8 @@ module ApplicationHelper
     { "Ja" => true, "Nein" => false }
   end
 
-  def school_collection_for_kids
-    values = Kid.connection.select_values("SELECT distinct school FROM kids")
-    values.compact.sort.reject(&:blank?)
-  end
-
-  def school_collection_for_teachers
-    values = Teacher.connection.select_values("SELECT distinct school FROM users WHERE type='Teacher'")
-    values.compact.sort.reject(&:blank?)
-  end
-
-  def school_collection_for_mentors
-    values = Teacher.connection.select_values("SELECT distinct primary_kids_school FROM users WHERE type='Mentor'")
-    values.compact.sort.reject(&:blank?)
+  def school_collection
+    School.all.map{ |s| [ s.display_name, s.id ]}
   end
 
   def admin_collection
