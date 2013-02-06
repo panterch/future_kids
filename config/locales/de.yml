@@ -215,6 +215,7 @@ de:
       document: "Dokument"
       comment: Kommentar
       school: Schulhaus
+      principal: Schulleiter
 
     attributes:
       kid:
@@ -242,7 +243,7 @@ de:
         language: Erstsprache
         phone: Telefonnummer
         translator: 'Eltern brauchen bei Gesprächen unbedingt einen Dolmetscher'
-        school: Schule
+        school: Schulhaus
         goal_1: 'Fachliche Lernziele'
         goal_2: 'Überfachliche Lernziele'
         inactive: Inaktiv gesetzt
@@ -312,7 +313,7 @@ de:
       teacher:
         kids: Kinder
         secondary_kids: "Kinder (als 2. Lehrperson)"
-        school: Schule
+        school: Schulhaus
       document:
         title: Titel
         category: Kategorie

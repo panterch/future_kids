@@ -30,6 +30,7 @@
               -if current_user.is_a?(Admin)
                 %li= link_to Teacher.model_name.human, teachers_path
                 %li= link_to Mentor.model_name.human, mentors_path
+                %li= link_to Principal.model_name.human, principals_path
               -if can? :read, Reminder
                 %li= link_to Reminder.model_name.human, reminders_path
               %li= link_to 'Eigene Daten', current_user

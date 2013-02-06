@@ -25,6 +25,7 @@ FutureKids::Application.routes.draw do
   resources :schools
   resources :reminders
   resources :teachers
+  resources :principals
 
   match '/exception_test' => 'exception_test#error'
 end

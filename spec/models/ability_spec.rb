@@ -15,6 +15,7 @@ describe Ability do
     let(:direct_associated_journal) { Factory(:journal, :kid => foreign_kid,
                                               :mentor => mentor) }
     let(:review) { Factory.build(:review, :kid => kid) }
+
     context "mentors" do
       it "can access mentors in general" do
         assert ability.can?(:read, Mentor)
@@ -276,6 +277,47 @@ describe Ability do
     it "cannot read journals of kids he is not set as teacher" do
       assert @ability.cannot?(:read, foreign_journal)
     end
+  end
+
+
+  describe "Principal" do
+    before(:each) do
+      @principal = Factory(:principal)
+      @school = @principal.school
+      @ability = Ability.new(@principal)
+    end
+
+    it "can read his own data" do
+      assert @ability.can?(:read, @principal)
+    end
+    it "cannot read other principals data" do
+      assert @ability.cannot?(:update, Factory(:principal))
+    end
+    it "cannot update its own record because he could then update its school" do
+      assert @ability.cannot?(:update, @principal)
+    end
+
+    it "cannot access foreign kids" do
+      assert @ability.cannot?(:read, Factory(:kid))
+    end
+    it "can read own schools kids" do
+      assert @ability.can?(:read, Factory(:kid, :school => @school))
+    end
+    it "cannot edit own schools kids" do
+      assert @ability.cannot?(:edit, Factory(:kid, :school => @school))
+    end
+    it "cannot update own schools kids" do
+      assert @ability.cannot?(:update, Factory(:kid, :school => @school))
+    end
+
+    it "cannot read teachers of other schools" do
+      assert @ability.cannot?(:read, Factory(:teacher))
+    end
+    it "can read teachers of own school" do
+      assert @ability.can?(:read, Factory(:teacher, :school => @school))
+    end
+
+
   end
 
 end

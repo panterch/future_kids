@@ -74,6 +74,11 @@ class Ability
       # journals can be read indirect via kids
       can :read, Journal, :kid => { :teacher_id => user.id }
       can :read, Journal, :kid => { :secondary_teacher_id => user.id }
+
+    elsif user.is_a?(Principal)
+      can :read, Principal, :id => user.id # only read allowd, since school_id may be changed
+      can :read, Kid, :school_id => user.school_id
+      can :read, Teacher, :school_id => user.school_id
     end
 
     # documents can be read by any users
@@ -81,7 +86,7 @@ class Ability
 
     # destruction of records is generally not allowed
     cannot :destroy, :all
-    
+
     # reminders are only created by a batch job, but the destruction is
     # customized in the controller to allow setting the acknowledged_at date
     cannot :create, Reminder

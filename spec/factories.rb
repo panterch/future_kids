@@ -18,6 +18,11 @@ Factory.define :teacher, :class => 'Teacher', :parent => :user do |f|
   f.sequence(:email) { |n| "teacher_#{n}@example.com" }
 end
 
+Factory.define :principal, :class => 'Principal', :parent => :user do |f|
+  f.sequence(:email) { |n| "principal_#{n}@example.com" }
+  f.association :school
+end
+
 Factory.define :kid do |f|
   f.sequence(:name) { |n| "Kid #{n}"}
   f.prename 'Prename'
