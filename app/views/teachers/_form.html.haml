@@ -15,5 +15,6 @@
     -if current_user.is_a?(Admin)
       %a(name='todo')
       = form.input :todo
+      = form.input :note
       = form.input :inactive
-  = form.buttons 
+  = form.buttons

@@ -35,8 +35,8 @@ class Ability
       can :read, Mentor, :secondary_kids => { :mentor_id => user.id }
 
       # mentor may be associated via two fields to a kid
-      can :read, Kid, :mentor_id => user.id
-      can :read, Kid, :secondary_mentor_id => user.id, :secondary_active => true
+      can :read, Kid, :mentor_id => user.id, :inactive => false
+      can :read, Kid, :secondary_mentor_id => user.id, :secondary_active => true, :inactive => false
 
       # journals can be read indirect via kids or direct if they are associated
       # a mentor may read all journal entries with whom he is directly or
@@ -62,8 +62,8 @@ class Ability
     elsif user.is_a?(Teacher)
       can :manage, Teacher, :id => user.id
       can :create, Kid
-      can [ :read, :update ], Kid, :teacher_id => user.id
-      can :read, Kid, :secondary_teacher_id => user.id
+      can [ :read, :update ], Kid, :teacher_id => user.id, :inactive => false
+      can :read, Kid, :secondary_teacher_id => user.id, :inactive => false
       can :read, Mentor, :kids => { :teacher_id => user.id }
       can :read, Mentor, :kids => { :secondary_teacher_id => user.id }
       can :read, Mentor, :secondary_kids => { :teacher_id => user.id ,
@@ -77,8 +77,8 @@ class Ability
 
     elsif user.is_a?(Principal)
       can :read, Principal, :id => user.id # only read allowd, since school_id may be changed
-      can :read, Kid, :school_id => user.school_id
-      can :read, Teacher, :school_id => user.school_id
+      can :read, Kid, :school_id => user.school_id, :inactive => false
+      can :read, Teacher, :school_id => user.school_id, :inactive => false
     end
 
     # documents can be read by any users

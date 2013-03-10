@@ -1,4 +1,4 @@
-# German translations for Ruby on Rails 
+# German translations for Ruby on Rails
 # by Clemens Kofler (clemens@railway.at)
 # contributors:
 #  - Alexander Dreher - http://github.com/alexdreher - Rails 3 update
@@ -19,7 +19,7 @@ de:
       - :day
       - :month
       - :year
-  
+
   time:
     formats:
       default: "%A, %d. %B %Y, %H:%M Uhr"
@@ -29,7 +29,7 @@ de:
 
     am: "vormittags"
     pm: "nachmittags"
-      
+
   datetime:
     distance_in_words:
       half_a_minute: 'eine halbe Minute'
@@ -120,11 +120,11 @@ de:
           unit: ""
           thousand: Tausend
           million: Millionen
-          billion: 
+          billion:
             one: Milliarde
             others: Milliarden
           trillion: Billionen
-          quadrillion: 
+          quadrillion:
             one: Billiarde
             others: Billiarden
 
@@ -176,7 +176,7 @@ de:
       even: "muss gerade sein"
       not_an_integer: "muss ganzzahlig sein"
       taken: "bereits vergeben"
-      
+
   activerecord:
     errors:
       template:
@@ -185,7 +185,7 @@ de:
           other:  "Konnte %{model} nicht speichern: %{count} Fehler."
         body: "Bitte überprüfen Sie die folgenden Felder:"
 
-      messages:        
+      messages:
         taken: "ist bereits vergeben"
         record_invalid: "Gültigkeitsprüfung ist fehlgeschlagen: %{errors}"
         <<: *errors_messages
@@ -214,7 +214,7 @@ de:
       reminder: "Erinnerung"
       document: "Dokument"
       comment: Kommentar
-      school: Schulhaus
+      school: Schule
       principal: Schulleiter
 
     attributes:
@@ -225,7 +225,7 @@ de:
         address: Strasse
         city: "Wohnort"
         zip: "PLZ"
-        street_no: "Strassennummer"
+        street_no: "Hausnummer"
         note: "Weitere Bemerkungen"
         sex: "Geschlecht"
         grade: "Klassenstufe"
@@ -243,7 +243,7 @@ de:
         language: Erstsprache
         phone: Telefonnummer
         translator: 'Eltern brauchen bei Gesprächen unbedingt einen Dolmetscher'
-        school: Schulhaus
+        school: Schule
         goal_1: 'Fachliche Lernziele'
         goal_2: 'Überfachliche Lernziele'
         inactive: Inaktiv gesetzt
@@ -273,7 +273,7 @@ de:
         reason: Anlass
         kind: "Art des Gesprächs"
         members: "Teilnehmende"
-        content: "Inhalt" 
+        content: "Inhalt"
         outcome: "Abmachungen"
         note: "Beobachtungen / Anmerkungen"
         attendee: "Teilnehmer"
@@ -286,19 +286,20 @@ de:
         address: Strasse
         city: "Wohnort"
         zip: "PLZ"
-        street_no: "Strassennummer"
+        street_no: "Hausnummer"
         dob: Geburtsdatum
         transport: "ÖV"
         phone: Telefon
         personnel_number: Personalnummer
         field_of_study: Studienfach
         education: Ausbildungsstufe
-        school: Schulhaus
-        etcs: ETCS
+        school: Schule
+        etcs: ECTS
         entry_date: Datum des Einstiges
         remember_me: Angemeldet bleiben
         inactive: Inaktiv gesetzt
         todo: Pendenzen
+        note: Bemerkungen
       mentor:
         available: "Mögliche Termine"
         absence: "Bekannte Absenzen"
@@ -313,7 +314,7 @@ de:
       teacher:
         kids: Kinder
         secondary_kids: "Kinder (als 2. Lehrperson)"
-        school: Schulhaus
+        school: Schule
       document:
         title: Titel
         category: Kategorie
@@ -322,6 +323,15 @@ de:
       comment:
         by: 'Verfasser/in'
         body: Kommentar
+      school:
+        street: Strasse
+        street_no: Hausnummer
+        zip: PLZ
+        city: Ort
+        phone: Telefon
+        homepage: Homepage
+        principals: Schulleiter
+        teachers: Lehrer
 
   notifications:
     remind:

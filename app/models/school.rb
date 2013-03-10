@@ -5,6 +5,9 @@ class School < ActiveRecord::Base
 
   default_scope :order => :name
 
+  has_many :principals
+  has_many :teachers
+
   def display_name
     name
   end

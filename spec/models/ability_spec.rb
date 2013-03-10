@@ -303,6 +303,10 @@ describe Ability do
     it "can read own schools kids" do
       assert @ability.can?(:read, Factory(:kid, :school => @school))
     end
+    it "cannot read own schools inactive kids" do
+      assert @ability.cannot?(:read, Factory(:kid, :school => @school,
+                                             :inactive => true))
+    end
     it "cannot edit own schools kids" do
       assert @ability.cannot?(:edit, Factory(:kid, :school => @school))
     end

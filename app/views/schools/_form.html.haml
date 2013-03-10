@@ -2,4 +2,18 @@
   = form.semantic_errors
   = form.inputs do
     = form.input :name
+    = form.input :street
+    = form.input :street_no
+    = form.input :zip
+    = form.input :city
+    = form.input :phone
+    = form.input :homepage
   = form.buttons
+
+%h2 Assoziierte Personen
+
+= show_for resource do |show|
+  = show.association :principals do |p|
+    %li= can_link_to(p)
+  = show.association :teachers do |t|
+    %li= can_link_to(t)

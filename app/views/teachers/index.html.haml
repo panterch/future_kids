@@ -2,7 +2,7 @@
   %h2 Filterkriterium f&uuml;r Lehrpersonen
   = form_for :teacher, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
     .filterfield
-      %label Schulhaus
+      %label Schule
       = f.select :school_id, school_collection, { :include_blank => true }
     .filterfield
       %label Inaktiv
