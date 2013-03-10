@@ -2,11 +2,11 @@ class Schedule < ActiveRecord::Base
 
   belongs_to :person, :polymorphic => true
 
-  validates_numericality_of :day, :only_integer => true, 
+  validates_numericality_of :day, :only_integer => true,
                             :greater_than_or_equal_to => 1, :less_than_or_equal_to => 5
-  validates_numericality_of :hour, :only_integer => true, 
+  validates_numericality_of :hour, :only_integer => true,
                             :greater_than_or_equal_to => 0, :less_than_or_equal_to => 23
-  validates_numericality_of :minute, :only_integer => true, 
+  validates_numericality_of :minute, :only_integer => true,
                             :greater_than_or_equal_to => 0, :less_than_or_equal_to => 59
 
   validates_uniqueness_of :person_id, :scope => [:person_type, :day, :hour, :minute]
@@ -26,7 +26,8 @@ class Schedule < ActiveRecord::Base
   def self.build_week()
     (1..5).map do |day|
       (13..19).map do |hour|
-        [0, 30].map do |minute|
+        minutes = (hour == 19) ? [0] : [0, 30] # 19:30 does not exist
+        minutes.map do |minute|
           Schedule.new(:day => day, :hour => hour, :minute => minute)
         end
       end.flatten
