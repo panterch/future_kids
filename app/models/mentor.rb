@@ -17,8 +17,6 @@ class Mentor < User
   def self.mentors_grouped_by_assigned_kids
     groups = { :both => [], :only_primary => [], :only_secondary => [],
                :none => [], :substitute => [] }
-
-
     Mentor.active.each do |m|
       if m.substitute?
         groups[:substitute] << m
