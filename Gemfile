@@ -1,8 +1,8 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.11'
+gem 'rails', '3.2.13'
 
-gem 'json'
+gem 'json', '1.7.7'
 gem 'haml', '3.1.4'
 gem 'therubyracer', '0.10.1'
 gem 'libv8', '3.3.10.2'
@@ -35,7 +35,7 @@ group :development, :test do
   gem 'yard'
   gem 'rspec-rails'
   gem 'capybara', '1.1.1'
-  gem 'spork'  
+  gem 'spork'
   gem 'rb-fsevent'
   gem 'guard-rspec'
   gem 'guard-spork'

@@ -215,15 +215,15 @@ de:
       document: "Dokument"
       comment: Kommentar
       school: Schule
-      principal: Schulleiter
+      principal: "SL/QUIMS-Verantwortliche/r"
 
     attributes:
       kid:
         name: "Name"
         prename: "Vorname"
         parent: "Name der/s Erziehungsberechtigten"
-        address: Strasse
-        city: "Wohnort"
+        address: "Strasse, Nr."
+        city: "PLZ, Ort"
         zip: "PLZ"
         street_no: "Hausnummer"
         note: "Weitere Bemerkungen"
@@ -262,8 +262,8 @@ de:
         title: Titel
         goal: Lernziel
         subject: "Fach / Thema"
-        method: Vorgehensweise
-        outcome: "Erfolge / Schwierigkeiten"
+        method: "Beobachtungen und Vorgehensweise"
+        outcome: "Erfolge / Schwierigkeiten und Interpretation"
         note: Bemerkungen
         mentor: "Mentor/in"
         kid: Kind
@@ -283,8 +283,8 @@ de:
         password_confirmation: "Passwort Bestätigung"
         name: Name
         prename: Vorname
-        address: Strasse
-        city: "Wohnort"
+        address: "Strasse, Nr."
+        city: "PLZ, Ort"
         zip: "PLZ"
         street_no: "Hausnummer"
         dob: Geburtsdatum
@@ -324,14 +324,18 @@ de:
         by: 'Verfasser/in'
         body: Kommentar
       school:
-        street: Strasse
+        street: "Strasse, Nr."
         street_no: Hausnummer
         zip: PLZ
-        city: Ort
-        phone: Telefon
+        city: "PLZ, Ort"
+        phone: Telefon Teamzimmer
         homepage: Homepage
-        principals: Schulleiter
+        principals: SL/QUIMS-Verantwortliche/r
         teachers: Lehrer
+        social: Schulsozialarbeiter/in
+        district: Schulgmeinde
+        note: Bemerkungen
+        term: Startzeit
 
   notifications:
     remind:

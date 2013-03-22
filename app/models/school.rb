@@ -1,5 +1,6 @@
 class School < ActiveRecord::Base
-  attr_accessible :name, :principal_id
+  attr_accessible :name, :principal_id, :street, :city, :phone, :homepage,
+    :social, :district, :note, :term
 
   validates_presence_of :name
 

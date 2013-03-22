@@ -10,8 +10,6 @@
   = show.attribute(:email) { mail_to resource.email }
   - if is_viewing_own_data
     = show.attribute :address
-    = show.attribute :street_no
-    = show.attribute :zip
     = show.attribute :city
     = show.attribute :dob
   = show.attribute :phone
@@ -20,7 +18,6 @@
   = show.attribute :field_of_study
   = show.attribute :education
   = show.attribute :etcs
-  = show.attribute :absence
   = show.attribute :term
   = show.attribute :transport
   = show.association :primary_kids_school
@@ -33,12 +30,14 @@
       = can_link_to k
       = "(#{k.city})" if k.city.present?
   -if current_user.is_a?(Admin)
+    = show.attribute :absence
+    = show.attribute :note
     = show.attribute :todo
     = show.attribute :substitute
     = show.attribute :inactive
 
 -# times are only visible to the mentor himself or an admin
-- if is_viewing_own_data 
+- if is_viewing_own_data
   %h2
     Zeiterfassung
     = select_month(@month, {}, :class => 'select_mentor_journal_date')

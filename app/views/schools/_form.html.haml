@@ -3,17 +3,13 @@
   = form.inputs do
     = form.input :name
     = form.input :street
-    = form.input :street_no
-    = form.input :zip
     = form.input :city
     = form.input :phone
     = form.input :homepage
+    = form.input :social
+    = form.input :district
+    = form.input :term, :as => :select, :collection => term_collection
+    = form.input :note
   = form.buttons
 
-%h2 Assoziierte Personen
-
-= show_for resource do |show|
-  = show.association :principals do |p|
-    %li= can_link_to(p)
-  = show.association :teachers do |t|
-    %li= can_link_to(t)
+= render :partial => 'associations'

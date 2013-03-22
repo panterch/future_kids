@@ -10,8 +10,6 @@
   = show.attribute :language
   = show.attribute :parent
   = show.attribute :address
-  = show.attribute :street_no
-  = show.attribute :zip
   = show.attribute :city
   = show.attribute :phone
   = show.attribute :translator
@@ -26,13 +24,13 @@
   = show.attribute :goal_2
   = show.attribute :meeting_day
   = show.attribute :meeting_start_at
-  = show.attribute :teacher do 
+  = show.attribute :teacher do
     = can_link_to(resource.teacher)
-  = show.attribute :secondary_teacher do 
+  = show.attribute :secondary_teacher do
     = can_link_to(resource.secondary_teacher)
-  = show.attribute :mentor do 
+  = show.attribute :mentor do
     = can_link_to(resource.mentor)
-  = show.attribute :secondary_mentor do 
+  = show.attribute :secondary_mentor do
     = can_link_to(resource.secondary_mentor)
   = show.attribute :secondary_active
 
@@ -55,7 +53,7 @@
   = show_for journal do |journal_show|
     %h3
       = journal.display_name
-    = journal_show.attribute :mentor do 
+    = journal_show.attribute :mentor do
       = can_link_to(journal.mentor)
     = journal_show.attribute :held_at
     - if journal.cancelled?
