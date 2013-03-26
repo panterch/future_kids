@@ -74,7 +74,7 @@
         = image_tag 'teaser.jpg'
       - flash.each do |name, msg|
         = content_tag :div, msg, :id => "flash_#{name}"
-          
+
       #content
         = yield
 
@@ -85,6 +85,6 @@
           8040 Zürich
 
           Telefon: 044 415 65 91
-          = mail_to 'futurekids@aoz.ch', nil, :encode => "hex"
-        
+          = mail_to 'info@aoz-futurekids.ch', nil, :encode => "hex"
+
 
