@@ -5,8 +5,11 @@
       %label Startzeit
       = f.select :term, term_collection, { :include_blank => true }
     .filterfield
-      %label Einsatzort
+      %label=Mentor.human_attribute_name(:primary_kids_school)
       = f.select :primary_kids_school_id, school_collection, { :include_blank => true }
+    .filterfield
+      %label=Mentor.human_attribute_name(:primary_kids_meeting_day)
+      = f.select :primary_kids_meeting_day, wday_collection, { :include_blank => true }
     .filterfield
       %label &Ouml;V
       = f.select :transport, transport_collection, { :include_blank => true }

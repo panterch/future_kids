@@ -304,6 +304,7 @@ de:
         available: "Mögliche Termine"
         absence: "Bekannte Absenzen"
         primary_kids_school: "Einsatzort"
+        primary_kids_meeting_day: "Einsatztag"
         term: "Startzeit"
         kids: Kinder
         school: Ausbildungsinstitution

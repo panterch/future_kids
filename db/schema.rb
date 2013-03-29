@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130310204356) do
+ActiveRecord::Schema.define(:version => 20130329212908) do
 
   create_table "comments", :force => true do |t|
     t.integer  "journal_id", :null => false
@@ -176,14 +176,14 @@ ActiveRecord::Schema.define(:version => 20130310204356) do
     t.text     "available"
     t.boolean  "etcs"
     t.date     "entry_date"
-    t.datetime "created_at",                                               :null => false
-    t.datetime "updated_at",                                               :null => false
-    t.string   "email",                                 :default => "",    :null => false
-    t.string   "encrypted_password",     :limit => 128, :default => "",    :null => false
+    t.datetime "created_at",                                                 :null => false
+    t.datetime "updated_at",                                                 :null => false
+    t.string   "email",                                   :default => "",    :null => false
+    t.string   "encrypted_password",       :limit => 128, :default => "",    :null => false
     t.string   "reset_password_token"
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",                         :default => 0
+    t.integer  "sign_in_count",                           :default => 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
     t.string   "current_sign_in_ip"
@@ -193,15 +193,16 @@ ActiveRecord::Schema.define(:version => 20130310204356) do
     t.string   "transport"
     t.string   "term"
     t.date     "dob"
-    t.boolean  "inactive",                              :default => false
+    t.boolean  "inactive",                                :default => false
     t.text     "todo"
-    t.boolean  "substitute",                            :default => false
+    t.boolean  "substitute",                              :default => false
     t.string   "zip"
     t.string   "street_no"
     t.integer  "primary_kids_school_id"
     t.string   "college"
     t.integer  "school_id"
     t.text     "note"
+    t.integer  "primary_kids_meeting_day"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

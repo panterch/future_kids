@@ -100,9 +100,13 @@ class Kid < ActiveRecord::Base
   # a field on mentor which has to be synced on each write
   def sync_school_field_with_mentor
     if self.mentor
-      self.mentor.update_attribute(:primary_kids_school_id, self.school_id)
+      self.mentor.update_attributes(
+        :primary_kids_school_id => self.school_id,
+        :primary_kids_meeting_day => self.meeting_day)
     elsif self.mentor_id_was
-      Mentor.find(self.mentor_id_was).update_attribute(:primary_kids_school_id, nil)
+      Mentor.find(self.mentor_id_was).update_attributes(
+        :primary_kids_school_id => nil,
+        :primary_kids_meeting_day => nil)
     end
   end
 

@@ -20,7 +20,9 @@
   = show.attribute :etcs
   = show.attribute :term
   = show.attribute :transport
-  = show.association :primary_kids_school
+  = show.association :primary_kids_school do
+    = can_link_to(resource.primary_kids_school)
+  = show.attribute :primary_kids_meeting_day
   = show.association :kids do |k|
     %li
       = can_link_to k
