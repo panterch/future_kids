@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'spork'
+require 'spork/ext/ruby-debug'
 
 ENV["RAILS_ENV"] ||= 'test'
 
@@ -9,7 +10,7 @@ Spork.prefork do
   require "rails/application"
   Spork.trap_method(Rails::Application, :reload_routes!)
 
-  # Loading more in this block will cause your tests to run faster. However, 
+  # Loading more in this block will cause your tests to run faster. However,
   # if you change any configuration or code from libraries loaded here, you'll
   # need to restart spork for it take effect.
   require File.expand_path("../../config/environment", __FILE__)

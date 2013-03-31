@@ -76,7 +76,8 @@ class Ability
       can :read, Journal, :kid => { :secondary_teacher_id => user.id }
 
     elsif user.is_a?(Principal)
-      can :read, Principal, :id => user.id # only read allowd, since school_id may be changed
+      # own record may be read
+      can [ :read, :update ], Principal, :id => user.id
       can :read, Kid, :school_id => user.school_id, :inactive => false
       can :read, Teacher, :school_id => user.school_id, :inactive => false
     end

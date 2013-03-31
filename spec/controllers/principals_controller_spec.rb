@@ -15,8 +15,32 @@ describe PrincipalsController do
         response.should be_successful
       end
 
-      it 'cant edit the own record' do
-        expect { get :edit, :id => @principal.id }.to raise_error(CanCan::AccessDenied)
+      it 'can edit the own record' do
+        get :edit, :id => @principal.id
+        response.should be_successful
+      end
+
+      it 'cant edit the other record' do
+        expect do
+          get :edit, :id => Factory(:principal).id
+        end.to raise_error(CanCan::AccessDenied)
+      end
+
+      it 'can update its own record' do
+        put :update, :id => @principal.id, :principal => {
+          :name => 'changed' }
+        response.should be_redirect
+        @principal.reload.name.should eq('changed')
+      end
+
+      it 'cannot update its own school or inactivity' do
+        @original_school = @principal.school
+        @school = Factory(:school)
+        expect do
+          put :update, :id => @principal.id, :principal => {
+            :school_id => @school.id  }
+        end.to raise_error(SecurityError)
+        @principal.reload.school.should eq(@original_school)
       end
 
     end
@@ -44,6 +68,15 @@ describe PrincipalsController do
       get :edit, :id => @principal.id
       response.should be_successful
     end
+
+    it 'can update the principals school' do
+      @school = Factory(:school)
+      put :update, :id => @principal.id, :principal => {
+        :school_id => @school.id  }
+      response.should be_redirect
+      @principal.reload.school.should eq(@school)
+    end
+
 
   end
 

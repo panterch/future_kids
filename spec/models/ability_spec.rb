@@ -293,8 +293,8 @@ describe Ability do
     it "cannot read other principals data" do
       assert @ability.cannot?(:update, Factory(:principal))
     end
-    it "cannot update its own record because he could then update its school" do
-      assert @ability.cannot?(:update, @principal)
+    it "can update its own record" do
+      assert @ability.can?(:update, @principal)
     end
 
     it "cannot access foreign kids" do
