@@ -12,7 +12,7 @@
       = f.select :admin_id, admin_collection, { :include_blank => true }
     .filterfield
       %label Übersetzer
-      = f.select :translator, translator_collection, { :include_blank => true }
+      = f.select :translator, yes_no_collection, { :include_blank => true }
     .filterfield
       %label=Kid.human_attribute_name(:meeting_day)
       = f.select :meeting_day, wday_collection, { :include_blank => true }

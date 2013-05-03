@@ -28,7 +28,7 @@ module ApplicationHelper
     %w(Halbtax GA Regenbogen\ Kanton Zone\ 10\ mit\ Halbtax Zone\ 10\ ohne\ Halbtax)
   end
 
-  def translator_collection
+  def yes_no_collection
     { "Ja" => true, "Nein" => false }
   end
 
@@ -92,7 +92,7 @@ module ApplicationHelper
     end
     ''
   end
-    
+
   def schedule_tags(schedule)
     return [] unless @mentor_schedules
     tags = []
@@ -102,6 +102,6 @@ module ApplicationHelper
     end
     tags
   end
-    
+
 
 end

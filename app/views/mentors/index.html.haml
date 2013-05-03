@@ -14,6 +14,9 @@
       %label &Ouml;V
       = f.select :transport, transport_collection, { :include_blank => true }
     .filterfield
+      %label ECTS
+      = f.select :etcs, yes_no_collection, { :include_blank => true }
+    .filterfield
       %label Inaktiv
       = f.check_box :inactive
     .filterfield
