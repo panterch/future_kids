@@ -23,7 +23,6 @@ class Notifications < ActionMailer::Base
     cc = []
     cc << @kid.admin.email if @kid.admin
     to = @journal.mentor.email
-    to = 'seb@panter.ch' # TODO remove when done
     mail :to => to, :cc => cc
   end
 
