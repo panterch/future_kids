@@ -1,9 +1,9 @@
 Liebe Mentorin, Lieber Mentor
 
-Du hast einen Kommentar für ein Lernjournal bekommen.
+Du hast einen Kommentar für ein Lernjournal bekommen:
+<%= kid_url(@kid)+"#journal_#{@journal.id}" %>
 
 Journal:      <%= @journal.display_name %>
-Link:         <%= kid_url(@kid)+"#journal_#{@journal.id}" %>
 Verfasser/in: <%= @comment.by %>
 Kommentar:
 <%= @comment.body %>
