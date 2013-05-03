@@ -29,7 +29,7 @@ class Journal < ActiveRecord::Base
   def human_method; method.try(:textilize); end
   def human_outcome; outcome.try(:textilize); end
   def human_note; note.try(:textilize); end
-  
+
   def human_start_at
     return nil unless start_at
     I18n.l(start_at, :format => :time)
@@ -50,7 +50,7 @@ class Journal < ActiveRecord::Base
   end
 
 protected
-  
+
   def clean_times
     self.end_at = nil
     self.start_at = nil

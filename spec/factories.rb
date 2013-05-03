@@ -67,3 +67,9 @@ end
 Factory.define :school do |f|
   f.name "The school"
 end
+
+Factory.define :comment do |f|
+  f.association :journal
+  f.body "A comment"
+  f.by "Commentator"
+end

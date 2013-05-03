@@ -16,6 +16,17 @@ class Notifications < ActionMailer::Base
     mail :to => "info@aoz-futurekids.ch"
   end
 
+  def comment_created(comment)
+    @comment = comment
+    @journal = comment.journal
+    @kid = @journal.kid
+    cc = []
+    cc << @kid.admin.email if @kid.admin
+    to = @journal.mentor.email
+    to = 'seb@panter.ch' # TODO remove when done
+    mail :to => to, :cc => cc
+  end
+
   def test(to)
     mail :subject => 'future kids test mail', :to => to
   end

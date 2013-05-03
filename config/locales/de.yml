@@ -343,6 +343,8 @@ de:
       subject: Future Kids Erinnerung
     reminders_created:
       subject: Neue Erinnerungen
+    comment_created:
+      subject: Neuer Lernjournal Kommentar
 
 
   kids:

@@ -48,6 +48,12 @@ describe "FactoryGirl" do
     it("should be persistable") { schedule.save!.should be_true }
   end
 
+  describe "a comment by factory" do
+    let(:comment) { Factory.build(:comment) }
+    it("should be valid") { comment.should be_valid }
+    it("should be persistable") { comment.save!.should be_true }
+  end
+
   # this test assures that the database is cleaned up before each
   # example.
   describe "a persisted mentor by factory" do

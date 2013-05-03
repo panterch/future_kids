@@ -41,6 +41,20 @@ describe Notifications do
       @mail.body.encoded.should match("Liebe")
     end
 
+  end
+
+
+  describe "comment created" do
+
+    before(:each) do
+      @comment = Factory(:comment)
+      @mail = Notifications.comment_created(@comment)
+    end
+
+    it "renders the body" do
+      @mail.body.encoded.should match("Liebe")
+    end
+
 
   end
 

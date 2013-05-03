@@ -6,6 +6,7 @@ describe CommentsController do
     @mentor = Factory(:mentor)
     @kid = Factory(:kid, :mentor => @mentor)
     @journal =  Factory(:journal, :kid => @kid, :mentor => @mentor)
+    ActionMailer::Base.deliveries.clear
   end
 
 
@@ -13,7 +14,7 @@ describe CommentsController do
     before(:each) do
       sign_in @mentor
     end
-  
+
     it 'should render the new template' do
       get :new, :kid_id => @kid.id, :journal_id => @journal.id
       response.should be_successful
@@ -30,8 +31,15 @@ describe CommentsController do
     end
 
     it 'should create a journal entry' do
-      post :create, :kid_id => @kid.id, :journal_id => @journal.id, :comment => { :by => 'by', :body => 'body' }
+      post :create, :kid_id => @kid.id, :journal_id => @journal.id,
+        :comment => Factory.attributes_for(:comment)
       response.should be_redirect
+    end
+
+    it 'should send a mail on comment creation' do
+      post :create, :kid_id => @kid.id, :journal_id => @journal.id,
+        :comment => Factory.attributes_for(:comment)
+      assert_equal 1, ActionMailer::Base.deliveries.size
     end
   end
 
