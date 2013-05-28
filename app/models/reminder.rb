@@ -47,6 +47,8 @@ class Reminder < ActiveRecord::Base
   def self.conditionally_create_reminders(time = Time.now)
     reminders_created = 0
 
+    logger.info("Beginning reminder run, reference Date #{time}")
+
     Kid.all.each do |kid|
       logger.info("[#{kid.id}] #{kid.display_name}: checking journal entries")
       if !kid.journal_entry_due?(time)
@@ -65,8 +67,8 @@ class Reminder < ActiveRecord::Base
         logger.info("[#{kid.id}] #{kid.display_name}: no mentors set")
         next
       end
-      logger.info("[#{kid.id}] #{kid.display_name}: creating reminder")
-      Reminder.create_for(kid, time)
+      reminder = Reminder.create_for(kid, time)
+      logger.info("[#{kid.id}] #{kid.display_name}: created reminder [#{reminder.id}]")
       reminders_created += 1
     end
 
@@ -74,6 +76,8 @@ class Reminder < ActiveRecord::Base
     if (0 < reminders_created)
       Notifications.reminders_created(reminders_created).deliver
     end
+
+    logger.info("Created #{reminders_created} reminders, reference Date #{time}")
 
     reminders_created
   end
