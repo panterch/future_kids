@@ -20,7 +20,7 @@ gem 'pg', '0.11.0'
 gem 'inherited_resources', '1.2.1'
 gem 'RedCloth', '4.2.9'
 gem 'show_for', '0.2.4'
-gem 'whenever', '0.6.8', :require => false
+gem 'whenever', :require => false
 
 group :assets do
   gem 'sass-rails'
@@ -43,6 +43,6 @@ group :development, :test do
   gem 'factory_girl_rails', '1.4.0'
   gem 'factory_girl', '2.3.2'
   gem 'ruby-debug'
-  gem 'capistrano', '2.8.0'
+  gem 'capistrano'
   gem 'capistrano-ext'
 end
