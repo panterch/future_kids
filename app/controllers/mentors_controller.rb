@@ -20,7 +20,7 @@ class MentorsController < ApplicationController
     # admins, since they could have no chance to alter their filter settings in
     # some cases
     if !current_user.is_a?(Admin) && (1 == collection.count)
-      redirect_to collection.first 
+      redirect_to collection.first
     else
       index!
     end

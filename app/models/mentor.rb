@@ -37,6 +37,15 @@ class Mentor < User
     I18n.t('date.day_names')[primary_kids_meeting_day]
   end
 
+  def total_duration
+    self.journals.sum(&:duration)
+  end
+
+  def month_count
+    Journal.unscoped.where(:mentor_id => self.id).
+      select(:month).uniq.count
+  end
+
 protected
 
   # inactive mentors should not be connected to other persons

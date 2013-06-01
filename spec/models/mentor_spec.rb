@@ -70,4 +70,36 @@ describe Mentor do
       @mentor.secondary_kids.count.should eq(0)
     end
   end
+
+  context 'total minutes' do
+    it 'should count journals' do
+      @mentor = Factory(:mentor)
+      @journal = Factory(:journal, :mentor => @mentor,
+        :start_at => Time.parse("13:00"),
+        :end_at  => Time.parse("14:30"))
+      @mentor.total_duration.should eq(90)
+    end
+  end
+
+  context 'month_count' do
+    it 'counts journals per month' do
+      @mentor = Factory(:mentor)
+      Factory(:journal, :mentor => @mentor,
+              :held_at => Date.parse("2011-05-30"))
+      Factory(:journal, :mentor => @mentor,
+              :held_at => Date.parse("2011-06-01"))
+      @mentor.month_count.should eq(2)
+    end
+
+    it 'counts two journals in month once' do
+      @mentor = Factory(:mentor)
+      Factory(:journal, :mentor => @mentor,
+              :held_at => Date.parse("2011-05-30"))
+      Factory(:journal, :mentor => @mentor,
+              :held_at => Date.parse("2011-05-01"))
+      @mentor.month_count.should eq(1)
+    end
+
+  end
+
 end

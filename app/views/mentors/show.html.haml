@@ -41,7 +41,7 @@
 -# times are only visible to the mentor himself or an admin
 - if is_viewing_own_data
   %h2
-    Zeiterfassung
+    Zeiterfassung für den Monat
     = select_month(@month, {}, :class => 'select_mentor_journal_date')
     = select_year(@year, {}, :class => 'select_mentor_journal_date')
   %table
@@ -65,6 +65,31 @@
         %td
           = (@journals.sum(&:duration) / 60.0).round(2)
           Stunden
+
+  %h2
+    Zeiterfassung über die Projektdauer
+  %table
+    - duration = (@mentor.total_duration / 60)
+    - coaching = @mentor.month_count
+
+    %tr
+      %td Geleistet insgesamt
+      %td
+        = duration
+        Stunden
+    %tr
+      %td
+        Coachingpauschale für
+        = coaching
+        Monate Einsatz
+      %td
+        = coaching
+        Stunden
+    %tr
+      %td Total
+      %td
+        = duration + coaching
+        Stunden
 
   .printonly
     %p.signature Unterschrift Mentor/in
