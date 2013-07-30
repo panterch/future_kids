@@ -1,8 +1,8 @@
 source 'http://rubygems.org'
 
-gem 'rails', '3.2.13'
+gem 'rails', '3.2.14'
 
-gem 'json', '1.7.7'
+gem 'json'
 gem 'haml', '3.1.4'
 gem 'therubyracer', '0.10.1'
 gem 'libv8', '3.3.10.2'
