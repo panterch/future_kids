@@ -63,7 +63,7 @@ class Ability
       can :manage, Teacher, :id => user.id
       can :create, Kid
       can [ :read, :update ], Kid, :teacher_id => user.id, :inactive => false
-      can :read, Kid, :secondary_teacher_id => user.id, :inactive => false
+      can [ :read, :update ], Kid, :secondary_teacher_id => user.id, :inactive => false
       can :read, Mentor, :kids => { :teacher_id => user.id }
       can :read, Mentor, :kids => { :secondary_teacher_id => user.id }
       can :read, Mentor, :secondary_kids => { :teacher_id => user.id ,

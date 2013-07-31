@@ -201,7 +201,7 @@ describe Ability do
     end
   end # end of tests for admin role
 
-  describe "teacher" do
+  describe "A Teacher" do
     before(:each) do
       @teacher = Factory(:teacher)
       @ability = Ability.new(@teacher)
@@ -230,6 +230,9 @@ describe Ability do
     end
     it "can read secondary assigned kid" do
       assert @ability.can?(:read, secondary_kid)
+    end
+    it "can update secondary assigned kid" do
+      assert @ability.can?(:update, secondary_kid)
     end
     it "cannot read foreign kid" do
       assert @ability.cannot?(:read, foreign_kid)
