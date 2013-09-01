@@ -10,14 +10,16 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130830154020) do
+ActiveRecord::Schema.define(:version => 20130901102730) do
 
   create_table "comments", :force => true do |t|
-    t.integer  "journal_id", :null => false
-    t.string   "by",         :null => false
-    t.text     "body",       :null => false
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
+    t.integer  "journal_id",                              :null => false
+    t.string   "by",                                      :null => false
+    t.text     "body",                                    :null => false
+    t.datetime "created_at",                              :null => false
+    t.datetime "updated_at",                              :null => false
+    t.boolean  "to_teacher",           :default => false
+    t.boolean  "to_secondary_teacher", :default => false
   end
 
   create_table "documents", :force => true do |t|

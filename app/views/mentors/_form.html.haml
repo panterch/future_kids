@@ -8,6 +8,7 @@
     = form.input :password_confirmation, :input_html => { :autocomplete => 'off' }
     = form.input :address
     = form.input :city
+    = form.input :photo
     = date_picker(form, :dob)
     = form.input :phone
     = form.input :personnel_number
@@ -17,6 +18,7 @@
     = form.input :etcs, :as => :boolean
     = form.input :term, :as => :select, :collection => term_collection
     = form.input :transport, :as => :select, :collection => transport_collection
+
     -if current_user.is_a?(Admin)
       = form.input :absence
       = form.input :note
@@ -24,6 +26,5 @@
       = form.input :todo
       = form.input :substitute
       = form.input :inactive
-      = form.input :photo
 
   = form.buttons

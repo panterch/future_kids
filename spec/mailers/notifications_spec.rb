@@ -55,7 +55,6 @@ describe Notifications do
       @mail.body.encoded.should match("Liebe")
     end
 
-
   end
 
 end

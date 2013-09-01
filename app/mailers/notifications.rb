@@ -20,10 +20,7 @@ class Notifications < ActionMailer::Base
     @comment = comment
     @journal = comment.journal
     @kid = @journal.kid
-    cc = []
-    cc << @kid.admin.email if @kid.admin
-    to = @journal.mentor.email
-    mail :to => to, :cc => cc
+    mail :to => @comment.recipients
   end
 
   def test(to)

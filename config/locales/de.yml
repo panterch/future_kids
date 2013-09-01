@@ -324,6 +324,8 @@ de:
       comment:
         by: 'Verfasser/in'
         body: Kommentar
+        to_teacher: Lehrperson
+        to_secondary_teacher: "Zweite Lehrperson"
       school:
         street: "Strasse, Nr."
         street_no: Hausnummer

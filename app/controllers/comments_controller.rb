@@ -4,7 +4,7 @@ class CommentsController < ApplicationController
 
   def new
     @comment = @journal.comments.build
-    @comment.by ||= current_user.display_name
+    @comment.initialize_default_values(current_user)
   end
 
   def create
