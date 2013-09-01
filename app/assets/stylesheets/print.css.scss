@@ -27,10 +27,14 @@ img#bg {
 
 #footer {
   display: none;
-}  
+}
 
 .printonly {
   display: block;
+}
+
+.screenonly {
+  display: none;
 }
 
 .signature {

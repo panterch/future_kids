@@ -4,39 +4,45 @@
   - if can?(:edit_schedules, resource)
     %li= link_to "Stundenplan bearbeiten", edit_schedules_mentor_path(resource)
 
-= show_for resource do |show|
-  = show.attribute :name
-  = show.attribute :prename
-  = show.attribute(:email) { mail_to resource.email }
-  - if is_viewing_own_data
-    = show.attribute :address
-    = show.attribute :city
-    = show.attribute :dob
-  = show.attribute :phone
-  = show.attribute :personnel_number
-  = show.attribute :college
-  = show.attribute :field_of_study
-  = show.attribute :education
-  = show.attribute :etcs
-  = show.attribute :term
-  = show.attribute :transport
-  = show.association :primary_kids_school do
-    = can_link_to(resource.primary_kids_school)
-  = show.attribute :primary_kids_meeting_day
-  = show.association :kids do |k|
-    %li
-      = can_link_to k
-      = "(#{k.city})" if k.city.present?
-  = show.association :secondary_kids do |k|
-    %li
-      = can_link_to k
-      = "(#{k.city})" if k.city.present?
-  -if current_user.is_a?(Admin)
-    = show.attribute :absence
-    = show.attribute :note
-    = show.attribute :todo
-    = show.attribute :substitute
-    = show.attribute :inactive
+.cols
+  .col2
+    = show_for resource do |show|
+      = show.attribute :name
+      = show.attribute :prename
+      = show.attribute(:email) { mail_to resource.email }
+      - if is_viewing_own_data
+        = show.attribute :address
+        = show.attribute :city
+        = show.attribute :dob
+      = show.attribute :phone
+      = show.attribute :personnel_number
+      = show.attribute :college
+      = show.attribute :field_of_study
+      = show.attribute :education
+      = show.attribute :etcs
+      = show.attribute :term
+      = show.attribute :transport
+      = show.association :primary_kids_school do
+        = can_link_to(resource.primary_kids_school)
+      = show.attribute :primary_kids_meeting_day
+      = show.association :kids do |k|
+        %li
+          = can_link_to k
+          = "(#{k.city})" if k.city.present?
+      = show.association :secondary_kids do |k|
+        %li
+          = can_link_to k
+          = "(#{k.city})" if k.city.present?
+      -if current_user.is_a?(Admin)
+        = show.attribute :absence
+        = show.attribute :note
+        = show.attribute :todo
+        = show.attribute :substitute
+        = show.attribute :inactive
+
+  .col2.screenonly
+    - if resource.photo.present?
+      %img{:src => resource.photo.url(:medium)}
 
 -# times are only visible to the mentor himself or an admin
 - if is_viewing_own_data
@@ -66,30 +72,31 @@
           = (@journals.sum(&:duration) / 60.0).round(2)
           Stunden
 
-  %h2
-    Zeiterfassung über die Projektdauer
-  %table
-    - duration = (@mentor.total_duration / 60)
-    - coaching = @mentor.month_count
+  .screenonly
+    %h2
+      Zeiterfassung über die Projektdauer
+    %table
+      - duration = (@mentor.total_duration / 60)
+      - coaching = @mentor.month_count
 
-    %tr
-      %td Geleistet insgesamt
-      %td
-        = duration
-        Stunden
-    %tr
-      %td
-        Coachingpauschale für
-        = coaching
-        Monate Einsatz
-      %td
-        = coaching
-        Stunden
-    %tr
-      %td Total
-      %td
-        = duration + coaching
-        Stunden
+      %tr
+        %td Geleistet insgesamt
+        %td
+          = duration
+          Stunden
+      %tr
+        %td
+          Coachingpauschale für
+          = coaching
+          Monate Einsatz
+        %td
+          = coaching
+          Stunden
+      %tr
+        %td Total
+        %td
+          = duration + coaching
+          Stunden
 
   .printonly
     %p.signature Unterschrift Mentor/in

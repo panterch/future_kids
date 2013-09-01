@@ -99,7 +99,19 @@ describe Mentor do
               :held_at => Date.parse("2011-05-01"))
       @mentor.month_count.should eq(1)
     end
+  end
 
+  context "has attached file photo" do
+    before do
+      @file = File.new(Rails.root.join('spec/fixtures/logo.png'))
+      @mentor = Factory.build(:mentor)
+    end
+    it 'attaches a photo' do
+      @mentor.photo = @file
+      @mentor.save! ; @mentor = Mentor.first
+      @mentor.photo.should be_present
+      @mentor.photo.url(:thumb).should match(/logo\.png/)
+    end
   end
 
 end

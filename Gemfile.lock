@@ -126,7 +126,7 @@ GEM
       activesupport (>= 2.3.2)
       cocaine (>= 0.0.2)
       mime-types
-    pg (0.11.0)
+    pg (0.16.0)
     polyglot (0.3.3)
     rack (1.4.5)
     rack-cache (1.2)
@@ -237,7 +237,7 @@ DEPENDENCIES
   json
   libv8 (= 3.3.10.2)
   paperclip (= 2.4.1)
-  pg (= 0.11.0)
+  pg (= 0.16.0)
   rails (= 3.2.14)
   rb-fsevent
   rspec-rails

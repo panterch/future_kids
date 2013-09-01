@@ -69,3 +69,25 @@ ON kids.mentor_id = mentor.id
 LEFT JOIN users as teacher
 ON kids.teacher_id = teacher.id
 ) TO '/tmp/kids.csv' WITH CSV HEADER;
+
+
+
+COPY (SELECT
+
+   name                   ,
+   prename                ,
+   address                ,
+   phone                  ,
+   personnel_number       ,
+   created_at             ,
+   email                  ,
+   city                   ,
+   zip                    ,
+   street_no
+
+  FROM users
+  where
+  type='Mentor' AND inactive=false
+
+) TO '/tmp/mentors.csv' WITH CSV HEADER;
+

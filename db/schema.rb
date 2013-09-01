@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20130329212908) do
+ActiveRecord::Schema.define(:version => 20130830154020) do
 
   create_table "comments", :force => true do |t|
     t.integer  "journal_id", :null => false
@@ -203,6 +203,10 @@ ActiveRecord::Schema.define(:version => 20130329212908) do
     t.integer  "school_id"
     t.text     "note"
     t.integer  "primary_kids_meeting_day"
+    t.string   "photo_file_name"
+    t.string   "photo_content_type"
+    t.integer  "photo_file_size"
+    t.datetime "photo_updated_at"
   end
 
   add_index "users", ["email"], :name => "index_users_on_email"

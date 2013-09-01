@@ -1,12 +1,14 @@
 class User < ActiveRecord::Base
-  # Include default devise modules. Others available are:
-  # :token_authenticatable, :encryptable, :confirmable, :lockable, :timeoutable and :omniauthable
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
 
+  has_attached_file :photo,
+    :styles => { :medium => [ "300x300>", :png] },
+    :default_url => "/images/:style/missing.png"
+
   default_scope :order => [ :name, :prename ]
   scope :active, :conditions => { :inactive => false }
-  
+
   before_validation :nilify_blank_password
 
   validates_presence_of :name, :prename
