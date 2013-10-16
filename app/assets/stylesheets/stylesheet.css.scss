@@ -307,4 +307,13 @@ form.filter > .filterfield label{
   width: 50%;
 }
 
+#documents {
+  ol, li {
+    padding: 0;
+    margin: 0;
+    list-style-type: none;
+  }
+}
+
+
 

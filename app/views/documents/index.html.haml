@@ -1,13 +1,21 @@
 %h2 Dokumente und Anleitungen
 
-
-- @documents_by_category.keys.sort.each do |category|
-  %h3= category
-  %ul
-    - @documents_by_category[category].each do |o|
+#documents
+  %ol
+    - @category_tree.each do |category, subcategories|
+      - unless category.blank?
+        %li
+          %h3= category
       %li
-        = link_to o.title, o.attachment.url
-        - if can?(:destroy, o)
-          [
-          = link_to "Löschen", o, :method => :delete
-          ]
+        %ol
+          - Document.in_category(category).each do |d|
+            = render :partial => 'link', :object => d
+          - subcategories.each do |subcategory|
+            %li
+              %h4
+                sub
+                = subcategory
+              %ol
+                - Document.in_subcategory(category, subcategory).each do |d|
+                  = render :partial => 'link', :object => d
+

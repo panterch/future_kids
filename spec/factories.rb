@@ -73,3 +73,7 @@ Factory.define :comment do |f|
   f.body "A comment"
   f.by "Commentator"
 end
+
+Factory.define :document do |f|
+
+end

@@ -319,6 +319,7 @@ de:
       document:
         title: Titel
         category: Kategorie
+        subcategory: Unterkategorie
         description: Beschreibung
         attachment: Datei
       comment:
