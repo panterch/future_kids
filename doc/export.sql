@@ -91,3 +91,42 @@ COPY (SELECT
 
 ) TO '/tmp/mentors.csv' WITH CSV HEADER;
 
+
+
+COPY (SELECT
+
+   type                   ,
+   name                   ,
+   prename                ,
+   address                ,
+   phone                  ,
+   personnel_number       ,
+   created_at             ,
+   email                  ,
+   city                   ,
+   zip                    ,
+   street_no
+
+  FROM users
+  where
+  inactive=false
+
+) TO '/tmp/users.csv' WITH CSV HEADER;
+
+COPY (SELECT
+
+ kids.name                    ,
+ kids.prename                 ,
+ kids.parent                  ,
+ kids.address                 ,
+ kids.phone                   ,
+ kids.dob                     ,
+ kids.city                    ,
+ kids.zip                     ,
+ kids.street_no
+
+FROM kids
+WHERE inactive=false
+) TO '/tmp/kids.csv' WITH CSV HEADER;
+
+
