@@ -313,6 +313,32 @@ form.filter > .filterfield label{
     margin: 0;
     list-style-type: none;
   }
+
+  h3, h4 {
+    padding-top: 10px;
+    padding-bottom: 0;
+    margin: 0;
+    cursor: pointer;
+  }
+
+  h3:before, h4:before  {
+    content: "▶ "
+  }
+
+  li.open > h3:before, li.open > h4:before  {
+    content: '▼ '
+  }
+
+  ol ol ol, ol h4 {
+    padding-left: 10px;
+  }
+
+  ol > li > ol {
+    display: none;
+  }
+  ol > li.open > ol {
+    display: block;
+  }
 }
 
 

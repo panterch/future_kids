@@ -3,9 +3,8 @@
 #documents
   %ol
     - @category_tree.each do |category, subcategories|
-      - unless category.blank?
-        %li
-          %h3= category
+      %li
+        %h3= "#{category.present? ? category : 'Ohne Kategorie'}"
       %li
         %ol
           - Document.in_category(category).each do |d|

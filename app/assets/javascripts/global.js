@@ -6,14 +6,15 @@ $(function () {
   register_schedule_checkboxes();
   register_todotogglers();
   register_kidsfilter();
+  register_documents_toc();
   $('input.submit_content_form').click(function() { $('#content_form').submit() } )
 });
 
 // navigation items with further nesting are handled specially:
 // they are not displayed, but clicking on the elements above the sub-sub list
 function register_subnav_expand() {
-  $('ul > li > ul').parents('li').hide();
-  $('ul > li > ul').each(function() {
+  $('#nav ul > li > ul').parents('li').hide();
+  $('#nav ul > li > ul').each(function() {
     $(this).parent().prev().click(function() {
 		  $(this).next().toggle('fast');
 		  return false;
@@ -68,44 +69,6 @@ function register_schedule_checkboxes() {
   $('table.schedule input[type=checkbox]').each(function(){
     $(this).siblings('input').toggleEnabled(this.checked) });
 }
-/* function register_schedule_checkboxes() {
-  $('table.schedule input').change(function(){
-    var checkbox = $(this);
-    checkbox.attr('disabled', 'disabled'); // disable during ajax request
-
-    if (this.checked) {
-      var data = checkbox.data();
-      $.ajax({
-        url: "/schedules",
-        type: 'POST',
-        data: { schedule : {
-          person_id : $('#person_id').val(),
-          person_type : $('#person_type').val(),
-          day : data.day,
-          hour : data.hour,
-          minute : data.minute
-        } },
-        success: function(data) {
-          checkbox.attr('id', data);
-          checkbox.removeAttr('disabled');
-        } 
-      });
-    } else {
-      $.ajax({
-        url: "/schedules/"+checkbox.attr('id'),
-        type: 'DELETE',
-        success: function(data) {
-          checkbox.attr('id', '');
-          checkbox.removeAttr('disabled');
-        } 
-      });
-    }
-  });
-}
-
-function createSchedule(data) {
-}
-*/
 
 function register_todotogglers() {
   $('a.todotoggle').click(function(event) {
@@ -118,5 +81,13 @@ function register_kidsfilter() {
   $('form.filter select').change(function(event) {
     // alert('change');
     $('form.filter').submit();
+  });
+}
+function register_documents_toc() {
+  $('#documents h3, #documents h4').click(function(event) {
+    $header = $(this)
+    $parent = $header.parent();
+    $parent.toggleClass('open');
+    $parent.next().toggleClass('open');
   });
 }
