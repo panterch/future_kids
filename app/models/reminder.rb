@@ -48,38 +48,56 @@ class Reminder < ActiveRecord::Base
     reminders_created = 0
 
     logger.info("Beginning reminder run, reference Date #{time}")
+    logger.flush
 
-    Kid.all.each do |kid|
-      logger.info("[#{kid.id}] #{kid.display_name}: checking journal entries")
-      if !kid.journal_entry_due?(time)
-        logger.info("[#{kid.id}] #{kid.display_name}: no entry due")
-        next
-      end
-      if kid.journal_entry_for_week(time)
-        logger.info("[#{kid.id}] #{kid.display_name}: journal entry present")
-        next
-      end
-      if kid.reminder_entry_for_week(time)
-        logger.info("[#{kid.id}] #{kid.display_name}: reminder entry present")
-        next
-      end
-      if kid.mentor.nil? && kid.secondary_mentor.nil?
-        logger.info("[#{kid.id}] #{kid.display_name}: no mentors set")
-        next
-      end
-      reminder = Reminder.create_for(kid, time)
-      logger.info("[#{kid.id}] #{kid.display_name}: created reminder [#{reminder.id}]")
-      reminders_created += 1
-    end
+    begin
 
-    # send out admin notification when reminders were created
-    if (0 < reminders_created)
-      Notifications.reminders_created(reminders_created).deliver
+      Kid.all.each do |kid|
+        logger.info("[#{kid.id}] #{kid.display_name}: checking journal entries")
+        logger.flush
+        if !kid.journal_entry_due?(time)
+          logger.info("[#{kid.id}] #{kid.display_name}: no entry due")
+          logger.flush
+          next
+        end
+        if kid.journal_entry_for_week(time)
+          logger.info("[#{kid.id}] #{kid.display_name}: journal entry present")
+          logger.flush
+          next
+        end
+        if kid.reminder_entry_for_week(time)
+          logger.info("[#{kid.id}] #{kid.display_name}: reminder entry present")
+          logger.flush
+          next
+        end
+        if kid.mentor.nil? && kid.secondary_mentor.nil?
+          logger.info("[#{kid.id}] #{kid.display_name}: no mentors set")
+          logger.flush
+          next
+        end
+        reminder = Reminder.create_for(kid, time)
+        logger.info("[#{kid.id}] #{kid.display_name}: created reminder [#{reminder.id}]")
+        logger.flush
+        reminders_created += 1
+      end
+
+      # send out admin notification when reminders were created
+      if (0 < reminders_created)
+        Notifications.reminders_created(reminders_created).deliver
+      end
+
+    rescue => e
+      logger.error "Exception during reminder run"
+      logger.error e.message
+      logger.error e.backtrace.join("\n")
+      logger.flush
     end
 
     logger.info("Created #{reminders_created} reminders, reference Date #{time}")
+    logger.flush
 
     reminders_created
   end
+
 
 end
