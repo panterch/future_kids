@@ -11,7 +11,7 @@ describe KidsController do
     end
 
     context 'index' do
-    
+
       it 'should directly display the kid when there is only one' do
         get :index
         response.should be_redirect
@@ -23,7 +23,7 @@ describe KidsController do
         response.should be_successful
         assigns(:kids).length.should eq(2)
       end
-      
+
     end
 
     context 'schedules' do
@@ -56,7 +56,7 @@ describe KidsController do
         get :index, :kid => { :translator => '1' }
         assigns(:kids).length.should eq(2)
       end
-      
+
       it 'should order kids by criticality' do
         @low  = Factory(:kid, :abnormality_criticality => 3)
         @high = Factory(:kid, :abnormality_criticality => 1)
@@ -65,7 +65,7 @@ describe KidsController do
         assigns(:kids).second.should eq(@low)
         assigns(:kids).last.should eq(@kid)
       end
-      
+
       it 'should create a criteria instance for search' do
         get :index, :kid => { :translator => '1' }
         assigns(:kid).translator.should eq(true)
@@ -101,5 +101,24 @@ describe KidsController do
     end
 
   end # end of as an admin
+
+  context 'as a teacher' do
+
+    before(:each) do
+      @teacher = Factory(:teacher)
+      sign_in @teacher
+    end
+
+    context 'create' do
+
+      it 'should assign itself as teacher' do
+        post :create, :kid => FactoryGirl.attributes_for(:kid)
+        assigns(:kid).teacher.should eq(@teacher)
+        response.should be_redirect
+      end
+
+    end
+
+  end
 
 end

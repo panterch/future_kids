@@ -4,7 +4,7 @@ class KidsController < ApplicationController
   load_and_authorize_resource
   include ManageSchedules # edit_schedules & update_schedules
 
-  before_filter :assign_current_teacher, :only => [:create, :update]
+  before_filter :assign_current_teacher, :only => [:create]
   before_filter :assign_selected_mentor_schedules, :only => [:edit_schedules]
   before_filter :assign_mentor_selection, :only => [:edit_schedules]
 
@@ -39,10 +39,12 @@ class KidsController < ApplicationController
 
 protected
 
-  # when the user working on the kid is a teacher, it get's unconditionally
-  # assigned as the first teacher of the kid
+  # when the user working on the kid is a teacher, it get's
+  # assigned as the first teacher of the kid in creation case
   def assign_current_teacher
     return true unless current_user.is_a?(Teacher)
+    return true if resource.teacher.present?
+    return true if resource.secondary_teacher.present?
     resource.teacher = current_user
   end
 
