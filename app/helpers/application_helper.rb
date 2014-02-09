@@ -51,7 +51,7 @@ module ApplicationHelper
     options = [['Name', 'name, prename' ],
                ['Kontrolldatum', 'checked_at ASC' ],
                ['Coachingdatum', 'coached_at ASC' ],
-               ['Erstelldatum', 'created_at ASC' ],
+               ['Erfassungsdatum', 'created_at ASC' ],
                ['Kritikalität', 'abnormality_criticality']]
     options_for_select(options, selected)
   end

@@ -45,7 +45,8 @@ protected
     return true unless current_user.is_a?(Teacher)
     return true if resource.teacher.present?
     return true if resource.secondary_teacher.present?
-    resource.teacher = current_user
+    resource.teacher ||= current_user
+    resource.school ||= resource.teacher.school
   end
 
   # this adds a specific behaviour for kids to the edit_schedules method -

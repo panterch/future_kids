@@ -105,7 +105,8 @@ describe KidsController do
   context 'as a teacher' do
 
     before(:each) do
-      @teacher = Factory(:teacher)
+      @school = Factory(:school)
+      @teacher = Factory(:teacher, :school => @school)
       sign_in @teacher
     end
 
@@ -114,6 +115,8 @@ describe KidsController do
       it 'should assign itself as teacher' do
         post :create, :kid => FactoryGirl.attributes_for(:kid)
         assigns(:kid).teacher.should eq(@teacher)
+        assigns(:kid).school.should_not be_nil
+        assigns(:kid).school.should eq(@school)
         response.should be_redirect
       end
 
