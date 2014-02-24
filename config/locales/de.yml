@@ -304,7 +304,7 @@ de:
         note: Bemerkungen
       mentor:
         available: "Mögliche Termine"
-        absence: "Bekannte Absenzen"
+        absence: "Bekannte Absenzen / Verfügbarkeit"
         primary_kids_school: "Einsatzort"
         primary_kids_meeting_day: "Einsatztag"
         term: "Startzeit"
@@ -339,7 +339,7 @@ de:
         principals: SL/QUIMS-Verantwortliche/r
         teachers: Lehrer
         social: Schulsozialarbeiter/in
-        district: Schulgmeinde
+        district: Schulgemeinde
         note: Bemerkungen
         term: Startzeit
 
