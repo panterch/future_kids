@@ -15,12 +15,9 @@
         = show.attribute :city
         = show.attribute :dob
       = show.attribute :phone
-      = show.attribute :personnel_number
       = show.attribute :college
       = show.attribute :field_of_study
       = show.attribute :education
-      = show.attribute :etcs
-      = show.attribute :term
       = show.attribute :transport
       = show.association :primary_kids_school do
         = can_link_to(resource.primary_kids_school)
@@ -33,6 +30,9 @@
         %li
           = can_link_to k
           = "(#{k.city})" if k.city.present?
+      = show.attribute :personnel_number
+      = show.attribute :etcs
+      = show.attribute :term
       -if current_user.is_a?(Admin)
         = show.attribute :absence
         = show.attribute :note
