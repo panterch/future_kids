@@ -8,4 +8,8 @@
     = form.input :password, :input_html => { :autocomplete => 'off' }
     = form.input :password_confirmation, :input_html => { :autocomplete => 'off' }
     = form.input :todo
+
+    -if current_user.is_a?(Admin)
+      = form.input :inactive
+
   = form.buttons

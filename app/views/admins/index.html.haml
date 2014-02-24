@@ -1,3 +1,13 @@
+-if current_user.is_a?(Admin)
+  %h2 Filterkriterium f&uuml;r Mentoren
+  = form_for :admin, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
+    .filterfield
+      %label Inaktiv
+      = f.check_box :inactive
+    .filterfield
+      %label Aktion
+      = f.submit 'Filter anwenden'
+      = link_to 'Filter aufheben', collection_path
 %h2
   = collection.count if current_user.is_a?(Admin)
   Administratoren

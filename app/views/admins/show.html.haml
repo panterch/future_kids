@@ -6,3 +6,12 @@
   = show.attribute(:email) { mail_to resource.email }
   = show.attribute :phone
   = show.attribute :todo
+
+  -if current_user.is_a?(Admin)
+    = show.association :coachings do |k|
+      %li
+        = can_link_to k
+        = "(#{k.city})" if k.city.present?
+    = show.attribute :inactive
+
+
