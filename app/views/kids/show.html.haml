@@ -16,7 +16,6 @@
   = show.attribute :note
   = show.attribute :school do
     = can_link_to(resource.school)
-  = show.attribute :term
 
 = show_for resource do |show|
   %h2#school Allgemeine Informationen
@@ -39,6 +38,9 @@
     %h2#internal Projektinterne Informationen
     = show.attribute :admin do
       = can_link_to(resource.admin)
+    = show.attribute :term
+    = show.attribute :exit
+    = show.attribute :exit_reason
     = show.attribute :checked_at
     = show.attribute :coached_at
     = show.attribute :abnormality

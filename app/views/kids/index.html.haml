@@ -5,6 +5,9 @@
       %label= Kid.human_attribute_name(:term)
       = f.select :term, term_collection, { :include_blank => true }
     .filterfield
+      %label= Kid.human_attribute_name(:exit)
+      = f.select :exit, term_collection, { :include_blank => true }
+    .filterfield
       %label= Kid.human_attribute_name(:school)
       = f.select :school_id, school_collection, { :include_blank => true }
     .filterfield

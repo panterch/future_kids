@@ -19,7 +19,6 @@
     = form.input :note
     - if current_user.is_a?(Admin)
       = form.input :school, :as => :select, :collection => school_collection
-    = form.input :term, :as => :select, :collection => term_collection
 
   %h2#school Allgemeine Informationen
   = form.inputs do
@@ -43,6 +42,9 @@
     %h2#internal Projektinterne Informationen
     = form.inputs do
       = form.input :admin_id, :as => :select, :collection => admin_collection
+      = form.input :term, :as => :select, :collection => term_collection
+      = form.input :exit, :as => :select, :collection => term_collection
+      = form.input :exit_reason, :as => :select, :collection => exit_reason_collection
       = date_picker(form, :checked_at)
       = date_picker(form, :coached_at)
       = form.input :abnormality

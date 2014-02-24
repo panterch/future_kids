@@ -44,7 +44,16 @@ module ApplicationHelper
     ['2011 Frühling', '2011 Herbst',
      '2012 Frühling', '2012 Herbst',
      '2013 Frühling', '2013 Herbst',
-     '2014 Frühling', '2014 Herbst']
+     '2014 Frühling', '2014 Herbst',
+     '2015 Frühling', '2015 Herbst']
+  end
+
+  def exit_reason_collection
+    [ "Übertritt",
+    "Wegzug",
+    "Erfolgreich abgeschlossen",
+    "Nicht geeignete Massnahme",
+    "Andere Gründe" ]
   end
 
   def order_by_collection_for_kids(selected)
