@@ -42,13 +42,13 @@ protected
   # when the user working on the kid is a teacher, it get's
   # assigned as the first teacher of the kid in creation case
   def assign_current_teacher
-    logger.info("Trying to assign current teacher. Current User [#{current_user.id}] [#{current_user.inspect}]")
     return true unless current_user.is_a?(Teacher)
     return true if resource.teacher.present?
-    return true if resource.secondary_teacher.present?
-    logger.info("Really assigning Teacher #{current_user.id}")
-    resource.teacher ||= current_user
-    resource.school ||= resource.teacher.school
+    if resource.secondary_teacher != current_user
+      resource.teacher ||= current_user
+    end
+    resource.school  ||= resource.teacher.try(:school)
+    resource.school  ||= resource.secondary_teacher.try(:school)
   end
 
   # this adds a specific behaviour for kids to the edit_schedules method -

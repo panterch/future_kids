@@ -114,9 +114,30 @@ describe KidsController do
 
       it 'should assign itself as teacher' do
         post :create, :kid => FactoryGirl.attributes_for(:kid)
-        assigns(:kid).teacher.should eq(@teacher)
-        assigns(:kid).school.should_not be_nil
-        assigns(:kid).school.should eq(@school)
+        kid = Kid.find(assigns(:kid).id)
+        kid.teacher.should eq(@teacher)
+        kid.school.should_not be_nil
+        kid.school.should eq(@school)
+        response.should be_redirect
+      end
+
+      it 'should assign itself as teacher even when secondary teacher set' do
+        @secondary = Factory(:teacher)
+        post :create, :kid => FactoryGirl.attributes_for(:kid, :secondary_teacher_id => @secondary.id)
+        kid = Kid.find(assigns(:kid).id)
+        kid.teacher.should eq(@teacher)
+        kid.secondary_teacher.should eq(@secondary)
+        kid.school.should_not be_nil
+        kid.school.should eq(@school)
+        response.should be_redirect
+      end
+
+      it 'can assign itself as secondary teacher' do
+        post :create, :kid => FactoryGirl.attributes_for(:kid, :secondary_teacher_id => @teacher.id)
+        kid = Kid.find(assigns(:kid).id)
+        kid.teacher.should be_nil
+        kid.secondary_teacher.should eq(@teacher)
+        kid.school.should eq(@school)
         response.should be_redirect
       end
 
