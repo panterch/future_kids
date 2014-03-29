@@ -342,6 +342,12 @@ de:
         district: Schulgemeinde
         note: Bemerkungen
         term: Startzeit
+      relation_log:
+        kid: "Schüler/in"
+        user: Person
+        start_at: Zugewiesen am
+        end_at: Entfernt am
+        role: Rolle
 
   notifications:
     remind:

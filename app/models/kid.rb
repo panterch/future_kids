@@ -13,6 +13,7 @@ class Kid < ActiveRecord::Base
   has_many :reviews
   has_many :reminders
   has_many :schedules, :as => :person
+  has_many :relation_logs
 
   accepts_nested_attributes_for :journals, :reviews, :schedules
 
@@ -22,6 +23,7 @@ class Kid < ActiveRecord::Base
                             :greater_than_or_equal_to => 1, :less_than_or_equal_to => 5
 
   after_save :sync_school_field_with_mentor
+  after_save :track_relations
   after_validation :release_relations, :if => :inactive?
 
   # takes the given time argument (or Time.now) and calculates the
@@ -125,6 +127,32 @@ protected
     self.secondary_mentor = nil
     self.teacher = nil
     self.secondary_teacher = nil
+  end
+
+  def track_relations
+    self.track_relation(:mentor)
+    self.track_relation(:secondary_mentor)
+    self.track_relation(:teacher)
+    self.track_relation(:secondary_teacher)
+    self.track_relation(:admin)
+  end
+
+  # create a relation log for the given field if it has changed
+  def track_relation(field)
+    changed = self.send("#{field}_id_changed?")
+    current_id = self.send("#{field}_id")
+    previous_id = self.send("#{field}_id_was")
+    if changed && previous_id
+      relation_logs.create!(:user_id => self.send("#{field}_id_was"),
+                            :role => field,
+                            :end_at => Time.now)
+
+    end
+    if changed && current_id
+      relation_logs.create!(:user_id => self.send("#{field}_id"),
+                            :role => field,
+                            :start_at => Time.now)
+    end
   end
 
 end

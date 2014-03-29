@@ -1,0 +1,20 @@
+- if current_user.is_a?(Admin) && !resource.relation_logs.empty?
+  %h2#relation_logs Beziehungen
+  %table
+    %tr
+      %th Datum
+      %th= RelationLog.human_attribute_name(:user)
+      %th
+      %th= RelationLog.human_attribute_name(:role)
+      %th= RelationLog.human_attribute_name(:kid)
+    - resource.relation_logs.each do |relation_log|
+      %tr
+        %td
+          = I18n.l(relation_log.start_at) if relation_log.start_at
+          = I18n.l(relation_log.end_at) if relation_log.end_at
+        %td= link_to relation_log.user.display_name, relation_log.user
+        %td= relation_log.end_at ? 'entfernt' : 'zugeordnet'
+        %td
+          als
+          = Kid.human_attribute_name(relation_log.role)
+        %td= link_to relation_log.kid.display_name, relation_log.kid

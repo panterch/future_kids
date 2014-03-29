@@ -50,6 +50,8 @@
     - if resource.inactive?
       = show.attribute :relation_archive
 
+    = render :partial => 'relation_logs/collection'
+
 %h2#journals Lernjournale
 - resource.journals.each do |journal|
   = show_for journal do |journal_show|

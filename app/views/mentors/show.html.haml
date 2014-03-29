@@ -40,6 +40,8 @@
         = show.attribute :substitute
         = show.attribute :inactive
 
+        = render :partial => 'relation_logs/collection'
+
   .col2.screenonly
     - if resource.photo.present?
       %img{:src => resource.photo.url(:medium)}

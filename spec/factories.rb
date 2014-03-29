@@ -77,3 +77,8 @@ end
 Factory.define :document do |f|
 
 end
+
+Factory.define :relation_log do |f|
+  f.association :kid
+  f.user {|p| p.association(:mentor) }
+end

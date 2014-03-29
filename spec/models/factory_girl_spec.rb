@@ -66,5 +66,11 @@ describe "FactoryGirl" do
     end
   end
 
+  describe "a relation log by factory" do
+    let(:relation_log) { Factory.build(:relation_log) }
+    it("should be valid") { relation_log.should be_valid }
+    it("should be persistable") { relation_log.save!.should be_true }
+  end
+
 
 end

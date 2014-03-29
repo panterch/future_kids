@@ -10,7 +10,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140224163124) do
+ActiveRecord::Schema.define(:version => 20140329123321) do
 
   create_table "comments", :force => true do |t|
     t.integer  "journal_id",                              :null => false
@@ -104,6 +104,19 @@ ActiveRecord::Schema.define(:version => 20140224163124) do
 
   add_index "kids", ["inactive"], :name => "index_kids_on_inactive"
   add_index "kids", ["school_id"], :name => "index_kids_on_school_id"
+
+  create_table "relation_logs", :force => true do |t|
+    t.integer  "kid_id",     :null => false
+    t.integer  "user_id",    :null => false
+    t.string   "role"
+    t.datetime "start_at"
+    t.datetime "end_at"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  add_index "relation_logs", ["kid_id"], :name => "index_relation_logs_on_kid_id"
+  add_index "relation_logs", ["user_id"], :name => "index_relation_logs_on_user_id"
 
   create_table "reminders", :force => true do |t|
     t.date     "held_at",             :null => false

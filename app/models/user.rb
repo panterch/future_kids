@@ -13,6 +13,8 @@ class User < ActiveRecord::Base
 
   validates_presence_of :name, :prename
 
+  has_many :relation_logs, :order => 'created_at DESC'
+
   def display_name
     [ name, prename].reject(&:blank?).join(' ')
   end
