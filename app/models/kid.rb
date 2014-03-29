@@ -127,6 +127,7 @@ protected
     self.secondary_mentor = nil
     self.teacher = nil
     self.secondary_teacher = nil
+    self.admin = nil
   end
 
   def track_relations
