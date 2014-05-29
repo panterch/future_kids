@@ -1,6 +1,6 @@
 - if current_user.is_a?(Admin) && !resource.relation_logs.empty?
   %h2#relation_logs Beziehungen
-  %table
+  %table.table
     %tr
       %th Datum
       %th= RelationLog.human_attribute_name(:user)

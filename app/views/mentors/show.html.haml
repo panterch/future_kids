@@ -52,7 +52,7 @@
     Zeiterfassung für den Monat
     = select_month(@month, {}, :class => 'select_mentor_journal_date')
     = select_year(@year, {}, :class => 'select_mentor_journal_date')
-  %table
+  %table.table
     - @journals.each do |journal|
       %tr
         %td= I18n.l(journal.held_at)
