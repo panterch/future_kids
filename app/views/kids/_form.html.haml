@@ -34,10 +34,10 @@
     = form.association :mentor
     = form.association :secondary_mentor
     = form.input :secondary_active
+    = form.input :admin_id, :as => :select, :collection => admin_collection
 
   - if current_user.is_a?(Admin)
     %h2#internal Projektinterne Informationen
-    = form.input :admin_id, :as => :select, :collection => admin_collection
     = form.input :term, :as => :select, :collection => term_collection
     = form.input :exit, :as => :select, :collection => term_collection
     = form.input :exit_reason, :as => :select, :collection => exit_reason_collection

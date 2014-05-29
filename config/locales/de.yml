@@ -255,6 +255,7 @@ de:
         coached_at: 'Letztes Telefoncoaching'
         abnormality: 'Auffälligkeiten'
         abnormality_criticality: 'Kritikalität der Auffälligkeiten'
+        admin: Coach
         admin_id: Coach
       journal:
         held_at: Datum
