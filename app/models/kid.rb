@@ -41,16 +41,14 @@ class Kid < ActiveRecord::Base
   def journal_entry_for_week(time = Time.now)
     time = calculate_meeting_time(time)
     return nil if time.nil?
-    journals.find(:first, :conditions => { :week => time.strftime('%U').to_i,
-                                           :year => time.year })
+    journals.where(:week => time.strftime('%U').to_i, :year => time.year).first
   end
 
   # tries to retrieve the reminder for the week given by time
   def reminder_entry_for_week(time = Time.now)
     time = calculate_meeting_time(time)
     return nil if time.nil?
-    reminders.find(:first, :conditions => { :week => time.strftime('%U').to_i,
-                                            :year => time.year })
+    reminders.where(:week => time.strftime('%U').to_i, :year => time.year).first
   end
 
   # checks wether a journal entry is already due for the week given by time
@@ -63,7 +61,7 @@ class Kid < ActiveRecord::Base
   # when controlling reminders it is useful to know the date of the most recent
   # journal entry made for the associated kid
   def last_journal_entry
-    journals.find(:first, :order => 'held_at DESC')
+    journals.order('held_at DESC').first
   end
 
   def display_name
