@@ -11,9 +11,7 @@
             = render :partial => 'link', :object => d
           - subcategories.each do |subcategory|
             %li
-              %h4
-                sub
-                = subcategory
+              %h4= subcategory
               %ol
                 - Document.in_subcategory(category, subcategory).each do |d|
                   = render :partial => 'link', :object => d
