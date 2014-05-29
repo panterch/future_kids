@@ -34,5 +34,4 @@ describe MentorsController do
     end
   end
 
-
 end

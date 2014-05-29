@@ -9,7 +9,7 @@ gem 'haml'
 gem 'jquery-rails'
 
 # gems in alphabetic order
-gem 'cancan'
+gem 'cancancan'
 gem 'devise'
 gem 'exception_notification_rails3', :require => 'exception_notifier'
 gem "simple_form", '~> 3.1.0.rc1'

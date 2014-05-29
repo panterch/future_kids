@@ -49,7 +49,7 @@ GEM
     byebug (2.7.0)
       columnize (~> 0.3)
       debugger-linecache (~> 1.2)
-    cancan (1.6.10)
+    cancancan (1.8.1)
     capistrano (3.2.1)
       i18n
       rake (>= 10.0.0)
@@ -225,7 +225,7 @@ DEPENDENCIES
   better_errors
   binding_of_caller
   bootstrap-sass
-  cancan
+  cancancan
   capistrano
   capistrano-ext
   capybara

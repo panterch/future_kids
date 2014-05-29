@@ -29,16 +29,13 @@ class MentorsController < ApplicationController
     @year =  (params[:year] || Date.today.year).to_i
     @month = (params[:month] || Date.today.month).to_i
     @journals = @mentor.journals.where(:month => @month, :year => @year)
+
     # decouble journals from database to allow adding the virtial record
     # below and use Enumerables sum instaed of ARs sum in view
     @journals = @journals.to_a
+
     # per default a coaching entry is added for each month
     @journals << Journal.coaching_entry(@mentor, @month, @year)
     show!
-  end
-
-private
-  def permitted_params
-    params.permit!
   end
 end
