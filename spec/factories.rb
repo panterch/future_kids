@@ -1,84 +1,84 @@
-Factory.define :user do |f|
-  f.sequence(:name) { |n| "Name #{n}"}
-  f.prename 'Prename'
-  f.sequence(:email) { |n| "email_#{n}@example.com" }
-  f.password 'welcome'
-  f.password_confirmation 'welcome'
-end
+FactoryGirl.define do
+  factory :user do
+    sequence(:name) { |n| "Name #{n}"}
+    prename 'Prename'
+    sequence(:email) { |n| "email_#{n}@example.com" }
+    password 'welcome'
+    password_confirmation 'welcome'
+  end
 
-Factory.define :admin, :class => 'Admin', :parent => :user do |f|
-  f.sequence(:email) { |n| "admin_#{n}@example.com" }
-end
+  factory :admin, :class => 'Admin', :parent => :user do
+    sequence(:email) { |n| "admin_#{n}@example.com" }
+  end
 
-Factory.define :mentor, :class => 'Mentor', :parent => :user do |f|
-  f.sequence(:email) { |n| "mentor_#{n}@example.com" }
-end
+  factory :mentor, :class => 'Mentor', :parent => :user do
+    sequence(:email) { |n| "mentor_#{n}@example.com" }
+  end
 
-Factory.define :teacher, :class => 'Teacher', :parent => :user do |f|
-  f.sequence(:email) { |n| "teacher_#{n}@example.com" }
-end
+  factory :teacher, :class => 'Teacher', :parent => :user do
+    sequence(:email) { |n| "teacher_#{n}@example.com" }
+  end
 
-Factory.define :principal, :class => 'Principal', :parent => :user do |f|
-  f.sequence(:email) { |n| "principal_#{n}@example.com" }
-  f.association :school
-end
+  factory :principal, :class => 'Principal', :parent => :user do
+    sequence(:email) { |n| "principal_#{n}@example.com" }
+    association :school
+  end
 
-Factory.define :kid do |f|
-  f.sequence(:name) { |n| "Kid #{n}"}
-  f.prename 'Prename'
-end
+  factory :kid do
+    sequence(:name) { |n| "Kid #{n}"}
+    prename 'Prename'
+  end
 
-Factory.define :journal do |f|
-  f.association :kid
-  f.association :mentor
-  f.held_at Date.parse("2011-05-30")
-  f.start_at Time.parse("13:00")
-  f.end_at Time.parse("14:00")
-end
+  factory :journal do
+    association :kid
+    association :mentor
+    held_at Date.parse("2011-05-30")
+    start_at Time.parse("13:00")
+    end_at Time.parse("14:00")
+  end
 
-Factory.define :cancelled_journal, :parent => :journal do |f|
-  f.held_at Date.parse("2011-05-30")
-  f.cancelled true
-  f.start_at nil
-  f.end_at nil
-end
+  factory :cancelled_journal, :parent => :journal do
+    held_at Date.parse("2011-05-30")
+    cancelled true
+    start_at nil
+    end_at nil
+  end
 
-Factory.define :review do |f|
-  f.association :kid
-  f.held_at Date.parse("2011-05-30")
-end
+  factory :review do
+    association :kid
+    held_at Date.parse("2011-05-30")
+  end
 
-Factory.define :reminder do |f|
-  f.association :kid
-  f.association :mentor
-  f.recipient { |r| r.mentor.email }
-  f.held_at Date.parse("2011-05-30")
-  f.week { |r| r.held_at.strftime('%U') }
-  f.year { |r| r.held_at.year }
-end
+  factory :reminder do
+    association :kid
+    association :mentor
+    recipient { |r| r.mentor.email }
+    held_at Date.parse("2011-05-30")
+    week { |r| r.held_at.strftime('%U') }
+    year { |r| r.held_at.year }
+  end
 
-Factory.define :schedule do |f|
-  f.person {|p| p.association(:mentor) }
-  f.day 1
-  f.hour 14
-  f.minute 0
-end
+  factory :schedule do
+    person {|p| p.association(:mentor) }
+    day 1
+    hour 14
+    minute 0
+  end
 
-Factory.define :school do |f|
-  f.name "The school"
-end
+  factory :school do
+    name "The school"
+  end
 
-Factory.define :comment do |f|
-  f.association :journal
-  f.body "A comment"
-  f.by "Commentator"
-end
+  factory :comment do
+    association :journal
+    body "A comment"
+    by "Commentator"
+  end
 
-Factory.define :document do |f|
+  factory :document
 
-end
-
-Factory.define :relation_log do |f|
-  f.association :kid
-  f.user {|p| p.association(:mentor) }
+  factory :relation_log do
+    association :kid
+    user {|p| p.association(:mentor) }
+  end
 end

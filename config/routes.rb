@@ -1,6 +1,5 @@
-FutureKids::Application.routes.draw do
-
-  devise_for :users
+Rails.application.routes.draw do
+  devise_for :user
 
   root :to => 'kids#index'
   resources :admins
@@ -27,5 +26,5 @@ FutureKids::Application.routes.draw do
   resources :teachers
   resources :principals
 
-  match '/exception_test' => 'exception_test#error'
+  get '/exception_test' => 'exception_test#error'
 end

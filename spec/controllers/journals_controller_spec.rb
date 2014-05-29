@@ -3,17 +3,17 @@ require 'spec_helper'
 describe JournalsController do
 
   before(:each) do
-    @mentor = Factory(:mentor)
-    @kid = Factory(:kid, :mentor => @mentor)
+    @mentor = create(:mentor)
+    @kid = create(:kid, :mentor => @mentor)
   end
 
-  let(:journal) { Factory(:journal, :kid => @kid, :mentor => @mentor) }
-  let(:secondary_kid) { Factory(:kid, :secondary_mentor => @mentor,
+  let(:journal) { create(:journal, :kid => @kid, :mentor => @mentor) }
+  let(:secondary_kid) { create(:kid, :secondary_mentor => @mentor,
                                       :secondary_active => true) }
 
   context 'as an admin' do
     before(:each) do
-      @admin = Factory(:admin)
+      @admin = create(:admin)
       sign_in @admin
     end
 
@@ -24,7 +24,7 @@ describe JournalsController do
     end
 
     it 'should render assign only selectable mentors' do
-      @foreign_mentor = Factory(:mentor)
+      @foreign_mentor = create(:mentor)
       get :new, :kid_id => @kid.id
       assigns(:mentors).should eq([@mentor])
     end
@@ -81,7 +81,7 @@ describe JournalsController do
     end
 
     it 'should not render the new template for inactive secondary kids' do
-      inactive_kid = Factory(:kid, :secondary_mentor => @mentor,
+      inactive_kid = create(:kid, :secondary_mentor => @mentor,
                                    :secondary_active => false)
       expect { get :new, :kid_id => inactive_kid.id }.to raise_error(CanCan::AccessDenied)
     end
@@ -92,7 +92,7 @@ describe JournalsController do
     end
 
     it 'should deny access for foreign kids' do
-      expect { get :new, :kid_id => Factory(:kid).id }.to raise_error(CanCan::AccessDenied)
+      expect { get :new, :kid_id => create(:kid).id }.to raise_error(CanCan::AccessDenied)
     end
 
     it 'should create a new entry' do
@@ -102,20 +102,20 @@ describe JournalsController do
 
     it 'should not be able to create entries for other mentors' do
       attrs = valid_attributes
-      attrs[:journal][:mentor_id] = Factory(:mentor).id
+      attrs[:journal][:mentor_id] = create(:mentor).id
       post :create, attrs
       assigns(:journal).mentor.should eq(@mentor)
     end
 
     it 'should not be able to create entries for other kids' do
       attrs = valid_attributes
-      attrs[:kid_id] = Factory(:kid).id
+      attrs[:kid_id] = create(:kid).id
       expect { post :create, attrs }.to raise_error(CanCan::AccessDenied)
     end
 
     it 'should not be able to taint kid_id via journal attributes' do
       attrs = valid_attributes
-      attrs[:journal][:kid_id] = Factory(:kid).id
+      attrs[:journal][:kid_id] = create(:kid).id
       post :create, attrs
       assigns(:journal).kid.should eq(@kid)
     end
@@ -126,7 +126,7 @@ describe JournalsController do
   # want to submit via the jquery widgets
   def valid_attributes
     attrs = {}
-    attrs[:journal] =  Factory.attributes_for(:journal,
+    attrs[:journal] =  attributes_for(:journal,
       :mentor_id => @mentor.id,
       :held_at   => '2011-05-30',
       :start_at  => '12:00',

@@ -5,7 +5,7 @@ describe SchoolsController do
   render_views
 
   before(:each) do
-    sign_in @admin = Factory(:admin)
+    sign_in @admin = create(:admin)
   end
 
   context 'new' do
@@ -30,7 +30,7 @@ describe SchoolsController do
 
   context 'index' do
     before(:each) do
-      @school = Factory(:school)
+      @school = create(:school)
     end
 
     it 'renders' do
@@ -42,7 +42,7 @@ describe SchoolsController do
 
   context 'edit' do
     before(:each) do
-      @school = Factory(:school)
+      @school = create(:school)
     end
 
     it 'renders' do
@@ -54,7 +54,7 @@ describe SchoolsController do
 
   context 'update' do
     before(:each) do
-      @school = Factory(:school)
+      @school = create(:school)
     end
 
     it 'redirects on success' do

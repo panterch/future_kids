@@ -30,6 +30,9 @@ class Ability
       # own record may be read
       can [ :read, :update, :edit_schedules, :update_schedules ],
           Mentor, :id => user.id
+      # mentor can read records of admins associated indirectly via kid
+      can :read, Admin, :coachings => { :mentor_id => user.id }
+      can :read, Admin, :coachings => { :secondary_mentor_id => user.id }
       # mentor can read records of other mentors associated indirectly via kid
       can :read, Mentor, :kids => { :secondary_mentor_id => user.id }
       can :read, Mentor, :secondary_kids => { :mentor_id => user.id }

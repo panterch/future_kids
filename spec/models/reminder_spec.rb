@@ -7,8 +7,8 @@ describe Reminder do
   context 'creation' do
 
     before(:each) do
-      @mentor = Factory(:mentor)
-      @kid = Factory(:kid, :mentor => @mentor,
+      @mentor = create(:mentor)
+      @kid = create(:kid, :mentor => @mentor,
                            :meeting_day => 1,
                            :meeting_start_at => Time.parse('13:30'))
     end
@@ -31,13 +31,13 @@ describe Reminder do
     end
 
     it 'uses first mentor as recepient even when secondary mentor set' do
-      @kid.secondary_mentor = Factory(:mentor)
+      @kid.secondary_mentor = create(:mentor)
       r = Reminder.create_for(@kid, tuesday)
       r.recipient.should eq(@kid.mentor.email)
     end
 
     it 'uses secondary mentor as recepient even when active' do
-      secondary = @kid.secondary_mentor = Factory(:mentor)
+      secondary = @kid.secondary_mentor = create(:mentor)
       @kid.secondary_active = true
       r = Reminder.create_for(@kid, tuesday)
       r.recipient.should eq(secondary.email)
@@ -66,14 +66,14 @@ describe Reminder do
     end
 
     it 'avoids reminder by batch method when journal entry present' do
-      Factory(:journal, :kid => @kid, :mentor => @mentor,
+      create(:journal, :kid => @kid, :mentor => @mentor,
                         :held_at => monday)
       Reminder.conditionally_create_reminders(tuesday)
       @mentor.reminders.count.should eq(0)
     end
 
     it 'avoids reminder by batch method when journal entry present in same week' do
-      Factory(:journal, :kid => @kid, :mentor => @mentor,
+      create(:journal, :kid => @kid, :mentor => @mentor,
                         :held_at => wednesday)
       Reminder.conditionally_create_reminders(tuesday)
       @mentor.reminders.count.should eq(0)
@@ -93,7 +93,7 @@ describe Reminder do
   end
 
   it 'delivers reminders' do
-    @reminder = Factory(:reminder)
+    @reminder = create(:reminder)
     @reminder.deliver_mail
     @reminder.sent_at.should_not be_nil
     ActionMailer::Base.deliveries.should_not be_empty
@@ -102,12 +102,12 @@ describe Reminder do
   context 'reminder scopes' do
 
     it 'finds active reminders' do
-      reminder = Factory(:reminder)
+      reminder = create(:reminder)
       Reminder.active.should eq([reminder])
     end
 
     it 'finds ignores acknologed reminders' do
-      reminder = Factory(:reminder, :acknowledged_at => Time.now)
+      reminder = create(:reminder, :acknowledged_at => Time.now)
       Reminder.active.should be_empty
     end
 

@@ -3,9 +3,9 @@ require 'spec_helper'
 describe CommentsController do
 
   before(:each) do
-    @mentor = Factory(:mentor)
-    @kid = Factory(:kid, :mentor => @mentor)
-    @journal =  Factory(:journal, :kid => @kid, :mentor => @mentor)
+    @mentor = create(:mentor)
+    @kid = create(:kid, :mentor => @mentor)
+    @journal =  create(:journal, :kid => @kid, :mentor => @mentor)
     ActionMailer::Base.deliveries.clear
   end
 
@@ -21,7 +21,7 @@ describe CommentsController do
     end
 
     it 'should not render the new template for foreign journal entries' do
-      @foreign = Factory(:journal)
+      @foreign = create(:journal)
       expect { get :new, :kid_id => @foreign.kid.id, :journal_id => @foreign.id}.to raise_error(CanCan::AccessDenied)
     end
 
@@ -32,13 +32,13 @@ describe CommentsController do
 
     it 'should create a journal entry' do
       post :create, :kid_id => @kid.id, :journal_id => @journal.id,
-        :comment => Factory.attributes_for(:comment)
+        :comment => attributes_for(:comment)
       response.should be_redirect
     end
 
     it 'should send a mail on comment creation' do
       post :create, :kid_id => @kid.id, :journal_id => @journal.id,
-        :comment => Factory.attributes_for(:comment)
+        :comment => attributes_for(:comment)
       assert_equal 1, ActionMailer::Base.deliveries.size
     end
   end
