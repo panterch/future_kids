@@ -15,7 +15,7 @@ protected
     return true if 'sessions' == controller_name
     return true unless user_signed_in?
     return true unless current_user.inactive?
-    redirect_to '/users/sign_out', :error => 'Benutzer inaktiv'
+    sign_out current_user
   end
 
   # some parameters should only be set by admins.
