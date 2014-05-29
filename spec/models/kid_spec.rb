@@ -10,8 +10,8 @@ describe Kid do
     let(:kid) { create(:kid) }
     let(:mentor) { create(:mentor) }
     it 'can associate a journal' do
-      attrs = attributes_for(:journal, :mentor => mentor, :kid => nil)
-      attrs.delete(:kid)
+      attrs = attributes_for(:journal)
+      attrs[:mentor_id] = mentor.id
       kid.journals.create!(attrs)
       Kid.find(kid.id).journals.size.should eq(1)
     end
