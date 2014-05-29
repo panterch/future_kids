@@ -1,17 +1,14 @@
-= semantic_form_for [resource.kid, resource], :html => { :id => 'content_form' } do |form|
+= simple_form_for [resource.kid, resource], :html => { :id => 'content_form' } do |form|
+  - if current_user.is_a?(Admin)
+    = form.association :mentor, :collection => @mentors
+  = date_picker(form, :held_at)
+  = form.input :cancelled
+  = form.input :start_at, :as => :string, :required => true
+  = form.input :end_at, :as => :string, :required => true
+  = form.input :goal
+  = form.input :subject
+  = form.input :method
+  = form.input :outcome
+  = form.input :note
 
-  = form.semantic_errors
-  = form.inputs do
-    - if current_user.is_a?(Admin)
-      = form.input :mentor, :collection => @mentors
-    = date_picker(form, :held_at)
-    = form.input :cancelled
-    = form.input :start_at, :as => :string
-    = form.input :end_at, :as => :string
-    = form.input :goal
-    = form.input :subject
-    = form.input :method
-    = form.input :outcome
-    = form.input :note
-
-  = form.buttons 
+  = form.submit

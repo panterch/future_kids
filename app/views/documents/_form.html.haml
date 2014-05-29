@@ -1,8 +1,7 @@
-= semantic_form_for resource, :html => { :id => 'content_form' } do |form|
-  = form.semantic_errors
-  = form.inputs do
-    = form.input :category
-    = form.input :subcategory
-    = form.input :title
-    = form.input :attachment
-  = form.buttons
+= simple_form_for resource, :html => { :id => 'content_form' } do |form|
+  = form.input :category
+  = form.input :subcategory
+  = form.input :title
+  = form.input :attachment
+
+  = form.submit
