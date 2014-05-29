@@ -8,7 +8,7 @@ feature "TEACHER::CREATE:KID", %q{
 
   background do
     @pw = 'welcome'
-    @teacher = Factory(:teacher, password: @pw, password_confirmation: @pw)
+    @teacher = create(:teacher, password: @pw, password_confirmation: @pw)
     log_in(@teacher)
   end
 
@@ -32,7 +32,7 @@ feature "ADMIN::CREATE:KID", %q{
 
   background do
     @pw = 'welcome'
-    @admin = Factory(:admin, :password => @pw, :password_confirmation => @pw)
+    @admin = create(:admin, :password => @pw, :password_confirmation => @pw)
     log_in(@admin)
   end
 
