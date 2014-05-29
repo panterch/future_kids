@@ -5,6 +5,7 @@ class KidsController < ApplicationController
   include ManageSchedules # edit_schedules & update_schedules
 
   before_filter :assign_current_teacher, :only => [:create]
+  after_filter  :track_creation_relation, :only => [:create]
   before_filter :assign_selected_mentor_schedules, :only => [:edit_schedules]
   before_filter :assign_mentor_selection, :only => [:edit_schedules]
 
@@ -49,6 +50,13 @@ protected
     end
     resource.school  ||= resource.teacher.try(:school)
     resource.school  ||= resource.secondary_teacher.try(:school)
+  end
+
+  def track_creation_relation
+    return true unless resource.persisted?
+    resource.relation_logs.create(user_id: current_user.id,
+                                  role: 'creator',
+                                  start_at: Time.now)
   end
 
   # this adds a specific behaviour for kids to the edit_schedules method -

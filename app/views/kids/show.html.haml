@@ -47,9 +47,6 @@
     = show.attribute :abnormality_criticality
     = show.attribute :todo
     = show.attribute :inactive
-    - if resource.inactive?
-      = show.attribute :relation_archive
-
     = render :partial => 'relation_logs/collection'
 
 %h2#journals Lernjournale

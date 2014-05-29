@@ -132,8 +132,7 @@ describe RelationLog do
 
     kid.relation_logs.count.should eq(3)
 
-    kid.relation_logs.first.user.should eq(other_mentor)
-    kid.relation_logs.second.user.should eq(mentor)
-    kid.relation_logs.last.user.should eq(mentor)
+    kid.relation_logs.map(&:user).sort.should eq(
+      [other_mentor, mentor, mentor].sort)
   end
 end
