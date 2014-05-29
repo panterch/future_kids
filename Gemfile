@@ -43,4 +43,10 @@ group :development, :test do
   gem 'factory_girl', '2.3.2'
   gem 'capistrano'
   gem 'capistrano-ext'
+
+  gem "pry-rails"
+  gem 'pry-byebug'
+
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end
