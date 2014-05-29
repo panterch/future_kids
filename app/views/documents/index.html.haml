@@ -1,20 +1,15 @@
 %h2 Dokumente und Anleitungen
 
 #documents
-  %ol
-    - @category_tree.each do |category, subcategories|
-      %li
-        %h3= "#{category.present? ? category : 'Ohne Kategorie'}"
-      %li
-        %ol
-          - Document.in_category(category).each do |d|
-            = render :partial => 'link', :object => d
-          - subcategories.each do |subcategory|
-            %li
-              %h4
-                sub
-                = subcategory
-              %ol
-                - Document.in_subcategory(category, subcategory).each do |d|
-                  = render :partial => 'link', :object => d
+  - @category_tree.each do |category, subcategories|
+    %h3= "#{category.present? ? category : 'Ohne Kategorie'}"
+    %ol
+      - Document.in_category(category).each do |d|
+        = render :partial => 'link', :object => d
+      - subcategories.each do |subcategory|
+        %li.subcategory
+          %h4= subcategory
+          %ol
+            - Document.in_subcategory(category, subcategory).each do |d|
+              = render :partial => 'link', :object => d
 

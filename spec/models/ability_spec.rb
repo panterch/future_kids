@@ -3,8 +3,9 @@ require 'spec_helper'
 describe Ability do
 
   describe "A Mentor" do
-    let(:mentor) { create(:mentor)}
-    let(:other_mentor) { create(:mentor)}
+    let(:admin) { create(:admin) }
+    let(:mentor) { create(:mentor) }
+    let(:other_mentor) { create(:mentor) }
     let(:ability) { Ability.new(mentor) }
     let(:foreign_kid) { create(:kid) }
     let(:kid) { create(:kid, :mentor => mentor) }
@@ -15,6 +16,24 @@ describe Ability do
     let(:direct_associated_journal) { create(:journal, :kid => foreign_kid,
                                               :mentor => mentor) }
     let(:review) { build(:review, :kid => kid) }
+
+    context "admin" do
+      it "cannot read foreign admin" do
+        assert ability.cannot?(:read, admin)
+      end
+      it "can read own kids coach" do
+        kid.update_attributes(admin: admin)
+        assert ability.can?(:read, admin)
+      end
+      it "can read secondary kids coach" do
+        secondary_kid.update_attributes(admin: admin)
+        assert ability.can?(:read, admin)
+      end
+      it "never can update coaches" do
+        kid.update_attributes(admin: admin)
+        assert ability.cannot?(:update, admin)
+      end
+    end
 
     context "mentors" do
       it "can access mentors in general" do

@@ -325,7 +325,7 @@ form.filter > .filterfield label{
     content: "▶ "
   }
 
-  li.open > h3:before, li.open > h4:before  {
+  h3.open:before, h4.open:before  {
     content: '▼ '
   }
 
@@ -333,10 +333,10 @@ form.filter > .filterfield label{
     padding-left: 10px;
   }
 
-  ol > li > ol {
+  ol {
     display: none;
   }
-  ol > li.open > ol {
+  ol.open {
     display: block;
   }
 }

@@ -209,6 +209,7 @@ de:
   activerecord:
     models:
       kid: "Schüler/in"
+      mentor: "Mentor/in"
       journal: "Lernjournal"
       teacher: "Lehrperson"
       reminder: "Erinnerung"
@@ -254,6 +255,7 @@ de:
         coached_at: 'Letztes Telefoncoaching'
         abnormality: 'Auffälligkeiten'
         abnormality_criticality: 'Kritikalität der Auffälligkeiten'
+        admin: Coach
         admin_id: Coach
       journal:
         held_at: Datum

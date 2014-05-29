@@ -32,12 +32,12 @@
   = show.attribute :secondary_mentor do
     = can_link_to(resource.secondary_mentor)
   = show.attribute :secondary_active
+  = show.attribute :admin do
+    = can_link_to(resource.admin)
 
 - if current_user.is_a?(Admin)
   = show_for resource do |show|
     %h2#internal Projektinterne Informationen
-    = show.attribute :admin do
-      = can_link_to(resource.admin)
     = show.attribute :term
     = show.attribute :exit
     = show.attribute :exit_reason
