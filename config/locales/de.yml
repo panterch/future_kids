@@ -257,6 +257,7 @@ de:
         abnormality_criticality: 'Kritikalität der Auffälligkeiten'
         admin: Coach
         admin_id: Coach
+        creator: Ersteller/in
       journal:
         held_at: Datum
         start_at: Von

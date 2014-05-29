@@ -141,6 +141,20 @@ describe KidsController do
         response.should be_redirect
       end
 
+      it 'tracks creation as relationlog' do
+        post :create, :kid => FactoryGirl.attributes_for(:kid)
+        RelationLog.where(role: 'creator').count.should eq(1)
+        rl = RelationLog.where(role: 'creator').first
+        rl.user.should eq(@teacher)
+        rl.role.should eq('creator')
+        rl.kid.should eq(assigns(:kid))
+      end
+
+      it 'does not track creation on form error' do
+        post :create, :kid => {}
+        RelationLog.where(role: 'creator').count.should eq(0)
+      end
+
     end
 
   end
