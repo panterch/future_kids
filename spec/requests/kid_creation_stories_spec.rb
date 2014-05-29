@@ -12,7 +12,7 @@ feature "TEACHER::CREATE:KID", %q{
     log_in(@teacher)
   end
 
-  scenario "should create a new kid with the required values only" do
+  scenario "should not create a new kid without the required values" do
     click_link 'Schüler/in'
     click_link 'Neuer Eintrag'
     click_button 'submit'
@@ -21,6 +21,15 @@ feature "TEACHER::CREATE:KID", %q{
     page.should have_content('muss ausgefüllt werden')
   end
 
+  scenario "should create a new kid with required values" do
+    click_link 'Schüler/in'
+    click_link 'Neuer Eintrag'
+    fill_in 'kid_name', with: 'Last Name'
+    fill_in 'kid_prename', with: 'First Name'
+    click_button 'submit'
+    page.status_code.should == 200
+    page.should have_css('h2', text: 'Last Name First Name')
+  end
 
 end
 
@@ -36,13 +45,23 @@ feature "ADMIN::CREATE:KID", %q{
     log_in(@admin)
   end
 
-  scenario "should create a new kid with the required values only" do
+  scenario "should not create a new kid without the required values" do
     click_link 'Schüler/in'
     click_link 'Neuer Eintrag'
     click_button 'submit'
     page.status_code.should == 200
     page.should have_content('Neuer Eintrag')
     page.should have_content('muss ausgefüllt werden')
+  end
+
+  scenario "should create a new kid with required values" do
+    click_link 'Schüler/in'
+    click_link 'Neuer Eintrag'
+    fill_in 'kid_name', with: 'Last Name'
+    fill_in 'kid_prename', with: 'First Name'
+    click_button 'submit'
+    page.status_code.should == 200
+    page.should have_css('h2', :text => 'Last Name First Name')
   end
 
 
