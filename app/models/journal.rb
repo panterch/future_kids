@@ -1,6 +1,6 @@
 class Journal < ActiveRecord::Base
 
-  default_scope { order('held_at DESC, journals.id') }
+  default_scope { order('held_at DESC', :id).joins('INNER JOIN kids ON kids.id = journals.kid_id') }
 
   belongs_to :kid
   belongs_to :mentor
