@@ -72,10 +72,10 @@
               %li= link_to 'Abmelden', destroy_user_session_path
       #header
         = image_tag 'teaser.jpg'
-      - flash.each do |name, msg|
-        = content_tag :div, msg, :id => "flash_#{name}"
 
       #content
+        - flash.each do |name, msg|
+          = boot_alert(msg, name)
         = yield
 
       #footer
