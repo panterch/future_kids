@@ -37,6 +37,7 @@ GEM
       erubis (>= 2.6.6)
     binding_of_caller (0.7.2)
       debug_inspector (>= 0.0.1)
+    bootstrap-sass (2.1.1.0)
     builder (3.0.4)
     byebug (2.7.0)
       columnize (~> 0.3)
@@ -87,6 +88,8 @@ GEM
       factory_girl (~> 2.3.0)
       railties (>= 3.0.0)
     ffi (1.0.11)
+    font-awesome-rails (4.1.0.0)
+      railties (>= 3.2, < 5.0)
     growl (1.0.3)
     guard (1.0.3)
       ffi (>= 0.5.0)
@@ -230,6 +233,7 @@ DEPENDENCIES
   RedCloth (= 4.2.9)
   better_errors
   binding_of_caller
+  bootstrap-sass
   cancan (= 1.6.8)
   capistrano
   capistrano-ext
@@ -239,6 +243,7 @@ DEPENDENCIES
   exception_notification_rails3 (= 1.2.0)
   factory_girl (= 2.3.2)
   factory_girl_rails (= 1.4.0)
+  font-awesome-rails
   growl
   guard-rspec
   guard-spork

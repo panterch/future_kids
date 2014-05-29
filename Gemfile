@@ -20,6 +20,8 @@ gem 'inherited_resources', '1.2.1'
 gem 'RedCloth', '4.2.9'
 gem 'show_for', '0.2.4'
 gem 'whenever', :require => false
+gem "bootstrap-sass"
+gem "font-awesome-rails"
 
 group :assets do
   gem 'sass-rails'
