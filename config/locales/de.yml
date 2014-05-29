@@ -367,3 +367,13 @@ de:
       '2': Mittel
       '3': Tief
 
+  flash:
+    actions:
+      create:
+        notice: "%{resource_name} erstellt."
+      update:
+        notice: "%{resource_name} gespeichert."
+      destroy:
+        notice: "%{resource_name} gelöscht."
+        alert: "%{resource_name} konnte nicht gelöscht werden."
+
