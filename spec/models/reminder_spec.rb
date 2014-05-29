@@ -13,15 +13,15 @@ describe Reminder do
                            :meeting_start_at => Time.parse('13:30'))
     end
 
-    let(:monday) { Time.parse('01/03/2011 22:00') }
-    let(:tuesday) { Time.parse('01/04/2011 22:00') }
-    let(:wednesday) { Time.parse('01/05/2011 22:00') }
-    let(:next_week) { Time.parse('01/09/2011 22:00') }
+    let(:monday) { Time.parse('2011-01-03 22:00') }
+    let(:tuesday) { Time.parse('2011-01-04 22:00') }
+    let(:wednesday) { Time.parse('2011-01-05 22:00') }
+    let(:next_week) { Time.parse('2011-01-09 22:00') }
 
     it 'creates a reminder by factory method' do
       r = Reminder.create_for(@kid, tuesday)
       r.recipient.should_not be_nil
-      r.held_at.should eq(Time.parse('01/03/2011 13:30'))
+      r.held_at.should eq(Time.parse('2011-01-03 13:30'))
       r.week.should eq(1)
       r.year.should eq(2011)
       r.kid.should eq(@kid)

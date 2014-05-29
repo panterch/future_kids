@@ -1,4 +1,4 @@
-require "spec/requests/acceptance_helper"
+require "requests/acceptance_helper"
 
 feature "SESSION::LOGIN", %q{
   As a mentor

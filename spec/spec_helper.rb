@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'spork'
-require 'spork/ext/ruby-debug'
 
 ENV["RAILS_ENV"] ||= 'test'
 
@@ -39,5 +38,4 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = true
   config.use_transactional_examples = true
-
 end

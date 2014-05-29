@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require 'spec_helper'
 
 describe RemindersController do
 
@@ -9,12 +9,12 @@ describe RemindersController do
   end
 
   context 'index' do
-  
+
     it 'should index' do
       get :index
       response.should be_successful
     end
-    
+
     it 'should not display acknolodges reminders' do
       Factory(:reminder, :acknowledged_at => Time.now)
       get :index

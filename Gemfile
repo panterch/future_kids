@@ -1,11 +1,10 @@
 source 'http://rubygems.org'
+ruby '2.1.2'
 
 gem 'rails', '3.2.18'
 
 gem 'json'
 gem 'haml', '3.1.4'
-gem 'therubyracer', '0.10.1'
-gem 'libv8', '3.3.10.2'
 
 # Rails 3.1 - JavaScript
 gem 'jquery-rails'
@@ -42,7 +41,6 @@ group :development, :test do
   gem 'growl'
   gem 'factory_girl_rails', '1.4.0'
   gem 'factory_girl', '2.3.2'
-  gem 'ruby-debug'
   gem 'capistrano'
   gem 'capistrano-ext'
 end

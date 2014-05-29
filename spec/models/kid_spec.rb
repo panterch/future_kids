@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe Kid do
 
-  let(:monday) { Time.parse('01/03/2011 22:00') }
-  let(:thursday) { Time.parse('01/06/2011 22:00') }
-  let(:friday) { Time.parse('01/07/2011 22:00') }
+  let(:monday) { Time.parse('2011-01-03 22:00') }
+  let(:thursday) { Time.parse('2011-01-06 22:00') }
+  let(:friday) { Time.parse('2011-01-07 22:00') }
 
   context 'embedded journals' do
     let(:kid) { Factory(:kid) }
@@ -102,11 +102,11 @@ describe Kid do
     end
     it 'should calculate the correct meeting time in past' do
       meeting = @kid.calculate_meeting_time(thursday)
-      meeting.should eq(Time.parse('01/05/2011 18:00'))
+      meeting.should eq(Time.parse('2011-01-05 18:00'))
     end
     it 'should calculate the correct meeting time in future' do
       meeting = @kid.calculate_meeting_time(monday)
-      meeting.should eq(Time.parse('01/05/2011 18:00'))
+      meeting.should eq(Time.parse('2011-01-05 18:00'))
     end
     it 'has no journal entry due at monday' do
       @kid.journal_entry_due?(monday).should be_false

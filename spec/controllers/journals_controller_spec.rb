@@ -1,4 +1,4 @@
-require 'spec/spec_helper'
+require 'spec_helper'
 
 describe JournalsController do
 
@@ -69,7 +69,7 @@ describe JournalsController do
     before(:each) do
       sign_in @mentor
     end
-  
+
     it 'should render the new template' do
       get :new, :kid_id => @kid.id
       response.should be_successful
