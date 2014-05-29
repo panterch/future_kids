@@ -61,25 +61,30 @@ class CreateInititalTables < ActiveRecord::Migration
       t.string     :type
       t.string     :name
       t.string     :prename
-      t.string     :address 
-      t.string     :phone 
-      t.string     :personnel_number 
-      t.string     :field_of_study 
-      t.string     :education 
+      t.string     :address
+      t.string     :phone
+      t.string     :personnel_number
+      t.string     :field_of_study
+      t.string     :education
       t.string     :school
       t.text       :available
       t.boolean    :etcs
       t.date       :entry_date
       t.timestamps
-
-      t.database_authenticatable
-      t.recoverable
-      t.rememberable
-      t.trackable
+      t.string   "email",                                   :default => "",    :null => false
+      t.string   "encrypted_password",       :limit => 128, :default => "",    :null => false
+      t.string   "reset_password_token"
+      t.datetime "reset_password_sent_at"
+      t.datetime "remember_created_at"
+      t.integer  "sign_in_count",                           :default => 0
+      t.datetime "current_sign_in_at"
+      t.datetime "last_sign_in_at"
+      t.string   "current_sign_in_ip"
+      t.string   "last_sign_in_ip"
     end
 
     add_index(:users, :email)
-    
+
     create_table :reminders do |t|
       t.date       :held_at, :null => false
       t.string     :recipient, :null => false
