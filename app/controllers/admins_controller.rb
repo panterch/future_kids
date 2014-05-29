@@ -11,9 +11,8 @@ class AdminsController < ApplicationController
     @admins = @admins.where(params[:admin].delete_if {|key, val| val.blank? })
 
     # provide a prototype admin for the filter form
-    @admin = Admin.new(params[:admin])
+    @admin = Admin.new(permitted_params[:admin])
 
     index!
   end
-
 end

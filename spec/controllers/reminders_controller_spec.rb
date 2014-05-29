@@ -3,8 +3,8 @@ require 'spec_helper'
 describe RemindersController do
 
   before(:each) do
-    @admin = Factory(:admin)
-    @reminder = Factory(:reminder)
+    @admin = create(:admin)
+    @reminder = create(:reminder)
     sign_in @admin
   end
 
@@ -16,7 +16,7 @@ describe RemindersController do
     end
 
     it 'should not display acknolodges reminders' do
-      Factory(:reminder, :acknowledged_at => Time.now)
+      create(:reminder, :acknowledged_at => Time.now)
       get :index
       assigns(:reminders).should eq([@reminder])
     end

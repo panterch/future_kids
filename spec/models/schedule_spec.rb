@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe Schedule do
-  let(:kid) { Factory(:kid) }
-  let(:mentor) { Factory(:mentor) }
+  let(:kid) { create(:kid) }
+  let(:mentor) { create(:mentor) }
 
   it "should belong to a mentor" do
     mentor.schedules.create!(:day => 1, :hour => 13, :minute => 0)
@@ -28,30 +28,30 @@ describe Schedule do
 
   context "equality and enumerable methods" do
     it "is not same time when minute differs" do
-      one = Factory.build(:schedule, :minute => 1)
-      two = Factory.build(:schedule, :minute => 2)
+      one = build(:schedule, :minute => 1)
+      two = build(:schedule, :minute => 2)
       assert one != two
     end
     it "is not same time when all fields match" do
-      one = Factory.build(:schedule)
-      two = Factory.build(:schedule)
+      one = build(:schedule)
+      two = build(:schedule)
       assert one == two
     end
     it "includes when times matches" do
-      collection = [ Factory.build(:schedule, :minute => 1),
-                     Factory.build(:schedule, :minute => 2) ]
-      assert collection.include?(Factory.build(:schedule, :minute => 1))
+      collection = [ build(:schedule, :minute => 1),
+                     build(:schedule, :minute => 2) ]
+      assert collection.include?(build(:schedule, :minute => 1))
     end
     it "includes does not include when times do not match" do
-      collection = [ Factory.build(:schedule, :minute => 1),
-                     Factory.build(:schedule, :minute => 2) ]
-      assert !collection.include?(Factory.build(:schedule, :minute => 3))
+      collection = [ build(:schedule, :minute => 1),
+                     build(:schedule, :minute => 2) ]
+      assert !collection.include?(build(:schedule, :minute => 3))
     end
     it "detect includes even on association proxy" do
-      person = Factory(:schedule).person
+      person = create(:schedule).person
       #                               +-- to_a is required to make include? work
       #                               v
-      assert person.reload.schedules.to_a.include?(Factory.build(:schedule))
+      assert person.reload.schedules.to_a.include?(build(:schedule))
     end
   end
 end

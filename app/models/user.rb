@@ -6,14 +6,14 @@ class User < ActiveRecord::Base
     :styles => { :medium => [ "300x300>", :png] },
     :default_url => "/images/:style/missing.png"
 
-  default_scope :order => [ :name, :prename ]
-  scope :active, :conditions => { :inactive => false }
+  default_scope -> { order(:name, :prename) }
+  scope :active, -> { where(:inactive => false) }
 
   before_validation :nilify_blank_password
 
   validates_presence_of :name, :prename
 
-  has_many :relation_logs, :order => 'created_at DESC'
+  has_many :relation_logs, -> { order('created_at DESC') }
 
   def display_name
     [ name, prename].reject(&:blank?).join(' ')

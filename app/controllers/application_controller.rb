@@ -28,4 +28,10 @@ protected
       raise SecurityError.new("User #{current_user.id} not allowed to change sensitive data")
     end
   end
+
+  private
+
+  def permitted_params
+    params.permit!
+  end
 end

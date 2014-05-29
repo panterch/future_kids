@@ -2,7 +2,7 @@ module ApplicationHelper
 
   # link to the given resource if at least read access is given
   def can_link_to(resource)
-    return "" if resource.nil?
+    return "" if resource.blank?
     return resource.display_name if cannot?(:read, resource)
     link_to resource.display_name, resource
   end

@@ -24,7 +24,7 @@ class KidsController < ApplicationController
       # reorder the kids according to the supplied parameter
       @kids = @kids.reorder(params['order_by']) if params['order_by']
       # provide a prototype kid for the filter form
-      @kid = Kid.new(params[:kid])
+      @kid = Kid.new(permitted_params[:kid])
     end
 
     # when only one record is present, show it immediatelly. this is not for
@@ -70,5 +70,4 @@ protected
   def assign_mentor_selection
     @mentor_groups = Mentor.mentors_grouped_by_assigned_kids
   end
-
 end

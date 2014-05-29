@@ -5,7 +5,7 @@ describe Notifications do
   describe "remind" do
 
     before(:each) do
-      @reminder = Factory(:reminder)
+      @reminder = create(:reminder)
       @mail = Notifications.remind(@reminder)
     end
 
@@ -47,7 +47,7 @@ describe Notifications do
   describe "comment created" do
 
     before(:each) do
-      @comment = Factory(:comment)
+      @comment = create(:comment)
       @mail = Notifications.comment_created(@comment)
     end
 

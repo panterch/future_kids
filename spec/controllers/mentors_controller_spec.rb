@@ -3,13 +3,13 @@ require 'spec_helper'
 describe MentorsController do
 
   before(:each) do
-    @mentor = Factory(:mentor)
+    @mentor = create(:mentor)
     sign_in @mentor
   end
 
   context 'show' do
     before(:each) do
-      @journal = Factory(:journal, :mentor => @mentor, :held_at => '2011-01-01')
+      @journal = create(:journal, :mentor => @mentor, :held_at => '2011-01-01')
     end
 
     it 'assigns no journal entries when no available' do

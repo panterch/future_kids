@@ -2,12 +2,12 @@ require 'spec_helper'
 
 describe Mentor do
   it 'has a valid factory' do
-    mentor = Factory.build(:mentor)
+    mentor = build(:mentor)
     mentor.should be_valid
   end
 
   context 'validations' do
-    let(:mentor) { Factory(:mentor) }
+    let(:mentor) { create(:mentor) }
     it 'does not require password again' do
       mentor.should be_valid
     end
@@ -22,7 +22,7 @@ describe Mentor do
       mentor.should be_valid
     end
     it 'does not allow nil password on unsaved mentor' do
-      new_mentor = Factory.build(:mentor)
+      new_mentor = build(:mentor)
       new_mentor.password = new_mentor.password_confirmation = nil
       new_mentor.should_not be_valid
     end
@@ -30,7 +30,7 @@ describe Mentor do
 
   context 'schedules association' do
     it 'should create associated schedules' do
-      @mentor = Factory(:mentor)
+      @mentor = create(:mentor)
       @mentor.update_attributes(:schedules_attributes => [
          { :day => 1, :hour => 15, :minute => 0 },
          { :day => 2, :hour => 16, :minute => 30 }
@@ -41,15 +41,15 @@ describe Mentor do
 
   context 'mentors grouped bu assigned kids' do
     it 'does correctly group' do
-      @both = Factory(:mentor)
-      Factory(:kid, :mentor => @both)
-      Factory(:kid, :secondary_mentor => @both)
-      @only_primary = Factory(:mentor)
-      Factory(:kid, :mentor => @only_primary)
-      @only_secondary = Factory(:mentor)
-      Factory(:kid, :secondary_mentor => @only_secondary)
-      @substitute = Factory(:mentor, :substitute => true)
-      @none = Factory(:mentor)
+      @both = create(:mentor)
+      create(:kid, :mentor => @both)
+      create(:kid, :secondary_mentor => @both)
+      @only_primary = create(:mentor)
+      create(:kid, :mentor => @only_primary)
+      @only_secondary = create(:mentor)
+      create(:kid, :secondary_mentor => @only_secondary)
+      @substitute = create(:mentor, :substitute => true)
+      @none = create(:mentor)
 
       res = Mentor.mentors_grouped_by_assigned_kids
       assert_equal [@both], res[:both]
@@ -62,9 +62,9 @@ describe Mentor do
 
   context 'inactive setting' do
     it 'should release kids when set inactive' do
-      @mentor = Factory(:mentor)
-      Factory(:kid, :mentor => @mentor)
-      Factory(:kid, :secondary_mentor => @mentor)
+      @mentor = create(:mentor)
+      create(:kid, :mentor => @mentor)
+      create(:kid, :secondary_mentor => @mentor)
       @mentor.reload.update_attributes(:inactive => true)
       @mentor.reload.kids.count.should eq(0)
       @mentor.secondary_kids.count.should eq(0)
@@ -73,8 +73,8 @@ describe Mentor do
 
   context 'total minutes' do
     it 'should count journals' do
-      @mentor = Factory(:mentor)
-      @journal = Factory(:journal, :mentor => @mentor,
+      @mentor = create(:mentor)
+      @journal = create(:journal, :mentor => @mentor,
         :start_at => Time.parse("13:00"),
         :end_at  => Time.parse("14:30"))
       @mentor.total_duration.should eq(90)
@@ -83,19 +83,19 @@ describe Mentor do
 
   context 'month_count' do
     it 'counts journals per month' do
-      @mentor = Factory(:mentor)
-      Factory(:journal, :mentor => @mentor,
+      @mentor = create(:mentor)
+      create(:journal, :mentor => @mentor,
               :held_at => Date.parse("2011-05-30"))
-      Factory(:journal, :mentor => @mentor,
+      create(:journal, :mentor => @mentor,
               :held_at => Date.parse("2011-06-01"))
       @mentor.month_count.should eq(2)
     end
 
     it 'counts two journals in month once' do
-      @mentor = Factory(:mentor)
-      Factory(:journal, :mentor => @mentor,
+      @mentor = create(:mentor)
+      create(:journal, :mentor => @mentor,
               :held_at => Date.parse("2011-05-30"))
-      Factory(:journal, :mentor => @mentor,
+      create(:journal, :mentor => @mentor,
               :held_at => Date.parse("2011-05-01"))
       @mentor.month_count.should eq(1)
     end
@@ -104,7 +104,7 @@ describe Mentor do
   context "has attached file photo" do
     before do
       @file = File.new(Rails.root.join('spec/fixtures/logo.png'))
-      @mentor = Factory.build(:mentor)
+      @mentor = build(:mentor)
     end
     it 'attaches a photo' do
       @mentor.photo = @file

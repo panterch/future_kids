@@ -8,7 +8,7 @@ feature "SESSION::LOGIN", %q{
 
   background do
     @pw = 'spec12378'
-    @mentor = Factory(:mentor, :password => @pw, :password_confirmation => @pw)
+    @mentor = create(:mentor, :password => @pw, :password_confirmation => @pw)
   end
 
   scenario "should login the user w/ valid credentials" do

@@ -1,6 +1,6 @@
 class Kid < ActiveRecord::Base
 
-  default_scope :order => [ :name, :prename ]
+  default_scope { order(:name, :prename) }
 
   belongs_to :mentor
   belongs_to :secondary_mentor, :class_name => 'Mentor'
