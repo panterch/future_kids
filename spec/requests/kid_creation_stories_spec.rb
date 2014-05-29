@@ -8,11 +8,11 @@ feature "TEACHER::CREATE:KID", %q{
 
   background do
     @pw = 'welcome'
-    @teacher = Factory(:teacher, :password => @pw, :password_confirmation => @pw)
+    @teacher = create(:teacher, password: @pw, password_confirmation: @pw)
     log_in(@teacher)
   end
 
-  scenario "should create a new kid with the required values only",
+  scenario "should create a new kid with the required values only" do
     click_link 'Schüler/in'
     click_link 'Neuer Eintrag'
     click_button 'submit'
@@ -32,11 +32,11 @@ feature "ADMIN::CREATE:KID", %q{
 
   background do
     @pw = 'welcome'
-    @admin = Factory(:admin, :password => @pw, :password_confirmation => @pw)
+    @admin = create(:admin, :password => @pw, :password_confirmation => @pw)
     log_in(@admin)
   end
 
-  scenario "should create a new kid with the required values only",
+  scenario "should create a new kid with the required values only" do
     click_link 'Schüler/in'
     click_link 'Neuer Eintrag'
     click_button 'submit'
