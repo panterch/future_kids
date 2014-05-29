@@ -1,6 +1,6 @@
 class Journal < ActiveRecord::Base
 
-  default_scope { order('held_at DESC, id') }
+  default_scope { order('held_at DESC, journals.id') }
 
   belongs_to :kid
   belongs_to :mentor
