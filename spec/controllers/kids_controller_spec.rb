@@ -84,7 +84,7 @@ describe KidsController do
         @mentor = create(:mentor)
         get :edit_schedules, :id => @kid, :mentor_ids => [ @mentor.id ]
         assigns(:mentor_ids).should eq([@mentor.id.to_s])
-        assigns(:mentor_groups)["none"].should eq([@mentor])
+        assigns(:mentor_groups)[:none].should eq([@mentor])
       end
 
     end

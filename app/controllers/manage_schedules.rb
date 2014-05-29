@@ -14,8 +14,8 @@ module ManageSchedules
     # from the submitted data.
     resource.schedules.destroy_all
     schedule_attributes =
-      params[resource_request_name] && # guard against none attributes submitted
-      params[resource_request_name][:schedules_attributes]
+      permitted_params[resource_request_name] && # guard against none attributes submitted
+      permitted_params[resource_request_name][:schedules_attributes]
     if schedule_attributes.present?
       resource.update_attributes(:schedules_attributes => schedule_attributes)
     end
