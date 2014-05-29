@@ -1,15 +1,14 @@
-= semantic_form_for resource, :html => { :id => 'content_form' } do |form|
-  = form.semantic_errors
-  = form.inputs do
-    = form.input :name
-    = form.input :street
-    = form.input :city
-    = form.input :phone
-    = form.input :homepage
-    = form.input :social
-    = form.input :district
-    = form.input :term, :as => :select, :collection => term_collection
-    = form.input :note
-  = form.buttons
+= simple_form_for resource, :html => { :id => 'content_form' } do |form|
+  = form.input :name
+  = form.input :street
+  = form.input :city
+  = form.input :phone
+  = form.input :homepage
+  = form.input :social
+  = form.input :district
+  = form.input :term, :as => :select, :collection => term_collection
+  = form.input :note
+
+  = form.submit
 
 = render :partial => 'associations'

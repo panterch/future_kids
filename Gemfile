@@ -13,13 +13,15 @@ gem 'jquery-rails'
 gem 'cancan', '1.6.8'
 gem 'devise', '1.4.7'
 gem 'exception_notification_rails3', '1.2.0', :require => 'exception_notifier'
-gem 'formtastic', '1.2.4'
+gem 'simple_form'
 gem 'paperclip', '2.4.1'
 gem 'pg', '0.16.0'
 gem 'inherited_resources', '1.2.1'
 gem 'RedCloth', '4.2.9'
 gem 'show_for', '0.2.4'
 gem 'whenever', :require => false
+gem "bootstrap-sass"
+gem "font-awesome-rails"
 
 group :assets do
   gem 'sass-rails'
@@ -43,4 +45,10 @@ group :development, :test do
   gem 'factory_girl', '2.3.2'
   gem 'capistrano'
   gem 'capistrano-ext'
+
+  gem "pry-rails"
+  gem 'pry-byebug'
+
+  gem 'better_errors'
+  gem 'binding_of_caller'
 end

@@ -1,56 +1,52 @@
 = render :partial => 'subnav'
 
-= semantic_form_for resource, :html => { :id => 'content_form' } do |form|
+= simple_form_for resource, :html => { :id => 'content_form' } do |form|
   %h2#kid= resource.display_name
 
-  = form.semantic_errors
-  = form.inputs do
-    = form.input :name
-    = form.input :prename
-    = form.input :sex, :as => :select, :collection => sex_collection
-    = date_picker(form, :dob)
-    = form.input :grade, :as => :select, :collection => grade_collection
-    = form.input :language
-    = form.input :parent
-    = form.input :address
-    = form.input :city
-    = form.input :phone
-    = form.input :translator
-    = form.input :note
-    - if current_user.is_a?(Admin)
-      = form.input :school, :as => :select, :collection => school_collection
+  = form.input :name
+  = form.input :prename
+  = form.input :sex, :as => :select, :collection => sex_collection
+  = date_picker(form, :dob)
+  = form.input :grade, :as => :select, :collection => grade_collection
+  = form.input :language
+  = form.input :parent
+  = form.input :address
+  = form.input :city
+  = form.input :phone
+  = form.input :translator
+  = form.input :note
+  - if current_user.is_a?(Admin)
+    = form.association :school, :collection => school_collection
 
   %h2#school Allgemeine Informationen
-  = form.inputs do
-    = form.input :goal_1
-    = form.input :goal_2
-    - if current_user.is_a?(Admin)
-      = form.input :meeting_day, :as => :select, :collection => wday_collection
-      = form.input :meeting_start_at, :as => :string
-    -# this form is accessible by admins and teachers. teachers can only set the
-    -# the secondary_mentor and ara automatically assigned as first mentor for any kid
-    -# they are working on
-    - if current_user.is_a?(Admin)
-      = form.input :teacher
-    = form.input :secondary_teacher
-    - if current_user.is_a?(Admin)
-      = form.input :mentor
-      = form.input :secondary_mentor
-      = form.input :secondary_active
+  = form.input :goal_1
+  = form.input :goal_2
+  - if current_user.is_a?(Admin)
+    = form.input :meeting_day, :as => :select, :collection => wday_collection
+    = form.input :meeting_start_at, :as => :string
+  -# this form is accessible by admins and teachers. teachers can only set the
+  -# the secondary_mentor and ara automatically assigned as first mentor for any kid
+  -# they are working on
+  - if current_user.is_a?(Admin)
+    = form.association :teacher
+  = form.association :secondary_teacher
+  - if current_user.is_a?(Admin)
+    = form.association :mentor
+    = form.association :secondary_mentor
+    = form.input :secondary_active
 
   - if current_user.is_a?(Admin)
     %h2#internal Projektinterne Informationen
-    = form.inputs do
-      = form.input :admin_id, :as => :select, :collection => admin_collection
-      = form.input :term, :as => :select, :collection => term_collection
-      = form.input :exit, :as => :select, :collection => term_collection
-      = form.input :exit_reason, :as => :select, :collection => exit_reason_collection
-      = date_picker(form, :checked_at)
-      = date_picker(form, :coached_at)
-      = form.input :abnormality
-      = form.input :abnormality_criticality, :as => :select, :collection => criticality_collection
-      = form.input :todo
-      %a(name='todo')
-      = form.input :inactive
+    = form.input :admin_id, :as => :select, :collection => admin_collection
+    = form.input :term, :as => :select, :collection => term_collection
+    = form.input :exit, :as => :select, :collection => term_collection
+    = form.input :exit_reason, :as => :select, :collection => exit_reason_collection
+    = date_picker(form, :checked_at)
+    = date_picker(form, :coached_at)
+    = form.input :abnormality
+    = form.input :abnormality_criticality, :as => :select, :collection => criticality_collection
+    = form.input :todo
+    %a(name='todo')
+    = form.input :inactive
 
-  = form.buttons
+  = form.submit

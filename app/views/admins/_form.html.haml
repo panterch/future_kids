@@ -1,15 +1,13 @@
-= semantic_form_for resource, :html => { :id => 'content_form' } do |form|
-  = form.semantic_errors
-  = form.inputs do
-    = form.input :name
-    = form.input :prename
-    = form.input :email, :input_html => { :autocomplete => 'off' }
-    = form.input :phone
-    = form.input :password, :input_html => { :autocomplete => 'off' }
-    = form.input :password_confirmation, :input_html => { :autocomplete => 'off' }
-    = form.input :todo
+= simple_form_for resource, :html => { :id => 'content_form' } do |form|
+  = form.input :name
+  = form.input :prename
+  = form.input :email, :input_html => { :autocomplete => 'off' }
+  = form.input :phone
+  = form.input :password, :input_html => { :autocomplete => 'off' }
+  = form.input :password_confirmation, :input_html => { :autocomplete => 'off' }
+  = form.input :todo
 
-    -if current_user.is_a?(Admin)
-      = form.input :inactive
+  -if current_user.is_a?(Admin)
+    = form.input :inactive
 
-  = form.buttons
+  = form.submit

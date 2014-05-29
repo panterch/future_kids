@@ -1,24 +1,21 @@
 %h2= "Neuer Kommentar zu #{@journal.display_name}"
 
-= semantic_form_for [@journal.kid, @journal, @comment], :html => { :id => 'content_form' } do |form|
-
-  = form.semantic_errors
-  = form.inputs do
-    = form.input :by
-    = form.input :body
+= simple_form_for [@journal.kid, @journal, @comment], :html => { :id => 'content_form' } do |form|
+  = form.input :by
+  = form.input :body
+  %li.boolean
+    %label(style='position: absolute; left: 16px') Empfänger/innen
+    %label
+      %input(type='checkbox' disabled='disabled' checked)
+      Mentor/in
+  - if @journal.kid.admin
     %li.boolean
-      %label(style='position: absolute; left: 16px') Empfänger/innen
       %label
         %input(type='checkbox' disabled='disabled' checked)
-        Mentor/in
-    - if @journal.kid.admin
-      %li.boolean
-        %label
-          %input(type='checkbox' disabled='disabled' checked)
-          Coach
-    - if @journal.kid.teacher
-      = form.input :to_teacher
-    - if @journal.kid.secondary_teacher
-      = form.input :to_secondary_teacher
+        Coach
+  - if @journal.kid.teacher
+    = form.input :to_teacher
+  - if @journal.kid.secondary_teacher
+    = form.input :to_secondary_teacher
 
-  = form.buttons
+  = form.submit
