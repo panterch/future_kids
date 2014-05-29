@@ -69,7 +69,7 @@
             %ul.session
               %li Angemeldet als
               %li= link_to(current_user.display_name, current_user)
-              %li= link_to 'Abmelden', destroy_user_session_path
+              %li= link_to 'Abmelden', destroy_user_session_path, :method => :delete
       #header
         = image_tag 'teaser.jpg'
       - flash.each do |name, msg|
