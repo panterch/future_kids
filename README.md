@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/panter/future_kids.png?branch=master)](http://travis-ci.org/panter/future_kids)
+[![Build Status](https://secure.travis-ci.org/panterch/future_kids.png?branch=master)](http://travis-ci.org/panterch/future_kids)
 
 Future Kids fördert Primarschüler/innen, welche zu Hause bei schulischen
 Aufgaben kaum oder keine Unterstützung erhalten. Dieser Heimnachteil
