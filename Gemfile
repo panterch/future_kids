@@ -21,6 +21,7 @@ gem 'show_for', :github => 'plataformatec/show_for'
 gem 'whenever', :require => false
 gem "bootstrap-sass"
 gem "font-awesome-rails"
+gem 'quiet_assets'
 
 group :assets do
   gem 'sass-rails'
