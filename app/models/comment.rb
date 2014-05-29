@@ -1,11 +1,9 @@
 class Comment < ActiveRecord::Base
-  attr_accessible :body, :by,
-    :to_teacher, :to_secondary_teacher
   after_create :send_notification
 
   belongs_to :journal
 
-  default_scope :order => 'id'
+  default_scope { order('id') }
   validates_presence_of :body, :by, :journal_id
 
   def initialize_default_values(current_user)

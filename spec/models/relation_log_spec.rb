@@ -1,25 +1,25 @@
 require 'spec_helper'
 
 describe RelationLog do
-  let(:kid) { Factory(:kid) }
-  let(:mentor) { Factory(:mentor) }
-  let(:teacher) { Factory(:teacher) }
-  let(:admin) { Factory(:admin) }
+  let(:kid) { create(:kid) }
+  let(:mentor) { create(:mentor) }
+  let(:teacher) { create(:teacher) }
+  let(:admin) { create(:admin) }
 
   it 'associates mentors' do
-    relation_log = Factory(:relation_log, :user => mentor)
+    relation_log = create(:relation_log, :user => mentor)
     relation_log = RelationLog.find(relation_log.id)
     relation_log.user.should eq(mentor)
   end
 
   it 'associates teachers' do
-    relation_log = Factory(:relation_log, :user => teacher)
+    relation_log = create(:relation_log, :user => teacher)
     relation_log = RelationLog.find(relation_log.id)
     relation_log.user.should eq(teacher)
   end
 
   it 'associates coaches' do
-    relation_log = Factory(:relation_log, :user => admin)
+    relation_log = create(:relation_log, :user => admin)
     relation_log = RelationLog.find(relation_log.id)
     relation_log.user.should eq(admin)
   end
@@ -126,7 +126,7 @@ describe RelationLog do
   it 'tracks breaking up relations when new value is given' do
     kid.mentor = mentor
     kid.save!
-    other_mentor = Factory(:mentor)
+    other_mentor = create(:mentor)
     kid.mentor = other_mentor
     kid.save!
 

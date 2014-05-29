@@ -22,7 +22,7 @@ Spork.prefork do
 end
 
 Spork.each_run do
-  FutureKids::Application.reload_routes!
+  Rails.application.reload_routes!
 end
 
 Spork.each_run do
@@ -32,6 +32,7 @@ end
 
 
 RSpec.configure do |config|
+  config.include FactoryGirl::Syntax::Methods
 
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false

@@ -4,7 +4,7 @@ describe PrincipalsController do
 
   describe 'as a principal' do
     before(:each) do
-      @principal = Factory(:principal)
+      @principal = create(:principal)
       sign_in @principal
     end
 
@@ -22,7 +22,7 @@ describe PrincipalsController do
 
       it 'cant edit the other record' do
         expect do
-          get :edit, :id => Factory(:principal).id
+          get :edit, :id => create(:principal).id
         end.to raise_error(CanCan::AccessDenied)
       end
 
@@ -35,7 +35,7 @@ describe PrincipalsController do
 
       it 'cannot update its own school or inactivity' do
         @original_school = @principal.school
-        @school = Factory(:school)
+        @school = create(:school)
         expect do
           put :update, :id => @principal.id, :principal => {
             :school_id => @school.id  }
@@ -49,8 +49,8 @@ describe PrincipalsController do
 
   describe 'as an admin' do
     before(:each) do
-      @admin = Factory(:admin)
-      @principal = Factory(:principal)
+      @admin = create(:admin)
+      @principal = create(:principal)
       sign_in @admin
     end
 
@@ -70,7 +70,7 @@ describe PrincipalsController do
     end
 
     it 'can update the principals school' do
-      @school = Factory(:school)
+      @school = create(:school)
       put :update, :id => @principal.id, :principal => {
         :school_id => @school.id  }
       response.should be_redirect

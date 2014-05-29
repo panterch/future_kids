@@ -3,8 +3,8 @@ require 'spec_helper'
 describe ReviewsController do
 
   before(:each) do
-    @mentor = Factory(:mentor)
-    @kid = Factory(:kid, :mentor => @mentor)
+    @mentor = create(:mentor)
+    @kid = create(:kid, :mentor => @mentor)
   end
 
   context 'as a mentor' do
@@ -18,7 +18,7 @@ describe ReviewsController do
     end
 
     it 'should deny access for foreign kids' do
-      expect { get :new, :kid_id => Factory(:kid).id }.to raise_error(CanCan::AccessDenied)
+      expect { get :new, :kid_id => create(:kid).id }.to raise_error(CanCan::AccessDenied)
     end
 
     it 'should create a new entry' do
@@ -28,7 +28,7 @@ describe ReviewsController do
 
     it 'should not be able to create entries for other kids' do
       attrs = valid_attributes
-      attrs[:kid_id] = Factory(:kid).id
+      attrs[:kid_id] = create(:kid).id
       expect { post :create, attrs }.to raise_error(CanCan::AccessDenied)
     end
 
@@ -36,13 +36,13 @@ describe ReviewsController do
     # via the attributes hash for review
     it 'should not be able to taint kid_id via review parameters' do
       attrs = valid_attributes
-      attrs[:review][:kid_id] = Factory(:kid).id
+      attrs[:review][:kid_id] = create(:kid).id
       post :create, attrs
       assigns(:review).kid.should eq(@kid)
     end
 
     it 'redirects on show' do
-      get :show, :kid_id => @kid.id, :id => Factory(:review, :kid => @kid)
+      get :show, :kid_id => @kid.id, :id => create(:review, :kid => @kid)
       response.should be_redirect
     end
 
@@ -58,7 +58,7 @@ describe ReviewsController do
   # want to submit via the jquery widgets
   def valid_attributes
     attrs = {}
-    attrs[:review] =  Factory.attributes_for(:review)
+    attrs[:review] =  attributes_for(:review)
     attrs[:kid_id] = @kid.id
     attrs
   end

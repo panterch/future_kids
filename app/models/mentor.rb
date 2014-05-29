@@ -38,7 +38,7 @@ class Mentor < User
   end
 
   def total_duration
-    self.journals.sum(&:duration)
+    self.journals.sum(:duration)
   end
 
   def month_count
