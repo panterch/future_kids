@@ -1,4 +1,4 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 ruby '2.1.2'
 
 gem 'rails'
@@ -6,7 +6,6 @@ gem 'rails'
 gem 'json'
 gem 'haml'
 
-# Rails 3.1 - JavaScript
 gem 'jquery-rails'
 
 # gems in alphabetic order
@@ -33,14 +32,8 @@ end
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 group :development, :test do
-  gem 'yard'
   gem 'rspec-rails'
   gem 'capybara'
-  gem 'spork'
-  gem 'rb-fsevent'
-  gem 'guard-rspec'
-  gem 'guard-spork'
-  gem 'growl'
   gem 'factory_girl_rails'
   gem 'factory_girl'
   gem 'capistrano'
