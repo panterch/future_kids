@@ -40,6 +40,14 @@ module ApplicationHelper
     Admin.all.map { |a| [a.display_name, a.id] }
   end
 
+  def mentor_collection
+    Mentor.active.map { |m| [m.display_name, m.id] }
+  end
+
+  def teacher_collection
+    Teacher.active.map { |t| [t.display_name, t.id] }
+  end
+
   def term_collection
     ['2011 Frühling', '2011 Herbst',
      '2012 Frühling', '2012 Herbst',

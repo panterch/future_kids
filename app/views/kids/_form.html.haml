@@ -28,11 +28,10 @@
   -# the secondary_mentor and ara automatically assigned as first mentor for any kid
   -# they are working on
   - if current_user.is_a?(Admin)
-    = form.association :teacher
-  = form.association :secondary_teacher
-  - if current_user.is_a?(Admin)
-    = form.association :mentor
-    = form.association :secondary_mentor
+    = form.association :teacher, :as => :select, :collection => teacher_collection
+    = form.association :secondary_teacher, :as => :select, :collection => teacher_collection
+    = form.association :mentor, :as => :select, :collection => mentor_collection
+    = form.association :secondary_mentor, :as => :select, :collection => mentor_collection
     = form.input :secondary_active
     = form.input :admin_id, :as => :select, :collection => admin_collection
 
