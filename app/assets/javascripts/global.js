@@ -85,9 +85,9 @@ function register_kidsfilter() {
 }
 function register_documents_toc() {
   $('#documents h3, #documents h4').click(function(event) {
-    $header = $(this)
-    $parent = $header.parent();
-    $parent.toggleClass('open');
-    $parent.next().toggleClass('open');
+    $header = $(this);
+    $list = $header.next('ol');
+    $header.toggleClass('open');
+    $list.toggleClass('open');
   });
 }
