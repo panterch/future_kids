@@ -1,5 +1,6 @@
 class Document < ActiveRecord::Base
   has_attached_file :attachment
+  validates_attachment_content_type :attachment, :content_type => ["application/pdf"]
 
   def self.category_tree
     tree = ActiveSupport::OrderedHash.new

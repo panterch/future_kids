@@ -5,6 +5,7 @@ class User < ActiveRecord::Base
   has_attached_file :photo,
     :styles => { :medium => [ "300x300>", :png] },
     :default_url => "/images/:style/missing.png"
+  validates_attachment_content_type :photo, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
 
   default_scope -> { order(:name, :prename) }
   scope :active, -> { where(:inactive => false) }
