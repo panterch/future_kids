@@ -84,7 +84,7 @@ function register_schedule_checkboxes() {
 }
 
 function register_todotogglers() {
-  $('a.todotoggle').popover({ placement: 'top', html: true });
+  $('a.todotoggle').popover({ placement: 'left', html: true });
 }
 
 function register_kidsfilter() {

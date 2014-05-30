@@ -66,7 +66,7 @@ body { }
   position: fixed;
   top: 0;
   width: 100%;
-  z-index: 1;
+  z-index: 2;
 }
 
 // Fix show_form breaking for long labels
@@ -113,7 +113,7 @@ form.schedule {
   width: 100%;
   height: $footer-height;
   padding-top: 14px;
-  z-index: 1;
+  z-index: 2;
   background-color: #fff;
   font-size: 10px;
 }

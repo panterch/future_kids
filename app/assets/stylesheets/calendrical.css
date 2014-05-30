@@ -1,4 +1,5 @@
 .calendricalDatePopup {
+  z-index: 1;
   background: white;
   border: solid 1px #999999;
   padding: 2px;
@@ -45,6 +46,7 @@
         color: #999999; }
 
 .calendricalTimePopup {
+  z-index: 1;
   background: white;
   border: solid 1px #999999;
   width: 110px;
@@ -66,4 +68,5 @@
         background: #ccccff; }
 
 .calendricalEndTimePopup {
+  z-index: 1;
   width: 160px; }
