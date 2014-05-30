@@ -31,3 +31,8 @@ $navbar-default-bg: #fff;
 $grid-float-breakpoint: 900px;
 
 @import 'bootstrap';
+
+// Fix show_form breaking for long labels
+.show_for .wrapper {
+  clear: both;
+}
