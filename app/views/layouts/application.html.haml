@@ -60,31 +60,30 @@
 
 
 
-    .container(style='min-height: 1000px;')
-      .row-fluid
-        .col-md-3
-          - if user_signed_in?
-            %ul.nav
-              = yield :sidebar
-              %li
-                %h4 Auf dieser Seite
-                %ul.nav
-                  %li= link_to 'Seitenbeginn', :anchor => 'header'
-                  = yield :subnav
-                  %li= link_to 'Seitenende', :anchor => 'footer'
-        .col-md-9
-          - flash.each do |name, msg|
-            = boot_alert(msg, name)
-          = yield
+    #main
+      .container
+        .row-fluid
+          .col-md-3
+            - if user_signed_in?
+              %ul.nav
+                = yield :sidebar
+                %li
+                  %h4 Auf dieser Seite
+                  %ul.nav
+                    %li= link_to 'Seitenbeginn', :anchor => 'header'
+                    = yield :subnav
+                    %li= link_to 'Seitenende', :anchor => 'footer'
+          .col-md-9
+            - flash.each do |name, msg|
+              = boot_alert(msg, name)
+            = yield
 
-    .container
-      .row-fluid
-        .col-md-offset-3.col-md9
-          #footer
-            .contact
-              AOZ
-              Zypressenstrasse 60
-              8040 Zürich
+    #footer
+      .container(style='border-top: 1px solid #eee')
+        .col-md12
+          AOZ
+          Zypressenstrasse 60
+          8040 Zürich
 
-              Telefon: 044 415 65 91
-              = mail_to 'info@aoz-futurekids.ch', nil, :encode => "hex"
+          Telefon: 044 415 65 91
+          = mail_to 'info@aoz-futurekids.ch', nil, :encode => "hex"

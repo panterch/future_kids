@@ -1,12 +1,21 @@
-%table.table.table-striped.table-condensed
-  - collection.each do |resource|
-    %tr
-      %td= link_to resource.display_name, resource
-      - if current_user.is_a?(Admin)
-        %td
-          - if resource.email.present?
-            = mail_to resource.email, "<#{resource.email}>"
-        %td
-          - if resource.todo.present?
-            %a.todotoggle{data: { content: todo_content(resource) }}
-              %span.glyphicon.glyphicon-info-sign
+- if collection.present?
+  %table.table.table-striped.table-condensed.table-hover
+    %thead
+      %tr
+        %th Name
+        %th E-mail
+        %th Pendenzen
+    %tbody
+      - collection.each do |resource|
+        %tr
+          %td= link_to resource.display_name, resource
+          - if current_user.is_a?(Admin)
+            %td
+              - if resource.email.present?
+                = mail_to resource.email, "<#{resource.email}>"
+            %td
+              - if resource.todo.present?
+                %a.todotoggle{data: { content: todo_content(resource) }}
+                  %span.glyphicon.glyphicon-info-sign
+- else
+  %p Kein Eintrag vorhanden

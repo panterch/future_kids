@@ -9,11 +9,11 @@ ShowFor.setup do |config|
 
   # The tag used to wrap each label. Default is :strong.
   config.label_tag = :label
-  config.label_class = 'col-sm-3 control-label'
+  config.label_class = 'col-sm-3 text-right'
 
   # The tag used to wrap each content (value). Default is nil.
   config.content_tag = :p
-  config.content_class = 'form-control-static'
+  config.content_class = 'col-sm-offset-3'
 
   # The DOM class set for blank content tags. Default is "blank".
   # config.blank_content_class = 'no_content'
@@ -22,7 +22,8 @@ ShowFor.setup do |config|
   config.separator = ""
 
   # The tag used to wrap collections. Default is :ul.
-  # config.collection_tag = :ul
+  config.collection_tag = :ul
+  config.collection_class = 'col-sm-offset-3 list-unstyled'
 
   # The default iterator to be used when invoking a collection/association.
   # config.default_collection_proc = lambda { |value| "<li>#{value}</li>" }

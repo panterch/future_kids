@@ -4,27 +4,36 @@
       %h4 Filterkriterium f&uuml;r Sch&uuml;ler/innen
       = form_for :kid, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
         .form-group
-          = f.select :term, term_collection, { :include_blank => Kid.human_attribute_name(:term) }, class: 'form-control'
+          %label= Kid.human_attribute_name(:term)
+          = f.select :term, term_collection, { :include_blank => true }, class: 'form-control'
         .form-group
-          = f.select :exit, term_collection, { :include_blank => Kid.human_attribute_name(:exit) }, class: 'form-control'
+          %label= Kid.human_attribute_name(:exit)
+          = f.select :exit, term_collection, { :include_blank => true }, class: 'form-control'
         .form-group
-          = f.select :school_id, school_collection, { :include_blank => Kid.human_attribute_name(:school) }, class: 'form-control'
+          %label= Kid.human_attribute_name(:school)
+          = f.select :school_id, school_collection, { :include_blank => true }, class: 'form-control'
         .form-group
-          = f.select :admin_id, admin_collection, { :include_blank => 'Coach' }, class: 'form-control'
+          %label Coach
+          = f.select :admin_id, admin_collection, { :include_blank => true }, class: 'form-control'
         .checkbox
           %label
             = f.check_box :translator
-            %p Übersetzer
+            %p
+              %b Übersetzer
         .form-group
-          = f.select :meeting_day, wday_collection, { :include_blank => Kid.human_attribute_name(:meeting_day) }, class: 'form-control'
+          %label= Kid.human_attribute_name(:meeting_day)
+          = f.select :meeting_day, wday_collection, { :include_blank => true }, class: 'form-control'
         .form-group
-          = f.select :grade, grade_collection, { :include_blank => 'Klasse' }, class: 'form-control'
+          %label Klasse
+          = f.select :grade, grade_collection, { :include_blank => true }, class: 'form-control'
         .checkbox
           %label
             = f.check_box :inactive
-            %p Inaktive
+            %p
+              %b Inaktive
         .form-group
-          = select_tag 'order_by', order_by_collection_for_kids(params[:order_by]), :prompt => 'Ordnen Nach', class: 'form-control'
+          %label Ordnen nach
+          = select_tag 'order_by', order_by_collection_for_kids(params[:order_by]), class: 'form-control'
         .form-group
           = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
           = link_to 'Filter aufheben', collection_path, class: 'btn btn-xs btn-danger'
@@ -34,7 +43,7 @@
   = collection.count if current_user.is_a?(Admin)
   Sch&uuml;ler/innen
 
-%table.table.table-striped.table-condensed
+%table.table.table-striped.table-condensed.table-hover
   - collection.each do |resource|
     %tr
       %td= link_to resource.display_name, resource
