@@ -60,18 +60,13 @@ module ApplicationHelper
     "Andere Gründe" ]
   end
 
-  def order_by_collection_for_kids(selected, title = nil)
+
+  def order_by_collection_for_kids(selected)
     options = [['Name', 'name, prename' ],
                ['Kontrolldatum', 'checked_at ASC' ],
                ['Coachingdatum', 'coached_at ASC' ],
                ['Erfassungsdatum', 'created_at ASC' ],
                ['Kritikalität', 'abnormality_criticality']]
-
-    if title.present?
-      selected = title
-      options.unshift([title, nil])
-    end
-
     options_for_select(options, selected)
   end
 

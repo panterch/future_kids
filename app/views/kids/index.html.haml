@@ -24,7 +24,7 @@
             = f.check_box :inactive
             %p Inaktive
         .form-group
-          = select_tag 'order_by', order_by_collection_for_kids(params[:order_by], 'Ordnen nach'), class: 'form-control'
+          = select_tag 'order_by', order_by_collection_for_kids(params[:order_by]), :prompt => 'Ordnen Nach', class: 'form-control'
         .form-group
           = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
           = link_to 'Filter aufheben', collection_path, class: 'btn btn-xs btn-danger'
