@@ -1,28 +1,23 @@
--if current_user.is_a?(Admin)
-  %h2 Filterkriterium f&uuml;r Mentoren
-  = form_for :mentor, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
-    .filterfield
-      %label Startzeit
-      = f.select :term, term_collection, { :include_blank => true }
-    .filterfield
-      %label=Mentor.human_attribute_name(:primary_kids_school)
-      = f.select :primary_kids_school_id, school_collection, { :include_blank => true }
-    .filterfield
-      %label=Mentor.human_attribute_name(:primary_kids_meeting_day)
-      = f.select :primary_kids_meeting_day, wday_collection, { :include_blank => true }
-    .filterfield
-      %label &Ouml;V
-      = f.select :transport, transport_collection, { :include_blank => true }
-    .filterfield
-      %label ECTS
-      = f.select :etcs, yes_no_collection, { :include_blank => true }
-    .filterfield
-      %label Inaktiv
-      = f.check_box :inactive
-    .filterfield
-      %label Aktion
-      = f.submit 'Filter anwenden'
-      = link_to 'Filter aufheben', collection_path
+- content_for :sidebar do
+  - if current_user.is_a?(Admin)
+    %li
+      %h4 Filterkriterium f&uuml;r Mentoren
+      = form_for :mentor, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
+        .form-group
+          = f.select :term, term_collection, { :include_blank => 'Startzeit' }, class: 'form-control'
+        .form-group
+          = f.select :primary_kids_school_id, school_collection, { :include_blank => Mentor.human_attribute_name(:primary_kids_school) }, class: 'form-control'
+        .form-group
+          = f.select :primary_kids_meeting_day, wday_collection, { :include_blank => Mentor.human_attribute_name(:primary_kids_meeting_day) }, class: 'form-control'
+        .form-group
+          = f.select :transport, transport_collection, { :include_blank => 'ÖV' }, class: 'form-control'
+        .form-group
+          = f.select :etcs, yes_no_collection('ECTS'), {}, class: 'form-control'
+        .form-group
+          = f.select :inactive, yes_no_collection('Inaktive'), {}, class: 'form-control'
+        .form-group
+          = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
+          = link_to 'Filter aufheben', collection_path, class: 'btn btn-xs btn-danger'
 
 %h2
   = collection.count if current_user.is_a?(Admin)

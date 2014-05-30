@@ -1,5 +1,3 @@
-%h2= "Neuer Kommentar zu #{@journal.display_name}"
-
 = boot_form_for [@journal.kid, @journal, @comment], :html => { :id => 'content_form' } do |form|
   = form.input :by
   = form.input :body

@@ -1,16 +1,14 @@
--if current_user.is_a?(Admin)
-  %h2 Filterkriterium f&uuml;r Lehrpersonen
-  = form_for :teacher, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
-    .filterfield
-      %label Schule
-      = f.select :school_id, school_collection, { :include_blank => true }
-    .filterfield
-      %label Inaktiv
-      = f.check_box :inactive
-    .filterfield
-      %label Aktion
-      = f.submit 'Filter anwenden'
-      = link_to 'Filter aufheben', collection_path
+- content_for :sidebar do
+  -if current_user.is_a?(Admin)
+    %h4 Filterkriterium f&uuml;r Lehrpersonen
+    = form_for :teacher, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
+      .form-group
+        = f.select :school_id, school_collection, { :include_blank => Kid.human_attribute_name(:school) }, class: 'form-control'
+      .form-group
+        = f.select :inactive, yes_no_collection('Inaktive'), {}, class: 'form-control'
+      .form-group
+        = f.submit 'Filter anwenden', class: 'btn btn-success'
+        = link_to 'Filter aufheben', collection_path, class: 'btn btn-danger'
 
 %h2
   = collection.count if current_user.is_a?(Admin)

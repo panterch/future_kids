@@ -61,3 +61,11 @@ body { }
   clear: both;
 }
 
+// Fix spacing for contextual buttons on page headers
+.ctx-page-header {
+  margin-top: 14px;
+}
+
+.page-header {
+  margin-top: 0;
+}
