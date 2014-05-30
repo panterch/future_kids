@@ -3,7 +3,6 @@
  * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  * = require calendrical
- * = require stylesheet
 */
 
 $font-size-base:             12px;
@@ -27,12 +26,38 @@ $screen-lg:                  9999px;
 $screen-lg-min:              $screen-lg;
 $screen-lg-desktop:          $screen-lg-min;
 
+$navbar-default-border: #fff;
 $navbar-default-bg: #fff;
 $grid-float-breakpoint: 900px;
 
 @import 'bootstrap';
 
+body { }
+
+#teaser {
+ height: 90px; // change alos offset-top of #nav when changing this!
+ img {
+   max-height: 80px;
+ }
+ .logo {
+   padding: 15px 0;
+ }
+}
+
+#nav {
+  border-bottom: 1px solid #ccc;
+  background-color: #fff;
+  padding-top: $line-height-computed;
+}
+#nav.affix {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 1;
+}
+
 // Fix show_form breaking for long labels
 .show_for .wrapper {
   clear: both;
 }
+

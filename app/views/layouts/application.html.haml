@@ -15,17 +15,17 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   %body
+    #teaser.container
+      .row-fluid
+        .col-md-3
+          .logo=image_tag('logo.jpg')
+        .col-md-9
+          = image_tag 'teaser.jpg'
+
     - if user_signed_in?
-      %nav.navbar.navbar-default.navbar-fixed-top{role: "navigation"}
+      #nav{data: { spy: "affix", 'offset-top' => '90' }}
         .container
-          .navbar-header
-            %button.navbar-toggle{"data-target" => "#main-nav", "data-toggle" => "collapse", type: "button"}
-              %span.sr-only Toggle navigation
-              %span.icon-bar
-              %span.icon-bar
-              %span.icon-bar
-            = link_to image_tag('logo.jpg'), '/', class: 'navbar-brand'
-          #main-nav.collapse.navbar-collapse
+          .navbar.navbar-default{role: "navigation"}
             %ul.nav.navbar-nav
               -if can? :read, Admin
                 %li= nav_link Admin.model_name.human, admins_path
@@ -40,7 +40,7 @@
                 %li= nav_link Principal.model_name.human, principals_path
               -if can? :read, Reminder
                 %li= nav_link Reminder.model_name.human, reminders_path
-              %li= nav_link 'Anleitungen & Dokumente', documents_path
+              %li= nav_link 'Anleitungen', documents_path
               -if can? :read, School
                 %li= nav_link School.model_name.human, schools_path
             %ul.nav.navbar-nav.navbar-right
@@ -54,6 +54,9 @@
                     %li= link_to 'Profil', current_user
                     %li.divider
                     %li= link_to 'Abmelden', destroy_user_session_path, :method => :delete
+
+
+
     .container
       - unless user_signed_in?
         .row-fluid
