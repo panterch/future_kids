@@ -63,9 +63,9 @@
         .row-fluid
           #sidebar-wrapper.col-md-3
             #sidebar
+              %h1.logo=image_tag 'logo.jpg', size: '91x34'
               - if user_signed_in?
                 = yield :sidebar
-              .logo=image_tag('logo.jpg')
           .col-md-9
             - flash.each do |name, msg|
               = boot_alert(msg, name)

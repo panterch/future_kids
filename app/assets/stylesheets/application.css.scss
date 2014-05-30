@@ -43,6 +43,7 @@ body { }
 
 #nav {
   background-color: #fff;
+  border-bottom: 1px solid #eee;
 
   ul.nav.navbar-nav li a {
     padding: 10px;
@@ -54,7 +55,6 @@ body { }
 
   > .container {
     padding-top: 15px;
-    border-bottom: 1px solid #eee;
   }
 
 }
@@ -144,7 +144,7 @@ form.schedule {
   overflow: auto;
 
   .logo {
-    padding-top: 10px;
+    margin-bottom: 20px;
   }
 
 }
@@ -158,31 +158,29 @@ form.schedule {
 
 
 #documents {
-  ol, li {
-    padding: 3px 0;
-    margin: 0;
-    list-style-type: none;
-  }
-
-  h3, h4 {
-    padding-top: 10px;
-    padding-bottom: 0;
-    margin: 0;
+  .panel-heading {
     cursor: pointer;
   }
 
-  h3:before, h4:before  {
+  .panel-heading:before  {
     content: "▶ "
   }
 
-  h3.open:before, h4.open:before  {
+  .panel-heading.open:before {
     content: '▼ '
   }
 
-  ol {
+  .list-group {
     display: none;
+
+    .panel {
+      padding: 0;
+      margin: 0;
+      border-bottom: 0;
+    }
   }
-  ol.open {
+
+  .list-group.open {
     display: block;
   }
 }

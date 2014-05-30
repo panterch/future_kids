@@ -1,5 +1,4 @@
 $(function () {
-  register_subnav_expand();
   register_datepickers();
   register_journal_controls();
   register_mentor_journal_date_selectors();
@@ -9,9 +8,6 @@ $(function () {
   register_documents_toc();
   register_affixes();
   register_kidanchors();
-  $('input.submit_content_form').click(function() { $('#content_form').submit() } )
-
-
 });
 
 // affix navigation
@@ -26,18 +22,6 @@ function register_affixes() {
       offset: { top: $('#nav').offset().top }
   });
   $('#sidebar').css('width', $('#sidebar').width());
-}
-
-// navigation items with further nesting are handled specially:
-// they are not displayed, but clicking on the elements above the sub-sub list
-function register_subnav_expand() {
-  $('#nav ul > li > ul').parents('li').hide();
-  $('#nav ul > li > ul').each(function() {
-    $(this).parent().prev().click(function() {
-		  $(this).next().toggle('fast');
-		  return false;
-    });
-  });
 }
 
 // registers jquery ui datepickers on given fields when applicable
@@ -95,14 +79,13 @@ function register_todotogglers() {
 
 function register_kidsfilter() {
   $('form.filter select, form.filter input').change(function(event) {
-    // alert('change');
     $('form.filter').submit();
   });
 }
 function register_documents_toc() {
-  $('#documents h3, #documents h4').click(function(event) {
+  $('#documents .panel-heading').click(function(event) {
     $header = $(this);
-    $list = $header.next('ol');
+    $list = $header.next('.list-group');
     $header.toggleClass('open');
     $list.toggleClass('open');
   });
