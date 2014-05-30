@@ -26,28 +26,27 @@
           = link_to 'Filter aufheben', collection_path, class: 'btn btn-xs btn-danger'
 
 
--if current_user.is_a?(Admin)
-  %h2
-    = collection.count if current_user.is_a?(Admin)
-    Sch&uuml;ler/innen
-  %table.table.table-striped.table-condensed
-    - collection.each do |resource|
-      %tr
-        %td= link_to resource.display_name, resource
-        -if current_user.is_a?(Admin)
-          %td
-            K:
-            = resource.checked_at ? I18n.l(resource.checked_at.to_date) : '-'
-          %td
-            C:
-            = resource.coached_at ? I18n.l(resource.coached_at.to_date) : '-'
-          %td
-            E:
-            = resource.created_at ? I18n.l(resource.created_at.to_date) : '-'
-          %td
-            -if resource.todo.present?
-              %a.todotoggle{data: { content: todo_content(resource) }}
-                %span.glyphicon.glyphicon-info-sign
+%h2
+  = collection.count if current_user.is_a?(Admin)
+  Sch&uuml;ler/innen
+%table.table.table-striped.table-condensed
+  - collection.each do |resource|
+    %tr
+      %td= link_to resource.display_name, resource
+      -if current_user.is_a?(Admin)
+        %td
+          K:
+          = resource.checked_at ? I18n.l(resource.checked_at.to_date) : '-'
+        %td
+          C:
+          = resource.coached_at ? I18n.l(resource.coached_at.to_date) : '-'
+        %td
+          E:
+          = resource.created_at ? I18n.l(resource.created_at.to_date) : '-'
+        %td
+          -if resource.todo.present?
+            %a.todotoggle{data: { content: todo_content(resource) }}
+              %span.glyphicon.glyphicon-info-sign
 
 - if collection.empty?
   Zur Zeit sind Ihnen keine Kinder zugeordnet.

@@ -1,7 +1,6 @@
 = render :partial => 'subnav'
 
 = show_for resource do |show|
-  %h2#kid= resource.display_name
   = show.attribute :name
   = show.attribute :prename
   = show.attribute :sex

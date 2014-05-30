@@ -17,7 +17,7 @@ feature "TEACHER::CREATE:KID", %q{
     click_link 'Neuer Eintrag'
     click_button 'Schüler/in erstellen'
     page.status_code.should == 200
-    page.should have_content('Neuer Eintrag')
+    page.should have_content('Schüler/in erfassen')
     page.should have_content('muss ausgefüllt werden')
   end
 
@@ -28,7 +28,7 @@ feature "TEACHER::CREATE:KID", %q{
     fill_in 'kid_prename', with: 'First Name'
     click_button 'Schüler/in erstellen'
     page.status_code.should == 200
-    page.should have_css('h2', text: 'Last Name First Name')
+    page.should have_css('h1', text: 'Last Name First Name')
   end
 
 end
@@ -50,7 +50,7 @@ feature "ADMIN::CREATE:KID", %q{
     click_link 'Neuer Eintrag'
     click_button 'Schüler/in erstellen'
     page.status_code.should == 200
-    page.should have_content('Neuer Eintrag')
+    page.should have_content('Schüler/in erfassen')
     page.should have_content('muss ausgefüllt werden')
   end
 
@@ -61,7 +61,7 @@ feature "ADMIN::CREATE:KID", %q{
     fill_in 'kid_prename', with: 'First Name'
     click_button 'Schüler/in erstellen'
     page.status_code.should == 200
-    page.should have_css('h2', :text => 'Last Name First Name')
+    page.should have_css('h1', :text => 'Last Name First Name')
   end
 
 
