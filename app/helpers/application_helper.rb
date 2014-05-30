@@ -103,7 +103,7 @@ module ApplicationHelper
     return nil unless @mentor_schedules
     @mentor_schedules.each do |tag, schedules|
       next unless schedules.include?(schedule)
-      return 'highlight'
+      return 'info'
     end
     ''
   end

@@ -54,8 +54,6 @@ GEM
       i18n
       rake (>= 10.0.0)
       sshkit (~> 1.3)
-    capistrano-ext (1.2.1)
-      capistrano (>= 1.0.0)
     capybara (2.2.1)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
@@ -230,7 +228,6 @@ DEPENDENCIES
   bootstrap-sass
   cancancan
   capistrano
-  capistrano-ext
   capybara
   coffee-rails
   devise
