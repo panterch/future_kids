@@ -39,17 +39,18 @@
     - if resource.photo.present?
       .portrait
         %img{:src => resource.photo.url(:medium)}
-  .row
-    .col-md-12
-      = render :partial => 'relation_logs/collection'
+  .col-md-12
+    = render :partial => 'relation_logs/collection'
 
 -# times are only visible to the mentor himself or an admin
 - if is_viewing_own_data
-  %h2
-    Zeiterfassung für den Monat
+  #mentor_journal_date.pull-right
     = select_month(@month, {}, :class => 'select_mentor_journal_date')
     = select_year(@year, {}, :class => 'select_mentor_journal_date')
-  %table.table
+  #a(name='mentor_journal_date')
+  %h2
+    Zeiterfassung für den Monat
+  %table.table.table-striped.table-condensed.table-hover
     - @journals.each do |journal|
       %tr
         %td= I18n.l(journal.held_at)
@@ -74,7 +75,7 @@
   .screenonly
     %h2
       Zeiterfassung über die Projektdauer
-    %table
+    %table.table.table-striped.table-hover
       - duration = (@mentor.total_duration / 60)
       - coaching = @mentor.month_count
 

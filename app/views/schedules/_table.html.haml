@@ -4,7 +4,7 @@
 
 = boot_form_for resource, :url => { :action => 'update_schedules' }, :html => { :id => 'content_form', :class => 'schedule' } do |form|
   %h3 Stundenplandaten erfassen
-  %table.table.table-striped.schedule
+  %table.table.table-striped.table-condensed.table-hover
     %tr
       %th.time &nbsp;
       - (1..@week.length).each do |day|

@@ -76,6 +76,7 @@ function register_mentor_journal_date_selectors() {
     var href =  window.location.pathname;
     href += '?month='+$('#date_month').val();
     href += '&year='+$('#date_year').val();
+    href += '#mentor_journal_date';
     window.location = href;
   });
 }

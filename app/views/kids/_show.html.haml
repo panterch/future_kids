@@ -48,6 +48,8 @@
     = show.attribute :inactive
     = render :partial => 'relation_logs/collection'
 
+.pull-right
+  = contextual_link_to :new_journal, new_kid_journal_path(resource)
 %h2#journals Lernjournale
 - resource.journals.each do |journal|
   = show_for journal do |journal_show|
@@ -81,6 +83,8 @@
 
 -# reviews are only visible for admins and first mentors
 - if resource.mentor == current_user || current_user.is_a?(Admin)
+  .pull-right
+    = contextual_link_to :new_review, new_kid_review_path(resource)
   %h2#reviews Gesprächsdokumentationen
   - resource.reviews.each do |review|
     = show_for review do |review_show|
