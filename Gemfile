@@ -40,8 +40,8 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'factory_girl'
-  gem 'capistrano'
-  gem 'capistrano-rbenv'
+  gem 'capistrano', '~> 2.0'
+  gem 'capistrano-rbenv', '~> 1.0'
 
   gem "pry-rails"
   gem 'pry-byebug'
