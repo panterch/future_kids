@@ -28,26 +28,36 @@ $screen-lg-desktop:          $screen-lg-min;
 
 $navbar-default-border: #fff;
 $navbar-default-bg: #fff;
-$grid-float-breakpoint: 900px;
+$grid-float-breakpoint: 1px;
 
 @import 'bootstrap';
 
 body { }
 
 #teaser {
- height: 90px; // change alos offset-top of #nav when changing this!
- img {
-   max-height: 80px;
- }
+ height: 90px;
  .logo {
-   padding: 15px 0;
+   padding-top: 20px;
  }
+
 }
 
 #nav {
-  border-bottom: 1px solid #ccc;
   background-color: #fff;
-  padding-top: $line-height-computed;
+
+  ul.nav.navbar-nav li a {
+    padding: 10px;
+  }
+
+  .navbar-nav.navbar-right:last-child {
+    margin: 0;
+  }
+
+  > .container {
+    padding-top: 15px;
+    border-bottom: 1px solid #ccc;
+  }
+
 }
 #nav.affix {
   position: fixed;
