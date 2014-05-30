@@ -1,6 +1,6 @@
 = render :partial => 'subnav'
 
-= simple_form_for resource, :html => { :id => 'content_form' } do |form|
+= boot_form_for resource, :html => { :id => 'content_form' } do |form|
   %h2#kid= resource.display_name
 
   = form.input :name
@@ -48,4 +48,4 @@
     %a(name='todo')
     = form.input :inactive
 
-  = form.submit :id => "submit"
+  = form.buttons
