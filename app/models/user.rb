@@ -22,7 +22,6 @@ class User < ActiveRecord::Base
   def display_name
     [ name, prename].reject(&:blank?).join(' ')
   end
-  alias to_s display_name
 
   def human_absence; absence.try(:textilize); end
   def human_available; available.try(:textilize); end

@@ -68,7 +68,6 @@ class Kid < ActiveRecord::Base
     return "Neuer Eintrag" if new_record?
     [ name, prename ].reject(&:blank?).join(' ')
   end
-  alias to_s display_name
 
   def human_goal; goal.try(:textilize); end
 
