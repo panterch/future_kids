@@ -1,7 +1,7 @@
 require 'bundler/capistrano'
 
 require 'capistrano-rbenv'
-set :rbenv_ruby_version, open(File.expand_path('../../.ruby-version', __FILE__)).read
+set :rbenv_ruby_version, open(File.expand_path('../../.ruby-version', __FILE__)).read.strip
 set :rbenv_install_dependencies, false
 
 set :whenever_command, "bundle exec whenever"
