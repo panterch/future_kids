@@ -6,6 +6,11 @@
  * = require stylesheet
 */
 
+$font-size-base:             12px;
+$line-height-base:           1.4;
+$grid-gutter-width:          20px;
+$navbar-height:              40px;
+
 $screen-xs:                  1px;
 $screen-xs-min:              $screen-xs;
 $screen-phone:               $screen-xs-min;
