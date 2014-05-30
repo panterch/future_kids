@@ -6,7 +6,7 @@ set :rbenv_install_dependencies, false
 set :whenever_command, "bundle exec whenever"
 require "whenever/capistrano"
 
-server 'kids.panter.ch', :app, :web, :db, :primary => true
+server 'future-kids-production.panter.biz', :app, :web, :db, primary: true
 set :deploy_to, "/home/app/app"
 set :user, "app"
 
