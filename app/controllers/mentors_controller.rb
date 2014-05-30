@@ -13,6 +13,9 @@ class MentorsController < ApplicationController
     # mentors are filtered by the criteria above
     @mentors = @mentors.where(params[:mentor].delete_if {|key, val| val.blank? })
 
+    # provide a prototype for the filter form
+    @mentor = Mentor.new(permitted_params[:mentor])
+
     # when only one record is present, show it immediatelly. this is not for
     # admins, since they could have no chance to alter their filter settings in
     # some cases
