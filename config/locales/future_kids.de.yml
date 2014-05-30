@@ -1,6 +1,7 @@
 de:
   activerecord:
     models:
+      admin: Neue/r Administrator/in
       kid: "Schüler/in"
       mentor: "Mentor/in"
       journal: "Lernjournal"
