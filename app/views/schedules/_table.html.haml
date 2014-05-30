@@ -2,7 +2,7 @@
 
 - clazz = resource.class.to_s.downcase # kid or mentor
 
-= simple_form_for resource, :url => { :action => 'update_schedules' }, :html => { :id => 'content_form', :class => 'schedule' } do |form|
+= boot_form_for resource, :url => { :action => 'update_schedules' }, :html => { :id => 'content_form', :class => 'schedule' } do |form|
   %h3 Stundenplandaten erfassen
   %table.schedule
     %tr
@@ -26,4 +26,4 @@
             - schedule_tags(schedule).each do |tag|
               %p= tag
 
-  = form.submit 'Stundenplandaten speichern'
+  = form.buttons 'Stundenplandaten speichern'

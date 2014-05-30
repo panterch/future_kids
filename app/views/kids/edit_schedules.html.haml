@@ -1,6 +1,6 @@
 = render :partial => 'schedules/table'
 
-= simple_form_for resource, :method => :get, :url => { :action => 'edit_schedules' }, :html => { :class => 'schedule' } do |form|
+= boot_form_for resource, :method => :get, :url => { :action => 'edit_schedules' }, :html => { :class => 'schedule' } do |form|
   %h3 Mentor Daten einblenden
   %fieldset(style='height: 80%')
     %div.mentor_select

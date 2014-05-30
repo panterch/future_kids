@@ -2,15 +2,18 @@
 ShowFor.setup do |config|
   # The tag which wraps show_for calls.
   config.show_for_tag = :div
+  config.show_for_class = 'form-horizontal'
 
   # The tag which wraps each attribute/association call. Default is :p.
   config.wrapper_tag = :div
 
   # The tag used to wrap each label. Default is :strong.
-  config.label_tag = :div
+  config.label_tag = :label
+  config.label_class = 'col-sm-3 control-label'
 
   # The tag used to wrap each content (value). Default is nil.
-  config.content_tag = :div
+  config.content_tag = :p
+  config.content_class = 'form-control-static'
 
   # The DOM class set for blank content tags. Default is "blank".
   # config.blank_content_class = 'no_content'

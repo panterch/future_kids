@@ -1,4 +1,4 @@
-= simple_form_for [resource.kid, resource], :html => { :id => 'content_form' } do |form|
+= boot_form_for [resource.kid, resource], :html => { :id => 'content_form' } do |form|
   - if current_user.is_a?(Admin)
     = form.association :mentor, :collection => @mentors
   = date_picker(form, :held_at)
@@ -11,4 +11,4 @@
   = form.input :outcome
   = form.input :note
 
-  = form.submit
+  = form.buttons

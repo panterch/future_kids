@@ -1,0 +1,9 @@
+de:
+  simple_form:
+    "yes": 'Ja'
+    "no": 'Nein'
+    required:
+      text: 'erfordert'
+      mark: '*'
+    error_notification:
+      default_message: "Es gab folgende Fehler:"

@@ -1,4 +1,4 @@
-= simple_form_for resource, :html => { :id => 'content_form' } do |form|
+= boot_form_for resource, :html => { :id => 'content_form' } do |form|
   = form.input :name
   = form.input :prename
   = form.input :email, :input_html => { :autocomplete => 'off' }
@@ -10,4 +10,4 @@
   -if current_user.is_a?(Admin)
     = form.input :inactive
 
-  = form.submit
+  = form.buttons
