@@ -38,11 +38,7 @@ $footer-height: 30px;
 body { }
 
 #teaser {
- height: 90px;
- .logo {
-   padding-top: 20px;
- }
-
+ height: 111px;
 }
 
 #nav {
@@ -115,7 +111,6 @@ form.schedule {
 #main {
   margin-top: 20px;
   margin-bottom: $footer-height;
-  min-height: 1000px;
 }
 
 #footer {
@@ -131,10 +126,15 @@ form.schedule {
 }
 
 #sidebar-wrapper {
-  min-height: 1000px;
+  min-height: 10px;
 }
 #sidebar {
   overflow: auto;
+
+  .logo {
+    padding-top: 10px;
+  }
+
 }
 
 #sidebar.affix {

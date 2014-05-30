@@ -1,17 +1,16 @@
 - content_for :sidebar do
   -if current_user.is_a?(Admin)
-    %li
-      %h4 Filterkriterium f&uuml;r Mentoren
-      = form_for :admin, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
-        .checkbox
-          %label
-            = f.check_box :inactive
-            %p
-              %b Inaktive
+    %h4 Filterkriterium f&uuml;r Mentoren
+    = form_for :admin, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
+      .checkbox
+        %label
+          = f.check_box :inactive
+          %p
+            %b Inaktive
 
-        .form-group
-          = f.submit 'Filter anwenden', class: 'btn btn-xs'
-          = link_to 'Filter aufheben', collection_path, class: 'btn btn-xs'
+      .form-group
+        = f.submit 'Filter anwenden', class: 'btn btn-xs'
+        = link_to 'Filter aufheben', collection_path, class: 'btn btn-xs'
 
 = contextual_links
 

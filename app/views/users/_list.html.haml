@@ -3,8 +3,10 @@
     %thead
       %tr
         %th Name
-        %th E-mail
-        %th Pendenzen
+        - if current_user.is_a?(Admin)
+          %th E-mail
+          %th
+            %span.glyphicon.glyphicon-info-sig
     %tbody
       - collection.each do |resource|
         %tr

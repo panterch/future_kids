@@ -16,11 +16,9 @@
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   %body
     #teaser.container
-      .row-fluid
-        .col-md-3
-          .logo=image_tag('logo.jpg')
-        .col-md-9
-          = image_tag 'teaser.jpg', size: '685x81'
+      .row
+        .col-md-12
+          = image_tag 'teaser.jpg', size: '940x111'
 
     - if user_signed_in?
       -# nav gets affixed when scrolling
@@ -66,14 +64,10 @@
           #sidebar-wrapper.col-md-3
             #sidebar
               - if user_signed_in?
+                = yield :sidebar
                 %ul.nav
-                  = yield :sidebar
-                  %li
-                    %h4 Auf dieser Seite
-                    %ul.nav
-                      %li= link_to 'Seitenbeginn', :anchor => 'header'
-                      = yield :subnav
-                      %li= link_to 'Seitenende', :anchor => 'footer'
+                  = yield :subnav
+              .logo=image_tag('logo.jpg')
           .col-md-9
             - flash.each do |name, msg|
               = boot_alert(msg, name)
