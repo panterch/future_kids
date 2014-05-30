@@ -7,7 +7,7 @@ $(function () {
   register_todotogglers();
   register_kidsfilter();
   register_documents_toc();
-  register_nav_affix();
+  register_affixes();
   $('input.submit_content_form').click(function() { $('#content_form').submit() } )
 
 
@@ -16,11 +16,15 @@ $(function () {
 // affix navigation
 // nav gets affixed when scrolling
 // nav-wrapper stays on normal flow to assure smooth scrolling
-function register_nav_affix() {
+function register_affixes() {
   $('#nav').affix({
       offset: { top: $('#nav').offset().top }
   });
   $('#nav-wrapper').height($("#nav").height());
+  $('#sidebar').affix({
+      offset: { top: $('#nav').offset().top }
+  });
+  $('#sidebar').css('width', $('#sidebar').width());
 }
 
 // navigation items with further nesting are handled specially:

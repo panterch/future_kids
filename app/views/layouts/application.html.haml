@@ -63,16 +63,17 @@
     #main
       .container
         .row-fluid
-          .col-md-3
-            - if user_signed_in?
-              %ul.nav
-                = yield :sidebar
-                %li
-                  %h4 Auf dieser Seite
-                  %ul.nav
-                    %li= link_to 'Seitenbeginn', :anchor => 'header'
-                    = yield :subnav
-                    %li= link_to 'Seitenende', :anchor => 'footer'
+          #sidebar-wrapper.col-md-3
+            #sidebar
+              - if user_signed_in?
+                %ul.nav
+                  = yield :sidebar
+                  %li
+                    %h4 Auf dieser Seite
+                    %ul.nav
+                      %li= link_to 'Seitenbeginn', :anchor => 'header'
+                      = yield :subnav
+                      %li= link_to 'Seitenende', :anchor => 'footer'
           .col-md-9
             - flash.each do |name, msg|
               = boot_alert(msg, name)

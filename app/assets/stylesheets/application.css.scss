@@ -124,6 +124,21 @@ form.schedule {
   font-size: 10px;
 }
 
+#sidebar-wrapper {
+  min-height: 1000px;
+}
+#sidebar {
+  overflow: auto;
+}
+
+#sidebar.affix {
+  position: fixed;
+  top: 90px;
+  bottom: 40px;
+  z-index: 2;
+}
+
+
 #documents {
   ol, li {
     padding: 3px 0;
