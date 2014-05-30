@@ -1,5 +1,8 @@
 require 'bundler/capistrano'
 
+require 'capistrano-rbenv'
+set :rbenv_install_dependencies, false
+
 set :whenever_command, "bundle exec whenever"
 require "whenever/capistrano"
 
@@ -21,8 +24,8 @@ after "deploy", "deploy:cleanup"
 
 namespace :deploy do
   desc "Restart Application"
-  task :restart, :roles => :app do
-    run "touch #{current_path}/tmp/restart.txt"
+  task :restart, roles: :app, except: { no_release: true } do
+    run "RAILS_ENV=#{rails_env} $HOME/bin/unicorn_wrapper restart"
   end
 end
 

@@ -8,6 +8,8 @@ gem 'haml'
 
 gem 'jquery-rails'
 
+gem 'unicorn'
+
 # gems in alphabetic order
 gem 'cancancan'
 gem 'devise'
@@ -39,6 +41,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'factory_girl'
   gem 'capistrano'
+  gem 'capistrano-rbenv'
 
   gem "pry-rails"
   gem 'pry-byebug'
