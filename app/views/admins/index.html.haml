@@ -1,6 +1,5 @@
 - content_for :sidebar do
   -if current_user.is_a?(Admin)
-    %h4 Filterkriterium f&uuml;r Mentoren
     = form_for :admin, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
       .checkbox
         %label

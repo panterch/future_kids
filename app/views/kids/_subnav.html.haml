@@ -1,13 +1,11 @@
-- content_for :subnav do
-  %li= link_to 'Lernjournale', :anchor => 'journals'
-  %li
-    %ul
-      - resource.journals.each do |journal|
-        %li= link_to journal.display_name, :anchor => dom_id(journal)
+- content_for :sidebar do
+  .list-group.kidanchors
+    - resource.journals.each do |journal|
+      .list-group-item
+        = link_to journal.display_name, :anchor => dom_id(journal)
 
   - if resource.mentor == current_user || current_user.is_a?(Admin)
-    %li= link_to 'Gesprächsdokumentationen', :anchor => 'reviews'
-    %li
-      %ul
-        - resource.reviews.each do |review|
-          %li= link_to review.display_name, :anchor => dom_id(review)
+    .list-group.kidanchors
+      - resource.reviews.each do |review|
+        .list-group-item
+          = link_to review.display_name, :anchor => dom_id(review)

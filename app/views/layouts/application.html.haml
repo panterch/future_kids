@@ -65,8 +65,6 @@
             #sidebar
               - if user_signed_in?
                 = yield :sidebar
-                %ul.nav
-                  = yield :subnav
               .logo=image_tag('logo.jpg')
           .col-md-9
             - flash.each do |name, msg|

@@ -8,6 +8,7 @@ $(function () {
   register_kidsfilter();
   register_documents_toc();
   register_affixes();
+  register_kidanchors();
   $('input.submit_content_form').click(function() { $('#content_form').submit() } )
 
 
@@ -104,5 +105,18 @@ function register_documents_toc() {
     $list = $header.next('ol');
     $header.toggleClass('open');
     $list.toggleClass('open');
+  });
+}
+
+function register_kidanchors() {
+  $('#sidebar .kidanchors a').click(function(event) {
+    event.preventDefault();
+
+    var target = this.hash,
+	  $target = $(target);
+
+	  $('html, body').stop().animate({
+	    'scrollTop': $target.offset().top - $('#nav').height()
+	  }, 500, 'swing');
   });
 }
