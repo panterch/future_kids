@@ -28,14 +28,6 @@ module ApplicationHelper
     %w(Halbtax GA Regenbogen\ Kanton Zone\ 10\ mit\ Halbtax Zone\ 10\ ohne\ Halbtax)
   end
 
-  def yes_no_collection(first_element = nil)
-    options = [['Ja', true],
-               ['Nein', false]]
-    options.unshift([first_element, false]) if first_element.present?
-
-    options_for_select(options, first_element)
-  end
-
   def school_collection
     School.all.map{ |s| [ s.display_name, s.id ]}
   end

@@ -11,14 +11,18 @@
           = f.select :school_id, school_collection, { :include_blank => Kid.human_attribute_name(:school) }, class: 'form-control'
         .form-group
           = f.select :admin_id, admin_collection, { :include_blank => 'Coach' }, class: 'form-control'
-        .form-group
-          = f.select :translator, yes_no_collection, { :include_blank => 'Übersetzer' }, class: 'form-control'
+        .checkbox
+          %label
+            = f.check_box :translator
+            %p Übersetzer
         .form-group
           = f.select :meeting_day, wday_collection, { :include_blank => Kid.human_attribute_name(:meeting_day) }, class: 'form-control'
         .form-group
           = f.select :grade, grade_collection, { :include_blank => 'Klasse' }, class: 'form-control'
-        .form-group
-          = f.select :inactive, yes_no_collection('Inaktive'), {}, class: 'form-control'
+        .checkbox
+          %label
+            = f.check_box :inactive
+            %p Inaktive
         .form-group
           = select_tag 'order_by', order_by_collection_for_kids(params[:order_by], 'Ordnen nach'), class: 'form-control'
         .form-group

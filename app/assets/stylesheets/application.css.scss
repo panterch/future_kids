@@ -69,3 +69,8 @@ body { }
 .page-header {
   margin-top: 0;
 }
+
+// Fix alignment of text at checkboxes
+.checkbox > label > p {
+  margin: 3px 0;
+}
