@@ -15,7 +15,7 @@ class User < ActiveRecord::Base
 
   before_validation :nilify_blank_password
 
-  validates_presence_of :name, :prename, :email, :password, :password_confirmation
+  validates_presence_of :name, :prename
 
   has_many :relation_logs, -> { order('created_at DESC') }
 
