@@ -117,6 +117,7 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.1)
     kgio (2.9.2)
+    libv8 (3.16.14.3)
     mail (2.5.4)
       mime-types (~> 1.16)
       treetop (~> 1.4.8)
@@ -173,6 +174,7 @@ GEM
       thor (>= 0.18.1, < 2.0)
     raindrops (0.13.0)
     rake (10.3.2)
+    ref (1.0.5)
     responders (1.0.0)
       railties (>= 3.2, < 5)
     rspec-core (2.14.8)
@@ -206,6 +208,9 @@ GEM
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       sprockets (~> 2.8)
+    therubyracer (0.12.1)
+      libv8 (~> 3.16.14.0)
+      ref
     thor (0.19.1)
     thread_safe (0.3.4)
     tilt (1.4.1)
@@ -262,6 +267,7 @@ DEPENDENCIES
   sass-rails
   show_for!
   simple_form (~> 3.1.0.rc1)
+  therubyracer
   uglifier
   unicorn
   whenever

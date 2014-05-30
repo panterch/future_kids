@@ -9,6 +9,7 @@ gem 'haml'
 gem 'jquery-rails'
 
 gem 'unicorn'
+gem 'therubyracer', platforms: :ruby
 
 # gems in alphabetic order
 gem 'cancancan'

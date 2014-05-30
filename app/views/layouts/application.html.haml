@@ -60,54 +60,53 @@
 
 
 
-    .container(style='min-height: 1000px;')
-      .row-fluid
-        .col-md-3
-          - if user_signed_in?
-            %ul.nav
-              %li
-                %h4 Aktionen
-                %ul.nav
-                  -# actions for resource controllers, not nested
-                  - if defined?(resource) and !defined?(parent)
-                    -if can?(:create, resource_class.new) && %w(index show).include?(controller.action_name)
-                      %li= link_to 'Neuer Eintrag', new_resource_path
-                    -if %w(edit).include?(controller.action_name)
-                      %li= link_to 'Anzeigen', resource_path
-                    -if %w(show).include?(controller.action_name) && can?(:update, resource.class)
-                      %li= link_to 'Bearbeiten', edit_resource_path
-                    -if %w(show).include?(controller.action_name) && can?(:destroy, resource.class)
-                      %li= button_to "Löschen", { :action => "destroy", :id => resource.id }, :method => :delete
+    #main
+      .container
+        .row-fluid
+          .col-md-3
+            - if user_signed_in?
+              %ul.nav
+                %li
+                  %h4 Aktionen
+                  %ul.nav
+                    -# actions for resource controllers, not nested
+                    - if defined?(resource) and !defined?(parent)
+                      -if can?(:create, resource_class.new) && %w(index show).include?(controller.action_name)
+                        %li= link_to 'Neuer Eintrag', new_resource_path
+                      -if %w(edit).include?(controller.action_name)
+                        %li= link_to 'Anzeigen', resource_path
+                      -if %w(show).include?(controller.action_name) && can?(:update, resource.class)
+                        %li= link_to 'Bearbeiten', edit_resource_path
+                      -if %w(show).include?(controller.action_name) && can?(:destroy, resource.class)
+                        %li= button_to "Löschen", { :action => "destroy", :id => resource.id }, :method => :delete
 
-                  -# actions for nested resources
-                  - if defined?(parent)
-                    %li= link_to 'Abbrechen', parent
+                    -# actions for nested resources
+                    - if defined?(parent)
+                      %li= link_to 'Abbrechen', parent
 
-                  -# common actions
-                  -if %w(new edit create update).include?(controller.action_name)
-                    %li
-                      %input.submit_content_form(type='button' value='Speichern')
-                  = yield :actions
-              = yield :sidebar
-              %li
-                %h4 Auf dieser Seite
-                %ul.nav
-                  %li= link_to 'Seitenbeginn', :anchor => 'header'
-                  = yield :subnav
-                  %li= link_to 'Seitenende', :anchor => 'footer'
-        .col-md-9
-          - flash.each do |name, msg|
-            = boot_alert(msg, name)
-          = yield
+                    -# common actions
+                    -if %w(new edit create update).include?(controller.action_name)
+                      %li
+                        %input.submit_content_form(type='button' value='Speichern')
+                    = yield :actions
+                = yield :sidebar
+                %li
+                  %h4 Auf dieser Seite
+                  %ul.nav
+                    %li= link_to 'Seitenbeginn', :anchor => 'header'
+                    = yield :subnav
+                    %li= link_to 'Seitenende', :anchor => 'footer'
+          .col-md-9
+            - flash.each do |name, msg|
+              = boot_alert(msg, name)
+            = yield
 
-    .container
-      .row-fluid
-        .col-md-offset-3.col-md9
-          #footer
-            .contact
-              AOZ
-              Zypressenstrasse 60
-              8040 Zürich
+    #footer
+      .container(style='border-top: 1px solid #eee')
+        .col-md12
+          AOZ
+          Zypressenstrasse 60
+          8040 Zürich
 
-              Telefon: 044 415 65 91
-              = mail_to 'info@aoz-futurekids.ch', nil, :encode => "hex"
+          Telefon: 044 415 65 91
+          = mail_to 'info@aoz-futurekids.ch', nil, :encode => "hex"
