@@ -71,10 +71,7 @@ function register_schedule_checkboxes() {
 }
 
 function register_todotogglers() {
-  $('a.todotoggle').click(function(event) {
-    event.preventDefault();
-    $(this).next().toggle();
-  });
+  $('a.todotoggle').popover({ placement: 'top', html: true });
 }
 
 function register_kidsfilter() {
