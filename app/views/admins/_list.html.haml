@@ -1,10 +1,8 @@
 - content_for :sidebar do
   -if current_user.is_a?(Admin)
     %li
-      %h4 Filterkriterium f&uuml;r Lehrpersonen
-      = form_for :teacher, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
-        .form-group
-          = f.select :school_id, school_collection, { :include_blank => Kid.human_attribute_name(:school) }, class: 'form-control'
+      %h4 Filterkriterium f&uuml;r Mentoren
+      = form_for :admin, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
         .form-group
           = f.select :inactive, yes_no_collection('Inaktive'), {}, class: 'form-control'
         .form-group
@@ -13,6 +11,6 @@
 
 %h2
   = collection.count if current_user.is_a?(Admin)
-  Lehrpersonen
+  Administratoren
 
-= render :partial => '/users/list'
+= render '/users/list'
