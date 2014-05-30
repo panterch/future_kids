@@ -13,14 +13,14 @@ gem 'unicorn'
 # gems in alphabetic order
 gem 'cancancan'
 gem 'devise'
-gem 'exception_notification_rails3', :require => 'exception_notifier'
+gem 'exception_notification_rails3', require: 'exception_notifier'
 gem "simple_form", '~> 3.1.0.rc1'
 gem 'paperclip'
 gem 'pg'
 gem 'inherited_resources'
 gem 'RedCloth'
-gem 'show_for', :github => 'plataformatec/show_for'
-gem 'whenever', :require => false
+gem 'show_for', github: 'plataformatec/show_for'
+gem 'whenever', require: false
 gem "bootstrap-sass"
 gem "font-awesome-rails"
 gem 'quiet_assets'
