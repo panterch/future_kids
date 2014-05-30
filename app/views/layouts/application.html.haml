@@ -1,90 +1,106 @@
-!!! 5
-
-%html
+!!!
+%html{lang: "de"}
   %head
+    %meta{charset: "utf-8"}/
+    %meta{content: "IE=edge", "http-equiv" => "X-UA-Compatible"}/
+    %meta{content: "width=device-width, initial-scale=1", name: "viewport"}/
     %title FutureKids
     = stylesheet_link_tag 'application', :media => :all
     = stylesheet_link_tag 'print', :media => :print
     = javascript_include_tag 'application'
     = csrf_meta_tag
-    %meta{'charset' => 'utf-8'}/
-    %meta{"http-equiv"=>"Content-Type", :content=>"text/html; charset=utf-8"}/
-
+    / HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries
+    / WARNING: Respond.js doesn't work if you view the page via file://
+    /[if lt IE 9]
+      <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+      <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   %body
-    #container
-      #nav
-        #logo
-          %span
-          = link_to(image_tag('logo.jpg'), '/')
-        .bullets
-          - if user_signed_in?
-            %h4 Navigation
-            %ul.site
-              -if current_user.is_a?(Admin)
-                %li= link_to Admin.model_name.human, admins_path
+    - if user_signed_in?
+      %nav.navbar.navbar-default.navbar-fixed-top{role: "navigation"}
+        .container-fluid
+          .navbar-header
+            %button.navbar-toggle{"data-target" => "#main-nav", "data-toggle" => "collapse", type: "button"}
+              %span.sr-only Toggle navigation
+              %span.icon-bar
+              %span.icon-bar
+              %span.icon-bar
+            = link_to image_tag('logo.jpg'), '/', class: 'navbar-brand'
+          #main-nav.collapse.navbar-collapse
+            %ul.nav.navbar-nav
+              -if can? :read, Admin
+                %li= nav_link Admin.model_name.human, admins_path
               -if can? :read, Kid
-                %li= link_to Kid.model_name.human, kids_path
+                %li= nav_link Kid.model_name.human, kids_path
               -# FIXME load of teachers for mentors via cancan does not yet
               -#       work correctly, see ability_spec.rb. till this is fixed
               -#       we do not display this option to mentors
               -if current_user.is_a?(Admin)
-                %li= link_to Teacher.model_name.human, teachers_path
-                %li= link_to Mentor.model_name.human, mentors_path
-                %li= link_to Principal.model_name.human, principals_path
+                %li= nav_link Teacher.model_name.human, teachers_path
+                %li= nav_link Mentor.model_name.human, mentors_path
+                %li= nav_link Principal.model_name.human, principals_path
               -if can? :read, Reminder
-                %li= link_to Reminder.model_name.human, reminders_path
-              %li= link_to 'Eigene Daten', current_user
-              %li= link_to 'Anleitungen & Dokumente', documents_path
+                %li= nav_link Reminder.model_name.human, reminders_path
+              %li= nav_link 'Anleitungen & Dokumente', documents_path
               -if can? :read, School
-                %li= link_to School.model_name.human, schools_path
-            %h4 Aktionen
-            %ul.actions
+                %li= nav_link School.model_name.human, schools_path
+            %ul.nav.navbar-nav.navbar-right
+              %li= render 'users/user_bar'
+    .container
+      - unless user_signed_in?
+        .row-fluid
+          .col-md-3
+            #logo
+              %span
+              = link_to(image_tag('logo.jpg'), '/')
+          .col-md-9
+            #teaser
+              = image_tag 'teaser.jpg'
+      .row-fluid
+        .col-md-3
+          - if user_signed_in?
+            %ul.nav
+              %li
+                %h4 Aktionen
+                %ul.nav
+                  -# actions for resource controllers, not nested
+                  - if defined?(resource) and !defined?(parent)
+                    -if can?(:create, resource_class.new) && %w(index show).include?(controller.action_name)
+                      %li= link_to 'Neuer Eintrag', new_resource_path
+                    -if %w(edit).include?(controller.action_name)
+                      %li= link_to 'Anzeigen', resource_path
+                    -if %w(show).include?(controller.action_name) && can?(:update, resource.class)
+                      %li= link_to 'Bearbeiten', edit_resource_path
+                    -if %w(show).include?(controller.action_name) && can?(:destroy, resource.class)
+                      %li= button_to "Löschen", { :action => "destroy", :id => resource.id }, :method => :delete
 
-              -# actions for resource controllers, not nested
-              - if defined?(resource) and !defined?(parent)
-                -if can?(:create, resource_class.new) && %w(index show).include?(controller.action_name)
-                  %li= link_to 'Neuer Eintrag', new_resource_path
-                -if %w(edit).include?(controller.action_name)
-                  %li= link_to 'Anzeigen', resource_path
-                -if %w(show).include?(controller.action_name) && can?(:update, resource.class)
-                  %li= link_to 'Bearbeiten', edit_resource_path
-                -if %w(show).include?(controller.action_name) && can?(:destroy, resource.class)
-                  %li= button_to "Löschen", { :action => "destroy", :id => resource.id }, :method => :delete
+                  -# actions for nested resources
+                  - if defined?(parent)
+                    %li= link_to 'Abbrechen', parent
 
-              -# actions for nested resources
-              - if defined?(parent)
-                %li= link_to 'Abbrechen', parent
+                  -# common actions
+                  -if %w(new edit create update).include?(controller.action_name)
+                    %li
+                      %input.submit_content_form(type='button' value='Speichern')
+                  = yield :actions
+              %li
+                %h4 Auf dieser Seite
+                %ul.nav
+                  %li= link_to 'Seitenbeginn', :anchor => 'header'
+                  = yield :subnav
+                  %li= link_to 'Seitenende', :anchor => 'footer'
+        .col-md-9
+          - flash.each do |name, msg|
+            = boot_alert(msg, name)
+          = yield
 
-              -# common actions
-              -if %w(new edit create update).include?(controller.action_name)
-                %li
-                  %input.submit_content_form(type='button' value='Speichern')
-              = yield :actions
-            %h4 Auf dieser Seite
-            %ul.subnav
-              %li= link_to 'Seitenbeginn', :anchor => 'header'
-              = yield :subnav
-              %li= link_to 'Seitenende', :anchor => 'footer'
-            %h4
-            %ul.session
-              %li Angemeldet als
-              %li= link_to(current_user.display_name, current_user)
-              %li= link_to 'Abmelden', destroy_user_session_path, :method => :delete
-      #header
-        = image_tag 'teaser.jpg'
+    .container
+      .row-fluid
+        .col-md-offset-3.col-md9
+          #footer
+            .contact
+              AOZ
+              Zypressenstrasse 60
+              8040 Zürich
 
-      #content
-        - flash.each do |name, msg|
-          = boot_alert(msg, name)
-        = yield
-
-      #footer
-        .contact
-          AOZ
-          Zypressenstrasse 60
-          8040 Zürich
-
-          Telefon: 044 415 65 91
-          = mail_to 'info@aoz-futurekids.ch', nil, :encode => "hex"
-
-
+              Telefon: 044 415 65 91
+              = mail_to 'info@aoz-futurekids.ch', nil, :encode => "hex"
