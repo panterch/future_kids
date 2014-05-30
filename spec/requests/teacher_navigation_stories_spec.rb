@@ -22,11 +22,10 @@ feature "TEACHER::NAVIGATION:KID", %q{
     @student1 = create(:kid, name: 'last1', prename: 'first1', teacher: @teacher)
     click_link 'Schüler/in'
     page.status_code.should == 200
-    page.should have_css('h2', text: 'last1 first1')
+    page.should have_css('h1', text: 'last1 first1')
     page.should have_css('h2', text: 'Allgemeine Informationen')
     page.should have_css('h2', text: 'Lernjournale')
   end
-
 
   scenario "should show a list with last and first name of the students when the teacher has two or more students assigned" do
     @student1 = create(:kid, name: 'last1', prename: 'first1', teacher: @teacher)
@@ -36,8 +35,4 @@ feature "TEACHER::NAVIGATION:KID", %q{
     page.should have_text ('last1 first1')
     page.should have_text ('last2 first2')
   end
-
-
-
-
 end
