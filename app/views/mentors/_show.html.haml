@@ -39,9 +39,8 @@
     - if resource.photo.present?
       .portrait
         %img{:src => resource.photo.url(:medium)}
-  .row
-    .col-md-12
-      = render :partial => 'relation_logs/collection'
+  .col-md-12
+    = render :partial => 'relation_logs/collection'
 
 -# times are only visible to the mentor himself or an admin
 - if is_viewing_own_data
