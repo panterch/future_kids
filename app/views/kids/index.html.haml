@@ -34,7 +34,7 @@
   = collection.count if current_user.is_a?(Admin)
   Sch&uuml;ler/innen
 
-%table.table.table-striped.table-condensed
+%table.table.table-striped.table-condensed.table-hover
   - collection.each do |resource|
     %tr
       %td= link_to resource.display_name, resource

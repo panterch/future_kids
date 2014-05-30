@@ -1,10 +1,11 @@
 = contextual_links
 = boot_page_title
 
-%table.table.table-striped.table-condensed
-  - collection.each do |school|
+%table.table.table-striped.table-condensed.table-hover
+  %thead
     %tr
-      %td= link_to school.name, school_path(school)
-
-- if collection.empty?
-  Zur Zeit sind keine Schulen vorhanden.
+      %th Name
+  %tbody
+    - collection.each do |school|
+      %tr
+        %td= link_to school.name, school_path(school)
