@@ -1,5 +1,4 @@
 = show_for resource do |show|
-  %h2= resource.display_name
   = show.attribute :name
   = show.attribute :street
   = show.attribute :city
@@ -11,4 +10,4 @@
   = show.attribute :term
   = show.attribute :note
 
-= render :partial => 'associations'
+= render 'associations'
