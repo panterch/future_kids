@@ -1,7 +1,3 @@
-- content_for :actions do
-  - if can?(:edit_schedules, resource)
-    %li= link_to "Stundenplan bearbeiten", edit_schedules_mentor_path(resource)
-
 .cols
   .col2
     = show_for resource do |show|

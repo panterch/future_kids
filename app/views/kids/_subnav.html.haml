@@ -1,12 +1,3 @@
-- unless %w(new edit create).include?(controller.action_name)
-  - content_for :actions do
-    - if can?(:create, Journal)
-      %li= link_to "Neues Lernjournal", new_kid_journal_path(:kid_id => resource)
-    - if can?(:create, Review)
-      %li= link_to "Neues Gespräch", new_kid_review_path(:kid_id => resource)
-    - if can?(:edit_schedules, resource)
-      %li= link_to "Stundenplan bearbeiten", edit_schedules_kid_path(resource)
-
 - content_for :subnav do
   %li= link_to 'Lernjournale', :anchor => 'journals'
   %li

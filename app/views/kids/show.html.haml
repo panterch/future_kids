@@ -1,0 +1,8 @@
+= contextual_links do
+  = contextual_link_to :new_journal, new_kid_journal_path(resource)
+  = contextual_link_to :new_review, new_kid_review_path(resource)
+  = contextual_link_to :edit_schedules
+
+= boot_page_title
+
+= render "show"
