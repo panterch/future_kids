@@ -16,7 +16,7 @@
 
   -if current_user.is_a?(Admin)
     = form.input :personnel_number
-    = form.input :etcs, :as => :boolean
+    = form.input :ects, :as => :boolean
     = form.input :term, :as => :select, :collection => term_collection
     = form.input :absence
     = form.input :note
