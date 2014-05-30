@@ -8,13 +8,13 @@ class JournalsController < ApplicationController
   load_and_authorize_resource
 
   # these filters have to run after the resource is initialized
-  before_filter :prepare_mentor_selection, :only => [:new, :edit], :if => :admin?
+  before_filter :prepare_mentor_selection, :except => [:index, :show], :if => :admin?
   before_filter :preset_held_at, :only => [ :new ]
 
   def create
     create!{ kid_url(resource.kid) }
   end
-  
+
   def update
     update!{ kid_url(resource.kid) }
   end
@@ -29,7 +29,7 @@ class JournalsController < ApplicationController
   def index # not supported action
     redirect_to kid_url(parent)
   end
-  
+
 protected
 
   # before giving cancan the control over the resource loading we influence
