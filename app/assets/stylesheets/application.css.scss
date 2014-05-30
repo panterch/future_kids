@@ -62,11 +62,17 @@ body { }
   }
 
 }
+
 #nav.affix {
   position: fixed;
   top: 0;
   width: 100%;
   z-index: 1;
+}
+
+// Set default height for textareas
+textarea {
+  min-height: 10em;
 }
 
 // Fix show_form breaking for long labels
