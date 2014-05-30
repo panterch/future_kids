@@ -1,6 +1,9 @@
 class Document < ActiveRecord::Base
-  has_attached_file :attachment
-  validates_attachment_content_type :attachment, :content_type => ["application/pdf"]
+  has_attached_file :attachment,
+    path: ":rails_root/public/system/:attachment/:id/:style/:filename",
+    url: "/system/:attachment/:id/:style/:filename"
+
+  validates_attachment_content_type :attachment, :content_type => ["application/pdf", "application/vnd.ms-excel", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document", "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet"]
 
   def self.category_tree
     tree = ActiveSupport::OrderedHash.new

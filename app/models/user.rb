@@ -4,7 +4,10 @@ class User < ActiveRecord::Base
 
   has_attached_file :photo,
     :styles => { :medium => [ "300x300>", :png] },
-    :default_url => "/images/:style/missing.png"
+    :default_url => "/images/:style/missing.png",
+    path: ":rails_root/public/system/:attachment/:id/:style/:filename",
+    url: "/system/:attachment/:id/:style/:filename"
+
   validates_attachment_content_type :photo, :content_type => ["image/jpg", "image/jpeg", "image/png", "image/gif"]
 
   default_scope -> { order(:name, :prename) }
