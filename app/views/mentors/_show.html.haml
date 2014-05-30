@@ -49,7 +49,7 @@
     Zeiterfassung für den Monat
     = select_month(@month, {}, :class => 'select_mentor_journal_date')
     = select_year(@year, {}, :class => 'select_mentor_journal_date')
-  %table.table
+  %table.table.table-striped.table-condensed.table-hover
     - @journals.each do |journal|
       %tr
         %td= I18n.l(journal.held_at)
@@ -74,7 +74,7 @@
   .screenonly
     %h2
       Zeiterfassung über die Projektdauer
-    %table
+    %table.table.table-striped.table-hover
       - duration = (@mentor.total_duration / 60)
       - coaching = @mentor.month_count
 
