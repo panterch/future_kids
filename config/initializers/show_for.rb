@@ -13,7 +13,7 @@ ShowFor.setup do |config|
 
   # The tag used to wrap each content (value). Default is nil.
   config.content_tag = :p
-  config.content_class = 'form-control-static'
+  config.content_class = 'form-control-static col-sm-offset-3'
 
   # The DOM class set for blank content tags. Default is "blank".
   # config.blank_content_class = 'no_content'
