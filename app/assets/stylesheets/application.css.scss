@@ -35,7 +35,7 @@ $grid-float-breakpoint: 1px;
 body { }
 
 #teaser {
- height: 90px; // change alos offset-top of #nav when changing this!
+ height: 90px;
  .logo {
    padding-top: 20px;
  }
@@ -43,9 +43,7 @@ body { }
 }
 
 #nav {
-  border-bottom: 1px solid #ccc;
   background-color: #fff;
-  padding-top: $line-height-computed;
 
   ul.nav.navbar-nav li a {
     padding: 10px;
@@ -53,6 +51,11 @@ body { }
 
   .navbar-nav.navbar-right:last-child {
     margin: 0;
+  }
+
+  > .container {
+    padding-top: 15px;
+    border-bottom: 1px solid #ccc;
   }
 
 }

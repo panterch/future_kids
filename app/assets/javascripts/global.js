@@ -7,8 +7,21 @@ $(function () {
   register_todotogglers();
   register_kidsfilter();
   register_documents_toc();
+  register_nav_affix();
   $('input.submit_content_form').click(function() { $('#content_form').submit() } )
+
+
 });
+
+// affix navigation
+// nav gets affixed when scrolling
+// nav-wrapper stays on normal flow to assure smooth scrolling
+function register_nav_affix() {
+  $('#nav').affix({
+      offset: { top: $('#nav').offset().top }
+  });
+  $('#nav-wrapper').height($("#nav").height());
+}
 
 // navigation items with further nesting are handled specially:
 // they are not displayed, but clicking on the elements above the sub-sub list
