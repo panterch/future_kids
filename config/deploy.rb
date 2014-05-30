@@ -1,8 +1,11 @@
 require 'bundler/capistrano'
-require 'capistrano/ext/multistage'
 
 set :whenever_command, "bundle exec whenever"
 require "whenever/capistrano"
+
+server 'kids.panter.ch', :app, :web, :db, :primary => true
+set :deploy_to, "/home/app/app"
+set :user, "app"
 
 set :application, "futurekids"
 set :rails_env, 'production'

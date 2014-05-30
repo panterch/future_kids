@@ -39,7 +39,6 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'factory_girl'
   gem 'capistrano'
-  gem 'capistrano-ext'
 
   gem "pry-rails"
   gem 'pry-byebug'
