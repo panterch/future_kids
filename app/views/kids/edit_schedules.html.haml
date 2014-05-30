@@ -2,32 +2,37 @@
 
 = boot_form_for resource, :method => :get, :url => { :action => 'edit_schedules' }, :html => { :class => 'schedule' } do |form|
   %h3 Mentor Daten einblenden
-  %fieldset(style='height: 80%')
-    %div.mentor_select
-      %label Mentoren ohne Sch&uuml;ler
+  .row(style='margin-bottom: 10px;')
+    .col-xs-2
+      Mentoren ohne Sch&uuml;ler
+    .col-xs-2
+      Mentoren mit prim&auml;rem Sch&uuml;ler zugewiesen
+    .col-xs-2
+      Mentoren mit sekund&auml;rem Sch&uuml;ler zugewiesen
+    .col-xs-2
+      Mentoren mit beiden Sch&uuml;lern zugewiesen
+    .col-xs-2
+      Ersatzmentoren
+  .row(style='margin-bottom: 10px;')
+    .col-xs-2
       = select_tag "mentor_ids",
         options_from_collection_for_select(@mentor_groups[:none], 'id', 'display_name', @mentor_ids),
         :multiple => true
-    %div.mentor_select
-      %label Mentoren mit prim&auml;rem Sch&uuml;ler zugewiesen
+    .col-xs-2
       = select_tag "mentor_ids",
         options_from_collection_for_select(@mentor_groups[:only_primary], 'id', 'display_name', @mentor_ids),
         :multiple => true
-    %div.mentor_select
-      %label Mentoren mit sekund&auml;rem Sch&uuml;ler zugewiesen
+    .col-xs-2
       = select_tag "mentor_ids",
         options_from_collection_for_select(@mentor_groups[:only_secondary], 'id', 'display_name', @mentor_ids),
         :multiple => true
-    %div.mentor_select
-      %label Mentoren mit beiden Sch&uuml;lern zugewiesen
+    .col-xs-2
       = select_tag "mentor_ids",
         options_from_collection_for_select(@mentor_groups[:both], 'id', 'display_name', @mentor_ids),
         :multiple => true
-    %div.mentor_select
-      %label Ersatzmentoren
+    .col-xs-2
       = select_tag "mentor_ids",
         options_from_collection_for_select(@mentor_groups[:substitute], 'id', 'display_name', @mentor_ids),
         :multiple => true
-  %fieldset
-    = submit_tag 'Anzeige anpassen'
-    = link_to 'Auswahl aufheben', edit_schedules_kid_path(resource)
+    .col-xs-2
+      = form.submit 'Auswählen', class: 'btn btn-default'
