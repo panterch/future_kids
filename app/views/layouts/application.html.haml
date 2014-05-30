@@ -45,8 +45,8 @@
               -if can? :read, School
                 %li= link_to School.model_name.human, schools_path
             %ul.nav.navbar-nav.navbar-right
-              %li= link_to("Angemeldet als #{current_user.display_name}", current_user)
-              %li= link_to 'Abmelden', destroy_user_session_path, :method => :delete
+              %li
+                = render 'users/user_bar'
     .container
       - unless user_signed_in?
         .row-fluid
