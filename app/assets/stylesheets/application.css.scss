@@ -81,8 +81,12 @@ body { }
 }
 
 // Fix alignment of text at checkboxes
-.checkbox > label > p {
-  margin: 3px 0;
+.checkbox {
+  margin-bottom: 0px;
+
+  &> label > p {
+    margin: 3px 0 0;
+  }
 }
 
 

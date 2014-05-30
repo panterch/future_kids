@@ -4,21 +4,27 @@
       %h4 Filterkriterium f&uuml;r Mentoren
       = form_for :mentor, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
         .form-group
-          = f.select :term, term_collection, { :include_blank => 'Startzeit' }, class: 'form-control'
+          %label Startzeit
+          = f.select :term, term_collection, { :include_blank => true }, class: 'form-control'
         .form-group
-          = f.select :primary_kids_school_id, school_collection, { :include_blank => Mentor.human_attribute_name(:primary_kids_school) }, class: 'form-control'
+          %label= Mentor.human_attribute_name(:primary_kids_school)
+          = f.select :primary_kids_school_id, school_collection, { :include_blank => true }, class: 'form-control'
         .form-group
-          = f.select :primary_kids_meeting_day, wday_collection, { :include_blank => Mentor.human_attribute_name(:primary_kids_meeting_day) }, class: 'form-control'
+          %label= Mentor.human_attribute_name(:primary_kids_meeting_day)
+          = f.select :primary_kids_meeting_day, wday_collection, { :include_blank => true }, class: 'form-control'
         .form-group
-          = f.select :transport, transport_collection, { :include_blank => 'ÖV' }, class: 'form-control'
+          %label ÖV
+          = f.select :transport, transport_collection, { :include_blank => true }, class: 'form-control'
         .checkbox
           %label
             = f.check_box :ects
-            %p ECTS
+            %p
+              %b ECTS
         .checkbox
           %label
             = f.check_box :inactive
-            %p Inaktive
+            %p
+              %b Inaktive
         .form-group
           = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
           = link_to 'Filter aufheben', collection_path, class: 'btn btn-xs btn-danger'
