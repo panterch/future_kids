@@ -134,12 +134,28 @@ form.schedule {
   position: fixed;
   bottom: 0;
   width: 100%;
-  height: $footer-height;
-  padding-top: 14px;
+  height: $footer-height - 1;
+  padding-top: 8px;
   z-index: 2;
   background-color: #fff;
   font-size: 10px;
+  border-top: 1px solid #eee;
 }
+
+#sidebar-wrapper {
+  min-height: 1000px;
+}
+#sidebar {
+  overflow: auto;
+}
+
+#sidebar.affix {
+  position: fixed;
+  top: 90px;
+  bottom: 40px;
+  z-index: 2;
+}
+
 
 #documents {
   ol, li {
