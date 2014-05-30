@@ -16,7 +16,7 @@ feature "SESSION::LOGIN", %q{
     fill_in 'user_email',    :with => @mentor.email
     fill_in 'user_password', :with => @pw
     click_button 'Anmelden'
-    page.should have_content('Angemeldet als')
+    page.should have_content('Erfolgreich angemeldet.')
   end
 
   scenario "should not login the user w/ invalid credentials" do

@@ -12,7 +12,7 @@ Rails.application.routes.draw do
   end
   resources :kids do
     resources :journals do
-      resources :comments
+      resources :comments, only: ['new', 'create', 'update']
     end
     resources :reviews
     member do

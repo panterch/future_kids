@@ -1,0 +1,23 @@
+= boot_form_for [@journal.kid, @journal, @comment], :html => { :id => 'content_form' } do |form|
+  = form.input :by
+  = form.input :body
+  .form-group.boolean.optional
+    %label.boolean.optional.control-label.col-sm-3.control-label
+      Empfänger/innen
+    .col-sm-9
+      %label
+        %input.boolean.optional(type='checkbox' disabled='disabled' checked)
+
+  - if @journal.kid.admin
+    .form-group.boolean.optional
+      %label.boolean.optional.control-label.col-sm-3.control-label
+        Coach
+      .col-sm-9
+        %label
+          %input.boolean.optional(type='checkbox' disabled='disabled' checked)
+  - if @journal.kid.teacher
+    = form.input :to_teacher
+  - if @journal.kid.secondary_teacher
+    = form.input :to_secondary_teacher
+
+  = form.buttons

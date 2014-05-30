@@ -31,7 +31,6 @@
   %h2
     = collection.count if current_user.is_a?(Admin)
     Sch&uuml;ler/innen
-
   %table.table.table-striped.table-condensed
     - collection.each do |resource|
       %tr
@@ -46,13 +45,10 @@
           %td
             E:
             = resource.created_at ? I18n.l(resource.created_at.to_date) : '-'
-        -if current_user.is_a?(Admin) && resource.todo.present?
-          %a.todotoggle(href='#')= image_tag('task-due.png')
-          .todoholder
-            .todo
-              = resource.human_todo
-              %p.control= link_to 'edit', edit_kid_path(resource, :anchor => 'todo')
-
+          %td
+            -if resource.todo.present?
+              %a.todotoggle{data: { content: todo_content(resource) }}
+                %span.glyphicon.glyphicon-info-sign
 
 - if collection.empty?
   Zur Zeit sind Ihnen keine Kinder zugeordnet.

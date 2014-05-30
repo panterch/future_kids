@@ -6,6 +6,11 @@
  * = require stylesheet
 */
 
+$font-size-base:             12px;
+$line-height-base:           1.4;
+$grid-gutter-width:          20px;
+$navbar-height:              40px;
+
 $screen-xs:                  1px;
 $screen-xs-min:              $screen-xs;
 $screen-phone:               $screen-xs-min;
@@ -26,3 +31,17 @@ $navbar-default-bg: #fff;
 $grid-float-breakpoint: 900px;
 
 @import 'bootstrap';
+
+// Fix show_form breaking for long labels
+.show_for .wrapper {
+  clear: both;
+}
+
+// Fix spacing for contextual buttons on page headers
+.ctx-page-header {
+  margin-top: 14px;
+}
+
+.page-header {
+  margin-top: 0;
+}

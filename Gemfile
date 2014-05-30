@@ -22,6 +22,7 @@ gem 'whenever', :require => false
 gem "bootstrap-sass"
 gem "font-awesome-rails"
 gem 'quiet_assets'
+gem 'i18n_rails_helpers'
 
 group :assets do
   gem 'sass-rails'

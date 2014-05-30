@@ -8,8 +8,5 @@
             = mail_to resource.email, "<#{resource.email}>"
         %td
           - if resource.todo.present?
-            %a.todotoggle(href='#')= image_tag('task-due.png')
-            .todoholder
-              .todo
-                = resource.human_todo
-                %p.control= link_to 'edit', edit_resource_path(resource, :anchor => 'todo')
+            %a.todotoggle{data: { content: todo_content(resource) }}
+              %span.glyphicon.glyphicon-info-sign
