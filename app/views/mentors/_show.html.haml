@@ -1,5 +1,5 @@
-.cols
-  .col2
+.row
+  .col-md-8
     = show_for resource do |show|
       = show.attribute :name
       = show.attribute :prename
@@ -34,12 +34,14 @@
         = show.attribute :substitute
         = show.attribute :inactive
 
-      .screenonly
-        = render :partial => 'relation_logs/collection'
 
-  .col2.screenonly
+  .col-md-4
     - if resource.photo.present?
-      %img{:src => resource.photo.url(:medium)}
+      .portrait
+        %img{:src => resource.photo.url(:medium)}
+  .row
+    .col-md-12
+      = render :partial => 'relation_logs/collection'
 
 -# times are only visible to the mentor himself or an admin
 - if is_viewing_own_data
