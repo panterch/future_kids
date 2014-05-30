@@ -9,4 +9,4 @@
         %td
           - if resource.todo.present?
             %a.todotoggle{data: { content: todo_content(resource) }}
-              = image_tag('task-due.png')
+              %span.glyphicon.glyphicon-info-sign
