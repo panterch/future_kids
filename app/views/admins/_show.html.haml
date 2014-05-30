@@ -1,5 +1,3 @@
-%h2= resource.display_name
-
 = show_for resource do |show|
   = show.attribute :name
   = show.attribute :prename
@@ -15,5 +13,3 @@
     = show.attribute :inactive
 
     = render :partial => 'relation_logs/collection'
-
-
