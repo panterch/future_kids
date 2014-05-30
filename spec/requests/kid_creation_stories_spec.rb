@@ -14,7 +14,7 @@ feature "TEACHER::CREATE:KID", %q{
 
   scenario "should not create a new kid without the required values" do
     click_link 'Schüler/in'
-    click_link 'Neuer Eintrag'
+    click_link 'Erfassen'
     click_button 'Schüler/in erstellen'
     page.status_code.should == 200
     page.should have_content('Schüler/in erfassen')
@@ -23,7 +23,7 @@ feature "TEACHER::CREATE:KID", %q{
 
   scenario "should create a new kid with required values" do
     click_link 'Schüler/in'
-    click_link 'Neuer Eintrag'
+    click_link 'Erfassen'
     fill_in 'kid_name', with: 'Last Name'
     fill_in 'kid_prename', with: 'First Name'
     click_button 'Schüler/in erstellen'
@@ -47,7 +47,7 @@ feature "ADMIN::CREATE:KID", %q{
 
   scenario "should not create a new kid without the required values" do
     click_link 'Schüler/in'
-    click_link 'Neuer Eintrag'
+    click_link 'Erfassen'
     click_button 'Schüler/in erstellen'
     page.status_code.should == 200
     page.should have_content('Schüler/in erfassen')
@@ -56,7 +56,7 @@ feature "ADMIN::CREATE:KID", %q{
 
   scenario "should create a new kid with required values" do
     click_link 'Schüler/in'
-    click_link 'Neuer Eintrag'
+    click_link 'Erfassen'
     fill_in 'kid_name', with: 'Last Name'
     fill_in 'kid_prename', with: 'First Name'
     click_button 'Schüler/in erstellen'
