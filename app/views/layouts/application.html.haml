@@ -20,7 +20,7 @@
           - if user_signed_in?
             %h4 Navigation
             %ul.site
-              -if can? :read, Admin
+              -if current_user.is_a?(Admin)
                 %li= link_to Admin.model_name.human, admins_path
               -if can? :read, Kid
                 %li= link_to Kid.model_name.human, kids_path
