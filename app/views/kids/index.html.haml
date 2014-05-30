@@ -1,30 +1,29 @@
 - content_for :sidebar do
   - if current_user.is_a?(Admin)
     %li
-      %ul.nav
-        %h4 Filterkriterium f&uuml;r Sch&uuml;ler/innen
-        = form_for :kid, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
-          .form-group
-            = f.select :term, term_collection, { :include_blank => Kid.human_attribute_name(:term) }, class: 'form-control'
-          .form-group
-            = f.select :exit, term_collection, { :include_blank => Kid.human_attribute_name(:exit) }, class: 'form-control'
-          .form-group
-            = f.select :school_id, school_collection, { :include_blank => Kid.human_attribute_name(:school) }, class: 'form-control'
-          .form-group
-            = f.select :admin_id, admin_collection, { :include_blank => 'Coach' }, class: 'form-control'
-          .form-group
-            = f.select :translator, yes_no_collection, { :include_blank => 'Übersetzer' }, class: 'form-control'
-          .form-group
-            = f.select :meeting_day, wday_collection, { :include_blank => Kid.human_attribute_name(:meeting_day) }, class: 'form-control'
-          .form-group
-            = f.select :grade, grade_collection, { :include_blank => 'Klasse' }, class: 'form-control'
-          .form-group
-            = f.select :inactive, yes_no_collection('Inaktive'), {}, class: 'form-control'
-          .form-group
-            = select_tag 'order_by', order_by_collection_for_kids(params[:order_by], 'Ordnen nach'), class: 'form-control'
-          .form-group
-            = f.submit 'Filter anwenden', class: 'btn btn-success'
-            = link_to 'Filter aufheben', collection_path, class: 'btn btn-danger'
+      %h4 Filterkriterium f&uuml;r Sch&uuml;ler/innen
+      = form_for :kid, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
+        .form-group
+          = f.select :term, term_collection, { :include_blank => Kid.human_attribute_name(:term) }, class: 'form-control'
+        .form-group
+          = f.select :exit, term_collection, { :include_blank => Kid.human_attribute_name(:exit) }, class: 'form-control'
+        .form-group
+          = f.select :school_id, school_collection, { :include_blank => Kid.human_attribute_name(:school) }, class: 'form-control'
+        .form-group
+          = f.select :admin_id, admin_collection, { :include_blank => 'Coach' }, class: 'form-control'
+        .form-group
+          = f.select :translator, yes_no_collection, { :include_blank => 'Übersetzer' }, class: 'form-control'
+        .form-group
+          = f.select :meeting_day, wday_collection, { :include_blank => Kid.human_attribute_name(:meeting_day) }, class: 'form-control'
+        .form-group
+          = f.select :grade, grade_collection, { :include_blank => 'Klasse' }, class: 'form-control'
+        .form-group
+          = f.select :inactive, yes_no_collection('Inaktive'), {}, class: 'form-control'
+        .form-group
+          = select_tag 'order_by', order_by_collection_for_kids(params[:order_by], 'Ordnen nach'), class: 'form-control'
+        .form-group
+          = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
+          = link_to 'Filter aufheben', collection_path, class: 'btn btn-xs btn-danger'
 
 
 -if current_user.is_a?(Admin)

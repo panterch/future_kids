@@ -1,12 +1,13 @@
 - content_for :sidebar do
   -if current_user.is_a?(Admin)
-    %h4 Filterkriterium f&uuml;r Mentoren
-    = form_for :admin, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
-      .form-group
-        = f.select :inactive, yes_no_collection('Inaktive'), {}, class: 'form-control'
-      .form-group
-        = f.submit 'Filter anwenden', class: 'btn btn-success'
-        = link_to 'Filter aufheben', collection_path, class: 'btn btn-danger'
+    %li
+      %h4 Filterkriterium f&uuml;r Mentoren
+      = form_for :admin, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
+        .form-group
+          = f.select :inactive, yes_no_collection('Inaktive'), {}, class: 'form-control'
+        .form-group
+          = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
+          = link_to 'Filter aufheben', collection_path, class: 'btn btn-xs btn-danger'
 
 %h2
   = collection.count if current_user.is_a?(Admin)
