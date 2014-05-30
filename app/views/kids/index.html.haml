@@ -1,62 +1,57 @@
+- content_for :sidebar do
+  - if current_user.is_a?(Admin)
+    %li
+      %ul.nav
+        %h4 Filterkriterium f&uuml;r Sch&uuml;ler/innen
+        = form_for :kid, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
+          .form-group
+            = f.select :term, term_collection, { :include_blank => Kid.human_attribute_name(:term) }, class: 'form-control'
+          .form-group
+            = f.select :exit, term_collection, { :include_blank => Kid.human_attribute_name(:exit) }, class: 'form-control'
+          .form-group
+            = f.select :school_id, school_collection, { :include_blank => Kid.human_attribute_name(:school) }, class: 'form-control'
+          .form-group
+            = f.select :admin_id, admin_collection, { :include_blank => 'Coach' }, class: 'form-control'
+          .form-group
+            = f.select :translator, yes_no_collection, { :include_blank => 'Übersetzer' }, class: 'form-control'
+          .form-group
+            = f.select :meeting_day, wday_collection, { :include_blank => Kid.human_attribute_name(:meeting_day) }, class: 'form-control'
+          .form-group
+            = f.select :grade, grade_collection, { :include_blank => 'Klasse' }, class: 'form-control'
+          .form-group
+            = f.select :inactive, yes_no_collection('Inaktive'), {}, class: 'form-control'
+          .form-group
+            = select_tag 'order_by', order_by_collection_for_kids(params[:order_by], 'Ordnen nach'), class: 'form-control'
+          .form-group
+            = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
+            = link_to 'Filter aufheben', collection_path, class: 'btn btn-xs btn-danger'
+
+
 -if current_user.is_a?(Admin)
-  %h2 Filterkriterium f&uuml;r Sch&uuml;ler/innen
-  = form_for :kid, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
-    .filterfield
-      %label= Kid.human_attribute_name(:term)
-      = f.select :term, term_collection, { :include_blank => true }
-    .filterfield
-      %label= Kid.human_attribute_name(:exit)
-      = f.select :exit, term_collection, { :include_blank => true }
-    .filterfield
-      %label= Kid.human_attribute_name(:school)
-      = f.select :school_id, school_collection, { :include_blank => true }
-    .filterfield
-      %label Coach
-      = f.select :admin_id, admin_collection, { :include_blank => true }
-    .filterfield
-      %label Übersetzer
-      = f.select :translator, yes_no_collection, { :include_blank => true }
-    .filterfield
-      %label=Kid.human_attribute_name(:meeting_day)
-      = f.select :meeting_day, wday_collection, { :include_blank => true }
-    .filterfield
-      %label Klasse
-      = f.select :grade, grade_collection, { :include_blank => true }
-    .filterfield
-      %label Inaktiv
-      = f.check_box :inactive
-    .filterfield
-      %label Ordnen nach
-      = select_tag 'order_by', order_by_collection_for_kids(params[:order_by])
-    .filterfield
-      %label Aktion
-      = f.submit 'Filter anwenden'
-      = link_to 'Filter aufheben', collection_path
+  %h2
+    = collection.count if current_user.is_a?(Admin)
+    Sch&uuml;ler/innen
 
-%h2
-  = collection.count if current_user.is_a?(Admin)
-  Sch&uuml;ler/innen
-
-%table.table.table-striped.table-condensed
-  - collection.each do |resource|
-    %tr
-      %td= link_to resource.display_name, resource
-      -if current_user.is_a?(Admin)
-        %td
-          K:
-          = resource.checked_at ? I18n.l(resource.checked_at.to_date) : '-'
-        %td
-          C:
-          = resource.coached_at ? I18n.l(resource.coached_at.to_date) : '-'
-        %td
-          E:
-          = resource.created_at ? I18n.l(resource.created_at.to_date) : '-'
-      -if current_user.is_a?(Admin) && resource.todo.present?
-        %a.todotoggle(href='#')= image_tag('task-due.png')
-        .todoholder
-          .todo
-            = resource.human_todo
-            %p.control= link_to 'edit', edit_kid_path(resource, :anchor => 'todo')
+  %table.table.table-striped.table-condensed
+    - collection.each do |resource|
+      %tr
+        %td= link_to resource.display_name, resource
+        -if current_user.is_a?(Admin)
+          %td
+            K:
+            = resource.checked_at ? I18n.l(resource.checked_at.to_date) : '-'
+          %td
+            C:
+            = resource.coached_at ? I18n.l(resource.coached_at.to_date) : '-'
+          %td
+            E:
+            = resource.created_at ? I18n.l(resource.created_at.to_date) : '-'
+        -if current_user.is_a?(Admin) && resource.todo.present?
+          %a.todotoggle(href='#')= image_tag('task-due.png')
+          .todoholder
+            .todo
+              = resource.human_todo
+              %p.control= link_to 'edit', edit_kid_path(resource, :anchor => 'todo')
 
 
 - if collection.empty?
