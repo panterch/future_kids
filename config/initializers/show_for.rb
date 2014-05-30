@@ -9,7 +9,7 @@ ShowFor.setup do |config|
 
   # The tag used to wrap each label. Default is :strong.
   config.label_tag = :label
-  config.label_class = 'col-sm-3 control-label'
+  config.label_class = 'col-sm-3 text-right'
 
   # The tag used to wrap each content (value). Default is nil.
   config.content_tag = :p
