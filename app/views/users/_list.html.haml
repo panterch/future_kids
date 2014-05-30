@@ -1,12 +1,15 @@
-%ul
+%table.table.table-striped.table-condensed
   - collection.each do |resource|
-    %li
-      = link_to resource.display_name, resource
-      - if current_user.is_a?(Admin) && resource.email.present?
-        = mail_to resource.email, "<#{resource.email}>"
-      -if current_user.is_a?(Admin) && resource.todo.present?
-        %a.todotoggle(href='#')= image_tag('task-due.png')
-        .todoholder
-          .todo
-            = resource.human_todo
-            %p.control= link_to 'edit', edit_resource_path(resource, :anchor => 'todo')
+    %tr
+      %td= link_to resource.display_name, resource
+      - if current_user.is_a?(Admin)
+        %td
+          - if resource.email.present?
+            = mail_to resource.email, "<#{resource.email}>"
+        %td
+          - if resource.todo.present?
+            %a.todotoggle(href='#')= image_tag('task-due.png')
+            .todoholder
+              .todo
+                = resource.human_todo
+                %p.control= link_to 'edit', edit_resource_path(resource, :anchor => 'todo')
