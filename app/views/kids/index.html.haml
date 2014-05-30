@@ -29,10 +29,11 @@
           = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
           = link_to 'Filter aufheben', collection_path, class: 'btn btn-xs btn-danger'
 
-
-%h2
+= contextual_links
+= boot_page_title do
   = collection.count if current_user.is_a?(Admin)
   Sch&uuml;ler/innen
+
 %table.table.table-striped.table-condensed
   - collection.each do |resource|
     %tr
