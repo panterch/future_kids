@@ -41,7 +41,7 @@ feature "TEACHER::NAVIGATION:KID", %q{
     @student2 = create(:kid, name: 'last2', prename: 'first2', teacher: @teacher)
     click_link 'Schüler/in'
     click_link 'last1 first1'
-    page.should have_css('h2', text: 'last1 first1')
+    page.should have_css('h1', text: 'last1 first1')
     page.should have_css('h2', text: 'Allgemeine Informationen')
     page.should have_css('h2', text: 'Lernjournale')
   end
