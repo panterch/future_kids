@@ -44,10 +44,12 @@
 
 -# times are only visible to the mentor himself or an admin
 - if is_viewing_own_data
-  %h2
-    Zeiterfassung für den Monat
+  #mentor_journal_date.pull-right
     = select_month(@month, {}, :class => 'select_mentor_journal_date')
     = select_year(@year, {}, :class => 'select_mentor_journal_date')
+  #a(name='mentor_journal_date')
+  %h2
+    Zeiterfassung für den Monat
   %table.table.table-striped.table-condensed.table-hover
     - @journals.each do |journal|
       %tr
