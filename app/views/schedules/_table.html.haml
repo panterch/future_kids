@@ -4,7 +4,7 @@
 
 = boot_form_for resource, :url => { :action => 'update_schedules' }, :html => { :id => 'content_form', :class => 'schedule' } do |form|
   %h3 Stundenplandaten erfassen
-  %table.schedule
+  %table.table.table-striped.schedule
     %tr
       %th.time &nbsp;
       - (1..@week.length).each do |day|
@@ -26,4 +26,4 @@
             - schedule_tags(schedule).each do |tag|
               %p= tag
 
-  = form.buttons 'Stundenplandaten speichern'
+  = form.submit 'Stundenplandaten speichern', class: 'btn btn-default'
