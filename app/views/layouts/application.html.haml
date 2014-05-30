@@ -20,15 +20,16 @@
         .col-md-3
           .logo=image_tag('logo.jpg')
         .col-md-9
-          = image_tag 'teaser.jpg'
+          = image_tag 'teaser.jpg', size: '685x81'
 
     - if user_signed_in?
       #nav{data: { spy: "affix", 'offset-top' => '90' }}
         .container
           .navbar.navbar-default{role: "navigation"}
             %ul.nav.navbar-nav
-              -if can? :read, Admin
-                %li= nav_link Admin.model_name.human, admins_path
+              -if current_user.is_a?(Admin)
+                %li
+                  = nav_link Admin.model_name.human, admins_path
               -if can? :read, Kid
                 %li= nav_link Kid.model_name.human, kids_path
               -# FIXME load of teachers for mentors via cancan does not yet
@@ -40,33 +41,22 @@
                 %li= nav_link Principal.model_name.human, principals_path
               -if can? :read, Reminder
                 %li= nav_link Reminder.model_name.human, reminders_path
-              %li= nav_link 'Anleitungen', documents_path
+              %li= nav_link 'Anleitungen & Dokumente', documents_path
               -if can? :read, School
                 %li= nav_link School.model_name.human, schools_path
             %ul.nav.navbar-nav.navbar-right
-              - if user_signed_in?
-                %li
-                  = link_to '#', :class => 'btn dropdown-toggle', 'data-toggle' => 'dropdown' do
-                    %span.glyphicon.glyphicon-user
-                    %span.caret
-                  %ul.dropdown-menu
-                    %li.dropdown-header= current_user
-                    %li= link_to 'Profil', current_user
-                    %li.divider
-                    %li= link_to 'Abmelden', destroy_user_session_path, :method => :delete
+              %li.dropdown(style="display: block !important")
+                = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
+                  %span.glyphicon.glyphicon-user
+                  %span.caret
+                %ul.dropdown-menu
+                  %li= link_to current_user.display_name, current_user
+                  %li.divider
+                  %li= link_to 'Abmelden', destroy_user_session_path, :method => :delete
 
 
 
     .container
-      - unless user_signed_in?
-        .row-fluid
-          .col-md-3
-            #logo
-              %span
-              = link_to(image_tag('logo.jpg'), '/')
-          .col-md-9
-            #teaser
-              = image_tag 'teaser.jpg'
       .row-fluid
         .col-md-3
           - if user_signed_in?
