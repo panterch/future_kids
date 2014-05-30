@@ -11,10 +11,14 @@
           = f.select :primary_kids_meeting_day, wday_collection, { :include_blank => Mentor.human_attribute_name(:primary_kids_meeting_day) }, class: 'form-control'
         .form-group
           = f.select :transport, transport_collection, { :include_blank => 'ÖV' }, class: 'form-control'
-        .form-group
-          = f.select :etcs, yes_no_collection('ECTS'), {}, class: 'form-control'
-        .form-group
-          = f.select :inactive, yes_no_collection('Inaktive'), {}, class: 'form-control'
+        .checkbox
+          %label
+            = f.check_box :ects
+            %p ECTS
+        .checkbox
+          %label
+            = f.check_box :inactive
+            %p Inaktive
         .form-group
           = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
           = link_to 'Filter aufheben', collection_path, class: 'btn btn-xs btn-danger'

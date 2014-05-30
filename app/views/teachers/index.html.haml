@@ -5,8 +5,10 @@
       = form_for :teacher, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
         .form-group
           = f.select :school_id, school_collection, { :include_blank => Kid.human_attribute_name(:school) }, class: 'form-control'
-        .form-group
-          = f.select :inactive, yes_no_collection('Inaktive'), {}, class: 'form-control'
+        .checkbox
+          %label
+            = f.check_box :inactive
+            %p Inaktive
         .form-group
           = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
           = link_to 'Filter aufheben', collection_path, class: 'btn btn-xs btn-danger'

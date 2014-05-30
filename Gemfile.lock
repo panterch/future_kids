@@ -102,7 +102,7 @@ GEM
       activesupport (>= 3.2, < 5)
     hike (1.2.3)
     i18n (0.6.9)
-    i18n_rails_helpers (1.4.3)
+    i18n_rails_helpers (1.4.4)
     inherited_resources (1.4.1)
       has_scope (~> 0.6.0.rc)
       responders (~> 1.0.0.rc)
