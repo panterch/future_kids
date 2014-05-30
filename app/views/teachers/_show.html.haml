@@ -1,5 +1,3 @@
-%h2= resource.display_name
-
 = show_for resource do |show|
   = show.attribute :name
   = show.attribute :prename
@@ -7,5 +5,13 @@
   = show.attribute :school do
     = can_link_to(resource.school)
   = show.attribute :phone
+  = show.association :kids do |k|
+    %li= can_link_to(k)
+  = show.association :secondary_kids do |k|
+    %li= can_link_to(k)
   -if current_user.is_a?(Admin)
+    = show.attribute :todo
+    = show.attribute :note
     = show.attribute :inactive
+
+    = render 'relation_logs/collection'

@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :mentors do
     member do
        get 'edit_schedules'
-       put 'update_schedules'
+       patch 'update_schedules'
     end
   end
   resources :kids do
@@ -17,7 +17,7 @@ Rails.application.routes.draw do
     resources :reviews
     member do
        get 'edit_schedules'
-       put 'update_schedules'
+       patch 'update_schedules'
     end
   end
   resources :schedules
