@@ -24,7 +24,7 @@ class KidsController < ApplicationController
       @kids = @kids.where(params[:kid].delete_if {|key, val| val.blank? })
       # reorder the kids according to the supplied parameter
       @kids = @kids.reorder(params['order_by']) if params['order_by']
-      # provide a prototype kid for the filter form
+      # provide a prototype for the filter form
       @kid = Kid.new(permitted_params[:kid])
     end
 
