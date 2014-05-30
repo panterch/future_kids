@@ -1,6 +1,6 @@
 %h2= "Neuer Kommentar zu #{@journal.display_name}"
 
-= simple_form_for [@journal.kid, @journal, @comment], :html => { :id => 'content_form' } do |form|
+= boot_form_for [@journal.kid, @journal, @comment], :html => { :id => 'content_form' } do |form|
   = form.input :by
   = form.input :body
   %li.boolean
@@ -18,4 +18,4 @@
   - if @journal.kid.secondary_teacher
     = form.input :to_secondary_teacher
 
-  = form.submit
+  = form.buttons
