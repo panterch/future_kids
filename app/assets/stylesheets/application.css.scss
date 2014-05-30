@@ -30,6 +30,9 @@ $navbar-default-border: #fff;
 $navbar-default-bg: #fff;
 $grid-float-breakpoint: 1px;
 
+$footer-height: 30px;
+
+
 @import 'bootstrap';
 
 body { }
@@ -92,6 +95,23 @@ form.schedule {
     width: 100%;
   }
 
+}
+
+#main {
+  margin-top: 20px;
+  margin-bottom: $footer-height;
+  min-height: 1000px;
+}
+
+#footer {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  height: $footer-height;
+  padding-top: 14px;
+  z-index: 1;
+  background-color: #fff;
+  font-size: 10px;
 }
 
 #documents {
