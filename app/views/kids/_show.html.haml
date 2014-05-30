@@ -48,54 +48,56 @@
     = show.attribute :inactive
     = render :partial => 'relation_logs/collection'
 
-.pull-right
-  = contextual_link_to :new_journal, new_kid_journal_path(resource)
+.ctx.ctx-h2
+  = contextual_link_to :new_journal, new_kid_journal_path(resource), class: 'btn-xs'
 %h2#journals Lernjournale
 - resource.journals.each do |journal|
-  = show_for journal do |journal_show|
-    %h3
-      = journal.display_name
-    = journal_show.attribute :mentor do
-      = can_link_to(journal.mentor)
-    = journal_show.attribute :held_at
-    - if journal.cancelled?
-      = journal_show.attribute :cancelled
-    - else
-      = journal_show.attribute :start_at
-      = journal_show.attribute :end_at
-    = journal_show.attribute :goal
-    = journal_show.attribute :subject
-    = journal_show.attribute :method
-    = journal_show.attribute :outcome
-    = journal_show.attribute :note
-    -# everybody that has access to the journal (even read) may comment on it
-    - journal.comments.each do |comment|
-      .wrapper
-        %label.col-sm-3.text-right= comment.display_name
-        .col-sm-offset-3= comment.body.textilize
-    .wrapper
-      .content.journal_buttons
-        - if can?(:edit, journal)
-          = link_to "[bearbeiten]", edit_kid_journal_path(resource, journal)
-        = link_to "[kommentieren]", new_kid_journal_comment_path(resource, journal)
-        - if can?(:destroy, journal)
-          = button_to "löschen", kid_journal_path(resource, journal), :confirm => "Sind Sie sicher? Der Eintrag und alle Kommentare werden unwiderruflich gelöscht.", :method => :delete
+  .panel.panel-default[journal]
+    .panel-heading
+      .ctx.ctx-h4
+        = contextual_link_to :edit, edit_kid_journal_path(resource, journal), class: 'btn-xs'
+        = contextual_link_to :destroy, kid_journal_path(resource, journal), class: 'btn-xs'
+        = contextual_link_to :comment, new_kid_journal_comment_path(resource, journal), class: 'btn-xs'
+      %h4= journal.display_name
+    .panel-body
+      = show_for journal do |journal_show|
+        = journal_show.attribute :mentor do
+          = can_link_to(journal.mentor)
+        = journal_show.attribute :held_at
+        - if journal.cancelled?
+          = journal_show.attribute :cancelled
+        - else
+          = journal_show.attribute :start_at
+          = journal_show.attribute :end_at
+        = journal_show.attribute :goal
+        = journal_show.attribute :subject
+        = journal_show.attribute :method
+        = journal_show.attribute :outcome
+        = journal_show.attribute :note
+        -# everybody that has access to the journal (even read) may comment on it
+
+      %h3 Kommentare
+      - journal.comments.each do |comment|
+        .row(style='border-top: 1px solid #dddddd')
+          %label.col-sm-3.text-right= comment.display_name
+          .col-sm-offset-3= comment.body.textilize
 
 -# reviews are only visible for admins and first mentors
 - if resource.mentor == current_user || current_user.is_a?(Admin)
-  .pull-right
-    = contextual_link_to :new_review, new_kid_review_path(resource)
+  .ctx.ctx-h2
+    = contextual_link_to :new_review, new_kid_review_path(resource), class: 'btn-xs'
   %h2#reviews Gesprächsdokumentationen
   - resource.reviews.each do |review|
-    = show_for review do |review_show|
-      %h3= review.display_name
-      = review_show.attribute :attendee
-      = review_show.attribute :reason
-      = review_show.attribute :kind
-      = review_show.attribute :content
-      = review_show.attribute :outcome
-      = review_show.attribute :note
-      - if can?(:edit, review)
-        .wrapper
-          .content
-            = link_to "[bearbeiten]", edit_kid_review_path(resource, review)
+    .panel.panel-default[review]
+      .panel-heading
+        .ctx.ctx-h4
+          = contextual_link_to :edit, edit_kid_review_path(resource, review), class: 'btn-xs'
+        %h4= review.display_name
+      .panel-body
+        = show_for review do |review_show|
+          = review_show.attribute :attendee
+          = review_show.attribute :reason
+          = review_show.attribute :kind
+          = review_show.attribute :content
+          = review_show.attribute :outcome
+          = review_show.attribute :note

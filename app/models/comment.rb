@@ -21,7 +21,7 @@ class Comment < ActiveRecord::Base
 
   def display_name
     return "Neuer Kommentar" if new_record?
-    return "Kommentar vom #{I18n.l(created_at.to_date)} von #{by}"
+    return "#{I18n.l(created_at.to_date)} von #{by}"
   end
 
   # tries to find the last comment on the same journal
