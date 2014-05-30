@@ -23,8 +23,8 @@
           .form-group
             = select_tag 'order_by', order_by_collection_for_kids(params[:order_by], 'Ordnen nach'), class: 'form-control'
           .form-group
-            = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
-            = link_to 'Filter aufheben', collection_path, class: 'btn btn-xs btn-danger'
+            = f.submit 'Filter anwenden', class: 'btn btn-success'
+            = link_to 'Filter aufheben', collection_path, class: 'btn btn-danger'
 
 
 -if current_user.is_a?(Admin)
