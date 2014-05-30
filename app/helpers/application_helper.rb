@@ -121,5 +121,10 @@ module ApplicationHelper
     tags
   end
 
+  def todo_content(resource)
+    markup = resource.human_todo
+    markup += link_to 'edit', edit_resource_path(resource, :anchor => 'todo')
+  end
+
 
 end
