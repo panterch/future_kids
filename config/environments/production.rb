@@ -87,10 +87,10 @@ Rails.application.configure do
   # config.action_mailer.raise_delivery_errors = false
   config.action_mailer.delivery_method = :test
 
-  # config.action_mailer.default_url_options = {
-  #   :host => 'www.aoz-futurekids.ch',
-  #   :protocol => 'https'
-  # }
+  config.action_mailer.default_url_options = {
+    :host => 'www.aoz-futurekids.ch',
+    :protocol => 'https'
+  }
 
   config.middleware.use ExceptionNotifier,
       :email_prefix => "[FutureKids] ",
