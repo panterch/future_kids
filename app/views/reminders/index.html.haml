@@ -32,8 +32,8 @@
           - if resource.sent_at
             = I18n.l(resource.sent_at.to_date)
           - else
-            = button_to "Zustellen", { :action => "update", :id => resource.id }, { :method => :put, :class => 'btn btn-default' }
+            = button_to "Zustellen", { :action => "update", :id => resource.id }, { :method => :put, :class => 'btn btn-default btn-xs' }
         %td
-          = button_to "Quittieren", { :action => "destroy", :id => resource.id }, { :method => :delete, :class => 'btn btn-default' }
+          = button_to "Quittieren", { :action => "destroy", :id => resource.id }, { :method => :delete, :class => 'btn btn-default btn-xs' }
 - else
   %p Kein Eintrag vorhanden
