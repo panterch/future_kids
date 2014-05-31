@@ -43,7 +43,7 @@ class Comment < ActiveRecord::Base
     to.compact
   end
 
-  def human_body; simple_format(body); end
+  def human_body; text_format(body); end
 
 protected
 

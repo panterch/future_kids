@@ -26,9 +26,9 @@ class User < ActiveRecord::Base
     [ name, prename].reject(&:blank?).join(' ')
   end
 
-  def human_absence;   simple_format(absence); end
-  def human_available; simple_format(available); end
-  def human_todo;      simple_format(todo); end
+  def human_absence;   text_format(absence); end
+  def human_available; text_format(available); end
+  def human_todo;      text_format(todo); end
 
 protected
 

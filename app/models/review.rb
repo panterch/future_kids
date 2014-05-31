@@ -14,10 +14,10 @@ class Review < ActiveRecord::Base
     "Gespräch"
   end
 
-  def human_content;  simple_format(content); end
-  def human_reason;   simple_format(reason); end
-  def human_outcome;  simple_format(outcome); end
-  def human_note;     simple_format(note); end
-  def human_attendee; simple_format(attendee); end
+  def human_content;  text_format(content); end
+  def human_reason;   text_format(reason); end
+  def human_outcome;  text_format(outcome); end
+  def human_note;     text_format(note); end
+  def human_attendee; text_format(attendee); end
 
 end

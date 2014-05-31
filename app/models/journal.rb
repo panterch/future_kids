@@ -26,11 +26,11 @@ class Journal < ActiveRecord::Base
     return "Journal"
   end
 
-  def human_goal;    simple_format(goal); end
-  def human_subject; simple_format(subject); end
-  def human_method;  simple_format(method); end
-  def human_outcome; simple_format(outcome); end
-  def human_note;    simple_format(note); end
+  def human_goal;    text_format(goal); end
+  def human_subject; text_format(subject); end
+  def human_method;  text_format(method); end
+  def human_outcome; text_format(outcome); end
+  def human_note;    text_format(note); end
 
   def human_start_at
     return nil unless start_at

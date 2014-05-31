@@ -71,12 +71,12 @@ class Kid < ActiveRecord::Base
     [ name, prename ].reject(&:blank?).join(' ')
   end
 
-  def human_goal;   simple_format(goal); end
-  def human_goal_1; simple_format(goal_1); end
-  def human_goal_2; simple_format(goal_2); end
-  def human_note;   simple_format(note); end
-  def human_todo;   simple_format(todo); end
-  def human_abnormality; simple_format(abnormality); end
+  def human_goal;   text_format(goal); end
+  def human_goal_1; text_format(goal_1); end
+  def human_goal_2; text_format(goal_2); end
+  def human_note;   text_format(note); end
+  def human_todo;   text_format(todo); end
+  def human_abnormality; text_format(abnormality); end
 
   def human_abnormality_criticality
     return '' unless abnormality_criticality
