@@ -1,4 +1,7 @@
 class User < ActiveRecord::Base
+
+  include ActionView::Helpers::TextHelper
+
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
 
@@ -23,9 +26,9 @@ class User < ActiveRecord::Base
     [ name, prename].reject(&:blank?).join(' ')
   end
 
-  def human_absence; absence.try(:textilize); end
-  def human_available; available.try(:textilize); end
-  def human_todo; todo.try(:textilize); end
+  def human_absence;   simple_format(absence); end
+  def human_available; simple_format(available); end
+  def human_todo;      simple_format(todo); end
 
 protected
 

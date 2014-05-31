@@ -9,7 +9,6 @@ GIT
 GEM
   remote: https://rubygems.org/
   specs:
-    RedCloth (4.2.9)
     actionmailer (4.1.1)
       actionpack (= 4.1.1)
       actionview (= 4.1.1)
@@ -238,7 +237,6 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
-  RedCloth
   better_errors
   binding_of_caller
   bootstrap-sass

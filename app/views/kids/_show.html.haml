@@ -76,11 +76,11 @@
         = journal_show.attribute :note
         -# everybody that has access to the journal (even read) may comment on it
 
-      %h3 Kommentare
+    .list-group
       - journal.comments.each do |comment|
-        .row(style='border-top: 1px solid #dddddd')
+        .list-group-item
           %label.col-sm-3.text-right= comment.display_name
-          .col-sm-offset-3= comment.body.textilize
+          .col-sm-offset-3= comment.human_body
 
 -# reviews are only visible for admins and first mentors
 - if resource.mentor == current_user || current_user.is_a?(Admin)

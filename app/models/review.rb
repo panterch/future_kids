@@ -1,5 +1,7 @@
 class Review < ActiveRecord::Base
 
+  include ActionView::Helpers::TextHelper
+
   default_scope { order('held_at DESC') }
 
   belongs_to :kid
@@ -12,10 +14,10 @@ class Review < ActiveRecord::Base
     "Gespräch"
   end
 
-  def human_content; content.try(:textilize); end
-  def human_reason; reason.try(:textilize); end
-  def human_outcome; outcome.try(:textilize); end
-  def human_note; note.try(:textilize); end
-  def human_attendee; attendee.try(:textilize); end
+  def human_content;  simple_format(content); end
+  def human_reason;   simple_format(reason); end
+  def human_outcome;  simple_format(outcome); end
+  def human_note;     simple_format(note); end
+  def human_attendee; simple_format(attendee); end
 
 end

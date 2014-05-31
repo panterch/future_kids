@@ -76,8 +76,6 @@ describe Kid do
       kid.save!
       kid.mentor.should be_nil
       kid.secondary_mentor.should be_nil
-      kid.relation_archive.should match(mentor.display_name)
-      kid.relation_archive.should match(secondary_mentor.display_name)
     end
   end
 

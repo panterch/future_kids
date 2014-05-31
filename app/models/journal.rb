@@ -1,5 +1,7 @@
 class Journal < ActiveRecord::Base
 
+  include ActionView::Helpers::TextHelper
+
   default_scope { order('held_at DESC', :id).joins('INNER JOIN kids ON kids.id = journals.kid_id') }
 
   belongs_to :kid
@@ -24,11 +26,11 @@ class Journal < ActiveRecord::Base
     return "Journal"
   end
 
-  def human_goal; goal.try(:textilize); end
-  def human_subject; subject.try(:textilize); end
-  def human_method; method.try(:textilize); end
-  def human_outcome; outcome.try(:textilize); end
-  def human_note; note.try(:textilize); end
+  def human_goal;    simple_format(goal); end
+  def human_subject; simple_format(subject); end
+  def human_method;  simple_format(method); end
+  def human_outcome; simple_format(outcome); end
+  def human_note;    simple_format(note); end
 
   def human_start_at
     return nil unless start_at

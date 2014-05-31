@@ -1,5 +1,7 @@
 class Kid < ActiveRecord::Base
 
+  include ActionView::Helpers::TextHelper
+
   default_scope { order(:name, :prename) }
 
   belongs_to :mentor
@@ -69,21 +71,17 @@ class Kid < ActiveRecord::Base
     [ name, prename ].reject(&:blank?).join(' ')
   end
 
-  def human_goal; goal.try(:textilize); end
-  def human_goal_1; goal_1.try(:textilize); end
-  def human_goal_2; goal_2.try(:textilize); end
-  def human_note; note.try(:textilize); end
-
-  def human_todo; todo.try(:textilize); end
-
-  def human_abnormality; abnormality.try(:textilize); end
+  def human_goal;   simple_format(goal); end
+  def human_goal_1; simple_format(goal_1); end
+  def human_goal_2; simple_format(goal_2); end
+  def human_note;   simple_format(note); end
+  def human_todo;   simple_format(todo); end
+  def human_abnormality; simple_format(abnormality); end
 
   def human_abnormality_criticality
     return '' unless abnormality_criticality
     I18n.t(abnormality_criticality, :scope => 'kids.criticality')
   end
-
-  def human_relation_archive; relation_archive.try(:textilize); end
 
   def human_sex
     { 'm' => '♂', 'f' => '♀' }[sex]
@@ -116,14 +114,6 @@ class Kid < ActiveRecord::Base
 protected
 
   def release_relations
-    self.relation_archive =
-      "#{Kid.human_attribute_name(:mentor)}: #{self.mentor.try(:display_name)}\n"
-    self.relation_archive <<
-      "#{Kid.human_attribute_name(:secondary_mentor)}: #{self.secondary_mentor.try(:display_name)}\n"
-    self.relation_archive <<
-      "#{Kid.human_attribute_name(:teacher)}: #{self.teacher.try(:display_name)}\n"
-    self.relation_archive <<
-      "#{Kid.human_attribute_name(:secondary_teacher)}: #{self.secondary_teacher.try(:display_name)}"
     self.mentor = nil
     self.secondary_mentor = nil
     self.teacher = nil

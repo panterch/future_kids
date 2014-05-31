@@ -1,4 +1,7 @@
 class Comment < ActiveRecord::Base
+
+  include ActionView::Helpers::TextHelper
+
   after_create :send_notification
 
   belongs_to :journal
@@ -21,7 +24,7 @@ class Comment < ActiveRecord::Base
 
   def display_name
     return "Neuer Kommentar" if new_record?
-    return "#{I18n.l(created_at.to_date)} von #{by}"
+    return "Kommentar von #{by} am #{I18n.l(created_at.to_date)} "
   end
 
   # tries to find the last comment on the same journal
@@ -39,6 +42,8 @@ class Comment < ActiveRecord::Base
     to << kid.secondary_teacher.try(:email) if self.to_secondary_teacher?
     to.compact
   end
+
+  def human_body; simple_format(body); end
 
 protected
 
