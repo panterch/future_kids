@@ -6,34 +6,16 @@ img#bg {
   display: none;
 }
 
-#container {
-  margin: 0;
-}
-
-#header {
-  display: none;
-}
-
-#nav {
-  display: none;
-}
-
 #content {
-  min-height: 0;
-  border: 0;
   margin: 0;
-  padding: 0;
+  width: 100%;
 }
 
-#footer {
+#teaser, #sidebar, #nav, #footer {
   display: none;
 }
 
-.printonly {
-  display: block;
-}
-
-.screenonly {
+.btn {
   display: none;
 }
 
@@ -42,4 +24,8 @@ img#bg {
   border-top: 1px solid black;
   float: left;
   margin: 5em 2em 0 0;
+}
+
+a[href]:after {
+  content: "";
 }

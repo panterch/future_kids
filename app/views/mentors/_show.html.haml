@@ -72,7 +72,7 @@
           = (@journals.sum(&:duration) / 60.0).round(2)
           Stunden
 
-  .screenonly
+  .hidden-print
     %h2
       Zeiterfassung über die Projektdauer
     %table.table.table-striped.table-hover
@@ -98,6 +98,6 @@
           = duration + coaching
           Stunden
 
-  .printonly
+  .visible-print
     %p.signature Unterschrift Mentor/in
     %p.signature Unterschrift Vorgesetze/r

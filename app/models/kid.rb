@@ -70,6 +70,9 @@ class Kid < ActiveRecord::Base
   end
 
   def human_goal; goal.try(:textilize); end
+  def human_goal_1; goal_1.try(:textilize); end
+  def human_goal_2; goal_2.try(:textilize); end
+  def human_note; note.try(:textilize); end
 
   def human_todo; todo.try(:textilize); end
 
