@@ -1,11 +1,21 @@
 - content_for :sidebar do
-  .list-group.kidanchors
-    - resource.journals.each do |journal|
-      .list-group-item
-        = link_to journal.display_name, :anchor => dom_id(journal)
+  .panel.panel-default
+    .panel-heading
+      %h4.panel-title(data-toggle="collapse" data-target="#collapseJournals")
+        Lernjournale
+        %span.badge.pull-right=resource.journals.size
+    #collapseJournals.collapse.list-group.kidanchors
+      - resource.journals.each do |journal|
+        .list-group-item
+          = link_to journal.display_name, :anchor => dom_id(journal)
 
   - if resource.mentor == current_user || current_user.is_a?(Admin)
-    .list-group.kidanchors
-      - resource.reviews.each do |review|
-        .list-group-item
-          = link_to review.display_name, :anchor => dom_id(review)
+    .panel.panel-default
+      .panel-heading
+        %h4.panel-title(data-toggle="collapse" data-target="#collapseReviews")
+          Gespräche
+          %span.badge.pull-right=resource.reviews.size
+      #collapseReviews.collapse.list-group.kidanchors
+        - resource.reviews.each do |review|
+          .list-group-item
+            = link_to review.display_name, :anchor => dom_id(review)
