@@ -64,7 +64,11 @@ function register_schedule_checkboxes() {
 }
 
 function register_todotogglers() {
-  $('a.todotoggle').popover({ placement: 'left', html: true });
+  $('a.todotoggle').popover({
+    placement: 'left',
+    trigger: 'hover',
+    html: true
+  });
 }
 
 function register_kidsfilter() {

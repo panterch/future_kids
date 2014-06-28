@@ -56,8 +56,9 @@
           = resource.created_at ? I18n.l(resource.created_at.to_date) : '-'
         %td
           -if resource.todo.present?
-            %a.todotoggle{data: { content: todo_content(resource) }}
+            %a.todotoggle.btn.btn-xs{data: { content: resource.human_todo}, href:  edit_resource_path(resource, :anchor => 'todo') }
               %span.glyphicon.glyphicon-info-sign
+              Pendenz
 
 - if collection.empty?
   Zur Zeit sind Ihnen keine Kinder zugeordnet.
