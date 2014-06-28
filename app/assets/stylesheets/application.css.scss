@@ -50,7 +50,7 @@ body { }
 
 #teaser {
   height: $header-height;
-  background: white url(teaser.jpg);
+  background: white image-url("teaser.jpg");
 }
 
 #nav {

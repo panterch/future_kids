@@ -21,9 +21,6 @@ set :repository, "git@github.com:panter/future_kids.git"
 set :ssh_options, { forward_agent: true }
 set :use_sudo, false
 
-# TODO: remove this after the merge to master
-set :branch, 'features/ruby_212_rails_411'
-
 after "deploy", "deploy:cleanup"
 
 namespace :deploy do
