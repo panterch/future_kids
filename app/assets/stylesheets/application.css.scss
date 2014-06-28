@@ -117,6 +117,30 @@ form.schedule {
     width: 100%;
   }
 
+  select {
+    min-height: 400px;
+  }
+}
+
+#mentor_selection_tab {
+  table {
+    margin-top: 20px;
+  }
+
+  th, td {
+    width: 20%;
+    vertical-align: top;
+    border-left: 1px solid #CCC;
+  }
+
+  th {
+    padding: 3px;
+  }
+
+  select {
+    border: 0;
+    padding: 3px;
+  }
 }
 
 #main {

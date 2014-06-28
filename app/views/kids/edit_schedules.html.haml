@@ -1,38 +1,51 @@
-= render :partial => 'schedules/table'
+%ul.nav.nav-tabs(role="tablist")
+  %li.active
+    %a(href="#schedules_table_tab" role="tab" data-toggle="tab")
+      Stundenplan
+  %li
+    %a(href="#mentor_selection_tab" role="tab" data-toggle="tab")
+      Mentorauswahl
 
-= boot_form_for resource, :method => :get, :url => { :action => 'edit_schedules' }, :html => { :class => 'schedule' } do |form|
-  %h3 Mentor Daten einblenden
-  .row(style='margin-bottom: 10px;')
-    .col-xs-2
-      Mentoren ohne Sch&uuml;ler
-    .col-xs-2
-      Mentoren mit prim&auml;rem Sch&uuml;ler zugewiesen
-    .col-xs-2
-      Mentoren mit sekund&auml;rem Sch&uuml;ler zugewiesen
-    .col-xs-2
-      Mentoren mit beiden Sch&uuml;lern zugewiesen
-    .col-xs-2
-      Ersatzmentoren
-  .row(style='margin-bottom: 10px;')
-    .col-xs-2
-      = select_tag "mentor_ids",
-        options_from_collection_for_select(@mentor_groups[:none], 'id', 'display_name', @mentor_ids),
-        :multiple => true
-    .col-xs-2
-      = select_tag "mentor_ids",
-        options_from_collection_for_select(@mentor_groups[:only_primary], 'id', 'display_name', @mentor_ids),
-        :multiple => true
-    .col-xs-2
-      = select_tag "mentor_ids",
-        options_from_collection_for_select(@mentor_groups[:only_secondary], 'id', 'display_name', @mentor_ids),
-        :multiple => true
-    .col-xs-2
-      = select_tag "mentor_ids",
-        options_from_collection_for_select(@mentor_groups[:both], 'id', 'display_name', @mentor_ids),
-        :multiple => true
-    .col-xs-2
-      = select_tag "mentor_ids",
-        options_from_collection_for_select(@mentor_groups[:substitute], 'id', 'display_name', @mentor_ids),
-        :multiple => true
-    .col-xs-2
-      = form.submit 'Auswählen', class: 'btn btn-default'
+.tab-content
+  #schedules_table_tab.tab-pane.active
+    = render :partial => 'schedules/table'
+  #mentor_selection_tab.tab-pane
+    = boot_form_for resource, :method => :get, :url => { :action => 'edit_schedules' }, :html => { :class => 'schedule' } do |form|
+      %h3
+        .btn-group.pull-right
+          = form.submit 'Auswahl bestätigen', class: 'btn btn-default'
+          = link_to 'Auswahl aufheben', { :action => 'edit_schedules' },  class: 'btn btn-default'
+        Mentor Daten einblenden
+      %table
+        %tr
+          %th
+            Mentoren ohne Sch&uuml;ler
+          %th
+            Mentoren mit prim&auml;rem Sch&uuml;ler zugewiesen
+          %th
+            Mentoren mit sekund&auml;rem Sch&uuml;ler zugewiesen
+          %th
+            Mentoren mit beiden Sch&uuml;lern zugewiesen
+          %th
+            Ersatzmentoren
+        %tr
+          %td
+            = select_tag "mentor_ids",
+              options_from_collection_for_select(@mentor_groups[:none], 'id', 'display_name', @mentor_ids),
+              :multiple => true
+          %td
+            = select_tag "mentor_ids",
+              options_from_collection_for_select(@mentor_groups[:only_primary], 'id', 'display_name', @mentor_ids),
+              :multiple => true
+          %td
+            = select_tag "mentor_ids",
+              options_from_collection_for_select(@mentor_groups[:only_secondary], 'id', 'display_name', @mentor_ids),
+              :multiple => true
+          %td
+            = select_tag "mentor_ids",
+              options_from_collection_for_select(@mentor_groups[:both], 'id', 'display_name', @mentor_ids),
+              :multiple => true
+          %td
+            = select_tag "mentor_ids",
+              options_from_collection_for_select(@mentor_groups[:substitute], 'id', 'display_name', @mentor_ids),
+              :multiple => true

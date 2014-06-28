@@ -57,9 +57,9 @@ function register_mentor_journal_date_selectors() {
 }
 
 function register_schedule_checkboxes() {
-  $('table.schedule input[type=checkbox]').change(function(){
+  $('form.schedule table input[type=checkbox]').change(function(){
     $(this).siblings('input').toggleEnabled(this.checked) });
-  $('table.schedule input[type=checkbox]').each(function(){
+  $('form.schedule table input[type=checkbox]').each(function(){
     $(this).siblings('input').toggleEnabled(this.checked) });
 }
 
@@ -95,7 +95,7 @@ function register_kidanchors() {
 }
 
 function register_submit_action_in_sidebar() {
-  $('#content_form input[type=submit]').each(function() {
+  $('#main form input[type=submit]').each(function() {
     var $original = $(this);
     var $clone = $('<a href="#" class="list-group-item list-group-item-success">');
     $clone.text($original.val());
