@@ -1,4 +1,25 @@
-= render :partial => 'subnav'
+- content_for :sidebar do
+
+  .panel.panel-default
+    .panel-heading
+      %h4.panel-title(data-toggle="collapse" data-target="#collapseJournals")
+        Lernjournale
+        %span.badge.pull-right=resource.journals.size
+    #collapseJournals.collapse.list-group.kidanchors
+      - resource.journals.each do |journal|
+        .list-group-item
+          = link_to journal.display_name, :anchor => dom_id(journal)
+
+  - if resource.mentor == current_user || current_user.is_a?(Admin)
+    .panel.panel-default
+      .panel-heading
+        %h4.panel-title(data-toggle="collapse" data-target="#collapseReviews")
+          Gespräche
+          %span.badge.pull-right=resource.reviews.size
+      #collapseReviews.collapse.list-group.kidanchors
+        - resource.reviews.each do |review|
+          .list-group-item
+            = link_to review.display_name, :anchor => dom_id(review)
 
 = show_for resource do |show|
   = show.attribute :name
@@ -48,16 +69,16 @@
     = show.attribute :inactive
     = render :partial => 'relation_logs/collection'
 
-.ctx.ctx-h2
-  = contextual_link_to :new_journal, new_kid_journal_path(resource), class: 'btn-xs'
-%h2#journals Lernjournale
+%h2#journals
+  Lernjournale
+  =link_to 'Neues Lernjournal', new_kid_journal_path(resource), class: 'btn btn-default pull-right'
 - resource.journals.each do |journal|
   .panel.panel-default[journal]
     .panel-heading
-      .ctx.ctx-h4
-        = contextual_link_to :edit, edit_kid_journal_path(resource, journal), class: 'btn-xs'
-        = contextual_link_to :destroy, kid_journal_path(resource, journal), class: 'btn-xs'
-        = contextual_link_to :comment, new_kid_journal_comment_path(resource, journal), class: 'btn-xs'
+      .btn-group.pull-right
+        = link_to 'Bearbeiten', edit_kid_journal_path(resource, journal), class: 'btn btn-default'
+        = link_to 'Löschen', kid_journal_path(resource, journal), class: 'btn btn-default'
+        = link_to 'Kommentieren', new_kid_journal_comment_path(resource, journal), class: 'btn btn-default'
       %h4= journal.display_name
     .panel-body
       = show_for journal do |journal_show|
@@ -84,14 +105,14 @@
 
 -# reviews are only visible for admins and first mentors
 - if resource.mentor == current_user || current_user.is_a?(Admin)
-  .ctx.ctx-h2
-    = contextual_link_to :new_review, new_kid_review_path(resource), class: 'btn-xs'
-  %h2#reviews Gesprächsdokumentationen
+  %h2#reviews
+    Gesprächsdokumentationen
+    =link_to 'Neue Gesprächsdokumentation', new_kid_review_path(resource), class: 'btn btn-default pull-right'
   - resource.reviews.each do |review|
     .panel.panel-default[review]
       .panel-heading
-        .ctx.ctx-h4
-          = contextual_link_to :edit, edit_kid_review_path(resource, review), class: 'btn-xs'
+        .btn-group.pull-right
+          = link_to 'Bearbeiten', edit_kid_review_path(resource, review), class: 'btn btn-default'
         %h4= review.display_name
       .panel-body
         = show_for review do |review_show|

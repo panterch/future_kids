@@ -15,58 +15,64 @@
       <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
       <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
   %body
-    #teaser.container
-      .row
-        .col-md-12
-          = image_tag 'teaser.jpg', size: '940x111'
+    #header
+      - if !user_signed_in?
+        #teaser.container
 
-    - if user_signed_in?
-      -# nav gets affixed when scrolling
-      -# nav-wrapper stays on normal flow to assure smooth scrolling
-      -# see register_nav_affix()
-      #nav-wrapper
-        #nav
-          .container
-            .navbar.navbar-default{role: "navigation"}
-              %ul.nav.navbar-nav
-                -if current_user.is_a?(Admin)
-                  %li
-                    = nav_link Admin.model_name.human, admins_path
-                -if can? :read, Kid
-                  %li= nav_link Kid.model_name.human, kids_path
-                -# FIXME load of teachers for mentors via cancan does not yet
-                -#       work correctly, see ability_spec.rb. till this is fixed
-                -#       we do not display this option to mentors
-                -if current_user.is_a?(Admin)
-                  %li= nav_link Teacher.model_name.human, teachers_path
-                  %li= nav_link Mentor.model_name.human, mentors_path
-                  %li= nav_link Principal.model_name.human, principals_path
-                -if can? :read, Reminder
-                  %li= nav_link Reminder.model_name.human, reminders_path
-                %li= nav_link 'Anleitungen & Dokumente', documents_path
-                -if can? :read, School
-                  %li= nav_link School.model_name.human, schools_path
-              %ul.nav.navbar-nav.navbar-right
-                %li.dropdown(style="display: block !important")
-                  = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
-                    %span.glyphicon.glyphicon-user
-                    %span.caret
-                  %ul.dropdown-menu
-                    %li= link_to current_user.display_name, current_user
-                    %li.divider
-                    %li= link_to 'Abmelden', destroy_user_session_path
+      - if user_signed_in?
+        #nav-wrapper
+          #nav
+            .container
+              .navbar.navbar-default{role: "navigation"}
+                %ul.nav.navbar-nav
+                  -if current_user.is_a?(Admin)
+                    %li
+                      = nav_link Admin.model_name.human, admins_path
+                  -if can? :read, Kid
+                    %li= nav_link Kid.model_name.human, kids_path
+                  -# FIXME load of teachers for mentors via cancan does not yet
+                  -#       work correctly, see ability_spec.rb. till this is fixed
+                  -#       we do not display this option to mentors
+                  -if current_user.is_a?(Admin)
+                    %li= nav_link Teacher.model_name.human, teachers_path
+                    %li= nav_link Mentor.model_name.human, mentors_path
+                    %li= nav_link Principal.model_name.human, principals_path
+                  -if can? :read, Reminder
+                    %li= nav_link Reminder.model_name.human, reminders_path
+                  %li= nav_link 'Anleitungen & Dokumente', documents_path
+                  -if can? :read, School
+                    %li= nav_link School.model_name.human, schools_path
+                %ul.nav.navbar-nav.navbar-right
+                  %li.dropdown(style="display: block !important")
+                    = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
+                      %span.glyphicon.glyphicon-user
+                      %span.caret
+                    %ul.dropdown-menu
+                      %li= link_to current_user.display_name, current_user
+                      %li.divider
+                      %li= link_to 'Abmelden', destroy_user_session_path
 
 
+    #sidebar-wrapper
+      .container
+        #sidebar
+          %h1.logo=image_tag 'logo.jpg', size: '91x34'
+          - if user_signed_in?
+
+            #contextual_links_panel.panel.panel-default
+              .panel-heading
+                %h4.panel-title Aktionen
+              - if content_for?(:contextual_links)
+                = yield :contextual_links
+              - else
+                = contextual_links
+
+            = yield :sidebar
 
     #main
       .container
-        .row-fluid
-          #sidebar-wrapper.col-md-3
-            #sidebar
-              %h1.logo=image_tag 'logo.jpg', size: '91x34'
-              - if user_signed_in?
-                = yield :sidebar
-          #content.col-md-9
+        .row
+          #content.col-md-offset-3.col-md-9
             - flash.each do |name, msg|
               = boot_alert(msg, name)
             = yield

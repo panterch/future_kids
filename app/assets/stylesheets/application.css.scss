@@ -30,19 +30,30 @@ $navbar-default-border: #fff;
 $navbar-default-bg: #fff;
 $grid-float-breakpoint: 1px;
 
+$header-height: 70px;
 $footer-height: 30px;
+$sidebar-width: 220px;
 
 
 @import 'bootstrap';
 
 body { }
 
+#header {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  height: $header-height;
+  z-index: 2;
+  background-color: #fff;
+}
+
 #teaser {
- height: 111px;
+  height: $header-height;
+  background: white url(teaser.jpg);
 }
 
 #nav {
-  background-color: #fff;
   border-bottom: 1px solid #eee;
 
   ul.nav.navbar-nav li a {
@@ -59,12 +70,17 @@ body { }
 
 }
 
-#nav.affix {
+.alert {
   position: fixed;
-  top: 0;
-  width: 100%;
-  z-index: 2;
+  left: 0;
+  right: 0;
+  top: 10px;
+  width: 960px;
+  z-index: 3;
+  margin: auto;
+  text-align: center;
 }
+
 
 // Position mentor journal date picker
 #mentor_journal_date {
@@ -79,23 +95,6 @@ textarea {
 // Fix show_form breaking for long labels
 .show_for .wrapper {
   clear: both;
-}
-
-// Fix spacing for contextual buttons on page headers
-.ctx-page-header {
-  margin-top: 14px;
-}
-
-.ctx {
-  float: right;
-}
-
-.ctx-h2 {
-  margin-top: 5px;
-}
-
-.ctx-h4 {
-  margin-top: 5px;
 }
 
 .page-header {
@@ -121,7 +120,7 @@ form.schedule {
 }
 
 #main {
-  margin-top: 20px;
+  margin-top: $header-height + 10px;
   margin-bottom: $footer-height;
 }
 
@@ -138,24 +137,26 @@ form.schedule {
 }
 
 #sidebar-wrapper {
-  min-height: 10px;
-}
-#sidebar {
-  overflow: auto;
+  position: fixed;
+  top: $header-height + 10px;
+  bottom: $footer-height;
+  width: 100%;
+  overflow: hidden;
 
-  .logo {
-    margin-bottom: 20px;
+  #sidebar {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    width: $sidebar-width;
+    overflow: auto;
+
+    .logo {
+      margin-bottom: 20px;
+    }
+
   }
 
 }
-
-#sidebar.affix {
-  position: fixed;
-  top: 90px;
-  bottom: 40px;
-  z-index: 2;
-}
-
 
 #documents {
   .panel-heading {

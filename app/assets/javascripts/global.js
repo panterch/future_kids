@@ -1,3 +1,5 @@
+"use strict";
+
 $(function () {
   register_datepickers();
   register_journal_controls();
@@ -6,23 +8,11 @@ $(function () {
   register_todotogglers();
   register_kidsfilter();
   register_documents_toc();
-  register_affixes();
   register_kidanchors();
+  register_submit_action_in_sidebar();
+  register_back_to_top_link();
+  setTimeout(remove_alerts, 3000);
 });
-
-// affix navigation
-// nav gets affixed when scrolling
-// nav-wrapper stays on normal flow to assure smooth scrolling
-function register_affixes() {
-  $('#nav').affix({
-      offset: { top: $('#nav').offset().top }
-  });
-  $('#nav-wrapper').height($("#nav").height());
-  $('#sidebar').affix({
-      offset: { top: $('#nav').offset().top }
-  });
-  $('#sidebar').css('width', $('#sidebar').width());
-}
 
 // registers jquery ui datepickers on given fields when applicable
 function register_datepickers() {
@@ -84,8 +74,8 @@ function register_kidsfilter() {
 }
 function register_documents_toc() {
   $('#documents .panel-heading').click(function(event) {
-    $header = $(this);
-    $list = $header.next('.list-group');
+    var $header = $(this);
+    var $list = $header.next('.list-group');
     $header.toggleClass('open');
     $list.toggleClass('open');
   });
@@ -96,10 +86,38 @@ function register_kidanchors() {
     event.preventDefault();
 
     var target = this.hash,
-	  $target = $(target);
+    $target = $(target);
 
-	  $('html, body').stop().animate({
-	    'scrollTop': $target.offset().top - $('#nav').height()
-	  }, 500, 'swing');
+    $('html, body').stop().animate({
+      'scrollTop': $target.offset().top - $('#header').height() - 3
+    }, 500, 'swing');
   });
+}
+
+function register_submit_action_in_sidebar() {
+  $('#content_form input[type=submit]').each(function() {
+    var $original = $(this);
+    var $clone = $('<a href="#" class="list-group-item list-group-item-success">');
+    $clone.text($original.val());
+    $clone.click(function(event) {
+      event.preventDefault();
+      $original.click();
+    });
+    $clone.prependTo($('#contextual_links_panel .list-group'));
+  });
+}
+
+function register_back_to_top_link() {
+  if ($("body").height() < $(window).height()) { return; }
+  var $toTop = $('<a href="#" class="list-group-item">');
+  $toTop.text('Seitenanfang');
+  $toTop.click(function(event) {
+    event.preventDefault();
+    $('html, body').stop().animate({ 'scrollTop': 0 }, 500, 'swing');
+  });
+  $toTop.appendTo($('#contextual_links_panel .list-group'));
+}
+
+function remove_alerts() {
+  $('.alert').fadeOut();
 }

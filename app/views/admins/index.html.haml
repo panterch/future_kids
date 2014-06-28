@@ -8,10 +8,8 @@
             %b Inaktive
 
       .form-group
-        = f.submit 'Filter anwenden', class: 'btn btn-xs'
+        = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
         = link_to 'Filter aufheben', collection_path, class: 'btn btn-xs'
-
-= contextual_links
 
 = boot_page_title do
   = collection.count if current_user.is_a?(Admin)
