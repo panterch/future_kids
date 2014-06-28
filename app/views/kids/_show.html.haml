@@ -71,14 +71,18 @@
 
 %h2#journals
   Lernjournale
-  =link_to 'Neues Lernjournal', new_kid_journal_path(resource), class: 'btn btn-default pull-right'
+  - if can?(:create, @cancan_journal)
+    =link_to 'Neues Lernjournal', new_kid_journal_path(resource), class: 'btn btn-default pull-right'
 - resource.journals.each do |journal|
   .panel.panel-default[journal]
     .panel-heading
       .btn-group.pull-right
-        = link_to 'Bearbeiten', edit_kid_journal_path(resource, journal), class: 'btn btn-default'
-        = link_to 'Löschen', kid_journal_path(resource, journal), class: 'btn btn-default'
-        = link_to 'Kommentieren', new_kid_journal_comment_path(resource, journal), class: 'btn btn-default'
+        - if can?(:edit, journal)
+          = link_to 'Bearbeiten', edit_kid_journal_path(resource, journal), class: 'btn btn-default'
+        - if can?(:delete, journal)
+          = link_to "Löschen", kid_journal_path(resource, journal), { :method => :delete, :class => 'btn btn-default', data: { confirm: "Sind Sie sicher?" } }
+        - if can?(:create, Comment)
+          = link_to 'Kommentieren', new_kid_journal_comment_path(resource, journal), class: 'btn btn-default'
       %h4= journal.display_name
     .panel-body
       = show_for journal do |journal_show|
@@ -107,12 +111,14 @@
 - if resource.mentor == current_user || current_user.is_a?(Admin)
   %h2#reviews
     Gesprächsdokumentationen
-    =link_to 'Neue Gesprächsdokumentation', new_kid_review_path(resource), class: 'btn btn-default pull-right'
+    - if can?(:create, @cancan_review)
+      =link_to 'Neue Gesprächsdokumentation', new_kid_review_path(resource), class: 'btn btn-default pull-right'
   - resource.reviews.each do |review|
     .panel.panel-default[review]
       .panel-heading
         .btn-group.pull-right
-          = link_to 'Bearbeiten', edit_kid_review_path(resource, review), class: 'btn btn-default'
+          - if can?(:edit, review)
+            = link_to 'Bearbeiten', edit_kid_review_path(resource, review), class: 'btn btn-default'
         %h4= review.display_name
       .panel-body
         = show_for review do |review_show|

@@ -85,6 +85,10 @@ class Ability
       can :read, Teacher, :school_id => user.school_id, :inactive => false
     end
 
+    # comments can be created by any users (reading is only possible
+    # via the kids show action which is protected)
+    can :create, Comment
+
     # documents can be read by any users
     can :read, Document
 

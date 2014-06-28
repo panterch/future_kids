@@ -4,11 +4,13 @@ class CommentsController < ApplicationController
 
   def new
     @comment = @journal.comments.build
+    authorize! :create, @comment
     @comment.initialize_default_values(current_user)
   end
 
   def create
     @comment = @journal.comments.build(permitted_params[:comment])
+    authorize! :create, @comment
     if @comment.save
       redirect_to kid_url(:id => @journal.kid_id)
     else

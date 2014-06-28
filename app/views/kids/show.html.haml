@@ -2,8 +2,10 @@
 
 - content_for :contextual_links do
   = contextual_links do
-    = contextual_link_to :new_journal, new_kid_journal_path(resource)
-    = contextual_link_to :new_review, new_kid_review_path(resource)
+    - if can? :create, @cancan_journal
+      = contextual_link_to :new_journal, new_kid_journal_path(resource)
+    - if can? :create, @cancan_review
+      = contextual_link_to :new_review, new_kid_review_path(resource)
     = contextual_link_to :edit_schedules
 
 = render "show"

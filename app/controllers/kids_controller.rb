@@ -4,6 +4,7 @@ class KidsController < ApplicationController
   load_and_authorize_resource
   include ManageSchedules # edit_schedules & update_schedules
 
+  before_filter :cancan_prototypes, :only => [:show]
   before_filter :assign_current_teacher, :only => [:create]
   after_filter  :track_creation_relation, :only => [:create]
   before_filter :assign_selected_mentor_schedules, :only => [:edit_schedules]
@@ -77,5 +78,14 @@ protected
   # selection
   def assign_mentor_selection
     @mentor_groups = Mentor.mentors_grouped_by_assigned_kids
+  end
+
+  # prototypes to check abilities in menu
+  def cancan_prototypes
+    @cancan_journal = Journal.new(kid: resource)
+    @cancan_review = Review.new(kid: resource)
+    if current_user.is_a?(Mentor)
+      @cancan_journal.mentor = current_user
+    end
   end
 end
