@@ -101,6 +101,7 @@ function register_kidanchors() {
 function register_submit_action_in_sidebar() {
   $('#main form input[type=submit]').each(function() {
     var $original = $(this);
+    if ($original.parents('.no-sidebar-actions').length) { return; }
     var $clone = $('<a href="#" class="list-group-item list-group-item-success">');
     $clone.text($original.val());
     $clone.click(function(event) {
