@@ -39,21 +39,30 @@
   Sch&uuml;ler/innen
 
 %table.table.table-striped.table-condensed.table-hover
+  %tr
+    %th Name
+    - if current_user.is_a?(Admin)
+      %th Eintritt
+      %th Letztes Coaching
+      %th Pendenzen
+    %th Coach
   - collection.each do |resource|
     %tr
       %td= link_to resource.display_name, resource
       -if current_user.is_a?(Admin)
         %td
-          C:
-          = resource.coached_at ? I18n.l(resource.coached_at.to_date) : '-'
-        %td
-          E:
           = resource.created_at ? I18n.l(resource.created_at.to_date) : '-'
+        %td
+          = resource.coached_at ? I18n.l(resource.coached_at.to_date) : '-'
         %td
           -if resource.todo.present?
             %a.todotoggle.btn.btn-xs{data: { content: resource.human_todo}, href:  edit_resource_path(resource, :anchor => 'todo') }
-              %span.glyphicon.glyphicon-info-sign
               Pendenz
+              %span.glyphicon.glyphicon-info-sign
+      %td
+        Coach:
+        = can_link_to(resource.admin) if resource.admin.present?
+
 
 - if collection.empty?
   Zur Zeit sind Ihnen keine Kinder zugeordnet.

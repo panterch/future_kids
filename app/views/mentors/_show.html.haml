@@ -19,11 +19,11 @@
       = show.association :kids do |k|
         %li
           = can_link_to k
-          = "(#{k.city})" if k.city.present?
+          = "in #{k.city}" if k.city.present?
       = show.association :secondary_kids do |k|
         %li
           = can_link_to k
-          = "(#{k.city})" if k.city.present?
+          = "in #{k.city}" if k.city.present?
       = show.attribute :personnel_number
       = show.attribute :ects
       = show.attribute :term
