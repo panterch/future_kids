@@ -13,11 +13,9 @@
       .form-group
         %label ÖV
         = f.select :transport, transport_collection, { :include_blank => true }, class: 'form-control'
-      .checkbox
-        %label
-          = f.check_box :ects
-          %p
-            %b ECTS
+      .form-group
+        %label ECTS
+        = f.select :ects, boolean_collection, { include_blank: true }, class: 'form-control'
       .checkbox
         %label
           = f.check_box :inactive

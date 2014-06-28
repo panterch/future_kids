@@ -44,6 +44,10 @@ module ApplicationHelper
     Teacher.active.map { |t| [t.display_name, t.id] }
   end
 
+  def boolean_collection
+    { 'Ja' => true, 'Nein' => false }
+  end
+
   def term_collection
     ['2011 Frühling', '2011 Herbst',
      '2012 Frühling', '2012 Herbst',

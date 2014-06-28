@@ -1,12 +1,5 @@
 - if collection.present?
   %table.table.table-striped.table-condensed.table-hover
-    %thead
-      %tr
-        %th Name
-        - if current_user.is_a?(Admin)
-          %th E-mail
-          %th
-            %span.glyphicon.glyphicon-info-sign
     %tbody
       - collection.each do |resource|
         %tr

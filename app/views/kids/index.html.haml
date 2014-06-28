@@ -13,11 +13,9 @@
       .form-group
         %label Coach
         = f.select :admin_id, admin_collection, { :include_blank => true }, class: 'form-control'
-      .checkbox
-        %label
-          = f.check_box :translator
-          %p
-            %b Übersetzer
+      .form-group
+        %label Übersetzer
+        = f.select :translator, boolean_collection, { include_blank: true }, class: 'form-control'
       .form-group
         %label= Kid.human_attribute_name(:meeting_day)
         = f.select :meeting_day, wday_collection, { :include_blank => true }, class: 'form-control'
