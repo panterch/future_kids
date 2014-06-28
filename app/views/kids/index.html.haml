@@ -44,9 +44,6 @@
       %td= link_to resource.display_name, resource
       -if current_user.is_a?(Admin)
         %td
-          K:
-          = resource.checked_at ? I18n.l(resource.checked_at.to_date) : '-'
-        %td
           C:
           = resource.coached_at ? I18n.l(resource.coached_at.to_date) : '-'
         %td

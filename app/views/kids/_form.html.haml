@@ -36,7 +36,6 @@
     = form.input :term, :as => :select, :collection => term_collection
     = form.input :exit, :as => :select, :collection => term_collection
     = form.input :exit_reason, :as => :select, :collection => exit_reason_collection
-    = date_picker(form, :checked_at)
     = date_picker(form, :coached_at)
     = form.input :abnormality
     = form.input :abnormality_criticality, :as => :select, :collection => criticality_collection
