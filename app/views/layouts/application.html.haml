@@ -74,7 +74,7 @@
         .row
           #content.col-md-offset-3.col-md-9
             - flash.each do |name, msg|
-              = boot_alert(msg, name)
+              = boot_alert(msg, name) unless msg.blank?
             = yield
 
     #footer
