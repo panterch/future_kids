@@ -26,6 +26,10 @@ img#bg {
   margin: 5em 2em 0 0;
 }
 
+.portrait {
+  display: none;
+}
+
 a[href]:after {
   content: "";
 }
