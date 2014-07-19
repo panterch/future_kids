@@ -99,6 +99,15 @@ describe Mentor do
               :held_at => Date.parse("2011-05-01"))
       @mentor.month_count.should eq(1)
     end
+
+    it 'counts two journals same month but different year' do
+      @mentor = create(:mentor)
+      create(:journal, :mentor => @mentor,
+              :held_at => Date.parse("2012-05-30"))
+      create(:journal, :mentor => @mentor,
+              :held_at => Date.parse("2011-05-01"))
+      @mentor.month_count.should eq(2)
+    end
   end
 
   context "has attached file photo" do

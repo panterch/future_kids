@@ -42,8 +42,9 @@ class Mentor < User
   end
 
   def month_count
-    Journal.unscoped.where(:mentor_id => self.id).
-      select(:month).uniq.count
+    Journal.unscoped.where(:mentor_id => self.id).map do |j|
+      "#{j.month} #{j.year}"
+    end.uniq.size
   end
 
 protected
