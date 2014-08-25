@@ -37,7 +37,9 @@ $sidebar-width: 220px;
 
 @import 'bootstrap';
 
-body { }
+body, html {
+  min-width: 960px;
+}
 
 #header {
   position: fixed;
@@ -146,6 +148,10 @@ form.schedule {
 #main {
   margin-top: $header-height + 10px;
   margin-bottom: $footer-height;
+}
+
+#content {
+  background-color: white;
 }
 
 #footer {
