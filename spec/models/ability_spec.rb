@@ -186,10 +186,11 @@ describe Ability do
       end
       # FIXME cancan accessible_by for mentor - teacher relation
       # this test does not work, this seems to be a problem in cancan...
-      # it "does retrieve teachers that can be read" do
-      #   teacher = create(:teacher, :kids => [kid])
-      #   Teacher.accessible_by(ability, :read).should eq([teacher])
-      # end
+      it "does retrieve teachers that can be read" do
+        pending("accessible_by mentor - teacher broken")
+        teacher = create(:teacher, :kids => [kid])
+        Teacher.accessible_by(ability, :read).should eq([teacher])
+      end
     end
 
     context "various" do

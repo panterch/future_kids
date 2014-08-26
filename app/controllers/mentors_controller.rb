@@ -4,7 +4,10 @@ class MentorsController < ApplicationController
   load_and_authorize_resource
   include ManageSchedules # edit_schedules & update_schedules
 
+  before_filter :accessible_by_error_quick_fix
+
   def index
+
     # a prototyped mentor is submitted with each index query. if the prototype
     # is not present, it is built here with default values
     params[:mentor] ||= {}

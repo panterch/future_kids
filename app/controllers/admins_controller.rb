@@ -3,6 +3,8 @@ class AdminsController < ApplicationController
   inherit_resources
   load_and_authorize_resource
 
+  before_filter :accessible_by_error_quick_fix
+
   def index
     # a prototyped admin is submitted with each index query. if the prototype
     # is not present, it is built here with default values

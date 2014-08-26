@@ -34,4 +34,16 @@ protected
   def permitted_params
     params.permit!
   end
+
+  # there is an unresolved error when calling cancan's accessible by
+  # for certain types of users. the problem is described in ability_spec.rb in
+  # the pending spec "does retrieve teachers that can be read"
+  # this means that index actions for certain types of users are broken.
+  # this filter redirects these users to kids index as quick fix for the
+  # problem.
+  def accessible_by_error_quick_fix
+    return true if current_user.is_a?(Admin)
+    return true unless 'index' == action_name
+    redirect_to controller: 'kids', action: 'index'
+  end
 end
