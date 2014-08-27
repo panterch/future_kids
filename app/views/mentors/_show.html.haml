@@ -39,7 +39,7 @@
     - if resource.photo.present?
       .portrait
         %img{:src => resource.photo.url(:medium)}
-  .col-md-12
+  .col-md-12.hidden-print
     = render :partial => 'relation_logs/collection'
 
 -# times are only visible to the mentor himself or an admin
