@@ -28,11 +28,12 @@
       = show.attribute :ects
       = show.attribute :term
       -if current_user.is_a?(Admin)
-        = show.attribute :absence
-        = show.attribute :note
-        = show.attribute :todo
-        = show.attribute :substitute
-        = show.attribute :inactive
+        .hidden-print
+          = show.attribute :absence
+          = show.attribute :note
+          = show.attribute :todo
+          = show.attribute :substitute
+          = show.attribute :inactive
 
 
   .col-md-4
