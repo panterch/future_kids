@@ -2,8 +2,8 @@ Liebe Lehrperson
 
 Heute wurden neue Lernjournale auf der Onlineplattform angelegt:
 
-
 <%- @journals.each do |journal| %>
+
 Schüler/in:   <%= journal.kid.display_name %>
 Journal:      <%= journal.display_name %>
 Link:         <%= kid_url(journal.kid)+"#journal_#{journal.id}" %>
@@ -23,7 +23,6 @@ Erfolge / Schwierigkeiten und Interpretation:
 <%= journal.outcome %>
 Bemerkungen:
 <%= journal.note %>
-
 
 <%- end %>
 <%- end %>
