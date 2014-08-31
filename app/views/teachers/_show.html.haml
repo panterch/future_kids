@@ -9,6 +9,7 @@
     %li= can_link_to(k)
   = show.association :secondary_kids do |k|
     %li= can_link_to(k)
+  = show.attribute :receive_journals
   -if current_user.is_a?(Admin)
     = show.attribute :todo
     = show.attribute :note

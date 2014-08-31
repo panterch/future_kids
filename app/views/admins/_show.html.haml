@@ -8,8 +8,12 @@
   -if current_user.is_a?(Admin)
     = show.association :coachings do |k|
       %li
+        = "#{Kid.model_name.human}:"
         = can_link_to k
         = "(#{k.city})" if k.city.present?
+        - if k.mentor.present?
+          = "- #{Mentor.model_name.human}:"
+          = can_link_to k.mentor if k.mentor.present?
     = show.attribute :inactive
 
     = render :partial => 'relation_logs/collection'

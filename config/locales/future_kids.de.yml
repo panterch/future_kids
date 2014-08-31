@@ -116,6 +116,7 @@ de:
         kids: Kinder
         secondary_kids: "Kinder (als 2. Lehrperson)"
         school: Schule
+        receive_journals: "Neue Lernjournale per EMail zustellen"
       document:
         title: Titel
         category: Kategorie
@@ -154,6 +155,8 @@ de:
       subject: Neue Erinnerungen
     comment_created:
       subject: Neuer Lernjournal Kommentar
+    journals_created:
+      subject: Neue Lernjournale
 
 
   kids:

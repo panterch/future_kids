@@ -344,7 +344,6 @@ describe Ability do
       assert @ability.can?(:read, create(:teacher, :school => @school))
     end
 
-
   end
 
 end

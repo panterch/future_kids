@@ -7,6 +7,7 @@
   -if current_user.is_a?(Admin)
     = form.association :school, :as => :select, :collection => school_collection
   = form.input :phone
+  = form.input :receive_journals
   -if current_user.is_a?(Admin)
     %a(name='todo')
     = form.input :todo

@@ -27,4 +27,9 @@ class Notifications < ActionMailer::Base
     mail :subject => 'future kids test mail', :to => to
   end
 
+  def journals_created(to, journals)
+    @journals = journals
+    mail to: to.email
+  end
+
 end

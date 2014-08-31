@@ -4,6 +4,8 @@ class Kid < ActiveRecord::Base
 
   default_scope { order(:name, :prename) }
 
+  scope :active, -> { where(:inactive => false) }
+
   belongs_to :mentor
   belongs_to :secondary_mentor, :class_name => 'Mentor'
   belongs_to :teacher
