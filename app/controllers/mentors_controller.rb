@@ -14,7 +14,7 @@ class MentorsController < ApplicationController
     params[:mentor][:inactive] = "0" if params[:mentor][:inactive].nil?
 
     # mentors are filtered by the criteria above
-    @mentors = @mentors.where(params[:mentor].delete_if {|key, val| val.blank? })
+    @mentors = @mentors.where(params[:mentor].to_h.delete_if {|key, val| val.blank? })
 
     # provide a prototype for the filter form
     @mentor = Mentor.new(permitted_params[:mentor])
