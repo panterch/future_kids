@@ -8,7 +8,7 @@ class TeachersController < InheritedResources::Base
     # is not present, it is built here with default values
     params[:teacher] ||= {}
     params[:teacher][:inactive] = "0" if params[:teacher][:inactive].nil?
-    @teachers = @teachers.where(params[:teacher].delete_if {|key, val| val.blank? })
+    @teachers = @teachers.where(params[:teacher].to_h.delete_if {|key, val| val.blank? })
 
     @teacher = Kid.new(new_params)
 
