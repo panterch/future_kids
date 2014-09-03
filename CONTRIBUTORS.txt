@@ -8,3 +8,5 @@ Thanks to Andi Staub (https://github.com/kitsane) for support.
 Thanks to Thorben Stangenberg (https://github.com/tstangenberg) for support.
 
 Thanks to Marco Wettstein (https://github.com/macrozone) for support.
+
+Thanks to Quentin Brossard (https://github.com/qbrossard) for support.
