@@ -71,6 +71,8 @@ GEM
       activesupport (>= 3.0)
     cocaine (0.5.4)
       climate_control (>= 0.0.3, < 1.0)
+    codeclimate-test-reporter (0.4.0)
+      simplecov (>= 0.7.1, < 1.0.0)
     coderay (1.1.0)
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
@@ -89,6 +91,7 @@ GEM
       thread_safe (~> 0.1)
       warden (~> 1.2.3)
     diff-lcs (1.2.5)
+    docile (1.1.5)
     erubis (2.7.0)
     exception_notification_rails3 (1.2.0)
     execjs (2.1.0)
@@ -197,6 +200,11 @@ GEM
     simple_form (3.1.0.rc1)
       actionpack (~> 4.0)
       activemodel (~> 4.0)
+    simplecov (0.9.0)
+      docile (~> 1.1.0)
+      multi_json
+      simplecov-html (~> 0.8.0)
+    simplecov-html (0.8.0)
     slop (3.5.0)
     sprockets (2.11.0)
       hike (~> 1.2)
@@ -244,6 +252,7 @@ DEPENDENCIES
   capistrano (~> 2.0)
   capistrano-rbenv (~> 1.0)
   capybara
+  codeclimate-test-reporter
   coffee-rails
   devise
   exception_notification_rails3
