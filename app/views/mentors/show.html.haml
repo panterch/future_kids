@@ -2,8 +2,8 @@
   = contextual_links do
     - if can?(:edit_schedules, resource)
       = contextual_link_to :edit_schedules, edit_schedules_mentor_path(resource)
-    -# contextual_links breaks when nil is returned by block
     - else
+      -# contextual_links breaks when nil is returned by block
       = ' '
 
 = boot_page_title
