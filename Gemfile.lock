@@ -110,7 +110,8 @@ GEM
     highline (1.6.21)
     hike (1.2.3)
     i18n (0.6.11)
-    i18n_rails_helpers (1.4.12)
+    i18n_rails_helpers (2.0.0.beta1)
+      rails (> 3.0.0)
     inherited_resources (1.4.1)
       has_scope (~> 0.6.0.rc)
       responders (~> 1.0.0.rc)
@@ -260,7 +261,7 @@ DEPENDENCIES
   factory_girl_rails
   font-awesome-rails
   haml
-  i18n_rails_helpers
+  i18n_rails_helpers (~> 2.0.0.beta0)
   inherited_resources
   jquery-rails
   json
