@@ -12,6 +12,7 @@ gem 'unicorn'
 gem 'therubyracer', platforms: :ruby
 
 # gems in alphabetic order
+gem 'axlsx_rails'
 gem 'cancancan'
 gem 'devise'
 gem 'exception_notification_rails3', require: 'exception_notifier'

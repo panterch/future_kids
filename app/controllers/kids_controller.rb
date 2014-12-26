@@ -12,6 +12,10 @@ class KidsController < ApplicationController
 
   def index
 
+    if current_user.is_a?(Admin) && 'xlsx' == params[:format]
+      return render xlsx: 'index'
+    end
+
     # for admin users, the kids view may be filtered. these code is only
     # executed for admins since else we would have to take care that no other
     # user overwrites its filter constraints by adding a certain query parameter
