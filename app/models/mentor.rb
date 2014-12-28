@@ -9,6 +9,7 @@ class Mentor < User
            :foreign_key => 'secondary_mentor_id'
   has_many :schedules, :as => :person
   belongs_to :primary_kids_school, :class_name => 'School'
+  belongs_to :primary_kids_admin, :class_name => 'Admin'
 
   accepts_nested_attributes_for :schedules
 

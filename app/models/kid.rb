@@ -26,7 +26,7 @@ class Kid < ActiveRecord::Base
   validates_numericality_of :meeting_day, :only_integer => true, :allow_blank => true,
                             :greater_than_or_equal_to => 1, :less_than_or_equal_to => 5
 
-  after_save :sync_school_field_with_mentor
+  after_save :sync_fields_with_mentor
   after_save :track_relations
   after_validation :release_relations, :if => :inactive?
 
@@ -101,15 +101,17 @@ class Kid < ActiveRecord::Base
 
   # mentors can be filtered by the scool of their primary kids. therefore we use
   # a field on mentor which has to be synced on each write
-  def sync_school_field_with_mentor
+  def sync_fields_with_mentor
     if self.mentor
       self.mentor.update_attributes(
-        :primary_kids_school_id => self.school_id,
-        :primary_kids_meeting_day => self.meeting_day)
+        primary_kids_school_id: self.school_id,
+        primary_kids_meeting_day: self.meeting_day,
+        primary_kids_admin_id: self.admin_id)
     elsif self.mentor_id_was
       Mentor.find(self.mentor_id_was).update_attributes(
-        :primary_kids_school_id => nil,
-        :primary_kids_meeting_day => nil)
+        primary_kids_school_id: nil,
+        primary_kids_meeting_day: nil,
+        primary_kids_admin_id: nil)
     end
   end
 

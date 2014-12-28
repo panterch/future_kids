@@ -69,6 +69,29 @@ describe Kid do
       kid.save!
       assert_nil mentor.reload.primary_kids_school
     end
+    it 'does sync its coach with the mentors primary_kid_coach field' do
+      kid.admin = create(:admin)
+      kid.mentor = mentor = create(:mentor)
+      kid.save!
+      assert_equal kid.admin_id, mentor.reload.primary_kids_admin_id
+      assert_equal kid.admin.display_name, mentor.primary_kids_admin.display_name
+      kid.admin = nil
+      kid.save!
+      assert_nil mentor.reload.primary_kids_admin
+    end
+    it 'does release synced relations on mentors when inactivated' do
+      kid.school = create(:school)
+      kid.admin = create(:admin)
+      kid.mentor = mentor = create(:mentor)
+      kid.save!
+      assert mentor.reload.primary_kids_school.present?
+      assert mentor.reload.primary_kids_admin.present?
+      kid.inactive = true
+      kid.save!
+      assert mentor.reload.kids.empty?
+      assert_nil mentor.reload.primary_kids_school
+      assert_nil mentor.reload.primary_kids_admin
+    end
     it 'does nilify mentors when set inactive' do
       mentor = kid.mentor = create(:mentor)
       secondary_mentor = kid.secondary_mentor = create(:mentor)

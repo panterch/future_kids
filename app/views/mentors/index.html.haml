@@ -11,6 +11,9 @@
         %label= Mentor.human_attribute_name(:primary_kids_meeting_day)
         = f.select :primary_kids_meeting_day, wday_collection, { :include_blank => true }, class: 'form-control'
       .form-group
+        %label Coach
+        = f.select :primary_kids_admin_id, admin_collection, { :include_blank => true }, class: 'form-control'
+      .form-group
         %label ÖV
         = f.select :transport, transport_collection, { :include_blank => true }, class: 'form-control'
       .form-group
