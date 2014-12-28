@@ -33,7 +33,7 @@ module ApplicationHelper
   end
 
   def admin_collection
-    Admin.all.map { |a| [a.display_name, a.id] }
+    Admin.active.map { |a| [a.display_name, a.id] }
   end
 
   def mentor_collection
