@@ -20,8 +20,8 @@ ActiveRecord::Schema.define(version: 20141228185936) do
     t.integer  "journal_id",                           null: false
     t.string   "by",                                   null: false
     t.text     "body",                                 null: false
-    t.datetime "created_at",                           null: false
-    t.datetime "updated_at",                           null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.boolean  "to_teacher",           default: false
     t.boolean  "to_secondary_teacher", default: false
   end
@@ -33,8 +33,8 @@ ActiveRecord::Schema.define(version: 20141228185936) do
     t.string   "attachment_content_type"
     t.integer  "attachment_file_size"
     t.datetime "attachment_updated_at"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "category"
     t.string   "subcategory"
   end
@@ -54,8 +54,8 @@ ActiveRecord::Schema.define(version: 20141228185936) do
     t.text     "note"
     t.integer  "kid_id",                     null: false
     t.integer  "mentor_id",                  null: false
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.integer  "month"
   end
 
@@ -79,8 +79,8 @@ ActiveRecord::Schema.define(version: 20141228185936) do
     t.integer  "secondary_mentor_id"
     t.integer  "teacher_id"
     t.integer  "secondary_teacher_id"
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "phone"
     t.boolean  "secondary_active",        default: false, null: false
     t.date     "dob"
@@ -115,8 +115,8 @@ ActiveRecord::Schema.define(version: 20141228185936) do
     t.string   "role"
     t.datetime "start_at"
     t.datetime "end_at"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "relation_logs", ["kid_id"], name: "index_relation_logs_on_kid_id", using: :btree
@@ -131,8 +131,8 @@ ActiveRecord::Schema.define(version: 20141228185936) do
     t.integer  "mentor_id",           null: false
     t.datetime "sent_at"
     t.integer  "secondary_mentor_id"
-    t.datetime "created_at",          null: false
-    t.datetime "updated_at",          null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.datetime "acknowledged_at"
   end
 
@@ -150,8 +150,8 @@ ActiveRecord::Schema.define(version: 20141228185936) do
     t.text     "note"
     t.text     "attendee"
     t.integer  "kid_id",     null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "reviews", ["held_at"], name: "index_reviews_on_held_at", using: :btree
@@ -163,8 +163,8 @@ ActiveRecord::Schema.define(version: 20141228185936) do
     t.integer  "day",         null: false
     t.integer  "hour",        null: false
     t.integer  "minute",      null: false
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   add_index "schedules", ["person_id", "person_type", "day", "hour", "minute"], name: "index_schedules_on_uniqueness", unique: true, using: :btree
@@ -172,8 +172,8 @@ ActiveRecord::Schema.define(version: 20141228185936) do
   create_table "schools", force: true do |t|
     t.string   "name"
     t.integer  "principal_id"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "street"
     t.string   "street_no"
     t.string   "zip"
@@ -198,8 +198,8 @@ ActiveRecord::Schema.define(version: 20141228185936) do
     t.text     "available"
     t.boolean  "ects"
     t.date     "entry_date"
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
+    t.datetime "created_at"
+    t.datetime "updated_at"
     t.string   "email",                                default: "",    null: false
     t.string   "encrypted_password",       limit: 128, default: "",    null: false
     t.string   "reset_password_token"
