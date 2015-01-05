@@ -16,7 +16,7 @@ describe Notifications do
     it "renders the headers" do
       @mail.subject.should match("Erinnerung")
       @mail.to.should eq([@reminder.mentor.email])
-      @mail.from.should eq(["futurekids@aoz.ch"])
+      @mail.from.should eq(["info@aoz-futurekids.ch"])
     end
 
     it "renders the body" do
