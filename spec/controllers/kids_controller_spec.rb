@@ -12,16 +12,10 @@ describe KidsController do
 
     context 'index' do
 
-      it 'should directly display the kid when there is only one' do
-        get :index
-        response.should be_redirect
-      end
-
-      it 'should render index when many kids availbale' do
-        create(:kid, :mentor => @mentor)
+      it 'should render index' do
         get :index
         response.should be_successful
-        assigns(:kids).length.should eq(2)
+        assigns(:kids).length.should eq(1)
       end
 
     end
