@@ -14,7 +14,7 @@ describe ReviewsController do
 
     it 'should render the new template' do
       get :new, :kid_id => @kid.id
-      response.should be_successful
+      expect(response).to be_successful
     end
 
     it 'should deny access for foreign kids' do
@@ -23,7 +23,7 @@ describe ReviewsController do
 
     it 'should create a new entry' do
       post :create, valid_attributes
-      assigns(:review).should_not be_new_record
+      expect(assigns(:review)).not_to be_new_record
     end
 
     it 'should not be able to create entries for other kids' do
@@ -38,17 +38,17 @@ describe ReviewsController do
       attrs = valid_attributes
       attrs[:review][:kid_id] = create(:kid).id
       post :create, attrs
-      assigns(:review).kid.should eq(@kid)
+      expect(assigns(:review).kid).to eq(@kid)
     end
 
     it 'redirects on show' do
       get :show, :kid_id => @kid.id, :id => create(:review, :kid => @kid)
-      response.should be_redirect
+      expect(response).to be_redirect
     end
 
     it 'redirects on index' do
       get :index, :kid_id => @kid.id
-      response.should be_redirect
+      expect(response).to be_redirect
     end
 
   end # end of as a mentor

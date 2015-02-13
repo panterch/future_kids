@@ -3,28 +3,28 @@ require 'spec_helper'
 describe Mentor do
   it 'has a valid factory' do
     mentor = build(:mentor)
-    mentor.should be_valid
+    expect(mentor).to be_valid
   end
 
   context 'validations' do
     let(:mentor) { create(:mentor) }
     it 'does not require password again' do
-      mentor.should be_valid
+      expect(mentor).to be_valid
     end
     it 'does ignore password overwrite with nil' do
       mentor.password = mentor.password_confirmation = nil
-      mentor.should be_valid
+      expect(mentor).to be_valid
     end
     # devise triggers an error when empty passwords are entered. but this
     # is the default when submitting a form
     it 'does trigger an error on blank password' do
       mentor.password = mentor.password_confirmation = ''
-      mentor.should be_valid
+      expect(mentor).to be_valid
     end
     it 'does not allow nil password on unsaved mentor' do
       new_mentor = build(:mentor)
       new_mentor.password = new_mentor.password_confirmation = nil
-      new_mentor.should_not be_valid
+      expect(new_mentor).not_to be_valid
     end
   end
 
@@ -35,7 +35,7 @@ describe Mentor do
          { :day => 1, :hour => 15, :minute => 0 },
          { :day => 2, :hour => 16, :minute => 30 }
       ])
-      @mentor.reload.schedules.count.should eq(2)
+      expect(@mentor.reload.schedules.count).to eq(2)
     end
   end
 
@@ -66,8 +66,8 @@ describe Mentor do
       create(:kid, :mentor => @mentor)
       create(:kid, :secondary_mentor => @mentor)
       @mentor.reload.update_attributes(:inactive => true)
-      @mentor.reload.kids.count.should eq(0)
-      @mentor.secondary_kids.count.should eq(0)
+      expect(@mentor.reload.kids.count).to eq(0)
+      expect(@mentor.secondary_kids.count).to eq(0)
     end
   end
 
@@ -77,7 +77,7 @@ describe Mentor do
       @journal = create(:journal, :mentor => @mentor,
         :start_at => Time.parse("13:00"),
         :end_at  => Time.parse("14:30"))
-      @mentor.total_duration.should eq(90)
+      expect(@mentor.total_duration).to eq(90)
     end
   end
 
@@ -88,7 +88,7 @@ describe Mentor do
               :held_at => Date.parse("2011-05-30"))
       create(:journal, :mentor => @mentor,
               :held_at => Date.parse("2011-06-01"))
-      @mentor.month_count.should eq(2)
+      expect(@mentor.month_count).to eq(2)
     end
 
     it 'counts two journals in month once' do
@@ -97,7 +97,7 @@ describe Mentor do
               :held_at => Date.parse("2011-05-30"))
       create(:journal, :mentor => @mentor,
               :held_at => Date.parse("2011-05-01"))
-      @mentor.month_count.should eq(1)
+      expect(@mentor.month_count).to eq(1)
     end
 
     it 'counts two journals same month but different year' do
@@ -106,7 +106,7 @@ describe Mentor do
               :held_at => Date.parse("2012-05-30"))
       create(:journal, :mentor => @mentor,
               :held_at => Date.parse("2011-05-01"))
-      @mentor.month_count.should eq(2)
+      expect(@mentor.month_count).to eq(2)
     end
   end
 
@@ -118,8 +118,8 @@ describe Mentor do
     it 'attaches a photo' do
       @mentor.photo = @file
       @mentor.save! ; @mentor = Mentor.first
-      @mentor.photo.should be_present
-      @mentor.photo.url(:thumb).should match(/logo\.png/)
+      expect(@mentor.photo).to be_present
+      expect(@mentor.photo.url(:thumb)).to match(/logo\.png/)
     end
   end
 

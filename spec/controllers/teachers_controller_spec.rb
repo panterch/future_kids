@@ -12,7 +12,7 @@ describe TeachersController do
       it 'assigns two teachers in the index' do
         2.times { create(:teacher) }
         get :index
-        assigns(:teachers).should have(2).items
+        expect(assigns(:teachers).size).to eq(2)
       end
     end
   end

@@ -10,28 +10,28 @@ describe Comment do
     end
 
     it "determines the previous entry" do
-      @comment.previous_comment.should eq(@previous)
+      expect(@comment.previous_comment).to eq(@previous)
     end
 
     it "does not set recipients when not present on previous" do
       @comment.initialize_default_values(@journal.mentor)
-      @comment.to_teacher.should eq(false)
-      @comment.to_secondary_teacher.should eq(false)
+      expect(@comment.to_teacher).to eq(false)
+      expect(@comment.to_secondary_teacher).to eq(false)
     end
 
     it "does set recipients from previous" do
       @previous.update_attributes(:to_teacher => true,
                                   :to_secondary_teacher => true)
       @comment.initialize_default_values(@journal.mentor)
-      @comment.to_teacher.should eq(true)
-      @comment.to_secondary_teacher.should eq(true)
+      expect(@comment.to_teacher).to eq(true)
+      expect(@comment.to_secondary_teacher).to eq(true)
     end
 
     it "does set teacher as recipient when creator" do
       @journal.kid.update_attribute(:teacher, create(:teacher))
       @comment.initialize_default_values(@journal.kid.teacher)
-      @comment.to_teacher.should eq(true)
-      @comment.to_secondary_teacher.should eq(false)
+      expect(@comment.to_teacher).to eq(true)
+      expect(@comment.to_secondary_teacher).to eq(false)
     end
   end
 
@@ -42,12 +42,12 @@ describe Comment do
       @kid.update_attribute(:mentor, @comment.journal.mentor)
     end
     it "is the mentor" do
-      @comment.recipients.should eq([@kid.mentor.email])
+      expect(@comment.recipients).to eq([@kid.mentor.email])
     end
     it "add the coach when present" do
       @coach = create(:admin)
       @kid.update_attribute(:admin, @coach)
-      @comment.recipients.should eq([@kid.mentor.email, @coach.email])
+      expect(@comment.recipients).to eq([@kid.mentor.email, @coach.email])
     end
     it "adds the teachers if requested" do
       @kid.update_attribute(:teacher, @teacher1 = create(:teacher))
@@ -55,13 +55,13 @@ describe Comment do
                             @teacher2 = create(:teacher))
       @comment.update_attributes(:to_teacher => true,
                                  :to_secondary_teacher => true)
-      @comment.recipients.should eq([@kid.mentor.email,
+      expect(@comment.recipients).to eq([@kid.mentor.email,
                                      @teacher1.email, @teacher2.email])
     end
     it "does not add present teacher if not requested" do
       @kid.update_attribute(:teacher, create(:teacher))
       @kid.update_attribute(:secondary_teacher, create(:teacher))
-      @comment.recipients.should eq([@kid.mentor.email])
+      expect(@comment.recipients).to eq([@kid.mentor.email])
     end
   end
 end

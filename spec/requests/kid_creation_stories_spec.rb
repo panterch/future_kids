@@ -16,9 +16,9 @@ feature "TEACHER::CREATE:KID", %q{
     click_link 'Schüler/in'
     click_link 'Erfassen'
     click_button 'Schüler/in erstellen'
-    page.status_code.should == 200
-    page.should have_content('Schüler/in erfassen')
-    page.should have_content('muss ausgefüllt werden')
+    expect(page.status_code).to eq(200)
+    expect(page).to have_content('Schüler/in erfassen')
+    expect(page).to have_content('muss ausgefüllt werden')
   end
 
   scenario "should create a new kid with required values" do
@@ -27,8 +27,8 @@ feature "TEACHER::CREATE:KID", %q{
     fill_in 'kid_name', with: 'Last Name'
     fill_in 'kid_prename', with: 'First Name'
     click_button 'Schüler/in erstellen'
-    page.status_code.should == 200
-    page.should have_css('h1', text: 'Last Name First Name')
+    expect(page.status_code).to eq(200)
+    expect(page).to have_css('h1', text: 'Last Name First Name')
   end
 
 end
@@ -49,9 +49,9 @@ feature "ADMIN::CREATE:KID", %q{
     click_link 'Schüler/in'
     click_link 'Erfassen'
     click_button 'Schüler/in erstellen'
-    page.status_code.should == 200
-    page.should have_content('Schüler/in erfassen')
-    page.should have_content('muss ausgefüllt werden')
+    expect(page.status_code).to eq(200)
+    expect(page).to have_content('Schüler/in erfassen')
+    expect(page).to have_content('muss ausgefüllt werden')
   end
 
   scenario "should create a new kid with required values" do
@@ -60,8 +60,8 @@ feature "ADMIN::CREATE:KID", %q{
     fill_in 'kid_name', with: 'Last Name'
     fill_in 'kid_prename', with: 'First Name'
     click_button 'Schüler/in erstellen'
-    page.status_code.should == 200
-    page.should have_css('h1', :text => 'Last Name First Name')
+    expect(page.status_code).to eq(200)
+    expect(page).to have_css('h1', :text => 'Last Name First Name')
   end
 
 

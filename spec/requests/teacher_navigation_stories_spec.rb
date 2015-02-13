@@ -14,15 +14,15 @@ feature "TEACHER::NAVIGATION:KID", %q{
 
   scenario "should show message when no sudents" do
     click_link 'Schüler/in'
-    page.status_code.should == 200
-    page.should have_text('Zur Zeit sind Ihnen keine Kinder zugeordnet.')
+    expect(page.status_code).to eq(200)
+    expect(page).to have_text('Zur Zeit sind Ihnen keine Kinder zugeordnet.')
   end
 
   scenario "should show a list with last and first name of the students" do
     @student1 = create(:kid, name: 'last1', prename: 'first1', teacher: @teacher)
     click_link 'Schüler/in'
-    page.status_code.should == 200
-    page.should have_text ('last1 first1')
+    expect(page.status_code).to eq(200)
+    expect(page).to have_text ('last1 first1')
   end
 
   scenario "should show student details when click on a student" do
@@ -30,9 +30,9 @@ feature "TEACHER::NAVIGATION:KID", %q{
     @student2 = create(:kid, name: 'last2', prename: 'first2', teacher: @teacher)
     click_link 'Schüler/in'
     click_link 'last1 first1'
-    page.should have_css('h1', text: 'last1 first1')
-    page.should have_css('h2', text: 'Allgemeine Informationen')
-    page.should have_css('h2', text: 'Lernjournale')
+    expect(page).to have_css('h1', text: 'last1 first1')
+    expect(page).to have_css('h2', text: 'Allgemeine Informationen')
+    expect(page).to have_css('h2', text: 'Lernjournale')
   end
 
 end

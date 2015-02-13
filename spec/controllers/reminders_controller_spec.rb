@@ -12,13 +12,13 @@ describe RemindersController do
 
     it 'should index' do
       get :index
-      response.should be_successful
+      expect(response).to be_successful
     end
 
     it 'should not display acknolodges reminders' do
       create(:reminder, :acknowledged_at => Time.now)
       get :index
-      assigns(:reminders).should eq([@reminder])
+      expect(assigns(:reminders)).to eq([@reminder])
     end
 
   end # end of as a mentor

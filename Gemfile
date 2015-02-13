@@ -35,7 +35,7 @@ end
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 group :development, :test do
-  gem 'rspec-rails', '~> 2.99.0'
+  gem 'rspec-rails'
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'factory_girl'

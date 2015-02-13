@@ -13,18 +13,18 @@ describe Kid do
       attrs = attributes_for(:journal)
       attrs[:mentor_id] = mentor.id
       kid.journals.create!(attrs)
-      Kid.find(kid.id).journals.size.should eq(1)
+      expect(Kid.find(kid.id).journals.size).to eq(1)
     end
     it 'can populate journal via nested attributes' do
       kid.update_attributes(:journals_attributes =>
                             [{ 'mentor_id' => mentor.id }] )
-      kid.journals.size.should eq(1)
+      expect(kid.journals.size).to eq(1)
     end
     it 'does sort journal correctly' do
       old_record =      create(:journal, :held_at => Date.parse('2010-01-01'), :kid => kid)
       recent_record =   create(:journal, :held_at => Date.parse('2020-01-01'), :kid => kid)
       very_old_record = create(:journal, :held_at => Date.parse('2000-01-01'), :kid => kid)
-      kid.journals(true).map(&:held_at).should eq(
+      expect(kid.journals(true).map(&:held_at)).to eq(
         [recent_record, old_record, very_old_record].map(&:held_at))
     end
   end
@@ -34,30 +34,30 @@ describe Kid do
     it 'does associate a mentor' do
       kid.mentor = create(:mentor)
       kid.save! && kid.reload
-      kid.mentor.should be_present
+      expect(kid.mentor).to be_present
     end
     it 'sets mentor via mentor_id' do
       kid.mentor_id = create(:mentor).id
       kid.save! && kid.reload
-      kid.mentor.should be_present
+      expect(kid.mentor).to be_present
     end
     it 'does associate a secondary mentor' do
       kid.secondary_mentor_id = create(:mentor).id
       kid.save! && kid.reload
-      kid.secondary_mentor.should be_present
+      expect(kid.secondary_mentor).to be_present
     end
     it 'can associate both mentors' do
       kid.mentor = create(:mentor)
       kid.secondary_mentor = create(:mentor)
       kid.save! && kid.reload
-      kid.mentor.should be_present
-      kid.secondary_mentor.should be_present
-      kid.mentor.should_not eql(kid.secondary_mentor)
+      expect(kid.mentor).to be_present
+      expect(kid.secondary_mentor).to be_present
+      expect(kid.mentor).not_to eql(kid.secondary_mentor)
     end
     it 'can be called via secondary_kid accessor'  do
       kid.secondary_mentor = mentor = create(:mentor)
       kid.save! && kid.reload && mentor.reload
-      mentor.secondary_kids.first.should eq(kid)
+      expect(mentor.secondary_kids.first).to eq(kid)
     end
     it 'does sync its school with the mentors primary_kid_school field' do
       kid.school = create(:school)
@@ -97,8 +97,8 @@ describe Kid do
       secondary_mentor = kid.secondary_mentor = create(:mentor)
       kid.inactive = true
       kid.save!
-      kid.mentor.should be_nil
-      kid.secondary_mentor.should be_nil
+      expect(kid.mentor).to be_nil
+      expect(kid.secondary_mentor).to be_nil
     end
   end
 
@@ -107,8 +107,8 @@ describe Kid do
     it 'does associate a mentor' do
       admin = kid.admin = create(:admin)
       kid.save! && kid.reload
-      kid.admin.should be_present
-      kid.admin.should eq(admin)
+      expect(kid.admin).to be_present
+      expect(kid.admin).to eq(admin)
     end
   end
 
@@ -119,21 +119,21 @@ describe Kid do
     end
     it 'should return nil when not enough information' do
       @kid.meeting_day = nil
-      @kid.calculate_meeting_time.should be_nil
+      expect(@kid.calculate_meeting_time).to be_nil
     end
     it 'should calculate the correct meeting time in past' do
       meeting = @kid.calculate_meeting_time(thursday)
-      meeting.should eq(Time.parse('2011-01-05 18:00'))
+      expect(meeting).to eq(Time.parse('2011-01-05 18:00'))
     end
     it 'should calculate the correct meeting time in future' do
       meeting = @kid.calculate_meeting_time(monday)
-      meeting.should eq(Time.parse('2011-01-05 18:00'))
+      expect(meeting).to eq(Time.parse('2011-01-05 18:00'))
     end
     it 'has no journal entry due at monday' do
-      @kid.journal_entry_due?(monday).should be_false
+      expect(@kid.journal_entry_due?(monday)).to be_falsey
     end
     it 'has journal entry due at friday' do
-      @kid.journal_entry_due?(friday).should be_true
+      expect(@kid.journal_entry_due?(friday)).to be_truthy
     end
   end
 
@@ -143,14 +143,14 @@ describe Kid do
       @journal = create(:journal, :kid => @kid, :held_at => thursday)
     end
     it 'finds journal entry in future' do
-      @kid.journal_entry_for_week(monday).should eq(@journal)
+      expect(@kid.journal_entry_for_week(monday)).to eq(@journal)
     end
     it 'finds journal entry in past' do
-      @kid.journal_entry_for_week(friday).should eq(@journal)
+      expect(@kid.journal_entry_for_week(friday)).to eq(@journal)
     end
     it 'detects missing journal entries' do
       @journal.destroy
-      @kid.journal_entry_for_week(friday).should be_nil
+      expect(@kid.journal_entry_for_week(friday)).to be_nil
     end
   end
 

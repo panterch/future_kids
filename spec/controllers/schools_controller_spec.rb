@@ -11,20 +11,20 @@ describe SchoolsController do
   context 'new' do
     it 'renders' do
       get :new
-      response.should be_successful
+      expect(response).to be_successful
     end
   end
 
   context 'create' do
     it 'redirects on success' do
       post :create, :school => { :name => 'test school' }
-      School.count.should eq(1)
-      response.should be_redirect
+      expect(School.count).to eq(1)
+      expect(response).to be_redirect
     end
     it 'renders again on failure' do
       post :create, :school => { :name => '' }
-      School.count.should eq(0)
-      response.should be_success
+      expect(School.count).to eq(0)
+      expect(response).to be_success
     end
   end
 
@@ -35,8 +35,8 @@ describe SchoolsController do
 
     it 'renders' do
       get :index
-      assigns(:schools).should eq([@school])
-      response.should be_successful
+      expect(assigns(:schools)).to eq([@school])
+      expect(response).to be_successful
     end
   end
 
@@ -47,8 +47,8 @@ describe SchoolsController do
 
     it 'renders' do
       get :edit, :id => @school.id
-      assigns(:school).should eq(@school)
-      response.should be_successful
+      expect(assigns(:school)).to eq(@school)
+      expect(response).to be_successful
     end
   end
 
@@ -59,8 +59,8 @@ describe SchoolsController do
 
     it 'redirects on success' do
       put :create, :id => @school.id, :school => { :name => 'updated' }
-      assigns(:school).name.should eq('updated')
-      response.should be_redirect
+      expect(assigns(:school).name).to eq('updated')
+      expect(response).to be_redirect
     end
   end
 
