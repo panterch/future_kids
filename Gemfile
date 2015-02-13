@@ -1,9 +1,8 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.1.8'
+gem 'rails', '~> 4.1.8'
 
-gem 'json'
-gem 'haml'
+gem 'haml-rails'
 
 gem 'jquery-rails'
 
@@ -15,7 +14,7 @@ gem 'axlsx_rails'
 gem 'cancancan'
 gem 'devise'
 gem 'exception_notification_rails3', require: 'exception_notifier'
-gem "simple_form", '~> 3.1.0.rc1'
+gem "simple_form"
 gem 'paperclip'
 gem 'pg'
 gem 'inherited_resources'
@@ -24,7 +23,7 @@ gem 'whenever', require: false
 gem "bootstrap-sass"
 gem "font-awesome-rails"
 gem 'quiet_assets'
-gem 'i18n_rails_helpers', '~> 2.0.0.beta0'
+gem 'i18n_rails_helpers', '~> 2.0.0.beta1'
 
 group :assets do
   gem 'sass-rails'
@@ -36,7 +35,7 @@ end
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 group :development, :test do
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 2.99.0'
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'factory_girl'
