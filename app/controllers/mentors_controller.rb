@@ -14,14 +14,13 @@ class MentorsController < ApplicationController
 
     # a prototyped mentor is submitted with each index query. if the prototype
     # is not present, it is built here with default values
-    params[:mentor] ||= {}
-    params[:mentor][:inactive] = "0" if params[:mentor][:inactive].nil?
+    mentor_params[:inactive] = "0" if mentor_params[:inactive].nil?
 
     # mentors are filtered by the criteria above
-    @mentors = @mentors.where(params[:mentor].to_h.delete_if {|key, val| val.blank? })
+    @mentors = @mentors.where(mentor_params.to_h.delete_if {|key, val| val.blank? })
 
     # provide a prototype for the filter form
-    @mentor = Mentor.new(permitted_params[:mentor])
+    @mentor = Mentor.new(mentor_params)
 
     # when only one record is present, show it immediatelly. this is not for
     # admins, since they could have no chance to alter their filter settings in
@@ -47,5 +46,20 @@ class MentorsController < ApplicationController
     # per default a coaching entry is added for each month
     @journals << Journal.coaching_entry(@mentor, @month, @year)
     show!
+  end
+
+  private
+
+  def mentor_params
+    if params[:mentor].present?
+      params.require(:mentor).permit(
+        :name, :prename, :email, :password, :password_confirmation, :address,
+        :city, :dob, :phone, :college, :field_of_study, :education, :transport,
+        :personnel_number, :ects, :term, :absence, :note, :todo, :substitute,
+        :inactive, :photo, schedules_attributes: [:day, :hour, :minute]
+      )
+    else
+      {}
+    end
   end
 end

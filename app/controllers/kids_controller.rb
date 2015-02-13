@@ -24,13 +24,12 @@ class KidsController < ApplicationController
       # a prototyped kid is submitted with each index query. if the prototype
       # is not present, it is built here with default values
       # build a where condition out of all parameters supplied for kid
-      params[:kid] ||= {}
-      params[:kid][:inactive] = "0" if params[:kid][:inactive].nil?
-      @kids = @kids.where(params[:kid].to_h.delete_if {|key, val| val.blank? })
+      kid_params[:inactive] = "0" if kid_params[:inactive].nil?
+      @kids = @kids.where(kid_params.to_h.delete_if {|key, val| val.blank? })
       # reorder the kids according to the supplied parameter
       @kids = @kids.reorder(params['order_by']) if params['order_by']
       # provide a prototype for the filter form
-      @kid = Kid.new(permitted_params[:kid])
+      @kid = Kid.new(kid_params)
     end
 
     index!
@@ -83,6 +82,24 @@ protected
     @cancan_review = Review.new(kid: resource)
     if current_user.is_a?(Mentor)
       @cancan_journal.mentor = current_user
+    end
+  end
+
+  private
+
+  def kid_params
+    if params[:kid].present?
+      params.require(:kid).permit(
+        :name, :prename, :sex, :dob, :grade, :language, :parent, :address,
+        :city, :phone, :translator, :note, :school_id, :goal_1, :goal_2,
+        :meeting_day, :meeting_start_at, :teacher_id, :secondary_teacher_id,
+        :mentor_id, :secondary_mentor_id, :secondary_active, :admin_id, :term,
+        :exit, :exit_reason, :coached_at, :abnormality,
+        :abnormality_criticality, :todo, :inactive,
+        schedules_attributes: [:day, :hour, :minute]
+      )
+    else
+      {}
     end
   end
 end

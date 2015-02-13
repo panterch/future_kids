@@ -31,10 +31,6 @@ protected
 
   private
 
-  def permitted_params
-    params.permit!
-  end
-
   # there is an unresolved error when calling cancan's accessible by
   # for certain types of users. the problem is described in ability_spec.rb in
   # the pending spec "does retrieve teachers that can be read"

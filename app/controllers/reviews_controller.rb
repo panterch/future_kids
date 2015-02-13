@@ -21,7 +21,11 @@ class ReviewsController < ApplicationController
     redirect_to kid_url(parent)
   end
   
-protected
+  private
 
-
+  def review_params
+    params.require(:review).permit(
+      :held_at, :attendee, :reason, :kind, :content, :outcome, :note
+    )
+  end
 end

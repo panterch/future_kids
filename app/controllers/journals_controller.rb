@@ -1,7 +1,7 @@
 class JournalsController < ApplicationController
 
   # this filter has to run before cancan resource loading
-  before_filter :preset_mentor, :except => :index
+  before_filter :preset_mentor, only: [:create, :update]
 
   inherit_resources
   belongs_to :kid
@@ -36,7 +36,6 @@ protected
   # the created / built resource by adding some parameters to the params
   # hash
   def preset_mentor
-    params[:journal] ||= {}
     # for mentors we overwrite the mentor_id paramenter to assure that they
     # do not create entries for other mentors
     if current_user.is_a?(Mentor)
@@ -58,4 +57,16 @@ protected
     resource.held_at ||= resource.kid.calculate_meeting_time.try(:to_date)
   end
 
+  private
+
+  def journal_params
+    if params[:journal].present?
+      params.require(:journal).permit(
+        :mentor_id, :held_at, :cancelled, :start_at, :end_at, :goal, :subject,
+        :method, :outcome, :note
+      )
+    else
+      {}
+    end
+  end
 end

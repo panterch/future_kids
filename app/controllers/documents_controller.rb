@@ -18,4 +18,11 @@ class DocumentsController < ApplicationController
     create!{ documents_url }
   end
 
+  private
+
+  def document_params
+    params.require(:document).permit(
+      :category, :subcategory, :title, :attachment
+    )
+  end
 end

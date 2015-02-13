@@ -2,7 +2,7 @@ class Journal < ActiveRecord::Base
 
   include ActionView::Helpers::TextHelper
 
-  default_scope { order('held_at DESC', :id).joins('INNER JOIN kids ON kids.id = journals.kid_id') }
+  default_scope { order('held_at DESC', :id).joins(:kid) }
 
   belongs_to :kid
   belongs_to :mentor
