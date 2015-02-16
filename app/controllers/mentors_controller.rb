@@ -8,6 +8,10 @@ class MentorsController < ApplicationController
 
   def index
 
+    if current_user.is_a?(Admin) && 'xlsx' == params[:format]
+      return render xlsx: 'index'
+    end
+
     # a prototyped mentor is submitted with each index query. if the prototype
     # is not present, it is built here with default values
     params[:mentor] ||= {}

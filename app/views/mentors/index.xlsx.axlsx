@@ -1,0 +1,58 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Mentor") do |sheet|
+  sheet.add_row [
+    Mentor.human_attribute_name('id'),
+    Mentor.human_attribute_name('name'),
+    Mentor.human_attribute_name('prename'),
+    Mentor.human_attribute_name('email'),
+    Mentor.human_attribute_name('address'),
+    Mentor.human_attribute_name('city'),
+    Mentor.human_attribute_name('dob'),
+    Mentor.human_attribute_name('phone'),
+    Mentor.human_attribute_name('college'),
+    Mentor.human_attribute_name('field_of_study'),
+    Mentor.human_attribute_name('education'),
+    Mentor.human_attribute_name('transport'),
+    Mentor.human_attribute_name('primary_kids_school'),
+    Mentor.human_attribute_name('primary_kids_meeting_day'),
+    Mentor.human_attribute_name('kids'),
+    Mentor.human_attribute_name('secondary_kids'),
+    Mentor.human_attribute_name('personnel_number'),
+    Mentor.human_attribute_name('ects'),
+    Mentor.human_attribute_name('term'),
+    Mentor.human_attribute_name('absence'),
+    Mentor.human_attribute_name('note'),
+    Mentor.human_attribute_name('todo'),
+    Mentor.human_attribute_name('substitute'),
+    Mentor.human_attribute_name('inactive')
+  ]
+
+  @mentors.each do |m|
+    sheet.add_row [
+      m.id,
+      m.name,
+      m.prename,
+      m.email,
+      m.address,
+      m.city,
+      m.dob,
+      m.phone,
+      m.college,
+      m.field_of_study,
+      m.education,
+      m.transport,
+      m.primary_kids_school.name,
+      m.human_primary_kids_meeting_day,
+      m.kids.map { |k| "#{k.name} #{k.prename} #{k.try(:city)}" }.join("\n"),
+      m.secondary_kids.map { |k| "#{k.name} #{k.prename} #{k.try(:city)}" }.join("\n"),
+      m.personnel_number,
+      m.ects,
+      m.term,
+      m.absence,
+      m.note,
+      m.todo,
+      m.substitute,
+      m.inactive
+    ]
+  end
+end
