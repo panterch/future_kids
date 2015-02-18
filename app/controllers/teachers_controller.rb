@@ -1,5 +1,7 @@
-class TeachersController < InheritedResources::Base
+class TeachersController < ApplicationController
+
   load_and_authorize_resource
+  include CrudActions
 
   def index
     # a prototyped teacher is submitted with each index query. if the prototype
@@ -12,10 +14,10 @@ class TeachersController < InheritedResources::Base
     # when only one record is present, show it immediatelly. this is not for
     # admins, since they could have no chance to alter their filter settings in
     # some cases
-    if !current_user.is_a?(Admin) && (1 == collection.count)
-      redirect_to collection.first
+    if !current_user.is_a?(Admin) && (1 == @teachers.count)
+      redirect_to @teachers.first
     else
-      index!
+      respond_with @teachers
     end
   end
 

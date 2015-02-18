@@ -1,7 +1,7 @@
 class PrincipalsController < ApplicationController
 
-  inherit_resources
   load_and_authorize_resource
+  include CrudActions
 
   def index
     # a prototyped principal is submitted with each index query. if the
@@ -12,7 +12,7 @@ class PrincipalsController < ApplicationController
     # provide a prototype principal for the filter form
     @principal = Principal.new(principal_params)
 
-    index!
+    respond_with @principals
   end
 
   private

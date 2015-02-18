@@ -1,14 +1,23 @@
 class SchoolsController < ApplicationController
 
-  inherit_resources
   load_and_authorize_resource
+  include CrudActions
 
   def create
-    create!{ schools_url }
+    @school = School.new(school_params)
+    if @school.save
+      redirect_to action: :index
+    else
+      render :new
+    end
   end
 
   def update
-    update!{ schools_url }
+    if @school = School.update(school_params)
+      redirect_to action: :index
+    else
+      render :edit
+    end
   end
 
   private

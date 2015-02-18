@@ -5,6 +5,6 @@
     %tr
       %th Name
   %tbody
-    - collection.each do |school|
+    - @schools.each do |school|
       %tr
         %td= link_to school.name, school_path(school)

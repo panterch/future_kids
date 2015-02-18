@@ -1,7 +1,6 @@
 class AdminsController < ApplicationController
-
-  inherit_resources
   load_and_authorize_resource
+  include CrudActions
 
   def index
     # a prototyped admin is submitted with each index query. if the prototype
@@ -13,7 +12,7 @@ class AdminsController < ApplicationController
     # provide a prototype admin for the filter form
     @admin = Admin.new(admin_params)
 
-    index!
+    respond_with @admins
   end
 
   private

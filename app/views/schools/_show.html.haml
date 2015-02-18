@@ -1,10 +1,10 @@
-= show_for resource do |show|
+= show_for @school do |show|
   = show.attribute :name
   = show.attribute :street
   = show.attribute :city
   = show.attribute :homepage do
-    -if resource.homepage.present?
-      %a{:href => resource.homepage}= resource.homepage
+    -if @school.homepage.present?
+      %a{:href => @school.homepage}= @school.homepage
   = show.attribute :social
   = show.attribute :district
   = show.attribute :term

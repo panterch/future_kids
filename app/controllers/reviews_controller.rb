@@ -1,24 +1,25 @@
 class ReviewsController < ApplicationController
 
-  inherit_resources
-  belongs_to :kid
-  load_and_authorize_resource
-
+  load_and_authorize_resource :kid
+  load_and_authorize_resource :review, through: :kid
+  include CrudActions
 
   def create
-    create!{ kid_url(resource.kid) }
+    @review.save
+    respond_with @review.kid
   end
   
   def update
-    update!{ kid_url(resource.kid) }
+    @review.update(review_params)
+    respond_with @review.kid
   end
 
   def show # not supported action
-    redirect_to edit_kid_review_url(resource.kid, resource)
+    redirect_to edit_kid_review_url(@review.kid, @review)
   end
 
   def index # not supported action
-    redirect_to kid_url(parent)
+    redirect_to kid_url(@kid)
   end
   
   private

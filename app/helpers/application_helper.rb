@@ -88,7 +88,7 @@ module ApplicationHelper
   end
 
   # renders a formtastic field that is taken over by the datepicker js
-  def date_picker(form, field)
+  def date_picker(resource, form, field)
     value = resource[field] ? I18n.l(resource[field]) : nil
     form.input field, :as => :string, :input_html => {
       :value => value, :class => 'calendricalDate'
@@ -97,7 +97,7 @@ module ApplicationHelper
 
   # can be used in view to display private data only to their owners (and
   # admins)
-  def is_viewing_own_data
+  def is_viewing_own_data(resource)
     current_user == resource || current_user.is_a?(Admin)
   end
 

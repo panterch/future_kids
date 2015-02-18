@@ -1,7 +1,7 @@
 class KidsController < ApplicationController
 
-  inherit_resources
   load_and_authorize_resource
+  include CrudActions
   include ManageSchedules # edit_schedules & update_schedules
 
   before_filter :cancan_prototypes, :only => [:show]
@@ -32,7 +32,7 @@ class KidsController < ApplicationController
       @kid = Kid.new(kid_params)
     end
 
-    index!
+    respond_with @kids
   end
 
 protected
@@ -41,17 +41,17 @@ protected
   # assigned as the first teacher of the kid in creation case
   def assign_current_teacher
     return true unless current_user.is_a?(Teacher)
-    return true if resource.teacher.present?
-    if resource.secondary_teacher != current_user
-      resource.teacher ||= current_user
+    return true if @kid.teacher.present?
+    if @kid.secondary_teacher != current_user
+      @kid.teacher ||= current_user
     end
-    resource.school  ||= resource.teacher.try(:school)
-    resource.school  ||= resource.secondary_teacher.try(:school)
+    @kid.school  ||= @kid.teacher.try(:school)
+    @kid.school  ||= @kid.secondary_teacher.try(:school)
   end
 
   def track_creation_relation
-    return true unless resource.persisted?
-    resource.relation_logs.create(user_id: current_user.id,
+    return true unless @kid.persisted?
+    @kid.relation_logs.create(user_id: current_user.id,
                                   role: 'creator',
                                   start_at: Time.now)
   end
@@ -78,8 +78,8 @@ protected
 
   # prototypes to check abilities in menu
   def cancan_prototypes
-    @cancan_journal = Journal.new(kid: resource)
-    @cancan_review = Review.new(kid: resource)
+    @cancan_journal = Journal.new(kid: @kid)
+    @cancan_review = Review.new(kid: @kid)
     if current_user.is_a?(Mentor)
       @cancan_journal.mentor = current_user
     end

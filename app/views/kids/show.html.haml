@@ -1,11 +1,11 @@
-= boot_page_title
+= boot_page_title @kid.display_name
 
 - content_for :contextual_links do
   = contextual_links do
     - if can? :create, @cancan_journal
-      = contextual_link_to :new_journal, new_kid_journal_path(resource)
+      = contextual_link_to :new_journal, new_kid_journal_path(@kid)
     - if can? :create, @cancan_review
-      = contextual_link_to :new_review, new_kid_review_path(resource)
+      = contextual_link_to :new_review, new_kid_review_path(@kid)
     = contextual_link_to :edit_schedules
 
 = render "show"

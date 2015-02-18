@@ -1,5 +1,5 @@
-= boot_form_for [resource.kid, resource], :html => { :id => 'content_form' } do |form|
-  = date_picker(form, :held_at)
+= boot_form_for [@review.kid, @review], :html => { :id => 'content_form' } do |form|
+  = date_picker @review, form, :held_at
   = form.input :attendee
   = form.input :reason
   = form.input :kind

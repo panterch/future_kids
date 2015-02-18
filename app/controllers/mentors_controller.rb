@@ -1,7 +1,7 @@
 class MentorsController < ApplicationController
 
-  inherit_resources
   load_and_authorize_resource
+  include CrudActions
   include ManageSchedules # edit_schedules & update_schedules
 
   def index
@@ -23,10 +23,10 @@ class MentorsController < ApplicationController
     # when only one record is present, show it immediatelly. this is not for
     # admins, since they could have no chance to alter their filter settings in
     # some cases
-    if !current_user.is_a?(Admin) && (1 == collection.count)
-      redirect_to collection.first
+    if !current_user.is_a?(Admin) && (1 == @mentors.count)
+      redirect_to @mentors.first
     else
-      index!
+      respond_with @mentors
     end
   end
 
@@ -43,7 +43,7 @@ class MentorsController < ApplicationController
 
     # per default a coaching entry is added for each month
     @journals << Journal.coaching_entry(@mentor, @month, @year)
-    show!
+    respond_with @mentor
   end
 
   private

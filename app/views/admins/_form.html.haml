@@ -1,4 +1,4 @@
-= boot_form_for resource, :html => { :id => 'content_form' } do |form|
+= boot_form_for @admin, :html => { :id => 'content_form' } do |form|
   = form.input :name
   = form.input :prename
   = form.input :email, :input_html => { :autocomplete => 'off' }
