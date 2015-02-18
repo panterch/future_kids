@@ -21,7 +21,6 @@ gem 'responders'
 gem 'show_for', github: 'plataformatec/show_for'
 gem 'whenever', require: false
 gem "bootstrap-sass"
-gem "font-awesome-rails"
 gem 'quiet_assets'
 gem 'i18n_rails_helpers', '~> 2.0.0.beta1'
 

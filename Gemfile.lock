@@ -114,8 +114,6 @@ GEM
     factory_girl_rails (4.5.0)
       factory_girl (~> 4.5.0)
       railties (>= 3.0.0)
-    font-awesome-rails (4.3.0.0)
-      railties (>= 3.2, < 5.0)
     haml (4.0.6)
       tilt
     haml-rails (0.8.2)
@@ -284,7 +282,6 @@ DEPENDENCIES
   exception_notification_rails3
   factory_girl
   factory_girl_rails
-  font-awesome-rails
   haml-rails
   i18n_rails_helpers (~> 2.0.0.beta1)
   jquery-rails
