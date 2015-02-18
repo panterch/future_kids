@@ -107,7 +107,9 @@ GEM
     diff-lcs (1.2.5)
     docile (1.1.5)
     erubis (2.7.0)
-    exception_notification_rails3 (1.2.0)
+    exception_notification (4.0.1)
+      actionmailer (>= 3.0.4)
+      activesupport (>= 3.0.4)
     execjs (2.3.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
@@ -279,7 +281,7 @@ DEPENDENCIES
   codeclimate-test-reporter
   coffee-rails
   devise
-  exception_notification_rails3
+  exception_notification
   factory_girl
   factory_girl_rails
   haml-rails

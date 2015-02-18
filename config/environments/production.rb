@@ -91,9 +91,4 @@ Rails.application.configure do
     :host => 'www.aoz-futurekids.ch',
     :protocol => 'https'
   }
-
-  config.middleware.use ExceptionNotifier,
-      :email_prefix => "[FutureKids] ",
-      :sender_address => %{"notifier" <futurekids-tech@panter.ch>},
-      :exception_recipients => %w(futurekids-tech@panter.ch)
 end

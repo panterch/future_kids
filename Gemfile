@@ -13,7 +13,7 @@ gem 'therubyracer', platforms: :ruby
 gem 'axlsx_rails'
 gem 'cancancan'
 gem 'devise'
-gem 'exception_notification_rails3', require: 'exception_notifier'
+gem 'exception_notification'
 gem "simple_form"
 gem 'paperclip'
 gem 'pg'
