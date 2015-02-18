@@ -4,8 +4,6 @@ class MentorsController < ApplicationController
   load_and_authorize_resource
   include ManageSchedules # edit_schedules & update_schedules
 
-  before_filter :accessible_by_error_quick_fix
-
   def index
 
     if current_user.is_a?(Admin) && 'xlsx' == params[:format]
