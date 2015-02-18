@@ -303,6 +303,7 @@ DEPENDENCIES
   pry-rails
   quiet_assets
   rails (~> 4.1.8)
+  responders
   rspec-rails
   sass-rails
   show_for!
