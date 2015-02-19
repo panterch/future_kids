@@ -12,7 +12,7 @@ class Reminder < ActiveRecord::Base
   # sends the reminder to the appropriate recipient
   def deliver_mail
     mail = Notifications.remind(self)
-    mail.deliver
+    mail.deliver_now
     update_attributes!(:sent_at => Time.now)
   end
 
@@ -83,7 +83,7 @@ class Reminder < ActiveRecord::Base
 
       # send out admin notification when reminders were created
       if (0 < reminders_created)
-        Notifications.reminders_created(reminders_created).deliver
+        Notifications.reminders_created(reminders_created).deliver_now
       end
 
     rescue => e

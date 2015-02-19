@@ -1,4 +1,4 @@
-= boot_form_for @teacher, :html => { :id => 'content_form' } do |form|
+= simple_form_for @teacher do |form|
   = form.input :name
   = form.input :prename
   = form.input :email, :input_html => { :autocomplete => 'off' }
@@ -14,4 +14,5 @@
     = form.input :note
     = form.input :inactive
 
-  = form.buttons
+  .col-sm-offset-3.col-sm-9
+    = form.button :submit

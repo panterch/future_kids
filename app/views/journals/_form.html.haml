@@ -1,4 +1,4 @@
-= boot_form_for [@journal.kid, @journal], :html => { :id => 'content_form' } do |form|
+= simple_form_for [@journal.kid, @journal] do |form|
   - if current_user.is_a?(Admin)
     = form.association :mentor, :collection => @mentors
   = date_picker @journal, form, :held_at
@@ -11,4 +11,5 @@
   = form.input :outcome
   = form.input :note
 
-  = form.buttons
+  .col-sm-offset-3.col-sm-9
+    = form.button :submit

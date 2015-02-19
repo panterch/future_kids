@@ -25,7 +25,7 @@ describe Notifications do
     end
 
     it "delivers the email" do
-      @mail.deliver
+      @mail.deliver_now
       expect(ActionMailer::Base.deliveries).not_to be_empty
     end
 

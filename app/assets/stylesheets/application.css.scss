@@ -106,10 +106,8 @@ textarea {
 
 // Fix alignment of text at checkboxes
 .checkbox {
-  margin-bottom: 0px;
-
-  &> label > p {
-    margin: 3px 0 0;
+  input[type=checkbox] {
+    margin-top: 2px;
   }
 }
 

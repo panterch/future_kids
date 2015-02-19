@@ -10,7 +10,7 @@
   #schedules_table_tab.tab-pane.active
     = render 'schedules/table', resource: @kid
   #mentor_selection_tab.tab-pane
-    = boot_form_for @kid, :method => :get, :url => { :action => 'edit_schedules' }, :html => { :class => 'schedule' } do |form|
+    = simple_form_for @kid, :method => :get, :url => { :action => 'edit_schedules' }, :html => { :class => 'schedule' } do |form|
       %h3
         .btn-group.pull-right
           = form.submit 'Auswahl bestätigen', class: 'btn btn-default'
