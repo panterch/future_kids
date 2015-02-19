@@ -1,13 +1,13 @@
+require 'capistrano/ext/multistage'
 require 'bundler/capistrano'
-
 require 'capistrano-rbenv'
+
 set :rbenv_ruby_version, open(File.expand_path('../../.ruby-version', __FILE__)).read.strip
 set :rbenv_install_dependencies, false
 
 set :whenever_command, "bundle exec whenever"
 require "whenever/capistrano"
 
-server 'future-kids-production.panter.biz', :app, :web, :db, primary: true
 set :deploy_to, "/home/app/app"
 set :user, "app"
 

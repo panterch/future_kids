@@ -43,6 +43,7 @@ group :development, :test do
   gem 'factory_girl'
   gem 'capistrano', '~> 2.0'
   gem 'capistrano-rbenv', '~> 1.0'
+  gem 'capistrano-ext', '1.2.1'
 
   gem "pry-rails"
   gem 'pry-byebug'
