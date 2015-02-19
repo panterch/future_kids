@@ -2,7 +2,7 @@
   = form.input :name
   = form.input :prename
   = form.input :sex, :as => :select, :collection => sex_collection
-  = date_picker @kid, form, :dob
+  = form.input :dob
   = form.input :grade, :as => :select, :collection => grade_collection
   = form.input :language
   = form.input :parent
