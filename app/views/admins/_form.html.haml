@@ -1,10 +1,10 @@
 = simple_form_for @admin do |form|
   = form.input :name
   = form.input :prename
-  = form.input :email, :input_html => { :autocomplete => 'off' }
+  = form.input :email
   = form.input :phone
-  = form.input :password, :input_html => { :autocomplete => 'off' }
-  = form.input :password_confirmation, :input_html => { :autocomplete => 'off' }
+  = form.input :password
+  = form.input :password_confirmation
   = form.input :todo
 
   -if current_user.is_a?(Admin)
