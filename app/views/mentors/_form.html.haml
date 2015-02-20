@@ -12,12 +12,12 @@
   = form.input :college
   = form.input :field_of_study
   = form.input :education
-  = form.input :transport, :as => :select, :collection => transport_collection
+  = form.input :transport, :collection => transport_collection
 
   -if current_user.is_a?(Admin)
     = form.input :personnel_number
-    = form.input :ects, :as => :boolean
-    = form.input :term, :as => :select, :collection => term_collection
+    = form.input :ects
+    = form.input :term, :collection => term_collection
     = form.input :absence
     = form.input :note
     %a(name='todo')

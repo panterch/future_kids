@@ -3,7 +3,7 @@
     = form_for :teacher, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
       %label= Kid.human_attribute_name(:school)
       .form-group
-        = f.select :school_id, school_collection, { :include_blank => true }, class: 'form-control'
+        = f.select :school_id, School.all, { :include_blank => true }, class: 'form-control'
       .checkbox
         %label
           = f.check_box :inactive

@@ -28,22 +28,6 @@ module ApplicationHelper
     %w(Halbtax GA Regenbogen\ Kanton Zone\ 10\ mit\ Halbtax Zone\ 10\ ohne\ Halbtax)
   end
 
-  def school_collection
-    School.all.map{ |s| [ s.display_name, s.id ]}
-  end
-
-  def admin_collection
-    Admin.active.map { |a| [a.display_name, a.id] }
-  end
-
-  def mentor_collection
-    Mentor.active.map { |m| [m.display_name, m.id] }
-  end
-
-  def teacher_collection
-    Teacher.active.map { |t| [t.display_name, t.id] }
-  end
-
   def boolean_collection
     { 'Ja' => true, 'Nein' => false }
   end
