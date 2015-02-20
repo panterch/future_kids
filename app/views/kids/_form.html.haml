@@ -1,9 +1,9 @@
 = simple_form_for @kid do |form|
   = form.input :name
   = form.input :prename
-  = form.input :sex, :as => :select, :collection => sex_collection
+  = form.input :sex, :collection => sex_collection
   = form.input :dob
-  = form.input :grade, :as => :select, :collection => grade_collection
+  = form.input :grade, :collection => grade_collection
   = form.input :language
   = form.input :parent
   = form.input :address
@@ -12,33 +12,33 @@
   = form.input :translator
   = form.input :note
   - if current_user.is_a?(Admin)
-    = form.association :school, :collection => school_collection
+    = form.association :school, :collection => School.all
 
   %h2#school Allgemeine Informationen
   = form.input :goal_1
   = form.input :goal_2
   - if current_user.is_a?(Admin)
-    = form.input :meeting_day, :as => :select, :collection => wday_collection
+    = form.input :meeting_day, :collection => wday_collection
     = form.input :meeting_start_at, :as => :string
   -# this form is accessible by admins and teachers. teachers can only set the
   -# the secondary_mentor and ara automatically assigned as first mentor for any kid
   -# they are working on
   - if current_user.is_a?(Admin)
-    = form.association :teacher, :as => :select, :collection => teacher_collection
-    = form.association :secondary_teacher, :as => :select, :collection => teacher_collection
-    = form.association :mentor, :as => :select, :collection => mentor_collection
-    = form.association :secondary_mentor, :as => :select, :collection => mentor_collection
+    = form.association :teacher, :collection => Teacher.active
+    = form.association :secondary_teacher, :collection => Teacher.active
+    = form.association :mentor, :collection => Mentor.active
+    = form.association :secondary_mentor, :collection => Mentor.active
     = form.input :secondary_active
-    = form.input :admin_id, :as => :select, :collection => admin_collection
+    = form.input :admin_id, :collection => Admin.active
 
   - if current_user.is_a?(Admin)
     %h2#internal Projektinterne Informationen
-    = form.input :term, :as => :select, :collection => term_collection
-    = form.input :exit, :as => :select, :collection => term_collection
-    = form.input :exit_reason, :as => :select, :collection => exit_reason_collection
+    = form.input :term, :collection => term_collection
+    = form.input :exit, :collection => term_collection
+    = form.input :exit_reason, :collection => exit_reason_collection
     = form.input :coached_at
     = form.input :abnormality
-    = form.input :abnormality_criticality, :as => :select, :collection => criticality_collection
+    = form.input :abnormality_criticality, :collection => criticality_collection
     = form.input :todo
     %a(name='todo')
     = form.input :inactive

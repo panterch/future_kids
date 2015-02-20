@@ -6,7 +6,7 @@
   = form.input :password_confirmation
   = form.input :phone
   - if current_user.is_a?(Admin)
-    = form.association :school, :as => :select, :collection => school_collection
+    = form.association :school, :collection => School.all
     = form.input :inactive
 
   .col-sm-offset-3.col-sm-9

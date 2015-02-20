@@ -14,10 +14,10 @@
         = f.select :exit, term_collection, { :include_blank => true }, class: 'form-control'
       .form-group
         %label= Kid.human_attribute_name(:school)
-        = f.select :school_id, school_collection, { :include_blank => true }, class: 'form-control'
+        = f.select :school_id, School.all, { :include_blank => true }, class: 'form-control'
       .form-group
         %label Coach
-        = f.select :admin_id, admin_collection, { :include_blank => true }, class: 'form-control'
+        = f.select :admin_id, Admin.active, { :include_blank => true }, class: 'form-control'
       .form-group
         %label Übersetzer
         = f.select :translator, boolean_collection, { include_blank: true }, class: 'form-control'
