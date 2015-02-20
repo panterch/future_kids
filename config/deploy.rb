@@ -31,6 +31,7 @@ namespace :deploy do
 end
 
 task :update_config_links, roles: [:app] do
+  run "mv #{release_path}/config/secrets.yml #{release_path}/config/secrets.dev.yml"
   run "ln -sf #{shared_path}/config/* #{release_path}/config/"
 end
 after "deploy:update_code", :update_config_links
