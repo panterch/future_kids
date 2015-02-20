@@ -12,7 +12,7 @@ describe AdminsController do
       it 'assigns two admins in the index' do
         2.times { create(:admin) }
         get :index
-        assigns(:admins).should have(3).items # 3 including the signed in admin
+        expect(assigns(:admins).size).to eq(3) # 3 including the signed in admin
       end
     end
   end

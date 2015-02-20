@@ -1,8 +1,8 @@
-= boot_form_for resource, :html => { :id => 'content_form' } do |form|
+= simple_form_for @kid do |form|
   = form.input :name
   = form.input :prename
   = form.input :sex, :as => :select, :collection => sex_collection
-  = date_picker(form, :dob)
+  = form.input :dob
   = form.input :grade, :as => :select, :collection => grade_collection
   = form.input :language
   = form.input :parent
@@ -36,11 +36,12 @@
     = form.input :term, :as => :select, :collection => term_collection
     = form.input :exit, :as => :select, :collection => term_collection
     = form.input :exit_reason, :as => :select, :collection => exit_reason_collection
-    = date_picker(form, :coached_at)
+    = form.input :coached_at
     = form.input :abnormality
     = form.input :abnormality_criticality, :as => :select, :collection => criticality_collection
     = form.input :todo
     %a(name='todo')
     = form.input :inactive
 
-  = form.buttons
+  .col-sm-offset-3.col-sm-9
+    = form.button :submit

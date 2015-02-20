@@ -37,10 +37,10 @@
         = select_tag 'order_by', order_by_collection_for_kids(params[:order_by]), class: 'form-control'
       .form-group
         = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
-        = link_to 'Filter aufheben', collection_path, class: 'btn btn-xs'
+        = link_to 'Filter aufheben', kids_path, class: 'btn btn-xs'
 
 = boot_page_title do
-  = collection.count if current_user.is_a?(Admin)
+  = @kids.count if current_user.is_a?(Admin)
   Sch&uuml;ler/innen
 
 %table.table.table-striped.table-condensed.table-hover
@@ -51,23 +51,23 @@
       %th Letztes Coaching
       %th Pendenzen
     %th Coach
-  - collection.each do |resource|
+  - @kids.each do |kid|
     %tr
-      %td= link_to resource.display_name, resource
+      %td= link_to kid.display_name, kid
       -if current_user.is_a?(Admin)
         %td
-          = resource.created_at ? I18n.l(resource.created_at.to_date) : '-'
+          = kid.created_at ? I18n.l(kid.created_at.to_date) : '-'
         %td
-          = resource.coached_at ? I18n.l(resource.coached_at.to_date) : '-'
+          = kid.coached_at ? I18n.l(kid.coached_at.to_date) : '-'
         %td
-          -if resource.todo.present?
-            %a.todotoggle.btn.btn-xs{data: { content: resource.human_todo}, href:  edit_resource_path(resource, :anchor => 'todo') }
+          -if kid.todo.present?
+            %a.todotoggle.btn.btn-xs{data: { content: kid.human_todo}, href:  edit_kid_path(kid, :anchor => 'todo') }
               Pendenz
               %span.glyphicon.glyphicon-info-sign
       %td
         Coach:
-        = can_link_to(resource.admin) if resource.admin.present?
+        = can_link_to(kid.admin) if kid.admin.present?
 
 
-- if collection.empty?
+- if @kids.empty?
   Zur Zeit sind Ihnen keine Kinder zugeordnet.

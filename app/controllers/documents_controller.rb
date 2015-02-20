@@ -1,21 +1,29 @@
 class DocumentsController < ApplicationController
 
-  inherit_resources
   load_and_authorize_resource
+  include CrudActions
 
   def index
     @category_tree = Document.category_tree
     @documents_by_category = {}
-    collection.each do |d|
+    @documents.each do |d|
       d.category = "Verschiedenes" if d.category.blank?
       @documents_by_category[d.category] ||= []
       @documents_by_category[d.category] << d
     end
-    index!
+    respond_with @documents
   end
 
   def create
-    create!{ documents_url }
+    @document = Document.create(document_params)
+    redirect_to action: :index
   end
 
+  private
+
+  def document_params
+    params.require(:document).permit(
+      :category, :subcategory, :title, :attachment
+    )
+  end
 end

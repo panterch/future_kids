@@ -1,10 +1,10 @@
 .row
   .col-md-8
-    = show_for resource do |show|
+    = show_for @mentor do |show|
       = show.attribute :name
       = show.attribute :prename
-      = show.attribute(:email) { mail_to resource.email }
-      - if is_viewing_own_data
+      = show.attribute(:email) { mail_to @mentor.email }
+      - if is_viewing_own_data(@mentor)
         = show.attribute :address
         = show.attribute :city
         = show.attribute :dob
@@ -14,7 +14,7 @@
       = show.attribute :education
       = show.attribute :transport
       = show.association :primary_kids_school do
-        = can_link_to(resource.primary_kids_school)
+        = can_link_to(@mentor.primary_kids_school)
       = show.attribute :primary_kids_meeting_day
       = show.association :kids do |k|
         %li
@@ -37,14 +37,14 @@
 
 
   .col-md-4
-    - if resource.photo.present?
+    - if @mentor.photo.present?
       .portrait
-        %img{:src => resource.photo.url(:medium)}
+        %img{:src => @mentor.photo.url(:medium)}
   .col-md-12.hidden-print
-    = render :partial => 'relation_logs/collection'
+    = render 'relation_logs/collection', resource: @mentor
 
 -# times are only visible to the mentor himself or an admin
-- if is_viewing_own_data
+- if is_viewing_own_data(@mentor)
   #mentor_journal_date.pull-right
     = select_month(@month, {}, :class => 'select_mentor_journal_date')
     = select_year(@year, {}, :class => 'select_mentor_journal_date')

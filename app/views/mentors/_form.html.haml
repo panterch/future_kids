@@ -1,13 +1,13 @@
-= boot_form_for resource, :html => { :id => 'content_form' } do |form|
+= simple_form_for @mentor do |form|
   = form.input :name
   = form.input :prename
-  = form.input :email, :input_html => { :autocomplete => 'off' }
-  = form.input :password, :input_html => { :autocomplete => 'off' }
-  = form.input :password_confirmation, :input_html => { :autocomplete => 'off' }
+  = form.input :email
+  = form.input :password
+  = form.input :password_confirmation
   = form.input :address
   = form.input :city
   = form.input :photo
-  = date_picker(form, :dob)
+  = form.input :dob
   = form.input :phone
   = form.input :college
   = form.input :field_of_study
@@ -25,4 +25,5 @@
     = form.input :substitute
     = form.input :inactive
 
-  = form.buttons
+  .col-sm-offset-3.col-sm-9
+    = form.button :submit

@@ -1,9 +1,9 @@
-= show_for resource do |show|
+= show_for @teacher do |show|
   = show.attribute :name
   = show.attribute :prename
-  = show.attribute(:email) { mail_to resource.email }
+  = show.attribute(:email) { mail_to @teacher.email }
   = show.attribute :school do
-    = can_link_to(resource.school)
+    = can_link_to(@teacher.school)
   = show.attribute :phone
   = show.association :kids do |k|
     %li= can_link_to(k)
@@ -15,4 +15,4 @@
     = show.attribute :note
     = show.attribute :inactive
 
-    = render 'relation_logs/collection'
+    = render 'relation_logs/collection', resource: @teacher

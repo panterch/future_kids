@@ -19,32 +19,32 @@ describe JournalsController do
 
     it 'should render the new template' do
       get :new, :kid_id => @kid.id
-      response.should be_successful
-      response.should render_template(:new)
+      expect(response).to be_successful
+      expect(response).to render_template(:new)
     end
 
     it 'should render assign only selectable mentors' do
       @foreign_mentor = create(:mentor)
       get :new, :kid_id => @kid.id
-      assigns(:mentors).should eq([@mentor])
+      expect(assigns(:mentors)).to eq([@mentor])
     end
 
     it 'should not access new when no mentors available' do
       Mentor.destroy_all
       get :new, :kid_id => @kid.id
-      response.should be_redirect
+      expect(response).to be_redirect
     end
 
     it 'should create a new entry posting valid attributes' do
       post :create, valid_attributes
-      assigns(:journal).should_not be_new_record
+      expect(assigns(:journal)).not_to be_new_record
     end
 
     it 'should parse ch date formatted strings for held_at' do
       attrs = valid_attributes
       attrs[:journal][:held_at] = '31.12.2010'
       post :create, attrs
-      assigns(:journal).held_at.should eq(Date.parse('2010-12-31'))
+      expect(assigns(:journal).held_at).to eq(Date.parse('2010-12-31'))
     end
 
     context 'with render views' do
@@ -55,12 +55,12 @@ describe JournalsController do
 
     it 'redirects on show' do
       get :show, :kid_id => @kid.id, :id => journal.id
-      response.should be_redirect
+      expect(response).to be_redirect
     end
 
     it 'redirects on index' do
       get :index, :kid_id => @kid.id
-      response.should be_redirect
+      expect(response).to be_redirect
     end
 
   end # end of 'as an admin'
@@ -72,12 +72,12 @@ describe JournalsController do
 
     it 'should render the new template' do
       get :new, :kid_id => @kid.id
-      response.should be_successful
+      expect(response).to be_successful
     end
 
     it 'should render the new template for secondary kids' do
       get :new, :kid_id => secondary_kid.id
-      response.should be_successful
+      expect(response).to be_successful
     end
 
     it 'should not render the new template for inactive secondary kids' do
@@ -88,7 +88,7 @@ describe JournalsController do
 
     it 'should not assign mentors for selectbox' do
       get :new, :kid_id => @kid.id
-      assigns(:mentors).should be_nil
+      expect(assigns(:mentors)).to be_nil
     end
 
     it 'should deny access for foreign kids' do
@@ -97,14 +97,14 @@ describe JournalsController do
 
     it 'should create a new entry' do
       post :create, valid_attributes
-      assigns(:journal).should_not be_new_record
+      expect(assigns(:journal)).not_to be_new_record
     end
 
     it 'should not be able to create entries for other mentors' do
       attrs = valid_attributes
       attrs[:journal][:mentor_id] = create(:mentor).id
       post :create, attrs
-      assigns(:journal).mentor.should eq(@mentor)
+      expect(assigns(:journal).mentor).to eq(@mentor)
     end
 
     it 'should not be able to create entries for other kids' do
@@ -117,7 +117,7 @@ describe JournalsController do
       attrs = valid_attributes
       attrs[:journal][:kid_id] = create(:kid).id
       post :create, attrs
-      assigns(:journal).kid.should eq(@kid)
+      expect(assigns(:journal).kid).to eq(@kid)
     end
   end # end of as a mentor
 

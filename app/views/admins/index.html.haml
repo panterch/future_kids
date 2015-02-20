@@ -9,10 +9,10 @@
 
       .form-group
         = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
-        = link_to 'Filter aufheben', collection_path, class: 'btn btn-xs'
+        = link_to 'Filter aufheben', admins_path, class: 'btn btn-xs'
 
 = boot_page_title do
-  = collection.count if current_user.is_a?(Admin)
+  = @admins.count if current_user.is_a?(Admin)
   Administratoren
 
-= render '/users/list'
+= render 'users/list', collection: @admins

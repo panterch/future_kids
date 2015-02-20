@@ -1,18 +1,31 @@
 class SchoolsController < ApplicationController
 
-  inherit_resources
   load_and_authorize_resource
+  include CrudActions
 
   def create
-    create!{ schools_url }
+    @school = School.new(school_params)
+    if @school.save
+      redirect_to action: :index
+    else
+      render :new
+    end
   end
 
   def update
-    update!{ schools_url }
+    if @school = School.update(school_params)
+      redirect_to action: :index
+    else
+      render :edit
+    end
   end
 
   private
-  def permitted_params
-    params.permit(:school => [:name, :principal_id, :street, :city, :phone, :homepage, :social, :district, :note, :term])
+
+  def school_params
+    params.require(:school).permit(
+      :name, :principal_id, :street, :city, :phone, :homepage, :social,
+      :district, :note, :term
+    )
   end
 end

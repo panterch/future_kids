@@ -6,12 +6,12 @@ describe Schedule do
 
   it "should belong to a mentor" do
     mentor.schedules.create!(:day => 1, :hour => 13, :minute => 0)
-    mentor.reload.schedules.should_not be_empty
+    expect(mentor.reload.schedules).not_to be_empty
   end
 
   it "should belong to a kid" do
     kid.schedules.create!(:day => 1, :hour => 13, :minute => 0)
-    kid.reload.schedules.should_not be_empty
+    expect(kid.reload.schedules).not_to be_empty
   end
 
   it "should does not create the same entry twice" do
@@ -21,9 +21,9 @@ describe Schedule do
 
   it "builds schedules for a whole week" do
     week = Schedule.build_week
-    week.length.should eq(5)
+    expect(week.length).to eq(5)
     # days * hours * halfhours - 19:30 entries
-    week.flatten.length.should eq(5*7*2-5)
+    expect(week.flatten.length).to eq(5*7*2-5)
   end
 
   context "equality and enumerable methods" do

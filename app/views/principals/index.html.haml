@@ -9,8 +9,8 @@
 
       .form-group
         = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
-        = link_to 'Filter aufheben', collection_path, class: 'btn btn-xs'
+        = link_to 'Filter aufheben', principals_path, class: 'btn btn-xs'
 
 = boot_page_title
 
-= render :partial => '/users/list'
+= render 'users/list', collection: @principals

@@ -1,9 +1,9 @@
-= show_for resource do |show|
+= show_for @principal do |show|
   = show.attribute :name
   = show.attribute :prename
-  = show.attribute(:email) { mail_to resource.email }
+  = show.attribute(:email) { mail_to @principal.email }
   = show.attribute :school do
-    = can_link_to(resource.school)
+    = can_link_to(@principal.school)
   = show.attribute :phone
   -if current_user.is_a?(Admin)
     = show.attribute :inactive

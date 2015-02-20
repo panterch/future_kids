@@ -48,7 +48,7 @@ class Comment < ActiveRecord::Base
 protected
 
   def send_notification
-    Notifications.comment_created(self).deliver
+    Notifications.comment_created(self).deliver_now
   end
 
 end

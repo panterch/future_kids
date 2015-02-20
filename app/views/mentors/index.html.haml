@@ -31,10 +31,10 @@
             %b Inaktive
       .form-group
         = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
-        = link_to 'Filter aufheben', collection_path, class: 'btn btn-xs'
+        = link_to 'Filter aufheben', mentors_path, class: 'btn btn-xs'
 
 = boot_page_title do
-  = collection.count if current_user.is_a?(Admin)
+  = @mentors.count if current_user.is_a?(Admin)
   Mentor/innen
 
-= render '/users/list'
+= render 'users/list', collection: @mentors

@@ -187,9 +187,9 @@ describe Ability do
       # FIXME cancan accessible_by for mentor - teacher relation
       # this test does not work, this seems to be a problem in cancan...
       it "does retrieve teachers that can be read" do
-        pending("accessible_by mentor - teacher broken")
+        skip("accessible_by mentor - teacher broken")
         teacher = create(:teacher, :kids => [kid])
-        Teacher.accessible_by(ability, :read).should eq([teacher])
+        expect(Teacher.accessible_by(ability, :read)).to eq([teacher])
       end
     end
 
@@ -287,7 +287,7 @@ describe Ability do
     end
     it "fetches only assigned kids" do
       kid && secondary_kid && foreign_kid # trigger factory
-      Kid.accessible_by(@ability, :read).should eq([kid, secondary_kid])
+      expect(Kid.accessible_by(@ability, :read)).to eq([kid, secondary_kid])
     end
     it "can read journals of kids he is set as teacher" do
       assert @ability.can?(:read, journal)

@@ -1,7 +1,7 @@
 - content_for :contextual_links do
   = contextual_links do
-    - if can?(:edit_schedules, resource)
-      = contextual_link_to :edit_schedules, edit_schedules_mentor_path(resource)
+    - if can?(:edit_schedules, @mentor)
+      = contextual_link_to :edit_schedules, edit_schedules_mentor_path(@mentor)
 
 = boot_page_title
 
