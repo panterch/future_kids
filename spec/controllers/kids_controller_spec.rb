@@ -65,6 +65,11 @@ describe KidsController do
         expect(assigns(:kid).translator).to eq(true)
       end
 
+      it 'renders xlsx' do
+        get :index, format: 'xlsx'
+        expect(response).to be_successful
+      end
+
     end
 
     context 'edit_schedules' do

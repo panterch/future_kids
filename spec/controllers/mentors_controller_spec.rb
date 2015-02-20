@@ -40,14 +40,21 @@ describe MentorsController do
     before(:each) do
       @admin = create(:admin)
       sign_in @admin
+      @mentor = create(:mentor)
     end
 
     context 'index' do
       it 'assigns two mentors in the index' do
-        2.times { create(:mentor) }
+        create(:mentor)
         get :index
         expect(assigns(:mentors).size).to eq(2)
       end
+
+      it 'renders xlsx' do
+        get :index, format: 'xlsx'
+        expect(response).to be_successful
+      end
+
     end
   end
 end

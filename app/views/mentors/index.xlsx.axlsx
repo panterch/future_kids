@@ -41,7 +41,7 @@ wb.add_worksheet(name: "Mentor") do |sheet|
       m.field_of_study,
       m.education,
       m.transport,
-      m.primary_kids_school.name,
+      m.primary_kids_school.try(:name),
       m.human_primary_kids_meeting_day,
       m.kids.map { |k| "#{k.name} #{k.prename} #{k.try(:city)}" }.join("\n"),
       m.secondary_kids.map { |k| "#{k.name} #{k.prename} #{k.try(:city)}" }.join("\n"),
