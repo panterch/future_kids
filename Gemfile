@@ -23,7 +23,7 @@ gem 'show_for', github: 'plataformatec/show_for'
 gem 'whenever', require: false
 gem "bootstrap-sass"
 gem 'quiet_assets'
-gem 'i18n_rails_helpers', '~> 2.0.0.beta1'
+gem 'i18n_rails_helpers', '~> 2.0.0.beta2'
 
 gem 'sass-rails'
 gem 'coffee-rails'
