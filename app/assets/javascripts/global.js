@@ -31,7 +31,7 @@ function register_datepickers() {
   };
 
   $('input.calendricalDate').calendricalDate(date_settings);
-  $('#journal_start_at, #journal_end_at').calendricalTimeRange(time_settings)
+  $('#journal_start_at, #journal_end_at').calendricalTimeRange(time_settings);
   $('#kid_meeting_start_at').calendricalTime(time_settings);
 
 }
@@ -58,9 +58,9 @@ function register_mentor_journal_date_selectors() {
 
 function register_schedule_checkboxes() {
   $('form.schedule table input[type=checkbox]').change(function(){
-    $(this).siblings('input').toggleEnabled(this.checked) });
+    $(this).siblings('input').toggleEnabled(this.checked); });
   $('form.schedule table input[type=checkbox]').each(function(){
-    $(this).siblings('input').toggleEnabled(this.checked) });
+    $(this).siblings('input').toggleEnabled(this.checked); });
 }
 
 function register_todotogglers() {
@@ -72,12 +72,12 @@ function register_todotogglers() {
 }
 
 function register_kidsfilter() {
-  $('form.filter select, form.filter input').change(function(event) {
+  $('form.filter select, form.filter input').change(function() {
     $('form.filter').submit();
   });
 }
 function register_documents_toc() {
-  $('#documents .panel-heading').click(function(event) {
+  $('#documents .panel-heading').click(function() {
     var $header = $(this);
     var $list = $header.next('.list-group');
     $header.toggleClass('open');
