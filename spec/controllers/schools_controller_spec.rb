@@ -2,8 +2,6 @@ require 'spec_helper'
 
 describe SchoolsController do
 
-  render_views
-
   before(:each) do
     sign_in @admin = create(:admin)
   end

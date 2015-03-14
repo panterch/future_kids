@@ -48,7 +48,6 @@ describe JournalsController do
     end
 
     context 'with render views' do
-      render_views
       it('news') { get :new, :kid_id => @kid.id }
       it('edits') { get :edit, :kid_id => @kid.id, :id => journal.id }
     end

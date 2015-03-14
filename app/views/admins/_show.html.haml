@@ -16,4 +16,4 @@
           = can_link_to k.mentor if k.mentor.present?
     = show.attribute :inactive
 
-    = render :partial => 'relation_logs/collection', collection: @admin.relation_logs
+    = render 'relation_logs/collection', resource: @admin

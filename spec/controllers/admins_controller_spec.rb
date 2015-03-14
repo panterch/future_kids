@@ -13,7 +13,18 @@ describe AdminsController do
         2.times { create(:admin) }
         get :index
         expect(assigns(:admins).size).to eq(3) # 3 including the signed in admin
+        expect(response).to be_success
       end
+    end
+
+    context 'show' do
+      it 'displays relation log' do
+        @kid = create(:kid, admin: @admin)
+        get :show, id: @admin.id
+        expect(response).to be_success
+        expect(response.body).to match /#{@kid.name}/
+      end
+
     end
   end
 end
