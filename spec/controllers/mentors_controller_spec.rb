@@ -50,6 +50,12 @@ describe MentorsController do
         expect(assigns(:mentors).size).to eq(2)
       end
 
+      it 'excludes inactive mentors' do
+        create(:mentor, inactive: true)
+        get :index
+        expect(assigns(:mentors).size).to eq(1)
+      end
+
       it 'renders xlsx' do
         get :index, format: 'xlsx'
         expect(response).to be_successful

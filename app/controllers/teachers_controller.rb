@@ -6,7 +6,9 @@ class TeachersController < ApplicationController
   def index
     # a prototyped teacher is submitted with each index query. if the prototype
     # is not present, it is built here with default values
-    teacher_params[:inactive] = "0" if teacher_params[:inactive].nil?
+    params[:teacher] ||= {}
+    params[:teacher][:inactive] = "0" if params[:teacher][:inactive].nil?
+
     @teachers = @teachers.where(teacher_params.to_h.delete_if {|key, val| val.blank? })
 
     @teacher = Teacher.new(teacher_params)

@@ -12,7 +12,8 @@ class MentorsController < ApplicationController
 
     # a prototyped mentor is submitted with each index query. if the prototype
     # is not present, it is built here with default values
-    mentor_params[:inactive] = "0" if mentor_params[:inactive].nil?
+    params[:mentor] ||= {}
+    params[:mentor][:inactive] = "0" if params[:mentor][:inactive].nil?
 
     # mentors are filtered by the criteria above
     @mentors = @mentors.where(mentor_params.to_h.delete_if {|key, val| val.blank? })

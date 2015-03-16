@@ -54,6 +54,12 @@ describe PrincipalsController do
       sign_in @admin
     end
 
+    it 'excludes inactive on index' do
+      create(:principal, inactive: true)
+      get :index
+      expect(assigns(:principals).size).to eq(1)
+    end
+
     it 'new' do
       get :new
       expect(response).to be_successful

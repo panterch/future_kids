@@ -24,7 +24,8 @@ class KidsController < ApplicationController
       # a prototyped kid is submitted with each index query. if the prototype
       # is not present, it is built here with default values
       # build a where condition out of all parameters supplied for kid
-      kid_params[:inactive] = "0" if kid_params[:inactive].nil?
+      params[:kid] ||= {}
+      params[:kid][:inactive] = "0" if params[:kid][:inactive].nil?
       @kids = @kids.where(kid_params.to_h.delete_if {|key, val| val.blank? })
       # reorder the kids according to the supplied parameter
       @kids = @kids.reorder(params['order_by']) if params['order_by']

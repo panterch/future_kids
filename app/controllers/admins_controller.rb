@@ -7,7 +7,7 @@ class AdminsController < ApplicationController
     # is not present, it is built here with default values
     params[:admin] ||= {}
     params[:admin][:inactive] = "0" if params[:admin][:inactive].nil?
-    @admins = @admins.where(params[:admin].to_h.delete_if {|key, val| val.blank? })
+    @admins = @admins.where(admin_params.to_h.delete_if {|key, val| val.blank? })
 
     # provide a prototype admin for the filter form
     @admin = Admin.new(admin_params)

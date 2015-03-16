@@ -6,7 +6,8 @@ class PrincipalsController < ApplicationController
   def index
     # a prototyped principal is submitted with each index query. if the
     # prototype is not present, it is built here with default values
-    principal_params[:inactive] = "0" if principal_params[:inactive].nil?
+    params[:principal] ||= {}
+    params[:principal][:inactive] = "0" if params[:principal][:inactive].nil?
     @principals = @principals.where(principal_params.to_h.delete_if {|key, val| val.blank? })
 
     # provide a prototype principal for the filter form

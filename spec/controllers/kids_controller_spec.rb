@@ -12,7 +12,7 @@ describe KidsController do
 
     context 'index' do
 
-      it 'should render index' do
+      it 'should render' do
         get :index
         expect(response).to be_successful
         expect(assigns(:kids).length).to eq(1)
@@ -63,6 +63,13 @@ describe KidsController do
       it 'should create a criteria instance for search' do
         get :index, :kid => { :translator => '1' }
         expect(assigns(:kid).translator).to eq(true)
+      end
+
+      it 'should exclude inactive kids' do
+        create(:kid, inactive: true)
+        get :index
+        expect(response).to be_successful
+        expect(assigns(:kids).length).to eq(1)
       end
 
       it 'renders xlsx' do
