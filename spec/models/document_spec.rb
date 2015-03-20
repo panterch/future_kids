@@ -26,4 +26,16 @@ describe Document do
     assert_equal %w(x y), tree['a']
     assert_equal %w(y), tree['b']
   end
+
+  it 'delivers in category' do
+    doc = create(:document, :title => 'category', :category => 'a')
+    create(:document, :title => 'subcateg', :category => 'a', :subcategory => 'x')
+    expect(Document.in_category('a')).to eq([doc])
+  end
+
+  it 'delivers in subcategory' do
+    create(:document, :title => 'c', :category => 'a')
+    sub = create(:document, :title => 's', :category => 'a', :subcategory => 'x')
+    expect(Document.in_subcategory('a', 'x')).to eq([sub])
+  end
 end

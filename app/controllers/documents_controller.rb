@@ -16,14 +16,18 @@ class DocumentsController < ApplicationController
 
   def create
     @document = Document.create(document_params)
-    redirect_to action: :index
+    if @document.valid?
+      redirect_to action: :index
+    else
+      render :new
+    end
   end
 
   private
 
   def document_params
     params.require(:document).permit(
-      :category, :subcategory, :title, :attachment
+        :category, :subcategory, :title, :attachment
     )
   end
 end

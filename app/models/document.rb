@@ -18,12 +18,6 @@ class Document < ActiveRecord::Base
     tree
   end
 
-  def self.no_category()
-    Document.
-      where("category IS NULL OR category = ''").
-      order(:title)
-  end
-
   def self.in_category(category)
     Document.
       where(:category => category).
