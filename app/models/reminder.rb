@@ -1,7 +1,7 @@
 class Reminder < ActiveRecord::Base
 
   default_scope { order('held_at DESC, id') }
-  scope :active, -> { where("reminders.acknowledged_at IS NULL") }
+  scope :active, -> { where('reminders.acknowledged_at IS NULL') }
 
   belongs_to :mentor
   belongs_to :secondary_mentor, :class_name => 'Mentor'
@@ -44,6 +44,13 @@ class Reminder < ActiveRecord::Base
   # scans all kids and creates reminders for kids that meet the conditions
   #
   # typically called via cron once a day
+  #
+  # There are different rules which decide if reminders are created or not.
+  # When you have to create reminders for development make sure that you
+  # - have mentors assigned to kids
+  # - kids have meeting days (best at start of week) and meeting time set
+  # - not all journal entries or reminders are there
+  # - you pass a parater time that is a few days after the kids meeting das
   def self.conditionally_create_reminders(time = Time.now)
     reminders_created = 0
 
@@ -87,7 +94,7 @@ class Reminder < ActiveRecord::Base
       end
 
     rescue => e
-      logger.error "Exception during reminder run"
+      logger.error 'Exception during reminder run'
       logger.error e.message
       logger.error e.backtrace.join("\n")
       logger.flush
