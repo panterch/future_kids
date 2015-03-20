@@ -1,6 +1,6 @@
 class ExceptionTestController < ApplicationController
 
-  # this creates an excpetion - use this to test the exception notification
+  # this creates an exception - use this to test the exception notification
   # * login
   # * call /exception_test
   def error
