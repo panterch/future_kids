@@ -55,7 +55,8 @@ class MentorsController < ApplicationController
         :name, :prename, :email, :password, :password_confirmation, :address,
         :city, :dob, :phone, :college, :field_of_study, :education, :transport,
         :personnel_number, :ects, :term, :absence, :note, :todo, :substitute,
-        :inactive, :photo, schedules_attributes: [:day, :hour, :minute]
+        :primary_kids_school_id, :primary_kids_meeting_day, :primary_kids_admin_id,
+        :inactive, :photo, schedules_attributes: [:day, :hour, :minute],
       )
     else
       {}

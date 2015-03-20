@@ -21,3 +21,4 @@
 .DS_Store
 public/system/**/*
 .sass-cache/
+.idea/

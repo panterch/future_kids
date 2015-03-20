@@ -18,7 +18,7 @@ describe MentorsController do
         expect(assigns(:journals).size).to eq(1) # default entry
       end
 
-      it 'assigns the precreated journal entries when no available' do
+      it 'assigns the pre-created journal entries when no available' do
         get :show, :id => @mentor, :month => '1', :year => '2011'
         expect(assigns(:journals)).to include(@journal)
       end

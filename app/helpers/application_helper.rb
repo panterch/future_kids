@@ -42,12 +42,27 @@ module ApplicationHelper
 
   def exit_reason_collection
     [ "Übertritt",
-    "Wegzug",
-    "Erfolgreich abgeschlossen",
-    "Nicht geeignete Massnahme",
-    "Andere Gründe" ]
+      "Wegzug",
+      "Erfolgreich abgeschlossen",
+      "Nicht geeignete Massnahme",
+      "Andere Gründe" ]
   end
 
+  def school_collection
+    School.all.map{ |s| [ s.display_name, s.id ]}
+  end
+
+  def admin_collection
+    Admin.active.map { |a| [a.display_name, a.id] }
+  end
+
+  def mentor_collection
+    Mentor.active.map { |m| [m.display_name, m.id] }
+  end
+
+  def teacher_collection
+    Teacher.active.map { |t| [t.display_name, t.id] }
+  end
 
   def order_by_collection_for_kids(selected)
     options = [['Name', 'name, prename' ],
