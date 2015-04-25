@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141228185936) do
+ActiveRecord::Schema.define(version: 20150424163124) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -104,6 +104,8 @@ ActiveRecord::Schema.define(version: 20141228185936) do
     t.integer  "school_id"
     t.string   "exit"
     t.string   "exit_reason"
+    t.string   "exit_kind"
+    t.date     "exit_at"
   end
 
   add_index "kids", ["inactive"], name: "index_kids_on_inactive", using: :btree
@@ -231,6 +233,8 @@ ActiveRecord::Schema.define(version: 20141228185936) do
     t.datetime "photo_updated_at"
     t.boolean  "receive_journals",                     default: false
     t.integer  "primary_kids_admin_id"
+    t.string   "exit_kind"
+    t.date     "exit_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

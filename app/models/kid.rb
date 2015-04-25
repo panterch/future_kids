@@ -99,6 +99,11 @@ class Kid < ActiveRecord::Base
     I18n.l(meeting_start_at, :format => :time)
   end
 
+  def human_exit_kind
+    return '' if exit_kind.blank?
+    I18n.t(exit_kind, :scope => 'exit_kind')
+  end
+
   # mentors can be filtered by the scool of their primary kids. therefore we use
   # a field on mentor which has to be synced on each write
   def sync_fields_with_mentor

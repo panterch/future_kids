@@ -24,6 +24,8 @@ wb.add_worksheet(name: "Mentor") do |sheet|
     Mentor.human_attribute_name('note'),
     Mentor.human_attribute_name('todo'),
     Mentor.human_attribute_name('substitute'),
+    Mentor.human_attribute_name('exit_kind'),
+    Mentor.human_attribute_name('exit_at'),
     Mentor.human_attribute_name('inactive')
   ]
 
@@ -52,6 +54,8 @@ wb.add_worksheet(name: "Mentor") do |sheet|
       m.note,
       m.todo,
       m.substitute,
+      m.exit_kind,
+      m.exit_at,
       m.inactive
     ]
   end

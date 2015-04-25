@@ -33,6 +33,9 @@
           = show.attribute :note
           = show.attribute :todo
           = show.attribute :substitute
+          = show.attribute :exit_kind
+          - if 'later' == @mentor.exit_kind
+            = show.attribute :exit_at
           = show.attribute :inactive
 
 

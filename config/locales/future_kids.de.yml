@@ -30,6 +30,8 @@ de:
         term: "Eintritt"
         exit: "Austritt"
         exit_reason: "Grund für Ausstieg"
+        exit_kind: "Ausstieg"
+        exit_at: "Ausstiegsdatum"
         meeting_day: "Treffen Wochentag"
         meeting_start_at: "Treffen beginnt um"
         mentor: "Mentor/in"
@@ -112,6 +114,8 @@ de:
         journals: "Lernjournal Einträge"
         substitute: "Ersatzmentor"
         college: 'Hochschule'
+        exit_kind: "Ausstieg"
+        exit_at: "Ausstiegsdatum"
       teacher:
         kids: Kinder
         secondary_kids: "Kinder (als 2. Lehrperson)"
@@ -164,6 +168,11 @@ de:
       '1': Hoch
       '2': Mittel
       '3': Tief
+
+  exit_kind:
+    exit: "Steigt aus"
+    later: "Steigt später aus"
+    continue: "Macht weiter"
 
   crud:
     action:

@@ -11,6 +11,7 @@ $(function () {
   register_kidanchors();
   register_submit_action_in_sidebar();
   register_back_to_top_link();
+  register_exit_at_toggler();
   setTimeout(remove_alerts, 3000);
 });
 
@@ -19,7 +20,7 @@ function register_datepickers() {
 
   var date_settings = {
     usa: false,
-    separator: '.',
+    separator: '.'
   };
 
   var time_settings = {
@@ -121,6 +122,13 @@ function register_back_to_top_link() {
     $('html, body').stop().animate({ 'scrollTop': 0 }, 500, 'swing');
   });
   $toTop.appendTo($('#contextual_links_panel .list-group'));
+}
+
+function register_exit_at_toggler() {
+  $('#kid_exit_kind, #mentor_exit_kind').change(function() {
+    $('.form-group.kid_exit_at, .form-group.mentor_exit_at').toggle('later' == $(this).val());
+  });
+  $('#kid_exit_kind, #mentor_exit_kind').change();
 }
 
 function remove_alerts() {

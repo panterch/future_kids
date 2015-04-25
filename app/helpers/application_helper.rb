@@ -48,6 +48,10 @@ module ApplicationHelper
       "Andere Gründe" ]
   end
 
+  def exit_kind_collection
+    %w(exit later continue).map{ |i| [I18n.t(i, :scope => 'exit_kind'), i] }
+  end
+
   def school_collection
     School.all.map{ |s| [ s.display_name, s.id ]}
   end

@@ -23,6 +23,8 @@
     %a(name='todo')
     = form.input :todo
     = form.input :substitute
+    = form.input :exit_kind, :collection => exit_kind_collection
+    = form.input :exit_at
     = form.input :inactive
 
   .col-sm-offset-3.col-sm-9
