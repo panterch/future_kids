@@ -1,4 +1,4 @@
-[![Build Status](https://secure.travis-ci.org/panterch/future_kids.png?branch=master)](http://travis-ci.org/panterch/future_kids)
+[![Build Status](https://travis-ci.org/panterch/future_kids.svg?branch=master)](http://travis-ci.org/panterch/future_kids)
 [![security](https://hakiri.io/github/panterch/future_kids/master.svg)](https://hakiri.io/github/panterch/future_kids/master)
 [![Dependency Status](https://gemnasium.com/panterch/future_kids.svg)](https://gemnasium.com/panterch/future_kids)
 [![Test
