@@ -17,7 +17,7 @@ set :rails_env, 'production'
 set :deploy_via, :remote_cache
 set :scm, :git
 set :default_run_options, { pty: true }
-set :repository, "git@github.com:panter/future_kids.git"
+set :repository, "git@github.com:panterch/future_kids.git"
 set :ssh_options, { forward_agent: true }
 set :use_sudo, false
 
