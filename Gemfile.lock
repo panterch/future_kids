@@ -63,7 +63,7 @@ GEM
       sass (>= 3.2.19)
     builder (3.2.2)
     cancancan (1.10.1)
-    capistrano (2.15.5)
+    capistrano (2.13.5)
       highline
       net-scp (>= 1.0.0)
       net-sftp (>= 2.0.0)
@@ -280,7 +280,7 @@ DEPENDENCIES
   binding_of_caller
   bootstrap-sass
   cancancan
-  capistrano (~> 2.0)
+  capistrano (= 2.13.5)
   capistrano-ext (= 1.2.1)
   capistrano-rbenv (~> 1.0)
   capybara
