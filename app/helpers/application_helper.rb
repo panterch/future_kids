@@ -122,4 +122,9 @@ module ApplicationHelper
       link_to link_text, link_path
     end
   end
+
+  def human_date(date)
+    return nil unless date.present?
+    I18n.l(date)
+  end
 end

@@ -101,6 +101,7 @@ class Ability
     can :destroy, Reminder if user.is_a?(Admin)
     can :destroy, Document if user.is_a?(Admin)
     can :destroy, Journal if user.is_a?(Admin)
+    can :destroy, KidMentorRelation if user.is_a?(Admin)
 
     # special manage definition for mentors - OVERWRITING even the global
     # destroy protection

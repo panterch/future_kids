@@ -20,6 +20,9 @@ Rails.application.routes.draw do
        patch 'update_schedules'
     end
   end
+  resources :kid_mentor_relations do
+    delete :destroy_all, on: :collection
+  end
   resources :schedules
   resources :schools
   resources :reminders

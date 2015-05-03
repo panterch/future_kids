@@ -8,4 +8,13 @@ describe ApplicationHelper do
     end
   end
 
+  describe 'human date' do
+    it 'formats dates' do
+      expect(helper.human_date(Date.parse('1980-01-30'))).to eq('30.01.1980')
+    end
+    it 'guards nil' do
+      expect(helper.human_date(nil)).to be_nil
+    end
+  end
+
 end
