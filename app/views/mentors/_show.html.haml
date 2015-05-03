@@ -57,7 +57,7 @@
   %table.table.table-striped.table-condensed.table-hover
     - @journals.each do |journal|
       %tr
-        %td= I18n.l(journal.held_at)
+        %td= human_date(journal.held_at)
         %td
           - if journal.kid
             = journal.kid.display_name

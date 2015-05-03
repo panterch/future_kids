@@ -16,21 +16,21 @@
         %th Quittieren
     - @reminders.each do |reminder|
       %tr
-        %td= I18n.l(reminder.held_at)
+        %td= human_date(reminder.held_at)
         %td= link_to reminder.kid.display_name, reminder.kid
         %td= link_to reminder.mentor.display_name, reminder.mentor
         %td
           -if reminder.secondary_mentor
             = link_to reminder.secondary_mentor.display_name, reminder.secondary_mentor
         %td= reminder.recipient
-        %td= I18n.l(reminder.created_at.to_date) if reminder.created_at
+        %td= human_date(reminder.created_at.to_date)
         %td
           -if reminder.kid.last_journal_entry
             = link_to kid_path(reminder.kid, :anchor => 'journals') do
-              = I18n.l(reminder.kid.last_journal_entry.held_at)
+              = human_date(reminder.kid.last_journal_entry.held_at)
         %td
           - if reminder.sent_at
-            = I18n.l(reminder.sent_at.to_date)
+            = human_date(reminder.sent_at.to_date)
           - else
             = button_to "Zustellen", { :action => "update", :id => reminder.id }, { :method => :put, :class => 'btn btn-default btn-xs' }
         %td

@@ -10,8 +10,8 @@
     - resource.relation_logs.each do |relation_log|
       %tr
         %td
-          = I18n.l(relation_log.start_at) if relation_log.start_at
-          = I18n.l(relation_log.end_at) if relation_log.end_at
+          = human_date(relation_log.start_at)
+          = human_date(relation_log.end_at)
         %td= link_to relation_log.user.display_name, relation_log.user
         %td= relation_log.end_at ? 'entfernt' : 'zugeordnet'
         %td
