@@ -29,7 +29,7 @@ describe RemindersController do
       it 'delivers the reminder' do
         put :update, id: @reminder.id
         expect(response).to redirect_to(action: 'index')
-        expect(@reminder.reload.sent_at).to_not be_nil
+        expect(@reminder.reload.sent_at).not_to be_nil
       end
     end
 

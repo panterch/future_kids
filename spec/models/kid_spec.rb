@@ -63,34 +63,34 @@ describe Kid do
       kid.school = create(:school)
       kid.mentor = mentor = create(:mentor)
       kid.save!
-      assert_equal kid.school_id, mentor.reload.primary_kids_school_id
-      assert_equal kid.school.name, mentor.reload.primary_kids_school.name
+      expect(kid.school_id).to eq mentor.reload.primary_kids_school_id
+      expect(kid.school.name).to eq mentor.reload.primary_kids_school.name
       kid.mentor = nil
       kid.save!
-      assert_nil mentor.reload.primary_kids_school
+      expect(mentor.reload.primary_kids_school).to be_nil
     end
     it 'does sync its coach with the mentors primary_kid_coach field' do
       kid.admin = create(:admin)
       kid.mentor = mentor = create(:mentor)
       kid.save!
-      assert_equal kid.admin_id, mentor.reload.primary_kids_admin_id
-      assert_equal kid.admin.display_name, mentor.primary_kids_admin.display_name
+      expect(kid.admin_id).to eq mentor.reload.primary_kids_admin_id
+      expect(kid.admin.display_name).to eq mentor.primary_kids_admin.display_name
       kid.admin = nil
       kid.save!
-      assert_nil mentor.reload.primary_kids_admin
+      expect(mentor.reload.primary_kids_admin).to be_nil
     end
     it 'does release synced relations on mentors when inactivated' do
       kid.school = create(:school)
       kid.admin = create(:admin)
       kid.mentor = mentor = create(:mentor)
       kid.save!
-      assert mentor.reload.primary_kids_school.present?
-      assert mentor.reload.primary_kids_admin.present?
+      expect(mentor.reload.primary_kids_school).to be_truthy
+      expect(mentor.reload.primary_kids_admin).to be_truthy
       kid.inactive = true
       kid.save!
-      assert mentor.reload.kids.empty?
-      assert_nil mentor.reload.primary_kids_school
-      assert_nil mentor.reload.primary_kids_admin
+      expect(mentor.reload.kids).to be_empty
+      expect(mentor.reload.primary_kids_school).to be_nil
+      expect(mentor.reload.primary_kids_admin).to be_nil
     end
     it 'does nilify mentors when set inactive' do
       mentor = kid.mentor = create(:mentor)

@@ -21,10 +21,10 @@ describe Document do
     create(:document, :title => 'by3', :category => 'b', :subcategory => 'y')
 
     tree = Document.category_tree
-    assert_equal %w(a b), tree.keys
+    expect(tree.keys).to eq %w(a b)
 
-    assert_equal %w(x y), tree['a']
-    assert_equal %w(y), tree['b']
+    expect(tree['a']).to eq %w(x y)
+    expect(tree['b']).to eq %w(y)
   end
 
   it 'delivers in category' do

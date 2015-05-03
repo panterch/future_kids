@@ -52,11 +52,11 @@ describe Mentor do
       @none = create(:mentor)
 
       res = Mentor.mentors_grouped_by_assigned_kids
-      assert_equal [@both], res[:both]
-      assert_equal [@only_primary], res[:only_primary]
-      assert_equal [@only_secondary], res[:only_secondary]
-      assert_equal [@substitute], res[:substitute]
-      assert_equal [@none], res[:none]
+      expect(res[:both]).to eq [@both]
+      expect(res[:only_primary]).to eq [@only_primary]
+      expect(res[:only_secondary]).to eq [@only_secondary]
+      expect(res[:substitute]).to eq [@substitute]
+      expect(res[:none]).to eq [@none]
     end
   end
 
