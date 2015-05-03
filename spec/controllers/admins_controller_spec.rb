@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe AdminsController do
-
   context 'as an admin' do
     before(:each) do
       @admin = create(:admin)
@@ -37,7 +36,6 @@ describe AdminsController do
         get :show, id: @admin.id
         expect(response).to be_success
       end
-
     end
   end
 end

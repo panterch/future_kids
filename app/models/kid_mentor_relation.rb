@@ -1,5 +1,4 @@
 class KidMentorRelation < ActiveRecord::Base
-
   self.primary_key = 'kid_id' # use kid id to identify records
 
   belongs_to :kid
@@ -25,7 +24,7 @@ class KidMentorRelation < ActiveRecord::Base
   def inactivatable?
     return false unless 'exit' == kid.exit_kind
     return false unless 'exit' == kid.mentor.exit_kind
-    return true
+    true
   end
 
   # model is connected to an SQL view

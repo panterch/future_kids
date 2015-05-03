@@ -1,10 +1,9 @@
 class Reminder < ActiveRecord::Base
-
   default_scope { order('held_at DESC, id') }
   scope :active, -> { where('reminders.acknowledged_at IS NULL') }
 
   belongs_to :mentor
-  belongs_to :secondary_mentor, :class_name => 'Mentor'
+  belongs_to :secondary_mentor, class_name: 'Mentor'
   belongs_to :kid
 
   validates_presence_of :kid
@@ -13,7 +12,7 @@ class Reminder < ActiveRecord::Base
   def deliver_mail
     mail = Notifications.remind(self)
     mail.deliver_now
-    update_attributes!(:sent_at => Time.now)
+    update_attributes!(sent_at: Time.now)
   end
 
   # create a reminder for the given kid and the given time
@@ -32,7 +31,7 @@ class Reminder < ActiveRecord::Base
     r.week = r.held_at.strftime('%U')
     r.year = r.held_at.year
     # the recipient of the reminder should be the active mentor
-    if kid.secondary_active? and kid.secondary_mentor
+    if kid.secondary_active? && kid.secondary_mentor
       r.recipient = kid.secondary_mentor.email
     else
       r.recipient = kid.mentor.try(:email)
@@ -59,10 +58,10 @@ class Reminder < ActiveRecord::Base
 
     begin
 
-      Kid.all.each do |kid|
+      Kid.all.find_each do |kid|
         logger.info("[#{kid.id}] #{kid.display_name}: checking journal entries")
         logger.flush
-        if !kid.journal_entry_due?(time)
+        unless kid.journal_entry_due?(time)
           logger.info("[#{kid.id}] #{kid.display_name}: no entry due")
           logger.flush
           next
@@ -89,7 +88,7 @@ class Reminder < ActiveRecord::Base
       end
 
       # send out admin notification when reminders were created
-      if (0 < reminders_created)
+      if 0 < reminders_created
         Notifications.reminders_created(reminders_created).deliver_now
       end
 
@@ -105,6 +104,4 @@ class Reminder < ActiveRecord::Base
 
     reminders_created
   end
-
-
 end

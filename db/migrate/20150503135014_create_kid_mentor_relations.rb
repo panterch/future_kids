@@ -1,6 +1,6 @@
 class CreateKidMentorRelations < ActiveRecord::Migration
   def up
-    self.connection.execute %Q(
+    connection.execute %(
       CREATE OR REPLACE VIEW kid_mentor_relations AS
         SELECT
           kids.id AS kid_id,
@@ -21,6 +21,6 @@ class CreateKidMentorRelations < ActiveRecord::Migration
  end
 
   def down
-    self.connection.execute "DROP VIEW IF EXISTS kid_mentor_relations;"
+    connection.execute 'DROP VIEW IF EXISTS kid_mentor_relations;'
   end
 end

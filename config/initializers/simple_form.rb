@@ -6,7 +6,7 @@ SimpleForm.setup do |config|
   # stack. The options given below are used to wrap the
   # whole input.
   config.wrappers :default, class: :input,
-    hint_class: :field_with_hint, error_class: :field_with_errors do |b|
+                            hint_class: :field_with_hint, error_class: :field_with_errors do |b|
     ## Extensions enabled by default
     # Any of these extensions can be disabled for a
     # given input by passing: `f.input EXTENSION_NAME => false`.
@@ -78,10 +78,10 @@ SimpleForm.setup do |config|
   # config.error_notification_id = nil
 
   # Series of attempts to detect a default label method for collection.
-  config.collection_label_methods = [ :display_name ]
+  config.collection_label_methods = [:display_name]
 
   # Series of attempts to detect a default value method for collection.
-  config.collection_value_methods = [ :id ]
+  config.collection_value_methods = [:id]
 
   # You can wrap a collection of radio/check boxes in a pre-defined tag, defaulting to none.
   # config.collection_wrapper_tag = nil

@@ -1,5 +1,5 @@
 RSpec.configure do |config|
-  config.include Devise::TestHelpers, :type => :controller
+  config.include Devise::TestHelpers, type: :controller
 
   # rspec-rails 3 will no longer automatically infer an example group's spec type
   # from the file location. You can explicitly opt-in to the feature using this
@@ -12,4 +12,3 @@ RSpec.configure do |config|
   #     end
   config.infer_spec_type_from_file_location!
 end
-

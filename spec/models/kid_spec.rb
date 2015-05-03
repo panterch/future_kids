@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Kid do
-
   let(:monday) { Time.parse('2011-01-03 22:00') }
   let(:thursday) { Time.parse('2011-01-06 22:00') }
   let(:friday) { Time.parse('2011-01-07 22:00') }
@@ -16,14 +15,13 @@ describe Kid do
       expect(Kid.find(kid.id).journals.size).to eq(1)
     end
     it 'can populate journal via nested attributes' do
-      kid.update_attributes(:journals_attributes =>
-                            [{ 'mentor_id' => mentor.id }] )
+      kid.update_attributes(journals_attributes:                             [{ 'mentor_id' => mentor.id }])
       expect(kid.journals.size).to eq(1)
     end
     it 'does sort journal correctly' do
-      old_record =      create(:journal, :held_at => Date.parse('2010-01-01'), :kid => kid)
-      recent_record =   create(:journal, :held_at => Date.parse('2020-01-01'), :kid => kid)
-      very_old_record = create(:journal, :held_at => Date.parse('2000-01-01'), :kid => kid)
+      old_record =      create(:journal, held_at: Date.parse('2010-01-01'), kid: kid)
+      recent_record =   create(:journal, held_at: Date.parse('2020-01-01'), kid: kid)
+      very_old_record = create(:journal, held_at: Date.parse('2000-01-01'), kid: kid)
       expect(kid.journals(true).map(&:held_at)).to eq(
         [recent_record, old_record, very_old_record].map(&:held_at))
     end
@@ -114,8 +112,8 @@ describe Kid do
 
   context 'meeting time calculation' do
     before(:each) do
-      @kid = create(:kid, :meeting_day => 3,
-                     :meeting_start_at => Time.parse('18:00'))
+      @kid = create(:kid, meeting_day: 3,
+                          meeting_start_at: Time.parse('18:00'))
     end
     it 'should return nil when not enough information' do
       @kid.meeting_day = nil
@@ -139,8 +137,8 @@ describe Kid do
 
   context 'journal entry for week' do
     before(:each) do
-      @kid = create(:kid, :meeting_day => 2, :meeting_start_at => '13:00')
-      @journal = create(:journal, :kid => @kid, :held_at => thursday)
+      @kid = create(:kid, meeting_day: 2, meeting_start_at: '13:00')
+      @journal = create(:journal, kid: @kid, held_at: thursday)
     end
     it 'finds journal entry in future' do
       expect(@kid.journal_entry_for_week(monday)).to eq(@journal)
@@ -153,5 +151,4 @@ describe Kid do
       expect(@kid.journal_entry_for_week(friday)).to be_nil
     end
   end
-
 end

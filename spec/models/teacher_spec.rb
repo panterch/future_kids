@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Teacher do
-
   after(:each) { ActionMailer::Base.deliveries.clear }
 
   it 'has a valid factory' do
@@ -15,8 +14,8 @@ describe Teacher do
     let(:secondary_kid) { create(:kid, secondary_teacher: teacher) }
 
     it 'finds todays journals' do
-      journals = [ create(:journal, kid: kid),
-                   create(:journal, kid: secondary_kid) ]
+      journals = [create(:journal, kid: kid),
+                  create(:journal, kid: secondary_kid)]
       expect(teacher.todays_journals.sort).to eq(journals.sort)
     end
 
@@ -26,7 +25,7 @@ describe Teacher do
     end
 
     it 'ignores older journals' do
-      create(:journal, kid: kid, created_at: Date.parse("2000-01-01"))
+      create(:journal, kid: kid, created_at: Date.parse('2000-01-01'))
       expect(teacher.todays_journals.sort).to eq([])
     end
 
@@ -49,6 +48,5 @@ describe Teacher do
       Teacher.conditionally_send_journals
       expect(ActionMailer::Base.deliveries).to be_empty
     end
-
   end
 end

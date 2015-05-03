@@ -19,11 +19,10 @@
 
 # Learn more: http://github.com/javan/whenever
 
-every 1.day, :at => '10:00 pm' do
-  runner "Reminder.conditionally_create_reminders"
+every 1.day, at: '10:00 pm' do
+  runner 'Reminder.conditionally_create_reminders'
 end
 
-every 1.day, :at => '7:00 am' do
-  runner "Teacher.conditionally_send_journals"
+every 1.day, at: '7:00 am' do
+  runner 'Teacher.conditionally_send_journals'
 end
-

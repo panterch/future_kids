@@ -7,19 +7,19 @@ describe RelationLog do
   let(:admin) { create(:admin) }
 
   it 'associates mentors' do
-    relation_log = create(:relation_log, :user => mentor)
+    relation_log = create(:relation_log, user: mentor)
     relation_log = RelationLog.find(relation_log.id)
     expect(relation_log.user).to eq(mentor)
   end
 
   it 'associates teachers' do
-    relation_log = create(:relation_log, :user => teacher)
+    relation_log = create(:relation_log, user: teacher)
     relation_log = RelationLog.find(relation_log.id)
     expect(relation_log.user).to eq(teacher)
   end
 
   it 'associates coaches' do
-    relation_log = create(:relation_log, :user => admin)
+    relation_log = create(:relation_log, user: admin)
     relation_log = RelationLog.find(relation_log.id)
     expect(relation_log.user).to eq(admin)
   end

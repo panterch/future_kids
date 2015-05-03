@@ -1,17 +1,15 @@
 class KidsController < ApplicationController
-
   load_and_authorize_resource
   include CrudActions
   include ManageSchedules # edit_schedules & update_schedules
 
-  before_filter :cancan_prototypes, :only => [:show]
-  before_filter :assign_current_teacher, :only => [:create]
-  after_filter  :track_creation_relation, :only => [:create]
-  before_filter :assign_selected_mentor_schedules, :only => [:edit_schedules]
-  before_filter :assign_mentor_selection, :only => [:edit_schedules]
+  before_action :cancan_prototypes, only: [:show]
+  before_action :assign_current_teacher, only: [:create]
+  after_action :track_creation_relation, only: [:create]
+  before_action :assign_selected_mentor_schedules, only: [:edit_schedules]
+  before_action :assign_mentor_selection, only: [:edit_schedules]
 
   def index
-
     if current_user.is_a?(Admin) && 'xlsx' == params[:format]
       return render xlsx: 'index'
     end
@@ -25,8 +23,8 @@ class KidsController < ApplicationController
       # is not present, it is built here with default values
       # build a where condition out of all parameters supplied for kid
       params[:kid] ||= {}
-      params[:kid][:inactive] = "0" if params[:kid][:inactive].nil?
-      @kids = @kids.where(kid_params.to_h.delete_if {|key, val| val.blank? })
+      params[:kid][:inactive] = '0' if params[:kid][:inactive].nil?
+      @kids = @kids.where(kid_params.to_h.delete_if { |_key, val| val.blank? })
       # reorder the kids according to the supplied parameter
       @kids = @kids.reorder(params['order_by']) if params['order_by']
       # provide a prototype for the filter form
@@ -36,25 +34,23 @@ class KidsController < ApplicationController
     respond_with @kids
   end
 
-protected
+  protected
 
   # when the user working on the kid is a teacher, it get's
   # assigned as the first teacher of the kid in creation case
   def assign_current_teacher
     return true unless current_user.is_a?(Teacher)
     return true if @kid.teacher.present?
-    if @kid.secondary_teacher != current_user
-      @kid.teacher ||= current_user
-    end
-    @kid.school  ||= @kid.teacher.try(:school)
-    @kid.school  ||= @kid.secondary_teacher.try(:school)
+    @kid.teacher ||= current_user if @kid.secondary_teacher != current_user
+    @kid.school ||= @kid.teacher.try(:school)
+    @kid.school ||= @kid.secondary_teacher.try(:school)
   end
 
   def track_creation_relation
     return true unless @kid.persisted?
     @kid.relation_logs.create(user_id: current_user.id,
-                                  role: 'creator',
-                                  start_at: Time.now)
+                              role: 'creator',
+                              start_at: Time.now)
   end
 
   # this adds a specific behaviour for kids to the edit_schedules method -
@@ -81,9 +77,7 @@ protected
   def cancan_prototypes
     @cancan_journal = Journal.new(kid: @kid)
     @cancan_review = Review.new(kid: @kid)
-    if current_user.is_a?(Mentor)
-      @cancan_journal.mentor = current_user
-    end
+    @cancan_journal.mentor = current_user if current_user.is_a?(Mentor)
   end
 
   private

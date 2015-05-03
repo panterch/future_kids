@@ -1,11 +1,8 @@
-require "requests/acceptance_helper"
+require 'requests/acceptance_helper'
 
-
-feature "KidMentorRelations as Admin" do
-
+feature 'KidMentorRelations as Admin' do
   let(:mentor_no_exit) { create(:mentor, name: 'Mentor No') }
   let(:mentor_exit) { create(:mentor, exit_kind: 'exit', name: 'Mentor Later') }
-
 
   before(:each) do
     log_in(create(:admin))
@@ -21,8 +18,7 @@ feature "KidMentorRelations as Admin" do
   end
 
   describe 'filtering' do
-
-    scenario "should show all kids without filtering" do
+    scenario 'should show all kids without filtering' do
       expect(page).to have_content('Kid No / Mentor No')
       expect(page).to have_content('Kid No / Mentor Exit')
       expect(page).to have_content('Kid Exit / Mentor No')
@@ -56,8 +52,6 @@ feature "KidMentorRelations as Admin" do
       expect(page).to have_no_content('Kid Exit / Mentor No')
       expect(page).to have_content('Kid Exit / Mentor Exit')
     end
-
-
   end
 
   scenario 'inactivting a relation' do
@@ -76,15 +70,11 @@ feature "KidMentorRelations as Admin" do
     click_link('Alle zurücksetzen')
     within('#main table') { expect(page).to have_no_content('Steigt aus') }
   end
-
 end
 
-
-feature "KidMentorRelations as Mentor" do
+feature 'KidMentorRelations as Mentor' do
   scenario 'does not allow non admin access' do
     log_in(create(:mentor))
     expect { visit kid_mentor_relations_path }.to raise_error(SecurityError)
   end
 end
-
-

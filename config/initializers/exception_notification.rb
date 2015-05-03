@@ -1,7 +1,5 @@
 require 'exception_notification/rails'
 
-
-
 ExceptionNotification.configure do |config|
   # Ignore additional exception types.
   # ActiveRecord::RecordNotFound, AbstractController::ActionNotFound and ActionController::RoutingError are already added.
@@ -16,11 +14,9 @@ ExceptionNotification.configure do |config|
   # Notifiers =================================================================
 
   # Email notifier sends notifications by email.
-  config.add_notifier :email, {
-    :email_prefix => "[FutureKids] ",
-    :sender_address => %{"notifier" <futurekids-tech@panter.ch>},
-    :exception_recipients => %w(futurekids-tech@panter.ch)
-  }
+  config.add_notifier :email,     email_prefix: '[FutureKids] ',
+                                  sender_address: %("notifier" <futurekids-tech@panter.ch>),
+                                  exception_recipients: %w(futurekids-tech@panter.ch)
 
   # Campfire notifier sends notifications to your Campfire room. Requires 'tinder' gem.
   # config.add_notifier :campfire, {
@@ -40,5 +36,4 @@ ExceptionNotification.configure do |config|
   #   :url => 'http://example.com:5555/hubot/path',
   #   :http_method => :post
   # }
-
 end

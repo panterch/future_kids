@@ -1,16 +1,14 @@
 require 'spec_helper'
 
 describe Reminder do
-
   after(:each) { ActionMailer::Base.deliveries.clear }
 
   context 'creation' do
-
     before(:each) do
       @mentor = create(:mentor)
-      @kid = create(:kid, :mentor => @mentor,
-                           :meeting_day => 1,
-                           :meeting_start_at => Time.parse('13:30'))
+      @kid = create(:kid, mentor: @mentor,
+                          meeting_day: 1,
+                          meeting_start_at: Time.parse('13:30'))
     end
 
     let(:monday) { Time.parse('2011-01-03 22:00') }
@@ -66,15 +64,15 @@ describe Reminder do
     end
 
     it 'avoids reminder by batch method when journal entry present' do
-      create(:journal, :kid => @kid, :mentor => @mentor,
-                        :held_at => monday)
+      create(:journal, kid: @kid, mentor: @mentor,
+                       held_at: monday)
       Reminder.conditionally_create_reminders(tuesday)
       expect(@mentor.reminders.count).to eq(0)
     end
 
     it 'avoids reminder by batch method when journal entry present in same week' do
-      create(:journal, :kid => @kid, :mentor => @mentor,
-                        :held_at => wednesday)
+      create(:journal, kid: @kid, mentor: @mentor,
+                       held_at: wednesday)
       Reminder.conditionally_create_reminders(tuesday)
       expect(@mentor.reminders.count).to eq(0)
     end
@@ -89,7 +87,6 @@ describe Reminder do
       Reminder.conditionally_create_reminders(tuesday)
       expect(ActionMailer::Base.deliveries).not_to be_empty
     end
-
   end
 
   it 'delivers reminders' do
@@ -100,17 +97,14 @@ describe Reminder do
   end
 
   context 'reminder scopes' do
-
     it 'finds active reminders' do
       reminder = create(:reminder)
       expect(Reminder.active).to eq([reminder])
     end
 
     it 'finds ignores acknologed reminders' do
-      reminder = create(:reminder, :acknowledged_at => Time.now)
+      reminder = create(:reminder, acknowledged_at: Time.now)
       expect(Reminder.active).to be_empty
     end
-
   end
-
 end

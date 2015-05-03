@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe KidMentorRelation do
-
   context 'kid connected to mentor and coach' do
     let!(:kid) { create(:kid, mentor: mentor, admin: coach) }
     let!(:mentor) { create(:mentor) }
@@ -27,7 +26,6 @@ describe KidMentorRelation do
       expect(relation.admin).not_to be_nil
       expect(relation.admin).to eq(coach)
     end
-
   end
 
   context 'kid without mentor' do
@@ -44,6 +42,4 @@ describe KidMentorRelation do
       expect(KidMentorRelation.count).to be_zero
     end
   end
-
-
 end

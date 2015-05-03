@@ -131,6 +131,6 @@ SimpleForm.setup do |config|
     check_boxes: :horizontal_radio_and_checkboxes,
     radio_buttons: :horizontal_radio_and_checkboxes,
     file: :horizontal_file_input,
-    boolean: :horizontal_boolean,
+    boolean: :horizontal_boolean
   }
 end

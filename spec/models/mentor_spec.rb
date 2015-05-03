@@ -31,9 +31,9 @@ describe Mentor do
   context 'schedules association' do
     it 'should create associated schedules' do
       @mentor = create(:mentor)
-      @mentor.update_attributes(:schedules_attributes => [
-         { :day => 1, :hour => 15, :minute => 0 },
-         { :day => 2, :hour => 16, :minute => 30 }
+      @mentor.update_attributes(schedules_attributes: [
+        { day: 1, hour: 15, minute: 0 },
+        { day: 2, hour: 16, minute: 30 }
       ])
       expect(@mentor.reload.schedules.count).to eq(2)
     end
@@ -42,13 +42,13 @@ describe Mentor do
   context 'mentors grouped bu assigned kids' do
     it 'does correctly group' do
       @both = create(:mentor)
-      create(:kid, :mentor => @both)
-      create(:kid, :secondary_mentor => @both)
+      create(:kid, mentor: @both)
+      create(:kid, secondary_mentor: @both)
       @only_primary = create(:mentor)
-      create(:kid, :mentor => @only_primary)
+      create(:kid, mentor: @only_primary)
       @only_secondary = create(:mentor)
-      create(:kid, :secondary_mentor => @only_secondary)
-      @substitute = create(:mentor, :substitute => true)
+      create(:kid, secondary_mentor: @only_secondary)
+      @substitute = create(:mentor, substitute: true)
       @none = create(:mentor)
 
       res = Mentor.mentors_grouped_by_assigned_kids
@@ -63,9 +63,9 @@ describe Mentor do
   context 'inactive setting' do
     it 'should release kids when set inactive' do
       @mentor = create(:mentor)
-      create(:kid, :mentor => @mentor)
-      create(:kid, :secondary_mentor => @mentor)
-      @mentor.reload.update_attributes(:inactive => true)
+      create(:kid, mentor: @mentor)
+      create(:kid, secondary_mentor: @mentor)
+      @mentor.reload.update_attributes(inactive: true)
       expect(@mentor.reload.kids.count).to eq(0)
       expect(@mentor.secondary_kids.count).to eq(0)
     end
@@ -74,9 +74,9 @@ describe Mentor do
   context 'total minutes' do
     it 'should count journals' do
       @mentor = create(:mentor)
-      @journal = create(:journal, :mentor => @mentor,
-        :start_at => Time.parse("13:00"),
-        :end_at  => Time.parse("14:30"))
+      @journal = create(:journal, mentor: @mentor,
+                                  start_at: Time.parse('13:00'),
+                                  end_at: Time.parse('14:30'))
       expect(@mentor.total_duration).to eq(90)
     end
   end
@@ -84,43 +84,42 @@ describe Mentor do
   context 'month_count' do
     it 'counts journals per month' do
       @mentor = create(:mentor)
-      create(:journal, :mentor => @mentor,
-              :held_at => Date.parse("2011-05-30"))
-      create(:journal, :mentor => @mentor,
-              :held_at => Date.parse("2011-06-01"))
+      create(:journal, mentor: @mentor,
+                       held_at: Date.parse('2011-05-30'))
+      create(:journal, mentor: @mentor,
+                       held_at: Date.parse('2011-06-01'))
       expect(@mentor.month_count).to eq(2)
     end
 
     it 'counts two journals in month once' do
       @mentor = create(:mentor)
-      create(:journal, :mentor => @mentor,
-              :held_at => Date.parse("2011-05-30"))
-      create(:journal, :mentor => @mentor,
-              :held_at => Date.parse("2011-05-01"))
+      create(:journal, mentor: @mentor,
+                       held_at: Date.parse('2011-05-30'))
+      create(:journal, mentor: @mentor,
+                       held_at: Date.parse('2011-05-01'))
       expect(@mentor.month_count).to eq(1)
     end
 
     it 'counts two journals same month but different year' do
       @mentor = create(:mentor)
-      create(:journal, :mentor => @mentor,
-              :held_at => Date.parse("2012-05-30"))
-      create(:journal, :mentor => @mentor,
-              :held_at => Date.parse("2011-05-01"))
+      create(:journal, mentor: @mentor,
+                       held_at: Date.parse('2012-05-30'))
+      create(:journal, mentor: @mentor,
+                       held_at: Date.parse('2011-05-01'))
       expect(@mentor.month_count).to eq(2)
     end
   end
 
-  context "has attached file photo" do
+  context 'has attached file photo' do
     before do
       @file = File.new(Rails.root.join('spec/fixtures/logo.png'))
       @mentor = build(:mentor)
     end
     it 'attaches a photo' do
       @mentor.photo = @file
-      @mentor.save! ; @mentor = Mentor.first
+      @mentor.save!; @mentor = Mentor.first
       expect(@mentor.photo).to be_present
       expect(@mentor.photo.url(:thumb)).to match(/logo\.png/)
     end
   end
-
 end

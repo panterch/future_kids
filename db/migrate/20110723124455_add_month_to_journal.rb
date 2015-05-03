@@ -3,7 +3,7 @@ class AddMonthToJournal < ActiveRecord::Migration
     add_column :journals, :month, :integer
     add_index :journals, :month
     # calculate month for existing records by using the before_save hook
-    Journal.all.each { |j| j.save! }
+    Journal.all.each(&:save!)
   end
 
   def self.down

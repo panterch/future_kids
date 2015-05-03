@@ -1,15 +1,13 @@
 class KidMentorRelationsController < ApplicationController
-
   include AdminOnly
   load_and_authorize_resource
 
   def index
-
     # a prototype object used for the filter sidebar
     #
     # all fields to filter here have to be present in the sql view
     @kid_mentor_relation = KidMentorRelation.new(filter_params)
-    @kid_mentor_relations = @kid_mentor_relations.where(filter_params.to_h.delete_if {|key, val| val.blank? })
+    @kid_mentor_relations = @kid_mentor_relations.where(filter_params.to_h.delete_if { |_key, val| val.blank? })
     respond_with @kid_mentor_relations
   end
 
@@ -23,13 +21,12 @@ class KidMentorRelationsController < ApplicationController
     redirect_to kid_mentor_relations_url
   end
 
-protected
+  protected
 
   def filter_params
     return {} unless params[:kid_mentor_relation].present?
     params.require(:kid_mentor_relation).permit(
-        :kid_exit_kind, :mentor_exit_kind, :admin_id
+      :kid_exit_kind, :mentor_exit_kind, :admin_id
     )
   end
-
 end

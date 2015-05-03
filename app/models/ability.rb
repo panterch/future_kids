@@ -28,61 +28,61 @@ class Ability
       can :manage, :all
     elsif user.is_a?(Mentor)
       # own record may be read
-      can [ :read, :update, :edit_schedules, :update_schedules ],
-          Mentor, :id => user.id
+      can [:read, :update, :edit_schedules, :update_schedules],
+          Mentor, id: user.id
       # mentor can read records of admins associated indirectly via kid
-      can :read, Admin, :coachings => { :mentor_id => user.id }
-      can :read, Admin, :coachings => { :secondary_mentor_id => user.id }
+      can :read, Admin, coachings: { mentor_id: user.id }
+      can :read, Admin, coachings: { secondary_mentor_id: user.id }
       # mentor can read records of other mentors associated indirectly via kid
-      can :read, Mentor, :kids => { :secondary_mentor_id => user.id }
-      can :read, Mentor, :secondary_kids => { :mentor_id => user.id }
+      can :read, Mentor, kids: { secondary_mentor_id: user.id }
+      can :read, Mentor, secondary_kids: { mentor_id: user.id }
 
       # mentor may be associated via two fields to a kid
-      can :read, Kid, :mentor_id => user.id, :inactive => false
-      can :read, Kid, :secondary_mentor_id => user.id, :secondary_active => true, :inactive => false
+      can :read, Kid, mentor_id: user.id, inactive: false
+      can :read, Kid, secondary_mentor_id: user.id, secondary_active: true, inactive: false
 
       # journals can be read indirect via kids or direct if they are associated
       # a mentor may read all journal entries with whom he is directly or
       # indirectly (via the kid) associated
-      can :read, Journal, :mentor_id => user.id
-      can :read, Journal, :kid => { :mentor_id => user.id }
-      can :read, Journal, :kid => { :secondary_mentor_id => user.id,
-                                    :secondary_active => true }
+      can :read, Journal, mentor_id: user.id
+      can :read, Journal, kid: { mentor_id: user.id }
+      can :read, Journal, kid: { secondary_mentor_id: user.id,
+                                 secondary_active: true }
 
       # manage - since it is possible for mentors to even destroy journals, the
       # management is defined further below, after the global destroy rules
 
       # reviews can be edited by mentors who are associated with the kids
       # about whom the entry is
-      can :manage, Review, :kid => { :mentor_id => user.id }
+      can :manage, Review, kid: { mentor_id: user.id }
       # has read access to teachers he is connected
-      can :read, Teacher, :kids => { :mentor_id => user.id }
-      can :read, Teacher, :secondary_kids => { :mentor_id => user.id }
-      can :read, Teacher, :kids => { :secondary_mentor_id => user.id,
-                                     :secondary_active => true }
-      can :read, Teacher, :secondary_kids => { :secondary_mentor_id => user.id,
-                                               :secondary_active => true }
+      can :read, Teacher, kids: { mentor_id: user.id }
+      can :read, Teacher, secondary_kids: { mentor_id: user.id }
+      can :read, Teacher, kids: { secondary_mentor_id: user.id,
+                                  secondary_active: true }
+      can :read, Teacher, secondary_kids: { secondary_mentor_id: user.id,
+                                            secondary_active: true }
     elsif user.is_a?(Teacher)
-      can :manage, Teacher, :id => user.id
+      can :manage, Teacher, id: user.id
       can :create, Kid
-      can [ :read, :update ], Kid, :teacher_id => user.id, :inactive => false
-      can [ :read, :update ], Kid, :secondary_teacher_id => user.id, :inactive => false
-      can :read, Mentor, :kids => { :teacher_id => user.id }
-      can :read, Mentor, :kids => { :secondary_teacher_id => user.id }
-      can :read, Mentor, :secondary_kids => { :teacher_id => user.id ,
-                                              :secondary_active => true }
-      can :read, Mentor, :secondary_kids => { :secondary_teacher_id => user.id,
-                                              :secondary_active => true }
+      can [:read, :update], Kid, teacher_id: user.id, inactive: false
+      can [:read, :update], Kid, secondary_teacher_id: user.id, inactive: false
+      can :read, Mentor, kids: { teacher_id: user.id }
+      can :read, Mentor, kids: { secondary_teacher_id: user.id }
+      can :read, Mentor, secondary_kids: { teacher_id: user.id,
+                                           secondary_active: true }
+      can :read, Mentor, secondary_kids: { secondary_teacher_id: user.id,
+                                           secondary_active: true }
 
       # journals can be read indirect via kids
-      can :read, Journal, :kid => { :teacher_id => user.id }
-      can :read, Journal, :kid => { :secondary_teacher_id => user.id }
+      can :read, Journal, kid: { teacher_id: user.id }
+      can :read, Journal, kid: { secondary_teacher_id: user.id }
 
     elsif user.is_a?(Principal)
       # own record may be read
-      can [ :read, :update ], Principal, :id => user.id
-      can :read, Kid, :school_id => user.school_id, :inactive => false
-      can :read, Teacher, :school_id => user.school_id, :inactive => false
+      can [:read, :update], Principal, id: user.id
+      can :read, Kid, school_id: user.school_id, inactive: false
+      can :read, Teacher, school_id: user.school_id, inactive: false
     end
 
     # comments can be created by any users (reading is only possible
@@ -109,11 +109,11 @@ class Ability
       # to change a journal there have to be more criterias fulfilled: the mentor
       # himself must be set on the journal entry and must be associated with
       # the kid
-      can :manage, Journal, :mentor_id => user.id,
-                            :kid => { :mentor_id => user.id }
-      can :manage, Journal, :mentor_id => user.id,
-                            :kid => { :secondary_mentor_id => user.id,
-                                      :secondary_active => true }
+      can :manage, Journal, mentor_id: user.id,
+                            kid: { mentor_id: user.id }
+      can :manage, Journal, mentor_id: user.id,
+                            kid: { secondary_mentor_id: user.id,
+                                   secondary_active: true }
     end
   end
 end

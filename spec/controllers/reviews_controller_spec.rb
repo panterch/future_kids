@@ -1,10 +1,9 @@
 require 'spec_helper'
 
 describe ReviewsController do
-
   before(:each) do
     @mentor = create(:mentor)
-    @kid = create(:kid, :mentor => @mentor)
+    @kid = create(:kid, mentor: @mentor)
   end
 
   context 'as a mentor' do
@@ -13,12 +12,12 @@ describe ReviewsController do
     end
 
     it 'should render the new template' do
-      get :new, :kid_id => @kid.id
+      get :new, kid_id: @kid.id
       expect(response).to be_successful
     end
 
     it 'should deny access for foreign kids' do
-      expect { get :new, :kid_id => create(:kid).id }.to raise_error(CanCan::AccessDenied)
+      expect { get :new, kid_id: create(:kid).id }.to raise_error(CanCan::AccessDenied)
     end
 
     it 'should create a new entry' do
@@ -42,15 +41,14 @@ describe ReviewsController do
     end
 
     it 'redirects on show' do
-      get :show, :kid_id => @kid.id, :id => create(:review, :kid => @kid)
+      get :show, kid_id: @kid.id, id: create(:review, kid: @kid)
       expect(response).to be_redirect
     end
 
     it 'redirects on index' do
-      get :index, :kid_id => @kid.id
+      get :index, kid_id: @kid.id
       expect(response).to be_redirect
     end
-
   end # end of as a mentor
 
   # valid attributes to create a journal
@@ -62,5 +60,4 @@ describe ReviewsController do
     attrs[:kid_id] = @kid.id
     attrs
   end
-
 end

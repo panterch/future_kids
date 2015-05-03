@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe TeachersController do
-
   context 'as an admin' do
     before(:each) do
       @admin = create(:admin)
@@ -41,8 +40,5 @@ describe TeachersController do
         expect(response).to be_success
       end
     end
-
-
   end
-
 end
