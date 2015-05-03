@@ -48,8 +48,16 @@ describe JournalsController do
     end
 
     context 'with render views' do
-      it('news') { get :new, :kid_id => @kid.id }
-      it('edits') { get :edit, :kid_id => @kid.id, :id => journal.id }
+      it 'renders new' do
+        get :new, :kid_id => @kid.id
+        expect(response).to be_successful
+        expect(response).to render_template(:new)
+      end
+      it 'renders edit' do
+        get :edit, :kid_id => @kid.id, :id => journal.id
+        expect(response).to be_successful
+        expect(response).to render_template(:edit)
+      end
     end
 
     it 'redirects on show' do
