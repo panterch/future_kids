@@ -28,6 +28,30 @@ module ApplicationHelper
     %w(Halbtax GA Regenbogen\ Kanton Zone\ 10\ mit\ Halbtax Zone\ 10\ ohne\ Halbtax)
   end
 
+  def boolean_collection
+    { 'Ja' => true, 'Nein' => false }
+  end
+
+  def term_collection
+    ['2011 Frühling', '2011 Herbst',
+     '2012 Frühling', '2012 Herbst',
+     '2013 Frühling', '2013 Herbst',
+     '2014 Frühling', '2014 Herbst',
+     '2015 Frühling', '2015 Herbst']
+  end
+
+  def exit_reason_collection
+    [ "Übertritt",
+      "Wegzug",
+      "Erfolgreich abgeschlossen",
+      "Nicht geeignete Massnahme",
+      "Andere Gründe" ]
+  end
+
+  def exit_kind_collection
+    %w(exit later continue).map{ |i| [I18n.t(i, :scope => 'exit_kind'), i] }
+  end
+
   def school_collection
     School.all.map{ |s| [ s.display_name, s.id ]}
   end
@@ -43,27 +67,6 @@ module ApplicationHelper
   def teacher_collection
     Teacher.active.map { |t| [t.display_name, t.id] }
   end
-
-  def boolean_collection
-    { 'Ja' => true, 'Nein' => false }
-  end
-
-  def term_collection
-    ['2011 Frühling', '2011 Herbst',
-     '2012 Frühling', '2012 Herbst',
-     '2013 Frühling', '2013 Herbst',
-     '2014 Frühling', '2014 Herbst',
-     '2015 Frühling', '2015 Herbst']
-  end
-
-  def exit_reason_collection
-    [ "Übertritt",
-    "Wegzug",
-    "Erfolgreich abgeschlossen",
-    "Nicht geeignete Massnahme",
-    "Andere Gründe" ]
-  end
-
 
   def order_by_collection_for_kids(selected)
     options = [['Name', 'name, prename' ],
@@ -87,17 +90,9 @@ module ApplicationHelper
     (1..3).map{ |i| [I18n.t(i, :scope => 'kids.criticality'), i] }
   end
 
-  # renders a formtastic field that is taken over by the datepicker js
-  def date_picker(form, field)
-    value = resource[field] ? I18n.l(resource[field]) : nil
-    form.input field, :as => :string, :input_html => {
-      :value => value, :class => 'calendricalDate'
-      }
-  end
-
   # can be used in view to display private data only to their owners (and
   # admins)
-  def is_viewing_own_data
+  def is_viewing_own_data(resource)
     current_user == resource || current_user.is_a?(Admin)
   end
 

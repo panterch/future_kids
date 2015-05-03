@@ -9,7 +9,7 @@ class CommentsController < ApplicationController
   end
 
   def create
-    @comment = @journal.comments.build(permitted_params[:comment])
+    @comment = @journal.comments.build(comment_params)
     authorize! :create, @comment
     if @comment.save
       redirect_to kid_url(:id => @journal.kid_id)
@@ -18,7 +18,7 @@ class CommentsController < ApplicationController
     end
   end
 
-private
+  private
 
   def prepare_journal
     @journal = Journal.find(params[:journal_id])
@@ -27,4 +27,13 @@ private
     authorize! :read, @journal
   end
 
+  def comment_params
+    if params[:comment].present?
+      params.require(:comment).permit(
+        :by, :body, :to_teacher, :to_secondary_teacher
+      )
+    else
+      {}
+    end
+  end
 end

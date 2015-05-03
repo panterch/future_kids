@@ -17,7 +17,7 @@ describe CommentsController do
 
     it 'should render the new template' do
       get :new, :kid_id => @kid.id, :journal_id => @journal.id
-      response.should be_successful
+      expect(response).to be_successful
     end
 
     it 'should not render the new template for foreign journal entries' do
@@ -27,13 +27,13 @@ describe CommentsController do
 
     it 'should not create an invalid journal entry' do
       post :create, :kid_id => @kid.id, :journal_id => @journal.id
-      response.should be_success
+      expect(response).to be_success
     end
 
     it 'should create a journal entry' do
       post :create, :kid_id => @kid.id, :journal_id => @journal.id,
         :comment => attributes_for(:comment)
-      response.should be_redirect
+      expect(response).to be_redirect
     end
 
     it 'should send a mail on comment creation' do

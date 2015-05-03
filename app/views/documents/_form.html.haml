@@ -1,7 +1,8 @@
-= boot_form_for resource, :html => { :id => 'content_form' } do |form|
+= simple_form_for @document do |form|
   = form.input :category
   = form.input :subcategory
   = form.input :title
   = form.input :attachment
 
-  = form.buttons
+  .col-sm-offset-3.col-sm-9
+    = form.button :submit

@@ -15,12 +15,12 @@ describe MentorsController do
 
       it 'assigns no journal entries when no available' do
         get :show, :id => @mentor
-        assigns(:journals).should have(1).items # default entry
+        expect(assigns(:journals).size).to eq(1) # default entry
       end
 
-      it 'assigns the precreated journal entries when no available' do
+      it 'assigns the pre-created journal entries when no available' do
         get :show, :id => @mentor, :month => '1', :year => '2011'
-        assigns(:journals).should include(@journal)
+        expect(assigns(:journals)).to include(@journal)
       end
     end
 
@@ -31,7 +31,7 @@ describe MentorsController do
                     {:day => 1, :hour => 15, :minute => 0},
                     {:day => 2, :hour => 16, :minute => 30}
                 ]}
-        @mentor.reload.schedules.count.should eq(2)
+        expect(@mentor.reload.schedules.count).to eq(2)
       end
     end
   end
@@ -40,14 +40,27 @@ describe MentorsController do
     before(:each) do
       @admin = create(:admin)
       sign_in @admin
+      @mentor = create(:mentor)
     end
 
     context 'index' do
       it 'assigns two mentors in the index' do
-        2.times { create(:mentor) }
+        create(:mentor)
         get :index
-        assigns(:mentors).should have(2).items
+        expect(assigns(:mentors).size).to eq(2)
       end
+
+      it 'excludes inactive mentors' do
+        create(:mentor, inactive: true)
+        get :index
+        expect(assigns(:mentors).size).to eq(1)
+      end
+
+      it 'renders xlsx' do
+        get :index, format: 'xlsx'
+        expect(response).to be_successful
+      end
+
     end
   end
 end

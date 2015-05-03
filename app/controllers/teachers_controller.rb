@@ -1,29 +1,38 @@
-class TeachersController < InheritedResources::Base
-  load_and_authorize_resource
+class TeachersController < ApplicationController
 
-  before_filter :accessible_by_error_quick_fix
+  load_and_authorize_resource
+  include CrudActions
 
   def index
     # a prototyped teacher is submitted with each index query. if the prototype
     # is not present, it is built here with default values
     params[:teacher] ||= {}
     params[:teacher][:inactive] = "0" if params[:teacher][:inactive].nil?
-    @teachers = @teachers.where(params[:teacher].to_h.delete_if {|key, val| val.blank? })
 
-    @teacher = Kid.new(new_params)
+    @teachers = @teachers.where(teacher_params.to_h.delete_if {|key, val| val.blank? })
+
+    @teacher = Teacher.new(teacher_params)
 
     # when only one record is present, show it immediatelly. this is not for
     # admins, since they could have no chance to alter their filter settings in
     # some cases
-    if !current_user.is_a?(Admin) && (1 == collection.count)
-      redirect_to collection.first
+    if !current_user.is_a?(Admin) && (1 == @teachers.count)
+      redirect_to @teachers.first
     else
-      index!
+      respond_with @teachers
     end
   end
 
-private
-  def new_params
-    params.require(:teacher).permit!
+  private
+
+  def teacher_params
+    if params[:teacher].present?
+      params.require(:teacher).permit(
+        :name, :prename, :email, :password, :password_confirmation, :school_id,
+        :phone, :receive_journals, :todo, :note, :inactive
+      )
+    else
+      {}
+    end
   end
 end

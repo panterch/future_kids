@@ -35,6 +35,7 @@ $footer-height: 30px;
 $sidebar-width: 220px;
 
 
+@import 'bootstrap-sprockets';
 @import 'bootstrap';
 
 body, html {
@@ -105,10 +106,8 @@ textarea {
 
 // Fix alignment of text at checkboxes
 .checkbox {
-  margin-bottom: 0px;
-
-  &> label > p {
-    margin: 3px 0 0;
+  input[type=checkbox] {
+    margin-top: 2px;
   }
 }
 

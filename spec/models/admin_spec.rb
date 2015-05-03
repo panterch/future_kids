@@ -3,7 +3,7 @@ require 'spec_helper'
 describe Admin do
   it 'has a valid factory' do
     admin = build(:admin)
-    admin.should be_valid
+    expect(admin).to be_valid
   end
 
   it 'releases coachings when set inactive' do

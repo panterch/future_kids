@@ -1,12 +1,11 @@
 source 'https://rubygems.org'
-ruby '2.1.2'
 
-gem 'rails', '4.1.8'
+gem 'rails'
 
-gem 'json'
-gem 'haml'
+gem 'haml-rails'
 
 gem 'jquery-rails'
+gem 'jbuilder'
 
 gem 'unicorn'
 gem 'therubyracer', platforms: :ruby
@@ -15,23 +14,20 @@ gem 'therubyracer', platforms: :ruby
 gem 'axlsx_rails'
 gem 'cancancan'
 gem 'devise'
-gem 'exception_notification_rails3', require: 'exception_notifier'
-gem "simple_form", '~> 3.1.0.rc1'
+gem 'exception_notification'
+gem 'simple_form'
 gem 'paperclip'
 gem 'pg'
-gem 'inherited_resources'
+gem 'responders'
 gem 'show_for', github: 'plataformatec/show_for'
 gem 'whenever', require: false
-gem "bootstrap-sass"
-gem "font-awesome-rails"
+gem 'bootstrap-sass'
 gem 'quiet_assets'
-gem 'i18n_rails_helpers', '~> 2.0.0.beta0'
+gem 'i18n_rails_helpers'
 
-group :assets do
-  gem 'sass-rails'
-  gem 'coffee-rails'
-  gem 'uglifier'
-end
+gem 'sass-rails'
+gem 'coffee-rails'
+gem 'uglifier'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
@@ -41,15 +37,12 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'factory_girl'
-  gem 'capistrano', '~> 2.0'
+  gem 'capistrano', '2.13.5'
   gem 'capistrano-rbenv', '~> 1.0'
-
-  gem "pry-rails"
-  gem 'pry-byebug'
-
-  gem 'better_errors'
+  gem 'capistrano-ext', '1.2.1'
   gem 'binding_of_caller'
 end
 
-gem "codeclimate-test-reporter", group: :test, require: nil
+gem 'codeclimate-test-reporter', group: :test, require: nil
 
+gem 'sdoc', group: :doc

@@ -12,12 +12,12 @@ describe PrincipalsController do
 
       it 'can show the own record' do
         get :show, :id => @principal.id
-        response.should be_successful
+        expect(response).to be_successful
       end
 
       it 'can edit the own record' do
         get :edit, :id => @principal.id
-        response.should be_successful
+        expect(response).to be_successful
       end
 
       it 'cant edit the other record' do
@@ -29,8 +29,8 @@ describe PrincipalsController do
       it 'can update its own record' do
         put :update, :id => @principal.id, :principal => {
           :name => 'changed' }
-        response.should be_redirect
-        @principal.reload.name.should eq('changed')
+        expect(response).to be_redirect
+        expect(@principal.reload.name).to eq('changed')
       end
 
       it 'cannot update its own school or inactivity' do
@@ -40,7 +40,7 @@ describe PrincipalsController do
           put :update, :id => @principal.id, :principal => {
             :school_id => @school.id  }
         end.to raise_error(SecurityError)
-        @principal.reload.school.should eq(@original_school)
+        expect(@principal.reload.school).to eq(@original_school)
       end
 
     end
@@ -54,27 +54,33 @@ describe PrincipalsController do
       sign_in @admin
     end
 
+    it 'excludes inactive on index' do
+      create(:principal, inactive: true)
+      get :index
+      expect(assigns(:principals).size).to eq(1)
+    end
+
     it 'new' do
       get :new
-      response.should be_successful
+      expect(response).to be_successful
     end
 
     it 'show' do
       get :show, :id => @principal.id
-      response.should be_successful
+      expect(response).to be_successful
     end
 
     it 'edit' do
       get :edit, :id => @principal.id
-      response.should be_successful
+      expect(response).to be_successful
     end
 
     it 'can update the principals school' do
       @school = create(:school)
       put :update, :id => @principal.id, :principal => {
         :school_id => @school.id  }
-      response.should be_redirect
-      @principal.reload.school.should eq(@school)
+      expect(response).to be_redirect
+      expect(@principal.reload.school).to eq(@school)
     end
 
 

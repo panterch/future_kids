@@ -48,6 +48,11 @@ class Mentor < User
     end.uniq.size
   end
 
+  def human_exit_kind
+    return '' if exit_kind.blank?
+    I18n.t(exit_kind, :scope => 'exit_kind')
+  end
+
 protected
 
   # inactive mentors should not be connected to other persons

@@ -1,7 +1,7 @@
 class KidsController < ApplicationController
 
-  inherit_resources
   load_and_authorize_resource
+  include CrudActions
   include ManageSchedules # edit_schedules & update_schedules
 
   before_filter :cancan_prototypes, :only => [:show]
@@ -26,21 +26,14 @@ class KidsController < ApplicationController
       # build a where condition out of all parameters supplied for kid
       params[:kid] ||= {}
       params[:kid][:inactive] = "0" if params[:kid][:inactive].nil?
-      @kids = @kids.where(params[:kid].to_h.delete_if {|key, val| val.blank? })
+      @kids = @kids.where(kid_params.to_h.delete_if {|key, val| val.blank? })
       # reorder the kids according to the supplied parameter
       @kids = @kids.reorder(params['order_by']) if params['order_by']
       # provide a prototype for the filter form
-      @kid = Kid.new(permitted_params[:kid])
+      @kid = Kid.new(kid_params)
     end
 
-    # when only one record is present, show it immediatelly. this is not for
-    # admins, since they could have no chance to alter their filter settings in
-    # some cases
-    if !current_user.is_a?(Admin) && (1 == collection.count)
-      redirect_to collection.first
-    else
-      index!
-    end
+    respond_with @kids
   end
 
 protected
@@ -49,17 +42,17 @@ protected
   # assigned as the first teacher of the kid in creation case
   def assign_current_teacher
     return true unless current_user.is_a?(Teacher)
-    return true if resource.teacher.present?
-    if resource.secondary_teacher != current_user
-      resource.teacher ||= current_user
+    return true if @kid.teacher.present?
+    if @kid.secondary_teacher != current_user
+      @kid.teacher ||= current_user
     end
-    resource.school  ||= resource.teacher.try(:school)
-    resource.school  ||= resource.secondary_teacher.try(:school)
+    @kid.school  ||= @kid.teacher.try(:school)
+    @kid.school  ||= @kid.secondary_teacher.try(:school)
   end
 
   def track_creation_relation
-    return true unless resource.persisted?
-    resource.relation_logs.create(user_id: current_user.id,
+    return true unless @kid.persisted?
+    @kid.relation_logs.create(user_id: current_user.id,
                                   role: 'creator',
                                   start_at: Time.now)
   end
@@ -86,10 +79,29 @@ protected
 
   # prototypes to check abilities in menu
   def cancan_prototypes
-    @cancan_journal = Journal.new(kid: resource)
-    @cancan_review = Review.new(kid: resource)
+    @cancan_journal = Journal.new(kid: @kid)
+    @cancan_review = Review.new(kid: @kid)
     if current_user.is_a?(Mentor)
       @cancan_journal.mentor = current_user
+    end
+  end
+
+  private
+
+  def kid_params
+    if params[:kid].present?
+      params.require(:kid).permit(
+        :name, :prename, :sex, :dob, :grade, :language, :parent, :address,
+        :city, :phone, :translator, :note, :school_id, :goal_1, :goal_2,
+        :meeting_day, :meeting_start_at, :teacher_id, :secondary_teacher_id,
+        :mentor_id, :secondary_mentor_id, :secondary_active, :admin_id, :term,
+        :exit, :exit_reason, :exit_kind, :exit_at,
+        :coached_at, :abnormality,
+        :abnormality_criticality, :todo, :inactive,
+        schedules_attributes: [:day, :hour, :minute]
+      )
+    else
+      {}
     end
   end
 end

@@ -1,7 +1,7 @@
-= show_for resource do |show|
+= show_for @admin do |show|
   = show.attribute :name
   = show.attribute :prename
-  = show.attribute(:email) { mail_to resource.email }
+  = show.attribute(:email) { mail_to @admin.email }
   = show.attribute :phone
   = show.attribute :todo
 
@@ -16,4 +16,4 @@
           = can_link_to k.mentor if k.mentor.present?
     = show.attribute :inactive
 
-    = render :partial => 'relation_logs/collection'
+    = render 'relation_logs/collection', resource: @admin

@@ -1,4 +1,4 @@
-= boot_form_for resource, :html => { :id => 'content_form' } do |form|
+= simple_form_for @school do |form|
   = form.input :name
   = form.input :street
   = form.input :city
@@ -6,10 +6,10 @@
   = form.input :homepage
   = form.input :social
   = form.input :district
-  = form.input :term, :as => :select, :collection => term_collection
+  = form.input :term, :collection => term_collection
   = form.input :note
 
   = render :partial => 'associations'
 
-  = form.buttons
-
+  .col-sm-offset-3.col-sm-9
+    = form.button :submit

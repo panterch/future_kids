@@ -11,12 +11,12 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141228185936) do
+ActiveRecord::Schema.define(version: 20150424163124) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "comments", force: true do |t|
+  create_table "comments", force: :cascade do |t|
     t.integer  "journal_id",                           null: false
     t.string   "by",                                   null: false
     t.text     "body",                                 null: false
@@ -26,7 +26,7 @@ ActiveRecord::Schema.define(version: 20141228185936) do
     t.boolean  "to_secondary_teacher", default: false
   end
 
-  create_table "documents", force: true do |t|
+  create_table "documents", force: :cascade do |t|
     t.string   "title"
     t.text     "description"
     t.string   "attachment_file_name"
@@ -39,7 +39,7 @@ ActiveRecord::Schema.define(version: 20141228185936) do
     t.string   "subcategory"
   end
 
-  create_table "journals", force: true do |t|
+  create_table "journals", force: :cascade do |t|
     t.date     "held_at",                    null: false
     t.time     "start_at"
     t.time     "end_at"
@@ -64,7 +64,7 @@ ActiveRecord::Schema.define(version: 20141228185936) do
   add_index "journals", ["mentor_id"], name: "index_journals_on_mentor_id", using: :btree
   add_index "journals", ["month"], name: "index_journals_on_month", using: :btree
 
-  create_table "kids", force: true do |t|
+  create_table "kids", force: :cascade do |t|
     t.string   "name"
     t.string   "prename"
     t.string   "parent"
@@ -104,12 +104,14 @@ ActiveRecord::Schema.define(version: 20141228185936) do
     t.integer  "school_id"
     t.string   "exit"
     t.string   "exit_reason"
+    t.string   "exit_kind"
+    t.date     "exit_at"
   end
 
   add_index "kids", ["inactive"], name: "index_kids_on_inactive", using: :btree
   add_index "kids", ["school_id"], name: "index_kids_on_school_id", using: :btree
 
-  create_table "relation_logs", force: true do |t|
+  create_table "relation_logs", force: :cascade do |t|
     t.integer  "kid_id",     null: false
     t.integer  "user_id",    null: false
     t.string   "role"
@@ -122,7 +124,7 @@ ActiveRecord::Schema.define(version: 20141228185936) do
   add_index "relation_logs", ["kid_id"], name: "index_relation_logs_on_kid_id", using: :btree
   add_index "relation_logs", ["user_id"], name: "index_relation_logs_on_user_id", using: :btree
 
-  create_table "reminders", force: true do |t|
+  create_table "reminders", force: :cascade do |t|
     t.date     "held_at",             null: false
     t.string   "recipient",           null: false
     t.integer  "week",                null: false
@@ -141,7 +143,7 @@ ActiveRecord::Schema.define(version: 20141228185936) do
   add_index "reminders", ["secondary_mentor_id"], name: "index_reminders_on_secondary_mentor_id", using: :btree
   add_index "reminders", ["sent_at"], name: "index_reminders_on_sent_at", using: :btree
 
-  create_table "reviews", force: true do |t|
+  create_table "reviews", force: :cascade do |t|
     t.date     "held_at"
     t.string   "kind"
     t.text     "reason"
@@ -157,7 +159,7 @@ ActiveRecord::Schema.define(version: 20141228185936) do
   add_index "reviews", ["held_at"], name: "index_reviews_on_held_at", using: :btree
   add_index "reviews", ["kid_id"], name: "index_reviews_on_kid_id", using: :btree
 
-  create_table "schedules", force: true do |t|
+  create_table "schedules", force: :cascade do |t|
     t.integer  "person_id",   null: false
     t.string   "person_type", null: false
     t.integer  "day",         null: false
@@ -169,7 +171,7 @@ ActiveRecord::Schema.define(version: 20141228185936) do
 
   add_index "schedules", ["person_id", "person_type", "day", "hour", "minute"], name: "index_schedules_on_uniqueness", unique: true, using: :btree
 
-  create_table "schools", force: true do |t|
+  create_table "schools", force: :cascade do |t|
     t.string   "name"
     t.integer  "principal_id"
     t.datetime "created_at"
@@ -186,7 +188,7 @@ ActiveRecord::Schema.define(version: 20141228185936) do
     t.text     "note"
   end
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "type"
     t.string   "name"
     t.string   "prename"
@@ -231,6 +233,8 @@ ActiveRecord::Schema.define(version: 20141228185936) do
     t.datetime "photo_updated_at"
     t.boolean  "receive_journals",                     default: false
     t.integer  "primary_kids_admin_id"
+    t.string   "exit_kind"
+    t.date     "exit_at"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", using: :btree

@@ -16,7 +16,7 @@ feature "SESSION::LOGIN", %q{
     fill_in 'user_email',    :with => @mentor.email
     fill_in 'user_password', :with => @pw
     click_button 'Anmelden'
-    page.should have_content('Erfolgreich angemeldet.')
+    expect(page).to have_content('Erfolgreich angemeldet.')
   end
 
   scenario "should not login the user w/ invalid credentials" do
@@ -24,7 +24,7 @@ feature "SESSION::LOGIN", %q{
     fill_in 'user_email',    :with => @mentor.email
     fill_in 'user_password', :with => 'invalid'
     click_button 'Anmelden'
-    page.should have_content('Ungültige Anmeldedaten')
+    expect(page).to have_content('Ungültige Anmeldedaten')
   end
 
   scenario "should not login inactive users" do
@@ -33,7 +33,7 @@ feature "SESSION::LOGIN", %q{
     fill_in 'user_email',    :with => @mentor.email
     fill_in 'user_password', :with => @pw
     click_button 'Anmelden'
-    page.should have_content('Anmelden')
+    expect(page).to have_content('Anmelden')
   end
 
 end

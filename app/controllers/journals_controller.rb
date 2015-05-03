@@ -1,33 +1,40 @@
 class JournalsController < ApplicationController
 
   # this filter has to run before cancan resource loading
-  before_filter :preset_mentor, :except => :index
+  before_filter :preset_mentor, only: [:create, :update]
 
-  inherit_resources
-  belongs_to :kid
-  load_and_authorize_resource
+  load_and_authorize_resource :kid
+  load_and_authorize_resource :journal, through: :kid
+  include CrudActions
 
   # these filters have to run after the resource is initialized
   before_filter :prepare_mentor_selection, :except => [:index, :show], :if => :admin?
   before_filter :preset_held_at, :only => [ :new ]
 
   def create
-    create!{ kid_url(resource.kid) }
+    @journal.save
+    respond_with @journal.kid
   end
 
   def update
-    update!{ kid_url(resource.kid) }
+    @journal.update(journal_params)
+    respond_with @journal.kid
   end
 
   # when a users re-loads the url after and unsuccesul edit, the url
   # points to show. show does not exist in our applications context, but
   # we want to avoid error messages sent to those users
   def show # not supported action
-    redirect_to edit_kid_journal_url(resource.kid, resource)
+    redirect_to edit_kid_journal_url(@journal.kid, @journal)
   end
 
   def index # not supported action
-    redirect_to kid_url(parent)
+    redirect_to kid_url(@kid)
+  end
+
+  def destroy
+    @journal.destroy
+    respond_with @journal.kid
   end
 
 protected
@@ -36,7 +43,6 @@ protected
   # the created / built resource by adding some parameters to the params
   # hash
   def preset_mentor
-    params[:journal] ||= {}
     # for mentors we overwrite the mentor_id paramenter to assure that they
     # do not create entries for other mentors
     if current_user.is_a?(Mentor)
@@ -47,15 +53,27 @@ protected
   # for admins a dropdown to select a mentor is displayed, its data is
   # collected here
   def prepare_mentor_selection
-    @mentors = [ resource.kid.mentor, resource.kid.secondary_mentor].compact
+    @mentors = [ @journal.kid.mentor, @journal.kid.secondary_mentor].compact
     return unless @mentors.empty?
-    redirect_to kid_url(resource.kid), :alert => "Bitte vorher einen Mentor zuordnen."
+    redirect_to kid_url(@journal.kid), :alert => "Bitte vorher einen Mentor zuordnen."
   end
 
   # the value of the held_at field can be determined by the schedule of the
   # kid
   def preset_held_at
-    resource.held_at ||= resource.kid.calculate_meeting_time.try(:to_date)
+    @journal.held_at ||= @journal.kid.calculate_meeting_time.try(:to_date)
   end
 
+  private
+
+  def journal_params
+    if params[:journal].present?
+      params.require(:journal).permit(
+        :mentor_id, :held_at, :cancelled, :start_at, :end_at, :goal, :subject,
+        :method, :outcome, :note
+      )
+    else
+      {}
+    end
+  end
 end

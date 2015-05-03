@@ -6,7 +6,7 @@ describe Teacher do
 
   it 'has a valid factory' do
     teacher = build(:teacher)
-    teacher.should be_valid
+    expect(teacher).to be_valid
   end
 
   describe 'journals delivery' do
@@ -17,29 +17,29 @@ describe Teacher do
     it 'finds todays journals' do
       journals = [ create(:journal, kid: kid),
                    create(:journal, kid: secondary_kid) ]
-      teacher.todays_journals.sort.should eq(journals.sort)
+      expect(teacher.todays_journals.sort).to eq(journals.sort)
     end
 
     it 'ignores foreign journals' do
       create(:journal)
-      teacher.todays_journals.sort.should eq([])
+      expect(teacher.todays_journals.sort).to eq([])
     end
 
     it 'ignores older journals' do
       create(:journal, kid: kid, created_at: Date.parse("2000-01-01"))
-      teacher.todays_journals.sort.should eq([])
+      expect(teacher.todays_journals.sort).to eq([])
     end
 
     it 'delivers journals email when journals available' do
       create(:journal, kid: kid)
       create(:journal, kid: secondary_kid)
       Teacher.conditionally_send_journals
-      ActionMailer::Base.deliveries.size.should eq(1)
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
     end
 
     it 'does not deliver journals when no available' do
       Teacher.conditionally_send_journals
-      ActionMailer::Base.deliveries.should be_empty
+      expect(ActionMailer::Base.deliveries).to be_empty
     end
 
     it 'does not deliver journals when opted out' do
@@ -47,7 +47,7 @@ describe Teacher do
       teacher.update_attributes(receive_journals: false)
       create(:journal)
       Teacher.conditionally_send_journals
-      ActionMailer::Base.deliveries.should be_empty
+      expect(ActionMailer::Base.deliveries).to be_empty
     end
 
   end

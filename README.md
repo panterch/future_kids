@@ -1,4 +1,11 @@
-[![Build Status](https://secure.travis-ci.org/panterch/future_kids.png?branch=master)](http://travis-ci.org/panterch/future_kids)
+[![Build Status](https://travis-ci.org/panterch/future_kids.svg?branch=master)](http://travis-ci.org/panterch/future_kids)
+[![security](https://hakiri.io/github/panterch/future_kids/master.svg)](https://hakiri.io/github/panterch/future_kids/master)
+[![Dependency Status](https://gemnasium.com/panterch/future_kids.svg)](https://gemnasium.com/panterch/future_kids)
+[![Test
+Coverage](https://codeclimate.com/github/panterch/future_kids/badges/coverage.svg)](https://codeclimate.com/github/panterch/future_kids)
+[![Code
+Climate](https://codeclimate.com/github/panterch/future_kids/badges/gpa.svg)](https://codeclimate.com/github/panterch/future_kids)
+[![License](http://img.shields.io/badge/license-AGPL-brightgreen.svg?style=flat-square)](http://opensource.org/licenses/AGPL-3.0)
 
 Future Kids fördert Primarschüler/innen, welche zu Hause bei schulischen
 Aufgaben kaum oder keine Unterstützung erhalten. Dieser Heimnachteil

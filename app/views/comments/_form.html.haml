@@ -1,4 +1,4 @@
-= boot_form_for [@journal.kid, @journal, @comment], :html => { :id => 'content_form' } do |form|
+= simple_form_for [@journal.kid, @journal, @comment] do |form|
   = form.input :by
   = form.input :body
   .form-group.boolean.optional
@@ -20,4 +20,5 @@
   - if @journal.kid.secondary_teacher
     = form.input :to_secondary_teacher
 
-  = form.buttons
+  .col-sm-offset-3.col-sm-9
+    = form.button :submit

@@ -7,4 +7,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require bootstrap
+//= require jquery.calendrical
+//= require jquery.disable
 //= require_tree .

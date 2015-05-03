@@ -1,11 +1,11 @@
-= boot_form_for resource, :html => { :id => 'content_form' } do |form|
+= simple_form_for @teacher do |form|
   = form.input :name
   = form.input :prename
-  = form.input :email, :input_html => { :autocomplete => 'off' }
-  = form.input :password, :input_html => { :autocomplete => 'off' }
-  = form.input :password_confirmation, :input_html => { :autocomplete => 'off' }
+  = form.input :email
+  = form.input :password
+  = form.input :password_confirmation
   -if current_user.is_a?(Admin)
-    = form.association :school, :as => :select, :collection => school_collection
+    = form.association :school, :collection => School.all
   = form.input :phone
   = form.input :receive_journals
   -if current_user.is_a?(Admin)
@@ -14,4 +14,5 @@
     = form.input :note
     = form.input :inactive
 
-  = form.buttons
+  .col-sm-offset-3.col-sm-9
+    = form.button :submit

@@ -9,7 +9,7 @@
               - if resource.email.present?
                 = mail_to resource.email, "<#{resource.email}>"
             %td
-              - if resource.todo.present?
+              -# if resource.todo.present?
                 %a.todotoggle.btn.btn-xs{data: { content: resource.human_todo}, href:  edit_resource_path(resource, :anchor => 'todo') }
                   %span.glyphicon.glyphicon-info-sign
                   Pendenz

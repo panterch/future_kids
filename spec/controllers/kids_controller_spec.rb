@@ -12,16 +12,10 @@ describe KidsController do
 
     context 'index' do
 
-      it 'should directly display the kid when there is only one' do
+      it 'should render' do
         get :index
-        response.should be_redirect
-      end
-
-      it 'should render index when many kids availbale' do
-        create(:kid, :mentor => @mentor)
-        get :index
-        response.should be_successful
-        assigns(:kids).length.should eq(2)
+        expect(response).to be_successful
+        expect(assigns(:kids).length).to eq(1)
       end
 
     end
@@ -54,21 +48,33 @@ describe KidsController do
         create(:kid, :translator => true)
         create(:kid, :translator => true)
         get :index, :kid => { :translator => '1' }
-        assigns(:kids).length.should eq(2)
+        expect(assigns(:kids).length).to eq(2)
       end
 
       it 'should order kids by criticality' do
         @low  = create(:kid, :abnormality_criticality => 3)
         @high = create(:kid, :abnormality_criticality => 1)
         get :index, :order_by => 'abnormality_criticality'
-        assigns(:kids).first.should eq(@high)
-        assigns(:kids).second.should eq(@low)
-        assigns(:kids).last.should eq(@kid)
+        expect(assigns(:kids).first).to eq(@high)
+        expect(assigns(:kids).second).to eq(@low)
+        expect(assigns(:kids).last).to eq(@kid)
       end
 
       it 'should create a criteria instance for search' do
         get :index, :kid => { :translator => '1' }
-        assigns(:kid).translator.should eq(true)
+        expect(assigns(:kid).translator).to eq(true)
+      end
+
+      it 'should exclude inactive kids' do
+        create(:kid, inactive: true)
+        get :index
+        expect(response).to be_successful
+        expect(assigns(:kids).length).to eq(1)
+      end
+
+      it 'renders xlsx' do
+        get :index, format: 'xlsx'
+        expect(response).to be_successful
       end
 
     end
@@ -77,14 +83,14 @@ describe KidsController do
 
       it 'should display the kids schedule' do
         get :edit_schedules, :id => @kid
-        response.should be_successful
+        expect(response).to be_successful
       end
 
       it 'should assign mentors' do
         @mentor = create(:mentor)
         get :edit_schedules, :id => @kid, :mentor_ids => [ @mentor.id ]
-        assigns(:mentor_ids).should eq([@mentor.id.to_s])
-        assigns(:mentor_groups)[:none].should eq([@mentor])
+        expect(assigns(:mentor_ids)).to eq([@mentor.id.to_s])
+        expect(assigns(:mentor_groups)[:none]).to eq([@mentor])
       end
 
     end
@@ -94,8 +100,8 @@ describe KidsController do
       it 'should create a new schedule' do
         post :update_schedules, :id => @kid, :kid =>
           { :schedules_attributes => [ attributes_for(:schedule)] }
-        response.should be_redirect
-        @kid.schedules.count.should eq(1)
+        expect(response).to be_redirect
+        expect(@kid.schedules.count).to eq(1)
       end
 
     end
@@ -115,44 +121,44 @@ describe KidsController do
       it 'should assign itself as teacher' do
         post :create, :kid => attributes_for(:kid)
         kid = Kid.find(assigns(:kid).id)
-        kid.teacher.should eq(@teacher)
-        kid.school.should_not be_nil
-        kid.school.should eq(@school)
-        response.should be_redirect
+        expect(kid.teacher).to eq(@teacher)
+        expect(kid.school).not_to be_nil
+        expect(kid.school).to eq(@school)
+        expect(response).to be_redirect
       end
 
       it 'should assign itself as teacher even when secondary teacher set' do
         @secondary = create(:teacher)
         post :create, :kid => attributes_for(:kid, :secondary_teacher_id => @secondary.id)
         kid = Kid.find(assigns(:kid).id)
-        kid.teacher.should eq(@teacher)
-        kid.secondary_teacher.should eq(@secondary)
-        kid.school.should_not be_nil
-        kid.school.should eq(@school)
-        response.should be_redirect
+        expect(kid.teacher).to eq(@teacher)
+        expect(kid.secondary_teacher).to eq(@secondary)
+        expect(kid.school).not_to be_nil
+        expect(kid.school).to eq(@school)
+        expect(response).to be_redirect
       end
 
       it 'can assign itself as secondary teacher' do
         post :create, :kid => attributes_for(:kid, :secondary_teacher_id => @teacher.id)
         kid = Kid.find(assigns(:kid).id)
-        kid.teacher.should be_nil
-        kid.secondary_teacher.should eq(@teacher)
-        kid.school.should eq(@school)
-        response.should be_redirect
+        expect(kid.teacher).to be_nil
+        expect(kid.secondary_teacher).to eq(@teacher)
+        expect(kid.school).to eq(@school)
+        expect(response).to be_redirect
       end
 
       it 'tracks creation as relationlog' do
         post :create, :kid => FactoryGirl.attributes_for(:kid)
-        RelationLog.where(role: 'creator').count.should eq(1)
+        expect(RelationLog.where(role: 'creator').count).to eq(1)
         rl = RelationLog.where(role: 'creator').first
-        rl.user.should eq(@teacher)
-        rl.role.should eq('creator')
-        rl.kid.should eq(assigns(:kid))
+        expect(rl.user).to eq(@teacher)
+        expect(rl.role).to eq('creator')
+        expect(rl.kid).to eq(assigns(:kid))
       end
 
       it 'does not track creation on form error' do
         post :create, :kid => {}
-        RelationLog.where(role: 'creator').count.should eq(0)
+        expect(RelationLog.where(role: 'creator').count).to eq(0)
       end
 
     end
