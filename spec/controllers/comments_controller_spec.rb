@@ -39,7 +39,7 @@ describe CommentsController do
     it 'should send a mail on comment creation' do
       post :create, :kid_id => @kid.id, :journal_id => @journal.id,
         :comment => attributes_for(:comment)
-      assert_equal 1, ActionMailer::Base.deliveries.size
+      expect(ActionMailer::Base.deliveries.size).to eq 1
     end
   end
 
