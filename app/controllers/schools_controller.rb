@@ -12,7 +12,7 @@ class SchoolsController < ApplicationController
   end
 
   def update
-    if @school = School.update(school_params)
+    if @school.update(school_params)
       redirect_to action: :index
     else
       render :edit
