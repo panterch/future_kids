@@ -13,6 +13,7 @@ feature 'ADMIN::UPDATE:SCHOOL', '
   scenario 'should be able to modify an existing school' do
       click_link 'Schule'
       click_link 'Bearbeiten'
+      click_link school.name
       fill_in 'Name', with: 'School name'
       fill_in 'Strasse, Nr.', with: 'street'
       click_button 'Schule aktualisieren'
