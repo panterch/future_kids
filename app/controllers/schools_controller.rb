@@ -12,10 +12,11 @@ class SchoolsController < ApplicationController
   end
 
   def update
+    @school = School.find(params[:id])
     if @school.update(school_params)
-      redirect_to action: :index
+      redirect_to @school
     else
-      render :edit
+      render 'edit'
     end
   end
 
