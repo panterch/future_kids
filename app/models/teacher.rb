@@ -1,16 +1,15 @@
 class Teacher < User
-
   has_many :kids
-  has_many :secondary_kids, :class_name => 'Kid',
-           :foreign_key => 'secondary_teacher_id'
+  has_many :secondary_kids, class_name: 'Kid',
+                            foreign_key: 'secondary_teacher_id'
   belongs_to :school
 
-  after_save :release_relations, :if => :inactive?
+  after_save :release_relations, if: :inactive?
 
   def todays_journals(not_before = Time.now - 1.day)
     journals = []
     (kids.active + secondary_kids.active).each do |kid|
-      journals << kid.journals.where("journals.created_at > ?", not_before)
+      journals << kid.journals.where('journals.created_at > ?', not_before)
     end
     journals.flatten.compact
   end
@@ -18,7 +17,7 @@ class Teacher < User
   def self.conditionally_send_journals
     not_before = Time.now - 1.day
     logger.info "Beginning journal deliver run, refernce time #{not_before}"
-    Teacher.active.where(receive_journals: true).each do |teacher|
+    Teacher.active.where(receive_journals: true).find_each do |teacher|
       logger.info "[#{teacher.id}] #{teacher.display_name}: checking journals"
       journals = teacher.todays_journals(not_before)
       if journals.empty?
@@ -30,12 +29,11 @@ class Teacher < User
     end
   end
 
-protected
+  protected
 
   # inactive mentors should not be connected to other persons
   def release_relations
-    self.kids.clear
-    self.secondary_kids.clear
+    kids.clear
+    secondary_kids.clear
   end
-
 end

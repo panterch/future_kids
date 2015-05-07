@@ -8,12 +8,12 @@ describe Admin do
 
   it 'releases coachings when set inactive' do
     admin = create(:admin)
-    create(:kid, :admin_id => admin.id)
-    create(:kid, :admin_id => admin.id)
-    assert_equal 2, admin.coachings(true).count
+    create(:kid, admin_id: admin.id)
+    create(:kid, admin_id: admin.id)
+    expect(admin.coachings.count).to eq 2
     admin.inactive = true
     admin.save!
-    assert_equal 0, admin.coachings(true).count
-    assert_equal 0, Kid.where(:admin_id => admin.id).count
+    expect(admin.coachings.count). to eq 0
+    expect(Kid.where(admin_id: admin.id).count).to eq 0
   end
 end

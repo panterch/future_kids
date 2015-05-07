@@ -10,3 +10,5 @@ Thanks to Thorben Stangenberg (https://github.com/tstangenberg) for support.
 Thanks to Marco Wettstein (https://github.com/macrozone) for support.
 
 Thanks to Quentin Brossard (https://github.com/qbrossard) for support.
+
+Thanks to Raffael Fibbioli (https://github.com/m1nuted) for support.

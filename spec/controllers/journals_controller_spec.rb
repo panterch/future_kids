@@ -1,15 +1,16 @@
 require 'spec_helper'
 
 describe JournalsController do
-
   before(:each) do
     @mentor = create(:mentor)
-    @kid = create(:kid, :mentor => @mentor)
+    @kid = create(:kid, mentor: @mentor)
   end
 
-  let(:journal) { create(:journal, :kid => @kid, :mentor => @mentor) }
-  let(:secondary_kid) { create(:kid, :secondary_mentor => @mentor,
-                                      :secondary_active => true) }
+  let(:journal) { create(:journal, kid: @kid, mentor: @mentor) }
+  let(:secondary_kid) do
+    create(:kid, secondary_mentor: @mentor,
+                 secondary_active: true)
+  end
 
   context 'as an admin' do
     before(:each) do
@@ -18,20 +19,20 @@ describe JournalsController do
     end
 
     it 'should render the new template' do
-      get :new, :kid_id => @kid.id
+      get :new, kid_id: @kid.id
       expect(response).to be_successful
       expect(response).to render_template(:new)
     end
 
     it 'should render assign only selectable mentors' do
       @foreign_mentor = create(:mentor)
-      get :new, :kid_id => @kid.id
+      get :new, kid_id: @kid.id
       expect(assigns(:mentors)).to eq([@mentor])
     end
 
     it 'should not access new when no mentors available' do
       Mentor.destroy_all
-      get :new, :kid_id => @kid.id
+      get :new, kid_id: @kid.id
       expect(response).to be_redirect
     end
 
@@ -48,20 +49,27 @@ describe JournalsController do
     end
 
     context 'with render views' do
-      it('news') { get :new, :kid_id => @kid.id }
-      it('edits') { get :edit, :kid_id => @kid.id, :id => journal.id }
+      it 'renders new' do
+        get :new, kid_id: @kid.id
+        expect(response).to be_successful
+        expect(response).to render_template(:new)
+      end
+      it 'renders edit' do
+        get :edit, kid_id: @kid.id, id: journal.id
+        expect(response).to be_successful
+        expect(response).to render_template(:edit)
+      end
     end
 
     it 'redirects on show' do
-      get :show, :kid_id => @kid.id, :id => journal.id
+      get :show, kid_id: @kid.id, id: journal.id
       expect(response).to be_redirect
     end
 
     it 'redirects on index' do
-      get :index, :kid_id => @kid.id
+      get :index, kid_id: @kid.id
       expect(response).to be_redirect
     end
-
   end # end of 'as an admin'
 
   context 'as a mentor' do
@@ -70,28 +78,28 @@ describe JournalsController do
     end
 
     it 'should render the new template' do
-      get :new, :kid_id => @kid.id
+      get :new, kid_id: @kid.id
       expect(response).to be_successful
     end
 
     it 'should render the new template for secondary kids' do
-      get :new, :kid_id => secondary_kid.id
+      get :new, kid_id: secondary_kid.id
       expect(response).to be_successful
     end
 
     it 'should not render the new template for inactive secondary kids' do
-      inactive_kid = create(:kid, :secondary_mentor => @mentor,
-                                   :secondary_active => false)
-      expect { get :new, :kid_id => inactive_kid.id }.to raise_error(CanCan::AccessDenied)
+      inactive_kid = create(:kid, secondary_mentor: @mentor,
+                                  secondary_active: false)
+      expect { get :new, kid_id: inactive_kid.id }.to raise_error(CanCan::AccessDenied)
     end
 
     it 'should not assign mentors for selectbox' do
-      get :new, :kid_id => @kid.id
+      get :new, kid_id: @kid.id
       expect(assigns(:mentors)).to be_nil
     end
 
     it 'should deny access for foreign kids' do
-      expect { get :new, :kid_id => create(:kid).id }.to raise_error(CanCan::AccessDenied)
+      expect { get :new, kid_id: create(:kid).id }.to raise_error(CanCan::AccessDenied)
     end
 
     it 'should create a new entry' do
@@ -126,12 +134,11 @@ describe JournalsController do
   def valid_attributes
     attrs = {}
     attrs[:journal] =  attributes_for(:journal,
-      :mentor_id => @mentor.id,
-      :held_at   => '2011-05-30',
-      :start_at  => '12:00',
-      :end_at    => '12:30')
+                                      mentor_id: @mentor.id,
+                                      held_at: '2011-05-30',
+                                      start_at: '12:00',
+                                      end_at: '12:30')
     attrs[:kid_id] = @kid.id
     attrs
   end
-
 end

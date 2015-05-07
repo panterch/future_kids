@@ -1,5 +1,4 @@
 class RemindersController < ApplicationController
-
   load_and_authorize_resource
   include CrudActions
 
@@ -23,5 +22,4 @@ class RemindersController < ApplicationController
     @reminder.update_attribute(:acknowledged_at, Time.now)
     redirect_to reminders_url
   end
-
 end

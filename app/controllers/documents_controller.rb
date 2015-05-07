@@ -1,5 +1,4 @@
 class DocumentsController < ApplicationController
-
   load_and_authorize_resource
   include CrudActions
 
@@ -7,7 +6,7 @@ class DocumentsController < ApplicationController
     @category_tree = Document.category_tree
     @documents_by_category = {}
     @documents.each do |d|
-      d.category = "Verschiedenes" if d.category.blank?
+      d.category = 'Verschiedenes' if d.category.blank?
       @documents_by_category[d.category] ||= []
       @documents_by_category[d.category] << d
     end
@@ -27,7 +26,7 @@ class DocumentsController < ApplicationController
 
   def document_params
     params.require(:document).permit(
-        :category, :subcategory, :title, :attachment
+      :category, :subcategory, :title, :attachment
     )
   end
 end

@@ -9,6 +9,5 @@ class AddExpenseFields < ActiveRecord::Migration
     remove_column :kids, :city
     remove_column :users, :city
     remove_column :users, :transport
-    
   end
 end

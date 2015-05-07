@@ -1,6 +1,5 @@
 class CommentsController < ApplicationController
-
-  before_filter :prepare_journal
+  before_action :prepare_journal
 
   def new
     @comment = @journal.comments.build
@@ -12,7 +11,7 @@ class CommentsController < ApplicationController
     @comment = @journal.comments.build(comment_params)
     authorize! :create, @comment
     if @comment.save
-      redirect_to kid_url(:id => @journal.kid_id)
+      redirect_to kid_url(id: @journal.kid_id)
     else
       render :new
     end

@@ -1,8 +1,7 @@
 module ApplicationHelper
-
   # link to the given resource if at least read access is given
   def can_link_to(resource)
-    return "" if resource.blank?
+    return '' if resource.blank?
     return resource.display_name if cannot?(:read, resource)
     link_to resource.display_name, resource
   end
@@ -12,7 +11,7 @@ module ApplicationHelper
   def can_select(form, field, clazz)
     if can? :manage, clazz
       form.collection_select(field, clazz.accessible_by(@current_ability),
-                             :id, :display_name, {:include_blank => true})
+                             :id, :display_name, include_blank: true)
     else
       field = field[0...-3] # remove _id from field
       resource.send(field).try(:display_name)
@@ -21,7 +20,7 @@ module ApplicationHelper
 
   # values for the collection select 'sex'
   def sex_collection
-    { "Mädchen" => 'f', "Knabe" => 'm' }
+    { 'Mädchen' => 'f', 'Knabe' => 'm' }
   end
 
   def transport_collection
@@ -41,19 +40,19 @@ module ApplicationHelper
   end
 
   def exit_reason_collection
-    [ "Übertritt",
-      "Wegzug",
-      "Erfolgreich abgeschlossen",
-      "Nicht geeignete Massnahme",
-      "Andere Gründe" ]
+    ['Übertritt',
+     'Wegzug',
+     'Erfolgreich abgeschlossen',
+     'Nicht geeignete Massnahme',
+     'Andere Gründe']
   end
 
   def exit_kind_collection
-    %w(exit later continue).map{ |i| [I18n.t(i, :scope => 'exit_kind'), i] }
+    %w(exit later continue).map { |i| [I18n.t(i, scope: 'exit_kind'), i] }
   end
 
   def school_collection
-    School.all.map{ |s| [ s.display_name, s.id ]}
+    School.all.map { |s| [s.display_name, s.id] }
   end
 
   def admin_collection
@@ -69,17 +68,17 @@ module ApplicationHelper
   end
 
   def order_by_collection_for_kids(selected)
-    options = [['Name', 'name, prename' ],
-               ['Coachingdatum', 'coached_at ASC' ],
-               ['Erfassungsdatum', 'created_at ASC' ],
-               ['Kritikalität', 'abnormality_criticality']]
+    options = [['Name', 'name, prename'],
+               ['Coachingdatum', 'coached_at ASC'],
+               ['Erfassungsdatum', 'created_at ASC'],
+               %w(Kritikalität abnormality_criticality)]
     options_for_select(options, selected)
   end
 
   # values for the collection select 'weekday'
   # weekdays are mapped to integers, as in ruby core's Time, Sunday is 0
   def wday_collection
-    (1..5).map{ |i| [I18n.t('date.day_names')[i], i] }
+    (1..5).map { |i| [I18n.t('date.day_names')[i], i] }
   end
 
   def grade_collection
@@ -87,7 +86,7 @@ module ApplicationHelper
   end
 
   def criticality_collection
-    (1..3).map{ |i| [I18n.t(i, :scope => 'kids.criticality'), i] }
+    (1..3).map { |i| [I18n.t(i, scope: 'kids.criticality'), i] }
   end
 
   # can be used in view to display private data only to their owners (and
@@ -99,7 +98,7 @@ module ApplicationHelper
   # determines style class of scheduler cells
   def schedule_class(schedule)
     return nil unless @mentor_schedules
-    @mentor_schedules.each do |tag, schedules|
+    @mentor_schedules.each do |_tag, schedules|
       next unless schedules.include?(schedule)
       return 'info'
     end
@@ -118,8 +117,13 @@ module ApplicationHelper
 
   def nav_link(link_text, link_path)
     class_name = current_page?(link_path) ? 'active' : ''
-    content_tag(:li, :class => class_name) do
+    content_tag(:li, class: class_name) do
       link_to link_text, link_path
     end
+  end
+
+  def human_date(date)
+    return nil unless date.present?
+    I18n.l(date)
   end
 end

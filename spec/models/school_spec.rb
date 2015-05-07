@@ -9,7 +9,7 @@ describe School do
 
   it 'is connected to kid' do
     school = create(:school)
-    kid = create(:kid, :school => school)
+    kid = create(:kid, school: school)
     expect(Kid.find(kid.id).school).to eq(school)
   end
 end

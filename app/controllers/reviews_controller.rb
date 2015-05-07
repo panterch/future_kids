@@ -1,5 +1,4 @@
 class ReviewsController < ApplicationController
-
   load_and_authorize_resource :kid
   load_and_authorize_resource :review, through: :kid
   include CrudActions
@@ -8,7 +7,7 @@ class ReviewsController < ApplicationController
     @review.save
     respond_with @review.kid
   end
-  
+
   def update
     @review.update(review_params)
     respond_with @review.kid
@@ -21,7 +20,7 @@ class ReviewsController < ApplicationController
   def index # not supported action
     redirect_to kid_url(@kid)
   end
-  
+
   private
 
   def review_params

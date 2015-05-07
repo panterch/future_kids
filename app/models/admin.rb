@@ -1,13 +1,11 @@
 class Admin < User
+  has_many :coachings, class_name: 'Kid'
 
-  has_many :coachings, :class_name => 'Kid'
+  after_save :release_relations, if: :inactive?
 
-  after_save :release_relations, :if => :inactive?
-
-protected
+  protected
 
   def release_relations
-    self.coachings.clear
+    coachings.clear
   end
-
 end

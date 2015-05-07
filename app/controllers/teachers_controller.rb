@@ -1,5 +1,4 @@
 class TeachersController < ApplicationController
-
   load_and_authorize_resource
   include CrudActions
 
@@ -7,9 +6,9 @@ class TeachersController < ApplicationController
     # a prototyped teacher is submitted with each index query. if the prototype
     # is not present, it is built here with default values
     params[:teacher] ||= {}
-    params[:teacher][:inactive] = "0" if params[:teacher][:inactive].nil?
+    params[:teacher][:inactive] = '0' if params[:teacher][:inactive].nil?
 
-    @teachers = @teachers.where(teacher_params.to_h.delete_if {|key, val| val.blank? })
+    @teachers = @teachers.where(teacher_params.to_h.delete_if { |_key, val| val.blank? })
 
     @teacher = Teacher.new(teacher_params)
 
