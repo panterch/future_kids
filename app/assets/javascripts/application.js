@@ -11,5 +11,5 @@
 //= require jquery.disable
 //= require react
 //= require react_ujs
-//= require components
-//= require_tree .
+//= require_tree ./components
+//= require global

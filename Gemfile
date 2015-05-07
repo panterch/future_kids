@@ -43,6 +43,7 @@ group :development, :test do
   gem 'capistrano-rbenv', '~> 1.0'
   gem 'capistrano-ext', '1.2.1'
   gem 'binding_of_caller'
+  gem 'selenium-webdriver'
 end
 
 gem 'codeclimate-test-reporter', group: :test, require: nil

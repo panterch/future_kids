@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     resources :reviews
     member do
       get 'edit_schedules'
+      get 'show_kid_mentors_schedules'
       patch 'update_schedules'
     end
   end

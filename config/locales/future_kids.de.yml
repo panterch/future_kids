@@ -177,6 +177,7 @@ de:
   crud:
     action:
       edit_schedules: Stundenplan bearbeiten
+      show_kid_mentors_schedules: Mentor finden
       new_journal: Neues Lernjournal
       new_review: Neues Gespräch
       comment: Kommentieren
