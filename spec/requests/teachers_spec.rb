@@ -1,11 +1,9 @@
 require 'requests/acceptance_helper'
 
-feature 'ADMIN::CREATE:TEACHER', '
-    As an admin
-    I want to create a teacher
-  'do
-    background do
-      log_in(create(:admin))
+feature 'Teachers as Admin' do
+
+  background do
+    log_in(create(:admin))
   end
 
   scenario 'should be able to create a teacher' do
@@ -20,7 +18,7 @@ feature 'ADMIN::CREATE:TEACHER', '
       click_button 'Lehrperson erstellen'
 
       expect(page).to have_content('raffael@example.com')
-      
+
   end
 
 end
