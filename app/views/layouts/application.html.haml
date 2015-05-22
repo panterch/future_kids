@@ -34,15 +34,15 @@
                   -#       work correctly, see ability_spec.rb. till this is fixed
                   -#       we do not display this option to mentors
                   -if current_user.is_a?(Admin)
-                    %li= nav_link Teacher.model_name.human, teachers_path
-                    %li= nav_link Mentor.model_name.human, mentors_path
-                    %li= nav_link 'SL/QUIMS', principals_path
-                    %li= nav_link 'Mentorbewegungen', kid_mentor_relations_path
+                    %li= nav_link :teacher
+                    %li= nav_link :mentor
+                    %li= nav_link :principal
+                    %li= nav_link :kid_mentor_relation
                   -if can? :read, Reminder
-                    %li= nav_link Reminder.model_name.human, reminders_path
-                  %li= nav_link 'Anleitungen & Dokumente', documents_path
+                    %li= nav_link :reminder
+                  %li= nav_link :document
                   -if can? :read, School
-                    %li= nav_link School.model_name.human, schools_path
+                    %li= nav_link :school
                 %ul.nav.navbar-nav.navbar-right
                   %li.dropdown(style="display: block !important")
                     = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do

@@ -29,6 +29,10 @@ gem 'sass-rails'
 gem 'coffee-rails'
 gem 'uglifier'
 
+gem 'i18n-active_record',
+    :git => 'git://github.com/svenfuchs/i18n-active_record.git',
+    :require => 'i18n/active_record'
+
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:

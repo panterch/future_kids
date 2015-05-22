@@ -15,4 +15,24 @@ describe ApplicationHelper do
       expect(helper.human_date(nil)).to be_nil
     end
   end
+
+  describe 'nav link' do
+    it 'renders on explicit link entry' do
+      markup = nav_link('text', '/link')
+      expect(markup).to eq('<li class=""><a href="/link">text</a></li>')
+    end
+    it 'renders on convenience link entry' do
+      markup = nav_link(:principal)
+      expect(markup).to eq('<li class=""><a href="/principals">SL/QUIMS</a></li>')
+    end
+    it 'honors translations from AR' do
+      I18n::Backend::ActiveRecord.new.store_translations(:de, nav: { principal: 'P AR'})
+      markup = nav_link(:principal)
+      expect(markup).to eq('<li class=""><a href="/principals">P AR</a></li>')
+    end
+    it 'fallbacks on model name translation if no nav translation set' do
+      markup = nav_link(:teacher)
+      expect(markup).to eq('<li class=""><a href="/teachers">Lehrperson</a></li>')
+    end
+  end
 end

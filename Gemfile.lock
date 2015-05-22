@@ -6,6 +6,13 @@ GIT
       actionpack (>= 3.2, < 5)
       activemodel (>= 3.2, < 5)
 
+GIT
+  remote: git://github.com/svenfuchs/i18n-active_record.git
+  revision: 2d9a22b6a4e5d809782cdbfa65b14d9e47aa27fc
+  specs:
+    i18n-active_record (0.0.2)
+      i18n (>= 0.5.0)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -291,6 +298,7 @@ DEPENDENCIES
   factory_girl
   factory_girl_rails
   haml-rails
+  i18n-active_record!
   i18n_rails_helpers
   jbuilder
   jquery-rails

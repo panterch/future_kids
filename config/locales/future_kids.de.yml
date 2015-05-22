@@ -12,6 +12,7 @@ de:
       school: Schule
       principal: "SL/QUIMS-Verantwortliche/r"
       review: "Gesprächsdokumentation"
+      kid_mentor_relation: 'Mentorbewegungen'
 
     attributes:
       kid:
@@ -162,7 +163,6 @@ de:
     journals_created:
       subject: Neue Lernjournale
 
-
   kids:
     criticality:
       '1': Hoch
@@ -183,3 +183,7 @@ de:
       index: "Zurück zur Liste"
       xlsx: "Excel Export"
       reset_all: 'Alle zurücksetzen'
+
+  nav:
+    principal: 'SL/QUIMS'
+    document: 'Anleitungen & Dokumente'

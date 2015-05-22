@@ -115,8 +115,27 @@ module ApplicationHelper
     tags
   end
 
-  def nav_link(link_text, link_path)
-    class_name = current_page?(link_path) ? 'active' : ''
+  def nav_link(model_name_or_link_text, link_path = nil)
+    # convenience interpolation: when a symbol is submitted to
+    # this method it tries to automatically extrapolate the link
+    # text and path
+    if (link_path.blank?)
+      model_name = model_name_or_link_text.to_s
+      begin
+        # prefer specific menu entries under nav scope and use activerecord
+        # model name as fallback
+        link_text = I18n.translate!(model_name, scope: :nav)
+      rescue I18n::MissingTranslationData
+        link_text = I18n.translate(model_name, scope: 'activerecord.models')
+      end
+      link_path = url_for(controller: model_name.pluralize, action: :index,
+                          only_path: true)
+    else
+      link_text = model_name_or_link_text
+    end
+    # set classname to active when link corresponds with current page
+    # (first test for request is to make testing easier)
+    class_name = request && current_page?(link_path) ? 'active' : ''
     content_tag(:li, class: class_name) do
       link_to link_text, link_path
     end
