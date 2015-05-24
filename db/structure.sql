@@ -488,6 +488,41 @@ ALTER SEQUENCE schools_id_seq OWNED BY schools.id;
 
 
 --
+-- Name: sites; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE sites (
+    id integer NOT NULL,
+    footer_address character varying,
+    footer_email character varying,
+    logo_file_name character varying,
+    logo_content_type character varying,
+    logo_file_size integer,
+    logo_updated_at timestamp without time zone,
+    feature_coach boolean DEFAULT true
+);
+
+
+--
+-- Name: sites_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE sites_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: sites_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE sites_id_seq OWNED BY sites.id;
+
+
+--
 -- Name: translations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -608,6 +643,13 @@ ALTER TABLE ONLY schools ALTER COLUMN id SET DEFAULT nextval('schools_id_seq'::r
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY sites ALTER COLUMN id SET DEFAULT nextval('sites_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY translations ALTER COLUMN id SET DEFAULT nextval('translations_id_seq'::regclass);
 
 
@@ -688,6 +730,14 @@ ALTER TABLE ONLY schedules
 
 ALTER TABLE ONLY schools
     ADD CONSTRAINT schools_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: sites_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY sites
+    ADD CONSTRAINT sites_pkey PRIMARY KEY (id);
 
 
 --
@@ -927,4 +977,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150424163124');
 INSERT INTO schema_migrations (version) VALUES ('20150503135014');
 
 INSERT INTO schema_migrations (version) VALUES ('20150520135622');
+
+INSERT INTO schema_migrations (version) VALUES ('20150524164241');
 

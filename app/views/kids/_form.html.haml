@@ -29,6 +29,7 @@
     = form.association :mentor, :collection => Mentor.active
     = form.association :secondary_mentor, :collection => Mentor.active
     = form.input :secondary_active
+  - if current_user.is_a?(Admin) && @site.feature_coach?
     = form.input :admin_id, :collection => Admin.active
 
   - if current_user.is_a?(Admin)
@@ -38,7 +39,8 @@
     = form.input :exit_reason, :collection => exit_reason_collection
     = form.input :exit_kind, :collection => exit_kind_collection
     = form.input :exit_at
-    = form.input :coached_at
+    - if @site.feature_coach?
+      = form.input :coached_at
     = form.input :abnormality
     = form.input :abnormality_criticality, :collection => criticality_collection
     = form.input :todo

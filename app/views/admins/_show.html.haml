@@ -5,7 +5,7 @@
   = show.attribute :phone
   = show.attribute :todo
 
-  -if current_user.is_a?(Admin)
+  -if current_user.is_a?(Admin) && @site.feature_coach?
     = show.association :coachings do |k|
       %li
         = "#{Kid.model_name.human}:"

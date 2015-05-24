@@ -4,6 +4,7 @@ class ApplicationController < ActionController::Base
   self.responder = ApplicationResponder
   respond_to :html
 
+  before_action :load_site_configuration
   before_action :authenticate_user!
   before_action :logout_inactive
   before_action :intercept_sensitive_params!
@@ -13,6 +14,10 @@ class ApplicationController < ActionController::Base
 
   def admin?
     user_signed_in? && current_user.is_a?(Admin)
+  end
+
+  def load_site_configuration
+    @site = Site.first!
   end
 
   def logout_inactive

@@ -8,7 +8,7 @@
       %label
         %input.boolean.optional(type='checkbox' disabled='disabled' checked)
 
-  - if @journal.kid.admin
+  - if @journal.kid.admin && @site.feature_coach?
     .form-group.boolean.optional
       %label.boolean.optional.control-label.col-sm-3.control-label
         Coach

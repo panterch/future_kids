@@ -13,6 +13,7 @@ de:
       principal: "SL/QUIMS-Verantwortliche/r"
       review: "Gesprächsdokumentation"
       kid_mentor_relation: 'Mentorbewegungen'
+      site: 'Seitenweite Konfiguration'
 
     attributes:
       kid:
@@ -152,6 +153,11 @@ de:
         start_at: Zugewiesen am
         end_at: Entfernt am
         role: Rolle
+      site:
+        logo: Seitenlogo rechte Spalte
+        feature_coach: Feature 'Coach' aktiviert
+        footer_address: Adressangaben in Fusszeile
+        footer_email: Email Adresse in Fusszeile
 
   notifications:
     remind:
@@ -183,6 +189,7 @@ de:
       index: "Zurück zur Liste"
       xlsx: "Excel Export"
       reset_all: 'Alle zurücksetzen'
+      update_success: 'Erfolgreich gespeichert'
 
   nav:
     principal: 'SL/QUIMS'

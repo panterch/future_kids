@@ -3,8 +3,8 @@ class CreateTranslations < ActiveRecord::Migration
     create_table :translations do |t|
       t.string :locale, default: 'de'
       t.string :key
-      t.text   :value
-      t.text   :interpolations
+      t.text :value
+      t.text :interpolations
       t.boolean :is_proc, default: false
 
       t.timestamps

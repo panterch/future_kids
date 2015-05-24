@@ -28,6 +28,7 @@ Rails.application.routes.draw do
   resources :reminders
   resources :teachers
   resources :principals
+  resource :site
 
   get '/exception_test' => 'exception_test#error'
 end

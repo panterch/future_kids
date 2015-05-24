@@ -1,14 +1,13 @@
 require 'spec_helper'
 
 describe JournalsController do
-
   let(:admin) { create(:admin) }
   let(:mentor) { create(:mentor) }
   let(:kid) { create(:kid, mentor: mentor) }
   let(:journal) { create(:journal, kid: kid, mentor: mentor) }
   let(:secondary_kid) do
     create(:kid, secondary_mentor: mentor,
-           secondary_active: true)
+                 secondary_active: true)
   end
 
   context 'as an admin' do
@@ -101,7 +100,7 @@ describe JournalsController do
 
     it 'should not render the new template for inactive secondary kids' do
       inactive_kid = create(:kid, secondary_mentor: mentor,
-                            secondary_active: false)
+                                  secondary_active: false)
       expect { get :new, kid_id: inactive_kid.id }.to raise_error(CanCan::AccessDenied)
     end
 

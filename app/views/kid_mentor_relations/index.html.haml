@@ -13,9 +13,10 @@
         = Mentor.human_attribute_name(:exit_kind)
         = Mentor.model_name.human
       = f.select :mentor_exit_kind, exit_kind_collection, { :include_blank => true }, class: 'form-control'
-    .form-group
-      %label Coach
-      = f.select :admin_id, admin_collection, { :include_blank => true }, class: 'form-control'
+    - if @site.feature_coach?
+      .form-group
+        %label Coach
+        = f.select :admin_id, admin_collection, { :include_blank => true }, class: 'form-control'
     .form-group
       = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
       = link_to 'Filter aufheben', kid_mentor_relations_path, class: 'btn btn-xs'

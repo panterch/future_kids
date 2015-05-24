@@ -52,8 +52,9 @@
   = show.attribute :secondary_mentor do
     = can_link_to(@kid.secondary_mentor)
   = show.attribute :secondary_active
-  = show.attribute :admin do
-    = can_link_to(@kid.admin)
+  - if @site.feature_coach?
+    = show.attribute :admin do
+      = can_link_to(@kid.admin)
 
 - if current_user.is_a?(Admin)
   = show_for @kid do |show|
@@ -64,7 +65,8 @@
     = show.attribute :exit_kind
     - if 'later' == @kid.exit_kind
       = show.attribute :exit_at
-    = show.attribute :coached_at
+    - if @site.feature_coach?
+      = show.attribute :coached_at
     = show.attribute :abnormality
     = show.attribute :abnormality_criticality
     = show.attribute :todo

@@ -15,9 +15,10 @@
       .form-group
         %label= Kid.human_attribute_name(:school)
         = f.select :school_id, school_collection, { :include_blank => true }, class: 'form-control'
-      .form-group
-        %label Coach
-        = f.select :admin_id, admin_collection, { :include_blank => true }, class: 'form-control'
+      - if @site.feature_coach?
+        .form-group
+          %label Coach
+          = f.select :admin_id, admin_collection, { :include_blank => true }, class: 'form-control'
       .form-group
         %label Übersetzer
         = f.select :translator, boolean_collection, { include_blank: true }, class: 'form-control'
@@ -48,25 +49,29 @@
     %th Name
     - if current_user.is_a?(Admin)
       %th Eintritt
-      %th Letztes Coaching
+      - if @site.feature_coach?
+        %th Letztes Coaching
       %th Pendenzen
-    %th Coach
+    - if @site.feature_coach?
+      %th Coach
   - @kids.each do |kid|
     %tr
       %td= link_to kid.display_name, kid
       -if current_user.is_a?(Admin)
         %td
           = kid.created_at ? I18n.l(kid.created_at.to_date) : '-'
-        %td
-          = kid.coached_at ? I18n.l(kid.coached_at.to_date) : '-'
+        - if @site.feature_coach?
+          %td
+            = kid.coached_at ? I18n.l(kid.coached_at.to_date) : '-'
         %td
           -if kid.todo.present?
             %a.todotoggle.btn.btn-xs{data: { content: kid.human_todo}, href:  edit_kid_path(kid, :anchor => 'todo') }
               Pendenz
               %span.glyphicon.glyphicon-info-sign
-      %td
-        Coach:
-        = can_link_to(kid.admin) if kid.admin.present?
+      - if @site.feature_coach?
+        %td
+          Coach:
+          = can_link_to(kid.admin) if kid.admin.present?
 
 
 - if @kids.empty?

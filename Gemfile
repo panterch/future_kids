@@ -11,6 +11,7 @@ gem 'unicorn'
 gem 'therubyracer', platforms: :ruby
 
 # gems in alphabetic order
+gem 'actionview-encoded_mail_to'
 gem 'axlsx_rails'
 gem 'cancancan'
 gem 'devise'
@@ -30,8 +31,8 @@ gem 'coffee-rails'
 gem 'uglifier'
 
 gem 'i18n-active_record',
-    :git => 'git://github.com/svenfuchs/i18n-active_record.git',
-    :require => 'i18n/active_record'
+    git: 'git://github.com/svenfuchs/i18n-active_record.git',
+    require: 'i18n/active_record'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators

@@ -119,7 +119,7 @@ module ApplicationHelper
     # convenience interpolation: when a symbol is submitted to
     # this method it tries to automatically extrapolate the link
     # text and path
-    if (link_path.blank?)
+    if link_path.blank?
       model_name = model_name_or_link_text.to_s
       begin
         # prefer specific menu entries under nav scope and use activerecord
