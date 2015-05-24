@@ -4,6 +4,10 @@ class SitesController < ApplicationController
   def edit
   end
 
+  def show
+    redirect_to edit_site_url
+  end
+
   def update
     if @site.update(site_params)
       redirect_to edit_site_url, notice: I18n.t('crud.action.update_success')
