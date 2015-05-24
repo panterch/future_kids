@@ -17,8 +17,5 @@ describe I18n do
     expect(Kid.model_name.human).to eq('Kid AR')
   end
 
-  it 'is possible to create translation via normal AR model' do
-
-  end
 end
 
