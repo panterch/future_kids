@@ -20,7 +20,8 @@ class SitesController < ApplicationController
 
   def site_params
     params.require(:site).permit(
-      :footer_address, :footer_email, :logo, :feature_coach
+      :footer_address, :footer_email, :logo, :feature_coach,
+      :term_collection_start, :term_collection_end
     )
   end
 end

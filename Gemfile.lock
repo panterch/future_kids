@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/svenfuchs/i18n-active_record.git
-  revision: 2d9a22b6a4e5d809782cdbfa65b14d9e47aa27fc
+  revision: 8a38eeb8e2cf6be53ecc1240da6f11c8b24945cb
   specs:
     i18n-active_record (0.0.2)
       i18n (>= 0.5.0)
@@ -54,7 +54,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.0)
-    autoprefixer-rails (5.1.11)
+    autoprefixer-rails (5.2.0)
       execjs
       json
     axlsx (2.0.1)
@@ -106,7 +106,7 @@ GEM
       execjs
     coffee-script-source (1.9.1.1)
     debug_inspector (0.0.2)
-    devise (3.5.0)
+    devise (3.5.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
@@ -152,16 +152,16 @@ GEM
       rails-dom-testing (~> 1.0)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
-    json (1.8.2)
+    json (1.8.3)
     kgio (2.9.3)
     libv8 (3.16.14.7)
     loofah (2.0.2)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
-    mime-types (2.5)
+    mime-types (2.6.1)
     mini_portile (0.6.2)
-    minitest (5.6.1)
+    minitest (5.7.0)
     multi_json (1.11.0)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -231,7 +231,7 @@ GEM
       rspec-mocks (~> 3.2.0)
       rspec-support (~> 3.2.0)
     rspec-support (3.2.2)
-    ruby_parser (3.6.6)
+    ruby_parser (3.7.0)
       sexp_processor (~> 4.1)
     rubyzip (1.0.0)
     sass (3.4.14)
@@ -244,7 +244,7 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    sexp_processor (4.5.1)
+    sexp_processor (4.6.0)
     simple_form (3.1.0)
       actionpack (~> 4.0)
       activemodel (~> 4.0)

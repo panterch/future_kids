@@ -499,7 +499,9 @@ CREATE TABLE sites (
     logo_content_type character varying,
     logo_file_size integer,
     logo_updated_at timestamp without time zone,
-    feature_coach boolean DEFAULT true
+    feature_coach boolean DEFAULT true,
+    term_collection_start integer DEFAULT 2014,
+    term_collection_end integer DEFAULT 2020
 );
 
 
@@ -979,4 +981,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150503135014');
 INSERT INTO schema_migrations (version) VALUES ('20150520135622');
 
 INSERT INTO schema_migrations (version) VALUES ('20150524164241');
+
+INSERT INTO schema_migrations (version) VALUES ('20150602204436');
 

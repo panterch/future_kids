@@ -35,4 +35,12 @@ describe ApplicationHelper do
       expect(markup).to eq('<li class=""><a href="/teachers">Lehrperson</a></li>')
     end
   end
+
+  describe 'term collection' do
+    it 'renders terms' do
+      @site = Site.new(term_collection_start: 2011, term_collection_end: 2015)
+      expect(term_collection.first).to eq('2011 Frühling')
+      expect(term_collection.last).to eq('2015 Herbst')
+    end
+  end
 end

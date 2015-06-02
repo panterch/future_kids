@@ -32,11 +32,9 @@ module ApplicationHelper
   end
 
   def term_collection
-    ['2011 Frühling', '2011 Herbst',
-     '2012 Frühling', '2012 Herbst',
-     '2013 Frühling', '2013 Herbst',
-     '2014 Frühling', '2014 Herbst',
-     '2015 Frühling', '2015 Herbst']
+    (@site.term_collection_start..@site.term_collection_end).to_a.map do |t|
+      [t.to_s+' Frühling', t.to_s+' Herbst']
+    end.flatten
   end
 
   def exit_reason_collection
