@@ -1,5 +1,5 @@
 #!/bin/sh
 
-bundle exec cap staging deploy:migrations
-bundle exec cap aoz deploy:migrations
-bundle exec cap phtg deploy:migrations
+bundle exec cap staging deploy:
+bundle exec cap aoz deploy
+bundle exec cap phtg deploy
