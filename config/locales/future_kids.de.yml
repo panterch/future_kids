@@ -158,6 +158,8 @@ de:
         feature_coach: Feature 'Coach' aktiviert
         footer_address: Adressangaben in Fusszeile
         footer_email: Email Adresse in Fusszeile
+        term_collection_start: Erstes Jahr Semesterauswahl
+        term_collection_end: Letztes Jahr Semesterauswahl
 
   notifications:
     remind:
