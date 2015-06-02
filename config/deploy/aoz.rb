@@ -1,3 +1,2 @@
-server 'future-kids-production.panter.biz', :app, :web, :db, primary: true
-
+server 'future-kids-production.panter.biz', roles: %w[ web app db ]
 set :branch, 'master'

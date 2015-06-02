@@ -1,14 +1,9 @@
 source 'https://rubygems.org'
 
 gem 'rails'
-
 gem 'haml-rails'
-
 gem 'jquery-rails'
 gem 'jbuilder'
-
-gem 'unicorn'
-gem 'therubyracer', platforms: :ruby
 
 # gems in alphabetic order
 gem 'actionview-encoded_mail_to'
@@ -34,6 +29,8 @@ gem 'i18n-active_record',
     git: 'git://github.com/svenfuchs/i18n-active_record.git',
     require: 'i18n/active_record'
 
+gem 'panter-rails-deploy'
+
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
@@ -42,10 +39,6 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'factory_girl'
-  gem 'capistrano', '2.13.5'
-  gem 'capistrano-rbenv', '~> 1.0'
-  gem 'capistrano-ext', '1.2.1'
-  gem 'binding_of_caller'
 end
 
 gem 'codeclimate-test-reporter', group: :test, require: nil
