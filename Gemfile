@@ -5,7 +5,6 @@ gem 'haml-rails'
 gem 'jquery-rails'
 gem 'jbuilder'
 
-# gems in alphabetic order
 gem 'actionview-encoded_mail_to'
 gem 'axlsx_rails'
 gem 'cancancan'
@@ -20,18 +19,16 @@ gem 'whenever', require: false
 gem 'bootstrap-sass'
 gem 'quiet_assets'
 gem 'i18n_rails_helpers'
-
+gem 'react-rails'
 gem 'sass-rails'
 gem 'coffee-rails'
 gem 'uglifier'
-
 gem 'i18n-active_record',
     git: 'git://github.com/svenfuchs/i18n-active_record.git',
     require: 'i18n/active_record'
 
 gem 'panter-rails-deploy'
 
-gem 'react-rails', '~> 1.0'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
@@ -42,6 +39,7 @@ group :development, :test do
   gem 'factory_girl_rails'
   gem 'factory_girl'
   gem 'selenium-webdriver'
+  gem 'database_cleaner'
 end
 
 gem 'codeclimate-test-reporter', group: :test, require: nil
