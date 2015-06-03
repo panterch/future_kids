@@ -34,6 +34,10 @@ class KidsController < ApplicationController
     respond_with @kids
   end
 
+  def show_kid_mentors_schedules
+
+  end
+
   protected
 
   # when the user working on the kid is a teacher, it get's
