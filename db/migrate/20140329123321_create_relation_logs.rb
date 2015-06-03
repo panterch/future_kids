@@ -7,7 +7,7 @@ class CreateRelationLogs < ActiveRecord::Migration
       t.datetime :start_at
       t.datetime :end_at
 
-      t.timestamps
+      t.timestamps null: false
     end
 
     add_index :relation_logs, :kid_id
