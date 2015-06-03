@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
   end
 
   def load_site_configuration
-    @site = Site.first!
+    @site = Site.first_or_create!
   end
 
   def logout_inactive

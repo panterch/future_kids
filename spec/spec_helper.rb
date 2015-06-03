@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'codeclimate-test-reporter'
+
 CodeClimate::TestReporter.start
 
 ENV['RAILS_ENV'] ||= 'test'
@@ -23,8 +24,27 @@ RSpec.configure do |config|
   # If you're not using ActiveRecord, or you'd prefer not to run each of your
   # examples within a transaction, remove the following line or assign false
   # instead of true.
-  config.use_transactional_fixtures = true
-  config.use_transactional_examples = true
+  config.use_transactional_fixtures = false
+  config.use_transactional_examples = false
+  config.expose_current_running_example_as :example
+
+  config.before(:suite) do
+    DatabaseCleaner.clean_with(:transaction)
+  end
+
+  config.before(:each) do
+    DatabaseCleaner.strategy = if example.metadata[:js]
+                                 :truncation
+                               else
+                                 :transaction
+                               end
+    DatabaseCleaner.start
+  end
+
+  config.after(:each) do
+    DatabaseCleaner.clean
+  end
+
 
   # Clear ActionMailer deliveries after each spec.
   config.after(:each) { ActionMailer::Base.deliveries.clear }

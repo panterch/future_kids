@@ -7,5 +7,6 @@
     - if can? :create, @cancan_review
       = contextual_link_to :new_review, new_kid_review_path(@kid)
     = contextual_link_to :edit_schedules
+    = contextual_link_to :show_kid_mentors_schedules
 
 = render "show"
