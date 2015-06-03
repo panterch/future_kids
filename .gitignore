@@ -22,4 +22,3 @@ config/newrelic.yml
 /public/assets
 .DS_Store
 .ruby-gemset
-.ruby-version
