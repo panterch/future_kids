@@ -65,6 +65,8 @@ GEM
       axlsx (>= 2.0.1)
       rails (>= 3.1)
     bcrypt (3.1.10)
+    binding_of_caller (0.7.2)
+      debug_inspector (>= 0.0.1)
     bootstrap-sass (3.3.4.1)
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.2.19)
@@ -99,6 +101,7 @@ GEM
       climate_control (>= 0.0.3, < 1.0)
     codeclimate-test-reporter (0.4.7)
       simplecov (>= 0.7.1, < 1.0.0)
+    coderay (1.1.0)
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
@@ -107,6 +110,7 @@ GEM
       execjs
     coffee-script-source (1.9.1.1)
     colorize (0.7.7)
+    debug_inspector (0.0.2)
     devise (3.5.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -162,6 +166,7 @@ GEM
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
+    method_source (0.8.2)
     mime-types (2.6.1)
     mini_portile (0.6.2)
     minitest (5.7.0)
@@ -187,6 +192,18 @@ GEM
       cocaine (~> 0.5.3)
       mime-types
     pg (0.18.2)
+    pry (0.10.1)
+      coderay (~> 1.1.0)
+      method_source (~> 0.8.1)
+      slop (~> 3.4)
+    pry-rails (0.3.4)
+      pry (>= 0.9.10)
+    pry-remote (0.1.8)
+      pry (~> 0.9)
+      slop (~> 3.0)
+    pry-stack_explorer (0.4.9.2)
+      binding_of_caller (>= 0.7)
+      pry (>= 0.9.11)
     quiet_assets (1.1.0)
       railties (>= 3.1, < 5.0)
     rack (1.6.1)
@@ -261,6 +278,7 @@ GEM
       json (~> 1.8)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
+    slop (3.6.0)
     sprockets (3.1.0)
       rack (~> 1.0)
     sprockets-rails (2.3.1)
@@ -319,6 +337,10 @@ DEPENDENCIES
   panter-rails-deploy
   paperclip
   pg
+  pry
+  pry-rails
+  pry-remote
+  pry-stack_explorer
   quiet_assets
   rails
   responders
@@ -329,3 +351,6 @@ DEPENDENCIES
   simple_form
   uglifier
   whenever
+
+BUNDLED WITH
+   1.10.2

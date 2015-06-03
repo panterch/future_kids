@@ -39,6 +39,10 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'factory_girl'
+  gem 'pry'
+  gem 'pry-remote'
+  gem 'pry-rails'
+  gem 'pry-stack_explorer'
 end
 
 gem 'codeclimate-test-reporter', group: :test, require: nil
