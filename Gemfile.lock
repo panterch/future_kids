@@ -68,6 +68,7 @@ GEM
     bootstrap-sass (3.3.4.1)
       autoprefixer-rails (>= 5.0.0.1)
       sass (>= 3.2.19)
+    bower-rails (0.9.2)
     builder (3.2.2)
     cancancan (1.10.1)
     capistrano (3.4.0)
@@ -104,12 +105,13 @@ GEM
     coffee-rails (4.1.0)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
+    coffee-react (3.0.1)
+      execjs
     coffee-script (2.4.1)
       coffee-script-source
       execjs
     coffee-script-source (1.9.1.1)
     colorize (0.7.7)
-    connection_pool (2.2.0)
     database_cleaner (1.4.1)
     devise (3.5.1)
       bcrypt (~> 3.0)
@@ -224,13 +226,6 @@ GEM
     raindrops (0.13.0)
     rake (10.4.2)
     rdoc (4.2.0)
-    react-rails (1.0.0)
-      coffee-script-source (~> 1.8)
-      connection_pool
-      execjs
-      rails (>= 3.1)
-      react-source (~> 0.13)
-    react-source (0.13.3)
     ref (1.0.5)
     responders (2.1.0)
       railties (>= 4.2.0, < 5)
@@ -280,6 +275,11 @@ GEM
     simplecov-html (0.10.0)
     sprockets (3.2.0)
       rack (~> 1.0)
+    sprockets-coffee-react (3.0.1)
+      coffee-react (>= 3.0.1)
+      coffee-script
+      sprockets
+      tilt
     sprockets-rails (2.3.1)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
@@ -321,6 +321,7 @@ DEPENDENCIES
   actionview-encoded_mail_to
   axlsx_rails
   bootstrap-sass
+  bower-rails (~> 0.9.2)
   cancancan
   capybara
   codeclimate-test-reporter
@@ -340,7 +341,6 @@ DEPENDENCIES
   pg
   quiet_assets
   rails
-  react-rails
   responders
   rspec-rails
   sass-rails
@@ -348,5 +348,6 @@ DEPENDENCIES
   selenium-webdriver
   show_for!
   simple_form
+  sprockets-coffee-react
   uglifier
   whenever

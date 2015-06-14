@@ -35,7 +35,7 @@ class KidsController < ApplicationController
   end
 
   def show_kid_mentors_schedules
-
+    @mentors = Mentor.all
   end
 
   protected

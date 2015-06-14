@@ -3,6 +3,7 @@
  * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  * = require calendrical
+ * = require react-select/dist/default
 */
 
 $font-size-base:             12px;
@@ -37,6 +38,7 @@ $sidebar-width: 220px;
 
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
+
 
 body, html {
   min-width: 960px;

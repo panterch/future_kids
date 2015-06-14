@@ -10,6 +10,12 @@ unless Mentor.count > 0
   Mentor.create!(name: 'Haller', prename: 'Frederik',
                  email: 'mentor@example.com', password: 'welcome',
                  password_confirmation: 'welcome')
+  Mentor.create!(name: 'Rohner', prename: 'Melanie',
+                 email: 'mentor2@example.com', password: 'welcome',
+                 password_confirmation: 'welcome')
+  Mentor.create!(name: 'Steiner', prename: 'Max',
+                 email: 'mentor3@example.com', password: 'welcome',
+                 password_confirmation: 'welcome')
 end
 
 unless Admin.count > 0
