@@ -27,8 +27,7 @@ feature 'Kid Mentor planning', js: true do
         expect(page).to have_content 'Melanie Rohner'
       end
     end
-
-   describe 'filter' do
+    describe 'filter' do
      scenario 'select ects' do
        within('.filters') do
          page.select 'ECTS', :from => 'ects'
@@ -53,7 +52,6 @@ feature 'Kid Mentor planning', js: true do
          expect(page).to have_content 'Max Steiner'
        end
      end
-
    end
 
     describe 'timetable' do
@@ -66,16 +64,18 @@ feature 'Kid Mentor planning', js: true do
           expect(page).to have_content 'Freitag'
         end
       end
-      it 'shows times from 13:00 to 19:00 with 30min intervals'
-      within('.timetable') do
-        expect(page).to_not have_content '12:30'
-        expect(page).to have_content '13:00'
-        expect(page).to have_content '13:30'
-        expect(page).to have_content '14:00'
-        expect(page).to have_content '18:00'
-        expect(page).to have_content '18:30'
-        expect(page).to have_content '19:00'
-        expect(page).to_not have_content '19:30'
+      it 'shows times from 13:00 to 19:00 with 30min intervals' do
+        within('.timetable') do
+          expect(page).to_not have_content '12:30'
+          expect(page).to have_content '13:00'
+          expect(page).to have_content '13:30'
+          expect(page).to have_content '14:00'
+          expect(page).to have_content '18:00'
+          expect(page).to have_content '18:30'
+          expect(page).to have_content '19:00'
+          expect(page).to_not have_content '19:30'
+        end
+
       end
 
     end
@@ -83,7 +83,6 @@ feature 'Kid Mentor planning', js: true do
 
 
   end
-
 
 
 

@@ -10,7 +10,7 @@ TimeTable = React.createClass
   createTimeArray: ->
     startMoment = moment()
     startMoment.set "hours", 13
-    startMoment.set "minutes", 30
+    startMoment.set "minutes", 0
     endMoment = moment startMoment
     endMoment.set "hours", 19
     endMoment.set "minutes", 0
@@ -34,7 +34,7 @@ TimeTable = React.createClass
     ]
     times = @createTimeArray()
 
-    <table className="timeTable">
+    <table className="timetable">
       <thead>
         <tr>
         <th></th>
