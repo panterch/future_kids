@@ -2,6 +2,7 @@
   "name": "dsl-generated dependencies",
   "dependencies": {
     "underscore": "latest",
-    "react-select": "latest"
+    "react-select": "latest",
+    "moment": "latest"
   }
 }

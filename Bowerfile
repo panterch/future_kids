@@ -4,3 +4,4 @@
 # asset 'bootstrap'
 asset 'underscore'
 asset 'react-select'
+asset 'moment'
