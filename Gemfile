@@ -19,7 +19,7 @@ gem 'whenever', require: false
 gem 'bootstrap-sass'
 gem 'quiet_assets'
 gem 'i18n_rails_helpers'
-
+gem 'react-rails'
 gem 'sprockets-coffee-react'
 gem 'sass-rails'
 gem 'coffee-rails'
