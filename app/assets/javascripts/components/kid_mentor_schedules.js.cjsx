@@ -3,28 +3,65 @@
 #= require react-input-autosize
 #= require react-select
 #= require underscore
+#= require moment
 
 
 TimeTable = React.createClass
-  
+  createTimeArray: ->
+    startMoment = moment()
+    startMoment.set "hours", 13
+    startMoment.set "minutes", 30
+    endMoment = moment startMoment
+    endMoment.set "hours", 19
+    endMoment.set "minutes", 0
+
+    timeMoment = moment startMoment
+
+    while endMoment.diff(timeMoment) >=0
+      label = timeMoment.format "HH:mm"
+      key = label
+      timeMoment.add 30, "minutes"
+      {key, label}
+  getMentorsFor: (day, time) ->
+    @props.mentors
   render: ->
-    days = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"]
-    
+    days = [
+      (key: "mon", label: "Montag")
+      (key: "tue", label: "Dienstag")
+      (key: "wed", label: "Mittwoch")
+      (key: "thu", label: "Donnerstag")
+      (key: "fri", label: "Freitag")
+    ]
+    times = @createTimeArray()
 
     <table className="timeTable">
       <thead>
         <tr>
-        <th><!--empty--></th>
+        <th></th>
         {
-          <th>{day}</th> for day in days
+          <th>{day.label}</th> for day in days
         }
         </tr>
       </thead>
       <tbody>
+      {
+        for time, i in times
+          <tr key=time.key>
+            <th>{time.label}</th>
+            {
+              for day in days
+                <td>
+                {
+                  for id, mentor of @getMentorsFor day, time
+                    <span>{mentor.name}</span>
 
+                }
+                </td>
+            }
+          </tr>
 
+      } 
       </tbody>
-        
     </table>
 
 
@@ -54,7 +91,7 @@ Table = React.createClass
     <p>Selected {_.size selectedMentors} mentors of {_.size @props.mentors} 
       <button 
         onClick=@selectAll
-        class="btn btn-default">Select All ({_.size @props.mentors})
+        className="btn btn-default">Select All ({_.size @props.mentors})
       </button>
     </p>
       <MentorsForDisplayingFilter 
@@ -65,7 +102,7 @@ Table = React.createClass
 
       <TimeTable 
         kid=@props.kid
-        mentors=@props.mentors
+        mentors=selectedMentors
       />
      
 
