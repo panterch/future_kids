@@ -5,6 +5,30 @@
 #= require underscore
 
 
+TimeTable = React.createClass
+  
+  render: ->
+    days = ["Montag", "Dienstag", "Mittwoch", "Donnerstag", "Freitag"]
+    
+
+    <table className="timeTable">
+      <thead>
+        <tr>
+        <th><!--empty--></th>
+        {
+          <th>{day}</th> for day in days
+        }
+        </tr>
+      </thead>
+      <tbody>
+
+
+      </tbody>
+        
+    </table>
+
+
+
 Table = React.createClass
   getInitialState: ->
 
@@ -38,6 +62,11 @@ Table = React.createClass
         initialSelection=selectedMentors
         onChange=@onChange
       />
+
+      <TimeTable 
+        kid=@props.kid
+        mentors=@props.mentors
+      />
      
 
     </div>
@@ -58,7 +87,7 @@ MentorsForDisplayingFilter = React.createClass
     value = (id for id of @props.initialSelection)
     .join ";"
     if value.length == 0 then value = null
-    <div>
+    <div className="mentors-filtered">
       <Select 
         options=options 
         multi=true
@@ -84,12 +113,12 @@ Filters = React.createClass
   render: ->
     <div className="filters">
     
-      <select value=@props.initialFilters.ects onChange=@onChangeECTS>
+      <select name="ects" value=@props.initialFilters.ects onChange=@onChangeECTS>
         <option></option>
         <option value="true">ECTS</option>
         <option value="false">nur nicht-ECTS</option>
       </select>
-      <select value=@props.initialFilters.gender onChange=@onChangeGender>
+      <select name="gender" value=@props.initialFilters.gender onChange=@onChangeGender>
         <option>Beide</option>
         <option value="m">M</option>
         <option value="f">F</option>
@@ -132,6 +161,7 @@ Filters = React.createClass
       />
       <Table 
         mentors=filteredMentors
+        kid=@props.kid
         initialSelection=filteredMentorIds
         />
       
