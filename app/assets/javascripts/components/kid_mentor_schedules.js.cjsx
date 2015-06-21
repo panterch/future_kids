@@ -6,6 +6,30 @@
 #= require moment
 
 
+TimeTable_MentorButton = React.createClass
+  mentorIsAvailable: ->
+    # todo, check time and day
+    return Math.random() > 0.5
+  render: ->
+    if @props.numberOfMentors > 0
+      mentorColumnWidth = 100 / @props.numberOfMentors
+    else
+      mentorColumnWidth = 0
+
+    if @mentorIsAvailable()
+      <a className="btn-mentor" 
+        style={backgroundColor: @props.color, width: mentorColumnWidth+'%'}>
+        {@props.mentor.name}
+      </a>
+    else
+      <div 
+        className="spacer" 
+        style={width: mentorColumnWidth+'%'}
+        />
+
+
+
+
 TimeTable = React.createClass
   createTimeArray: ->
     startMoment = moment()
@@ -15,6 +39,7 @@ TimeTable = React.createClass
     endMoment.set "hours", 19
     endMoment.set "minutes", 0
 
+  
     timeMoment = moment startMoment
 
     while endMoment.diff(timeMoment) >=0
@@ -22,8 +47,12 @@ TimeTable = React.createClass
       key = label
       timeMoment.add 30, "minutes"
       {key, label}
-  getMentorsFor: (day, time) ->
-    @props.mentors
+ 
+  getColorOfMentor: (index) ->
+    angle = 360 / _.size @props.mentors
+    hue = angle *index
+    "hsl(#{hue}, 70%, 80%)"
+
   render: ->
     days = [
       (key: "mon", label: "Montag")
@@ -50,11 +79,14 @@ TimeTable = React.createClass
             <th>{time.label}</th>
             {
               for day in days
-                <td>
+                <td className="mentor-column">
                 {
-                  for id, mentor of @getMentorsFor day, time
-                    <span>{mentor.name}</span>
-
+                  for mentor, index in _.values @props.mentors
+                    <TimeTable_MentorButton 
+                      mentor=mentor 
+                      numberOfMentors={_.size @props.mentors}
+                      color=@getColorOfMentor(index)
+                      day=day time=time />
                 }
                 </td>
             }

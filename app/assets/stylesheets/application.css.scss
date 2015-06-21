@@ -224,3 +224,32 @@ form.schedule {
   overflow: hidden;
 }
 
+
+
+
+.kit-mentor-schedules {
+
+
+  .timetable {
+    width: 100%;
+    .mentor-column {
+      .spacer, .btn-mentor {
+        display: block;
+        box-sizing: border-box;
+        float: left;
+        min-height: 1px;
+      }
+      .btn-mentor {
+       border-left: 2px solid white;
+
+       border-right: 2px solid white;
+        
+
+        &:hover, &:focus {
+           outline: #00FF00 dotted thick;
+        }
+      }
+    }
+  }
+}
+
