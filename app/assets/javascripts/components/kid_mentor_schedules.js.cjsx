@@ -18,8 +18,11 @@ TimeTable_MentorButton = React.createClass
 
     if @mentorIsAvailable()
       <a className="btn-mentor" 
-        style={backgroundColor: @props.color, width: mentorColumnWidth+'%'}>
+        style={backgroundColor: @props.colors.background, color: @props.colors.text, width: mentorColumnWidth+'%'}>
         {@props.mentor.name}
+        <span className="overflow-label" style={backgroundColor: @props.colors.background}>
+          {@props.day} {@props.time}
+          </span>
       </a>
     else
       <div 
@@ -48,10 +51,11 @@ TimeTable = React.createClass
       timeMoment.add 30, "minutes"
       {key, label}
  
-  getColorOfMentor: (index) ->
+  getColorsOfMentor: (index) ->
     angle = 360 / _.size @props.mentors
     hue = angle *index
-    "hsl(#{hue}, 70%, 80%)"
+    background: "hsl(#{hue}, 70%, 80%)"
+    text: "hsl(#{hue}, 90%, 20%)"
 
   render: ->
     days = [
@@ -85,7 +89,7 @@ TimeTable = React.createClass
                     <TimeTable_MentorButton 
                       mentor=mentor 
                       numberOfMentors={_.size @props.mentors}
-                      color=@getColorOfMentor(index)
+                      colors=@getColorsOfMentor(index)
                       day=day time=time />
                 }
                 </td>
@@ -120,17 +124,21 @@ Table = React.createClass
     <div>
       
       
-    <p>Selected {_.size selectedMentors} mentors of {_.size @props.mentors} 
+    <p>
+      Selected {_.size selectedMentors} mentors of {_.size @props.mentors} 
+    </p>
+      <div className="col-xs-10">
+        <MentorsForDisplayingFilter 
+          
+          mentors=@props.mentors
+          initialSelection=selectedMentors
+          onChange=@onChange
+        />
+      </div>
       <button 
         onClick=@selectAll
-        className="btn btn-default">Select All ({_.size @props.mentors})
+        className="btn btn-default col-xs-2">Select All ({_.size @props.mentors})
       </button>
-    </p>
-      <MentorsForDisplayingFilter 
-        mentors=@props.mentors
-        initialSelection=selectedMentors
-        onChange=@onChange
-      />
 
       <TimeTable 
         kid=@props.kid

@@ -232,21 +232,46 @@ form.schedule {
 
   .timetable {
     width: 100%;
+    td {
+      height: 50px;
+      padding-left: 5px;
+      padding-right: 5px;
+    }
     .mentor-column {
       .spacer, .btn-mentor {
         display: block;
         box-sizing: border-box;
         float: left;
-        min-height: 1px;
+        height: 100%;
       }
       .btn-mentor {
-       border-left: 2px solid white;
-
-       border-right: 2px solid white;
-        
-
+        position: relative;
+       
+        overflow: visible;
+        cursor: pointer;
         &:hover, &:focus {
-           outline: #00FF00 dotted thick;
+          
+          outline-style: outset;
+          outline-width: 4px;
+          z-index: 10;
+
+          .overflow-label {
+            opacity: 0.8;
+          }
+        }
+
+        .overflow-label {
+          transition: 0.6s;
+          position: absolute;
+          top: 0px;
+          left: 100%;
+          opacity: 0;
+          margin-left: 20px;
+          z-index: 10;
+          padding: 10px;
+          border-radius: 4px;
+          box-shadow: 2px 2px 8px #333;
+
         }
       }
     }
