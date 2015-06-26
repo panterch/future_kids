@@ -1,15 +1,3 @@
 = boot_page_title
 
-#documents.no-sidebar-actions
-  - @category_tree.each do |category, subcategories|
-    .panel.panel-default
-      .panel-heading= "#{category.present? ? category : 'Ohne Kategorie'}"
-      .list-group
-        - Document.in_category(category).each do |d|
-          = render :partial => 'link', :object => d
-        - subcategories.each do |subcategory|
-          .panel.panel-default.list-group-item
-            .panel-heading= subcategory
-            .list-group
-              - Document.in_subcategory(category, subcategory).each do |d|
-                = render :partial => 'link', :object => d
+= react_component 'DocumentSlider', @documents_json
