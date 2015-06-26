@@ -77,9 +77,8 @@ feature 'Kid Mentor planning', js: true do
         end
       end
       it 'shows shows a column box per mentor per time if active' do
-        within('.timetable .box') do
-          expect(page).to have_selector('input', count: 12)
-
+        within('.timetable') do
+          expect(page).to have_selector('.box', count: 12)
         end
 
 
