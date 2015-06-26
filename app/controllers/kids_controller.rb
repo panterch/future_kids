@@ -35,7 +35,32 @@ class KidsController < ApplicationController
   end
 
   def show_kid_mentors_schedules
-    @mentors = Mentor.all
+
+    # decouple schedules so include? works
+
+    @kid_mentor_schedules_data = Jbuilder.new do |json|
+      json.mentors do
+        Mentor.active.each do |mentor|
+          json.set! mentor.id dogit
+            json.id mentor.id
+            json.prename mentor.prename
+            json.name mentor.name
+            json.sex mentor.sex
+            json.ects mentor.ects
+            json.schedules(mentor.schedules) do |schedule|
+              json.day schedule.day
+              json.hour schedule.hour
+              json.minute schedule.minute
+            end
+          end
+        end
+      end
+      json.kid @kid, :prename, :name
+      json.kid_schedule @kid.schedules, :day, :hour, :minute
+
+
+    end.attributes!
+
   end
 
   protected
