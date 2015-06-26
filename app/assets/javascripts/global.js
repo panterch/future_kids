@@ -7,7 +7,6 @@ $(function () {
   register_schedule_checkboxes();
   register_todotogglers();
   register_kidsfilter();
-  register_documents_toc();
   register_kidanchors();
   register_submit_action_in_sidebar();
   register_back_to_top_link();
@@ -75,14 +74,6 @@ function register_todotogglers() {
 function register_kidsfilter() {
   $('form.filter select, form.filter input').change(function() {
     $('form.filter').submit();
-  });
-}
-function register_documents_toc() {
-  $('#documents .panel-heading').click(function() {
-    var $header = $(this);
-    var $list = $header.next('.list-group');
-    $header.toggleClass('open');
-    $list.toggleClass('open');
   });
 }
 

@@ -1,5 +1,0 @@
-.list-group-item
-  = link_to link.title, link.attachment.url
-  - if can?(:destroy, link)
-    .pull-right
-      = button_to "Löschen", link, method: :delete, class: 'btn btn-xs btn-default'
