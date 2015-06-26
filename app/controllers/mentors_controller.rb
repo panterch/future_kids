@@ -50,7 +50,7 @@ class MentorsController < ApplicationController
   def mentor_params
     if params[:mentor].present?
       params.require(:mentor).permit(
-        :name, :prename, :email, :password, :password_confirmation, :address,
+        :name, :prename, :email, :password, :password_confirmation, :address, :sex,
         :city, :dob, :phone, :college, :field_of_study, :education, :transport,
         :personnel_number, :ects, :term, :absence, :note, :todo, :substitute,
         :primary_kids_school_id, :primary_kids_meeting_day, :primary_kids_admin_id,

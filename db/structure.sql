@@ -248,7 +248,8 @@ CREATE TABLE users (
     receive_journals boolean DEFAULT false,
     primary_kids_admin_id integer,
     exit_kind character varying,
-    exit_at date
+    exit_at date,
+    sex character varying
 );
 
 
@@ -983,4 +984,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150520135622');
 INSERT INTO schema_migrations (version) VALUES ('20150524164241');
 
 INSERT INTO schema_migrations (version) VALUES ('20150602204436');
+
+INSERT INTO schema_migrations (version) VALUES ('20150626141604');
 

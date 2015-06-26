@@ -87,6 +87,7 @@ de:
         password_confirmation: "Passwort Bestätigung"
         name: Name
         prename: Vorname
+        sex: "Geschlecht"
         address: "Strasse, Nr."
         city: "PLZ, Ort"
         zip: "PLZ"

@@ -4,6 +4,7 @@
       = show.attribute :name
       = show.attribute :prename
       = show.attribute(:email) { mail_to @mentor.email }
+      = show.attribute :sex
       - if is_viewing_own_data(@mentor)
         = show.attribute :address
         = show.attribute :city

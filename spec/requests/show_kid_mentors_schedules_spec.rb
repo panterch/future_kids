@@ -29,22 +29,19 @@ feature 'Kid Mentor planning', js: true do
     end
     describe 'filter' do
      scenario 'select ects' do
-       within('.filters') do
-         page.select 'ECTS', :from => 'ects'
-         page.execute_script '$(".filters [name=\'ects\']").trigger("change");'
-
+       within('.filters [name="ects"]') do
+         find('option[value="true"]').click
        end
        within('.mentors-filtered') do
-
          expect(page).to have_content 'Frederik Haller'
          expect(page).to have_content 'Melanie Rohner'
          expect(page).to_not have_content 'Max Steiner'
        end
      end
      scenario 'select no ects' do
-       within('.filters') do
-         page.select 'nur nicht-ECTS', :from => 'ects'
-         page.execute_script '$(".filters [name=\'ects\']").trigger("change");'
+
+       within('.filters [name="ects"]') do
+         find('option[value="false"]').click
        end
        within('.mentors-filtered') do
          expect(page).to_not have_content 'Frederik Haller'
@@ -52,6 +49,25 @@ feature 'Kid Mentor planning', js: true do
          expect(page).to have_content 'Max Steiner'
        end
      end
+
+      scenario 'select only male or only female mentors' do
+        within('.filters [name="sex"]') do
+          find('option[value="m"]').click
+        end
+        within('.mentors-filtered') do
+          expect(page).to have_content 'Frederik Haller'
+          expect(page).to_not have_content 'Melanie Rohner'
+          expect(page).to have_content 'Max Steiner'
+        end
+        within('.filters [name="sex"]') do
+          find('option[value="f"]').click
+        end
+        within('.mentors-filtered') do
+          expect(page).to_not have_content 'Frederik Haller'
+          expect(page).to have_content 'Melanie Rohner'
+          expect(page).to_not have_content 'Max Steiner'
+        end
+      end
    end
 
     describe 'timetable' do

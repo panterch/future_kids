@@ -36,6 +36,9 @@ class User < ActiveRecord::Base
   def human_todo
     text_format(todo)
   end
+  def human_sex
+    { 'm' => '♂', 'f' => '♀' }[sex]
+  end
 
   protected
 

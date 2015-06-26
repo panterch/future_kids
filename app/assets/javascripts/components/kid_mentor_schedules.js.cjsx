@@ -30,11 +30,8 @@ TimeTable_MentorButton = React.createClass
         style={width: mentorColumnWidth+'%'}
         />
 
-
-
-
 TimeTable = React.createClass
-  createTimeArray: ->
+  createTimeArray: -> 
     startMoment = moment()
     startMoment.set "hours", 13
     startMoment.set "minutes", 0
@@ -54,7 +51,7 @@ TimeTable = React.createClass
   getColorsOfMentor: (index) ->
     angle = 360 / _.size @props.mentors
     hue = angle *index
-    background: "hsl(#{hue}, 70%, 80%)"
+    background: "hsl(#{hue}, 70%, 90%)"
     text: "hsl(#{hue}, 90%, 20%)"
 
   render: ->
@@ -177,8 +174,8 @@ MentorsForDisplayingFilter = React.createClass
     </div>
 Filters = React.createClass
 
-  onChangeGender: (event) ->
-    @props.onChange? "gender", event.target.value
+  onChangeSex: (event) ->
+    @props.onChange? "sex", event.target.value
 
   onChangeECTS: (event) ->
     asBoolean = (value) -> switch value 
@@ -195,10 +192,10 @@ Filters = React.createClass
         <option value="true">ECTS</option>
         <option value="false">nur nicht-ECTS</option>
       </select>
-      <select name="gender" value=@props.initialFilters.gender onChange=@onChangeGender>
+      <select name="sex" value=@props.initialFilters.sex onChange=@onChangeSex>
         <option>Beide</option>
-        <option value="m">M</option>
-        <option value="f">F</option>
+        <option value="m">Knabe</option>
+        <option value="f">Mädchen</option>
       </select>
       
     </div>
@@ -208,8 +205,7 @@ Filters = React.createClass
   getInitialState: ->
     filters: 
       ect: null
-      gender: null
-  
+      sex: null
   
   getFilteredMentors: ->
     mentors = @props.mentors
@@ -221,12 +217,14 @@ Filters = React.createClass
           delete filteredMentors[id] if mentor.ects is null
         else
           delete filteredMentors[id] if mentor.ects is true
+        if @state.filters?.sex?
+          delete filteredMentors[id] if mentor.sex isnt @state.filters?.sex
     return filteredMentors
   
   onChangeFilter: (key, value) ->
     filters = @state.filters
     filters[key] = value
-    @setState filters
+    @setState filters: filters
   render: ->
     filteredMentors = @getFilteredMentors()
     filteredMentorIds = _.keys filteredMentors
