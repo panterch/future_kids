@@ -134,13 +134,21 @@ Table = React.createClass
   onChange: (mentors) ->
     @setState mentorsToDisplay: mentors
   getColorsOfMentor: (index) ->
-    angle = 360 / _.size @state.mentorsToDisplay
-    hue = angle *index
+    total = _.size @state.mentorsToDisplay
+    # we rotate over the color circle to create a color for every mentor
+    # but we skip every second color so that mentors next to each other have not too similar colors
+    indexShifted = (index) -> 
+      totalEven = total % 2 is 0
+      offset = if totalEven and index/total >= 0.5 then 1 else 0
+      (index*2+offset) % total
+
+    angle = 360 / total
+    hue = angle * indexShifted index
     background: "hsla(#{hue}, 70%, 90%, 0.5)"
     text: "hsl(#{hue}, 90%, 20%)"
   getSelectedMentors: ->
     mentors = {}
-    
+
     for id, index in @state.mentorsToDisplay
       if @props.mentors[id]?
         mentors[id] = @props.mentors[id]

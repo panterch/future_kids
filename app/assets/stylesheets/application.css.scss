@@ -245,6 +245,7 @@ form.schedule {
       .cell-kid {
         position: absolute;
         left: 0px;
+        top: 0px;
         width: 100%;
         height: 100%;
         box-sizing: content-box;
@@ -255,7 +256,7 @@ form.schedule {
       }
       .cell-kid, .cell-mentor {
         &.time-available {
-          border-left-style: solid;
+        border-left-style: solid;
         border-left-width: 1px;
         border-right-style: solid;
         border-right-width: 1px;
