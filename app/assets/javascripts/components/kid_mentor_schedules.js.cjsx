@@ -6,9 +6,17 @@
 #= require moment
 
 
+
+# helpers
+
+createTimeCellClasses = ({primaryClass, day, lastTime, time, nextTime, schedules}) ->
+  classNames primaryClass, 
+    'time-available': schedules?[day.key]?[time.key]?
+    'time-first': not schedules?[day.key]?[lastTime?.key]?
+    'time-last': not schedules?[day.key]?[nextTime?.key]?
+
 TimeTable_MentorButton = React.createClass
   mentorIsAvailable: ->
-    console.log  @props.mentor.schedules, @props.day.key
     @props.mentor.schedules?[@props.day.key]?[@props.time.key]?
   render: ->
     if @props.numberOfMentors > 0
@@ -17,10 +25,22 @@ TimeTable_MentorButton = React.createClass
       mentorColumnWidth = 0
 
     if @mentorIsAvailable()
-      <a className="btn-mentor" 
-        style={backgroundColor: @props.colors.background, color: @props.colors.text, width: mentorColumnWidth+'%'}>
+      classes = createTimeCellClasses
+        primaryClass: "cell-mentor"
+        day: @props.day
+        lastTime: @props.lastTime
+        nextTime: @props.nextTime
+        time: @props.time
+        schedules: @props.mentor.schedules
+      style = 
+        backgroundColor: @props.mentor.colors.background
+        color: @props.mentor.colors.text, 
+        width: mentorColumnWidth+'%'
+
+      <a className=classes 
+        style=style>
         {@props.mentor.name}
-        <span className="overflow-label" style={backgroundColor: @props.colors.background}>
+        <span className="overflow-label" style={backgroundColor: @props.mentor.colors.background}>
           {@props.day} {@props.time}
           </span>
       </a>
@@ -48,13 +68,10 @@ TimeTable = React.createClass
       timeMoment.add 30, "minutes"
       {key, label}
  
-  getColorsOfMentor: (index) ->
-    angle = 360 / _.size @props.mentors
-    hue = angle *index
-    background: "hsl(#{hue}, 70%, 90%)"
-    text: "hsl(#{hue}, 90%, 20%)"
+  
 
   render: ->
+
     days = [
       (key: "1", label: "Montag")
       (key: "2", label: "Dienstag")
@@ -76,19 +93,31 @@ TimeTable = React.createClass
       <tbody>
       {
         for time, i in times
+          lastTime = times[i-1]
+          nextTime = times[i+1]
           <tr key=time.key>
             <th>{time.label}</th>
             {
               for day in days
-                <td className="mentor-column">
-                {
-                  for mentor, index in _.values @props.mentors
-                    <TimeTable_MentorButton 
-                      mentor=mentor 
-                      numberOfMentors={_.size @props.mentors}
-                      colors=@getColorsOfMentor(index)
-                      day=day time=time />
-                }
+
+       
+                kidCellClasses = createTimeCellClasses
+                  primaryClass: "cell-kid"
+                  day: day
+                  lastTime: lastTime
+                  nextTime: nextTime
+                  time: time
+                  schedules: @props.kid.schedules
+                <td className="time-cell">
+                  <div className=kidCellClasses></div>
+                  {
+                    for mentor, index in _.values @props.mentors
+                      <TimeTable_MentorButton 
+                        mentor=mentor 
+                        numberOfMentors={_.size @props.mentors}
+                        day=day time=time lastTime=lastTime nextTime=nextTime />
+                  }
+                  
                 </td>
             }
           </tr>
@@ -101,23 +130,28 @@ TimeTable = React.createClass
 
 Table = React.createClass
   getInitialState: ->
-
     mentorsToDisplay: @props.initialSelection
   onChange: (mentors) ->
     @setState mentorsToDisplay: mentors
+  getColorsOfMentor: (index) ->
+    angle = 360 / _.size @state.mentorsToDisplay
+    hue = angle *index
+    background: "hsla(#{hue}, 70%, 90%, 0.5)"
+    text: "hsl(#{hue}, 90%, 20%)"
   getSelectedMentors: ->
     mentors = {}
-
-    for id in @state.mentorsToDisplay
+    
+    for id, index in @state.mentorsToDisplay
       if @props.mentors[id]?
         mentors[id] = @props.mentors[id]
+        mentors[id].colors = @getColorsOfMentor index
 
     return mentors
   selectAll: ->
     @setState mentorsToDisplay: _.keys @props.mentors
   render: ->
     selectedMentors = @getSelectedMentors()
-
+    
     <div>
       
       
@@ -126,7 +160,6 @@ Table = React.createClass
     </p>
       <div className="col-xs-10">
         <MentorsForDisplayingFilter 
-          
           mentors=@props.mentors
           initialSelection=selectedMentors
           onChange=@onChange
@@ -149,7 +182,7 @@ MentorsForDisplayingFilter = React.createClass
   DELEMITER: ";"
 
   onChange: (valuesAsString) ->
-    console.log valuesAsString
+
     if valuesAsString? and valuesAsString.length > 0
       @props.onChange valuesAsString.split(@DELEMITER).map (id) -> parseInt id, 10
     else
@@ -158,6 +191,10 @@ MentorsForDisplayingFilter = React.createClass
     options = for id,mentor of @props.mentors
       label: "#{mentor.prename} #{mentor.name}"
       value: mentor.id.toString()
+      style: 
+        color: mentor.colors.text
+        backgroundColor: mentor.colors.background
+        borderColor: mentor.colors.text
     value = (id for id of @props.initialSelection)
     .join ";"
     if value.length == 0 then value = null
@@ -168,6 +205,7 @@ MentorsForDisplayingFilter = React.createClass
         delimiter=@DELEMITER
         value=value
         onChange=@onChange
+
       />
 
 
@@ -226,6 +264,7 @@ Filters = React.createClass
   render: ->
     filteredMentors = @getFilteredMentors()
     filteredMentorIds = _.keys filteredMentors
+
     <div className="kit-mentor-schedules">
       <Filters 
         mentors=@props.mentors

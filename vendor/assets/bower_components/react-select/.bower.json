@@ -1,7 +1,6 @@
 {
   "name": "react-select",
   "main": "dist/react-select.min.js",
-  "version": "0.4.9",
   "homepage": "https://github.com/JedWatson/react-select",
   "authors": [
     "Jed Watson"
@@ -36,13 +35,13 @@
     "example",
     "test"
   ],
-  "_release": "0.4.9",
+  "_release": "de9ad8fd72",
   "_resolution": {
-    "type": "version",
-    "tag": "v0.4.9",
-    "commit": "fe9d02275b71c4d9c8994bf91e27c35f3522f149"
+    "type": "branch",
+    "branch": "master",
+    "commit": "de9ad8fd72084b6342ecdff91c76f39f2f1a4f4c"
   },
-  "_source": "git://github.com/JedWatson/react-select.git",
-  "_target": "*",
-  "_originalSource": "react-select"
+  "_source": "git://github.com/macrozone/react-select.git",
+  "_target": "master",
+  "_originalSource": "git://github.com/macrozone/react-select"
 }

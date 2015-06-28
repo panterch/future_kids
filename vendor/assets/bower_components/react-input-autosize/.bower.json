@@ -1,7 +1,7 @@
 {
   "name": "react-input-autosize",
   "main": "dist/react-input-autosize.min.js",
-  "version": "0.4.4",
+  "version": "0.4.5",
   "homepage": "https://github.com/JedWatson/react-input-autosize",
   "authors": [
     "Jed Watson"
@@ -28,11 +28,11 @@
     "example",
     "test"
   ],
-  "_release": "0.4.4",
+  "_release": "0.4.5",
   "_resolution": {
     "type": "version",
-    "tag": "v0.4.4",
-    "commit": "81192e6178ccb96990b235787f628400172d2cd3"
+    "tag": "v0.4.5",
+    "commit": "64571590437a562fd0e4967af30ee4189463f034"
   },
   "_source": "git://github.com/JedWatson/react-input-autosize.git",
   "_target": "^0.4.3",

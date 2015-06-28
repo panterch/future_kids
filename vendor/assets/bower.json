@@ -2,7 +2,7 @@
   "name": "dsl-generated dependencies",
   "dependencies": {
     "underscore": "latest",
-    "react-select": "latest",
+    "react-select": "git://github.com/macrozone/react-select#master",
     "moment": "latest"
   }
 }

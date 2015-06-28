@@ -3,5 +3,5 @@
 
 # asset 'bootstrap'
 asset 'underscore'
-asset 'react-select'
+asset 'react-select', github: 'macrozone/react-select', ref: 'master'
 asset 'moment'

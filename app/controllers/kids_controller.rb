@@ -47,19 +47,8 @@ class KidsController < ApplicationController
             json.name mentor.name
             json.sex mentor.sex
             json.ects mentor.ects
-            # we create an nested 'index-set' from the array of times
-            # where schedules_index[day]["hour:minute"] is true, if this time occures in the array
-            # We need this kind of data-structure for the rails component
-            schedules_index = Hash.new { |h,k| h[k] = Hash.new { |h,k| h[k] = {}}}
-            schedules_by_day = mentor.schedules.group_by {|s| s.day}
-            schedules_by_day.each do |day, times|
-              times.each do |time|
-                key = time.hour.to_s.rjust(2, '0')+':'+time.minute.to_s.rjust(2, '0')
-                puts key
-                schedules_index[day][key] = true
-              end
-            end
-            json.schedules schedules_index
+
+            json.schedules create_schedules_nested_set mentor.schedules
 
 
 
@@ -67,8 +56,13 @@ class KidsController < ApplicationController
           end
         end
       end
-      json.kid @kid, :prename, :name
-      json.kid_schedule @kid.schedules, :day, :hour, :minute
+      json.kid do
+        json.prename @kid.prename
+        json.name @kid.name
+        json.schedules create_schedules_nested_set @kid.schedules
+      end
+
+
 
 
     end.attributes!
@@ -138,5 +132,23 @@ class KidsController < ApplicationController
     else
       {}
     end
+  end
+
+  # In the react-component, we need the schedules as some kind of "nested-set"
+  # It is a hash where an entry set[day]["hour:minute"] is true, if that day and time
+  # occures in the array. otherwise this key does not exist.
+  def create_schedules_nested_set (schedules_array)
+
+    schedules_set = Hash.new { |h,k| h[k] = Hash.new { |h,k| h[k] = {}}}
+    schedules_by_day = schedules_array.group_by {|s| s.day}
+    schedules_by_day.each do |day, times|
+      times.each do |time|
+        key = time.hour.to_s.rjust(2, '0')+':'+time.minute.to_s.rjust(2, '0')
+        puts key
+        schedules_set[day][key] = true
+      end
+    end
+    return schedules_set
+
   end
 end

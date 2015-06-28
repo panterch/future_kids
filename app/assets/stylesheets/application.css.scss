@@ -234,32 +234,68 @@ form.schedule {
     width: 100%;
     td {
       height: 50px;
-      padding-left: 5px;
-      padding-right: 5px;
+    
     }
-    .mentor-column {
+    .time-cell {
       border-right: 1px solid black;
       width: 20%;
-      .spacer, .btn-mentor {
+        padding-left: 5px;
+        padding-right: 5px;
+        position: relative;
+      .cell-kid {
+        position: absolute;
+        left: 0px;
+        width: 100%;
+        height: 100%;
+        box-sizing: content-box;
+        &.time-available {
+          background-color: #eee;
+          
+        }
+      }
+      .cell-kid, .cell-mentor {
+        &.time-available {
+          border-left-style: solid;
+        border-left-width: 1px;
+        border-right-style: solid;
+        border-right-width: 1px;
+        &.time-first {
+          border-top-left-radius: 5px;
+          border-top-right-radius: 5px;
+          border-top-style: solid;
+          border-top-width: 1px;
+        }
+        &.time-last {
+          border-bottom-left-radius: 5px;
+          border-bottom-right-radius: 5px;
+          border-bottom-style: solid;
+          border-bottom-width: 1px;
+        }
+      }
+      }
+      .spacer, .cell-mentor {
         display: block;
         box-sizing: border-box;
         float: left;
         height: 100%;
       }
-      .btn-mentor {
+      .cell-mentor {
         position: relative;
-       
+        height: 50px;
         overflow: visible;
         cursor: pointer;
+        padding: 4px;
+        
+        overflow: hidden;
+        
         &:hover, &:focus {
-          
-          outline-style: outset;
-          outline-width: 4px;
+          outline-offset: 4px;
+          outline-style: dashed;
+          outline-width: 2px;
           z-index: 10;
+          overflow: visible;
 
-          .overflow-label {
-            opacity: 0.8;
-          }
+          
         }
 
         .overflow-label {
