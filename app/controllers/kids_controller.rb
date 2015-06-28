@@ -41,17 +41,29 @@ class KidsController < ApplicationController
     @kid_mentor_schedules_data = Jbuilder.new do |json|
       json.mentors do
         Mentor.active.each do |mentor|
-          json.set! mentor.id dogit
+          json.set! mentor.id do
             json.id mentor.id
             json.prename mentor.prename
             json.name mentor.name
             json.sex mentor.sex
             json.ects mentor.ects
-            json.schedules(mentor.schedules) do |schedule|
-              json.day schedule.day
-              json.hour schedule.hour
-              json.minute schedule.minute
+            # we create an nested 'index-set' from the array of times
+            # where schedules_index[day]["hour:minute"] is true, if this time occures in the array
+            # We need this kind of data-structure for the rails component
+            schedules_index = Hash.new { |h,k| h[k] = Hash.new { |h,k| h[k] = {}}}
+            schedules_by_day = mentor.schedules.group_by {|s| s.day}
+            schedules_by_day.each do |day, times|
+              times.each do |time|
+                key = time.hour.to_s.rjust(2, '0')+':'+time.minute.to_s.rjust(2, '0')
+                puts key
+                schedules_index[day][key] = true
+              end
             end
+            json.schedules schedules_index
+
+
+
+
           end
         end
       end

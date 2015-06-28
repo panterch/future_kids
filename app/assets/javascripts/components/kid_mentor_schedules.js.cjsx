@@ -8,8 +8,8 @@
 
 TimeTable_MentorButton = React.createClass
   mentorIsAvailable: ->
-    # todo, check time and day
-    return Math.random() > 0.5
+    console.log  @props.mentor.schedules, @props.day.key
+    @props.mentor.schedules?[@props.day.key]?[@props.time.key]?
   render: ->
     if @props.numberOfMentors > 0
       mentorColumnWidth = 100 / @props.numberOfMentors
@@ -56,11 +56,11 @@ TimeTable = React.createClass
 
   render: ->
     days = [
-      (key: "mon", label: "Montag")
-      (key: "tue", label: "Dienstag")
-      (key: "wed", label: "Mittwoch")
-      (key: "thu", label: "Donnerstag")
-      (key: "fri", label: "Freitag")
+      (key: "1", label: "Montag")
+      (key: "2", label: "Dienstag")
+      (key: "3", label: "Mittwoch")
+      (key: "4", label: "Donnerstag")
+      (key: "5", label: "Freitag")
     ]
     times = @createTimeArray()
 
@@ -175,7 +175,8 @@ MentorsForDisplayingFilter = React.createClass
 Filters = React.createClass
 
   onChangeSex: (event) ->
-    @props.onChange? "sex", event.target.value
+    sanitize = (value) -> if value is 'm' or value is 'f' then value else null
+    @props.onChange? "sex", sanitize event.target.value
 
   onChangeECTS: (event) ->
     asBoolean = (value) -> switch value 
@@ -210,15 +211,12 @@ Filters = React.createClass
   getFilteredMentors: ->
     mentors = @props.mentors
     filteredMentors = _.clone @props.mentors
-
-    if @state.filters?.ects?
-      for id, mentor of filteredMentors
-        if @state.filters?.ects
-          delete filteredMentors[id] if mentor.ects is null
-        else
-          delete filteredMentors[id] if mentor.ects is true
-        if @state.filters?.sex?
-          delete filteredMentors[id] if mentor.sex isnt @state.filters?.sex
+    
+    for id, mentor of filteredMentors
+      if @state.filters?.ects?
+        delete filteredMentors[id] if mentor.ects isnt @state.filters.ects
+      if @state.filters?.sex?
+        delete filteredMentors[id] if mentor.sex isnt @state.filters?.sex
     return filteredMentors
   
   onChangeFilter: (key, value) ->
