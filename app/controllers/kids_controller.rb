@@ -47,11 +47,7 @@ class KidsController < ApplicationController
             json.name mentor.name
             json.sex mentor.sex
             json.ects mentor.ects
-
             json.schedules create_schedules_nested_set mentor.schedules
-
-
-
 
           end
         end

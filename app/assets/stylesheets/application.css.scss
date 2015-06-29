@@ -229,33 +229,35 @@ form.schedule {
 
 .kit-mentor-schedules {
 
-
+  $kidMentorSchedulesRowHeight: 40px;
   .timetable {
     width: 100%;
     td {
-      height: 50px;
-    
+      height: $kidMentorSchedulesRowHeight;
+
     }
     .time-cell {
       border-right: 1px solid black;
       width: 20%;
-        padding-left: 5px;
-        padding-right: 5px;
-        position: relative;
-      .cell-kid {
-        position: absolute;
-        left: 0px;
-        top: 0px;
-        width: 100%;
-        height: 100%;
-        box-sizing: content-box;
-        &.time-available {
-          background-color: #eee;
-          
-        }
+      padding-left: 10px;
+      padding-right: 10px;
+      position: relative;
+    }
+    .cell-kid {
+      color: #aaa;
+      position: absolute;
+      left: 5px;
+      right: 5px;
+      top: 0px;
+
+      height: 100%;
+      box-sizing: content-box;
+      &.time-available {
+        background-color: #eee;
       }
-      .cell-kid, .cell-mentor {
-        &.time-available {
+    }
+    .cell-kid, .cell-mentor {
+      &.time-available {
         border-left-style: solid;
         border-left-width: 1px;
         border-right-style: solid;
@@ -273,46 +275,56 @@ form.schedule {
           border-bottom-width: 1px;
         }
       }
-      }
-      .spacer, .cell-mentor {
-        display: block;
-        box-sizing: border-box;
-        float: left;
-        height: 100%;
-      }
-      .cell-mentor {
-        position: relative;
-        height: 50px;
-        overflow: visible;
-        cursor: pointer;
-        padding: 4px;
-        
-        overflow: hidden;
-        
-        &:hover, &:focus {
-          outline-offset: 4px;
-          outline-style: dashed;
-          outline-width: 2px;
-          z-index: 10;
-          overflow: visible;
+    }
+    .spacer, .cell-mentor {
+      display: block;
+      box-sizing: border-box;
+      float: left;
+      height: 100%;
+    }
+    .kid-available .cell-mentor {
+      opacity: 1;
+    }
+    .cell-mentor {
+      opacity: 0.3;
 
-          
+      position: relative;
+      height: $kidMentorSchedulesRowHeight;
+      overflow: visible;
+      cursor: pointer;
+      padding: 4px;
+
+      .icon {
+        display: none;
+        text-align: center;
+      }
+      &:hover, &:focus {
+        outline-offset: 4px;
+        outline-style: dashed;
+        outline-width: 2px;
+        z-index: 10;
+        .icon {
+          display: block;
         }
 
-        .overflow-label {
-          transition: 0.6s;
+      }
+      .name-label {
+        display: none;
+        pointer-events:none;
+      }
+      &.time-last {
+        .name-label {
+          display: block;
+          transform: rotate(-90deg);
           position: absolute;
-          top: 0px;
-          left: 100%;
-          opacity: 0;
-          margin-left: 20px;
-          z-index: 10;
-          padding: 10px;
-          border-radius: 4px;
-          box-shadow: 2px 2px 8px #333;
-
+          left: 50%;
+          bottom: 0px;
+          transform-origin: top left;
+          margin-left: -8px;
         }
       }
+
+      
     }
   }
 }

@@ -3,9 +3,52 @@ require 'requests/acceptance_helper'
 feature 'Kid Mentor planning', js: true do
   let(:kid) { create(:kid) }
   let!(:admin) { create(:admin) }
-  let!(:mentor_rederik) { create(:mentor, ects: true, prename: 'Frederik', name: 'Haller') }
-  let!(:mentor_melanie) { create(:mentor, ects: true, prename: 'Melanie', name:'Rohner') }
-  let!(:mentor_max) { create(:mentor, ects: false, prename: 'Max', name: 'Steiner') }
+  let!(:mentor_rederik) {
+    mentor = create(:mentor, ects: true, prename: 'Frederik', name: 'Haller', sex: 'm')
+    mentor.schedules.create(day: 1, hour: 14, minute: 0)
+    mentor.schedules.create(day: 1, hour: 14, minute: 30)
+    mentor.schedules.create(day: 1, hour: 15, minute: 0)
+    mentor.schedules.create(day: 1, hour: 15, minute: 30)
+    mentor.schedules.create(day: 1, hour: 16, minute: 0)
+    mentor.schedules.create(day: 1, hour: 16, minute: 30)
+    mentor.schedules.create(day: 2, hour: 14, minute: 0)
+    mentor.schedules.create(day: 2, hour: 14, minute: 30)
+    mentor.schedules.create(day: 2, hour: 15, minute: 0)
+    mentor.schedules.create(day: 2, hour: 15, minute: 30)
+    mentor.schedules.create(day: 2, hour: 16, minute: 0)
+    mentor.schedules.create(day: 2, hour: 16, minute: 30)
+
+  }
+  let!(:mentor_melanmentorie) {
+    mentor = create(:mentor, ects: true, prename: 'Melanie', name:'Rohner', sex: 'f')
+    mentor.schedules.create(day: 3, hour: 14, minute: 0)
+    mentor.schedules.create(day: 3, hour: 14, minute: 30)
+    mentor.schedules.create(day: 3, hour: 15, minute: 0)
+    mentor.schedules.create(day: 3, hour: 15, minute: 30)
+    mentor.schedules.create(day: 3, hour: 16, minute: 0)
+    mentor.schedules.create(day: 3, hour: 16, minute: 30)
+    mentor.schedules.create(day: 5, hour: 14, minute: 0)
+    mentor.schedules.create(day: 5, hour: 14, minute: 30)
+    mentor.schedules.create(day: 5, hour: 15, minute: 0)
+    mentor.schedules.create(day: 5, hour: 15, minute: 30)
+    mentor.schedules.create(day: 5, hour: 16, minute: 0)
+    mentor.schedules.create(day: 5, hour: 16, minute: 30)
+  }
+  let!(:mentor_max) {
+    mentor =create(:mentor, ects: false, prename: 'Max', name: 'Steiner', sex: 'm')
+    mentor.schedules.create(day: 1, hour: 17, minute: 0)
+    mentor.schedules.create(day: 1, hour: 17, minute: 30)
+    mentor.schedules.create(day: 1, hour: 18, minute: 0)
+    mentor.schedules.create(day: 1, hour: 18, minute: 30)
+    mentor.schedules.create(day: 1, hour: 19, minute: 0)
+    mentor.schedules.create(day: 2, hour: 14, minute: 30)
+    mentor.schedules.create(day: 2, hour: 15, minute: 0)
+    mentor.schedules.create(day: 2, hour: 15, minute: 30)
+    mentor.schedules.create(day: 2, hour: 16, minute: 0)
+    mentor.schedules.create(day: 2, hour: 16, minute: 30)
+    mentor.schedules.create(day: 2, hour: 17, minute: 0)
+    mentor.schedules.create(day: 2, hour: 17, minute: 30)
+  }
 
   background do
     expect(User.first.valid_password?(admin.password)).to eq(true)
@@ -40,6 +83,7 @@ feature 'Kid Mentor planning', js: true do
      end
      scenario 'select no ects' do
 
+
        within('.filters [name="ects"]') do
          find('option[value="false"]').click
        end
@@ -68,7 +112,9 @@ feature 'Kid Mentor planning', js: true do
           expect(page).to_not have_content 'Max Steiner'
         end
       end
-   end
+    end
+
+
 
     describe 'timetable' do
       it 'shows all weekdays' do
@@ -92,19 +138,29 @@ feature 'Kid Mentor planning', js: true do
           expect(page).to_not have_content '19:30'
         end
       end
-      it 'shows shows a column box per mentor per time if active' do
+      it 'shows a column box per mentor per time if active' do
         within('.timetable') do
-          expect(page).to have_selector('.box', count: 12)
+          expect(page).to have_selector('.cell-mentor', count: 12*3)
         end
-
-
       end
+      scenario 'select no ects' do
+        within('.filters [name="ects"]') do
+          find('option[value="false"]').click
+        end
+        within('.timetable') do
+          expect(page).to have_selector('.cell-mentor', count: 12)
+        end
+      end
+
+      scenario 'select one entry to store the date' do
+        within('timetable') do
+          find('.cell-mentor', :text => 'Frederik Haller').click
+          page.driver.browser.switch_to.alert.accept
+
+        end
+      end
+
+
     end
-
-
-
   end
-
-
-
 end
