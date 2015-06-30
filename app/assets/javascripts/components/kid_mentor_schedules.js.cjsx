@@ -15,14 +15,17 @@
   getFilteredMentors: ->
     mentors = @props.mentors
     filteredMentors = _.clone @props.mentors
+    index = 0
+    total = _.size @props.mentors
     for id, mentor of filteredMentors
+      mentor.colors = @getColorsOfMentor total, index
+      index++
       if @state.filters?.ects?
         delete filteredMentors[id] if mentor.ects isnt @state.filters.ects
       if @state.filters?.sex?
         delete filteredMentors[id] if mentor.sex isnt @state.filters?.sex
-    total = _.size filteredMentors
-    for mentor, index in _.values filteredMentors
-      mentor.colors = @getColorsOfMentor total, index
+    
+ 
     return filteredMentors
   getSelectedMentors: (filteredMentors) ->
     filteredMentors = _.pick filteredMentors, @state.mentorsToDisplay
@@ -58,6 +61,7 @@
     text: "hsl(#{hue}, 90%, 20%)"
 
   render: ->
+
     filteredMentors = @getFilteredMentors()
     selectedMentors = @getSelectedMentors filteredMentors
 
