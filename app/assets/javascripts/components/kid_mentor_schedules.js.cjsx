@@ -8,6 +8,7 @@
 
 @KidMentorSchedules = React.createClass
   getInitialState: ->
+    mentorsToDisplay: _.keys @props.mentors
     filters: 
       ect: null
       sex: null
@@ -19,12 +20,23 @@
         delete filteredMentors[id] if mentor.ects isnt @state.filters.ects
       if @state.filters?.sex?
         delete filteredMentors[id] if mentor.sex isnt @state.filters?.sex
+    total = _.size filteredMentors
+    for mentor, index in _.values filteredMentors
+      mentor.colors = @getColorsOfMentor total, index
     return filteredMentors
-  
+  getSelectedMentors: (filteredMentors) ->
+    filteredMentors = _.pick filteredMentors, @state.mentorsToDisplay
+   
+    return filteredMentors
+  onChangeSelectedMentorsToDisplay: (mentorIds) ->
+    @setState mentorsToDisplay: mentorIds
   onChangeFilter: (key, value) ->
     filters = @state.filters
     filters[key] = value
     @setState filters: filters
+    @selectAll()
+  selectAll: ->
+    @setState mentorsToDisplay: _.keys @props.mentors
   onSelectDate: (mentor, day, time) ->
     if confirm "Treffen vereinbaren?\n\n
       Schüler: #{@props.kid.prename} #{@props.kid.name}\n
@@ -32,9 +44,22 @@
       Zeitpunkt: #{day.label} um #{time.label}\n"
       alert "done"
       console.log mentor, day, time
+  getColorsOfMentor: (total, index) ->
+    # we rotate over the color circle to create a color for every mentor
+    # but we skip every second color so that mentors next to each other have not too similar colors
+    indexShifted = (index) -> 
+      totalEven = total % 2 is 0
+      offset = if totalEven and index/total >= 0.5 then 1 else 0
+      (index*2+offset) % total
+
+    angle = 360 / total
+    hue = angle * indexShifted index
+    background: "hsla(#{hue}, 70%, 90%, 0.5)"
+    text: "hsl(#{hue}, 90%, 20%)"
+
   render: ->
     filteredMentors = @getFilteredMentors()
-    filteredMentorIds = _.keys filteredMentors
+    selectedMentors = @getSelectedMentors filteredMentors
 
     <div className="kit-mentor-schedules">
       <Filters 
@@ -42,12 +67,21 @@
         initialFilters=@state.filters
         onChange=@onChangeFilter
       />
-      <Table 
-        mentors=filteredMentors
-        kid=@props.kid
-        initialSelection=filteredMentorIds
-        onSelectDate=@onSelectDate
+       <div className="col-xs-10">
+        <MentorsForDisplayingFilter 
+          mentors=filteredMentors
+          selection=@state.mentorsToDisplay
+          onChange=@onChangeSelectedMentorsToDisplay
         />
+      </div>
+     
+      <TimeTable 
+        kid=@props.kid
+        mentors=selectedMentors
+        onSelectDate=@onSelectDate
+      />
+
+    
     </div>
 
 MentorsForDisplayingFilter = React.createClass
@@ -57,6 +91,8 @@ MentorsForDisplayingFilter = React.createClass
       @props.onChange valuesAsString.split(@DELEMITER).map (id) -> parseInt id, 10
     else
       @props.onChange []
+  selectAll: ->
+    @props.onChange _.keys @props.mentors
   render: ->
     options = for id,mentor of @props.mentors
       label: "#{mentor.prename} #{mentor.name}"
@@ -65,8 +101,12 @@ MentorsForDisplayingFilter = React.createClass
         color: mentor.colors.text
         backgroundColor: mentor.colors.background
         borderColor: mentor.colors.text
-    value = (id for id of @props.initialSelection)
-    .join ";"
+    selectedIds = []
+    for id in @props.selection
+      selectedIds.push id if @props.mentors[id]?
+    value = selectedIds.join @DELEMITER
+
+    
     if value.length == 0 then value = null
     <div className="mentors-filtered">
       <Select 
@@ -76,6 +116,11 @@ MentorsForDisplayingFilter = React.createClass
         value=value
         onChange=@onChange
       />
+       <button 
+        onClick=@selectAll
+        className="btn btn-default col-xs-2">
+          Select All ({_.size @props.mentors})
+      </button>
     </div>
 
 
@@ -106,58 +151,6 @@ Filters = React.createClass
     </div>
 
 
-Table = React.createClass
-  getInitialState: ->
-    mentorsToDisplay: @props.initialSelection
-  onChange: (mentors) ->
-    @setState mentorsToDisplay: mentors
-  getColorsOfMentor: (index) ->
-    total = _.size @state.mentorsToDisplay
-    # we rotate over the color circle to create a color for every mentor
-    # but we skip every second color so that mentors next to each other have not too similar colors
-    indexShifted = (index) -> 
-      totalEven = total % 2 is 0
-      offset = if totalEven and index/total >= 0.5 then 1 else 0
-      (index*2+offset) % total
-
-    angle = 360 / total
-    hue = angle * indexShifted index
-    background: "hsla(#{hue}, 70%, 90%, 0.5)"
-    text: "hsl(#{hue}, 90%, 20%)"
-  getSelectedMentors: ->
-    mentors = {}
-    for id, index in @state.mentorsToDisplay
-      if @props.mentors[id]?
-        mentors[id] = @props.mentors[id]
-        mentors[id].colors = @getColorsOfMentor index
-    return mentors
-  selectAll: ->
-    @setState mentorsToDisplay: _.keys @props.mentors
-  render: ->
-    selectedMentors = @getSelectedMentors()
-
-    <div>
-      <p>
-        Selected {_.size selectedMentors} mentors of {_.size @props.mentors} 
-      </p>
-      <div className="col-xs-10">
-        <MentorsForDisplayingFilter 
-          mentors=@props.mentors
-          initialSelection=selectedMentors
-          onChange=@onChange
-        />
-      </div>
-      <button 
-        onClick=@selectAll
-        className="btn btn-default col-xs-2">
-          Select All ({_.size @props.mentors})
-      </button>
-      <TimeTable 
-        kid=@props.kid
-        mentors=selectedMentors
-        onSelectDate=@props.onSelectDate
-      />
-    </div>
 
 TimeTable = React.createClass
   createTimeArray: -> 
