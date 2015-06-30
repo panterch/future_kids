@@ -125,14 +125,12 @@ MentorsForDisplayingFilter = React.createClass
           onChange=@onChange
         />
       </div>
-       <button 
+      <button 
         onClick=@selectAll
         className="btn btn-default col-xs-2">
           Select All ({_.size @props.mentors})
       </button>
-    
     </div>
-
 
 Filters = React.createClass
   onChangeSex: (event) ->
@@ -210,6 +208,7 @@ TimeTable = React.createClass
             time: time
             schedules: @props.kid.schedules
           <div className=kidCellClasses></div>
+          # end kidCell
 
         mentorCell = (mentor, day) =>
           onClick = =>
@@ -221,6 +220,8 @@ TimeTable = React.createClass
             kidIsAvailable=kidIsAvailable 
             numberOfMentors={_.size @props.mentors}
             day=day time=time lastTime=lastTime nextTime=nextTime />
+          # end mentorCell
+
         classes = classNames "time-cell", 
           "kid-available": kidIsAvailable
         <td key="time_cell_#{day.key}_#{time.key}" 
@@ -228,7 +229,7 @@ TimeTable = React.createClass
           { kidCell day }
           { mentorCell mentor, day for mentor in mentors}
         </td>
-      # end timecell
+        # end timecell
 
       mentors = _.values @props.mentors
       <tr key=time.key>
@@ -236,6 +237,7 @@ TimeTable = React.createClass
         { timeCell day for day in days }
       </tr>
       # end timeRow
+
     <table className="timetable">
       <thead>
         <tr>
@@ -247,6 +249,7 @@ TimeTable = React.createClass
       { timeRow time, i for time, i in times }
       </tbody>
     </table>
+    # end render
 
 
 TimeTable_MentorCell = React.createClass
