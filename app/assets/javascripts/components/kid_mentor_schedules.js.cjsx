@@ -65,18 +65,28 @@
     filteredMentors = @getFilteredMentors()
     selectedMentors = @getSelectedMentors filteredMentors
 
-    <div className="kit-mentor-schedules">
-      <Filters 
-        mentors=@props.mentors
-        initialFilters=@state.filters
-        onChange=@onChangeFilter
-      />
-       <div className="col-xs-10">
-        <MentorsForDisplayingFilter 
-          mentors=filteredMentors
-          selection=@state.mentorsToDisplay
-          onChange=@onChangeSelectedMentorsToDisplay
-        />
+    <div className="kit-mentor-schedules row">
+      <div className="header panel panel-default">
+        <div className="row">
+          <div className="col-xs-2 title">Mentoren Filtern: </div>
+          <div className="col-xs-10">
+            <Filters 
+              mentors=@props.mentors
+              initialFilters=@state.filters
+              onChange=@onChangeFilter
+            />
+          </div>
+        </div>
+        <div className="row">
+          <div className="col-xs-2 title">Mentoren Filtern: </div>
+          <div className="col-xs-10">
+            <MentorsForDisplayingFilter 
+              mentors=filteredMentors
+              selection=@state.mentorsToDisplay
+              onChange=@onChangeSelectedMentorsToDisplay
+            />
+          </div>
+        </div>
       </div>
      
       <TimeTable 
@@ -84,8 +94,6 @@
         mentors=selectedMentors
         onSelectDate=@onSelectDate
       />
-
-    
     </div>
 
 MentorsForDisplayingFilter = React.createClass
@@ -112,19 +120,23 @@ MentorsForDisplayingFilter = React.createClass
 
     
     if value.length == 0 then value = null
-    <div className="mentors-filtered">
-      <Select 
-        options=options 
-        multi=true
-        delimiter=@DELEMITER
-        value=value
-        onChange=@onChange
-      />
+    <div className="mentors-display-filter row">
+      <div className="col-xs-10">
+        <Select 
+          
+          options=options 
+          multi=true
+          delimiter=@DELEMITER
+          value=value
+          onChange=@onChange
+        />
+      </div>
        <button 
         onClick=@selectAll
         className="btn btn-default col-xs-2">
           Select All ({_.size @props.mentors})
       </button>
+    
     </div>
 
 
@@ -141,17 +153,23 @@ Filters = React.createClass
     @props.onChange? "ects", asBoolean event.target.value
 
   render: ->
-    <div className="filters">
-      <select name="ects" value=@props.initialFilters.ects onChange=@onChangeECTS>
-        <option></option>
-        <option value="true">ECTS</option>
-        <option value="false">nur nicht-ECTS</option>
-      </select>
-      <select name="sex" value=@props.initialFilters.sex onChange=@onChangeSex>
-        <option>Beide</option>
-        <option value="m">Knabe</option>
-        <option value="f">Mädchen</option>
-      </select>
+    <div className="filters form-inline">
+      <div className="form-group">
+        <label for="ects">ECTS </label> 
+        <select name="ects" className="form-control" value=@props.initialFilters.ects onChange=@onChangeECTS>
+          <option></option>
+          <option value="true">ECTS</option>
+          <option value="false">nur nicht-ECTS</option>
+        </select>
+      </div>
+      <div className="form-group">
+        <label for="sex">Geschlecht </label>
+        <select name="sex" className="form-control" value=@props.initialFilters.sex onChange=@onChangeSex>
+          <option></option>
+          <option value="m">Knabe</option>
+          <option value="f">Mädchen</option>
+        </select>
+      </div>
     </div>
 
 
@@ -188,6 +206,7 @@ TimeTable = React.createClass
       nextTime = times[index+1]
 
       timeCell = (day) =>
+        kidIsAvailable = availableInSchedule @props.kid.schedules, day, time
         kidCell = (day) =>
           kidCellClasses = createTimeCellClasses
             primaryClass: "cell-kid"
@@ -202,13 +221,16 @@ TimeTable = React.createClass
           onClick = =>
             @props.onSelectDate? mentor, day, time
           <TimeTable_MentorCell 
+            key="mentor_cell_#{day.key}_#{time.key}_#{mentor.id}"
             mentor=mentor 
             onClick=onClick
+            kidIsAvailable=kidIsAvailable 
             numberOfMentors={_.size @props.mentors}
             day=day time=time lastTime=lastTime nextTime=nextTime />
         classes = classNames "time-cell", 
-          "kid-available": availableInSchedule @props.kid.schedules, day, time
-        <td className=classes>
+          "kid-available": kidIsAvailable
+        <td key="time_cell_#{day.key}_#{time.key}" 
+          className=classes>
           { kidCell day }
           { mentorCell mentor, day for mentor in mentors}
         </td>
@@ -225,7 +247,7 @@ TimeTable = React.createClass
       <thead>
         <tr>
           <th></th>
-          { <th>{day.label}</th> for day in days }
+          { <th key=day.key>{day.label}</th> for day in days }
         </tr>
       </thead>
       <tbody>
@@ -256,14 +278,18 @@ TimeTable_MentorCell = React.createClass
         color: @props.mentor.colors.text, 
         width: mentorColumnWidth+'%'
 
-      <a className=classes 
-        onClick=@props.onClick
-        style=style>
-        <i className="icon glyphicon glyphicon-calendar"></i>
+      <div className=classes style=style>
+        {
+          if @props.kidIsAvailable
+            <a className="btn-set-date" onClick=@props.onClick>
+              <i className="icon glyphicon glyphicon-calendar"></i>
+            </a>
+        }
+
         <span className="name-label">
           { @props.mentor.prename }&nbsp;{ @props.mentor.name }
         </span>
-      </a>
+      </div>
     else
       <div 
         className="spacer" 

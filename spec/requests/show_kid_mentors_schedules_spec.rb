@@ -64,41 +64,40 @@ feature 'Kid Mentor planning', js: true do
     end
 
     it 'initially shows all mentors with no kid assigned' do
-      within('.mentors-filtered') do
+      within('.kit-mentor-schedules') do
         expect(page).to have_content 'Frederik Haller'
         expect(page).to have_content 'Max Steiner'
         expect(page).to have_content 'Melanie Rohner'
       end
     end
     describe 'filter' do
-     scenario 'select ects' do
-       within('.filters [name="ects"]') do
-         find('option[value="true"]').click
-       end
-       within('.mentors-filtered') do
-         expect(page).to have_content 'Frederik Haller'
-         expect(page).to have_content 'Melanie Rohner'
-         expect(page).to_not have_content 'Max Steiner'
-       end
-     end
-     scenario 'select no ects' do
+      scenario 'select ects' do
+        within('.filters [name="ects"]') do
+          find('option[value="true"]').click
+        end
+        within('.kit-mentor-schedules') do
+          expect(page).to have_content 'Frederik Haller'
+          expect(page).to have_content 'Melanie Rohner'
+          expect(page).to_not have_content 'Max Steiner'
+        end
+      end
+      scenario 'select no ects' do
 
-
-       within('.filters [name="ects"]') do
-         find('option[value="false"]').click
-       end
-       within('.mentors-filtered') do
-         expect(page).to_not have_content 'Frederik Haller'
-         expect(page).to_not have_content 'Melanie Rohner'
-         expect(page).to have_content 'Max Steiner'
-       end
-     end
+        within('.filters [name="ects"]') do
+          find('option[value="false"]').click
+        end
+        within('.kit-mentor-schedules') do
+          expect(page).to_not have_content 'Frederik Haller'
+          expect(page).to_not have_content 'Melanie Rohner'
+          expect(page).to have_content 'Max Steiner'
+        end
+      end
 
       scenario 'select only male or only female mentors' do
         within('.filters [name="sex"]') do
           find('option[value="m"]').click
         end
-        within('.mentors-filtered') do
+        within('.kit-mentor-schedules') do
           expect(page).to have_content 'Frederik Haller'
           expect(page).to_not have_content 'Melanie Rohner'
           expect(page).to have_content 'Max Steiner'
@@ -106,7 +105,7 @@ feature 'Kid Mentor planning', js: true do
         within('.filters [name="sex"]') do
           find('option[value="f"]').click
         end
-        within('.mentors-filtered') do
+        within('.kit-mentor-schedules') do
           expect(page).to_not have_content 'Frederik Haller'
           expect(page).to have_content 'Melanie Rohner'
           expect(page).to_not have_content 'Max Steiner'
@@ -155,7 +154,7 @@ feature 'Kid Mentor planning', js: true do
       scenario 'select one entry to store the date' do
         within('timetable') do
           find('.cell-mentor', :text => 'Frederik Haller').click
-          page.driver.browser.switch_to.alert.accept
+          #page.driver.browser.switch_to.alert.accept
 
         end
       end

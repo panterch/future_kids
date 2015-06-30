@@ -228,8 +228,35 @@ form.schedule {
 
 
 .kit-mentor-schedules {
+  .header {
+    padding: 10px 15px;
+    .row {
+      margin-bottom: 5px;
+    }
+     .title {
+      margin-top: 4px;
+      font-size: 12px;
+      font-weight: bold;
+    }
+  }
 
   $kidMentorSchedulesRowHeight: 40px;
+
+  .filters {
+    .title {
+      font-size: 14px;
+      margin-right: 20px;
+    }
+    .form-group {
+      margin-right: 20px;
+    }
+    label {
+      margin-right: 5px;
+    }
+  }
+  .mentors-display-filter .Select-control {
+    min-height: 62px;
+  }
   .timetable {
     width: 100%;
     td {
@@ -292,22 +319,36 @@ form.schedule {
       height: $kidMentorSchedulesRowHeight;
       overflow: visible;
       cursor: pointer;
-      padding: 4px;
+      
 
-      .icon {
-        display: none;
-        text-align: center;
-      }
-      &:hover, &:focus {
-        outline-offset: 4px;
-        outline-style: dashed;
-        outline-width: 2px;
-        z-index: 10;
+
+      .btn-set-date{
+        position: absolute;
+        left: 0px;
+        right: 0px;
+        top: 0px;
+        bottom: 0px;
+        display: block;
+        color: inherit;
         .icon {
-          display: block;
-        }
+          margin-top: 10px;
+          display: none;
+          text-align: center;
 
+          font-size: 16px;
+        }
+        &:hover, &:focus {
+          outline-offset: 4px;
+          outline-style: dashed;
+          outline-width: 2px;
+          z-index: 10;
+          .icon {
+            display: block;
+          }
+
+        }
       }
+      
       .name-label {
         display: none;
         pointer-events:none;
