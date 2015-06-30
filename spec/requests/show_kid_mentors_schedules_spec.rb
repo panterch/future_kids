@@ -155,7 +155,7 @@ feature 'Kid Mentor planning', js: true do
         within('timetable') do
           find('.cell-mentor', :text => 'Frederik Haller').click
           #page.driver.browser.switch_to.alert.accept
-
+          # todo
         end
       end
 

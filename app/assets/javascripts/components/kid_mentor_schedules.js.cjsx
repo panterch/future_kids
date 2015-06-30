@@ -24,19 +24,16 @@
         delete filteredMentors[id] if mentor.ects isnt @state.filters.ects
       if @state.filters?.sex?
         delete filteredMentors[id] if mentor.sex isnt @state.filters?.sex
-    
- 
     return filteredMentors
   getSelectedMentors: (filteredMentors) ->
-    filteredMentors = _.pick filteredMentors, @state.mentorsToDisplay
-   
-    return filteredMentors
+    _.pick filteredMentors, @state.mentorsToDisplay
   onChangeSelectedMentorsToDisplay: (mentorIds) ->
     @setState mentorsToDisplay: mentorIds
   onChangeFilter: (key, value) ->
     filters = @state.filters
     filters[key] = value
     @setState filters: filters
+    # select all mentors, if filter changes
     @selectAll()
   selectAll: ->
     @setState mentorsToDisplay: _.keys @props.mentors
@@ -61,7 +58,6 @@
     text: "hsl(#{hue}, 90%, 20%)"
 
   render: ->
-
     filteredMentors = @getFilteredMentors()
     selectedMentors = @getSelectedMentors filteredMentors
 
@@ -114,16 +110,14 @@ MentorsForDisplayingFilter = React.createClass
         backgroundColor: mentor.colors.background
         borderColor: mentor.colors.text
     selectedIds = []
-    for id in @props.selection
+    for id in @props.selection # filter out not available values
       selectedIds.push id if @props.mentors[id]?
     value = selectedIds.join @DELEMITER
-
-    
     if value.length == 0 then value = null
+
     <div className="mentors-display-filter row">
       <div className="col-xs-10">
         <Select 
-          
           options=options 
           multi=true
           delimiter=@DELEMITER
@@ -242,7 +236,6 @@ TimeTable = React.createClass
         { timeCell day for day in days }
       </tr>
       # end timeRow
-
     <table className="timetable">
       <thead>
         <tr>
@@ -285,7 +278,6 @@ TimeTable_MentorCell = React.createClass
               <i className="icon glyphicon glyphicon-calendar"></i>
             </a>
         }
-
         <span className="name-label">
           { @props.mentor.prename }&nbsp;{ @props.mentor.name }
         </span>
@@ -295,9 +287,6 @@ TimeTable_MentorCell = React.createClass
         className="spacer" 
         style={width: mentorColumnWidth+'%'}
         />
-
-
-
 # helpers
 availableInSchedule = (schedules, day, time) ->
   schedules?[day?.key]?[time?.key]?
