@@ -42,7 +42,7 @@
       Schüler: #{@props.kid.prename} #{@props.kid.name}\n
       Mentor: #{mentor.prename} #{mentor.name}\n
       Zeitpunkt: #{day.label} um #{time.label}\n"
-      
+
       $form = $ "#kid_form"
       $form.find("[name='kid[mentor_id]']").val mentor.id
       $form.find("[name='kid[meeting_day]']").val day.key
@@ -66,7 +66,7 @@
     filteredMentors = @getFilteredMentors()
     selectedMentors = @getSelectedMentors filteredMentors
 
-    <div className="kit-mentor-schedules row">
+    <div className="kid-mentor-schedules row">
       <div className="header panel panel-default">
         <div className="row">
           <div className="col-xs-2 title">Mentoren Filtern: </div>

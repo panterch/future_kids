@@ -152,11 +152,23 @@ feature 'Kid Mentor planning', js: true do
       end
 
       scenario 'select one entry to store the date' do
-        within('timetable') do
-          find('.cell-mentor', :text => 'Frederik Haller').click
-          #page.driver.browser.switch_to.alert.accept
-          # todo
+        within('.timetable') do
+          find('.cell-mentor', :text => 'Frederik Haller').first().click
+          page.driver.browser.switch_to.alert.accept
         end
+        within('.kid_meeting_day') do
+          expect(page).to have_content 'Montag'
+        end
+        within('.kid_meeting_start_at') do
+          expect(page).to have_content '14:00'
+        end
+        within('.kid_meeting_start_at') do
+          expect(page).to have_content '14:00'
+        end
+        within('.kid_mentor') do
+          expect(page).to have_content 'Frederik Haller'
+        end
+
       end
 
 
