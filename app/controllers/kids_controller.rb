@@ -9,8 +9,6 @@ class KidsController < ApplicationController
   before_action :cancan_prototypes, only: [:show]
   before_action :assign_current_teacher, only: [:create]
   after_action :track_creation_relation, only: [:create]
-  before_action :assign_selected_mentor_schedules, only: [:edit_schedules]
-  before_action :assign_mentor_selection, only: [:edit_schedules]
 
   def index
     if current_user.is_a?(Admin) && 'xlsx' == params[:format]
@@ -40,10 +38,7 @@ class KidsController < ApplicationController
 
 
   def show_kid_mentors_schedules
-
-    # decouple schedules so include? works
-
-    @kid_mentor_schedules_data = Jbuilder.new do |json|
+   @kid_mentor_schedules_data = Jbuilder.new do |json|
       json.mentors do
         Mentor.active.each do |mentor|
           json.set! mentor.id do
@@ -85,26 +80,6 @@ class KidsController < ApplicationController
                               start_at: Time.now)
   end
 
-  # this adds a specific behaviour for kids to the edit_schedules method -
-  # one may select mentors which availability is superimpose on the kids
-  # schedule form to allow a viasual selection of possible schedule entries
-  def assign_selected_mentor_schedules
-    @mentor_schedules = {}
-    @mentor_ids = params[:mentor_ids]
-    return if @mentor_ids.blank?
-    selected_people = Mentor.find(@mentor_ids)
-    selected_people.each do |mentor|
-      @mentor_schedules[mentor.display_name] = mentor.schedules.to_a
-    end
-  end
-
-  # the kids schedule editing allows the selection of mentors to display their
-  # schedules in parallel. this method provides the data for the mentor
-  # selection
-  def assign_mentor_selection
-    @mentor_groups = Mentor.mentors_grouped_by_assigned_kids
-  end
-
   # prototypes to check abilities in menu
   def cancan_prototypes
     @cancan_journal = Journal.new(kid: @kid)
@@ -141,7 +116,6 @@ class KidsController < ApplicationController
     schedules_by_day.each do |day, times|
       times.each do |time|
         key = time.hour.to_s.rjust(2, '0')+':'+time.minute.to_s.rjust(2, '0')
-        puts key
         schedules_set[day][key] = true
       end
     end

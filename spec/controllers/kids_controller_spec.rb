@@ -75,12 +75,6 @@ describe KidsController do
         expect(response).to be_successful
       end
 
-      it 'should assign mentors' do
-        @mentor = create(:mentor)
-        get :edit_schedules, id: @kid, mentor_ids: [@mentor.id]
-        expect(assigns(:mentor_ids)).to eq([@mentor.id.to_s])
-        expect(assigns(:mentor_groups)[:none]).to eq([@mentor])
-      end
     end
 
     context 'update_schedules' do
