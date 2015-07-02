@@ -1,4 +1,7 @@
 class KidsController < ApplicationController
+
+  respond_to :html, :json
+
   load_and_authorize_resource
   include CrudActions
   include ManageSchedules # edit_schedules & update_schedules
@@ -34,6 +37,8 @@ class KidsController < ApplicationController
     respond_with @kids
   end
 
+
+
   def show_kid_mentors_schedules
 
     # decouple schedules so include? works
@@ -48,22 +53,18 @@ class KidsController < ApplicationController
             json.sex mentor.sex
             json.ects mentor.ects
             json.schedules create_schedules_nested_set mentor.schedules
-
           end
         end
       end
       json.kid do
+        json.id @kid.id
         json.prename @kid.prename
         json.name @kid.name
         json.schedules create_schedules_nested_set @kid.schedules
       end
-
-
-
-
     end.attributes!
-
   end
+
 
   protected
 

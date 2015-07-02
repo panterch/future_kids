@@ -42,8 +42,13 @@
       Schüler: #{@props.kid.prename} #{@props.kid.name}\n
       Mentor: #{mentor.prename} #{mentor.name}\n
       Zeitpunkt: #{day.label} um #{time.label}\n"
-      alert "done"
-      console.log mentor, day, time
+      
+      $form = $ "#kid_form"
+      $form.find("[name='kid[mentor_id]']").val mentor.id
+      $form.find("[name='kid[meeting_day]']").val day.key
+      $form.find("[name='kid[meeting_start_at]']").val time.key
+      $form.submit()
+
   getColorsOfMentor: (total, index) ->
     # we rotate over the color circle to create a color for every mentor
     # but we skip every second color so that mentors next to each other have not too similar colors
