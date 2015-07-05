@@ -12,6 +12,7 @@
     filters: 
       ect: null
       sex: null
+      numberOfKids: "0-1"
   getFilteredMentors: ->
     mentors = @props.mentors
     filteredMentors = _.clone @props.mentors
@@ -24,6 +25,12 @@
         delete filteredMentors[id] if mentor.ects isnt @state.filters.ects
       if @state.filters?.sex?
         delete filteredMentors[id] if mentor.sex isnt @state.filters?.sex
+      if @state.filters?.numberOfKids?
+        unless @state.filters.numberOfKids is "all"
+          allowedNumbers = @state.filters.numberOfKids.split("-").map (number) -> parseInt number, 10
+          actualNumber = mentor.kids.length + mentor.secondary_kids.length
+          delete filteredMentors[id] unless actualNumber in allowedNumbers
+
     return filteredMentors
   getSelectedMentors: (filteredMentors) ->
     _.pick filteredMentors, @state.mentorsToDisplay
@@ -39,8 +46,10 @@
     @setState mentorsToDisplay: _.keys @props.mentors
   onSelectDate: (mentor, day, time) ->
     if confirm "Treffen vereinbaren?\n\n
-      Schüler: #{@props.kid.prename} #{@props.kid.name}\n
-      Mentor: #{mentor.prename} #{mentor.name}\n
+      Der Mentor wir dem Schüler als primären Mentor zugewiesen, 
+      bereits vorhandene Zuweisungen werden überschrieben.\n\n
+      Schüler: #{@props.kid.name} #{@props.kid.prename}\n
+      Mentor: #{mentor.name} #{mentor.prename}\n
       Zeitpunkt: #{day.label} um #{time.label}\n"
 
       $form = $ "#kid_form"
@@ -108,7 +117,7 @@ MentorsForDisplayingFilter = React.createClass
     @props.onChange _.keys @props.mentors
   render: ->
     options = for id,mentor of @props.mentors
-      label: "#{mentor.prename} #{mentor.name}"
+      label: "#{mentor.name} #{mentor.prename}"
       value: mentor.id.toString()
       style: 
         color: mentor.colors.text
@@ -148,7 +157,8 @@ Filters = React.createClass
       when "false" then false
       else null
     @props.onChange? "ects", asBoolean event.target.value
-
+  onChangeNumberOfKids: (event) ->
+    @props.onChange? "numberOfKids", event.target.value
   render: ->
     <div className="filters form-inline">
       <div className="form-group">
@@ -165,6 +175,17 @@ Filters = React.createClass
           <option></option>
           <option value="m">Knabe</option>
           <option value="f">Mädchen</option>
+        </select>
+      </div>
+      <div className="form-group">
+        <label for="number-of-kids">Zeige Mentoren mit </label>
+        <select name="number-of-kids" className="form-control" value=@props.initialFilters.numberOfKids onChange=@onChangeNumberOfKids>
+          <option value="all">Alle Mentoren</option>
+          <option value="0-1">keinem oder nur einem Schüler</option>
+          <option value="0">keinem Schüler</option>
+          <option value="1">genau einem Schüler</option>
+          <option value="2">zwei Schülern</option>
+
         </select>
       </div>
     </div>
@@ -287,7 +308,7 @@ TimeTable_MentorCell = React.createClass
             </a>
         }
         <span className="name-label">
-          { @props.mentor.prename }&nbsp;{ @props.mentor.name }
+          { @props.mentor.name }&nbsp;{ @props.mentor.prename }
         </span>
       </div>
     else
