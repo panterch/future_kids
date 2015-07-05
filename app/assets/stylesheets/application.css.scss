@@ -261,7 +261,7 @@ form.schedule {
     width: 100%;
     td {
       height: $kidMentorSchedulesRowHeight;
-
+      border-bottom: 1px solid #ccc;
     }
     .time-cell {
       border-right: 1px solid black;
@@ -276,8 +276,8 @@ form.schedule {
       left: 5px;
       right: 5px;
       top: 0px;
+      bottom: 0px;
 
-      height: 100%;
       box-sizing: content-box;
       &.time-available {
         background-color: #eee;

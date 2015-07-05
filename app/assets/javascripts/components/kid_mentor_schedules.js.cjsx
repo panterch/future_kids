@@ -13,6 +13,7 @@
       ect: null
       sex: null
       numberOfKids: "0-1"
+      school: null
   getFilteredMentors: ->
     mentors = @props.mentors
     filteredMentors = _.clone @props.mentors
@@ -25,6 +26,8 @@
         delete filteredMentors[id] if mentor.ects isnt @state.filters.ects
       if @state.filters?.sex?
         delete filteredMentors[id] if mentor.sex isnt @state.filters?.sex
+      if @state.filters?.school?
+        delete filteredMentors[id] if mentor.primary_kids_school?.id isnt @state.filters?.school
       if @state.filters?.numberOfKids?
         unless @state.filters.numberOfKids is "all"
           allowedNumbers = @state.filters.numberOfKids.split("-").map (number) -> parseInt number, 10
@@ -82,6 +85,7 @@
           <div className="col-xs-10">
             <Filters 
               mentors=@props.mentors
+              schools=@props.schools
               initialFilters=@state.filters
               onChange=@onChangeFilter
             />
@@ -157,28 +161,15 @@ Filters = React.createClass
       when "false" then false
       else null
     @props.onChange? "ects", asBoolean event.target.value
+  onChangeSchool: (event) ->
+    sanitize = (value) -> if _.size(value) == 0 then null else parseInt value, 10
+    @props.onChange? "school", sanitize event.target.value
   onChangeNumberOfKids: (event) ->
     @props.onChange? "numberOfKids", event.target.value
   render: ->
     <div className="filters form-inline">
       <div className="form-group">
-        <label for="ects">ECTS </label> 
-        <select name="ects" className="form-control" value=@props.initialFilters.ects onChange=@onChangeECTS>
-          <option></option>
-          <option value="true">ECTS</option>
-          <option value="false">nur nicht-ECTS</option>
-        </select>
-      </div>
-      <div className="form-group">
-        <label for="sex">Geschlecht </label>
-        <select name="sex" className="form-control" value=@props.initialFilters.sex onChange=@onChangeSex>
-          <option></option>
-          <option value="m">Knabe</option>
-          <option value="f">Mädchen</option>
-        </select>
-      </div>
-      <div className="form-group">
-        <label for="number-of-kids">Zeige Mentoren mit </label>
+        <label htmlFor="number-of-kids">Zeige Mentoren mit </label>
         <select name="number-of-kids" className="form-control" value=@props.initialFilters.numberOfKids onChange=@onChangeNumberOfKids>
           <option value="all">Alle Mentoren</option>
           <option value="0-1">keinem oder nur einem Schüler</option>
@@ -188,6 +179,34 @@ Filters = React.createClass
 
         </select>
       </div>
+      <div className="form-group">
+        <label htmlFor="ects">ECTS </label> 
+        <select name="ects" className="form-control" value=@props.initialFilters.ects onChange=@onChangeECTS>
+          <option></option>
+          <option value="true">ECTS</option>
+          <option value="false">nur nicht-ECTS</option>
+        </select>
+      </div>
+      <div className="form-group">
+        <label htmlFor="sex">Geschlecht </label>
+        <select name="sex" className="form-control" value=@props.initialFilters.sex onChange=@onChangeSex>
+          <option></option>
+          <option value="m">Knabe</option>
+          <option value="f">Mädchen</option>
+        </select>
+      </div>
+      <div className="form-group">
+        <label htmlFor="school">Schule </label>
+        <select name="school" className="form-control" value=@props.initialFilters.school onChange=@onChangeSchool>
+          <option></option>
+          {
+            for school in @props.schools
+              <option value="#{school.id}">{school.display_name}</option>
+          }
+          
+        </select>
+      </div>
+      
     </div>
 
 

@@ -47,8 +47,17 @@ class KidsController < ApplicationController
             json.name mentor.name
             json.sex mentor.sex
             json.ects mentor.ects
-            json.kids mentor.kids, :id, :prename, :name
-            json.secondary_kids mentor.secondary_kids, :id, :prename, :name
+            json.kids mentor.kids, :id
+            json.secondary_kids mentor.secondary_kids, :id
+            json.primary_kids_school do
+              if not mentor.primary_kids_school.nil?
+                json.id mentor.primary_kids_school.id
+              end
+
+            end
+
+
+
             json.schedules create_schedules_nested_set mentor.schedules
           end
         end
@@ -59,14 +68,9 @@ class KidsController < ApplicationController
         json.name @kid.name
         json.schedules create_schedules_nested_set @kid.schedules
       end
-      json.schools do
-        School.all.each do |school|
-          json.set! school.id do
-            json.name school.display_name
-          end
-        end
+      json.schools School.all, :id, :display_name
 
-      end
+      
 
     end.attributes!
   end
