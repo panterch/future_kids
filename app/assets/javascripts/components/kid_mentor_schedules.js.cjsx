@@ -92,7 +92,7 @@
           </div>
         </div>
         <div className="row">
-          <div className="col-xs-2 title">Mentoren Filtern: </div>
+          <div className="col-xs-2 title">Mentoren anzeigen: </div>
           <div className="col-xs-10">
             <MentorsForDisplayingFilter 
               mentors=filteredMentors
