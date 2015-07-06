@@ -70,7 +70,7 @@ class KidsController < ApplicationController
       end
       json.schools School.all, :id, :display_name
 
-      
+
 
     end.attributes!
   end

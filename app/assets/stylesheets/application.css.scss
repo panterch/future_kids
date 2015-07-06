@@ -352,6 +352,7 @@ form.schedule {
       .name-label {
         display: none;
         pointer-events:none;
+        white-space: nowrap;
       }
       &.time-last {
         .name-label {
