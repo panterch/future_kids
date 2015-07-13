@@ -184,15 +184,15 @@ Filters = React.createClass
         <select name="ects" className="form-control" value=@props.initialFilters.ects onChange=@onChangeECTS>
           <option></option>
           <option value="true">ECTS</option>
-          <option value="false">nur nicht-ECTS</option>
+          <option value="false">kein ECTS</option>
         </select>
       </div>
       <div className="form-group">
         <label htmlFor="sex">Geschlecht </label>
         <select name="sex" className="form-control" value=@props.initialFilters.sex onChange=@onChangeSex>
           <option></option>
-          <option value="m">Knabe</option>
-          <option value="f">Mädchen</option>
+          <option value="m">Männlich</option>
+          <option value="f">Weiblich</option>
         </select>
       </div>
       <div className="form-group">
@@ -206,10 +206,7 @@ Filters = React.createClass
           
         </select>
       </div>
-      
     </div>
-
-
 
 TimeTable = React.createClass
   createTimeArray: -> 
@@ -296,7 +293,6 @@ TimeTable = React.createClass
     </table>
     # end render
 
-
 TimeTable_MentorCell = React.createClass
   mentorIsAvailable: ->
     @props.mentor.schedules?[@props.day.key]?[@props.time.key]?
@@ -338,6 +334,7 @@ TimeTable_MentorCell = React.createClass
 # helpers
 availableInSchedule = (schedules, day, time) ->
   schedules?[day?.key]?[time?.key]?
+
 createTimeCellClasses = ({primaryClass, day, lastTime, time, nextTime, schedules}) ->
   classNames primaryClass, 
     'time-available': availableInSchedule schedules, day, time
