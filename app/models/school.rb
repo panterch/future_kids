@@ -3,7 +3,8 @@ class School < ActiveRecord::Base
 
   default_scope { order(:name) }
 
-  has_many :principals
+  has_many :principal_school_relations
+  has_many :principals, through: :principal_school_relations
   has_many :teachers
 
   def display_name

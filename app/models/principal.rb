@@ -1,4 +1,6 @@
 class Principal < User
-  belongs_to :school
-  validates_presence_of :school
+  has_many :principal_school_relations
+  has_many :schools, through: :principal_school_relations
+
+  validates_presence_of :schools
 end

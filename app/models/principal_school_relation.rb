@@ -1,4 +1,4 @@
 class PrincipalSchoolRelation < ActiveRecord::Base
-	belongs_to :principals
-	belongs_to :schools
+	belongs_to :principal
+	belongs_to :school
 end

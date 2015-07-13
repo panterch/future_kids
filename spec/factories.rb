@@ -1,4 +1,5 @@
 FactoryGirl.define do
+
   factory :user do
     sequence(:name) { |n| "Name #{n}" }
     prename 'Prename'
@@ -21,7 +22,7 @@ FactoryGirl.define do
 
   factory :principal, class: 'Principal', parent: :user do
     sequence(:email) { |n| "principal_#{n}@example.com" }
-    association :school
+    schools {[FactoryGirl.create(:school)]}
   end
 
   factory :kid do
@@ -81,4 +82,10 @@ FactoryGirl.define do
     association :kid
     user { |p| p.association(:mentor) }
   end
+
+  factory :principal_school_relation do
+    association :school
+    association :principal
+  end
+
 end

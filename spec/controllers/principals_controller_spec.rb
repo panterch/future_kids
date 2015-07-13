@@ -32,7 +32,7 @@ describe PrincipalsController do
       end
 
       it 'cannot update its own school or inactivity' do
-        @original_school = @principal.school
+        @original_school = @principal.schools.first
         @school = create(:school)
         expect do
           put :update, id: @principal.id, principal: {
