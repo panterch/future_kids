@@ -292,6 +292,38 @@ ALTER SEQUENCE kids_id_seq OWNED BY kids.id;
 
 
 --
+-- Name: principal_school_relations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE principal_school_relations (
+    id integer NOT NULL,
+    principal_id integer,
+    school_id integer,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: principal_school_relations_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE principal_school_relations_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: principal_school_relations_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE principal_school_relations_id_seq OWNED BY principal_school_relations.id;
+
+
+--
 -- Name: relation_logs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -612,6 +644,13 @@ ALTER TABLE ONLY kids ALTER COLUMN id SET DEFAULT nextval('kids_id_seq'::regclas
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY principal_school_relations ALTER COLUMN id SET DEFAULT nextval('principal_school_relations_id_seq'::regclass);
+
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY relation_logs ALTER COLUMN id SET DEFAULT nextval('relation_logs_id_seq'::regclass);
 
 
@@ -694,6 +733,14 @@ ALTER TABLE ONLY journals
 
 ALTER TABLE ONLY kids
     ADD CONSTRAINT kids_pkey PRIMARY KEY (id);
+
+
+--
+-- Name: principal_school_relations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY principal_school_relations
+    ADD CONSTRAINT principal_school_relations_pkey PRIMARY KEY (id);
 
 
 --
@@ -978,8 +1025,6 @@ INSERT INTO schema_migrations (version) VALUES ('20141228185936');
 
 INSERT INTO schema_migrations (version) VALUES ('20150424163124');
 
-INSERT INTO schema_migrations (version) VALUES ('20150503135014');
-
 INSERT INTO schema_migrations (version) VALUES ('20150520135622');
 
 INSERT INTO schema_migrations (version) VALUES ('20150524164241');
@@ -987,6 +1032,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150524164241');
 INSERT INTO schema_migrations (version) VALUES ('20150602204436');
 
 INSERT INTO schema_migrations (version) VALUES ('20150626141604');
+
+INSERT INTO schema_migrations (version) VALUES ('20150713124950');
 
 INSERT INTO schema_migrations (version) VALUES ('20150804135014');
 
