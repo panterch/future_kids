@@ -107,18 +107,6 @@
     <div className="kid-mentor-schedules row">
       <div className="header panel panel-default">
         <div className="row">
-          <div className="col-xs-2 title">Schüler: </div>
-          <div className="col-xs-10">{@props.kid.name} {@props.kid.prename}</div>
-        </div>
-        <div className="row">
-          <div className="col-xs-2 title">Primärer Mentor: </div>
-          <div className="col-xs-10">{@getKidsMentor()?.prename} {@getKidsMentor()?.name or "---"}</div>
-        </div>
-        <div className="row">
-          <div className="col-xs-2 title">Ersatzmentor: </div>
-          <div className="col-xs-10">{@getKidsSecondaryMentor()?.prename} {@getKidsSecondaryMentor()?.name or "---"}</div>
-        </div>
-        <div className="row">
           <div className="col-xs-2 title">Mentoren Filtern: </div>
           <div className="col-xs-10">
             <Filters 

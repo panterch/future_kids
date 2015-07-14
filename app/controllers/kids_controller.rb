@@ -53,11 +53,7 @@ class KidsController < ApplicationController
               if not mentor.primary_kids_school.nil?
                 json.id mentor.primary_kids_school.id
               end
-
             end
-
-
-
             json.schedules create_schedules_nested_set mentor.schedules
           end
         end
