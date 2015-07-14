@@ -21,7 +21,7 @@ feature 'Kid Mentor planning', js: true do
   }
   let!(:admin) { create(:admin) }
   let!(:mentor_frederik) {
-    # Frederik receives ects and has no kid assigned
+    # Frederik receives ects
     mentor = create(:mentor, ects: true, prename: 'Frederik', name: 'Haller', sex: 'm')
     mentor.schedules.create(day: 1, hour: 14, minute: 0)
     mentor.schedules.create(day: 1, hour: 14, minute: 30)
@@ -38,7 +38,7 @@ feature 'Kid Mentor planning', js: true do
     mentor
   }
   let!(:mentor_melanie) {
-    # melanie receives ects, she has already one kid assigned
+    # melanie receives ects
     mentor = create(:mentor, ects: true, prename: 'Melanie', name:'Rohner', sex: 'f')
     mentor.schedules.create(day: 3, hour: 14, minute: 0)
     mentor.schedules.create(day: 3, hour: 14, minute: 30)
@@ -52,11 +52,10 @@ feature 'Kid Mentor planning', js: true do
     mentor.schedules.create(day: 5, hour: 15, minute: 30)
     mentor.schedules.create(day: 5, hour: 16, minute: 0)
     mentor.schedules.create(day: 5, hour: 16, minute: 30)
-    mentor.kids.push create(:kid)
     mentor
   }
   let!(:mentor_max) {
-    # max does not receive ects and has a secondary kid assigned
+    # max does not receive ects
     mentor =create(:mentor, ects: false, prename: 'Max', name: 'Steiner', sex: 'm')
     mentor.schedules.create(day: 1, hour: 17, minute: 0)
     mentor.schedules.create(day: 1, hour: 17, minute: 30)
@@ -70,13 +69,12 @@ feature 'Kid Mentor planning', js: true do
     mentor.schedules.create(day: 2, hour: 16, minute: 30)
     mentor.schedules.create(day: 2, hour: 17, minute: 0)
     mentor.schedules.create(day: 2, hour: 17, minute: 30)
-    mentor.secondary_kids.push create(:kid)
     mentor
   }
 
   let!(:mentor_sarah) {
 
-    # sarah does not receive ects and already has two kids assigned
+    # sarah does not receive ects
     mentor =create(:mentor, ects: false, prename: 'Sarah', name: 'Koller', sex: 'f')
     mentor.schedules.create(day: 1, hour: 17, minute: 0)
     mentor.schedules.create(day: 1, hour: 17, minute: 30)
@@ -90,8 +88,6 @@ feature 'Kid Mentor planning', js: true do
     mentor.schedules.create(day: 2, hour: 16, minute: 30)
     mentor.schedules.create(day: 2, hour: 17, minute: 0)
     mentor.schedules.create(day: 2, hour: 17, minute: 30)
-    mentor.kids.push create(:kid)
-    mentor.secondary_kids.push create(:kid)
 
     mentor
   }
@@ -112,35 +108,60 @@ feature 'Kid Mentor planning', js: true do
 
     describe 'filter' do
       describe 'number-of-kids-filter' do
-        scenario 'initially is set to show only mentors with 0 or 1 kid' do
-          find(:css, '.filters [name="number-of-kids"]').value.should == '0-1'
+
+        # frederik has no kid assigned
+        # melanie has one primary kid
+        let(:mentor_melanie){super().kids.push create(:kid)}
+        # max has one secondary kid
+        let(:mentor_max){super().secondary_kids.push create(:kid)}
+        # sarah has both
+        let(:mentor_sarah){
+          super().kids.push create(:kid)
+          super().secondary_kids.push create(:kid)
+        }
+
+
+
+        scenario 'initially is set to show only mentors with no primary kid (but maybe secondary) ' do
+          find(:css, '.filters [name="number-of-kids"]').value.should == 'no-primary'
         end
-        scenario 'select only mentors with 0 or 1 kid assigned' do
+        scenario 'select only mentors with no primary kid' do
           within('.filters [name="number-of-kids"]') do
-            find('option[value="0-1"]').click
+            find('option[value="no-primary"]').click
           end
 
           within('.kid-mentor-schedules') do
             expect(page).to have_content 'Haller Frederik'
+            expect(page).not_to have_content 'Rohner Melanie'
             expect(page).to have_content 'Steiner Max'
-            expect(page).to have_content 'Rohner Melanie'
             expect(page).not_to have_content 'Koller Sarah'
           end
         end
-        scenario 'select only mentors with 1 kid assigned' do
+        scenario 'select only mentors with 1 primary kid assigned' do
           within('.filters [name="number-of-kids"]') do
-            find('option[value="1"]').click
+            find('option[value="primary-only"]').click
           end
           within('.kid-mentor-schedules') do
             expect(page).not_to have_content 'Haller Frederik'
-            expect(page).to have_content 'Steiner Max'
             expect(page).to have_content 'Rohner Melanie'
+            expect(page).not_to have_content 'Steiner Max'
             expect(page).not_to have_content 'Koller Sarah'
           end
         end
-        scenario 'select only mentors with 2 kid assigned' do
+        scenario 'select mentors with only one secondary kid assigned' do
           within('.filters [name="number-of-kids"]') do
-            find('option[value="2"]').click
+            find('option[value="secondary-only"]').click
+          end
+          within('.kid-mentor-schedules') do
+            expect(page).not_to have_content 'Haller Frederik'
+            expect(page).not_to have_content 'Rohner Melanie'
+            expect(page).to have_content 'Steiner Max'
+            expect(page).not_to have_content 'Koller Sarah'
+          end
+        end
+        scenario 'show mentors with primary and secondary kid assigned' do
+          within('.filters [name="number-of-kids"]') do
+            find('option[value="primary-and-secondary"]').click
           end
           within('.kid-mentor-schedules') do
             expect(page).not_to have_content 'Haller Frederik'
@@ -149,24 +170,8 @@ feature 'Kid Mentor planning', js: true do
             expect(page).to have_content 'Koller Sarah'
           end
         end
-        scenario 'show all mentors, regardless of the number of kids assigned' do
-          within('.filters [name="number-of-kids"]') do
-            find('option[value="all"]').click
-          end
-          within('.kid-mentor-schedules') do
-            expect(page).to have_content 'Haller Frederik'
-            expect(page).to have_content 'Steiner Max'
-            expect(page).to have_content 'Rohner Melanie'
-            expect(page).to have_content 'Koller Sarah'
-          end
-        end
       end
       describe 'ects-filter' do
-        background do
-          within('.filters [name="number-of-kids"]') do
-            find('option[value="all"]').click
-          end
-        end
         scenario 'select ects' do
           within('.filters [name="ects"]') do
             find('option[value="true"]').click
@@ -193,12 +198,6 @@ feature 'Kid Mentor planning', js: true do
       end
 
       describe 'sex-filter' do
-        background do
-          within('.filters [name="number-of-kids"]') do
-            find('option[value="all"]').click
-          end
-        end
-
         scenario 'select only male or only female mentors' do
           within('.filters [name="sex"]') do
             find('option[value="m"]').click

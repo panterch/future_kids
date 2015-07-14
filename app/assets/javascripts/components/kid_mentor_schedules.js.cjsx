@@ -12,7 +12,7 @@
     filters: 
       ect: null
       sex: null
-      numberOfKids: "0-1"
+      numberOfKids: "no-primary"
       school: null
   getFilteredMentors: ->
     mentors = @props.mentors
@@ -29,10 +29,15 @@
       if @state.filters?.school?
         delete filteredMentors[id] if mentor.primary_kids_school?.id isnt @state.filters?.school
       if @state.filters?.numberOfKids?
-        unless @state.filters.numberOfKids is "all"
-          allowedNumbers = @state.filters.numberOfKids.split("-").map (number) -> parseInt number, 10
-          actualNumber = mentor.kids.length + mentor.secondary_kids.length
-          delete filteredMentors[id] unless actualNumber in allowedNumbers
+        switch @state.filters.numberOfKids
+          when 'primary-only' 
+            delete filteredMentors[id] unless hasPrimaryKid(mentor) and not hasSecondaryKid(mentor)
+          when 'secondary-only'
+            delete filteredMentors[id] unless hasSecondaryKid(mentor) and not hasPrimaryKid(mentor)
+          when 'primary-and-secondary'
+            delete filteredMentors[id] unless hasPrimaryKid(mentor) and hasSecondaryKid(mentor)
+          when 'no-primary'
+            delete filteredMentors[id] if hasPrimaryKid(mentor)
 
     return filteredMentors
   getSelectedMentors: (filteredMentors) ->
@@ -48,18 +53,39 @@
   selectAll: ->
     @setState mentorsToDisplay: _.keys @props.mentors
   onSelectDate: (mentor, day, time) ->
-    if confirm "Treffen vereinbaren?\n\n
-      Der Mentor wir dem Schüler als primären Mentor zugewiesen, 
-      bereits vorhandene Zuweisungen werden überschrieben.\n\n
-      Schüler: #{@props.kid.name} #{@props.kid.prename}\n
-      Mentor: #{mentor.name} #{mentor.prename}\n
-      Zeitpunkt: #{day.label} um #{time.label}\n"
+    console.log @props.kid
+    promptAndSave = ({mentorLabel, mentorKey}) =>
+      if confirm """
+          Treffen vereinbaren?
 
-      $form = $ "#kid_form"
-      $form.find("[name='kid[mentor_id]']").val mentor.id
-      $form.find("[name='kid[meeting_day]']").val day.key
-      $form.find("[name='kid[meeting_start_at]']").val time.key
-      $form.submit()
+          Der Mentor wir dem Schüler als #{mentorLabel} zugewiesen.
+
+          Schüler: #{@props.kid.name} #{@props.kid.prename}
+          Mentor: #{mentor.name} #{mentor.prename}
+          Zeitpunkt: #{day.label} um #{time.label}
+
+          """
+
+        $form = $ "#kid_form"
+        $form.find("[name='kid[#{mentorKey}]']").val mentor.id
+        $form.find("[name='kid[meeting_day]']").val day.key
+        $form.find("[name='kid[meeting_start_at]']").val time.key
+        $form.submit()
+    if mentor.id is @props.kid.mentor_id or mentor.id is @props.secondary_mentor_id
+      alert "Dieser Mentor ist diesem Kind bereits zugeteilt."
+    else if not hasPrimaryMentor @props.kid
+      promptAndSave
+        mentorLabel: "primärer Mentor"
+        mentorKey: "mentor_id"
+    else if not hasSecondaryMentor @props.kid
+      promptAndSave
+        mentorLabel: "Ersatzmentor"
+        mentorKey: "secondary_mentor_id"
+    else
+      alert "Diesem Kind sind bereits Mentor und Ersatzmentor zugewiesen"
+
+  getKidsMentor: -> @props.mentors[@props.kid.mentor_id]
+  getKidsSecondaryMentor: -> @props.mentors[@props.kid.secondary_mentor_id]
 
   getColorsOfMentor: (total, index) ->
     # we rotate over the color circle to create a color for every mentor
@@ -80,6 +106,18 @@
 
     <div className="kid-mentor-schedules row">
       <div className="header panel panel-default">
+        <div className="row">
+          <div className="col-xs-2 title">Schüler: </div>
+          <div className="col-xs-10">{@props.kid.name} {@props.kid.prename}</div>
+        </div>
+        <div className="row">
+          <div className="col-xs-2 title">Primärer Mentor: </div>
+          <div className="col-xs-10">{@getKidsMentor()?.prename} {@getKidsMentor()?.name or "---"}</div>
+        </div>
+        <div className="row">
+          <div className="col-xs-2 title">Ersatzmentor: </div>
+          <div className="col-xs-10">{@getKidsSecondaryMentor()?.prename} {@getKidsSecondaryMentor()?.name or "---"}</div>
+        </div>
         <div className="row">
           <div className="col-xs-2 title">Mentoren Filtern: </div>
           <div className="col-xs-10">
@@ -171,14 +209,13 @@ Filters = React.createClass
       <div className="form-group">
         <label htmlFor="number-of-kids">Zeige Mentoren mit </label>
         <select name="number-of-kids" className="form-control" value=@props.initialFilters.numberOfKids onChange=@onChangeNumberOfKids>
-          <option value="all">Alle Mentoren</option>
-          <option value="0-1">keinem oder nur einem Schüler</option>
-          <option value="0">keinem Schüler</option>
-          <option value="1">genau einem Schüler</option>
-          <option value="2">zwei Schülern</option>
-
+          <option value="no-primary">keinem primären Schüler zugewiesen</option>
+          <option value="primary-only">nur primärem Schüler zugewiesen</option>
+          <option value="secondary-only">nur sekundärem Schüler</option>
+          <option value="primary-and-secondary">primärem und sekundärem Schüler</option>
         </select>
       </div>
+
       <div className="form-group">
         <label htmlFor="ects">ECTS </label> 
         <select name="ects" className="form-control" value=@props.initialFilters.ects onChange=@onChangeECTS>
@@ -334,6 +371,11 @@ TimeTable_MentorCell = React.createClass
 # helpers
 availableInSchedule = (schedules, day, time) ->
   schedules?[day?.key]?[time?.key]?
+
+hasPrimaryKid = (mentor) -> mentor.kids.length > 0
+hasSecondaryKid = (mentor) -> mentor.secondary_kids.length > 0
+hasPrimaryMentor = (kid) -> kid.mentor_id?
+hasSecondaryMentor = (kid) -> kid.secondary_mentor_id?
 
 createTimeCellClasses = ({primaryClass, day, lastTime, time, nextTime, schedules}) ->
   classNames primaryClass, 

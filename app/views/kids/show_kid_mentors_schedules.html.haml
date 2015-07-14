@@ -3,6 +3,7 @@
 
 = form_for @kid,  method: :patch, html: { id: 'kid_form', class: 'hide'} do |form|
   = form.text_field :mentor_id
+  = form.text_field :secondary_mentor_id
   = form.text_field :meeting_day
   = form.text_field :meeting_start_at
   = form.submit
