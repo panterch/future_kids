@@ -218,12 +218,8 @@ feature 'Kid Mentor planning', js: true do
             expect(page).to have_content 'Koller Sarah'
           end
         end
-
       end
-
     end
-
-
 
     describe 'timetable' do
       it 'shows all weekdays' do
