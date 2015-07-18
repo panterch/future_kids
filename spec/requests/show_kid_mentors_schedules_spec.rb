@@ -1,6 +1,12 @@
 require 'requests/acceptance_helper'
 
 feature 'Kid Mentor planning', js: true do
+  let(:school_zhaw) {
+    create(:school, name: 'ZHAW')
+  }
+  let(:school_primary_school) {
+    create(:school, name: 'Primary School X')
+  }
   let(:kid) {
     kid = create(:kid)
 
@@ -88,7 +94,6 @@ feature 'Kid Mentor planning', js: true do
     mentor.schedules.create(day: 2, hour: 16, minute: 30)
     mentor.schedules.create(day: 2, hour: 17, minute: 0)
     mentor.schedules.create(day: 2, hour: 17, minute: 30)
-
     mentor
   }
 
@@ -119,7 +124,6 @@ feature 'Kid Mentor planning', js: true do
           super().kids.push create(:kid)
           super().secondary_kids.push create(:kid)
         }
-
 
 
         scenario 'initially is set to show only mentors with no primary kid (but maybe secondary) ' do
@@ -172,6 +176,11 @@ feature 'Kid Mentor planning', js: true do
         end
       end
       describe 'ects-filter' do
+
+
+        scenario 'initially is set to show mentors with ects and without' do
+          find(:css, '.filters [name="ects"]').value.should == ''
+        end
         scenario 'select ects' do
           within('.filters [name="ects"]') do
             find('option[value="true"]').click
@@ -198,7 +207,11 @@ feature 'Kid Mentor planning', js: true do
       end
 
       describe 'sex-filter' do
-        scenario 'select only male or only female mentors' do
+
+        scenario 'initially is set to show both gender' do
+          find(:css, '.filters [name="sex"]').value.should == ''
+        end
+        scenario 'select only male mentors' do
           within('.filters [name="sex"]') do
             find('option[value="m"]').click
           end
@@ -208,6 +221,8 @@ feature 'Kid Mentor planning', js: true do
             expect(page).to have_content 'Steiner Max'
             expect(page).to_not have_content 'Koller Sarah'
           end
+        end
+        scenario 'select only female mentors' do
           within('.filters [name="sex"]') do
             find('option[value="f"]').click
           end
@@ -219,6 +234,60 @@ feature 'Kid Mentor planning', js: true do
           end
         end
       end
+
+      describe 'school-filter' do
+        # frederik's kid goes to zhaw
+        let(:mentor_frederik) {
+          kid = create(:kid, school: school_zhaw)
+          super().kids.push kid
+        }
+        # melanie's kid goes to the primary school
+        let(:mentor_melanie) {
+          kid = create(:kid, school: school_primary_school)
+          super().kids.push kid
+        }
+        # max' kid goes also to zhaw
+        let(:mentor_max) {
+          kid = create(:kid, school: school_zhaw)
+          super().kids.push kid
+        }
+        background do
+          # we need to select the filter with mentors with primary kids
+          within('.filters [name="number-of-kids"]') do
+            find('option[value="primary-only"]').click
+          end
+        end
+        # sarah has no kid in this spec
+
+        scenario 'initially is set to show mentors of all schools' do
+          find(:css, '.filters [name="school"]').value.should == ''
+        end
+
+        scenario 'select only schools from zhaw' do
+          within('.filters [name="school"]') do
+            find('option[value="1"]').click
+          end
+          within('.kid-mentor-schedules') do
+            expect(page).to have_content 'Haller Frederik'
+            expect(page).to_not have_content 'Rohner Melanie'
+            expect(page).to have_content 'Steiner Max'
+            expect(page).to_not have_content 'Koller Sarah'
+          end
+        end
+        scenario 'select only mentors from the primary school' do
+          within('.filters [name="school"]') do
+            find('option[value="2"]').click
+          end
+          within('.kid-mentor-schedules') do
+            expect(page).to_not have_content 'Haller Frederik'
+            expect(page).to have_content 'Rohner Melanie'
+            expect(page).to_not have_content 'Steiner Max'
+            expect(page).to_not have_content 'Koller Sarah'
+          end
+        end
+
+      end
+
     end
 
     describe 'timetable' do
@@ -245,12 +314,24 @@ feature 'Kid Mentor planning', js: true do
       end
       it 'shows a column box per mentor per time if active' do
         within('.timetable') do
-          expect(page).to have_selector('.cell-mentor', count: 12*3)
+          expect(page).to have_selector('.cell-mentor', count: 12*4)
         end
       end
       scenario 'select no ects' do
         within('.filters [name="ects"]') do
           find('option[value="false"]').click
+        end
+        within('.timetable') do
+          expect(page).to have_selector('.cell-mentor', count: 12*2)
+        end
+      end
+
+      scenario 'select female mentors with ects' do
+        within('.filters [name="ects"]') do
+          find('option[value="true"]').click
+        end
+        within('.filters [name="sex"]') do
+          find('option[value="f"]').click
         end
         within('.timetable') do
           expect(page).to have_selector('.cell-mentor', count: 12)
