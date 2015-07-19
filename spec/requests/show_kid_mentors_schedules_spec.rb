@@ -23,6 +23,13 @@ feature 'Kid Mentor planning', js: true do
     kid.schedules.create(day: 2, hour: 16, minute: 30)
     kid.schedules.create(day: 2, hour: 17, minute: 0)
     kid.schedules.create(day: 2, hour: 17, minute: 30)
+
+    kid.schedules.create(day: 3, hour: 15, minute: 30)
+    kid.schedules.create(day: 3, hour: 16, minute: 0)
+    kid.schedules.create(day: 3, hour: 16, minute: 30)
+    kid.schedules.create(day: 3, hour: 17, minute: 0)
+    kid.schedules.create(day: 3, hour: 17, minute: 30)
+    kid.schedules.create(day: 3, hour: 18, minute: 0)
     kid
   }
   let!(:admin) { create(:admin) }
@@ -234,7 +241,43 @@ feature 'Kid Mentor planning', js: true do
           end
         end
       end
+      describe 'mentors-display-filter' do
+        it 'shows all the mentors initially' do
+          within('.mentors-display-filter') do
+            expect(page).to have_content 'Haller Frederik'
+            expect(page).to have_content 'Rohner Melanie'
+            expect(page).to have_content 'Steiner Max'
+            expect(page).to have_content 'Koller Sarah'
+          end
+        end
+        it 'has a button to clear the selection' do
+          within('.mentors-display-filter') do
+            find('.Select-clear').click
+            expect(page).to_not have_content 'Haller Frederik'
+            expect(page).to_not have_content 'Rohner Melanie'
+            expect(page).to_not have_content 'Steiner Max'
+            expect(page).to_not have_content 'Koller Sarah'
+          end
+        end
+        it 'allows to type in the beginning of a name to select it' do
+          within('.mentors-display-filter') do
+            find('.Select-clear').click
+            find('.Select-input input').set('Hall')
+            expect(page).to have_content 'Haller Frederik'
 
+
+          end
+        end
+        it 'allows to type in the middle part of a name to select it' do
+          within('.mentors-display-filter') do
+            find('.Select-clear').click
+            find('.Select-input input').set('lanie')
+            expect(page).to have_content 'Rohner Melanie'
+
+
+          end
+        end
+      end
       describe 'school-filter' do
         # frederik's kid goes to zhaw
         let(:mentor_frederik) {
@@ -291,6 +334,7 @@ feature 'Kid Mentor planning', js: true do
     end
 
     describe 'timetable' do
+
       it 'shows all weekdays' do
         within('.timetable') do
           expect(page).to have_content 'Montag'
@@ -338,23 +382,54 @@ feature 'Kid Mentor planning', js: true do
         end
       end
 
-      scenario 'select one entry to store the date' do
-        within('.timetable') do
-          first('.kid-available .cell-mentor .btn-set-date').click
+      describe 'selection of mentors' do
+        scenario 'if the kid has no mentor assigned, it will be assign as primary mentor' do
+          within('.timetable') do
+            first('.kid-available .cell-mentor .btn-set-date').click
+            expect(page.driver.browser.switch_to.alert.text).to have_content 'primärer Mentor'
+            page.driver.browser.switch_to.alert.accept
+          end
+          within('.kid_meeting_day') do
+            expect(page).to have_content 'Dienstag'
+          end
+          within('.kid_meeting_start_at') do
+            expect(page).to have_content '15:00'
+          end
+          within('.kid_meeting_start_at') do
+            expect(page).to have_content '15:00'
+          end
+          within('.kid_mentor') do
+            expect(page).to have_content 'Haller Frederik'
+          end
+          within('.kid_secondary_mentor') do
+            expect(page).to have_content ''
+          end
+        end
+        scenario 'if the kid has already a mentor assigned, it will be assign as secondary mentor' do
+          # did not know how to assign the mentor to the kid directly
+          # so it just klicks through it
 
-          page.driver.browser.switch_to.alert.accept
-        end
-        within('.kid_meeting_day') do
-          expect(page).to have_content 'Dienstag'
-        end
-        within('.kid_meeting_start_at') do
-          expect(page).to have_content '15:00'
-        end
-        within('.kid_meeting_start_at') do
-          expect(page).to have_content '15:00'
-        end
-        within('.kid_mentor') do
-          expect(page).to have_content 'Haller Frederik'
+          within('.timetable') do
+            first('.kid-available .cell-mentor .btn-set-date').click
+            expect(page.driver.browser.switch_to.alert.text).to have_content 'primärer Mentor'
+            page.driver.browser.switch_to.alert.accept
+
+          end
+          find('a', :text => 'Mentor finden').click
+
+          within('.timetable') do
+            first('.kid-available .cell-mentor .btn-set-date').click
+            expect(page.driver.browser.switch_to.alert.text).to have_content 'Ersatzmentor'
+            page.driver.browser.switch_to.alert.accept
+          end
+
+
+          within('.kid_mentor') do
+            expect(page).to have_content 'Haller Frederik'
+          end
+          within('.kid_secondary_mentor') do
+            expect(page).to have_content 'Steiner Max'
+          end
         end
       end
     end
