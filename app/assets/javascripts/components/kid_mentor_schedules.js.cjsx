@@ -5,10 +5,10 @@
 #= require underscore
 #= require moment
 
-
+MAX_MENTORS_TO_DISPLAY = 10
 @KidMentorSchedules = React.createClass
   getInitialState: ->
-    mentorsToDisplay: _.keys @props.mentors
+    mentorsToDisplay: _.keys(@props.mentors)
     filters: 
       ect: null
       sex: null
@@ -41,7 +41,7 @@
 
     return filteredMentors
   getSelectedMentors: (filteredMentors) ->
-    _.pick filteredMentors, @state.mentorsToDisplay
+    limit _.pick filteredMentors, @state.mentorsToDisplay
   onChangeSelectedMentorsToDisplay: (mentorIds) ->
     @setState mentorsToDisplay: mentorIds
   onChangeFilter: (key, value) ->
@@ -103,6 +103,7 @@
   render: ->
     filteredMentors = @getFilteredMentors()
     selectedMentors = @getSelectedMentors filteredMentors
+   
 
     <div className="kid-mentor-schedules row">
       <div className="header panel panel-default">
@@ -122,7 +123,7 @@
           <div className="col-xs-10">
             <MentorsForDisplayingFilter 
               mentors=filteredMentors
-              selection=@state.mentorsToDisplay
+              selection=_.keys(selectedMentors)
               onChange=@onChangeSelectedMentorsToDisplay
             />
           </div>
@@ -140,7 +141,9 @@ MentorsForDisplayingFilter = React.createClass
   DELEMITER: ";"
   onChange: (valuesAsString) ->
     if valuesAsString? and valuesAsString.length > 0
-      @props.onChange valuesAsString.split(@DELEMITER).map (id) -> parseInt id, 10
+      values = valuesAsString.split(@DELEMITER).map (id) -> parseInt id, 10
+      console.log values, limitAndRemoveFromBeginning values
+      @props.onChange limitAndRemoveFromBeginning values
     else
       @props.onChange []
   selectAll: ->
@@ -158,6 +161,14 @@ MentorsForDisplayingFilter = React.createClass
       selectedIds.push id if @props.mentors[id]?
     value = selectedIds.join @DELEMITER
     if value.length == 0 then value = null
+    sizeLabel = 
+      if _.size(@props.mentors) > MAX_MENTORS_TO_DISPLAY
+        <span>
+          ({MAX_MENTORS_TO_DISPLAY} von {_.size @props.mentors}) <br />
+          <strong>Max. erreicht</strong>
+        </span>
+      else
+        <span>({_.size @props.mentors})</span>
 
     <div className="mentors-display-filter row">
       <div className="col-xs-10">
@@ -172,7 +183,7 @@ MentorsForDisplayingFilter = React.createClass
       <button 
         onClick=@selectAll
         className="btn btn-default col-xs-2">
-          Select All ({_.size @props.mentors})
+          Alle wählen <br />{sizeLabel}
       </button>
     </div>
 
@@ -357,6 +368,16 @@ TimeTable_MentorCell = React.createClass
         style={width: mentorColumnWidth+'%'}
         />
 # helpers
+
+limit = (mentorsOrArrayOfIds) ->
+  limitArray = (arr) -> arr.slice 0, MAX_MENTORS_TO_DISPLAY
+  if _.isArray mentorsOrArrayOfIds
+    limitArray mentorsOrArrayOfIds
+  else
+    _.pick mentorsOrArrayOfIds, limitArray _.keys mentorsOrArrayOfIds
+
+    
+limitAndRemoveFromBeginning = (mentorIds) -> mentorIds.slice(Math.max(mentorIds.length - MAX_MENTORS_TO_DISPLAY, 0))
 availableInSchedule = (schedules, day, time) ->
   schedules?[day?.key]?[time?.key]?
 
