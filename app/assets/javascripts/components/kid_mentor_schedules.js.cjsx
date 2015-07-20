@@ -12,7 +12,7 @@
     filters: 
       ect: null
       sex: null
-      numberOfKids: "no-primary"
+      numberOfKids: "no-kid"
       school: null
   getFilteredMentors: ->
     mentors = @props.mentors
@@ -36,8 +36,8 @@
             delete filteredMentors[id] unless hasSecondaryKid(mentor) and not hasPrimaryKid(mentor)
           when 'primary-and-secondary'
             delete filteredMentors[id] unless hasPrimaryKid(mentor) and hasSecondaryKid(mentor)
-          when 'no-primary'
-            delete filteredMentors[id] if hasPrimaryKid(mentor)
+          when 'no-kid'
+            delete filteredMentors[id] if hasPrimaryKid(mentor) or hasSecondaryKid(mentor)
 
     return filteredMentors
   getSelectedMentors: (filteredMentors) ->
@@ -197,7 +197,7 @@ Filters = React.createClass
       <div className="form-group">
         <label htmlFor="number-of-kids">Zeige Mentoren mit </label>
         <select name="number-of-kids" className="form-control" value=@props.initialFilters.numberOfKids onChange=@onChangeNumberOfKids>
-          <option value="no-primary">keinem primären Schüler zugewiesen</option>
+          <option value="no-kid">keinem primären Schüler zugewiesen</option>
           <option value="primary-only">nur primärem Schüler zugewiesen</option>
           <option value="secondary-only">nur sekundärem Schüler</option>
           <option value="primary-and-secondary">primärem und sekundärem Schüler</option>

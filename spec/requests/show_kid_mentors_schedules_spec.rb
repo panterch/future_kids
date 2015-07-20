@@ -133,18 +133,18 @@ feature 'Kid Mentor planning', js: true do
         }
 
 
-        scenario 'initially is set to show only mentors with no primary kid (but maybe secondary) ' do
-          find(:css, '.filters [name="number-of-kids"]').value.should == 'no-primary'
+        scenario 'initially is set to show only mentors with no kid assigned' do
+          find(:css, '.filters [name="number-of-kids"]').value.should == 'no-kid'
         end
-        scenario 'select only mentors with no primary kid' do
+        scenario 'select only mentors with no kid' do
           within('.filters [name="number-of-kids"]') do
-            find('option[value="no-primary"]').click
+            find('option[value="no-kid"]').click
           end
 
           within('.kid-mentor-schedules') do
             expect(page).to have_content 'Haller Frederik'
             expect(page).not_to have_content 'Rohner Melanie'
-            expect(page).to have_content 'Steiner Max'
+            expect(page).not_to have_content 'Steiner Max'
             expect(page).not_to have_content 'Koller Sarah'
           end
         end
