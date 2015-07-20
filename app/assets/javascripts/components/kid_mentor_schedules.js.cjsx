@@ -53,7 +53,7 @@ MAX_MENTORS_TO_DISPLAY = 10
   selectAll: ->
     @setState mentorsToDisplay: _.keys @props.mentors
   onSelectDate: (mentor, day, time) ->
-    console.log @props.kid
+
     promptAndSave = ({mentorLabel, mentorKey}) =>
       if confirm """
           Treffen vereinbaren?
