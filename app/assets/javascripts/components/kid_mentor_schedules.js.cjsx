@@ -197,7 +197,7 @@ Filters = React.createClass
       <div className="form-group">
         <label htmlFor="number-of-kids">Zeige Mentoren mit </label>
         <select name="number-of-kids" className="form-control" value=@props.initialFilters.numberOfKids onChange=@onChangeNumberOfKids>
-          <option value="no-kid">keinem primären Schüler zugewiesen</option>
+          <option value="no-kid">keinem Schüler zugewiesen</option>
           <option value="primary-only">nur primärem Schüler zugewiesen</option>
           <option value="secondary-only">nur sekundärem Schüler</option>
           <option value="primary-and-secondary">primärem und sekundärem Schüler</option>
