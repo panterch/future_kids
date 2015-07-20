@@ -142,7 +142,6 @@ MentorsForDisplayingFilter = React.createClass
   onChange: (valuesAsString) ->
     if valuesAsString? and valuesAsString.length > 0
       values = valuesAsString.split(@DELEMITER).map (id) -> parseInt id, 10
-      console.log values, limitAndRemoveFromBeginning values
       @props.onChange limitAndRemoveFromBeginning values
     else
       @props.onChange []
