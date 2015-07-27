@@ -18,7 +18,7 @@ MAX_MENTORS_TO_DISPLAY = 10
     mentors = @props.mentors
     filteredMentors = _.clone @props.mentors
     index = 0
-    total = _.size @props.mentors
+    total = Math.min MAX_MENTORS_TO_DISPLAY, _.size @props.mentors
     for id, mentor of filteredMentors
       mentor.colors = @getColorsOfMentor total, index
       index++
