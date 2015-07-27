@@ -47,8 +47,8 @@ class KidsController < ApplicationController
             json.name mentor.name
             json.sex mentor.sex
             json.ects mentor.ects
-            json.kids mentor.kids, :id
-            json.secondary_kids mentor.secondary_kids, :id
+            json.kids mentor.kids, :id, :name, :prename
+            json.secondary_kids mentor.secondary_kids, :id, :name, :prename
             json.primary_kids_school do
               if not mentor.primary_kids_school.nil?
                 json.id mentor.primary_kids_school.id
