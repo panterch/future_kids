@@ -99,7 +99,6 @@ MAX_MENTORS_TO_DISPLAY = 10
 
     angle = 360 / total
     hue = angle * indexShifted index
-    console.log index, indexShifted index
     background: "hsla(#{hue}, 70%, 90%, 0.5)"
     text: "hsl(#{hue}, 90%, 20%)"
 
