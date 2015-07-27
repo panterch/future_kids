@@ -89,14 +89,17 @@ MAX_MENTORS_TO_DISPLAY = 10
 
   getColorsOfMentor: (total, index) ->
     # we rotate over the color circle to create a color for every mentor
-    # but we skip every second color so that mentors next to each other have not too similar colors
+    # but we interval through the mentors, so that neighbor colors are not similar
+
     indexShifted = (index) -> 
-      totalEven = total % 2 is 0
-      offset = if totalEven and index/total >= 0.5 then 1 else 0
-      (index*2+offset) % total
+      if index % 2 is 0 
+        index / 2
+      else
+        index = Math.floor (index+total) / 2
 
     angle = 360 / total
     hue = angle * indexShifted index
+    console.log index, indexShifted index
     background: "hsla(#{hue}, 70%, 90%, 0.5)"
     text: "hsl(#{hue}, 90%, 20%)"
 
