@@ -339,7 +339,7 @@ TimeTable_MentorCell = React.createClass
 
     if @mentorIsAvailable()
       classes = createTimeCellClasses
-        primaryClass: "cell-mentor"
+        primaryClass: "column cell-mentor"
         day: @props.day
         lastTime: @props.lastTime
         nextTime: @props.nextTime
@@ -363,7 +363,7 @@ TimeTable_MentorCell = React.createClass
       </div>
     else
       <div 
-        className="spacer" 
+        className="column spacer" 
         style={width: mentorColumnWidth+'%'}
         />
 # helpers

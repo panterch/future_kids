@@ -103,6 +103,16 @@ feature 'Kid Mentor planning', js: true do
     mentor.schedules.create(day: 2, hour: 17, minute: 30)
     mentor
   }
+  let!(:mentor_5) {create(:mentor, prename: 'Mentor 5', name: 'Other')}
+  let!(:mentor_6) {create(:mentor, prename: 'Mentor 6', name: 'Other')}
+  let!(:mentor_7) {create(:mentor, prename: 'Mentor 7', name: 'Other')}
+  let!(:mentor_8) {create(:mentor, prename: 'Mentor 8', name: 'Other')}
+  let!(:mentor_9) {create(:mentor, prename: 'Mentor 9', name: 'Other')}
+  let!(:mentor_10) {create(:mentor, prename: 'Mentor 10', name: 'Other')}
+  let!(:mentor_11) {create(:mentor, prename: 'Mentor 11', name: 'Other')}
+  let!(:mentor_12) {create(:mentor, prename: 'Mentor 12', name: 'Other')}
+  let!(:mentor_13) {create(:mentor, prename: 'Mentor 13', name: 'Other')}
+
 
   background do
     expect(User.first.valid_password?(admin.password)).to eq(true)
@@ -381,6 +391,14 @@ feature 'Kid Mentor planning', js: true do
           expect(page).to have_selector('.cell-mentor', count: 12)
         end
       end
+
+      it 'shows maximum 10 mentors' do
+        within first('.timetable .time-cell.kid-available') do
+          expect(page).to have_selector('.column', count: 10)
+        end
+      end
+
+
 
       describe 'selection of mentors' do
         scenario 'if the kid has no mentor assigned, it will be assign as primary mentor' do

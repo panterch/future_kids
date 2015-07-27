@@ -67,9 +67,6 @@ class KidsController < ApplicationController
         json.schedules create_schedules_nested_set @kid.schedules
       end
       json.schools School.all, :id, :display_name
-
-
-
     end.attributes!
   end
 
