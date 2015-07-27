@@ -424,7 +424,7 @@ feature 'Kid Mentor planning', js: true do
           end
         end
         scenario 'if the kid has already a mentor assigned, it will be assign as secondary mentor' do
-          # did not know how to assign the mentor to the kid directly
+          # TOOD: did not know how to assign the mentor to the kid directly
           # so it just klicks through it
 
           within('.timetable') do
@@ -447,6 +447,49 @@ feature 'Kid Mentor planning', js: true do
           end
           within('.kid_secondary_mentor') do
             expect(page).to have_content 'Steiner Max'
+          end
+        end
+
+        describe 'if a selected mentor is already in that role for another kid, show an alert' do
+
+          # melanie has primary kid
+          let(:mentor_melanie){super().kids.push create(:kid, name: 'Ende', prename: 'Momo')}
+          # max has secondary kid
+          let(:mentor_max){super().secondary_kids.push create(:kid, name:'Tolkien', prename: 'Pippin')}
+
+
+          scenario 'the selected mentor is primary mentor for another kid' do
+            within('.filters [name="number-of-kids"]') do
+              find('option[value="primary-only"]').click
+            end
+
+            within('.timetable') do
+              first('.kid-available .cell-mentor .btn-set-date').click
+              expect(page.driver.browser.switch_to.alert.text).to have_content 'primärer Mentor'
+              expect(page.driver.browser.switch_to.alert.text).to have_content 'Ende Momo'
+            end
+          end
+          scenario 'the selected mentor is secondary mentor for another kid' do
+            # TOOD: did not know how to assign the mentor to the kid directly
+            # so it just klicks through it
+
+            within('.timetable') do
+              first('.kid-available .cell-mentor .btn-set-date').click
+              expect(page.driver.browser.switch_to.alert.text).to have_content 'primärer Mentor'
+              page.driver.browser.switch_to.alert.accept
+
+            end
+            find('a', :text => 'Mentor finden').click
+
+            within('.filters [name="number-of-kids"]') do
+              find('option[value="secondary-only"]').click
+            end
+
+            within('.timetable') do
+              first('.kid-available .cell-mentor .btn-set-date').click
+              expect(page.driver.browser.switch_to.alert.text).to have_content 'Ersatzmentor'
+              expect(page.driver.browser.switch_to.alert.text).to have_content 'Tolkien Pippin'
+            end
           end
         end
       end

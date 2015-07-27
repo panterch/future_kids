@@ -54,18 +54,45 @@ MAX_MENTORS_TO_DISPLAY = 10
     @setState mentorsToDisplay: _.keys @props.mentors
   onSelectDate: (mentor, day, time) ->
 
-    promptAndSave = ({mentorLabel, mentorKey}) =>
-      if confirm """
-          Treffen vereinbaren?
+    promptAndSave = (mentorType) =>
+      assigmentText = (mentorLabel) => 
+        "Der Mentor wir dem Schüler als #{mentorLabel} zugewiesen."
+      alertMentorHasKid = ({otherKidLabel, mentorLabel}) =>
+        "Achtung: \nDieser Mentor ist bereits für den Schüler '#{otherKidLabel}' als #{mentorLabel} im Einsatz. Trotzdem dem Schüler zuweisen? 
+        (der Mentor bleibt beiden Schülern zugewiesen)"
 
-          Der Mentor wir dem Schüler als #{mentorLabel} zugewiesen.
+      getConfirmMessage = (assigmentDescription)=>
+        """
+        Treffen vereinbaren?
 
-          Schüler: #{@props.kid.name} #{@props.kid.prename}
-          Mentor: #{mentor.name} #{mentor.prename}
-          Zeitpunkt: #{day.label} um #{time.label}
+        #{assigmentDescription}
 
-          """
+        Schüler: #{displayName @props.kid}
+        Mentor: #{displayName mentor}
+        Zeitpunkt: #{day.label} um #{time.label}
 
+        """
+      switch mentorType
+        when "primary"
+          if mentor.kids?.length > 0
+            # this mentor has already a primary kid
+            message = getConfirmMessage alertMentorHasKid 
+              mentorLabel: "primärer Mentor"
+              otherKidLabel: displayName mentor.kids[0]
+          else
+            message = getConfirmMessage assigmentText "primärer Mentor"
+          mentorKey = "mentor_id"
+        when "secondary"
+          if mentor.secondary_kids?.length > 0
+            # this mentor has already a primary kid
+            message = getConfirmMessage alertMentorHasKid 
+              mentorLabel: "Ersatzmentor"
+              otherKidLabel: displayName mentor.secondary_kids[0]
+          else
+            message = getConfirmMessage assigmentText "Ersatzmentor"
+          mentorKey = "secondary_mentor_id"
+    
+      if confirm message
         $form = $ "#kid_form"
         $form.find("[name='kid[#{mentorKey}]']").val mentor.id
         $form.find("[name='kid[meeting_day]']").val day.key
@@ -74,13 +101,9 @@ MAX_MENTORS_TO_DISPLAY = 10
     if mentor.id is @props.kid.mentor_id or mentor.id is @props.secondary_mentor_id
       alert "Dieser Mentor ist diesem Kind bereits zugeteilt."
     else if not hasPrimaryMentor @props.kid
-      promptAndSave
-        mentorLabel: "primärer Mentor"
-        mentorKey: "mentor_id"
+      promptAndSave "primary"
     else if not hasSecondaryMentor @props.kid
-      promptAndSave
-        mentorLabel: "Ersatzmentor"
-        mentorKey: "secondary_mentor_id"
+      promptAndSave "secondary"
     else
       alert "Diesem Kind sind bereits Mentor und Ersatzmentor zugewiesen"
 
@@ -151,7 +174,7 @@ MentorsForDisplayingFilter = React.createClass
     @props.onChange _.keys @props.mentors
   render: ->
     options = for id,mentor of @props.mentors
-      label: "#{mentor.name} #{mentor.prename}"
+      label: displayName mentor
       value: mentor.id.toString()
       style: 
         color: mentor.colors.text
@@ -377,7 +400,8 @@ limit = (mentorsOrArrayOfIds) ->
   else
     _.pick mentorsOrArrayOfIds, limitArray _.keys mentorsOrArrayOfIds
 
-    
+
+displayName = (person) -> "#{person.name} #{person.prename}"    
 limitAndRemoveFromBeginning = (mentorIds) -> mentorIds.slice(Math.max(mentorIds.length - MAX_MENTORS_TO_DISPLAY, 0))
 availableInSchedule = (schedules, day, time) ->
   schedules?[day?.key]?[time?.key]?
