@@ -261,6 +261,7 @@ CREATE VIEW kid_mentor_relations AS
  SELECT kids.id AS kid_id,
     kids.exit_kind AS kid_exit_kind,
     kids.exit_at AS kid_exit_at,
+    kids.school_id,
     mentors.id AS mentor_id,
     mentors.exit_kind AS mentor_exit_kind,
     mentors.exit_at AS mentor_exit_at,
@@ -986,4 +987,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150524164241');
 INSERT INTO schema_migrations (version) VALUES ('20150602204436');
 
 INSERT INTO schema_migrations (version) VALUES ('20150626141604');
+
+INSERT INTO schema_migrations (version) VALUES ('20150804135014');
 

@@ -4,6 +4,7 @@ class KidMentorRelation < ActiveRecord::Base
   belongs_to :kid
   belongs_to :mentor
   belongs_to :admin
+  belongs_to :school
 
   default_scope { includes(:kid, :mentor, :admin) }
 

@@ -1,11 +1,13 @@
 class CreateKidMentorRelations < ActiveRecord::Migration
   def up
+    connection.execute 'DROP VIEW IF EXISTS kid_mentor_relations;'
     connection.execute %(
       CREATE OR REPLACE VIEW kid_mentor_relations AS
         SELECT
           kids.id AS kid_id,
           kids.exit_kind AS kid_exit_kind,
           kids.exit_at AS kid_exit_at,
+          kids.school_id AS school_id,
           mentors.id AS mentor_id,
           mentors.exit_kind AS mentor_exit_kind,
           mentors.exit_at AS mentor_exit_at,

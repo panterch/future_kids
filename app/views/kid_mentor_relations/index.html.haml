@@ -18,6 +18,9 @@
         %label Coach
         = f.select :admin_id, admin_collection, { :include_blank => true }, class: 'form-control'
     .form-group
+      %label= Kid.human_attribute_name(:school)
+      = f.select :school_id, school_collection, { :include_blank => true }, class: 'form-control'
+    .form-group
       = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
       = link_to 'Filter aufheben', kid_mentor_relations_path, class: 'btn btn-xs'
 
@@ -32,15 +35,19 @@
     %th=Mentor.human_attribute_name(:name)
     %th=Mentor.human_attribute_name(:exit_kind)
     %th=Mentor.human_attribute_name(:exit_at)
+    %th Schule
     %th Aktion
   - @kid_mentor_relations.each do |relation|
     %tr
       %td= link_to relation.kid.display_name, relation.kid
       %td= relation.kid.human_exit_kind
       %td= human_date(relation.kid.exit_at)
-      %td=link_to relation.mentor.display_name, relation.mentor
+      %td= link_to relation.mentor.display_name, relation.mentor
       %td= relation.mentor.human_exit_kind
       %td= human_date(relation.mentor.exit_at)
+      %td
+        - if relation.school.present?
+          = link_to relation.school.display_name, relation.school
       %td
         - if relation.inactivatable?
           =button_to "Inaktiv setzen", kid_mentor_relation_path(id: relation.kid_id), method: :delete, class: 'btn btn-xs btn-default'
