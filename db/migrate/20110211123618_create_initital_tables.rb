@@ -16,7 +16,7 @@ class CreateInititalTables < ActiveRecord::Migration
       t.integer :secondary_mentor_id
       t.references :teacher
       t.integer :secondary_teacher_id
-      t.timestamps
+      t.timestamps null: false
     end
 
     create_table :journals do |t|
@@ -34,7 +34,7 @@ class CreateInititalTables < ActiveRecord::Migration
       t.text :note
       t.integer :kid_id, null: false
       t.integer :mentor_id, null: false
-      t.timestamps
+      t.timestamps null: false
     end
 
     add_index(:journals, :kid_id)
@@ -51,7 +51,7 @@ class CreateInititalTables < ActiveRecord::Migration
       t.text :outcome
       t.text :attendee
       t.references :kid, null: false
-      t.timestamps
+      t.timestamps null: false
     end
 
     add_index(:reviews, :kid_id)
@@ -70,7 +70,7 @@ class CreateInititalTables < ActiveRecord::Migration
       t.text :available
       t.boolean :etcs
       t.date :entry_date
-      t.timestamps
+      t.timestamps null: false
       t.string 'email',                                   default: '',    null: false
       t.string 'encrypted_password',       limit: 128, default: '',    null: false
       t.string 'reset_password_token'
@@ -94,7 +94,7 @@ class CreateInititalTables < ActiveRecord::Migration
       t.integer :mentor_id, null: false
       t.timestamp :sent_at
       t.integer :secondary_mentor_id
-      t.timestamps
+      t.timestamps null: false
     end
 
     add_index(:reminders, :sent_at)

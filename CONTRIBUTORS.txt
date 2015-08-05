@@ -1,8 +1,8 @@
-Copyright 2011-2014 Beat Seeliger
+Copyright 2011-2015 Beat Seeliger
 Licensed under AGPL license. The license text is included in LICENSE.txt.
- 
+
 Thanks to Simon Hürlimann (https://github.com/huerlisi) for support.
- 
+
 Thanks to Andi Staub (https://github.com/kitsane) for support.
 
 Thanks to Thorben Stangenberg (https://github.com/tstangenberg) for support.
@@ -12,5 +12,7 @@ Thanks to Marco Wettstein (https://github.com/macrozone) for support.
 Thanks to Quentin Brossard (https://github.com/qbrossard) for support.
 
 Thanks to Raffael Fibbioli (https://github.com/m1nuted) for support.
+
+Thanks to John Deliyiannis (https://github.com/johndel) for support.
 
 Thanks to Stefanos Kornilios Mitsis Piitidis (https://github.com/skmp) for support.
