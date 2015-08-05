@@ -80,10 +80,6 @@ class Ability
 
     elsif user.is_a?(Principal)
       # own record may be read
-      # .map(&:id) shouldn't be required, and it is suboptimal
-      # as it forces a round trip to the database instead of nested sql
-      # but rspec + cancan don't correctly handle sested sql queries
-      # so thid fixes the tests and works for production
       can [:read, :update], Principal, id: user.id
       can :read, Kid, school_id: user.school_ids , inactive: false
       can :read, Teacher, school_id: user.school_ids , inactive: false
