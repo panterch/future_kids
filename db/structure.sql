@@ -262,9 +262,11 @@ CREATE VIEW kid_mentor_relations AS
     kids.exit_kind AS kid_exit_kind,
     kids.exit_at AS kid_exit_at,
     kids.school_id,
+    kids.name AS kid_name,
     mentors.id AS mentor_id,
     mentors.exit_kind AS mentor_exit_kind,
     mentors.exit_at AS mentor_exit_at,
+    mentors.name AS mentor_name,
     admins.id AS admin_id
    FROM ((kids
      JOIN users mentors ON (((kids.mentor_id = mentors.id) AND ((mentors.type)::text = 'Mentor'::text))))
@@ -1038,4 +1040,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150626141604');
 INSERT INTO schema_migrations (version) VALUES ('20150713124950');
 
 INSERT INTO schema_migrations (version) VALUES ('20150804135014');
+
+INSERT INTO schema_migrations (version) VALUES ('20150804205014');
 

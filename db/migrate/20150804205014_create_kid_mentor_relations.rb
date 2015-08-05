@@ -8,9 +8,11 @@ class CreateKidMentorRelations < ActiveRecord::Migration
           kids.exit_kind AS kid_exit_kind,
           kids.exit_at AS kid_exit_at,
           kids.school_id AS school_id,
+          kids.name AS kid_name,
           mentors.id AS mentor_id,
           mentors.exit_kind AS mentor_exit_kind,
           mentors.exit_at AS mentor_exit_at,
+          mentors.name AS mentor_name,
           admins.id AS admin_id
         FROM
           kids
