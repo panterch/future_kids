@@ -25,29 +25,32 @@
       = link_to 'Filter aufheben', kid_mentor_relations_path, class: 'btn btn-xs'
 
 = boot_page_title do
-  Mentorbewegungen
-
-%table.table.table-striped.table-condensed.table-hover
-  %tr
-    %th=Kid.human_attribute_name(:name)
-    %th=Kid.human_attribute_name(:exit_kind)
-    %th=Kid.human_attribute_name(:exit_at)
-    %th=Mentor.human_attribute_name(:name)
-    %th=Mentor.human_attribute_name(:exit_kind)
-    %th=Mentor.human_attribute_name(:exit_at)
-    %th Schule
-    %th Aktion
-  - @kid_mentor_relations.each do |relation|
+  =@kid_mentor_relations.count
+  =KidMentorRelation.model_name.human(count: @kid_mentor_relations.count)
+-if @kid_mentor_relations.present?
+  %table.table.table-striped.table-condensed.table-hover
     %tr
-      %td= link_to relation.kid.display_name, relation.kid
-      %td= relation.kid.human_exit_kind
-      %td= human_date(relation.kid.exit_at)
-      %td= link_to relation.mentor.display_name, relation.mentor
-      %td= relation.mentor.human_exit_kind
-      %td= human_date(relation.mentor.exit_at)
-      %td
-        - if relation.school.present?
-          = link_to relation.school.display_name, relation.school
-      %td
-        - if relation.inactivatable?
-          =button_to "Inaktiv setzen", kid_mentor_relation_path(id: relation.kid_id), method: :delete, class: 'btn btn-xs btn-default'
+      %th=Kid.human_attribute_name(:name)
+      %th=Kid.human_attribute_name(:exit_kind)
+      %th=Kid.human_attribute_name(:exit_at)
+      %th=Mentor.human_attribute_name(:name)
+      %th=Mentor.human_attribute_name(:exit_kind)
+      %th=Mentor.human_attribute_name(:exit_at)
+      %th Schule
+      %th Aktion
+    - @kid_mentor_relations.each do |relation|
+      %tr
+        %td= link_to relation.kid.display_name, relation.kid
+        %td= relation.kid.human_exit_kind
+        %td= human_date(relation.kid.exit_at)
+        %td= link_to relation.mentor.display_name, relation.mentor
+        %td= relation.mentor.human_exit_kind
+        %td= human_date(relation.mentor.exit_at)
+        %td
+          - if relation.school.present?
+            = link_to relation.school.display_name, relation.school
+        %td
+          - if relation.inactivatable?
+            =button_to "Inaktiv setzen", kid_mentor_relation_path(id: relation.kid_id), method: :delete, class: 'btn btn-xs btn-default'
+-else
+  %p Kein Eintrag vorhanden
