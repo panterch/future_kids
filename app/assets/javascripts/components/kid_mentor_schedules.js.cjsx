@@ -8,7 +8,8 @@
 MAX_MENTORS_TO_DISPLAY = 10
 @KidMentorSchedules = React.createClass
   getInitialState: ->
-    mentorsToDisplay: _.keys(@props.mentors)
+    mentorsToDisplay: getMentorIds @props.mentors
+    visitedMentors: []
     filters: 
       ect: null
       sex: null
@@ -42,11 +43,13 @@ MAX_MENTORS_TO_DISPLAY = 10
     return filteredMentors
   getSelectedMentors: (filteredMentors) ->
     limit _.pick filteredMentors, @state.mentorsToDisplay
-  onChangeSelectedMentorsToDisplay: (mentorIds) ->
+  onChangeSelectedMentorsToDisplay: (mentorIds, removedMentors) ->
+    @setState visitedMentors: _.union @state.visitedMentors, removedMentors
     @setState mentorsToDisplay: mentorIds
   onChangeFilter: (key, value) ->
     filters = @state.filters
     filters[key] = value
+    @setState visitedMentors: [] # reset visits
     @setState filters: filters
     # select all mentors, if filter changes
     @selectAll()
@@ -128,8 +131,7 @@ MAX_MENTORS_TO_DISPLAY = 10
   render: ->
     filteredMentors = @getFilteredMentors()
     selectedMentors = @getSelectedMentors filteredMentors
-   
-
+    selectedMentorIds = getMentorIds selectedMentors
     <div className="kid-mentor-schedules row">
       <div className="header panel panel-default">
         <div className="row">
@@ -148,8 +150,9 @@ MAX_MENTORS_TO_DISPLAY = 10
           <div className="col-xs-10">
             <MentorsForDisplayingFilter 
               mentors=filteredMentors
-              selection=_.keys(selectedMentors)
+              selection=selectedMentorIds
               onChange=@onChangeSelectedMentorsToDisplay
+              visitedMentors=@state.visitedMentors
             />
           </div>
         </div>
@@ -167,19 +170,31 @@ MentorsForDisplayingFilter = React.createClass
   onChange: (valuesAsString) ->
     if valuesAsString? and valuesAsString.length > 0
       values = valuesAsString.split(@DELEMITER).map (id) -> parseInt id, 10
-      @props.onChange limitAndRemoveFromBeginning values
+      selectedMentorIds = limitAndRemoveFromBeginning values
     else
-      @props.onChange []
+      selectedMentorIds = []
+    @triggerChange selectedMentorIds
+
+  triggerChange: (selectedMentorIds) ->
+    console.log @props.selection, selectedMentorIds
+    console.log _.difference @props.selection, selectedMentorIds
+    removedIds = _.difference @props.selection, selectedMentorIds
+    @props.onChange selectedMentorIds, removedIds
+
   selectAll: ->
-    @props.onChange _.keys @props.mentors
+    @triggerChange _.keys @props.mentors
+    
   render: ->
     options = for id,mentor of @props.mentors
+      visited: parseInt(id,10) in @props.visitedMentors
       label: displayName mentor
       value: mentor.id.toString()
       style: 
         color: mentor.colors.text
         backgroundColor: mentor.colors.background
         borderColor: mentor.colors.text
+    options = _.sortBy options, "visited"
+
     selectedIds = []
     for id in @props.selection # filter out not available values
       selectedIds.push id if @props.mentors[id]?
@@ -193,12 +208,15 @@ MentorsForDisplayingFilter = React.createClass
         </span>
       else
         <span>({_.size @props.mentors})</span>
+    optionRenderer = (option) ->
+      <span>{if option.visited then <i className='glyphicon glyphicon-eye-open'></i>} {option.label}</span>
 
     <div className="mentors-display-filter row">
       <div className="col-xs-10">
         <Select 
           options=options 
           multi=true
+          optionRenderer=optionRenderer
           delimiter=@DELEMITER
           value=value
           onChange=@onChange
@@ -221,6 +239,7 @@ Filters = React.createClass
       when "true" then true
       when "false" then false
       else null
+      
     @props.onChange? "ects", asBoolean event.target.value
   onChangeSchool: (event) ->
     sanitize = (value) -> if _.size(value) == 0 then null else parseInt value, 10
@@ -410,6 +429,9 @@ hasPrimaryKid = (mentor) -> mentor.kids.length > 0
 hasSecondaryKid = (mentor) -> mentor.secondary_kids.length > 0
 hasPrimaryMentor = (kid) -> kid.mentor_id?
 hasSecondaryMentor = (kid) -> kid.secondary_mentor_id?
+
+getMentorIds = (mentorsObject) ->
+  (parseInt id, 10 for id in _.keys(mentorsObject))
 
 createTimeCellClasses = ({primaryClass, day, lastTime, time, nextTime, schedules}) ->
   classNames primaryClass, 
