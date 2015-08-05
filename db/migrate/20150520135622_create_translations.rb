@@ -7,7 +7,7 @@ class CreateTranslations < ActiveRecord::Migration
       t.text :interpolations
       t.boolean :is_proc, default: false
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end

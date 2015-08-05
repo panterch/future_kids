@@ -7,7 +7,7 @@ class CreateSchedules < ActiveRecord::Migration
       t.integer :hour, null: false
       t.integer :minute, null: false
 
-      t.timestamps
+      t.timestamps null: false
     end
 
     add_index(:schedules, [:person_id, :person_type, :day, :hour, :minute],

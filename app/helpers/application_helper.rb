@@ -32,9 +32,8 @@ module ApplicationHelper
   end
 
   def term_collection
-    (@site.term_collection_start..@site.term_collection_end).to_a.map do |t|
-      [t.to_s+' Frühling', t.to_s+' Herbst']
-    end.flatten
+    (@site.term_collection_start..@site.term_collection_end)
+      .reduce([]) { |ar, year| ar << "#{year} Frühling" << "#{year} Herbst" }
   end
 
   def exit_reason_collection

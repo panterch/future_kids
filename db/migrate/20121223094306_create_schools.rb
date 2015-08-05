@@ -4,7 +4,7 @@ class CreateSchools < ActiveRecord::Migration
       t.string :name
       t.integer :principal_id
 
-      t.timestamps
+      t.timestamps null: false
     end
   end
 end
