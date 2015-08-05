@@ -2,8 +2,10 @@
   = show.attribute :name
   = show.attribute :prename
   = show.attribute(:email) { mail_to @principal.email }
-  = show.attribute :school do
-    = can_link_to(@principal.school)
+  = show.attribute :schools do
+    %ul.list-unstyled
+      - @principal.schools.each do |school|
+        %li=can_link_to(school)
   = show.attribute :phone
   -if current_user.is_a?(Admin)
     = show.attribute :inactive

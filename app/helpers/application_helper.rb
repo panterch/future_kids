@@ -73,6 +73,12 @@ module ApplicationHelper
     options_for_select(options, selected)
   end
 
+  def order_by_collection_for_kid_mentor_relations(selected)
+    options = [[Kid.model_name.human, 'kid_name'],
+               [Mentor.model_name.human, 'mentor_name']]
+    options_for_select(options, selected)
+  end
+
   # values for the collection select 'weekday'
   # weekdays are mapped to integers, as in ruby core's Time, Sunday is 0
   def wday_collection

@@ -21,7 +21,7 @@ class PrincipalsController < ApplicationController
     if params[:principal].present?
       params.require(:principal).permit(
         :name, :prename, :email, :password, :password_confirmation, :phone,
-        :school_id, :inactive
+        :inactive, :school_ids => []
       )
     else
       {}

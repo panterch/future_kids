@@ -309,7 +309,7 @@ describe Ability do
   describe 'Principal' do
     before(:each) do
       @principal = create(:principal)
-      @school = @principal.school
+      @school = @principal.schools.first
       @ability = Ability.new(@principal)
     end
 
