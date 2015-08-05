@@ -36,9 +36,9 @@ describe PrincipalsController do
         @school = create(:school)
         expect do
           put :update, id: @principal.id, principal: {
-            school_id: @school.id  }
+            school_ids: [@school.id, @original_school.id]  }
         end.to raise_error(SecurityError)
-        expect(@principal.reload.school).to eq(@original_school)
+        expect(@principal.reload.schools).to_not include(@school)
       end
     end
   end
@@ -74,9 +74,9 @@ describe PrincipalsController do
     it 'can update the principals school' do
       @school = create(:school)
       put :update, id: @principal.id, principal: {
-        school_id: @school.id  }
+        school_ids: [@school.id]  }
       expect(response).to be_redirect
-      expect(@principal.reload.school).to eq(@school)
+      expect(@principal.reload.schools).to include(@school)
     end
   end
 end
