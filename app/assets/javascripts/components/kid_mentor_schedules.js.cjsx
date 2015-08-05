@@ -11,7 +11,7 @@ MAX_MENTORS_TO_DISPLAY = 10
     mentorsToDisplay: getMentorIds @props.mentors
     visitedMentors: []
     filters: 
-      ect: null
+      ects: null
       sex: null
       numberOfKids: "no-kid"
       school: null
