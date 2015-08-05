@@ -144,7 +144,8 @@ feature 'Kid Mentor planning', js: true do
 
 
         scenario 'initially is set to show only mentors with no kid assigned' do
-          find(:css, '.filters [name="number-of-kids"]').value.should == 'no-kid'
+          val = find(:css, '.filters [name="number-of-kids"]').value
+          expect(val).to eq('no-kid')
         end
         scenario 'select only mentors with no kid' do
           within('.filters [name="number-of-kids"]') do
@@ -196,7 +197,8 @@ feature 'Kid Mentor planning', js: true do
 
 
         scenario 'initially is set to show mentors with ects and without' do
-          find(:css, '.filters [name="ects"]').value.should == ''
+          val = find(:css, '.filters [name="ects"]').value
+          expect(val).to eq('')
         end
         scenario 'select ects' do
           within('.filters [name="ects"]') do
@@ -226,7 +228,8 @@ feature 'Kid Mentor planning', js: true do
       describe 'sex-filter' do
 
         scenario 'initially is set to show both gender' do
-          find(:css, '.filters [name="sex"]').value.should == ''
+          val = find(:css, '.filters [name="sex"]').value
+          expect(val).to eq('')
         end
         scenario 'select only male mentors' do
           within('.filters [name="sex"]') do
@@ -313,7 +316,8 @@ feature 'Kid Mentor planning', js: true do
         # sarah has no kid in this spec
 
         scenario 'initially is set to show mentors of all schools' do
-          find(:css, '.filters [name="school"]').value.should == ''
+          val = find(:css, '.filters [name="school"]').value
+          expect(val).to eq('')
         end
 
         scenario 'select only schools from zhaw' do
