@@ -7,8 +7,8 @@ class CreatePrincipalSchoolRelations < ActiveRecord::Migration
       t.timestamps null: false
     end
 
-    Principal.all.each do |principal|
-    	PrincipalSchoolRelation.create principal_id: principal.id, school_id: principal.school.id
+    Principal.where.not(school_id: nil).each do |principal|
+    	PrincipalSchoolRelation.create principal_id: principal.id, school_id: principal.school_id
     end
   end
 

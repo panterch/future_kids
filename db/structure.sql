@@ -198,81 +198,6 @@ CREATE TABLE kids (
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
---
-
-CREATE TABLE users (
-    id integer NOT NULL,
-    type character varying,
-    name character varying,
-    prename character varying,
-    address character varying,
-    phone character varying,
-    personnel_number character varying,
-    field_of_study character varying,
-    education character varying,
-    available text,
-    ects boolean,
-    entry_date date,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    email character varying DEFAULT ''::character varying NOT NULL,
-    encrypted_password character varying(128) DEFAULT ''::character varying NOT NULL,
-    reset_password_token character varying,
-    reset_password_sent_at timestamp without time zone,
-    remember_created_at timestamp without time zone,
-    sign_in_count integer DEFAULT 0,
-    current_sign_in_at timestamp without time zone,
-    last_sign_in_at timestamp without time zone,
-    current_sign_in_ip character varying,
-    last_sign_in_ip character varying,
-    absence text,
-    city character varying,
-    transport character varying,
-    term character varying,
-    dob date,
-    inactive boolean DEFAULT false,
-    todo text,
-    substitute boolean DEFAULT false,
-    zip character varying,
-    street_no character varying,
-    primary_kids_school_id integer,
-    college character varying,
-    school_id integer,
-    note text,
-    primary_kids_meeting_day integer,
-    photo_file_name character varying,
-    photo_content_type character varying,
-    photo_file_size integer,
-    photo_updated_at timestamp without time zone,
-    receive_journals boolean DEFAULT false,
-    primary_kids_admin_id integer,
-    exit_kind character varying,
-    exit_at date,
-    sex character varying
-);
-
-
---
--- Name: kid_mentor_relations; Type: VIEW; Schema: public; Owner: -
---
-
-CREATE VIEW kid_mentor_relations AS
- SELECT kids.id AS kid_id,
-    kids.exit_kind AS kid_exit_kind,
-    kids.exit_at AS kid_exit_at,
-    kids.school_id,
-    mentors.id AS mentor_id,
-    mentors.exit_kind AS mentor_exit_kind,
-    mentors.exit_at AS mentor_exit_at,
-    admins.id AS admin_id
-   FROM ((kids
-     JOIN users mentors ON (((kids.mentor_id = mentors.id) AND ((mentors.type)::text = 'Mentor'::text))))
-     LEFT JOIN users admins ON (((kids.admin_id = admins.id) AND ((admins.type)::text = 'Admin'::text))))
-  WHERE (kids.inactive = false);
-
-
---
 -- Name: kids_id_seq; Type: SEQUENCE; Schema: public; Owner: -
 --
 
@@ -591,6 +516,62 @@ CREATE SEQUENCE translations_id_seq
 --
 
 ALTER SEQUENCE translations_id_seq OWNED BY translations.id;
+
+
+--
+-- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE users (
+    id integer NOT NULL,
+    type character varying,
+    name character varying,
+    prename character varying,
+    address character varying,
+    phone character varying,
+    personnel_number character varying,
+    field_of_study character varying,
+    education character varying,
+    available text,
+    ects boolean,
+    entry_date date,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
+    email character varying DEFAULT ''::character varying NOT NULL,
+    encrypted_password character varying(128) DEFAULT ''::character varying NOT NULL,
+    reset_password_token character varying,
+    reset_password_sent_at timestamp without time zone,
+    remember_created_at timestamp without time zone,
+    sign_in_count integer DEFAULT 0,
+    current_sign_in_at timestamp without time zone,
+    last_sign_in_at timestamp without time zone,
+    current_sign_in_ip character varying,
+    last_sign_in_ip character varying,
+    absence text,
+    city character varying,
+    transport character varying,
+    term character varying,
+    dob date,
+    inactive boolean DEFAULT false,
+    todo text,
+    substitute boolean DEFAULT false,
+    zip character varying,
+    street_no character varying,
+    primary_kids_school_id integer,
+    college character varying,
+    school_id integer,
+    note text,
+    primary_kids_meeting_day integer,
+    photo_file_name character varying,
+    photo_content_type character varying,
+    photo_file_size integer,
+    photo_updated_at timestamp without time zone,
+    receive_journals boolean DEFAULT false,
+    primary_kids_admin_id integer,
+    exit_kind character varying,
+    exit_at date,
+    sex character varying
+);
 
 
 --
@@ -1036,6 +1017,4 @@ INSERT INTO schema_migrations (version) VALUES ('20150602204436');
 INSERT INTO schema_migrations (version) VALUES ('20150626141604');
 
 INSERT INTO schema_migrations (version) VALUES ('20150713124950');
-
-INSERT INTO schema_migrations (version) VALUES ('20150804135014');
 
