@@ -180,7 +180,7 @@ de:
 
   exit_kind:
     exit: "Steigt aus"
-    later: "Steigt später aus"
+    later: "Alternatives Ausstiegsdatum"
     continue: "Macht weiter"
 
   crud:
