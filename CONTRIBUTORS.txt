@@ -12,3 +12,5 @@ Thanks to Marco Wettstein (https://github.com/macrozone) for support.
 Thanks to Quentin Brossard (https://github.com/qbrossard) for support.
 
 Thanks to Raffael Fibbioli (https://github.com/m1nuted) for support.
+
+Thanks to Stefanos Kornilios Mitsis Piitidis (https://github.com/skmp) for support.
