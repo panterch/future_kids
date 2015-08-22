@@ -33,13 +33,17 @@
 -if @kid_mentor_relations.present?
   %table.table.table-striped.table-condensed.table-hover
     %tr
-      %th=Kid.human_attribute_name(:name)
+      %th
+        = Kid.human_attribute_name(:name)
+        = Kid.model_name.human
       %th=Kid.human_attribute_name(:exit_kind)
       %th=Kid.human_attribute_name(:exit_at)
-      %th=Mentor.human_attribute_name(:name)
-      %th=Mentor.human_attribute_name(:exit_kind)
-      %th=Mentor.human_attribute_name(:exit_at)
-      %th Schule
+      %th
+        = Mentor.human_attribute_name(:name)
+        = Mentor.model_name.human
+      %th= Mentor.human_attribute_name(:exit_kind)
+      %th= Mentor.human_attribute_name(:exit_at)
+      %th= School.model_name.human
       %th Aktion
     - @kid_mentor_relations.each do |relation|
       %tr

@@ -118,7 +118,7 @@ de:
         journals: "Lernjournal Einträge"
         substitute: "Ersatzmentor"
         college: 'Hochschule'
-        exit_kind: "Agit ktueller Stand"
+        exit_kind: "Aktueller Stand"
         exit_at: "Ausstiegsdatum"
       teacher:
         kids: Kinder
