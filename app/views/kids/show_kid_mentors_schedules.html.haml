@@ -10,7 +10,7 @@
     .col-sm-6
       = form.input :meeting_day, :collection => wday_collection
     .col-sm-6
-      = form.input :meeting_start_at, :as => :string
+      = form.input :meeting_start_at, :as => :string, input_html: { value: @kid.human_meeting_start_at, autocomplete: 'off' }
   .hide
     = form.submit
 
