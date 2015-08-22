@@ -346,5 +346,8 @@ describe Ability do
     it 'can read teachers of own school' do
       expect(@ability).to be_able_to(:read, create(:teacher, school: @school))
     end
+    it 'can update teachers of its own scool' do
+      expect(@ability).to be_able_to(:update, create(:teacher, school: @school))
+    end
   end
 end

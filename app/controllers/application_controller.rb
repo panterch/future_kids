@@ -33,6 +33,7 @@ class ApplicationController < ActionController::Base
   def intercept_sensitive_params!
     return true unless %w(update create).include?(action_name)
     return true if current_user.is_a?(Admin)
+    return true if params.nil? || params.empty?
     if params.inspect =~ /school_id/ ||
        params.inspect =~ /inactive/
       fail SecurityError.new("User #{current_user.id} not allowed to change sensitive data")

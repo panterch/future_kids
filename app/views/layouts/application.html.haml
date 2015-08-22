@@ -33,8 +33,9 @@
                   -# FIXME load of teachers for mentors via cancan does not yet
                   -#       work correctly, see ability_spec.rb. till this is fixed
                   -#       we do not display this option to mentors
-                  -if current_user.is_a?(Admin)
+                  -if current_user.is_a?(Admin) or current_user.is_a?(Principal)
                     %li= nav_link :teacher
+                  -if current_user.is_a?(Admin)
                     %li= nav_link :mentor
                     %li= nav_link :principal
                     %li= nav_link :kid_mentor_relation

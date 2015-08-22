@@ -19,10 +19,12 @@ class PrincipalsController < ApplicationController
 
   def principal_params
     if params[:principal].present?
-      params.require(:principal).permit(
-        :name, :prename, :email, :password, :password_confirmation, :phone,
-        :inactive, :school_ids => []
-      )
+      keys = [:name, :prename, :email, :password, :password_confirmation, :phone ]
+      if current_user.is_a?(Admin)
+        keys << { school_ids: [] }
+        keys << :inactive
+      end
+      params.require(:principal).permit(keys)
     else
       {}
     end

@@ -41,4 +41,52 @@ describe TeachersController do
       end
     end
   end
+
+
+
+  context 'as a principal' do
+    before(:each) do
+      @school = create(:school)
+      @principal = create(:principal, schools: [ @school])
+      sign_in @principal
+    end
+
+    context 'index' do
+      before(:each) do
+        @teacher = create(:teacher, school: @school)
+      end
+      it 'renders' do
+        get :index
+        expect(response).to be_success
+        expect(assigns(:teachers)).to eq([@teacher])
+      end
+      it 'shows only teachers of own school' do
+        create(:teacher)
+        get :index
+        expect(response).to be_success
+        expect(assigns(:teachers)).to eq([@teacher])
+      end
+    end
+
+    context 'create' do
+      let(:teacher_params) { attributes_for(:teacher)}
+      it 'can create teacher in own school' do
+        teacher_params[:school_id] = @school.id
+        put :create, teacher: teacher_params
+        expect(response).to be_redirect
+        expect(Teacher.count).to eq(1)
+      end
+      it 'fails when creating teacher for foreign schools' do
+        teacher_params[:school_id] = create(:school).id
+        expect { put :create, teacher: teacher_params }.to raise_error SecurityError
+        expect(Teacher.count).to eq(0)
+      end
+    end
+
+  end
+
+
+
+
 end
+

@@ -4,8 +4,8 @@
   = form.input :email
   = form.input :password
   = form.input :password_confirmation
-  -if current_user.is_a?(Admin)
-    = form.association :school, :collection => School.all
+  -if current_user.is_a?(Admin) || current_user.is_a?(Principal)
+    = form.association :school, collection: @schools, include_blank: false
   = form.input :phone
   = form.input :receive_journals
   -if current_user.is_a?(Admin)
