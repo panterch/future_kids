@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/svenfuchs/i18n-active_record.git
-  revision: 8a38eeb8e2cf6be53ecc1240da6f11c8b24945cb
+  revision: b26c2e62e32df2f3b9ae42083647725b7ecfdff0
   specs:
     i18n-active_record (0.0.2)
       i18n (>= 0.5.0)
@@ -35,7 +35,7 @@ GEM
       erubis (~> 2.7.0)
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
-    actionview-encoded_mail_to (1.0.6)
+    actionview-encoded_mail_to (1.0.7)
       rails
     activejob (4.2.3)
       activesupport (= 4.2.3)
@@ -54,7 +54,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.3)
-    autoprefixer-rails (5.2.1.1)
+    autoprefixer-rails (5.2.1.2)
       execjs
       json
     axlsx (2.0.1)
@@ -118,7 +118,7 @@ GEM
     colorize (0.7.7)
     connection_pool (2.2.0)
     database_cleaner (1.4.1)
-    devise (3.5.1)
+    devise (3.5.2)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
       railties (>= 3.2.6, < 5)
@@ -135,7 +135,7 @@ GEM
     exception_notification (4.1.1)
       actionmailer (>= 3.0.4)
       activesupport (>= 3.0.4)
-    execjs (2.5.2)
+    execjs (2.6.0)
     factory_girl (4.5.0)
       activesupport (>= 3.0.0)
     factory_girl_rails (4.5.0)
@@ -144,7 +144,7 @@ GEM
     ffi (1.9.10)
     globalid (0.3.6)
       activesupport (>= 4.1.0)
-    haml (4.0.6)
+    haml (4.0.7)
       tilt
     haml-rails (0.9.0)
       actionpack (>= 4.0.1)
@@ -171,14 +171,14 @@ GEM
     json (1.8.3)
     kgio (2.9.3)
     libv8 (3.16.14.11)
-    loofah (2.0.2)
+    loofah (2.0.3)
       nokogiri (>= 1.5.9)
     mail (2.6.3)
       mime-types (>= 1.16, < 3)
     mime-types (2.6.1)
     mimemagic (0.3.0)
     mini_portile (0.6.2)
-    minitest (5.7.0)
+    minitest (5.8.0)
     multi_json (1.11.2)
     net-scp (1.2.1)
       net-ssh (>= 2.6.5)
@@ -220,7 +220,7 @@ GEM
       sprockets-rails
     rails-deprecated_sanitizer (1.0.3)
       activesupport (>= 4.2.0.alpha)
-    rails-dom-testing (1.0.6)
+    rails-dom-testing (1.0.7)
       activesupport (>= 4.2.0.beta, < 5.0)
       nokogiri (~> 1.6.0)
       rails-deprecated_sanitizer (>= 1.0.1)
@@ -234,7 +234,7 @@ GEM
     raindrops (0.15.0)
     rake (10.4.2)
     rdoc (4.2.0)
-    react-rails (1.1.0)
+    react-rails (1.2.0)
       babel-transpiler (>= 0.7.0)
       coffee-script-source (~> 1.8)
       connection_pool
@@ -261,10 +261,10 @@ GEM
       rspec-mocks (~> 3.3.0)
       rspec-support (~> 3.3.0)
     rspec-support (3.3.0)
-    ruby_parser (3.7.0)
+    ruby_parser (3.7.1)
       sexp_processor (~> 4.1)
     rubyzip (1.0.0)
-    sass (3.4.16)
+    sass (3.4.17)
     sass-rails (5.0.3)
       railties (>= 4.0.0, < 5.0)
       sass (~> 3.1)
@@ -288,7 +288,7 @@ GEM
       json (~> 1.8)
       simplecov-html (~> 0.10.0)
     simplecov-html (0.10.0)
-    sprockets (3.2.0)
+    sprockets (3.3.3)
       rack (~> 1.0)
     sprockets-coffee-react (3.0.1)
       coffee-react (>= 3.0.1)
