@@ -23,7 +23,7 @@ gem 'react-rails'
 gem 'sprockets-coffee-react'
 gem 'sass-rails'
 gem 'coffee-rails'
-gem 'bower-rails', '~> 0.9.2'
+gem 'bower-rails'
 gem 'uglifier'
 gem 'i18n-active_record',
     git: 'git://github.com/svenfuchs/i18n-active_record.git',
