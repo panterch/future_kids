@@ -32,7 +32,7 @@ de:
         term: "Eintritt"
         exit: "Austritt"
         exit_reason: "Grund für Ausstieg"
-        exit_kind: "Ausstieg"
+        exit_kind: "Aktueller Stand"
         exit_at: "Ausstiegsdatum"
         meeting_day: "Treffen Wochentag"
         meeting_start_at: "Treffen beginnt um"
@@ -118,7 +118,7 @@ de:
         journals: "Lernjournal Einträge"
         substitute: "Ersatzmentor"
         college: 'Hochschule'
-        exit_kind: "Ausstieg"
+        exit_kind: "Agit ktueller Stand"
         exit_at: "Ausstiegsdatum"
       teacher:
         kids: Kinder
