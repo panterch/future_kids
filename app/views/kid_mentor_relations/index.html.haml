@@ -36,6 +36,8 @@
       %th
         = Kid.human_attribute_name(:name)
         = Kid.model_name.human
+      %th
+        %span.glyphicon.glyphicon-info-sign
       %th=Kid.human_attribute_name(:exit_kind)
       %th=Kid.human_attribute_name(:exit_at)
       %th
@@ -47,7 +49,12 @@
       %th Aktion
     - @kid_mentor_relations.each do |relation|
       %tr
-        %td= link_to relation.kid.display_name, relation.kid
+        %td
+          = link_to relation.kid.display_name, relation.kid
+        %td
+          -if relation.kid.todo.present?
+            %a.todotoggle{data: { content: relation.kid.human_todo}, href:  edit_kid_path(relation.kid, :anchor => 'todo') }
+              %span.glyphicon.glyphicon-info-sign
         %td= relation.kid.human_exit_kind
         %td= human_date(relation.kid.exit_at)
         %td= link_to relation.mentor.display_name, relation.mentor
