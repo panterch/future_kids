@@ -33,5 +33,9 @@ module FutureKids
 
     # support sql views in tests
     config.active_record.schema_format = :sql
+
+    # we dump values to webpages (e.g. in documents_controller) and
+    # the escaping has to be the same as when
+    config.active_support.escape_html_entities_in_json = false
   end
 end
