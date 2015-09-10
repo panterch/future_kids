@@ -11,13 +11,19 @@ class JournalsController < ApplicationController
   before_action :preset_held_at, only: [:new]
 
   def create
-    @journal.save
-    respond_with @journal.kid
+    if @journal.save
+      respond_with @journal.kid
+    else
+      render :new
+    end
   end
 
   def update
-    @journal.update(journal_params)
-    respond_with @journal.kid
+    if @journal.update(journal_params)
+      respond_with @journal.kid
+    else
+      render :edit
+    end
   end
 
   # when a users re-loads the url after and unsuccesul edit, the url

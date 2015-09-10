@@ -4,13 +4,19 @@ class ReviewsController < ApplicationController
   include CrudActions
 
   def create
-    @review.save
-    respond_with @review.kid
+    if @review.save
+      respond_with @review.kid
+    else
+      render :new
+    end
   end
 
   def update
-    @review.update(review_params)
-    respond_with @review.kid
+    if @review.update(review_params)
+      respond_with @review.kid
+    else
+      render :edit
+    end
   end
 
   def show # not supported action

@@ -45,6 +45,14 @@ describe JournalsController do
       expect(assigns(:journal).held_at).to eq(Date.parse('2010-12-31'))
     end
 
+    it 'should render error messages on invalid attributes' do
+      attrs = valid_attributes
+      attrs[:journal].delete(:held_at)
+      post :create, attrs
+      expect(Journal.count).to eq(0)
+      expect(response).to render_template(:new)
+    end
+
     it 'renders new' do
       get :new, kid_id: kid.id
       expect(response).to be_successful
