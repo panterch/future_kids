@@ -196,6 +196,12 @@ de:
       reset_all: 'Alle zurücksetzen'
       update_success: 'Erfolgreich gespeichert'
 
+  title:
+    kid_mentor_relation_index:
+      one: '%{count} Beziehung'
+      other: '%{count} Beziehungen'
+
   nav:
     principal: 'SL/QUIMS'
     document: 'Anleitungen & Dokumente'
+

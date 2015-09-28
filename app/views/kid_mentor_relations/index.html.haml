@@ -28,8 +28,7 @@
       = link_to 'Filter aufheben', kid_mentor_relations_path, class: 'btn btn-xs'
 
 = boot_page_title do
-  =@kid_mentor_relations.count
-  =KidMentorRelation.model_name.human(count: @kid_mentor_relations.count)
+  =t('title.kid_mentor_relation_index', count: @kid_mentor_relations.count)
 -if @kid_mentor_relations.present?
   %table.table.table-striped.table-condensed.table-hover
     %tr
