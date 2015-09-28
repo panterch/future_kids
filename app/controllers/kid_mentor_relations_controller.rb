@@ -31,7 +31,7 @@ class KidMentorRelationsController < ApplicationController
   def filter_params
     return {} unless params[:kid_mentor_relation].present?
     params.require(:kid_mentor_relation).permit(
-      :kid_exit_kind, :mentor_exit_kind, :admin_id, :school_id
+      :kid_exit_kind, :mentor_exit_kind, :admin_id, :school_id, :simple_term
     )
   end
 end
