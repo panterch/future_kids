@@ -176,8 +176,6 @@ MentorsForDisplayingFilter = React.createClass
     @triggerChange selectedMentorIds
 
   triggerChange: (selectedMentorIds) ->
-    console.log @props.selection, selectedMentorIds
-    console.log _.difference @props.selection, selectedMentorIds
     removedIds = _.difference @props.selection, selectedMentorIds
     @props.onChange selectedMentorIds, removedIds
 
