@@ -13,6 +13,9 @@
         = Mentor.human_attribute_name(:exit_kind)
         = Mentor.model_name.human
       = f.select :mentor_exit_kind, exit_kind_collection, { :include_blank => true }, class: 'form-control'
+    .form-group
+      %label Einstieg
+      = f.select :simple_term, %w(Frühling Herbst), { :include_blank => true }, class: 'form-control'
     - if @site.feature_coach?
       .form-group
         %label Coach
@@ -28,22 +31,34 @@
       = link_to 'Filter aufheben', kid_mentor_relations_path, class: 'btn btn-xs'
 
 = boot_page_title do
-  =@kid_mentor_relations.count
-  =KidMentorRelation.model_name.human(count: @kid_mentor_relations.count)
+  =t('title.kid_mentor_relation_index', count: @kid_mentor_relations.count)
 -if @kid_mentor_relations.present?
   %table.table.table-striped.table-condensed.table-hover
     %tr
-      %th=Kid.human_attribute_name(:name)
+      %th
+        = Kid.human_attribute_name(:name)
+        = Kid.model_name.human
+      %th
+        %span.glyphicon.glyphicon-info-sign
+      %th Einstieg
       %th=Kid.human_attribute_name(:exit_kind)
       %th=Kid.human_attribute_name(:exit_at)
-      %th=Mentor.human_attribute_name(:name)
-      %th=Mentor.human_attribute_name(:exit_kind)
-      %th=Mentor.human_attribute_name(:exit_at)
-      %th Schule
+      %th
+        = Mentor.human_attribute_name(:name)
+        = Mentor.model_name.human
+      %th= Mentor.human_attribute_name(:exit_kind)
+      %th= Mentor.human_attribute_name(:exit_at)
+      %th= School.model_name.human
       %th Aktion
     - @kid_mentor_relations.each do |relation|
       %tr
-        %td= link_to relation.kid.display_name, relation.kid
+        %td
+          = link_to relation.kid.display_name, relation.kid
+        %td
+          -if relation.kid.todo.present?
+            %a.todotoggle{data: { content: relation.kid.human_todo}, href:  edit_kid_path(relation.kid, :anchor => 'todo') }
+              %span.glyphicon.glyphicon-info-sign
+        %td= relation.simple_term
         %td= relation.kid.human_exit_kind
         %td= human_date(relation.kid.exit_at)
         %td= link_to relation.mentor.display_name, relation.mentor

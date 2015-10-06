@@ -267,7 +267,8 @@ CREATE VIEW kid_mentor_relations AS
     mentors.exit_kind AS mentor_exit_kind,
     mentors.exit_at AS mentor_exit_at,
     mentors.name AS mentor_name,
-    admins.id AS admin_id
+    admins.id AS admin_id,
+    "substring"((kids.term)::text, 6) AS simple_term
    FROM ((kids
      JOIN users mentors ON (((kids.mentor_id = mentors.id) AND ((mentors.type)::text = 'Mentor'::text))))
      LEFT JOIN users admins ON (((kids.admin_id = admins.id) AND ((admins.type)::text = 'Admin'::text))))
@@ -1042,4 +1043,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150713124950');
 INSERT INTO schema_migrations (version) VALUES ('20150804135014');
 
 INSERT INTO schema_migrations (version) VALUES ('20150804205014');
+
+INSERT INTO schema_migrations (version) VALUES ('20150929205014');
 

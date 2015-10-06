@@ -82,7 +82,8 @@ class Ability
       # own record may be read
       can [:read, :update], Principal, id: user.id
       can :read, Kid, school_id: user.school_ids , inactive: false
-      can :read, Teacher, school_id: user.school_ids , inactive: false
+      can :create, Teacher
+      can [:read, :update], Teacher, school_id: user.school_ids , inactive: false
     end
 
     # comments can be created by any users (reading is only possible

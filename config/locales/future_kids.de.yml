@@ -32,7 +32,7 @@ de:
         term: "Eintritt"
         exit: "Austritt"
         exit_reason: "Grund für Ausstieg"
-        exit_kind: "Ausstieg"
+        exit_kind: "Aktueller Stand"
         exit_at: "Ausstiegsdatum"
         meeting_day: "Treffen Wochentag"
         meeting_start_at: "Treffen beginnt um"
@@ -118,7 +118,7 @@ de:
         journals: "Lernjournal Einträge"
         substitute: "Ersatzmentor"
         college: 'Hochschule'
-        exit_kind: "Ausstieg"
+        exit_kind: "Aktueller Stand"
         exit_at: "Ausstiegsdatum"
       teacher:
         kids: Kinder
@@ -196,6 +196,12 @@ de:
       reset_all: 'Alle zurücksetzen'
       update_success: 'Erfolgreich gespeichert'
 
+  title:
+    kid_mentor_relation_index:
+      one: '%{count} Beziehung'
+      other: '%{count} Beziehungen'
+
   nav:
     principal: 'SL/QUIMS'
     document: 'Anleitungen & Dokumente'
+
