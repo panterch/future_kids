@@ -5,6 +5,7 @@
 #= require underscore
 #= require moment
 
+STYLE_DAY_PLACEHOLDER_WIDTH = 4
 MAX_MENTORS_TO_DISPLAY = 10
 @KidMentorSchedules = React.createClass
   getInitialState: ->
@@ -286,6 +287,12 @@ Filters = React.createClass
     </div>
 
 TimeTable = React.createClass
+  getInitialState: ->
+    return {
+      #                     mo    di    mi    do    fr
+      show_weekdays: [null, true, true, true, true, true], #first index (null) is only for index-compatibility (days start counting by 1)
+    }
+
   createTimeArray: -> 
     startMoment = moment()
     startMoment.set "hours", 13
@@ -302,6 +309,14 @@ TimeTable = React.createClass
       timeMoment.add 30, "minutes"
       {key, label}
 
+  clickHandler_Day: (key) -> 
+    return (event) =>
+      new_show_weekdays = @state.show_weekdays.slice() #copy state
+      new_show_weekdays[key] = !new_show_weekdays[key] #toggle day
+      @setState({
+        show_weekdays: new_show_weekdays
+      })
+
   render: ->
     days = [
       (key: "1", label: "Montag")
@@ -315,6 +330,21 @@ TimeTable = React.createClass
     timeRow = (time, index) =>
       lastTime = times[index-1]
       nextTime = times[index+1]
+
+      #TODO: can be done within timeCell directly - move it there
+      timeCellHide = (day) =>  #if day is not shown, display a placeholder
+        classes = 'cell-mentor ' + if not nextTime then 'time-last'
+        style = 
+          width: STYLE_DAY_PLACEHOLDER_WIDTH + '%'
+          cursor: 'pointer'
+          backgroundColor: '#EFEFEF'
+
+        #TODO: move style to external stylesheet
+        <td key="time_cell_#{day.key}_#{time.key}" className="time-cell" style=style onClick={@clickHandler_Day(day.key)}>
+          <div className=classes>
+            <span className="name-label">{ day.label }</span>
+          </div>
+        </td>
 
       timeCell = (day) =>
         kidIsAvailable = availableInSchedule @props.kid.schedules, day, time
@@ -343,8 +373,14 @@ TimeTable = React.createClass
 
         classes = classNames "time-cell", 
           "kid-available": kidIsAvailable
+
+        calcWidth = () => #calculate column-with
+          count = @state.show_weekdays.filter((day) => day).length
+          return (100 - (days.length-count)*STYLE_DAY_PLACEHOLDER_WIDTH)/count
+
+        style = width: calcWidth()+"%"
         <td key="time_cell_#{day.key}_#{time.key}" 
-          className=classes>
+          className=classes style=style>
           { kidCell day }
           { mentorCell mentor, day for mentor in mentors}
         </td>
@@ -353,15 +389,26 @@ TimeTable = React.createClass
       mentors = _.values @props.mentors
       <tr key=time.key>
         <th>{time.label}</th>
-        { timeCell day for day in days }
+        { for day in days
+            if @state.show_weekdays[day.key] then timeCell day else timeCellHide day
+        }
       </tr>
       # end timeRow
+
+    #TODO: move style to external stylesheet
+    showIcon = <span className="glyphicon glyphicon-eye-open" style={"display":"block", "textAlign":"center"}></span>
 
     <table className="timetable">
       <thead>
         <tr>
           <th></th>
-          { <th key=day.key>{day.label}</th> for day in days }
+          { for day in days
+              <th key=day.key onClick={@clickHandler_Day(day.key)} className={"clickable_dayLabel "+day.label}>
+                <span>
+                  {if @state.show_weekdays[day.key] then day.label else showIcon}
+                </span>
+              </th>
+          }
         </tr>
       </thead>
       <tbody>

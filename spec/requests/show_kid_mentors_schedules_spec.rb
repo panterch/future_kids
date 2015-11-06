@@ -370,6 +370,20 @@ feature 'Kid Mentor planning', js: true do
           expect(page).to_not have_content '19:30'
         end
       end
+      it 'allows hiding the weekdays', :issue111 => true do
+        #TODO: also test if entire column gets hidden
+        within('.timetable') do
+          days = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag']
+          for week_day in days
+            day = find('.clickable_dayLabel.'+week_day)
+            expect(day).to have_content week_day
+            day.click
+            expect(day).not_to have_content week_day
+            day.click
+            expect(day).to have_content week_day
+          end
+        end
+      end
       it 'shows a column box per mentor per time if active' do
         within('.timetable') do
           expect(page).to have_selector('.cell-mentor', count: 12*4)
