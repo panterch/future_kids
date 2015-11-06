@@ -38,8 +38,8 @@ CREATE TABLE comments (
     journal_id integer NOT NULL,
     by character varying NOT NULL,
     body text NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     to_teacher boolean DEFAULT false,
     to_secondary_teacher boolean DEFAULT false
 );
@@ -76,8 +76,8 @@ CREATE TABLE documents (
     attachment_content_type character varying,
     attachment_file_size integer,
     attachment_updated_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     category character varying,
     subcategory character varying
 );
@@ -122,8 +122,8 @@ CREATE TABLE journals (
     note text,
     kid_id integer NOT NULL,
     mentor_id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     month integer
 );
 
@@ -167,8 +167,8 @@ CREATE TABLE kids (
     secondary_mentor_id integer,
     teacher_id integer,
     secondary_teacher_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     phone character varying,
     secondary_active boolean DEFAULT false NOT NULL,
     dob date,
@@ -214,8 +214,8 @@ CREATE TABLE users (
     available text,
     ects boolean,
     entry_date date,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     email character varying DEFAULT ''::character varying NOT NULL,
     encrypted_password character varying(128) DEFAULT ''::character varying NOT NULL,
     reset_password_token character varying,
@@ -337,8 +337,8 @@ CREATE TABLE relation_logs (
     role character varying,
     start_at timestamp without time zone,
     end_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -375,8 +375,8 @@ CREATE TABLE reminders (
     mentor_id integer NOT NULL,
     sent_at timestamp without time zone,
     secondary_mentor_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     acknowledged_at timestamp without time zone
 );
 
@@ -414,8 +414,8 @@ CREATE TABLE reviews (
     note text,
     attendee text,
     kid_id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -449,8 +449,8 @@ CREATE TABLE schedules (
     day integer NOT NULL,
     hour integer NOT NULL,
     minute integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -490,8 +490,8 @@ CREATE TABLE schools (
     id integer NOT NULL,
     name character varying,
     principal_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     street character varying,
     street_no character varying,
     zip character varying,
@@ -572,8 +572,8 @@ CREATE TABLE translations (
     value text,
     interpolations text,
     is_proc boolean DEFAULT false,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -1028,6 +1028,8 @@ INSERT INTO schema_migrations (version) VALUES ('20141228185936');
 
 INSERT INTO schema_migrations (version) VALUES ('20150424163124');
 
+INSERT INTO schema_migrations (version) VALUES ('20150503135014');
+
 INSERT INTO schema_migrations (version) VALUES ('20150520135622');
 
 INSERT INTO schema_migrations (version) VALUES ('20150524164241');
@@ -1037,6 +1039,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150602204436');
 INSERT INTO schema_migrations (version) VALUES ('20150626141604');
 
 INSERT INTO schema_migrations (version) VALUES ('20150713124950');
+
+INSERT INTO schema_migrations (version) VALUES ('20150804135014');
 
 INSERT INTO schema_migrations (version) VALUES ('20150804205014');
 
