@@ -263,7 +263,7 @@ feature 'Kid Mentor planning', js: true do
             expect(page).to have_content 'Koller Sarah'
           end
         end
-        it 'has a button to clear the selection' do
+        it 'has a button to clear the selection', :issue117 => true do
           within('.mentors-display-filter') do
             find('.Select-clear').click
             expect(page).to_not have_content 'Haller Frederik'
@@ -272,7 +272,7 @@ feature 'Kid Mentor planning', js: true do
             expect(page).to_not have_content 'Koller Sarah'
           end
         end
-        it 'allows to type in the beginning of a name to select it' do
+        it 'allows to type in the beginning of a name to select it', :issue117 => true do
           within('.mentors-display-filter') do
             find('.Select-clear').click
             find('.Select-input input').set('Hall')
@@ -281,7 +281,7 @@ feature 'Kid Mentor planning', js: true do
 
           end
         end
-        it 'allows to type in the middle part of a name to select it' do
+        it 'allows to type in the middle part of a name to select it', :issue117 => true do
           within('.mentors-display-filter') do
             find('.Select-clear').click
             find('.Select-input input').set('lanie')
