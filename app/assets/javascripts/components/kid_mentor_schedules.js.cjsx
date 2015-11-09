@@ -129,6 +129,7 @@ MAX_MENTORS_TO_DISPLAY = 10
     text: "hsl(#{hue}, 90%, 20%)"
 
   render: ->
+    console.log(this.props)
     filteredMentors = @getFilteredMentors()
     selectedMentors = @getSelectedMentors filteredMentors
     selectedMentorIds = getMentorIds selectedMentors
@@ -318,6 +319,7 @@ TimeTable = React.createClass
 
       timeCell = (day) =>
         kidIsAvailable = availableInSchedule @props.kid.schedules, day, time
+        meetingFixed = (parseInt(@props.kid.meeting.day,10) is parseInt(day.key,10) && @props.kid.meeting.start_at is time.key)
         kidCell = (day) =>
           kidCellClasses = createTimeCellClasses
             primaryClass: "cell-kid"
@@ -342,7 +344,9 @@ TimeTable = React.createClass
           # end mentorCell
 
         classes = classNames "time-cell", 
-          "kid-available": kidIsAvailable
+          "kid-available": kidIsAvailable,
+          "kid-booked": meetingFixed
+
         <td key="time_cell_#{day.key}_#{time.key}" 
           className=classes>
           { kidCell day }

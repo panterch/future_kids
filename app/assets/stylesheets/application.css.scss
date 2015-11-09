@@ -270,6 +270,9 @@ form.schedule {
       padding-right: 10px;
       position: relative;
     }
+    .time-cell.kid-booked {
+      background-color: red;
+    }
     .cell-kid {
       color: #aaa;
       position: absolute;
