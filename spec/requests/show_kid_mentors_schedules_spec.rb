@@ -266,6 +266,7 @@ feature 'Kid Mentor planning', js: true do
         it 'has a button to clear the selection', :issue117 => true do
           within('.mentors-display-filter') do
             find('.Select-clear').click
+            sleep(10)
             expect(page).to_not have_content 'Haller Frederik'
             expect(page).to_not have_content 'Rohner Melanie'
             expect(page).to_not have_content 'Steiner Max'
@@ -275,6 +276,7 @@ feature 'Kid Mentor planning', js: true do
         it 'allows to type in the beginning of a name to select it', :issue117 => true do
           within('.mentors-display-filter') do
             find('.Select-clear').click
+            sleep(10)
             find('.Select-input input').set('Hall')
             expect(page).to have_content 'Haller Frederik'
 
@@ -284,6 +286,7 @@ feature 'Kid Mentor planning', js: true do
         it 'allows to type in the middle part of a name to select it', :issue117 => true do
           within('.mentors-display-filter') do
             find('.Select-clear').click
+            sleep(10)
             find('.Select-input input').set('lanie')
             expect(page).to have_content 'Rohner Melanie'
 
