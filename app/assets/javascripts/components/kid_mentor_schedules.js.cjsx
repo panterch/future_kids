@@ -129,7 +129,6 @@ MAX_MENTORS_TO_DISPLAY = 10
     text: "hsl(#{hue}, 90%, 20%)"
 
   render: ->
-    console.log(this.props)
     filteredMentors = @getFilteredMentors()
     selectedMentors = @getSelectedMentors filteredMentors
     selectedMentorIds = getMentorIds selectedMentors
@@ -319,7 +318,8 @@ TimeTable = React.createClass
 
       timeCell = (day) =>
         kidIsAvailable = availableInSchedule @props.kid.schedules, day, time
-        meetingFixed = (parseInt(@props.kid.meeting.day,10) is parseInt(day.key,10) && @props.kid.meeting.start_at is time.key)
+        #FIXIT: check if start_at time is in range of time-key. It bight not get it now.
+        meetingFixed = (parseInt(@props.kid.meeting.day,10) is parseInt(day.key,10) && @props.kid.meeting.start_at is time.key) 
         hasNoSecondaryMentor = if @props.kid.secondary_mentor_id is null then true else false
         
         kidCell = (day, showMeeting) =>
