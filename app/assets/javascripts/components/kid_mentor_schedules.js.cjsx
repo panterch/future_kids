@@ -319,7 +319,7 @@ TimeTable = React.createClass
       timeCell = (day) =>
         kidIsAvailable = availableInSchedule @props.kid.schedules, day, time
         #FIXIT: check if start_at time is in range of time-key. It bight not get it now.
-        meetingFixed = (parseInt(@props.kid.meeting.day,10) is parseInt(day.key,10) && @props.kid.meeting.start_at is time.key) 
+        meetingFixed = (parseInt(@props.kid.meeting_day,10) is parseInt(day.key,10) && @props.kid.meeting_start_at is time.key) 
         hasNoSecondaryMentor = if @props.kid.secondary_mentor_id is null then true else false
         
         kidCell = (day, showMeeting) =>

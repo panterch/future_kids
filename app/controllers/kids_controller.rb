@@ -63,10 +63,8 @@ class KidsController < ApplicationController
         json.prename @kid.prename
         json.name @kid.name
         json.mentor_id @kid.mentor_id
-        json.meeting do
-          json.start_at get_meeting_start_time
-          json.day get_meeting_day
-        end
+        json.meeting_start_at get_meeting_start_time
+        json.meeting_day get_meeting_day
         json.secondary_mentor_id @kid.secondary_mentor_id
         json.schedules create_schedules_nested_set @kid.schedules
       end
