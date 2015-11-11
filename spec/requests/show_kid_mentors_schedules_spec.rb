@@ -266,17 +266,17 @@ feature 'Kid Mentor planning', js: true do
         it 'has a button to clear the selection' do
           within('.mentors-display-filter') do
             find('.Select-clear').click
-            expect(page).to_not have_content 'Haller Frederik'
-            expect(page).to_not have_content 'Rohner Melanie'
-            expect(page).to_not have_content 'Steiner Max'
-            expect(page).to_not have_content 'Koller Sarah'
+            expect(find('.Select-control')).to_not have_content 'Haller Frederik'
+            expect(find('.Select-control')).to_not have_content 'Rohner Melanie'
+            expect(find('.Select-control')).to_not have_content 'Steiner Max'
+            expect(find('.Select-control')).to_not have_content 'Koller Sarah'
           end
         end
         it 'allows to type in the beginning of a name to select it' do
           within('.mentors-display-filter') do
             find('.Select-clear').click
             find('.Select-input input').set('Hall')
-            expect(page).to have_content 'Haller Frederik'
+            expect(find('.Select-menu')).to have_content 'Haller Frederik'
 
 
           end
@@ -285,7 +285,7 @@ feature 'Kid Mentor planning', js: true do
           within('.mentors-display-filter') do
             find('.Select-clear').click
             find('.Select-input input').set('lanie')
-            expect(page).to have_content 'Rohner Melanie'
+            expect(find('.Select-menu')).to have_content 'Rohner Melanie'
 
 
           end
@@ -368,6 +368,20 @@ feature 'Kid Mentor planning', js: true do
           expect(page).to have_content '18:30'
           expect(page).to have_content '19:00'
           expect(page).to_not have_content '19:30'
+        end
+      end
+      it 'allows hiding the weekdays' do
+        #TODO: also test if entire column gets hidden
+        within('.timetable') do
+          days = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag']
+          for week_day in days
+            day = find('.clickable_dayLabel.'+week_day)
+            expect(day).to have_content week_day
+            day.click
+            expect(day).not_to have_content week_day
+            day.click
+            expect(day).to have_content week_day
+          end
         end
       end
       it 'shows a column box per mentor per time if active' do

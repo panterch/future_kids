@@ -54,7 +54,7 @@ GEM
       thread_safe (~> 0.3, >= 0.3.4)
       tzinfo (~> 1.1)
     arel (6.0.3)
-    autoprefixer-rails (6.0.3)
+    autoprefixer-rails (6.1.0.1)
       execjs
       json
     axlsx (2.0.1)
@@ -234,7 +234,7 @@ GEM
     raindrops (0.15.0)
     rake (10.4.2)
     rdoc (4.2.0)
-    react-rails (1.4.1)
+    react-rails (1.4.2)
       babel-transpiler (>= 0.7.0)
       coffee-script-source (~> 1.8)
       connection_pool
@@ -274,7 +274,7 @@ GEM
     sdoc (0.4.1)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    selenium-webdriver (2.48.1)
+    selenium-webdriver (2.47.1)
       childprocess (~> 0.5)
       multi_json (~> 1.0)
       rubyzip (~> 1.0)
@@ -361,7 +361,7 @@ DEPENDENCIES
   rspec-rails
   sass-rails
   sdoc
-  selenium-webdriver
+  selenium-webdriver (= 2.47.1)
   show_for!
   simple_form
   sprockets-coffee-react

@@ -16,3 +16,5 @@ Thanks to Raffael Fibbioli (https://github.com/m1nuted) for support.
 Thanks to John Deliyiannis (https://github.com/johndel) for support.
 
 Thanks to Stefanos Kornilios Mitsis Piitidis (https://github.com/skmp) for support.
+
+Thanks to Martin Eigenmann (https://github.com/eigenmannmartin) for support.
