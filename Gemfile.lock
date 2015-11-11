@@ -367,6 +367,3 @@ DEPENDENCIES
   sprockets-coffee-react
   uglifier
   whenever
-
-BUNDLED WITH
-   1.10.6
