@@ -403,6 +403,23 @@ feature 'Kid Mentor planning', js: true do
       end
 
 
+      scenario 'a set meeting is visually indicated', :issue120 => true do
+        # TOOD: did not know how to assign the mentor to the kid directly
+        # so it just klicks through it
+
+        within('.timetable') do
+          first('.kid-available .cell-mentor .btn-set-date').click
+          expect(page.driver.browser.switch_to.alert.text).to have_content 'primärer Mentor'
+          page.driver.browser.switch_to.alert.accept
+
+        end
+        find('a', :text => 'Mentor finden').click
+
+        # Check if meeting is visually indicated
+        within('.timetable') do
+          expect(page).to have_selector('.kid-booked', count: 1)
+        end
+      end
 
       describe 'selection of mentors' do
         scenario 'if the kid has no mentor assigned, it will be assign as primary mentor' do
