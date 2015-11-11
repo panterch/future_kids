@@ -40,6 +40,7 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'factory_girl'
+  # use specific selenium version, see https://github.com/panterch/future_kids/issues/117
   gem 'selenium-webdriver', '2.47.1'
   gem 'database_cleaner'
 end
