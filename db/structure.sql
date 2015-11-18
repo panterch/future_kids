@@ -562,6 +562,37 @@ ALTER SEQUENCE sites_id_seq OWNED BY sites.id;
 
 
 --
+-- Name: substitutions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE TABLE substitutions (
+    id integer NOT NULL,
+    start_at date NOT NULL,
+    end_at date NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
+);
+
+
+--
+-- Name: substitutions_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE substitutions_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: substitutions_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE substitutions_id_seq OWNED BY substitutions.id;
+
+--
 -- Name: translations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
@@ -696,6 +727,12 @@ ALTER TABLE ONLY sites ALTER COLUMN id SET DEFAULT nextval('sites_id_seq'::regcl
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
 
+ALTER TABLE ONLY substitutions ALTER COLUMN id SET DEFAULT nextval('substitutions_id_seq'::regclass);
+
+--
+-- Name: id; Type: DEFAULT; Schema: public; Owner: -
+--
+
 ALTER TABLE ONLY translations ALTER COLUMN id SET DEFAULT nextval('translations_id_seq'::regclass);
 
 
@@ -793,6 +830,13 @@ ALTER TABLE ONLY schools
 ALTER TABLE ONLY sites
     ADD CONSTRAINT sites_pkey PRIMARY KEY (id);
 
+
+--
+-- Name: substitutions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
+--
+
+ALTER TABLE ONLY substitutions
+    ADD CONSTRAINT substitutions_pkey PRIMARY KEY (id);
 
 --
 -- Name: translations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
@@ -913,7 +957,6 @@ CREATE INDEX index_reviews_on_kid_id ON reviews USING btree (kid_id);
 --
 
 CREATE UNIQUE INDEX index_schedules_on_uniqueness ON schedules USING btree (person_id, person_type, day, hour, minute);
-
 
 --
 -- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
@@ -1041,4 +1084,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150713124950');
 INSERT INTO schema_migrations (version) VALUES ('20150804205014');
 
 INSERT INTO schema_migrations (version) VALUES ('20150929205014');
+
+INSERT INTO schema_migrations (version) VALUES ('20151113110517');
 

@@ -44,6 +44,8 @@
                   %li= nav_link :document
                   -if can? :read, School
                     %li= nav_link :school
+
+                  %li= nav_link :substitutions
                 %ul.nav.navbar-nav.navbar-right
                   %li.dropdown(style="display: block !important")
                     = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do

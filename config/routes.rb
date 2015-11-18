@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   resources :teachers
   resources :principals
   resource :site
+  resources :substitutions
 
   get '/exception_test' => 'exception_test#error'
 end

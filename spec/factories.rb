@@ -1,4 +1,10 @@
-FactoryGirl.define do
+FactoryGirl.define do  
+
+
+  factory :substitution do
+    start_at "2015-11-13"
+    end_at "2015-11-13"
+  end
 
   factory :user do
     sequence(:name) { |n| "Name #{n}" }
