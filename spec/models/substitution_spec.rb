@@ -14,8 +14,6 @@ describe Substitution, :issue126 => true do
   	substitution = build(:substitution, end_at: nil)
   	expect(substitution).not_to be_valid
 	end
-  it "holds a mentors" do
-    substitution = build(:substitution)
-    expect(substitution).to have_many(:mentor)
-  end
+  it { should belong_to(:mentor) }
+
 end
