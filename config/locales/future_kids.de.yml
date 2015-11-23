@@ -16,6 +16,7 @@ de:
       site: 'Seitenweite Konfiguration'
       #TODO: fix layout - "Vertretung" is too long
       substitutions: 'Ersatz'
+      substitution: 'Ersatz'
 
     attributes:
       kid:
