@@ -5,6 +5,8 @@ class CreateSubstitutions < ActiveRecord::Migration
       t.date :end_at, null: false
 
       t.timestamps null: false
+
+      t.belongs_to :mentor, index: true
     end
   end
 end

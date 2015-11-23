@@ -570,7 +570,8 @@ CREATE TABLE substitutions (
     start_at date NOT NULL,
     end_at date NOT NULL,
     created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    updated_at timestamp without time zone NOT NULL,
+    mentor_id integer
 );
 
 
@@ -591,6 +592,7 @@ CREATE SEQUENCE substitutions_id_seq
 --
 
 ALTER SEQUENCE substitutions_id_seq OWNED BY substitutions.id;
+
 
 --
 -- Name: translations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
@@ -729,6 +731,7 @@ ALTER TABLE ONLY sites ALTER COLUMN id SET DEFAULT nextval('sites_id_seq'::regcl
 
 ALTER TABLE ONLY substitutions ALTER COLUMN id SET DEFAULT nextval('substitutions_id_seq'::regclass);
 
+
 --
 -- Name: id; Type: DEFAULT; Schema: public; Owner: -
 --
@@ -837,6 +840,7 @@ ALTER TABLE ONLY sites
 
 ALTER TABLE ONLY substitutions
     ADD CONSTRAINT substitutions_pkey PRIMARY KEY (id);
+
 
 --
 -- Name: translations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
@@ -957,6 +961,14 @@ CREATE INDEX index_reviews_on_kid_id ON reviews USING btree (kid_id);
 --
 
 CREATE UNIQUE INDEX index_schedules_on_uniqueness ON schedules USING btree (person_id, person_type, day, hour, minute);
+
+
+--
+-- Name: index_substitutions_on_mentor_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_substitutions_on_mentor_id ON substitutions USING btree (mentor_id);
+
 
 --
 -- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
