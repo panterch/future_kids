@@ -5,18 +5,14 @@
   %table.table.table-striped.table-condensed.table-hover.no-sidebar-actions
     %thead
       %tr
-        %th Meeting vom
-        %th Schüler/in
         %th Mentor
-        %th Zweiter Mentor
-        %th Empfänger
-        %th Erstellt am
-        %th Letzer Lernjournal Eintrag am
-        %th Gesendet am
-        %th Quittieren
+        %th Absewend vom
+        %th bis
     - @substitutions.each do |substitution|
       %tr
-        %td= human_date(substitution.start_at)
+        %td= substitution.mentor.display_name
+        %td= link_to human_date(substitution.start_at), substitution_path(substitution)
+        %td= link_to human_date(substitution.end_at), substitution_path(substitution)
         / %td= link_to reminder.kid.display_name, reminder.kid
         / %td= link_to reminder.mentor.display_name, reminder.mentor
         / %td

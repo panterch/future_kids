@@ -21,7 +21,7 @@ class SubstitutionsController < ApplicationController
 
   def substitution_params
     params.require(:substitution).permit(
-      :start_at, :end_at
+      :start_at, :end_at, :mentor_id
     )
   end
 

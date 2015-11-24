@@ -1,0 +1,4 @@
+= show_for @substitution do |show|
+  = show.association :mentor, :using => :display_name
+  = show.attribute :start_at
+  = show.attribute :end_at
