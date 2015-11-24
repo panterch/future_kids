@@ -2,6 +2,11 @@ class SubstitutionsController < ApplicationController
   load_and_authorize_resource
   include CrudActions
 
+
+  def new
+  	@substitution = Substitution.new(:mentor_id => params[:mentor_id])
+	end
+
   def create
     @substitution = Substitution.new(substitution_params)
     if @substitution.save

@@ -198,6 +198,7 @@ de:
       xlsx: "Excel Export"
       reset_all: 'Alle zurücksetzen'
       update_success: 'Erfolgreich gespeichert'
+      new_substitution: 'Neue Abwesenheit'
 
   title:
     kid_mentor_relation_index:
