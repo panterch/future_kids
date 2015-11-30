@@ -8,11 +8,21 @@
         %th Mentor
         %th Absewend vom
         %th bis
+        %th Schüler
+        %th Ersatzmentor
     - @substitutions.each do |substitution|
       %tr
         %td= substitution.mentor.display_name
         %td= link_to human_date(substitution.start_at), substitution_path(substitution)
         %td= link_to human_date(substitution.end_at), substitution_path(substitution)
+        %td= substitution.kid.display_name
+        - if substitution.kid.secondary_mentor.present?
+          %td= substitution.kid.secondary_mentor.display_name
+        - else
+          %td= link_to("Ersatz finden",:controller => "kids", :id => substitution.kid, :action => :show_kid_mentors_schedules)
+
+
+
         / %td= link_to reminder.kid.display_name, reminder.kid
         / %td= link_to reminder.mentor.display_name, reminder.mentor
         / %td

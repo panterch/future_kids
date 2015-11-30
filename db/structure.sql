@@ -571,7 +571,9 @@ CREATE TABLE substitutions (
     end_at date NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    mentor_id integer
+    mentor_id integer,
+    secondary_mentor_id integer,
+    kid_id integer
 );
 
 
@@ -964,10 +966,24 @@ CREATE UNIQUE INDEX index_schedules_on_uniqueness ON schedules USING btree (pers
 
 
 --
+-- Name: index_substitutions_on_kid_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_substitutions_on_kid_id ON substitutions USING btree (kid_id);
+
+
+--
 -- Name: index_substitutions_on_mentor_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_substitutions_on_mentor_id ON substitutions USING btree (mentor_id);
+
+
+--
+-- Name: index_substitutions_on_secondary_mentor_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
+--
+
+CREATE INDEX index_substitutions_on_secondary_mentor_id ON substitutions USING btree (secondary_mentor_id);
 
 
 --

@@ -7,6 +7,8 @@ class CreateSubstitutions < ActiveRecord::Migration
       t.timestamps null: false
 
       t.belongs_to :mentor, index: true
+      t.belongs_to :secondary_mentor, class_name: 'Mentor', index: true
+      t.belongs_to :kid, index: true
     end
   end
 end

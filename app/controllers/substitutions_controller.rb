@@ -2,9 +2,15 @@ class SubstitutionsController < ApplicationController
   load_and_authorize_resource
   include CrudActions
 
+  def index
+  	@substitutions = Substitution.all()
+  end
 
   def new
-  	@substitution = Substitution.new(:mentor_id => params[:mentor_id])
+  	#TODO: save all substitutions
+  	Mentor.find(params[:mentor_id]).kids.each do |kid|
+  		@substitution = Substitution.new(:mentor_id => params[:mentor_id], :kid_id => kid.id)
+  	end
 	end
 
   def create
@@ -26,7 +32,7 @@ class SubstitutionsController < ApplicationController
 
   def substitution_params
     params.require(:substitution).permit(
-      :start_at, :end_at, :mentor_id
+      :start_at, :end_at, :mentor_id, :kid_id, :secondary_mentor_id
     )
   end
 
