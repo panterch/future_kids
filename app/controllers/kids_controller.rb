@@ -35,7 +35,16 @@ class KidsController < ApplicationController
     respond_with @kids
   end
 
-
+  def update
+    if @kid.update(kid_params)
+      Substitution.where('kid_id = ? AND end_at >= ?', @kid.id, DateTime.now).each do |substitution|
+        substitution.update(:secondary_mentor => @kid.secondary_mentor)
+      end
+      redirect_to action: :index
+    else
+      render :edit
+    end
+  end
 
   def show_kid_mentors_schedules
    @kid_mentor_schedules_data = Jbuilder.new do |json|

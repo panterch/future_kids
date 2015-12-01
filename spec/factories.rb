@@ -2,8 +2,11 @@ FactoryGirl.define do
 
 
   factory :substitution do
-    start_at "2015-11-13"
-    end_at "2015-11-14"
+    association :secondary_mentor, factory: :mentor, strategy: :build
+    mentor
+    kid
+    start_at Date.parse('2015-11-13')
+    end_at Date.parse('2015-11-14')
   end
 
   factory :user do

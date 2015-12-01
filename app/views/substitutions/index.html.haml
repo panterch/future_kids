@@ -10,16 +10,35 @@
         %th bis
         %th Schüler
         %th Ersatzmentor
+        %th Abschliessen
     - @substitutions.each do |substitution|
-      %tr
+    / rot wenn kein ersatz-mentor vorhanden und noch nicht abgelaufen
+    / gelb wenn abschluss nötig
+    / grün wenn keine aktion nötig
+    - trclasses = [("danger" if !substitution.secondary_mentor.present?),
+                   ("warning" if substitution.end_at <= DateTime.now()),
+                   ("success" if substitution.end_at > DateTime.now() and substitution.secondary_mentor.present?)]
+
+      %tr{:class => trclasses}
         %td= substitution.mentor.display_name
         %td= link_to human_date(substitution.start_at), substitution_path(substitution)
         %td= link_to human_date(substitution.end_at), substitution_path(substitution)
         %td= substitution.kid.display_name
-        - if substitution.kid.secondary_mentor.present?
-          %td= substitution.kid.secondary_mentor.display_name
+        - if substitution.secondary_mentor.present?
+          %td= substitution.secondary_mentor.display_name
         - else
-          %td= link_to("Ersatz finden",:controller => "kids", :id => substitution.kid, :action => :show_kid_mentors_schedules)
+          - if substitution.end_at > DateTime.now()
+            %td= link_to "Ersatz finden", :controller => "kids", :id => substitution.kid.id, :action => :show_kid_mentors_schedules
+          - else
+            %td= "-"
+        
+        - if substitution.closed
+          %td= "Abgeschlossen"
+        - else
+          - if substitution.end_at < DateTime.now
+            %td= link_to "Abwesenheit schliessen", :controller => "substitutions", :id => substitution.id, :action => :close
+          - else
+            %td= "-"
 
 
 

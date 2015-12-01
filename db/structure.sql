@@ -569,6 +569,7 @@ CREATE TABLE substitutions (
     id integer NOT NULL,
     start_at date NOT NULL,
     end_at date NOT NULL,
+    closed boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     mentor_id integer,

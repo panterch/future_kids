@@ -3,14 +3,25 @@ class SubstitutionsController < ApplicationController
   include CrudActions
 
   def index
-  	@substitutions = Substitution.all()
+  	#@substitutions = Substitution.where('end_at >= ?', DateTime.now).all()
+  	@substitutions = Substitution.where(closed: false).order('start_at asc').all()
   end
 
   def new
-  	#TODO: save all substitutions
-  	Mentor.find(params[:mentor_id]).kids.each do |kid|
-  		@substitution = Substitution.new(:mentor_id => params[:mentor_id], :kid_id => kid.id)
-  	end
+  	if(params.has_key?(:mentor_id))
+
+  		mentor = Mentor.find(params[:mentor_id])
+
+  		kid_id = nil
+  		#TODO: find all kids
+	  	mentor.kids.each do |kid|
+	  		kid_id = kid.id
+	  	end
+	  	@substitution = Substitution.new(:mentor => mentor, :kid_id => kid_id)
+		
+	  else
+	  	@substitution = Substitution.new()
+	  end
 	end
 
   def create
@@ -32,8 +43,14 @@ class SubstitutionsController < ApplicationController
 
   def substitution_params
     params.require(:substitution).permit(
-      :start_at, :end_at, :mentor_id, :kid_id, :secondary_mentor_id
+      :start_at, :end_at, :mentor_id, :kid_id, :secondary_mentor_id, :closed
     )
+  end
+
+  def close
+  	@substitution.closed = true
+  	@substitution.save
+  	redirect_to action: :index
   end
 
 end
