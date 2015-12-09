@@ -1,6 +1,6 @@
 require 'requests/acceptance_helper'
 
-feature 'substitution', js: true, :issue126 => true do
+feature 'substitution', :issue126 => true do
   let(:kid) {
     kid = create(:kid)
 
