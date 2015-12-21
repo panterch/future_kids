@@ -270,6 +270,21 @@ form.schedule {
       padding-right: 10px;
       position: relative;
     }
+    .cell-kid.kid-booked {
+      background: repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        #ccc 10px,
+        #ccc 20px
+      ),
+      /* on "bottom" */
+      linear-gradient(
+        to bottom,
+        #eee,
+        #999
+      );
+    }
     .cell-kid {
       color: #aaa;
       position: absolute;
