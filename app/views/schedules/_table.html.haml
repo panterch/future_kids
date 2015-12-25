@@ -9,11 +9,13 @@
       - (1..@week.length).each do |day|
         %th= I18n.t('date.day_names')[day]
     - @week.transpose.each do |row|
-      %tr
-        %th.time= "#{row.first.hour}:#{row.first.human_minute}"
+      %tr{class: schedule_class(row.first)}
+        %th.time
+          = "#{row.first.hour}:#{row.first.human_minute}"
+          = "*" if row.first.is_last_meeting?
         - row.each do |schedule|
           - active = @schedules.include?(schedule)
-          %td{:class => schedule_class(schedule)}
+          %td
             %input{:type => :checkbox, :checked => active}
             - param_name = "#{clazz}[schedules_attributes][]"
             %input{:type => :hidden, :value => schedule.day,
@@ -24,5 +26,10 @@
               :name => "#{param_name}[minute]"}
             - schedule_tags(schedule).each do |tag|
               %p= tag
+
+
+  %p(style='margin-top: 15px')
+    * Letztmöglicher Beginn Mentoring:
+    = "#{Schedule::LAST_MEETING_HOUR}:#{Schedule::LAST_MEETING_MIN}"
 
   = form.submit 'Stundenplandaten speichern', class: 'btn btn-default'

@@ -52,11 +52,9 @@ class Schedule < ActiveRecord::Base
     '%02d' % minute
   end
 
-  # an array to store a string for each mentor that is available at the given
-  # day. used when displaying a kids schedule including selected mentor's
-  # availability
-  def mentor_tags
-    @mentor_tags ||= []
+  def is_last_meeting?
+    return false if LAST_MEETING_HOUR != self.hour
+    return LAST_MEETING_MIN == self.minute
   end
 
   # shows when last schedules entry was edited for relation

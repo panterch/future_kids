@@ -100,12 +100,7 @@ module ApplicationHelper
 
   # determines style class of scheduler cells
   def schedule_class(schedule)
-    return nil unless @mentor_schedules
-    @mentor_schedules.each do |_tag, schedules|
-      next unless schedules.include?(schedule)
-      return 'info'
-    end
-    ''
+    schedule.is_last_meeting? ? 'info' : ''
   end
 
   def schedule_tags(schedule)
