@@ -12,8 +12,10 @@ class Schedule < ActiveRecord::Base
 
   validates_presence_of :person
 
-  BEGIN_HOUR = 13
-  END_HOUR = 18
+  MIN_HOUR = 13
+  MAX_HOUR = 18
+  LAST_MEETING_HOUR = 17
+  LAST_MEETING_MIN = 30
 
   # overwrite == to simplificate comparison of collections
   def ==(other)
@@ -27,7 +29,7 @@ class Schedule < ActiveRecord::Base
   #   [schedule_day_2, another_schedule_day_2 ] ]
   def self.build_week
     (1..5).map do |day|
-      (BEGIN_HOUR..END_HOUR).map do |hour|
+      (MIN_HOUR..MAX_HOUR).map do |hour|
         [0, 30].map do |minute|
           Schedule.new(day: day, hour: hour, minute: minute)
         end

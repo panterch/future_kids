@@ -25,9 +25,9 @@ function register_datepickers() {
   var time_settings = {
     isoTime: true,
     separator: '.',
-    minTime: {hour: 13, minute: 0},
-    maxTime: {hour: 20, minute: 30},
-    timeInterval: 15
+    minTime: {hour: <%= Schedule::MIN_HOUR %>, minute: 0},
+    maxTime: {hour: <%= Schedule::LAST_MEETING_HOUR %>, minute:  <%= Schedule::LAST_MEETING_MIN %>},
+    timeInterval: 30
   };
 
   $('input.calendricalDate').calendricalDate(date_settings);
