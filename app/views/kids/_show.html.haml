@@ -40,7 +40,11 @@
 = show_for @kid do |show|
   %h2#school Allgemeine Informationen
   = show.attribute :goal_1
+  - if @kid.goal_1_updated_at
+    = show.attribute :goal_1_updated_at
   = show.attribute :goal_2
+  - if @kid.goal_2_updated_at
+    = show.attribute :goal_2_updated_at
   = show.attribute :meeting_day
   = show.attribute :meeting_start_at
   = show.attribute :teacher do
@@ -70,6 +74,7 @@
     = show.attribute :abnormality
     = show.attribute :abnormality_criticality
     = show.attribute :todo
+    = show.attribute :schedules_updated_at
     = show.attribute :inactive
     = render 'relation_logs/collection', resource: @kid
 

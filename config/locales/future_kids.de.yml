@@ -47,7 +47,10 @@ de:
         translator: 'Eltern brauchen bei Gesprächen unbedingt einen Dolmetscher'
         school: Schule
         goal_1: 'Fachliche Lernziele'
+        goal_1_updated_at: 'FL aktualisiert'
         goal_2: 'Überfachliche Lernziele'
+        goal_2_updated_at: 'ÜL aktualisiert'
+        schedules_updated_at: "Stundenplan aktualisiert"
         inactive: Inaktiv gesetzt
         todo: Pendenzen
         checked_at: 'Letztes Kontrolldatum'
@@ -120,6 +123,7 @@ de:
         college: 'Hochschule'
         exit_kind: "Aktueller Stand"
         exit_at: "Ausstiegsdatum"
+        schedules_updated_at: "Stundenplan aktualisiert"
       teacher:
         kids: Kinder
         secondary_kids: "Kinder (als 2. Lehrperson)"

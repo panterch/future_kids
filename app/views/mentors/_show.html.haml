@@ -28,6 +28,7 @@
       = show.attribute :personnel_number
       = show.attribute :ects
       = show.attribute :term
+
       -if current_user.is_a?(Admin)
         .hidden-print
           = show.attribute :absence
@@ -37,6 +38,7 @@
           = show.attribute :exit_kind
           - if 'later' == @mentor.exit_kind
             = show.attribute :exit_at
+          = show.attribute :schedules_updated_at
           = show.attribute :inactive
 
 

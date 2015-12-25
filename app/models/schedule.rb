@@ -48,10 +48,16 @@ class Schedule < ActiveRecord::Base
     '%02d' % minute
   end
 
-  # an array to store a string for each mentor that is availabel at the given
+  # an array to store a string for each mentor that is available at the given
   # day. used when displaying a kids schedule including selected mentor's
   # availability
   def mentor_tags
     @mentor_tags ||= []
   end
+
+  # shows when last schedules entry was edited for relation
+  def self.schedules_updated_at(relation)
+    relation.schedules.order('updated_at DESC').first.try(:updated_at)
+  end
+
 end
