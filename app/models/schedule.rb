@@ -12,6 +12,9 @@ class Schedule < ActiveRecord::Base
 
   validates_presence_of :person
 
+  BEGIN_HOUR = 13
+  END_HOUR = 18
+
   # overwrite == to simplificate comparison of collections
   def ==(other)
     other.is_a?(Schedule) &&
@@ -24,9 +27,8 @@ class Schedule < ActiveRecord::Base
   #   [schedule_day_2, another_schedule_day_2 ] ]
   def self.build_week
     (1..5).map do |day|
-      (13..19).map do |hour|
-        minutes = (hour == 19) ? [0] : [0, 30] # 19:30 does not exist
-        minutes.map do |minute|
+      (BEGIN_HOUR..END_HOUR).map do |hour|
+        [0, 30].map do |minute|
           Schedule.new(day: day, hour: hour, minute: minute)
         end
       end.flatten
