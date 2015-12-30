@@ -4,6 +4,7 @@ class CreateSubstitutions < ActiveRecord::Migration
       t.date :start_at, null: false
       t.date :end_at, null: false
       t.boolean :closed, null: false, default: false
+      t.datetime :set_inactive_at, null: true, default: nil
 
       t.timestamps null: false
 

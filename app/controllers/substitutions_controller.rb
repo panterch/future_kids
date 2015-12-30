@@ -4,7 +4,7 @@ class SubstitutionsController < ApplicationController
 
   def index
   	#@substitutions = Substitution.where('end_at >= ?', DateTime.now).all()
-  	@substitutions = Substitution.where(closed: false).order('start_at asc').all()
+  	@substitutions = Substitution.active
   end
 
   def new
@@ -16,10 +16,9 @@ class SubstitutionsController < ApplicationController
     end
 	end
 
-  # REST destroy ?
-  # inactive ;-)
-  def close
-    @substitution.closed = true
+  # REST destroy might be better
+  def inactivate
+    @substitution.set_inactive_at = DateTime.current
     @substitution.save
     redirect_to action: :index
   end
@@ -28,7 +27,7 @@ protected
 
   def substitution_params
     params.require(:substitution).permit(
-      :start_at, :end_at, :mentor_id, :kid_id, :secondary_mentor_id, :closed
+      :start_at, :end_at, :mentor_id, :kid_id, :secondary_mentor_id
     )
   end
 

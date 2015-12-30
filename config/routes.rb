@@ -33,7 +33,7 @@ Rails.application.routes.draw do
   resource :site
   resources :substitutions do
     member do
-      get 'close'
+      get 'inactivate'
     end
   end
 
