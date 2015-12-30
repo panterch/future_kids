@@ -16,5 +16,7 @@ describe Substitution, :issue126 => true do
   	expect(substitution).not_to be_valid
 	end
   it { should belong_to(:mentor) }
+  it { should belong_to(:secondary_mentor) }
+  it { should belong_to(:kid) }
 
 end
