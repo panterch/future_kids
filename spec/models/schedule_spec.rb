@@ -22,8 +22,8 @@ describe Schedule do
   it 'builds schedules for a whole week' do
     week = Schedule.build_week
     expect(week.length).to eq(5)
-    # days * hours * halfhours - 19:30 entries
-    expect(week.flatten.length).to eq(5 * 7 * 2 - 5)
+    # days * hours * halfhours
+    expect(week.flatten.length).to eq(5 * 6 * 2)
   end
 
   context 'equality and enumerable methods' do

@@ -8,7 +8,7 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :logout_inactive
   before_action :intercept_sensitive_params!
-  protect_from_forgery
+  protect_from_forgery with: :exception
 
   protected
 

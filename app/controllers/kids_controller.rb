@@ -72,6 +72,8 @@ class KidsController < ApplicationController
         json.prename @kid.prename
         json.name @kid.name
         json.mentor_id @kid.mentor_id
+        json.meeting_start_at get_meeting_start_time
+        json.meeting_day get_meeting_day
         json.secondary_mentor_id @kid.secondary_mentor_id
         json.schedules create_schedules_nested_set @kid.schedules
       end
@@ -81,6 +83,16 @@ class KidsController < ApplicationController
 
 
   protected
+
+  def get_meeting_start_time
+    return nil if @kid.meeting_start_at.blank?
+    return @kid.meeting_start_at.strftime("%H:%M")
+  end
+
+  def get_meeting_day
+    return nil if @kid.meeting_day.blank?
+    return @kid.meeting_day
+  end
 
   # when the user working on the kid is a teacher, it get's
   # assigned as the first teacher of the kid in creation case
@@ -141,4 +153,5 @@ class KidsController < ApplicationController
     return schedules_set
 
   end
+
 end

@@ -12,6 +12,11 @@ class Schedule < ActiveRecord::Base
 
   validates_presence_of :person
 
+  MIN_HOUR = 13
+  MAX_HOUR = 18
+  LAST_MEETING_HOUR = 17
+  LAST_MEETING_MIN = 30
+
   # overwrite == to simplificate comparison of collections
   def ==(other)
     other.is_a?(Schedule) &&
@@ -24,9 +29,8 @@ class Schedule < ActiveRecord::Base
   #   [schedule_day_2, another_schedule_day_2 ] ]
   def self.build_week
     (1..5).map do |day|
-      (13..19).map do |hour|
-        minutes = (hour == 19) ? [0] : [0, 30] # 19:30 does not exist
-        minutes.map do |minute|
+      (MIN_HOUR..MAX_HOUR).map do |hour|
+        [0, 30].map do |minute|
           Schedule.new(day: day, hour: hour, minute: minute)
         end
       end.flatten
@@ -48,10 +52,14 @@ class Schedule < ActiveRecord::Base
     '%02d' % minute
   end
 
-  # an array to store a string for each mentor that is availabel at the given
-  # day. used when displaying a kids schedule including selected mentor's
-  # availability
-  def mentor_tags
-    @mentor_tags ||= []
+  def is_last_meeting?
+    return false if LAST_MEETING_HOUR != self.hour
+    return LAST_MEETING_MIN == self.minute
   end
+
+  # shows when last schedules entry was edited for relation
+  def self.schedules_updated_at(relation)
+    relation.schedules.order('updated_at DESC').first.try(:updated_at)
+  end
+
 end

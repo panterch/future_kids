@@ -348,7 +348,11 @@ TimeTable = React.createClass
 
       timeCell = (day) =>
         kidIsAvailable = availableInSchedule @props.kid.schedules, day, time
-        kidCell = (day) =>
+        #FIXIT: check if start_at time is in range of time-key. It bight not get it now.
+        meetingFixed = (parseInt(@props.kid.meeting_day,10) is parseInt(day.key,10) && @props.kid.meeting_start_at is time.key) 
+        hasNoSecondaryMentor = if @props.kid.secondary_mentor_id is null then true else false
+        
+        kidCell = (day, showMeeting) =>
           kidCellClasses = createTimeCellClasses
             primaryClass: "cell-kid"
             day: day
@@ -356,6 +360,7 @@ TimeTable = React.createClass
             nextTime: nextTime
             time: time
             schedules: @props.kid.schedules
+          if showMeeting then kidCellClasses += " kid-booked"
           <div className=kidCellClasses></div>
           # end kidCell
 
@@ -381,7 +386,7 @@ TimeTable = React.createClass
         style = width: calcWidth()+"%"
         <td key="time_cell_#{day.key}_#{time.key}" 
           className=classes style=style>
-          { kidCell day }
+          { kidCell day, (meetingFixed && hasNoSecondaryMentor) }
           { mentorCell mentor, day for mentor in mentors}
         </td>
         # end timecell

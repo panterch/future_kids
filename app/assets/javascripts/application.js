@@ -12,4 +12,4 @@
 //= require react
 //= require react_ujs
 //= require_tree ./components
-//= require global
+//= require global.js.erb

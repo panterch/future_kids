@@ -15,7 +15,7 @@ describe Kid do
       expect(Kid.find(kid.id).journals.size).to eq(1)
     end
     it 'can populate journal via nested attributes' do
-      kid.update_attributes(journals_attributes:                             [{ 'mentor_id' => mentor.id }])
+      kid.update_attributes(journals_attributes:[{ 'mentor_id' => mentor.id }])
       expect(kid.journals.size).to eq(1)
     end
     it 'does sort journal correctly' do
@@ -107,6 +107,33 @@ describe Kid do
       kid.save! && kid.reload
       expect(kid.admin).to be_present
       expect(kid.admin).to eq(admin)
+    end
+  end
+
+  context 'specific updated_at fields' do
+    let(:kid) { create(:kid) }
+    let!(:time) { Time.now }
+    it 'should track changing goals' do
+      kid.goal_1 = kid.goal_2 = 'goal'
+      kid.save!
+      expect(kid.goal_1_updated_at).to be > time
+      expect(kid.goal_2_updated_at).to be > time
+    end
+
+    it 'should track changing goals independently' do
+      kid.goal_1 = kid.goal_2 = 'goal'
+      kid.save!
+      time = Time.now
+      kid.goal_2 = 'updated'
+      kid.save!
+      expect(kid.goal_1_updated_at).to be < time
+      expect(kid.goal_2_updated_at).to be > time
+    end
+
+    it 'tracks schedulue updates' do
+      expect(kid.schedules_updated_at).to be_nil
+      kid.schedules.create!(day: 1, hour: 13, minute: 0)
+      expect(kid.schedules_updated_at).to be > time
     end
   end
 

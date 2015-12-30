@@ -52,6 +52,11 @@ class Mentor < User
     I18n.t(exit_kind, scope: 'exit_kind')
   end
 
+  # shows when last schedule relation entry was edited
+  def schedules_updated_at
+    Schedule.schedules_updated_at(self)
+  end
+
   protected
 
   # inactive mentors should not be connected to other persons

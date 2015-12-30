@@ -27,7 +27,9 @@ class Kid < ActiveRecord::Base
 
   after_save :sync_fields_with_mentor
   after_save :track_relations
+
   after_validation :release_relations, if: :inactive?
+  after_validation :track_specific_field_updates
 
   # takes the given time argument (or Time.now) and calculates the
   # date and time for that weeks meeting
@@ -65,6 +67,11 @@ class Kid < ActiveRecord::Base
   # journal entry made for the associated kid
   def last_journal_entry
     journals.order('held_at DESC').first
+  end
+
+  # shows when last schedule relation entry was edited
+  def schedules_updated_at
+    Schedule.schedules_updated_at(self)
   end
 
   def display_name
@@ -171,4 +178,14 @@ class Kid < ActiveRecord::Base
                             start_at: Time.now)
     end
   end
+
+  # some fields are tracked specifically for updates
+  # contract is to track field changes in a field
+  # named the same with a suffix updated_at
+  def track_specific_field_updates
+    self.goal_1_updated_at = Time.now if goal_1_changed?
+    self.goal_2_updated_at = Time.now if goal_2_changed?
+  end
+
+
 end
