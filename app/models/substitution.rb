@@ -7,6 +7,6 @@ class Substitution < ActiveRecord::Base
 
 
 	default_scope -> { order(:start_at) }
-  scope :active, -> { where(set_inactive_at: nil) }
+  scope :active, -> { where(inactive: false) }
 
 end

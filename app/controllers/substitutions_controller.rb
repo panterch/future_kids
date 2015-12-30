@@ -18,7 +18,7 @@ class SubstitutionsController < ApplicationController
 
   # REST destroy might be better
   def inactivate
-    @substitution.set_inactive_at = DateTime.current
+    @substitution.inactive = true
     @substitution.save
     redirect_to action: :index
   end

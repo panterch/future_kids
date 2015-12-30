@@ -32,7 +32,7 @@
           - else
             %td= "-"
         
-        - if substitution.closed
+        - if substitution.inactive
           %td= "Abgeschlossen"
         - else
           - if substitution.end_at < DateTime.now
