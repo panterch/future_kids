@@ -9,8 +9,7 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
 
   let!(:admin) { create(:admin) }
   let!(:mentor_frederik) {
-    # Frederik receives ects
-    mentor = create(:mentor, ects: true, prename: 'Frederik', name: 'Haller', sex: 'm')
+    mentor = create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'm')
     mentor
   }
   let!(:kid) { 
@@ -57,4 +56,32 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
       expect(page).to have_content(kid.display_name)
     end
   end
+end
+
+
+
+feature 'MENTOR::SHOW:SUBSTITUTION', '
+  As a mentor
+  I want not be able to show/modify substitutions
+
+', :issue126 => true do
+
+  let!(:mentor) {
+    mentor = create(:mentor, prename: 'Mentor', name: 'Mentor', sex: 'm')
+    mentor
+  }
+
+  background do
+    expect(User.first.valid_password?(mentor.password)).to eq(true)
+    log_in(mentor)
+  end
+
+  scenario 'mentor sould not be able to show substitution' do
+    expect{visit substitutions_path}.to raise_error(CanCan::AccessDenied)
+  end
+
+  scenario 'mentor sould not be able to see substitution-header-link' do
+    expect(page).to_not have_content('Ersatz')
+  end
+  
 end
