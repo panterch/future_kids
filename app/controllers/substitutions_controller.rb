@@ -16,25 +16,6 @@ class SubstitutionsController < ApplicationController
     end
 	end
 
-  # really needed?
-  def create
-    @substitution = Substitution.new(substitution_params)
-    if @substitution.save
-      redirect_to action: :index
-    else
-      render :new
-    end
-  end
-
-  # really needed?
-  def update
-    if @substitution.update(substitution_params)
-      redirect_to action: :index
-    else
-      render :edit
-    end
-  end
-
   # REST destroy ?
   # inactive ;-)
   def close
