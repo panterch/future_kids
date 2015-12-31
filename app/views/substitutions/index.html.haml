@@ -1,3 +1,18 @@
+- content_for :sidebar do
+  = form_for :substitution, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
+    %label= Substitution.human_attribute_name(:mentor)
+    .form-group
+      = f.select :mentor_id, mentor_collection, { :include_blank => true }, class: 'form-control'
+    .checkbox
+      %label
+        = f.check_box :inactive
+        %p
+          %b Inaktive
+    .form-group
+      = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
+      = link_to 'Filter aufheben', substitutions_path, class: 'btn btn-xs'
+
+
 = boot_page_title do
   %h2 Vertretungen
 
