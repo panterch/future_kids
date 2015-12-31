@@ -10,7 +10,8 @@
         %th bis
         %th Schüler
         %th Ersatzmentor
-        %th Abschliessen
+        %th Kommentar
+        %th Aktion
     - @substitutions.each do |substitution|
     / rot wenn kein ersatz-mentor vorhanden und noch nicht abgelaufen
     / gelb wenn abschluss nötig
@@ -25,15 +26,19 @@
         %td= link_to human_date(substitution.end_at), substitution_path(substitution)
         %td= substitution.kid.display_name
         / show substitution (mentor_name)
-        - if substitution.secondary_mentor.present?
-          %td= substitution.secondary_mentor.display_name
-        - else
-          / else add link to find substitution
-          - if substitution.end_at > DateTime.now()
-            %td= link_to "Ersatz finden", :controller => "kids", :id => substitution.kid.id, :action => :show_kid_mentors_schedules
+        %td
+          - if substitution.secondary_mentor.present?
+            =substitution.secondary_mentor.display_name
           - else
-            %td= ""
-        
+            - if substitution.end_at > DateTime.now()
+              =button_to "Ersatz finden", { :controller => "kids", :substitution_id => substitution.id, :id => substitution.kid.id, :action => :show_kid_mentors_schedules }, { :method => :get, :class => 'btn btn-default btn-xs' }
+        %td
+          -if substitution.comments.present?
+            %a.todotoggle.btn.btn-xs{data: { content: substitution.comments}, href:  edit_substitution_path(substitution, :anchor => 'comments') }
+              Kommentar
+              %span.glyphicon.glyphicon-info-sign
+
+
         - if substitution.inactive
           %td= "Abgeschlossen"
         - else

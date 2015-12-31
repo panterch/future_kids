@@ -577,7 +577,7 @@ CREATE TABLE substitutions (
     mentor_id integer,
     secondary_mentor_id integer,
     kid_id integer,
-    comments character varying
+    comments text
 );
 
 

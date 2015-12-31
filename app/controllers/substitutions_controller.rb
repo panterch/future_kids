@@ -27,7 +27,7 @@ protected
 
   def substitution_params
     params.require(:substitution).permit(
-      :start_at, :end_at, :mentor_id, :kid_id, :secondary_mentor_id
+      :start_at, :end_at, :mentor_id, :kid_id, :secondary_mentor_id, :comments
     )
   end
 
