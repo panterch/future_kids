@@ -24,19 +24,21 @@
         %td= link_to human_date(substitution.start_at), substitution_path(substitution)
         %td= link_to human_date(substitution.end_at), substitution_path(substitution)
         %td= substitution.kid.display_name
+        / show substitution (mentor_name)
         - if substitution.secondary_mentor.present?
           %td= substitution.secondary_mentor.display_name
         - else
+          / else add link to find substitution
           - if substitution.end_at > DateTime.now()
             %td= link_to "Ersatz finden", :controller => "kids", :id => substitution.kid.id, :action => :show_kid_mentors_schedules
           - else
-            %td= "-"
+            %td= ""
         
         - if substitution.inactive
           %td= "Abgeschlossen"
         - else
           - if substitution.end_at < DateTime.now
-            %td= link_to "Abwesenheit schliessen", {:controller => "substitutions", :id => substitution.id, :action => :inactivate}
+            %td= button_to "Abwesenheit schliessen", { :action => "inactivate", :id => substitution.id }, { :method => :put, :class => 'btn btn-default btn-xs' }
           - else
             %td= "-"
 
