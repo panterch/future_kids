@@ -5,7 +5,7 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
   I want to fill out the new substitution form
   So that I can create a new substitution
 
-', :issue126 => true do
+' do
 
   let!(:admin) { create(:admin) }
   let!(:mentor_frederik) {
@@ -64,7 +64,7 @@ feature 'MENTOR::SHOW:SUBSTITUTION', '
   As a mentor
   I want not be able to show/modify substitutions
 
-', :issue126 => true do
+' do
 
   let!(:mentor) {
     mentor = create(:mentor, prename: 'Mentor', name: 'Mentor', sex: 'm')

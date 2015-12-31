@@ -37,6 +37,7 @@ class KidsController < ApplicationController
 
   def update
     if @kid.update(kid_params)
+      # Move to hidden field
       Substitution.where('kid_id = ? AND end_at >= ?', @kid.id, DateTime.now).each do |substitution|
         substitution.update(:secondary_mentor => @kid.secondary_mentor)
       end
