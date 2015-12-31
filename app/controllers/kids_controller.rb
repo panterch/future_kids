@@ -48,6 +48,12 @@ class KidsController < ApplicationController
   # end
 
   def show_kid_mentors_schedules
+   if params[:substitution_id]
+      @substitution = Substitution.find(params[:substitution_id])
+   else
+      @substitution = false
+   end
+
    @kid_mentor_schedules_data = Jbuilder.new do |json|
       json.mentors do
         Mentor.active.each do |mentor|
@@ -131,7 +137,7 @@ class KidsController < ApplicationController
         :exit, :exit_reason, :exit_kind, :exit_at,
         :coached_at, :abnormality,
         :abnormality_criticality, :todo, :inactive,
-        schedules_attributes: [:day, :hour, :minute]
+        schedules_attributes: [:day, :hour, :minute],
       )
     else
       {}

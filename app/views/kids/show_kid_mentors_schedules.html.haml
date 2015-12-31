@@ -1,6 +1,18 @@
 = boot_page_title @kid.display_name
 
 = simple_form_for @kid, html:{id:'kid_form'} do |form|
+  -if @substitution
+    .row
+      .col-sm-12
+        %p.bg-info.text-center
+          Ersatzmentor für Abwesenheit vom 
+          =human_date(@substitution.start_at)
+          bis
+          =human_date(@substitution.end_at)
+          von
+          %strong=@substitution.mentor.display_name
+          finden.
+      = form.input :substitution, :as => :hidden, :input_html => { :value => @substitution.id }
   .row
     .col-sm-6
       = form.association :mentor, :collection => Mentor.active

@@ -37,8 +37,8 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
     click_link 'Erfassen'
     select mentor_frederik.display_name, from: 'substitution[mentor_id]'
     select kid.display_name, from: 'substitution[kid_id]'
-    fill_in 'substitution_start_at', with: Date.parse('2015-11-13')
-    fill_in 'substitution_end_at', with: Date.parse('2015-11-15')
+    fill_in 'substitution_start_at', with: (Date.today - 10)
+    fill_in 'substitution_end_at', with: (Date.today - 2)
     click_button 'Ersatz erstellen'
     expect(page.status_code).to eq(200)
     expect(page).to have_content('Ersatz anzeigen')
@@ -56,6 +56,51 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
       expect(page).to have_content(kid.display_name)
     end
   end
+end
+
+
+feature 'ADMIN::UPDATE:SUBSTITUTION', '
+  As a admin
+  I want to find a substitution for a mentor
+
+' do
+
+  let!(:admin) { create(:admin) }
+  let!(:mentor_frederik) {
+    mentor = create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'm')
+    mentor
+  }
+  let!(:mentor_melanie) {
+    mentor = create(:mentor, ects: true, prename: 'Melanie', name:'Rohner', sex: 'f')
+    mentor
+  }
+  let!(:kid) { 
+    kid = create(:kid, mentor: mentor_frederik)
+    kid
+  }
+  let!(:substitution) { 
+    substitution = create(:substitution, mentor: mentor_frederik, secondary_mentor:false, kid: kid, start_at: (Date.today - 1), end_at: (Date.today + 10))
+    substitution
+  }
+
+  background do
+    expect(User.first.valid_password?(admin.password)).to eq(true)
+    log_in(admin)
+  end
+
+  scenario 'should show button to find substitution' do
+    click_link 'Ersatz'
+    expect(page.status_code).to eq(200)
+    expect(page).to have_button('Ersatz finden')
+  end
+
+  scenario 'sould pass substitution id to show_kid_mentors_schedules' do
+    click_link 'Ersatz'
+    click_button 'Ersatz finden'
+    expect(page.status_code).to eq(200)
+    expect(page).to have_content('Ersatzmentor für Abwesenheit von ' + mentor_frederik.display_name + ' finden')
+  end
+
 end
 
 

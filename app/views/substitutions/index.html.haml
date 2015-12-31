@@ -31,7 +31,7 @@
             =substitution.secondary_mentor.display_name
           - else
             - if substitution.end_at > DateTime.now()
-              =button_to "Ersatz finden", { :controller => "kids", :substitution_id => substitution.id, :id => substitution.kid.id, :action => :show_kid_mentors_schedules }, { :method => :get, :class => 'btn btn-default btn-xs' }
+              =button_to "Ersatz finden", { :controller => "kids", :id => substitution.kid.id, :action => :show_kid_mentors_schedules}, { :method => :get, :class => 'btn btn-default btn-xs', params: { substitution_id: substitution.id } } 
         %td
           -if substitution.comments.present?
             %a.todotoggle.btn.btn-xs{data: { content: substitution.comments}, href:  edit_substitution_path(substitution, :anchor => 'comments') }
