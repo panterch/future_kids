@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe SubstitutionsController, :issue126 => true do
+describe SubstitutionsController do
 	
   it "shows only relevant substitution"
   it "marks not resolved substitution red"
