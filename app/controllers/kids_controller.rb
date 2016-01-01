@@ -111,8 +111,8 @@ class KidsController < ApplicationController
     return true unless current_user.is_a?(Teacher)
     return true if @kid.teacher.present?
     @kid.teacher ||= current_user if @kid.secondary_teacher != current_user
-    @kid.school ||= @kid.teacher.try(:school)
-    @kid.school ||= @kid.secondary_teacher.try(:school)
+    @kid.school ||= @kid.teacher&.school
+    @kid.school ||= @kid.secondary_teacher&.school
   end
 
   def track_creation_relation

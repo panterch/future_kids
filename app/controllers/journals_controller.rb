@@ -64,7 +64,7 @@ class JournalsController < ApplicationController
   # the value of the held_at field can be determined by the schedule of the
   # kid
   def preset_held_at
-    @journal.held_at ||= @journal.kid.calculate_meeting_time.try(:to_date)
+    @journal.held_at ||= @journal.kid.calculate_meeting_time&.to_date
   end
 
   private

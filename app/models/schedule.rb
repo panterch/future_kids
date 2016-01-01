@@ -59,6 +59,6 @@ class Schedule < ActiveRecord::Base
 
   # shows when last schedules entry was edited for relation
   def self.schedules_updated_at(relation)
-    relation.schedules.order('updated_at DESC').first.try(:updated_at)
+    relation.schedules.order('updated_at DESC').first&.updated_at
   end
 end

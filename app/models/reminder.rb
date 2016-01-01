@@ -34,7 +34,7 @@ class Reminder < ActiveRecord::Base
       if kid.secondary_active? && kid.secondary_mentor
         r.recipient = kid.secondary_mentor.email
       else
-        r.recipient = kid.mentor.try(:email)
+        r.recipient = kid.mentor&.email
       end
     end
   end
