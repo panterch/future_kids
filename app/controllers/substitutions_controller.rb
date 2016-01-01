@@ -44,6 +44,4 @@ protected
       :start_at, :end_at, :mentor_id, :kid_id, :secondary_mentor_id, :comments, :inactive
     )
   end
-
-
 end
