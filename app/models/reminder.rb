@@ -23,21 +23,21 @@ class Reminder < ActiveRecord::Base
   # method looks up when the meeting should have been held for the given kid
   # in the week of time and creates a reminder according to these settings
   def self.create_for(kid, time)
-    r = Reminder.new
-    r.kid = kid
-    r.mentor = kid.mentor
-    r.secondary_mentor = kid.secondary_mentor
-    r.held_at = kid.calculate_meeting_time(time)
-    r.week = r.held_at.strftime('%U')
-    r.year = r.held_at.year
-    # the recipient of the reminder should be the active mentor
-    if kid.secondary_active? && kid.secondary_mentor
-      r.recipient = kid.secondary_mentor.email
-    else
-      r.recipient = kid.mentor.try(:email)
+    Reminder.new.tap do |r|
+      r.kid = kid
+      r.mentor = kid.mentor
+      r.secondary_mentor = kid.secondary_mentor
+      r.held_at = kid.calculate_meeting_time(time)
+      r.week = r.held_at.strftime('%U')
+      r.year = r.held_at.year
+      # the recipient of the reminder should be the active mentor
+      if kid.secondary_active? && kid.secondary_mentor
+        r.recipient = kid.secondary_mentor.email
+      else
+        r.recipient = kid.mentor.try(:email)
+      end
+      r.save!
     end
-    r.save!
-    r
   end
 
   # scans all kids and creates reminders for kids that meet the conditions
