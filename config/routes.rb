@@ -31,6 +31,11 @@ Rails.application.routes.draw do
   resources :teachers
   resources :principals
   resource :site
+  resources :substitutions do
+    member do
+      put 'inactivate'
+    end
+  end
 
   get '/exception_test' => 'exception_test#error'
 end

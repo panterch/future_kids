@@ -1,0 +1,66 @@
+- content_for :sidebar do
+  = form_for :substitution, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
+    %label= Substitution.human_attribute_name(:mentor)
+    .form-group
+      = f.select :mentor_id, mentor_collection, { :include_blank => true }, class: 'form-control'
+    .checkbox
+      %label
+        = f.check_box :inactive
+        %p
+          %b Inaktive
+    .form-group
+      = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
+      = link_to 'Filter aufheben', substitutions_path, class: 'btn btn-xs'
+
+
+= boot_page_title do
+  %h2 Vertretungen
+
+- if @substitutions.present?
+  %table.table.table-striped.table-condensed.table-hover.no-sidebar-actions
+    %thead
+      %tr
+        %th Mentor
+        %th Absewend vom
+        %th bis
+        %th Schüler
+        %th Ersatzmentor
+        %th Kommentar
+        %th Aktion
+    - @substitutions.each do |substitution|
+    / rot wenn kein ersatz-mentor vorhanden und noch nicht abgelaufen
+    / gelb wenn abschluss nötig
+    / grün wenn keine aktion nötig
+    - trclasses = [("danger" if !substitution.secondary_mentor.present?),
+                   ("warning" if substitution.end_at <= DateTime.now()),
+                   ("success" if substitution.end_at > DateTime.now() and substitution.secondary_mentor.present?)]
+
+      %tr{:class => trclasses}
+        %td= substitution.mentor.display_name
+        %td= link_to human_date(substitution.start_at), edit_substitution_path(substitution)
+        %td= link_to human_date(substitution.end_at), edit_substitution_path(substitution)
+        %td= substitution.kid.display_name
+        %td
+          - if substitution.secondary_mentor.present?
+            =substitution.secondary_mentor.display_name
+          - else
+            - if substitution.end_at > DateTime.now()
+              =button_to "Ersatz finden", { :controller => "kids", :id => substitution.kid.id, :action => :show_kid_mentors_schedules}, { :method => :get, :class => 'btn btn-default btn-xs', params: { substitution_id: substitution.id } }
+        %td
+          -if substitution.comments.present?
+            %a.todotoggle.btn.btn-xs{data: { content: substitution.comments}, href:  edit_substitution_path(substitution, :anchor => 'comments') }
+              Kommentar
+              %span.glyphicon.glyphicon-info-sign
+
+
+        - if substitution.inactive
+          %td= "Abgeschlossen"
+        - else
+          %td
+            - if substitution.end_at < DateTime.now
+              = button_to "Abwesenheit schliessen", { :action => "inactivate", :id => substitution.id }, { :method => :put, :class => 'btn btn-default btn-xs' }
+            - else
+              = button_to "Bearbeiten", edit_substitution_path(substitution), { :method => :get, :class => 'btn btn-default btn-xs' }
+
+- else
+  %p Kein Eintrag vorhanden

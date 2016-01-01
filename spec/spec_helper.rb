@@ -48,4 +48,11 @@ RSpec.configure do |config|
 
   # Clear ActionMailer deliveries after each spec.
   config.after(:each) { ActionMailer::Base.deliveries.clear }
+
+  Shoulda::Matchers.configure do |config|
+    config.integrate do |with|
+      with.test_framework :rspec
+      with.library :rails
+    end
+  end
 end

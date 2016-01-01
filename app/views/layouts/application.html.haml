@@ -39,11 +39,13 @@
                     %li= nav_link :mentor
                     %li= nav_link :principal
                     %li= nav_link :kid_mentor_relation
+                    %li=  nav_link :substitutions
                   -if can? :read, Reminder
                     %li= nav_link :reminder
                   %li= nav_link :document
                   -if can? :read, School
                     %li= nav_link :school
+
                 %ul.nav.navbar-nav.navbar-right
                   %li.dropdown(style="display: block !important")
                     = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do

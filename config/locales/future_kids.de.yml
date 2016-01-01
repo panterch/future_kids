@@ -14,6 +14,9 @@ de:
       review: "Gesprächsdokumentation"
       kid_mentor_relation: 'Bewegungen'
       site: 'Seitenweite Konfiguration'
+      #TODO: fix layout - "Vertretung" is too long
+      substitutions: 'Ersatz'
+      substitution: 'Ersatz'
 
     attributes:
       kid:
@@ -166,6 +169,13 @@ de:
         footer_email: Email Adresse in Fusszeile
         term_collection_start: Erstes Jahr Semesterauswahl
         term_collection_end: Letztes Jahr Semesterauswahl
+      substitution:
+        kid: "Kind"
+        mentor: "Mentor/in"
+        secondary_mentor: "Ersatz Mentor/in"
+        start_at: "Beginn"
+        end_at: "Ende"
+        comments: Bemerkungen
 
   notifications:
     remind:
@@ -199,6 +209,7 @@ de:
       xlsx: "Excel Export"
       reset_all: 'Alle zurücksetzen'
       update_success: 'Erfolgreich gespeichert'
+      new_substitution: 'Neue Abwesenheit'
 
   title:
     kid_mentor_relation_index:

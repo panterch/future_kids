@@ -1,0 +1,10 @@
+= show_for @substitution do |show|
+  = show.association :mentor, :using => :display_name do
+    = can_link_to(@substitution.mentor)
+  = show.association :kid, :using => :display_name do
+    = can_link_to(@substitution.kid)
+  = show.association :secondary_mentor, :using => :display_name do
+    = can_link_to(@substitution.secondary_mentor)
+  = show.attribute :start_at
+  = show.attribute :end_at
+  = show.attribute :comments

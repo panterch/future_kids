@@ -571,12 +571,13 @@ CREATE TABLE substitutions (
     id integer NOT NULL,
     start_at date NOT NULL,
     end_at date NOT NULL,
-    closed boolean DEFAULT false NOT NULL,
+    inactive boolean DEFAULT false NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     mentor_id integer,
     secondary_mentor_id integer,
-    kid_id integer
+    kid_id integer,
+    comments text
 );
 
 
@@ -1123,4 +1124,6 @@ INSERT INTO schema_migrations (version) VALUES ('20150929205014');
 INSERT INTO schema_migrations (version) VALUES ('20151113110517');
 
 INSERT INTO schema_migrations (version) VALUES ('20151225123405');
+
+INSERT INTO schema_migrations (version) VALUES ('20151231101854');
 

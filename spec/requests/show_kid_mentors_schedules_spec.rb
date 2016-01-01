@@ -417,7 +417,7 @@ feature 'Kid Mentor planning', js: true do
       end
 
 
-      scenario 'a set meeting is visually indicated', :issue120 => true do
+      scenario 'a set meeting is visually indicated' do
         # TOOD: did not know how to assign the mentor to the kid directly
         # so it just klicks through it
 
