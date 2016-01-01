@@ -37,16 +37,15 @@
 
       %tr{:class => trclasses}
         %td= substitution.mentor.display_name
-        %td= link_to human_date(substitution.start_at), substitution_path(substitution)
-        %td= link_to human_date(substitution.end_at), substitution_path(substitution)
+        %td= link_to human_date(substitution.start_at), edit_substitution_path(substitution)
+        %td= link_to human_date(substitution.end_at), edit_substitution_path(substitution)
         %td= substitution.kid.display_name
-        / show substitution (mentor_name)
         %td
           - if substitution.secondary_mentor.present?
             =substitution.secondary_mentor.display_name
           - else
             - if substitution.end_at > DateTime.now()
-              =button_to "Ersatz finden", { :controller => "kids", :id => substitution.kid.id, :action => :show_kid_mentors_schedules}, { :method => :get, :class => 'btn btn-default btn-xs', params: { substitution_id: substitution.id } } 
+              =button_to "Ersatz finden", { :controller => "kids", :id => substitution.kid.id, :action => :show_kid_mentors_schedules}, { :method => :get, :class => 'btn btn-default btn-xs', params: { substitution_id: substitution.id } }
         %td
           -if substitution.comments.present?
             %a.todotoggle.btn.btn-xs{data: { content: substitution.comments}, href:  edit_substitution_path(substitution, :anchor => 'comments') }
@@ -57,31 +56,11 @@
         - if substitution.inactive
           %td= "Abgeschlossen"
         - else
-          - if substitution.end_at < DateTime.now
-            %td= button_to "Abwesenheit schliessen", { :action => "inactivate", :id => substitution.id }, { :method => :put, :class => 'btn btn-default btn-xs' }
-          - else
-            %td= "-"
-
-
-
-        / %td= link_to reminder.kid.display_name, reminder.kid
-        / %td= link_to reminder.mentor.display_name, reminder.mentor
-        / %td
-        /   -if reminder.secondary_mentor
-        /     = link_to reminder.secondary_mentor.display_name, reminder.secondary_mentor
-        / %td= reminder.recipient
-        / %td= human_date(reminder.created_at.to_date)
-        / %td
-        /   -if reminder.kid.last_journal_entry
-        /     = link_to kid_path(reminder.kid, :anchor => 'journals') do
-        /       = human_date(reminder.kid.last_journal_entry.held_at)
-        / %td
-        /   - if reminder.sent_at
-        /     = human_date(reminder.sent_at.to_date)
-        /   - else
-        /     = button_to "Zustellen", { :action => "update", :id => reminder.id }, { :method => :put, :class => 'btn btn-default btn-xs' }
-        / %td
-        /   = button_to "Quittieren", { :action => "destroy", :id => reminder.id }, { :method => :delete, :class => 'btn btn-default btn-xs' }
+          %td
+            - if substitution.end_at < DateTime.now
+              = button_to "Abwesenheit schliessen", { :action => "inactivate", :id => substitution.id }, { :method => :put, :class => 'btn btn-default btn-xs' }
+            - else
+              = button_to "Bearbeiten", edit_substitution_path(substitution), { :method => :get, :class => 'btn btn-default btn-xs' }
 
 - else
   %p Kein Eintrag vorhanden

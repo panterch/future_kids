@@ -9,4 +9,8 @@ class Substitution < ActiveRecord::Base
 	default_scope -> { order(:start_at) }
   scope :active, -> { where(inactive: false) }
 
+	def human_comments
+		text_format(comments)
+	end
+
 end

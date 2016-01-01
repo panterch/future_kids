@@ -12,7 +12,7 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
     mentor = create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'm')
     mentor
   }
-  let!(:kid) { 
+  let!(:kid) {
     kid = create(:kid)
     kid.mentor = mentor_frederik
     kid
@@ -41,7 +41,6 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
     fill_in 'substitution_end_at', with: (Date.today - 2)
     click_button 'Ersatz erstellen'
     expect(page.status_code).to eq(200)
-    expect(page).to have_content('Ersatz anzeigen')
     expect(page).to have_content(mentor_frederik.display_name)
     expect(page).to have_content(kid.display_name)
   end
@@ -74,11 +73,11 @@ feature 'ADMIN::UPDATE:SUBSTITUTION', '
     mentor = create(:mentor, ects: true, prename: 'Melanie', name:'Rohner', sex: 'f')
     mentor
   }
-  let!(:kid) { 
+  let!(:kid) {
     kid = create(:kid, mentor: mentor_frederik)
     kid
   }
-  let!(:substitution) { 
+  let!(:substitution) {
     substitution = create(:substitution, mentor: mentor_frederik, secondary_mentor:false, kid: kid, start_at: (Date.today - 1), end_at: (Date.today + 10))
     substitution
   }
@@ -129,5 +128,5 @@ feature 'MENTOR::SHOW:SUBSTITUTION', '
   scenario 'mentor sould not be able to see substitution-header-link' do
     expect(page).to_not have_content('Ersatz')
   end
-  
+
 end

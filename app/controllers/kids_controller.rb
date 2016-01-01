@@ -8,6 +8,7 @@ class KidsController < ApplicationController
 
   before_action :cancan_prototypes, only: [:show]
   before_action :assign_current_teacher, only: [:create]
+  before_action :prepare_substitution
   after_action :track_creation_relation, only: [:create]
 
   def index
@@ -35,26 +36,31 @@ class KidsController < ApplicationController
     respond_with @kids
   end
 
-  # def update
-  #   if @kid.update(kid_params)
-  #     # Move to hidden field
-  #     Substitution.where('kid_id = ? AND end_at >= ?', @kid.id, DateTime.now).each do |substitution|
-  #       substitution.update(:secondary_mentor => @kid.secondary_mentor)
-  #     end
-  #     redirect_to action: :index
-  #   else
-  #     render :edit
-  #   end
-  # end
+  # update may be called from different sources
+  # - normal rails edit form
+  # - react component on show_kid_mentors_schedules
+  # - react component on show_kid_mentors_schedules in substitution workflow
+  def update
+
+    unless @kid.update(kid_params)
+      # validation failed
+      return render :edit
+    end
+
+    # normal call - not through substitution workflow
+    unless @substitution
+      return respond_with(@kid)
+    end
+
+    # call included substitution_id: sync substitution information
+    @substitution.update!(secondary_mentor: @kid.secondary_mentor)
+    redirect_to substitution_url(@substitution)
+  end
 
   def show_kid_mentors_schedules
-   if params[:substitution_id]
-      @substitution = Substitution.find(params[:substitution_id])
-   else
-      @substitution = false
-   end
 
-   @kid_mentor_schedules_data = Jbuilder.new do |json|
+    # prepare substitution json
+    @kid_mentor_schedules_data = Jbuilder.new do |json|
       json.mentors do
         Mentor.active.each do |mentor|
           json.set! mentor.id do
@@ -87,7 +93,6 @@ class KidsController < ApplicationController
       json.schools School.all, :id, :display_name
     end.attributes!
   end
-
 
   protected
 
@@ -130,14 +135,14 @@ class KidsController < ApplicationController
   def kid_params
     if params[:kid].present?
       params.require(:kid).permit(
-        :name, :prename, :sex, :dob, :grade, :language, :parent, :address,
-        :city, :phone, :translator, :note, :school_id, :goal_1, :goal_2,
-        :meeting_day, :meeting_start_at, :teacher_id, :secondary_teacher_id,
-        :mentor_id, :secondary_mentor_id, :secondary_active, :admin_id, :term,
-        :exit, :exit_reason, :exit_kind, :exit_at,
-        :coached_at, :abnormality,
-        :abnormality_criticality, :todo, :inactive,
-        schedules_attributes: [:day, :hour, :minute],
+          :name, :prename, :sex, :dob, :grade, :language, :parent, :address,
+          :city, :phone, :translator, :note, :school_id, :goal_1, :goal_2,
+          :meeting_day, :meeting_start_at, :teacher_id, :secondary_teacher_id,
+          :mentor_id, :secondary_mentor_id, :secondary_active, :admin_id, :term,
+          :exit, :exit_reason, :exit_kind, :exit_at,
+          :coached_at, :abnormality,
+          :abnormality_criticality, :todo, :inactive,
+          schedules_attributes: [:day, :hour, :minute],
       )
     else
       {}
@@ -149,8 +154,8 @@ class KidsController < ApplicationController
   # occures in the array. otherwise this key does not exist.
   def create_schedules_nested_set (schedules_array)
 
-    schedules_set = Hash.new { |h,k| h[k] = Hash.new { |h,k| h[k] = {}}}
-    schedules_by_day = schedules_array.group_by {|s| s.day}
+    schedules_set = Hash.new { |h, k| h[k] = Hash.new { |h, k| h[k] = {} } }
+    schedules_by_day = schedules_array.group_by { |s| s.day }
     schedules_by_day.each do |day, times|
       times.each do |time|
         key = time.hour.to_s.rjust(2, '0')+':'+time.minute.to_s.rjust(2, '0')
@@ -159,6 +164,14 @@ class KidsController < ApplicationController
     end
     return schedules_set
 
+  end
+
+  # this form may be reached from substitutions, this is indicated
+  # by a parameter substitution_id
+  def prepare_substitution
+    if params[:substitution_id].present?
+      @substitution = Substitution.find(params[:substitution_id])
+    end
   end
 
 end

@@ -169,6 +169,13 @@ de:
         footer_email: Email Adresse in Fusszeile
         term_collection_start: Erstes Jahr Semesterauswahl
         term_collection_end: Letztes Jahr Semesterauswahl
+      substitution:
+        kid: "Kind"
+        mentor: "Mentor/in"
+        secondary_mentor: "Ersatz Mentor/in"
+        start_at: "Beginn"
+        end_at: "Ende"
+        comments: Bemerkungen
 
   notifications:
     remind:
