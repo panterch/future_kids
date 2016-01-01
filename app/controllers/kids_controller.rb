@@ -149,8 +149,8 @@ class KidsController < ApplicationController
   end
 
   # In the react-component, we need the schedules as some kind of "nested-set"
-  # It is a hash where an entry set[day]["hour:minute"] is true, if that day and time
-  # occures in the array. otherwise this key does not exist.
+  # It is a hash where an entry set[day]["hour:minute"] is true, if that day and
+  # time occurs in the array. Otherwise this key does not exist.
   def create_schedules_nested_set (schedules_array)
 
     schedules_set = Hash.new { |h, k| h[k] = Hash.new { |h, k| h[k] = {} } }
