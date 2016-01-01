@@ -61,30 +61,20 @@ class Reminder < ActiveRecord::Base
       Kid.all.find_each do |kid|
         logger.info("[#{kid.id}] #{kid.display_name}: checking journal entries")
         logger.flush
-        unless kid.journal_entry_due?(time)
-          logger.info("[#{kid.id}] #{kid.display_name}: no entry due")
-          logger.flush
-          next
-        end
-        if kid.journal_entry_for_week(time)
-          logger.info("[#{kid.id}] #{kid.display_name}: journal entry present")
-          logger.flush
-          next
-        end
-        if kid.reminder_entry_for_week(time)
-          logger.info("[#{kid.id}] #{kid.display_name}: reminder entry present")
-          logger.flush
-          next
-        end
-        if kid.mentor.nil? && kid.secondary_mentor.nil?
-          logger.info("[#{kid.id}] #{kid.display_name}: no mentors set")
-          logger.flush
-          next
-        end
-        reminder = Reminder.create_for(kid, time)
-        logger.info("[#{kid.id}] #{kid.display_name}: created reminder [#{reminder.id}]")
+        log_message = "[#{kid.id}] #{kid.display_name}: " +
+          case
+          when !kid.journal_entry_due?(time) then 'no entry due'
+          when kid.journal_entry_for_week(time) then 'journal entry present'
+          when kid.reminder_entry_for_week(time) then 'reminder entry present'
+          when kid.mentor.nil? && kid.secondary_mentor.nil?
+            'no mentors set'
+          else
+            reminder = Reminder.create_for(kid, time)
+            reminders_created += 1
+            "created reminder [#{reminder.id}]"
+          end
+        logger.info(log_message)
         logger.flush
-        reminders_created += 1
       end
 
       # send out admin notification when reminders were created
