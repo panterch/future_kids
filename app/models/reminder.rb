@@ -51,47 +51,54 @@ class Reminder < ActiveRecord::Base
   # - not all journal entries or reminders are there
   # - you pass a parater time that is a few days after the kids meeting das
   def self.conditionally_create_reminders(time = Time.now)
-    reminders_created = 0
-
     logger.info("Beginning reminder run, reference Date #{time}")
     logger.flush
 
-    begin
+    reminders_created_count =
+      Kid.all.find_each.select do |kid|
+        self.conditionally_create_reminder_for_kid(time, kid)
+      end.count
 
-      Kid.all.find_each do |kid|
-        logger.info("[#{kid.id}] #{kid.display_name}: checking journal entries")
-        logger.flush
-        log_message = "[#{kid.id}] #{kid.display_name}: " +
-          case
-          when !kid.journal_entry_due?(time) then 'no entry due'
-          when kid.journal_entry_for_week(time) then 'journal entry present'
-          when kid.reminder_entry_for_week(time) then 'reminder entry present'
-          when kid.mentor.nil? && kid.secondary_mentor.nil?
-            'no mentors set'
-          else
-            reminder = Reminder.create_for(kid, time)
-            reminders_created += 1
-            "created reminder [#{reminder.id}]"
-          end
-        logger.info(log_message)
-        logger.flush
-      end
-
-      # send out admin notification when reminders were created
-      if 0 < reminders_created
-        Notifications.reminders_created(reminders_created).deliver_now
-      end
-
-    rescue => e
-      logger.error 'Exception during reminder run'
-      logger.error e.message
-      logger.error e.backtrace.join("\n")
-      logger.flush
+    # send out admin notification when reminders were created
+    if reminders_created_count > 0
+      Notifications.reminders_created(reminders_created_count).deliver_now
     end
 
-    logger.info("Created #{reminders_created} reminders, reference Date #{time}")
+    logger.info(
+      "Created #{reminders_created_count} reminders, reference Date #{time}"
+    )
     logger.flush
 
     reminders_created
+  rescue => e
+    logger.error 'Exception during reminder run'
+    logger.error e.message
+    logger.error e.backtrace.join("\n")
+    logger.flush
+  end
+
+  def self.conditionally_create_reminder_for_kid(time, kid)
+    log_preamble = "[#{kid.id}] #{kid.display_name}: "
+
+    logger.info(log_preamble + " checking journal entries")
+    logger.flush
+
+    log_message =
+      case
+      when !kid.journal_entry_due?(time) then 'no entry due'
+      when kid.journal_entry_for_week(time) then 'journal entry present'
+      when kid.reminder_entry_for_week(time) then 'reminder entry present'
+      when kid.mentor.nil? && kid.secondary_mentor.nil?
+        'no mentors set'
+      else
+        reminder = Reminder.create_for(kid, time)
+        reminder_created = true
+        "created reminder [#{reminder.id}]"
+      end
+
+    logger.info(log_preamble + log_message)
+    logger.flush
+
+    reminder_created
   end
 end
