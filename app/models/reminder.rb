@@ -54,9 +54,9 @@ class Reminder < ActiveRecord::Base
     logger.flush
 
     reminders_created_count =
-      Kid.all.find_each.select do |kid|
+      Kid.all.find_each.count do |kid|
         self.conditionally_create_reminder_for_kid(time, kid)
-      end.count
+      end
 
     # send out admin notification when reminders were created
     if reminders_created_count > 0
