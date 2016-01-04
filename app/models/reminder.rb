@@ -23,7 +23,7 @@ class Reminder < ActiveRecord::Base
   # method looks up when the meeting should have been held for the given kid
   # in the week of time and creates a reminder according to these settings
   def self.create_for(kid, time)
-    Reminder.new.tap do |r|
+    Reminder.create! do |r|
       r.kid = kid
       r.mentor = kid.mentor
       r.secondary_mentor = kid.secondary_mentor
@@ -36,7 +36,6 @@ class Reminder < ActiveRecord::Base
       else
         r.recipient = kid.mentor.try(:email)
       end
-      r.save!
     end
   end
 
