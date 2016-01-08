@@ -31,8 +31,12 @@ function register_datepickers() {
   };
 
   $('input.calendricalDate').calendricalDate(date_settings);
-  $('#journal_start_at, #journal_end_at').calendricalTimeRange(time_settings);
   $('#kid_meeting_start_at').calendricalTime(time_settings);
+
+  // journal entries may take longer than official meeting hours
+  var end_settings = $.extend(true, {}, time_settings);
+  end_settings.maxTime.hour = 19;
+  $('#journal_start_at, #journal_end_at').calendricalTimeRange(end_settings);
 
 }
 
