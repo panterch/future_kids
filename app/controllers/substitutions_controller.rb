@@ -3,11 +3,6 @@ class SubstitutionsController < ApplicationController
   include CrudActions
 
   def index
-  	@substitutions = Substitution.active
-  end
-
-  def index
-
     params[:substitution] ||= {}
     params[:substitution][:inactive] = '0' if params[:substitution][:inactive].nil?
 
@@ -16,18 +11,16 @@ class SubstitutionsController < ApplicationController
     # provide a prototype for the filter form
     @substitution = Substitution.new(substitution_params)
     respond_with @substitutions
-
   end
-
 
   def new
     @substitution = Substitution.new()
 
-  	if params[:mentor_id]
-  		@substitution.mentor = Mentor.find(params[:mentor_id])
+    if params[:mentor_id]
+      @substitution.mentor = Mentor.find(params[:mentor_id])
       @substitution.kid = @substitution.mentor.kids.first
     end
-	end
+  end
 
   def inactivate
     @substitution.inactive = true
@@ -51,6 +44,4 @@ protected
       :start_at, :end_at, :mentor_id, :kid_id, :secondary_mentor_id, :comments, :inactive
     )
   end
-
-
 end

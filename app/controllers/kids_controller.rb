@@ -1,5 +1,4 @@
 class KidsController < ApplicationController
-
   respond_to :html, :json
 
   load_and_authorize_resource
@@ -173,5 +172,4 @@ class KidsController < ApplicationController
       @substitution = Substitution.find(params[:substitution_id])
     end
   end
-
 end

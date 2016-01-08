@@ -61,5 +61,4 @@ class Schedule < ActiveRecord::Base
   def self.schedules_updated_at(relation)
     relation.schedules.order('updated_at DESC').first.try(:updated_at)
   end
-
 end

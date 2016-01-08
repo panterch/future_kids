@@ -186,6 +186,4 @@ class Kid < ActiveRecord::Base
     self.goal_1_updated_at = Time.now if goal_1_changed?
     self.goal_2_updated_at = Time.now if goal_2_changed?
   end
-
-
 end
