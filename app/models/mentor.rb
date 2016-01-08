@@ -42,9 +42,7 @@ class Mentor < User
   end
 
   def month_count
-    Journal.unscoped.where(mentor_id: id).map do |j|
-      "#{j.month} #{j.year}"
-    end.uniq.size
+    Journal.unscoped.where(mentor_id: id).select('DISTINCT (month, year)').count
   end
 
   def human_exit_kind
