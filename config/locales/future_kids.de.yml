@@ -126,6 +126,7 @@ de:
         exit_kind: "Aktueller Stand"
         exit_at: "Ausstiegsdatum"
         schedules_updated_at: "Stundenplan aktualisiert"
+        schedules_seen_at: "Stundenplan eingesehen"
       teacher:
         kids: Kinder
         secondary_kids: "Kinder (als 2. Lehrperson)"

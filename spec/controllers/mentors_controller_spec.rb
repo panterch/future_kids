@@ -23,6 +23,13 @@ describe MentorsController do
       end
     end
 
+    context 'edit_schedules' do
+      it 'updates the schedule seen timestamp' do
+        get :edit_schedules, id: @mentor.id
+        expect(@mentor.reload.schedules_seen_at).not_to be_nil
+      end
+    end
+
     context 'update_schedules' do
       it 'creates schedule entries' do
         put :update_schedules, id: @mentor.id, mentor: {
@@ -60,5 +67,13 @@ describe MentorsController do
         expect(response).to be_successful
       end
     end
+
+    context 'edit_schedules' do
+      it 'does not update the schedule seen timestamp' do
+        get :edit_schedules, id: @mentor.id
+        expect(@mentor.reload.schedules_seen_at).to be_nil
+      end
+    end
+
   end
 end

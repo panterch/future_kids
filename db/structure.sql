@@ -251,7 +251,8 @@ CREATE TABLE users (
     primary_kids_admin_id integer,
     exit_kind character varying,
     exit_at date,
-    sex character varying
+    sex character varying,
+    schedules_seen_at timestamp without time zone
 );
 
 
@@ -1126,4 +1127,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151113110517');
 INSERT INTO schema_migrations (version) VALUES ('20151225123405');
 
 INSERT INTO schema_migrations (version) VALUES ('20151231101854');
+
+INSERT INTO schema_migrations (version) VALUES ('20160203164912');
 

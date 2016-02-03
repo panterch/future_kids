@@ -170,7 +170,6 @@ class Kid < ActiveRecord::Base
       relation_logs.create!(user_id: send("#{field}_id_was"),
                             role: field,
                             end_at: Time.now)
-
     end
     if changed && current_id
       relation_logs.create!(user_id: send("#{field}_id"),
