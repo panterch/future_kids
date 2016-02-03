@@ -14,7 +14,6 @@ de:
       review: "Gesprächsdokumentation"
       kid_mentor_relation: 'Bewegungen'
       site: 'Seitenweite Konfiguration'
-      #TODO: fix layout - "Vertretung" is too long
       substitutions: 'Ersatz'
       substitution: 'Ersatz'
 
@@ -186,6 +185,7 @@ de:
       subject: Neuer Lernjournal Kommentar
     journals_created:
       subject: Neue Lernjournale
+    default_email: 'Future Kids <futurekids-tech@panter.ch>'
 
   kids:
     criticality:
