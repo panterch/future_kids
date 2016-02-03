@@ -14,7 +14,7 @@ describe Notifications do
     it 'renders the headers' do
       expect(@mail.subject).to match('Erinnerung')
       expect(@mail.to).to eq([@reminder.mentor.email])
-      expect(@mail.from).to eq(['info@aoz-futurekids.ch'])
+      expect(@mail.from).to eq(['futurekids-tech@panter.ch'])
     end
 
     it 'renders the body' do
