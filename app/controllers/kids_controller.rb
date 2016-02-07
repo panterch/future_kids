@@ -111,8 +111,8 @@ class KidsController < ApplicationController
     return true unless current_user.is_a?(Teacher)
     return true if @kid.teacher.present?
     @kid.teacher ||= current_user if @kid.secondary_teacher != current_user
-    @kid.school ||= @kid.teacher.try(:school)
-    @kid.school ||= @kid.secondary_teacher.try(:school)
+    @kid.school ||= @kid.teacher&.school
+    @kid.school ||= @kid.secondary_teacher&.school
   end
 
   def track_creation_relation
@@ -149,8 +149,8 @@ class KidsController < ApplicationController
   end
 
   # In the react-component, we need the schedules as some kind of "nested-set"
-  # It is a hash where an entry set[day]["hour:minute"] is true, if that day and time
-  # occures in the array. otherwise this key does not exist.
+  # It is a hash where an entry set[day]["hour:minute"] is true, if that day and
+  # time occurs in the array. Otherwise this key does not exist.
   def create_schedules_nested_set (schedules_array)
 
     schedules_set = Hash.new { |h, k| h[k] = Hash.new { |h, k| h[k] = {} } }

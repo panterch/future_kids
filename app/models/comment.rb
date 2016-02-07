@@ -36,9 +36,9 @@ class Comment < ActiveRecord::Base
     to = []
     to << journal.mentor.email
     kid = journal.kid
-    to << kid.admin.try(:email)
-    to << kid.teacher.try(:email) if self.to_teacher?
-    to << kid.secondary_teacher.try(:email) if self.to_secondary_teacher?
+    to << kid.admin&.email
+    to << kid.teacher&.email if self.to_teacher?
+    to << kid.secondary_teacher&.email if self.to_secondary_teacher?
     to.compact
   end
 

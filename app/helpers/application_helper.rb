@@ -14,7 +14,7 @@ module ApplicationHelper
                              :id, :display_name, include_blank: true)
     else
       field = field[0...-3] # remove _id from field
-      resource.send(field).try(:display_name)
+      resource.send(field)&.display_name
     end
   end
 
