@@ -365,7 +365,7 @@ DEPENDENCIES
   rspec-rails
   sass-rails
   sdoc
-  selenium-webdriver
+  selenium-webdriver (= 2.47.1)
   shoulda-matchers
   show_for!
   simple_form
