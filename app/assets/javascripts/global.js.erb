@@ -36,6 +36,7 @@ function register_datepickers() {
   // journal entries may take longer than official meeting hours
   var end_settings = $.extend(true, {}, time_settings);
   end_settings.maxTime.hour = 19;
+  end_settings.timeInterval = 15;
   $('#journal_start_at, #journal_end_at').calendricalTimeRange(end_settings);
 
 }
