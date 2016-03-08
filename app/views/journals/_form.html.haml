@@ -3,8 +3,8 @@
     = form.association :mentor, :collection => @mentors
   = form.input :held_at
   = form.input :cancelled
-  = form.input :start_at, :as => :string, :required => true
-  = form.input :end_at, :as => :string, :required => true
+  = form.input :start_at, :as => :string, :required => true, input_html: { value: @journal.human_start_at, autocomplete: 'off' }
+  = form.input :end_at, :as => :string, :required => true, input_html: { value: @journal.human_end_at, autocomplete: 'off' }
   = form.input :goal
   = form.input :subject
   = form.input :method
