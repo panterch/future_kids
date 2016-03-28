@@ -72,11 +72,7 @@ class Journal < ActiveRecord::Base
   end
 
   def calculate_duration
-    if cancelled?
-      self.duration = 0
-    else
-      self.duration = (end_at - start_at) / 60
-    end
+    self.duration = (cancelled? ? 0 : (end_at - start_at) / 60)
   end
 
   def calculate_week
