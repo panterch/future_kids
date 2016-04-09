@@ -46,8 +46,7 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'factory_girl'
-  # this gem has to be pinned, see https://github.com/panterch/future_kids/issues/117
-  gem 'selenium-webdriver', '=2.47.1'
+  gem 'poltergeist'
   gem 'database_cleaner'
 end
 
