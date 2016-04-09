@@ -11,8 +11,8 @@ class Document < ActiveRecord::Base
       tree[category] =
         Document.uniq
         .where(category: category)
-        .where('subcategory IS NOT NULL')
-        .where("subcategory <> ''")
+        .where.not(subcategory: nil)
+        .where.not(subcategory: '')
         .order(:subcategory).pluck(:subcategory)
     end
     tree

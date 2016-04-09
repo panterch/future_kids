@@ -5,7 +5,6 @@ class Substitution < ActiveRecord::Base
   belongs_to :secondary_mentor, class_name: 'Mentor'
   belongs_to :kid
 
-
   default_scope -> { order(:start_at) }
   scope :active, -> { where(inactive: false) }
 
