@@ -8,10 +8,9 @@ GIT
 
 GIT
   remote: git://github.com/svenfuchs/i18n-active_record.git
-  revision: b26c2e62e32df2f3b9ae42083647725b7ecfdff0
-  ref: b26c2e62e32df2f3b9ae42083647725b7ecfdff0
+  revision: cf2e3ad8afad0cc90da1e9693c928d3eb52da5b0
   specs:
-    i18n-active_record (0.0.2)
+    i18n-active_record (0.1.0)
       i18n (>= 0.5.0)
 
 GEM
