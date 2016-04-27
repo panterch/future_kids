@@ -2,6 +2,7 @@
   = contextual_links do
     - if can?(:edit_schedules, @mentor)
       = contextual_link_to :edit_schedules, edit_schedules_mentor_path(@mentor)
+    - if can?(:create, Substitution)
       = contextual_link_to :new_substitution, new_substitution_path(:mentor_id=>@mentor.id)
 
 = boot_page_title
