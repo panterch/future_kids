@@ -46,6 +46,8 @@
       %th
         = Mentor.human_attribute_name(:name)
         = Mentor.model_name.human
+      %th
+        %span.glyphicon.glyphicon-info-sign
       %th= Mentor.human_attribute_name(:exit_kind)
       %th= Mentor.human_attribute_name(:exit_at)
       %th= School.model_name.human
@@ -62,6 +64,10 @@
         %td= relation.kid.human_exit_kind
         %td= human_date(relation.kid.exit_at)
         %td= link_to relation.mentor.display_name, relation.mentor
+        %td
+          -if relation.mentor.todo.present?
+            %a.todotoggle{data: { content: relation.mentor.human_todo}, href:  edit_mentor_path(relation.mentor, :anchor => 'todo') }
+              %span.glyphicon.glyphicon-info-sign
         %td= relation.mentor.human_exit_kind
         %td= human_date(relation.mentor.exit_at)
         %td

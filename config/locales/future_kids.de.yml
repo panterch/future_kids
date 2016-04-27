@@ -214,8 +214,8 @@ de:
 
   title:
     kid_mentor_relation_index:
-      one: '%{count} Beziehung'
-      other: '%{count} Beziehungen'
+      one: '%{count} Bewegung'
+      other: '%{count} Bewegungen'
 
   nav:
     principal: 'SL/QUIMS'
