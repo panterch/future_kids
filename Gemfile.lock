@@ -8,7 +8,7 @@ GIT
 
 GIT
   remote: git://github.com/svenfuchs/i18n-active_record.git
-  revision: cf2e3ad8afad0cc90da1e9693c928d3eb52da5b0
+  revision: 5fcbcde1ccc0fc801eb4b4c5f7bd957412561229
   specs:
     i18n-active_record (0.1.0)
       i18n (>= 0.5.0)
