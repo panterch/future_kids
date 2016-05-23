@@ -45,7 +45,7 @@ module ApplicationHelper
   end
 
   def exit_kind_collection
-    %w(exit later continue).map { |i| [I18n.t(i, scope: 'exit_kind'), i] }
+    %w(exit later continue_term continue).map { |i| [I18n.t(i, scope: 'exit_kind'), i] }
   end
 
   def school_collection

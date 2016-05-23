@@ -197,7 +197,8 @@ de:
   exit_kind:
     exit: "Steigt aus"
     later: "Alternatives Ausstiegsdatum"
-    continue: "Macht weiter"
+    continue_term: "macht ½ Jahr weiter"
+    continue: "macht 1 Jahr weiter"
 
   crud:
     action:
