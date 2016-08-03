@@ -38,4 +38,20 @@
   = @mentors.count if current_user.is_a?(Admin)
   Mentor/innen
 
-= render 'users/list', collection: @mentors
+- if @mentors.present?
+  %table.table.table-striped.table-condensed.table-hover
+    %tbody
+      - @mentors.each do |mentor|
+        %tr
+          %td= link_to mentor.display_name, mentor
+          - if current_user.is_a?(Admin)
+            %td
+              - if mentor.email.present?
+                = mail_to mentor.email, "<#{mentor.email}>"
+            %td
+              - if current_user.is_a?(Admin) && mentor.todo.present?
+                %a.todotoggle.btn.btn-xs{data: { content: mentor.human_todo}, href:  edit_mentor_path(mentor, :anchor => 'todo') }
+                  %span.glyphicon.glyphicon-info-sign
+                  Pendenz
+- else
+  %p Kein Eintrag vorhanden

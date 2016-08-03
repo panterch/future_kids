@@ -64,7 +64,7 @@
           %td
             = kid.coached_at ? I18n.l(kid.coached_at.to_date) : '-'
         %td
-          -if kid.todo.present?
+          -if current_user.is_a?(Admin) && kid.todo.present?
             %a.todotoggle.btn.btn-xs{data: { content: kid.human_todo}, href:  edit_kid_path(kid, :anchor => 'todo') }
               Pendenz
               %span.glyphicon.glyphicon-info-sign
