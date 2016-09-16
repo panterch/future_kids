@@ -183,7 +183,7 @@ de:
     reminders_created:
       subject: Neue Erinnerungen
     comment_created:
-      subject: BITTE BEACHTEN: Neuer Lernjournal Kommentar
+      subject: "BITTE BEACHTEN: Neuer Lernjournal Kommentar"
     journals_created:
       subject: Neue Lernjournale
     default_email: 'Future Kids <futurekids-tech@panter.ch>'
