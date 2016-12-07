@@ -69,6 +69,7 @@
     = show.attribute :exit_kind
     - if 'later' == @kid.exit_kind
       = show.attribute :exit_at
+    = show.attribute :checked_at
     - if @site.feature_coach?
       = show.attribute :coached_at
     = show.attribute :abnormality
