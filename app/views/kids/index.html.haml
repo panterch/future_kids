@@ -49,6 +49,7 @@
     %th Name
     - if current_user.is_a?(Admin)
       %th Eintritt
+      %th Letztes Kontrolldatum
       - if @site.feature_coach?
         %th Letztes Coaching
       %th Pendenzen
@@ -60,6 +61,8 @@
       -if current_user.is_a?(Admin)
         %td
           = kid.created_at ? I18n.l(kid.created_at.to_date) : '-'
+        %td
+          = kid.checked_at ? I18n.l(kid.checked_at.to_date) : '-'
         - if @site.feature_coach?
           %td
             = kid.coached_at ? I18n.l(kid.coached_at.to_date) : '-'

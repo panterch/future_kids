@@ -39,6 +39,7 @@
     = form.input :exit_reason, :collection => exit_reason_collection
     = form.input :exit_kind, :collection => exit_kind_collection
     = form.input :exit_at
+    = form.input :checked_at
     - if @site.feature_coach?
       = form.input :coached_at
     = form.input :abnormality
