@@ -66,7 +66,7 @@ module ApplicationHelper
 
   def order_by_collection_for_kids(selected)
     options = [['Name', 'name, prename'],
-               ['Kontrolldatum', 'checked_at_ASC'],
+               ['Kontrolldatum', 'checked_at ASC'],
                ['Coachingdatum', 'coached_at ASC'],
                ['Erfassungsdatum', 'created_at ASC'],
                %w(Kritikalität abnormality_criticality)]
