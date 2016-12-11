@@ -25,15 +25,7 @@ gem 'sass-rails'
 gem 'coffee-rails'
 gem 'bower-rails'
 gem 'uglifier'
-
-# had to pin to an older release since else active record logger
-# is rendered unusable, see
-# https://github.com/panterch/future_kids/issues/143
-gem 'i18n-active_record',
-    git: 'git://github.com/svenfuchs/i18n-active_record.git',
-    require: 'i18n/active_record',
-    ref: 'b26c2e62e32df2f3b9ae42083647725b7ecfdff0'
-
+gem 'i18n-active_record'
 gem 'panter-rails-deploy'
 
 
