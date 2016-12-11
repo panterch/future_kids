@@ -1,0 +1,28 @@
+wb = xlsx_package.workbook
+wb.add_worksheet(name: "Schüler") do |sheet|
+  sheet.add_row [
+    Kid.human_attribute_name(:name) + Kid.model_name.human,
+    'Einstieg',
+    Kid.human_attribute_name(:exit_kind),
+    Kid.human_attribute_name(:exit_at),
+    Mentor.human_attribute_name(:name) + Mentor.model_name.human,
+    Mentor.human_attribute_name(:email),
+    Mentor.human_attribute_name(:exit_kind),
+    Mentor.human_attribute_name(:exit_at),
+    School.model_name.human
+  ]
+
+  @kid_mentor_relations.each do |r|
+    sheet.add_row [
+      r.kid.display_name,
+      r.simple_term,
+      r.kid.human_exit_kind,
+      human_date(r.kid.exit_at),
+      r.mentor.display_name,
+      r.mentor.email,
+      r.mentor.human_exit_kind,
+      human_date(r.mentor.exit_at),
+      r.school.try(:display_name)
+    ]
+  end
+end

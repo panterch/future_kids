@@ -11,9 +11,7 @@ class KidsController < ApplicationController
   after_action :track_creation_relation, only: [:create]
 
   def index
-    if current_user.is_a?(Admin) && 'xlsx' == params[:format]
-      return render xlsx: 'index'
-    end
+
 
     # for admin users, the kids view may be filtered. these code is only
     # executed for admins since else we would have to take care that no other
@@ -32,7 +30,11 @@ class KidsController < ApplicationController
       @kid = Kid.new(kid_params)
     end
 
-    respond_with @kids
+    if current_user.is_a?(Admin) && 'xlsx' == params[:format]
+      return render xlsx: 'index'
+    else
+      respond_with @kids
+    end
   end
 
   # update may be called from different sources
@@ -138,7 +140,7 @@ class KidsController < ApplicationController
           :city, :phone, :translator, :note, :school_id, :goal_1, :goal_2,
           :meeting_day, :meeting_start_at, :teacher_id, :secondary_teacher_id,
           :mentor_id, :secondary_mentor_id, :secondary_active, :admin_id, :term,
-          :exit, :exit_reason, :exit_kind, :exit_at, :checked_at, 
+          :exit, :exit_reason, :exit_kind, :exit_at, :checked_at,
           :coached_at, :abnormality,
           :abnormality_criticality, :todo, :inactive,
           schedules_attributes: [:day, :hour, :minute],

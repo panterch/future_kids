@@ -13,7 +13,12 @@ class KidMentorRelationsController < ApplicationController
     else
       @kid_mentor_relations = @kid_mentor_relations.reorder('kid_name')
     end
-    respond_with @kid_mentor_relations
+
+    if 'xlsx' == params[:format]
+      return render xlsx: 'index'
+    else
+      respond_with @kid_mentor_relations
+    end
   end
 
   def destroy
