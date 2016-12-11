@@ -12,7 +12,7 @@ describe KidMentorRelationsController do
 
     context 'index' do
       it 'displays index' do
-        create(:kid, exit_kind: 'exit', mentor: @mentor)
+        create(:kid)
         get :index
         expect(assigns(:kid_mentor_relations).length).to eq(2)
       end
@@ -24,6 +24,8 @@ describe KidMentorRelationsController do
       end
 
       it 'renders xlsx' do
+        create(:kid)
+        create(:kid, exit_kind: 'exit', mentor: @mentor)
         get :index, format: 'xlsx'
         expect(response).to be_successful
       end

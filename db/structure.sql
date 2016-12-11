@@ -2,16 +2,12 @@
 -- PostgreSQL database dump
 --
 
--- Dumped from database version 9.5.5
--- Dumped by pg_dump version 9.5.5
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SET check_function_bodies = false;
 SET client_min_messages = warning;
-SET row_security = off;
 
 --
 -- Name: plpgsql; Type: EXTENSION; Schema: -; Owner: -
@@ -34,7 +30,7 @@ SET default_tablespace = '';
 SET default_with_oids = false;
 
 --
--- Name: comments; Type: TABLE; Schema: public; Owner: -
+-- Name: comments; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE comments (
@@ -42,8 +38,8 @@ CREATE TABLE comments (
     journal_id integer NOT NULL,
     by character varying NOT NULL,
     body text NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     to_teacher boolean DEFAULT false,
     to_secondary_teacher boolean DEFAULT false
 );
@@ -69,7 +65,7 @@ ALTER SEQUENCE comments_id_seq OWNED BY comments.id;
 
 
 --
--- Name: documents; Type: TABLE; Schema: public; Owner: -
+-- Name: documents; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE documents (
@@ -80,8 +76,8 @@ CREATE TABLE documents (
     attachment_content_type character varying,
     attachment_file_size integer,
     attachment_updated_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     category character varying,
     subcategory character varying
 );
@@ -107,7 +103,7 @@ ALTER SEQUENCE documents_id_seq OWNED BY documents.id;
 
 
 --
--- Name: journals; Type: TABLE; Schema: public; Owner: -
+-- Name: journals; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE journals (
@@ -126,8 +122,8 @@ CREATE TABLE journals (
     note text,
     kid_id integer NOT NULL,
     mentor_id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     month integer
 );
 
@@ -152,7 +148,7 @@ ALTER SEQUENCE journals_id_seq OWNED BY journals.id;
 
 
 --
--- Name: kids; Type: TABLE; Schema: public; Owner: -
+-- Name: kids; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE kids (
@@ -171,8 +167,8 @@ CREATE TABLE kids (
     secondary_mentor_id integer,
     teacher_id integer,
     secondary_teacher_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     phone character varying,
     secondary_active boolean DEFAULT false NOT NULL,
     dob date,
@@ -204,7 +200,7 @@ CREATE TABLE kids (
 
 
 --
--- Name: users; Type: TABLE; Schema: public; Owner: -
+-- Name: users; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE users (
@@ -220,8 +216,8 @@ CREATE TABLE users (
     available text,
     ects boolean,
     entry_date date,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     email character varying DEFAULT ''::character varying NOT NULL,
     encrypted_password character varying(128) DEFAULT ''::character varying NOT NULL,
     reset_password_token character varying,
@@ -277,7 +273,7 @@ CREATE VIEW kid_mentor_relations AS
     admins.id AS admin_id,
     "substring"((kids.term)::text, 6) AS simple_term
    FROM ((kids
-     JOIN users mentors ON (((kids.mentor_id = mentors.id) AND ((mentors.type)::text = 'Mentor'::text))))
+     LEFT JOIN users mentors ON (((kids.mentor_id = mentors.id) AND ((mentors.type)::text = 'Mentor'::text))))
      LEFT JOIN users admins ON (((kids.admin_id = admins.id) AND ((admins.type)::text = 'Admin'::text))))
   WHERE (kids.inactive = false);
 
@@ -302,7 +298,7 @@ ALTER SEQUENCE kids_id_seq OWNED BY kids.id;
 
 
 --
--- Name: principal_school_relations; Type: TABLE; Schema: public; Owner: -
+-- Name: principal_school_relations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE principal_school_relations (
@@ -334,7 +330,7 @@ ALTER SEQUENCE principal_school_relations_id_seq OWNED BY principal_school_relat
 
 
 --
--- Name: relation_logs; Type: TABLE; Schema: public; Owner: -
+-- Name: relation_logs; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE relation_logs (
@@ -344,8 +340,8 @@ CREATE TABLE relation_logs (
     role character varying,
     start_at timestamp without time zone,
     end_at timestamp without time zone,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -369,7 +365,7 @@ ALTER SEQUENCE relation_logs_id_seq OWNED BY relation_logs.id;
 
 
 --
--- Name: reminders; Type: TABLE; Schema: public; Owner: -
+-- Name: reminders; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE reminders (
@@ -382,8 +378,8 @@ CREATE TABLE reminders (
     mentor_id integer NOT NULL,
     sent_at timestamp without time zone,
     secondary_mentor_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     acknowledged_at timestamp without time zone
 );
 
@@ -408,7 +404,7 @@ ALTER SEQUENCE reminders_id_seq OWNED BY reminders.id;
 
 
 --
--- Name: reviews; Type: TABLE; Schema: public; Owner: -
+-- Name: reviews; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE reviews (
@@ -421,8 +417,8 @@ CREATE TABLE reviews (
     note text,
     attendee text,
     kid_id integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -446,7 +442,7 @@ ALTER SEQUENCE reviews_id_seq OWNED BY reviews.id;
 
 
 --
--- Name: schedules; Type: TABLE; Schema: public; Owner: -
+-- Name: schedules; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE schedules (
@@ -456,8 +452,8 @@ CREATE TABLE schedules (
     day integer NOT NULL,
     hour integer NOT NULL,
     minute integer NOT NULL,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -481,7 +477,7 @@ ALTER SEQUENCE schedules_id_seq OWNED BY schedules.id;
 
 
 --
--- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -
+-- Name: schema_migrations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE schema_migrations (
@@ -490,15 +486,15 @@ CREATE TABLE schema_migrations (
 
 
 --
--- Name: schools; Type: TABLE; Schema: public; Owner: -
+-- Name: schools; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE schools (
     id integer NOT NULL,
     name character varying,
     principal_id integer,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL,
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone,
     street character varying,
     street_no character varying,
     zip character varying,
@@ -532,7 +528,7 @@ ALTER SEQUENCE schools_id_seq OWNED BY schools.id;
 
 
 --
--- Name: sites; Type: TABLE; Schema: public; Owner: -
+-- Name: sites; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE sites (
@@ -569,7 +565,7 @@ ALTER SEQUENCE sites_id_seq OWNED BY sites.id;
 
 
 --
--- Name: substitutions; Type: TABLE; Schema: public; Owner: -
+-- Name: substitutions; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE substitutions (
@@ -606,7 +602,7 @@ ALTER SEQUENCE substitutions_id_seq OWNED BY substitutions.id;
 
 
 --
--- Name: translations; Type: TABLE; Schema: public; Owner: -
+-- Name: translations; Type: TABLE; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE TABLE translations (
@@ -616,8 +612,8 @@ CREATE TABLE translations (
     value text,
     interpolations text,
     is_proc boolean DEFAULT false,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp without time zone,
+    updated_at timestamp without time zone
 );
 
 
@@ -758,7 +754,7 @@ ALTER TABLE ONLY users ALTER COLUMN id SET DEFAULT nextval('users_id_seq'::regcl
 
 
 --
--- Name: comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: comments_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY comments
@@ -766,7 +762,7 @@ ALTER TABLE ONLY comments
 
 
 --
--- Name: documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: documents_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY documents
@@ -774,7 +770,7 @@ ALTER TABLE ONLY documents
 
 
 --
--- Name: journals_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: journals_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY journals
@@ -782,7 +778,7 @@ ALTER TABLE ONLY journals
 
 
 --
--- Name: kids_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: kids_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY kids
@@ -790,7 +786,7 @@ ALTER TABLE ONLY kids
 
 
 --
--- Name: principal_school_relations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: principal_school_relations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY principal_school_relations
@@ -798,7 +794,7 @@ ALTER TABLE ONLY principal_school_relations
 
 
 --
--- Name: relation_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: relation_logs_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY relation_logs
@@ -806,7 +802,7 @@ ALTER TABLE ONLY relation_logs
 
 
 --
--- Name: reminders_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: reminders_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY reminders
@@ -814,7 +810,7 @@ ALTER TABLE ONLY reminders
 
 
 --
--- Name: reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: reviews_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY reviews
@@ -822,7 +818,7 @@ ALTER TABLE ONLY reviews
 
 
 --
--- Name: schedules_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: schedules_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY schedules
@@ -830,7 +826,7 @@ ALTER TABLE ONLY schedules
 
 
 --
--- Name: schools_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: schools_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY schools
@@ -838,7 +834,7 @@ ALTER TABLE ONLY schools
 
 
 --
--- Name: sites_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: sites_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY sites
@@ -846,7 +842,7 @@ ALTER TABLE ONLY sites
 
 
 --
--- Name: substitutions_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: substitutions_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY substitutions
@@ -854,7 +850,7 @@ ALTER TABLE ONLY substitutions
 
 
 --
--- Name: translations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: translations_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY translations
@@ -862,7 +858,7 @@ ALTER TABLE ONLY translations
 
 
 --
--- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+-- Name: users_pkey; Type: CONSTRAINT; Schema: public; Owner: -; Tablespace: 
 --
 
 ALTER TABLE ONLY users
@@ -870,147 +866,147 @@ ALTER TABLE ONLY users
 
 
 --
--- Name: index_journals_on_held_at; Type: INDEX; Schema: public; Owner: -
+-- Name: index_journals_on_held_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_journals_on_held_at ON journals USING btree (held_at);
 
 
 --
--- Name: index_journals_on_kid_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_journals_on_kid_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_journals_on_kid_id ON journals USING btree (kid_id);
 
 
 --
--- Name: index_journals_on_mentor_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_journals_on_mentor_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_journals_on_mentor_id ON journals USING btree (mentor_id);
 
 
 --
--- Name: index_journals_on_month; Type: INDEX; Schema: public; Owner: -
+-- Name: index_journals_on_month; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_journals_on_month ON journals USING btree (month);
 
 
 --
--- Name: index_kids_on_inactive; Type: INDEX; Schema: public; Owner: -
+-- Name: index_kids_on_inactive; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_kids_on_inactive ON kids USING btree (inactive);
 
 
 --
--- Name: index_kids_on_school_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_kids_on_school_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_kids_on_school_id ON kids USING btree (school_id);
 
 
 --
--- Name: index_relation_logs_on_kid_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_relation_logs_on_kid_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_relation_logs_on_kid_id ON relation_logs USING btree (kid_id);
 
 
 --
--- Name: index_relation_logs_on_user_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_relation_logs_on_user_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_relation_logs_on_user_id ON relation_logs USING btree (user_id);
 
 
 --
--- Name: index_reminders_on_kid_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_reminders_on_kid_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_reminders_on_kid_id ON reminders USING btree (kid_id);
 
 
 --
--- Name: index_reminders_on_mentor_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_reminders_on_mentor_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_reminders_on_mentor_id ON reminders USING btree (mentor_id);
 
 
 --
--- Name: index_reminders_on_secondary_mentor_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_reminders_on_secondary_mentor_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_reminders_on_secondary_mentor_id ON reminders USING btree (secondary_mentor_id);
 
 
 --
--- Name: index_reminders_on_sent_at; Type: INDEX; Schema: public; Owner: -
+-- Name: index_reminders_on_sent_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_reminders_on_sent_at ON reminders USING btree (sent_at);
 
 
 --
--- Name: index_reviews_on_held_at; Type: INDEX; Schema: public; Owner: -
+-- Name: index_reviews_on_held_at; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_reviews_on_held_at ON reviews USING btree (held_at);
 
 
 --
--- Name: index_reviews_on_kid_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_reviews_on_kid_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_reviews_on_kid_id ON reviews USING btree (kid_id);
 
 
 --
--- Name: index_schedules_on_uniqueness; Type: INDEX; Schema: public; Owner: -
+-- Name: index_schedules_on_uniqueness; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX index_schedules_on_uniqueness ON schedules USING btree (person_id, person_type, day, hour, minute);
 
 
 --
--- Name: index_substitutions_on_kid_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_substitutions_on_kid_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_substitutions_on_kid_id ON substitutions USING btree (kid_id);
 
 
 --
--- Name: index_substitutions_on_mentor_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_substitutions_on_mentor_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_substitutions_on_mentor_id ON substitutions USING btree (mentor_id);
 
 
 --
--- Name: index_substitutions_on_secondary_mentor_id; Type: INDEX; Schema: public; Owner: -
+-- Name: index_substitutions_on_secondary_mentor_id; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_substitutions_on_secondary_mentor_id ON substitutions USING btree (secondary_mentor_id);
 
 
 --
--- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_email; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_users_on_email ON users USING btree (email);
 
 
 --
--- Name: index_users_on_inactive; Type: INDEX; Schema: public; Owner: -
+-- Name: index_users_on_inactive; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE INDEX index_users_on_inactive ON users USING btree (inactive);
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
+-- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -; Tablespace: 
 --
 
 CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (version);
@@ -1020,7 +1016,7 @@ CREATE UNIQUE INDEX unique_schema_migrations ON schema_migrations USING btree (v
 -- PostgreSQL database dump complete
 --
 
-SET search_path TO "$user", public;
+SET search_path TO "$user",public;
 
 INSERT INTO schema_migrations (version) VALUES ('20110211123618');
 
@@ -1108,6 +1104,8 @@ INSERT INTO schema_migrations (version) VALUES ('20141228185936');
 
 INSERT INTO schema_migrations (version) VALUES ('20150424163124');
 
+INSERT INTO schema_migrations (version) VALUES ('20150503135014');
+
 INSERT INTO schema_migrations (version) VALUES ('20150520135622');
 
 INSERT INTO schema_migrations (version) VALUES ('20150524164241');
@@ -1117,6 +1115,8 @@ INSERT INTO schema_migrations (version) VALUES ('20150602204436');
 INSERT INTO schema_migrations (version) VALUES ('20150626141604');
 
 INSERT INTO schema_migrations (version) VALUES ('20150713124950');
+
+INSERT INTO schema_migrations (version) VALUES ('20150804135014');
 
 INSERT INTO schema_migrations (version) VALUES ('20150804205014');
 
@@ -1129,4 +1129,6 @@ INSERT INTO schema_migrations (version) VALUES ('20151225123405');
 INSERT INTO schema_migrations (version) VALUES ('20151231101854');
 
 INSERT INTO schema_migrations (version) VALUES ('20160203164912');
+
+INSERT INTO schema_migrations (version) VALUES ('20161211000000');
 
