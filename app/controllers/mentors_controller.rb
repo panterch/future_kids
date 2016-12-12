@@ -4,10 +4,6 @@ class MentorsController < ApplicationController
   include ManageSchedules # edit_schedules & update_schedules
 
   def index
-    if current_user.is_a?(Admin) && 'xlsx' == params[:format]
-      return render xlsx: 'index'
-    end
-
     # a prototyped mentor is submitted with each index query. if the prototype
     # is not present, it is built here with default values
     params[:mentor] ||= {}
@@ -19,10 +15,13 @@ class MentorsController < ApplicationController
     # provide a prototype for the filter form
     @mentor = Mentor.new(mentor_params)
 
+
+    if current_user.is_a?(Admin) && 'xlsx' == params[:format]
+      return render xlsx: 'index'
     # when only one record is present, show it immediatelly. this is not for
     # admins, since they could have no chance to alter their filter settings in
     # some cases
-    if !current_user.is_a?(Admin) && (1 == @mentors.count)
+    elsif !current_user.is_a?(Admin) && (1 == @mentors.count)
       redirect_to @mentors.first
     else
       respond_with @mentors

@@ -6,14 +6,6 @@ GIT
       actionpack (>= 4.1, < 5.1)
       activemodel (>= 4.1, < 5.1)
 
-GIT
-  remote: git://github.com/svenfuchs/i18n-active_record.git
-  revision: b26c2e62e32df2f3b9ae42083647725b7ecfdff0
-  ref: b26c2e62e32df2f3b9ae42083647725b7ecfdff0
-  specs:
-    i18n-active_record (0.0.2)
-      i18n (>= 0.5.0)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -165,6 +157,8 @@ GEM
       ruby_parser (~> 3.5)
     htmlentities (4.3.4)
     i18n (0.7.0)
+    i18n-active_record (0.1.2)
+      i18n (>= 0.5.0)
     i18n_rails_helpers (2.0.1)
       rails (> 3.0.0)
     jbuilder (2.4.1)
@@ -356,7 +350,7 @@ DEPENDENCIES
   factory_girl
   factory_girl_rails
   haml-rails
-  i18n-active_record!
+  i18n-active_record
   i18n_rails_helpers
   jbuilder
   jquery-rails
@@ -379,4 +373,4 @@ DEPENDENCIES
   whenever
 
 BUNDLED WITH
-   1.11.2
+   1.13.6

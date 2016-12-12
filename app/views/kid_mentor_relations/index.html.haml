@@ -1,4 +1,5 @@
 - content_for :contextual_links do
+  = contextual_link_to :xlsx, url_for(params.merge(format: 'xlsx'))
   = contextual_link_to 'reset_all', destroy_all_kid_mentor_relations_path, method: :delete, data: { confirm: "Sind Sie sicher?" }
 
 - content_for :sidebar do
@@ -63,13 +64,19 @@
         %td= relation.simple_term
         %td= relation.kid.human_exit_kind
         %td= human_date(relation.kid.exit_at)
-        %td= link_to relation.mentor.display_name, relation.mentor
-        %td
-          -if relation.mentor.todo.present?
-            %a.todotoggle{data: { content: relation.mentor.human_todo}, href:  edit_mentor_path(relation.mentor, :anchor => 'todo') }
-              %span.glyphicon.glyphicon-info-sign
-        %td= relation.mentor.human_exit_kind
-        %td= human_date(relation.mentor.exit_at)
+        - if relation.mentor.present?
+          %td= link_to(relation.mentor.display_name, relation.mentor)
+          %td
+            -if relation.mentor.todo.present?
+              %a.todotoggle{data: { content: relation.mentor.human_todo}, href:  edit_mentor_path(relation.mentor, :anchor => 'todo') }
+                %span.glyphicon.glyphicon-info-sign
+          %td= relation.mentor.human_exit_kind
+          %td= human_date(relation.mentor.exit_at)
+        - else
+          %td
+          %td
+          %td
+          %td
         %td
           - if relation.school.present?
             = link_to relation.school.display_name, relation.school

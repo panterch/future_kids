@@ -60,7 +60,7 @@ feature 'KidMentorRelations as Admin' do
     # inactivation will remove all kids of the mentor with the exit
     # flag (he has two kids assigned)
     expect(page).to have_content('Kid No / Mentor No')
-    expect(page).to have_no_content('Kid No / Mentor Exit')
+    expect(page).to have_content('Kid No / Mentor Exit')
     expect(page).to have_content('Kid Exit / Mentor No')
     expect(page).to have_no_content('Kid Exit / Mentor Exit')
   end

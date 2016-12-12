@@ -1,3 +1,8 @@
+# *readonly*:
+# model represents an sql *view* to filters on kid and mentors relations
+#
+# to describe view use on postgres console:
+# \d+ kid_mentor_relations;
 class KidMentorRelation < ActiveRecord::Base
   self.primary_key = 'kid_id' # use kid id to identify records
 

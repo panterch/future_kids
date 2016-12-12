@@ -30,8 +30,8 @@ describe KidMentorRelation do
 
   context 'kid without mentor' do
     let!(:kid) { create(:kid) }
-    it 'is ignored' do
-      expect(KidMentorRelation.count).to be_zero
+    it 'is found' do
+      expect(KidMentorRelation.count).to eq(1)
     end
   end
 
