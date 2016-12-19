@@ -1,14 +1,16 @@
 class Teacher < User
   has_many :kids
   has_many :secondary_kids, class_name: 'Kid',
-                            foreign_key: 'secondary_teacher_id'
+           foreign_key: 'secondary_teacher_id'
+  has_many :third_kids, class_name: 'Kid',
+           foreign_key: 'third_teacher_id'
   belongs_to :school
 
   after_save :release_relations, if: :inactive?
 
   def todays_journals(not_before = Time.now - 1.day)
     journals = []
-    (kids.active + secondary_kids.active).each do |kid|
+    (kids.active + secondary_kids.active + third_kids.active).each do |kid|
       journals << kid.journals.where('journals.created_at > ?', not_before)
     end
     journals.flatten.compact

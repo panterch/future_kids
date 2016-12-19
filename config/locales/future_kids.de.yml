@@ -43,6 +43,7 @@ de:
         secondary_active: "Stellvertretung aktiv"
         teacher: "Lehrperson"
         secondary_teacher: "Zweite Lehrperson"
+        third_teacher: "Dritte Lehrperson"
         dob: Geburtsdatum
         language: Erstsprache
         phone: Telefonnummer
@@ -130,6 +131,7 @@ de:
       teacher:
         kids: Kinder
         secondary_kids: "Kinder (als 2. Lehrperson)"
+        third_kids: "Kinder (als 3. Lehrperson)"
         school: Schule
         receive_journals: "Neue Lernjournale per EMail zustellen"
       document:
@@ -143,6 +145,7 @@ de:
         body: Kommentar
         to_teacher: Lehrperson
         to_secondary_teacher: "Zweite Lehrperson"
+        to_third_teacher: "Dritte Lehrperson"
       school:
         street: "Strasse, Nr."
         street_no: Hausnummer

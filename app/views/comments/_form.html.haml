@@ -3,22 +3,25 @@
   = form.input :body
   .form-group.boolean.optional
     %label.boolean.optional.control-label.col-sm-3.control-label
-      Mentor/in
+      Benachrichtigung senden
     .col-sm-9
-      %label
-        %input.boolean.optional(type='checkbox' disabled='disabled' checked)
-
-  - if @journal.kid.admin && @site.feature_coach?
-    .form-group.boolean.optional
-      %label.boolean.optional.control-label.col-sm-3.control-label
-        Coach
-      .col-sm-9
-        %label
+      .checkbox
+        %label.boolean
           %input.boolean.optional(type='checkbox' disabled='disabled' checked)
+          Mentor/in
+  .form-group.boolean.optional
+    .col-sm-offset-3.col-sm-9
+      - if @journal.kid.admin && @site.feature_coach?
+        .checkbox
+          %label.boolean
+            %input.boolean.optional(type='checkbox' disabled='disabled' checked)
+            Coach
+
   - if @journal.kid.teacher
     = form.input :to_teacher
   - if @journal.kid.secondary_teacher
     = form.input :to_secondary_teacher
-
+  - if @journal.kid.third_teacher
+    = form.input :to_third_teacher
   .col-sm-offset-3.col-sm-9
     = form.button :submit
