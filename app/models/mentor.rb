@@ -1,5 +1,8 @@
 class Mentor < User
+  attr_accessor :coach_id
+
   has_many :kids
+  has_many :admins, through: :kids
   has_many :secondary_kids, class_name: 'Kid',
                             foreign_key: 'secondary_mentor_id'
   has_many :journals

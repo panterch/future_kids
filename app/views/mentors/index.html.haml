@@ -18,7 +18,7 @@
       - if @site.feature_coach?
         .form-group
           %label Coach
-          = f.select :primary_kids_admin_id, admin_collection, { :include_blank => true }, class: 'form-control'
+          = f.select :coach_id, admin_collection, { :include_blank => true }, class: 'form-control'
       .form-group
         %label ÖV
         = f.select :transport, transport_collection, { :include_blank => true }, class: 'form-control'

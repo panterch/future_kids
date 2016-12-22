@@ -178,4 +178,14 @@ describe Kid do
       expect(@kid.journal_entry_for_week(friday)).to be_nil
     end
   end
+
+  context 'model association' do
+    it 'has admin' do
+      should belong_to(:admin)
+    end
+
+    it 'has mentor' do
+      should belong_to(:mentor)
+    end
+  end
 end

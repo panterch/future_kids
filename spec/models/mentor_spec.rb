@@ -39,7 +39,7 @@ describe Mentor do
     end
   end
 
-  context 'mentors grouped bu assigned kids' do
+  context 'mentors grouped by assigned kids' do
     it 'does correctly group' do
       @both = create(:mentor)
       create(:kid, mentor: @both)
@@ -120,6 +120,57 @@ describe Mentor do
       @mentor.save!; @mentor = Mentor.first
       expect(@mentor.photo).to be_present
       expect(@mentor.photo.url(:thumb)).to match(/logo\.png/)
+    end
+  end
+
+  context 'model association' do
+    it 'has many kids' do
+      should have_many(:kids)
+    end
+
+    it 'has many admins through kids' do
+      should have_many(:admins).through(:kids)
+    end
+
+    it 'should filter mentors by admins' do
+      @admin1  = create(:admin)
+      @admin2  = create(:admin)
+      @mentor1 = create(:mentor)
+      @mentor2 = create(:mentor)
+      @kid1    = create(:kid, mentor: @mentor1, admin: @admin1)
+      @kid2    = create(:kid, mentor: @mentor2, admin: @admin1)
+      @kid3    = create(:kid, mentor: @mentor1, admin: @admin1)
+      @kid4    = create(:kid, mentor: @mentor2, admin: @admin1)
+      @kid5    = create(:kid, mentor: @mentor1, admin: @admin2)
+      expect(@mentor1.kids.size).to eq(3)
+      expect(@mentor2.kids.size).to eq(2)
+      @mentors_by_admin1 = Mentor.joins(:kids).where('kids.admin_id = ?', @admin1.id).uniq
+      @mentors_by_admin1_admin_side = @admin1.mentors.uniq
+      # @mentors_by_admin1_admin_side = Admin.find_by(id: @admin1.id).mentors.uniq
+      # @mentors_by_admin1_mentor_side = Mentor.joins(:admins).where(:kids => {:admin_id => @admin1.id}).uniq
+      @mentors_by_admin1_mentor_side = Mentor.joins(:admins).where('kids.admin_id = ?', @admin1.id).uniq
+      expect(@mentors_by_admin1.size).to eq(2)
+      expect(@mentors_by_admin1_admin_side.size).to eq(2)
+      expect(@mentors_by_admin1_mentor_side.size).to eq(2)
+      expect(@mentors_by_admin1).to include(@mentor1)
+      expect(@mentors_by_admin1).to include(@mentor2)
+      expect(@mentors_by_admin1_admin_side).to include(@mentor1, @mentor2)
+      expect(@mentors_by_admin1_mentor_side).to include(@mentor1)
+      expect(@mentors_by_admin1_mentor_side).to include(@mentor2)
+      @mentors_by_admin2 = Mentor.joins(:kids).where('kids.admin_id = ?', @admin2.id).uniq
+      @mentors_by_admin2_admin_side = @admin2.mentors.uniq
+      # @mentors_by_admin2_mentor_side = Mentor.joins(:admins).where(:admins => {:id => @admin2.id}).uniq
+      @mentors_by_admin2_mentor_side = Mentor.joins(:admins).where('kids.admin_id = ?', @admin2.id).uniq
+      expect(@mentors_by_admin2.size).to eq(1)
+      expect(@mentors_by_admin2_admin_side.size).to eq(1)
+      expect(@mentors_by_admin2_mentor_side.size).to eq(1)
+      expect(@mentors_by_admin2).to include(@mentor1)
+      expect(@mentors_by_admin2).to_not include(@mentor2)
+      expect(@mentors_by_admin2_admin_side).to include(@mentor1)
+      expect(@mentors_by_admin2_admin_side).to_not include(@mentor2)
+      expect(@mentors_by_admin2_mentor_side).to include(@mentor1)
+      expect(@mentors_by_admin2_mentor_side).to_not include(@mentor2)
+
     end
   end
 end
