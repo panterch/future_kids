@@ -68,16 +68,17 @@ describe Kid do
       expect(mentor.reload.primary_kids_school).to be_nil
     end
 
-    it 'does sync its coach with the mentors primary_kid_coach field' do
+    it 'does sync its coach with the mentors coach through association' do
       kid.admin = create(:admin)
       kid.mentor = mentor = create(:mentor)
       kid.save!
-      expect(kid.admin_id). to eq mentor.reload.kids.last.admin_id
+      expect(kid.admin_id).to eq mentor.reload.kids.last.admin_id
       expect(kid.admin.display_name).to eq mentor.reload.kids.last.admin.display_name
       kid.admin = nil
       kid.save!
       expect(mentor.reload.kids.last.admin).to be_nil
     end
+
     it 'does release synced relations on mentors when inactivated' do
       kid.school = create(:school)
       kid.admin = create(:admin)
@@ -91,6 +92,7 @@ describe Kid do
       expect(mentor.reload.primary_kids_school).to be_nil
       expect(mentor.reload.admins.count).to eq(0)
     end
+
     it 'does nilify mentors when set inactive' do
       mentor = kid.mentor = create(:mentor)
       secondary_mentor = kid.secondary_mentor = create(:mentor)
@@ -180,7 +182,7 @@ describe Kid do
     end
   end
 
-  context 'model association' do
+  context 'association with admin and mentor' do
     it 'has admin' do
       should belong_to(:admin)
     end
