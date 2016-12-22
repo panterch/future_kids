@@ -45,7 +45,8 @@ CREATE TABLE comments (
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     to_teacher boolean DEFAULT false,
-    to_secondary_teacher boolean DEFAULT false
+    to_secondary_teacher boolean DEFAULT false,
+    to_third_teacher boolean
 );
 
 
@@ -199,7 +200,8 @@ CREATE TABLE kids (
     exit_kind character varying,
     exit_at date,
     goal_1_updated_at timestamp without time zone,
-    goal_2_updated_at timestamp without time zone
+    goal_2_updated_at timestamp without time zone,
+    third_teacher_id integer
 );
 
 
@@ -1130,6 +1132,10 @@ INSERT INTO schema_migrations (version) VALUES ('20151231101854');
 INSERT INTO schema_migrations (version) VALUES ('20160203164912');
 
 INSERT INTO schema_migrations (version) VALUES ('20161211000000');
+
+INSERT INTO schema_migrations (version) VALUES ('20161216161405');
+
+INSERT INTO schema_migrations (version) VALUES ('20161219202230');
 
 INSERT INTO schema_migrations (version) VALUES ('20161222121149');
 

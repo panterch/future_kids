@@ -29,7 +29,7 @@ class CommentsController < ApplicationController
   def comment_params
     if params[:comment].present?
       params.require(:comment).permit(
-        :by, :body, :to_teacher, :to_secondary_teacher
+        :by, :body, :to_teacher, :to_secondary_teacher, :to_third_teacher
       )
     else
       {}

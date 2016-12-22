@@ -67,16 +67,21 @@ class Ability
       can :create, Kid
       can [:read, :update], Kid, teacher_id: user.id, inactive: false
       can [:read, :update], Kid, secondary_teacher_id: user.id, inactive: false
+      can [:read, :update], Kid, third_teacher_id: user.id, inactive: false
       can :read, Mentor, kids: { teacher_id: user.id }
       can :read, Mentor, kids: { secondary_teacher_id: user.id }
+      can :read, Mentor, kids: { third_teacher_id: user.id }
       can :read, Mentor, secondary_kids: { teacher_id: user.id,
                                            secondary_active: true }
       can :read, Mentor, secondary_kids: { secondary_teacher_id: user.id,
+                                           secondary_active: true }
+      can :read, Mentor, secondary_kids: { third_teacher_id: user.id,
                                            secondary_active: true }
 
       # journals can be read indirect via kids
       can :read, Journal, kid: { teacher_id: user.id }
       can :read, Journal, kid: { secondary_teacher_id: user.id }
+      can :read, Journal, kid: { third_teacher_id: user.id }
 
     elsif user.is_a?(Principal)
       # own record may be read
