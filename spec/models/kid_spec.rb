@@ -67,15 +67,20 @@ describe Kid do
       kid.save!
       expect(mentor.reload.primary_kids_school).to be_nil
     end
+
+    #      @mentors = @mentors.joins(:admins).where('kids.admin_id = ?', params[:mentor][:filter_by_coach_id].to_i).uniq
     it 'does sync its coach with the mentors primary_kid_coach field' do
       kid.admin = create(:admin)
       kid.mentor = mentor = create(:mentor)
       kid.save!
-      expect(kid.admin_id).to eq mentor.reload.primary_kids_admin_id
-      expect(kid.admin.display_name).to eq mentor.primary_kids_admin.display_name
+      #expect(kid.admin_id).to eq mentor.reload.primary_kids_admin_id
+      #expect(kid.admin.display_name).to eq mentor.primary_kids_admin.display_name
+      expect(kid.admin_id). to eq mentor.reload.kids.last.admin_id
+      expect(kid.admin.display_name).to eq mentor.reload.kids.last.admin.display_name
       kid.admin = nil
       kid.save!
-      expect(mentor.reload.primary_kids_admin).to be_nil
+      #expect(mentor.reload.primary_kids_admin).to be_nil
+      expect(mentor.reload.kids.last.admin).to be_nil
     end
     it 'does release synced relations on mentors when inactivated' do
       kid.school = create(:school)
@@ -83,12 +88,14 @@ describe Kid do
       kid.mentor = mentor = create(:mentor)
       kid.save!
       expect(mentor.reload.primary_kids_school).to be_truthy
-      expect(mentor.reload.primary_kids_admin).to be_truthy
+      #expect(mentor.reload.primary_kids_admin).to be_truthy
+      expect(mentor.reload.kids.last.admin).to be_truthy
       kid.inactive = true
       kid.save!
       expect(mentor.reload.kids).to be_empty
       expect(mentor.reload.primary_kids_school).to be_nil
-      expect(mentor.reload.primary_kids_admin).to be_nil
+      #expect(mentor.reload.primary_kids_admin).to be_nil
+      expect(mentor.reload.admins.count).to eq(0)
     end
     it 'does nilify mentors when set inactive' do
       mentor = kid.mentor = create(:mentor)
