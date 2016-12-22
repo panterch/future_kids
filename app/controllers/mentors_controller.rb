@@ -9,24 +9,14 @@ class MentorsController < ApplicationController
     params[:mentor] ||= {}
     params[:mentor][:inactive] = '0' if params[:mentor][:inactive].nil?
 
-    # if params[:mentor][:primary_kids_admin_id].to_i > 0
-    #   @mentors_by_admin = Mentor.joins(:admins).where('kids.admin_id = ?', params[:mentor][:primary_kids_admin_id].to_i).uniq
-    #   params[:mentor][:primary_kids_admin_id] = @mentors_by_admin
-    # end
-
-    # if params[:mentor][:primary_kids_admin_id].to_i > 0
-    #   @mentors = Mentor.joins(:admins).where('kids.admin_id = ?', params[:mentor][:primary_kids_admin_id].to_i).uniq
-    # end
-
     # mentors are filtered by the criteria above
+    last_selected_coach = params[:mentor][:coach_id]
     if params[:mentor][:coach_id].to_i > 0
       @mentors = @mentors.joins(:admins).where('kids.admin_id = ?', params[:mentor][:coach_id].to_i).uniq
       params[:mentor][:coach_id] = nil
     end
     @mentors = @mentors.where(mentor_params.to_h.delete_if { |_key, val| val.blank? })
-
-
-    #@mentors = [@mentors_by_admin,@mentors_without_admins].flatten
+    params[:mentor][:coach_id] = last_selected_coach
 
     # provide a prototype for the filter form
     @mentor = Mentor.new(mentor_params)
