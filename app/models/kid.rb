@@ -9,6 +9,7 @@ class Kid < ActiveRecord::Base
   belongs_to :secondary_mentor, class_name: 'Mentor'
   belongs_to :teacher
   belongs_to :secondary_teacher, class_name: 'Teacher'
+  belongs_to :third_teacher, class_name: 'Teacher'
   belongs_to :admin
   belongs_to :school
 
@@ -150,6 +151,7 @@ class Kid < ActiveRecord::Base
     self.secondary_mentor = nil
     self.teacher = nil
     self.secondary_teacher = nil
+    self.third_teacher = nil
     self.admin = nil
   end
 
@@ -158,6 +160,7 @@ class Kid < ActiveRecord::Base
     track_relation(:secondary_mentor)
     track_relation(:teacher)
     track_relation(:secondary_teacher)
+    track_relation(:third_teacher)
     track_relation(:admin)
   end
 

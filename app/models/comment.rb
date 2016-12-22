@@ -13,11 +13,13 @@ class Comment < ActiveRecord::Base
     if (previous = previous_comment)
       self.to_teacher = previous.to_teacher
       self.to_secondary_teacher = previous.to_secondary_teacher
+      self.to_third_teacher = previous.to_third_teacher
     end
     if current_user.is_a?(Teacher)
       kid = journal.kid
       self.to_teacher ||= (kid.teacher == current_user)
       self.to_secondary_teacher ||= (kid.secondary_teacher == current_user)
+      self.to_third_teacher ||= (kid.third_teacher == current_user)
     end
   end
 
@@ -39,6 +41,7 @@ class Comment < ActiveRecord::Base
     to << kid.admin&.email
     to << kid.teacher&.email if self.to_teacher?
     to << kid.secondary_teacher&.email if self.to_secondary_teacher?
+    to << kid.third_teacher&.email if self.to_third_teacher?
     to.compact
   end
 

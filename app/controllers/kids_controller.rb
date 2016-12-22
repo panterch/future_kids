@@ -112,9 +112,12 @@ class KidsController < ApplicationController
   def assign_current_teacher
     return true unless current_user.is_a?(Teacher)
     return true if @kid.teacher.present?
-    @kid.teacher ||= current_user if @kid.secondary_teacher != current_user
+    unless @kid.secondary_teacher == current_user || @kid.third_teacher == current_user
+      @kid.teacher ||= current_user
+    end
     @kid.school ||= @kid.teacher&.school
     @kid.school ||= @kid.secondary_teacher&.school
+    @kid.school ||= @kid.third_teacher&.school
   end
 
   def track_creation_relation
@@ -139,7 +142,7 @@ class KidsController < ApplicationController
           :name, :prename, :sex, :dob, :grade, :language, :parent, :address,
           :city, :phone, :translator, :note, :school_id, :goal_1, :goal_2,
           :meeting_day, :meeting_start_at, :teacher_id, :secondary_teacher_id,
-          :mentor_id, :secondary_mentor_id, :secondary_active, :admin_id, :term,
+          :third_teacher_id, :mentor_id, :secondary_mentor_id, :secondary_active, :admin_id, :term,
           :exit, :exit_reason, :exit_kind, :exit_at, :checked_at,
           :coached_at, :abnormality,
           :abnormality_criticality, :todo, :inactive,

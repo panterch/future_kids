@@ -26,6 +26,7 @@
   - if current_user.is_a?(Admin)
     = form.association :teacher, :collection => Teacher.active
     = form.association :secondary_teacher, :collection => Teacher.active
+    = form.association :third_teacher, :collection => Teacher.active
     = form.association :mentor, :collection => Mentor.active
     = form.association :secondary_mentor, :collection => Mentor.active
     = form.input :secondary_active
