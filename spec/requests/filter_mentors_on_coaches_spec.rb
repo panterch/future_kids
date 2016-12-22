@@ -45,6 +45,9 @@ feature 'Mentor index' do
     @kid5    = create(:kid, mentor: @mentor2, admin: @admin2)
     @kid6    = create(:kid, mentor: @mentor2, admin: @admin2)
     click_link 'Mentor/in'
+    select('Regenbogen Kanton', from: 'mentor_transport')
+    click_button('Filter anwenden')
+    expect(page).to have_text ('0 Mentor/innen')
     select('GA', from: 'mentor_transport')
     click_button('Filter anwenden')
     expect(page).to have_text ('1 Mentor/innen')

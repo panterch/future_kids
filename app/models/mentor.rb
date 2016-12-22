@@ -1,6 +1,5 @@
 class Mentor < User
   # Filters mentors by their kids coach. Used only in the mentor index form.
-  # No corresponding field in db.
   attr_accessor :filter_by_coach_id
 
   has_many :kids

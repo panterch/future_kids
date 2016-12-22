@@ -146,8 +146,6 @@ describe Mentor do
       expect(@mentor2.kids.size).to eq(2)
       @mentors_by_admin1 = Mentor.joins(:kids).where('kids.admin_id = ?', @admin1.id).uniq
       @mentors_by_admin1_admin_side = @admin1.mentors.uniq
-      # @mentors_by_admin1_admin_side = Admin.find_by(id: @admin1.id).mentors.uniq
-      # @mentors_by_admin1_mentor_side = Mentor.joins(:admins).where(:kids => {:admin_id => @admin1.id}).uniq
       @mentors_by_admin1_mentor_side = Mentor.joins(:admins).where('kids.admin_id = ?', @admin1.id).uniq
       expect(@mentors_by_admin1.size).to eq(2)
       expect(@mentors_by_admin1_admin_side.size).to eq(2)
@@ -159,7 +157,6 @@ describe Mentor do
       expect(@mentors_by_admin1_mentor_side).to include(@mentor2)
       @mentors_by_admin2 = Mentor.joins(:kids).where('kids.admin_id = ?', @admin2.id).uniq
       @mentors_by_admin2_admin_side = @admin2.mentors.uniq
-      # @mentors_by_admin2_mentor_side = Mentor.joins(:admins).where(:admins => {:id => @admin2.id}).uniq
       @mentors_by_admin2_mentor_side = Mentor.joins(:admins).where('kids.admin_id = ?', @admin2.id).uniq
       expect(@mentors_by_admin2.size).to eq(1)
       expect(@mentors_by_admin2_admin_side.size).to eq(1)
@@ -170,7 +167,6 @@ describe Mentor do
       expect(@mentors_by_admin2_admin_side).to_not include(@mentor2)
       expect(@mentors_by_admin2_mentor_side).to include(@mentor1)
       expect(@mentors_by_admin2_mentor_side).to_not include(@mentor2)
-
     end
   end
 end
