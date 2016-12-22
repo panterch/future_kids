@@ -1,5 +1,9 @@
 class Mentor < User
+  # Filters mentors by their kids coach. Used only in the mentor index form.
+  attr_accessor :filter_by_coach_id
+
   has_many :kids
+  has_many :admins, through: :kids
   has_many :secondary_kids, class_name: 'Kid',
                             foreign_key: 'secondary_mentor_id'
   has_many :journals
@@ -8,7 +12,6 @@ class Mentor < User
                                  foreign_key: 'secondary_mentor_id'
   has_many :schedules, as: :person
   belongs_to :primary_kids_school, class_name: 'School'
-  belongs_to :primary_kids_admin, class_name: 'Admin'
 
   accepts_nested_attributes_for :schedules
 
