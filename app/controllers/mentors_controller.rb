@@ -10,13 +10,13 @@ class MentorsController < ApplicationController
     params[:mentor][:inactive] = '0' if params[:mentor][:inactive].nil?
 
     # mentors are filtered by the criteria above
-    last_selected_coach = params[:mentor][:coach_id]
-    if params[:mentor][:coach_id].to_i > 0
-      @mentors = @mentors.joins(:admins).where('kids.admin_id = ?', params[:mentor][:coach_id].to_i).uniq
-      params[:mentor][:coach_id] = nil
+    last_selected_coach = params[:mentor][:filter_by_coach_id]
+    if params[:mentor][:filter_by_coach_id].to_i > 0
+      @mentors = @mentors.joins(:admins).where('kids.admin_id = ?', params[:mentor][:filter_by_coach_id].to_i).uniq
+      params[:mentor][:filter_by_coach_id] = nil
     end
     @mentors = @mentors.where(mentor_params.to_h.delete_if { |_key, val| val.blank? })
-    params[:mentor][:coach_id] = last_selected_coach
+    params[:mentor][:filter_by_coach_id] = last_selected_coach
 
     # provide a prototype for the filter form
     @mentor = Mentor.new(mentor_params)
@@ -58,7 +58,7 @@ class MentorsController < ApplicationController
         :name, :prename, :email, :password, :password_confirmation, :address, :sex,
         :city, :dob, :phone, :college, :field_of_study, :education, :transport,
         :personnel_number, :ects, :term, :absence, :note, :todo, :substitute,
-        :primary_kids_school_id, :primary_kids_meeting_day, :coach_id,
+        :primary_kids_school_id, :primary_kids_meeting_day, :filter_by_coach_id,
         :exit_kind, :exit_at,
         :inactive, :photo, schedules_attributes: [:day, :hour, :minute]
       )
