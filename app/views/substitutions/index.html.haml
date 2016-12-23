@@ -29,10 +29,8 @@
         %th Aktion
     - @substitutions.each do |substitution|
     / rot wenn kein ersatz-mentor vorhanden und noch nicht abgelaufen
-    / gelb wenn abschluss nötig
     / grün wenn keine aktion nötig
     - trclasses = [("danger" if !substitution.secondary_mentor.present?),
-                   ("warning" if substitution.end_at <= DateTime.now()),
                    ("success" if substitution.end_at > DateTime.now() and substitution.secondary_mentor.present?)]
 
       %tr{:class => trclasses}
