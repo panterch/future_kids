@@ -45,7 +45,7 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
     expect(page).to have_content(kid.display_name)
   end
 
-  describe 'mentor sould have a quicklink for substitution and mentor and kid sould be preset' do
+  describe 'mentor should have a quicklink for substitution and mentor and kid should be preset' do
     scenario 'contextual_link to add substitution' do
       visit mentor_path(id: mentor_frederik.id)
       find('#contextual_links_panel').click_link("Neue Abwesenheit")
@@ -93,7 +93,7 @@ feature 'ADMIN::UPDATE:SUBSTITUTION', '
     expect(page).to have_button('Ersatz finden')
   end
 
-  scenario 'sould pass substitution id to show_kid_mentors_schedules' do
+  scenario 'should pass substitution id to show_kid_mentors_schedules' do
     click_link 'Ersatz'
     click_button 'Ersatz finden'
     expect(page.status_code).to eq(200)
@@ -121,11 +121,11 @@ feature 'MENTOR::SHOW:SUBSTITUTION', '
     log_in(mentor)
   end
 
-  scenario 'mentor sould not be able to show substitution' do
+  scenario 'mentor should not be able to show substitution' do
     expect{visit substitutions_path}.to raise_error(CanCan::AccessDenied)
   end
 
-  scenario 'mentor sould not be able to see substitution-header-link' do
+  scenario 'mentor should not be able to see substitution-header-link' do
     expect(page).to_not have_content('Ersatz')
   end
 
