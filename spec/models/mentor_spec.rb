@@ -120,6 +120,6 @@ describe Mentor do
       @mentor.save!; @mentor = Mentor.first
       expect(@mentor.photo).to be_present
       expect(@mentor.photo.url(:thumb)).to match(/logo\.png/)
-    end
+    endg
   end
 end
