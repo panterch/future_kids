@@ -16,13 +16,23 @@ class SubstitutionsController < ApplicationController
   def new
     @substitution = Substitution.new()
 
-    if params[:mentor_id]
-      @substitution.mentor = Mentor.find(params[:mentor_id])
-      @substitution.kid = @substitution.mentor.kids.first
+    if params[:kid_id]
+      @substitution.kid = Kid.find(params[:kid_id])
     end
   end
 
-  def inactivate
+  def create
+    unless @substitution.kid.nil?
+      @substitution.mentor = @substitution.kid.mentor
+    end
+    if @substitution.save
+      respond_with @substitution
+    else
+      render :new
+    end
+  end
+
+    def inactivate
     @substitution.inactive = true
     @substitution.save!
 
