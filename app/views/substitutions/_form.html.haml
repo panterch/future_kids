@@ -1,6 +1,6 @@
 = simple_form_for @substitution do |form|
   /= form.input :closed, disabled: false
-  -if !@substitution.new_record?
+  -unless @substitution.new_record?
     = form.association :mentor
   = form.association :kid
   = form.association :secondary_mentor
