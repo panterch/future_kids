@@ -35,7 +35,6 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
   scenario 'should create a new kid with required values' do
     click_link 'Ersatz'
     click_link 'Erfassen'
-    select mentor_frederik.display_name, from: 'substitution[mentor_id]'
     select kid.display_name, from: 'substitution[kid_id]'
     fill_in 'substitution_start_at', with: (Date.today - 10)
     fill_in 'substitution_end_at', with: (Date.today - 2)

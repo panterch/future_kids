@@ -14,11 +14,17 @@ class SubstitutionsController < ApplicationController
   end
 
   def new
-    @substitution = Substitution.new()
+    @substitution = Substitution.new(kid_id: params[:kid_id])
+  end
 
-    if params[:mentor_id]
-      @substitution.mentor = Mentor.find(params[:mentor_id])
-      @substitution.kid = @substitution.mentor.kids.first
+  def create
+    unless @substitution.kid.nil?
+      @substitution.mentor = @substitution.kid.mentor
+    end
+    if @substitution.save
+      respond_with @substitution
+    else
+      render :new
     end
   end
 
