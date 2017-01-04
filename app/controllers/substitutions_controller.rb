@@ -14,11 +14,7 @@ class SubstitutionsController < ApplicationController
   end
 
   def new
-    @substitution = Substitution.new()
-
-    if params[:kid_id]
-      @substitution.kid = Kid.find(params[:kid_id])
-    end
+    @substitution = Substitution.new(kid_id: params[:kid_id])
   end
 
   def create
@@ -32,7 +28,7 @@ class SubstitutionsController < ApplicationController
     end
   end
 
-    def inactivate
+  def inactivate
     @substitution.inactive = true
     @substitution.save!
 
