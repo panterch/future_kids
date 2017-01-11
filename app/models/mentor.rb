@@ -1,6 +1,8 @@
 class Mentor < User
   # Filters mentors by their kids coach. Used only in the mentor index form.
   attr_accessor :filter_by_coach_id
+  # Filters mentors by their kids meeting day. Used only in the mentor index form.
+  attr_accessor :filter_by_meeting_day
 
   has_many :kids
   has_many :admins, through: :kids
@@ -35,10 +37,10 @@ class Mentor < User
     groups
   end
 
-  def human_primary_kids_meeting_day
-    return nil if primary_kids_meeting_day.nil?
-    I18n.t('date.day_names')[primary_kids_meeting_day]
-  end
+  # def human_primary_kids_meeting_day
+  #   return nil if primary_kids_meeting_day.nil?
+  #   I18n.t('date.day_names')[primary_kids_meeting_day]
+  # end
 
   def total_duration
     journals.sum(:duration)
