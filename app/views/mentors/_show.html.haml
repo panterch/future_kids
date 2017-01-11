@@ -19,12 +19,12 @@
       = show.association :kids do |k|
         %li
           = can_link_to k
-          = "am #{I18n.t('date.day_names')[k.meeting_day]}" if k.meeting_day.present?
+          = "am #{k.human_meeting_day}" if k.meeting_day.present?
           = "in #{k.city}" if k.city.present?
       = show.association :secondary_kids do |k|
         %li
           = can_link_to k
-          = "am #{I18n.t('date.day_names')[k.meeting_day]}" if k.meeting.day.present?
+          = "am #{k.human_meeting_day}" if k.meeting_day.present?
           = "in #{k.city}" if k.city.present?
       = show.attribute :personnel_number
       = show.attribute :ects
