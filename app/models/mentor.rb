@@ -37,11 +37,6 @@ class Mentor < User
     groups
   end
 
-  # def human_primary_kids_meeting_day
-  #   return nil if primary_kids_meeting_day.nil?
-  #   I18n.t('date.day_names')[primary_kids_meeting_day]
-  # end
-
   def total_duration
     journals.sum(:duration)
   end
