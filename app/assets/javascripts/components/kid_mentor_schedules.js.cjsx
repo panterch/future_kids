@@ -29,7 +29,7 @@ MAX_MENTORS_TO_DISPLAY = 10
       if @state.filters?.sex?
         delete filteredMentors[id] if mentor.sex isnt @state.filters?.sex
       if @state.filters?.school?
-        delete filteredMentors[id] if mentor.primary_kids_school?.id isnt @state.filters?.school
+        delete filteredMentors[id] if mentor.schools?.id isnt @state.filters?.school
       if @state.filters?.numberOfKids?
         switch @state.filters.numberOfKids
           when 'primary-only' 

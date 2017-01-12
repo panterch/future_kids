@@ -26,7 +26,6 @@ class Kid < ActiveRecord::Base
   validates_numericality_of :meeting_day, only_integer: true, allow_blank: true,
                                           greater_than_or_equal_to: 1, less_than_or_equal_to: 5
 
-  after_save :sync_fields_with_mentor
   after_save :track_relations
 
   after_validation :release_relations, if: :inactive?
