@@ -128,18 +128,6 @@ class Kid < ActiveRecord::Base
     I18n.t(exit_kind, scope: 'exit_kind')
   end
 
-  # mentors can be filtered by the school of their primary kids. Therefore we use
-  # a field on mentor which has to be synced on each write
-  def sync_fields_with_mentor
-    if mentor
-      mentor.update_attributes(
-        primary_kids_school_id: school_id)
-    elsif mentor_id_was
-      Mentor.find(mentor_id_was).update_attributes(
-        primary_kids_school_id: nil)
-    end
-  end
-
   protected
 
   def release_relations
