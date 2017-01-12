@@ -80,9 +80,10 @@ class KidsController < ApplicationController
             json.schools do
               mentor.schools.each do |school|
                 if not school.mentors.nil?
-                  mentor.schools.each do |k|
-                    json.id k.id
-                  end
+                  # mentor.schools.each do |k|
+                  #   json.id k.id
+                  json.schools mentor.schools, :id, :name
+                  #end
                 end
               end
             end

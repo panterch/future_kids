@@ -244,7 +244,6 @@ CREATE TABLE users (
     substitute boolean DEFAULT false,
     zip character varying,
     street_no character varying,
-    primary_kids_school_id integer,
     college character varying,
     school_id integer,
     note text,
@@ -1137,4 +1136,6 @@ INSERT INTO schema_migrations (version) VALUES ('20161216161405');
 INSERT INTO schema_migrations (version) VALUES ('20161219202230');
 
 INSERT INTO schema_migrations (version) VALUES ('20161222121149');
+
+INSERT INTO schema_migrations (version) VALUES ('20170112142758');
 
