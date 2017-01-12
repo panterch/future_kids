@@ -12,12 +12,12 @@ class MentorsController < ApplicationController
     # mentors are filtered by the criteria above
     last_selected_coach = params[:mentor][:filter_by_coach_id]
     last_selected_meeting_day = params[:mentor][:filter_by_meeting_day]
-    if params[:mentor][:filter_by_coach_id].to_i > 0
+    unless params[:mentor][:filter_by_coach_id].blank?
       @mentors = @mentors.joins(:admins).where('kids.admin_id = ?', params[:mentor][:filter_by_coach_id].to_i).uniq
       params[:mentor][:filter_by_coach_id] = nil
     end
-    if params[:mentor][:filter_by_meeting_day].to_i > -1
-      @mentors = @mentors.joins(:kids).where('kids.meeting_day = ?', params[:mentor][:filter_by_meeting_day]).uniq
+    unless params[:mentor][:filter_by_meeting_day].blank?
+      @mentors = @mentors.joins(:kids).where('kids.meeting_day = ?', params[:mentor][:filter_by_meeting_day].to_i).uniq
       params[:mentor][:filter_by_meeting_day] = nil
     end
     @mentors = @mentors.where(mentor_params.to_h.delete_if { |_key, val| val.blank? })
