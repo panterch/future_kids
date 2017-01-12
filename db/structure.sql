@@ -248,7 +248,6 @@ CREATE TABLE users (
     college character varying,
     school_id integer,
     note text,
-    primary_kids_meeting_day integer,
     photo_file_name character varying,
     photo_content_type character varying,
     photo_file_size integer,
@@ -1138,4 +1137,6 @@ INSERT INTO schema_migrations (version) VALUES ('20161216161405');
 INSERT INTO schema_migrations (version) VALUES ('20161219202230');
 
 INSERT INTO schema_migrations (version) VALUES ('20161222121149');
+
+INSERT INTO schema_migrations (version) VALUES ('20170111133506');
 

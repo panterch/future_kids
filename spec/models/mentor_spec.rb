@@ -123,17 +123,17 @@ describe Mentor do
     end
   end
 
-  context 'association with kids and admins' do
+  context 'association with kids, admins and meeting day' do
     before do
       @admin1  = create(:admin)
       @admin2  = create(:admin)
       @mentor1 = create(:mentor)
       @mentor2 = create(:mentor)
-      @kid1    = create(:kid, mentor: @mentor1, admin: @admin1)
-      @kid2    = create(:kid, mentor: @mentor2, admin: @admin1)
-      @kid3    = create(:kid, mentor: @mentor1, admin: @admin1)
-      @kid4    = create(:kid, mentor: @mentor2, admin: @admin1)
-      @kid5    = create(:kid, mentor: @mentor1, admin: @admin2)
+      @kid1    = create(:kid, mentor: @mentor1, admin: @admin1, meeting_day: '1')
+      @kid2    = create(:kid, mentor: @mentor2, admin: @admin1, meeting_day: '1')
+      @kid3    = create(:kid, mentor: @mentor1, admin: @admin1, meeting_day: '1')
+      @kid4    = create(:kid, mentor: @mentor2, admin: @admin1, meeting_day: '1')
+      @kid5    = create(:kid, mentor: @mentor1, admin: @admin2, meeting_day: '2')
     end
 
     it 'has many kids' do
@@ -155,6 +155,17 @@ describe Mentor do
       expect(@mentors_by_admin2.size).to eq(1)
       expect(@mentors_by_admin2).to include(@mentor1)
       expect(@mentors_by_admin2).to_not include(@mentor2)
+    end
+
+    it 'should filter mentors by meeting day' do
+      @mentors_by_meeting_day1 = Mentor.joins(:kids).where('kids.meeting_day = ?', '1').uniq
+      expect(@mentors_by_meeting_day1.size).to eq(2)
+      expect(@mentors_by_meeting_day1).to include(@mentor1)
+      expect(@mentors_by_meeting_day1).to include(@mentor2)
+      @mentors_by_meeting_day2 = Mentor.joins(:kids).where('kids.meeting_day = ?', '2').uniq
+      expect(@mentors_by_meeting_day2.size).to eq(1)
+      expect(@mentors_by_meeting_day2).to include(@mentor1)
+      expect(@mentors_by_meeting_day2).to_not include(@mentor2)
     end
   end
 end

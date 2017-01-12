@@ -34,16 +34,19 @@ describe Kid do
       kid.save! && kid.reload
       expect(kid.mentor).to be_present
     end
+
     it 'sets mentor via mentor_id' do
       kid.mentor_id = create(:mentor).id
       kid.save! && kid.reload
       expect(kid.mentor).to be_present
     end
+
     it 'does associate a secondary mentor' do
       kid.secondary_mentor_id = create(:mentor).id
       kid.save! && kid.reload
       expect(kid.secondary_mentor).to be_present
     end
+
     it 'can associate both mentors' do
       kid.mentor = create(:mentor)
       kid.secondary_mentor = create(:mentor)
@@ -52,11 +55,13 @@ describe Kid do
       expect(kid.secondary_mentor).to be_present
       expect(kid.mentor).not_to eql(kid.secondary_mentor)
     end
+
     it 'can be called via secondary_kid accessor'  do
       kid.secondary_mentor = mentor = create(:mentor)
       kid.save! && kid.reload && mentor.reload
       expect(mentor.secondary_kids.first).to eq(kid)
     end
+
     it 'does sync its school with the mentors primary_kid_school field' do
       kid.school = create(:school)
       kid.mentor = mentor = create(:mentor)
@@ -77,6 +82,16 @@ describe Kid do
       kid.admin = nil
       kid.save!
       expect(mentor.reload.kids.last.admin).to be_nil
+    end
+
+    it 'does sync its meeting day with mentor' do
+      kid = create(:kid, meeting_day: '1')
+      kid.mentor = mentor = create(:mentor)
+      kid.save!
+      expect(kid.meeting_day).to eq(mentor.reload.kids.last.meeting_day)
+      kid.meeting_day = nil
+      kid.save!
+      expect(mentor.reload.kids.last.meeting_day).to be_nil
     end
 
     it 'does release synced relations on mentors when inactivated' do

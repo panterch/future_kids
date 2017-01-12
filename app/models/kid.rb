@@ -133,12 +133,10 @@ class Kid < ActiveRecord::Base
   def sync_fields_with_mentor
     if mentor
       mentor.update_attributes(
-        primary_kids_school_id: school_id,
-        primary_kids_meeting_day: meeting_day)
+        primary_kids_school_id: school_id)
     elsif mentor_id_was
       Mentor.find(mentor_id_was).update_attributes(
-        primary_kids_school_id: nil,
-        primary_kids_meeting_day: nil)
+        primary_kids_school_id: nil)
     end
   end
 
