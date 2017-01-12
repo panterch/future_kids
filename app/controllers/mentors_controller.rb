@@ -16,8 +16,8 @@ class MentorsController < ApplicationController
       @mentors = @mentors.joins(:admins).where('kids.admin_id = ?', params[:mentor][:filter_by_coach_id].to_i).uniq
       params[:mentor][:filter_by_coach_id] = nil
     end
-    if params[:mentor][:filter_by_meeting_day].to_i > 0
-      @mentors = @mentors.joins(:kids).where('kids.meeting_day = ?', params[:mentor][:filter_by_meeting_day].to_i).uniq
+    if params[:mentor][:filter_by_meeting_day].to_i > -1
+      @mentors = @mentors.joins(:kids).where('kids.meeting_day = ?', params[:mentor][:filter_by_meeting_day]).uniq
       params[:mentor][:filter_by_meeting_day] = nil
     end
     @mentors = @mentors.where(mentor_params.to_h.delete_if { |_key, val| val.blank? })
