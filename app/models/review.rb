@@ -5,8 +5,6 @@ class Review < ActiveRecord::Base
 
   belongs_to :kid
 
-  accepts_nested_attributes_for :kid
-
   validates_presence_of :kid, :held_at
 
   after_save :sync_fields_with_kid
