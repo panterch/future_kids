@@ -7,6 +7,8 @@ class Review < ActiveRecord::Base
 
   validates_presence_of :kid, :held_at
 
+  after_save :sync_fields_with_kid
+
   def display_name
     return 'Neue Gesprächsdoku' if new_record?
     return "Gespräch vom #{I18n.l(held_at.to_date)}" if held_at
@@ -31,5 +33,12 @@ class Review < ActiveRecord::Base
 
   def human_attendee
     text_format(attendee)
+  end
+
+  def sync_fields_with_kid
+    if kind == 'telefonisch'
+      kid.update_attributes(
+        coached_at: held_at)
+    end
   end
 end
