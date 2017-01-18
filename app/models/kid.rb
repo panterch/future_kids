@@ -26,7 +26,6 @@ class Kid < ActiveRecord::Base
   validates_numericality_of :meeting_day, only_integer: true, allow_blank: true,
                                           greater_than_or_equal_to: 1, less_than_or_equal_to: 5
 
-  after_save :sync_fields_with_mentor
   after_save :track_relations
 
   after_validation :release_relations, if: :inactive?
@@ -126,18 +125,6 @@ class Kid < ActiveRecord::Base
   def human_exit_kind
     return '' if exit_kind.blank?
     I18n.t(exit_kind, scope: 'exit_kind')
-  end
-
-  # mentors can be filtered by the school of their primary kids. Therefore we use
-  # a field on mentor which has to be synced on each write
-  def sync_fields_with_mentor
-    if mentor
-      mentor.update_attributes(
-        primary_kids_school_id: school_id)
-    elsif mentor_id_was
-      Mentor.find(mentor_id_was).update_attributes(
-        primary_kids_school_id: nil)
-    end
   end
 
   protected

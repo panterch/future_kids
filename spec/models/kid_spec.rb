@@ -62,15 +62,15 @@ describe Kid do
       expect(mentor.secondary_kids.first).to eq(kid)
     end
 
-    it 'does sync its school with the mentors primary_kid_school field' do
+    it 'does sync its school with the mentors school through association' do
       kid.school = create(:school)
       kid.mentor = mentor = create(:mentor)
       kid.save!
-      expect(kid.school_id).to eq mentor.reload.primary_kids_school_id
-      expect(kid.school.name).to eq mentor.reload.primary_kids_school.name
-      kid.mentor = nil
+      expect(kid.school_id).to eq mentor.reload.kids.last.school_id
+      expect(kid.school.display_name).to eq mentor.reload.kids.last.school.display_name
+      kid.school = nil
       kid.save!
-      expect(mentor.reload.primary_kids_school).to be_nil
+      expect(mentor.reload.kids.last.school).to be_nil
     end
 
     it 'does sync its coach with the mentors coach through association' do
@@ -99,12 +99,12 @@ describe Kid do
       kid.admin = create(:admin)
       kid.mentor = mentor = create(:mentor)
       kid.save!
-      expect(mentor.reload.primary_kids_school).to be_truthy
+      expect(mentor.reload.kids.last.school).to be_truthy
       expect(mentor.reload.kids.last.admin).to be_truthy
       kid.inactive = true
       kid.save!
       expect(mentor.reload.kids).to be_empty
-      expect(mentor.reload.primary_kids_school).to be_nil
+      expect(mentor.reload.schools.count).to eq(0)
       expect(mentor.reload.admins.count).to eq(0)
     end
 
@@ -197,13 +197,17 @@ describe Kid do
     end
   end
 
-  context 'association with admin and mentor' do
+  context 'association with admin, mentor and school' do
     it 'has admin' do
       should belong_to(:admin)
     end
 
     it 'has mentor' do
       should belong_to(:mentor)
+    end
+
+    it 'has school' do
+      should belong_to(:school)
     end
   end
 end
