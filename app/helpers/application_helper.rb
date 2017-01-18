@@ -93,6 +93,21 @@ module ApplicationHelper
     (1..3).map { |i| [I18n.t(i, scope: 'kids.criticality'), i] }
   end
 
+  def kind_collection
+    ['bei Familie zu Hause',
+     'in der Schule',
+     'telefonisch',
+     'Mail']
+  end
+
+  def reason_collection
+    ['Ersttreffen',
+     'Schulbesuch',
+     'Telefoncoaching',
+     'Auswertungsgespräch',
+     'Weiteres']
+  end
+
   # can be used in view to display private data only to their owners (and
   # admins)
   def is_viewing_own_data(resource)
