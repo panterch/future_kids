@@ -72,21 +72,7 @@ class KidsController < ApplicationController
             json.ects mentor.ects
             json.kids mentor.kids, :id, :name, :prename
             json.secondary_kids mentor.secondary_kids, :id, :name, :prename
-            # json.primary_kids_school do
-            #   if not mentor.primary_kids_school.nil?
-            #     json.id mentor.primary_kids_school.id
-            #   end
-            # end
-            json.schools do
-              mentor.schools.each do |school|
-                if not school.mentors.nil?
-                  # mentor.schools.each do |k|
-                  #   json.id k.id
-                  json.schools mentor.schools, :id, :name
-                  #end
-                end
-              end
-            end
+            json.schools mentor.schools.ids
             json.schedules create_schedules_nested_set mentor.schedules
           end
         end

@@ -11,7 +11,7 @@ MAX_MENTORS_TO_DISPLAY = 10
   getInitialState: ->
     mentorsToDisplay: getMentorIds @props.mentors
     visitedMentors: []
-    filters: 
+    filters:
       ects: null
       sex: null
       numberOfKids: "no-kid"
@@ -29,10 +29,10 @@ MAX_MENTORS_TO_DISPLAY = 10
       if @state.filters?.sex?
         delete filteredMentors[id] if mentor.sex isnt @state.filters?.sex
       if @state.filters?.school?
-        delete filteredMentors[id] if mentor.schools?.id isnt @state.filters?.school
+        delete filteredMentors[id] unless @state.filters?.school in mentor.schools
       if @state.filters?.numberOfKids?
         switch @state.filters.numberOfKids
-          when 'primary-only' 
+          when 'primary-only'
             delete filteredMentors[id] unless hasPrimaryKid(mentor) and not hasSecondaryKid(mentor)
           when 'secondary-only'
             delete filteredMentors[id] unless hasSecondaryKid(mentor) and not hasPrimaryKid(mentor)
@@ -59,10 +59,10 @@ MAX_MENTORS_TO_DISPLAY = 10
   onSelectDate: (mentor, day, time) ->
 
     promptAndSave = (mentorType) =>
-      assigmentText = (mentorLabel) => 
+      assigmentText = (mentorLabel) =>
         "Der Mentor wir dem Schüler als #{mentorLabel} zugewiesen."
       alertMentorHasKid = ({otherKidLabel, mentorLabel}) =>
-        "Achtung: \nDieser Mentor ist bereits für den Schüler '#{otherKidLabel}' als #{mentorLabel} im Einsatz. Trotzdem dem Schüler zuweisen? 
+        "Achtung: \nDieser Mentor ist bereits für den Schüler '#{otherKidLabel}' als #{mentorLabel} im Einsatz. Trotzdem dem Schüler zuweisen?
         (der Mentor bleibt beiden Schülern zugewiesen)"
 
       getConfirmMessage = (assigmentDescription)=>
@@ -80,7 +80,7 @@ MAX_MENTORS_TO_DISPLAY = 10
         when "primary"
           if mentor.kids?.length > 0
             # this mentor has already a primary kid
-            message = getConfirmMessage alertMentorHasKid 
+            message = getConfirmMessage alertMentorHasKid
               mentorLabel: "primärer Mentor"
               otherKidLabel: displayName mentor.kids[0]
           else
@@ -89,13 +89,13 @@ MAX_MENTORS_TO_DISPLAY = 10
         when "secondary"
           if mentor.secondary_kids?.length > 0
             # this mentor has already a primary kid
-            message = getConfirmMessage alertMentorHasKid 
+            message = getConfirmMessage alertMentorHasKid
               mentorLabel: "Ersatzmentor"
               otherKidLabel: displayName mentor.secondary_kids[0]
           else
             message = getConfirmMessage assigmentText "Ersatzmentor"
           mentorKey = "secondary_mentor_id"
-    
+
       if confirm message
         $form = $ "#kid_form"
         $form.find("[name='kid[#{mentorKey}]']").val mentor.id
@@ -118,8 +118,8 @@ MAX_MENTORS_TO_DISPLAY = 10
     # we rotate over the color circle to create a color for every mentor
     # but we interval through the mentors, so that neighbor colors are not similar
 
-    indexShifted = (index) -> 
-      if index % 2 is 0 
+    indexShifted = (index) ->
+      if index % 2 is 0
         index / 2
       else
         index = Math.floor (index+total) / 2
@@ -138,7 +138,7 @@ MAX_MENTORS_TO_DISPLAY = 10
         <div className="row">
           <div className="col-xs-2 title">Mentoren Filtern: </div>
           <div className="col-xs-10">
-            <Filters 
+            <Filters
               mentors=@props.mentors
               schools=@props.schools
               initialFilters=@state.filters
@@ -149,7 +149,7 @@ MAX_MENTORS_TO_DISPLAY = 10
         <div className="row">
           <div className="col-xs-2 title">Mentoren anzeigen: </div>
           <div className="col-xs-10">
-            <MentorsForDisplayingFilter 
+            <MentorsForDisplayingFilter
               mentors=filteredMentors
               selection=selectedMentorIds
               onChange=@onChangeSelectedMentorsToDisplay
@@ -158,8 +158,8 @@ MAX_MENTORS_TO_DISPLAY = 10
           </div>
         </div>
       </div>
-     
-      <TimeTable 
+
+      <TimeTable
         kid=@props.kid
         mentors=selectedMentors
         onSelectDate=@onSelectDate
@@ -182,13 +182,13 @@ MentorsForDisplayingFilter = React.createClass
 
   selectAll: ->
     @triggerChange _.keys @props.mentors
-    
+
   render: ->
     options = for id,mentor of @props.mentors
       visited: parseInt(id,10) in @props.visitedMentors
       label: displayName mentor
       value: mentor.id.toString()
-      style: 
+      style:
         color: mentor.colors.text
         backgroundColor: mentor.colors.background
         borderColor: mentor.colors.text
@@ -199,7 +199,7 @@ MentorsForDisplayingFilter = React.createClass
       selectedIds.push id if @props.mentors[id]?
     value = selectedIds.join @DELEMITER
     if value.length == 0 then value = null
-    sizeLabel = 
+    sizeLabel =
       if _.size(@props.mentors) > MAX_MENTORS_TO_DISPLAY
         <span>
           ({MAX_MENTORS_TO_DISPLAY} von {_.size @props.mentors}) <br />
@@ -212,8 +212,8 @@ MentorsForDisplayingFilter = React.createClass
 
     <div className="mentors-display-filter row">
       <div className="col-xs-10">
-        <Select 
-          options=options 
+        <Select
+          options=options
           multi=true
           optionRenderer=optionRenderer
           delimiter=@DELEMITER
@@ -221,7 +221,7 @@ MentorsForDisplayingFilter = React.createClass
           onChange=@onChange
         />
       </div>
-      <button 
+      <button
         onClick=@selectAll
         className="btn btn-default col-xs-2">
           Alle wählen <br />{sizeLabel}
@@ -234,12 +234,15 @@ Filters = React.createClass
     @props.onChange? "sex", sanitize event.target.value
 
   onChangeECTS: (event) ->
-    asBoolean = (value) -> switch value 
+    asBoolean = (value) -> switch value
       when "true" then true
       when "false" then false
       else null
-      
+
     @props.onChange? "ects", asBoolean event.target.value
+
+
+
   onChangeSchool: (event) ->
     sanitize = (value) -> if _.size(value) == 0 then null else parseInt value, 10
     @props.onChange? "school", sanitize event.target.value
@@ -258,7 +261,7 @@ Filters = React.createClass
       </div>
 
       <div className="form-group">
-        <label htmlFor="ects">ECTS </label> 
+        <label htmlFor="ects">ECTS </label>
         <select name="ects" className="form-control" value=@props.initialFilters.ects onChange=@onChangeECTS>
           <option></option>
           <option value="true">ECTS</option>
@@ -281,7 +284,7 @@ Filters = React.createClass
             for school in @props.schools
               <option value="#{school.id}">{school.display_name}</option>
           }
-          
+
         </select>
       </div>
     </div>
@@ -293,7 +296,7 @@ TimeTable = React.createClass
       show_weekdays: [null, true, true, true, true, true], #first index (null) is only for index-compatibility (days start counting by 1)
     }
 
-  createTimeArray: -> 
+  createTimeArray: ->
     startMoment = moment()
     startMoment.set "hours", 13
     startMoment.set "minutes", 0
@@ -309,7 +312,7 @@ TimeTable = React.createClass
       timeMoment.add 30, "minutes"
       {key, label}
 
-  clickHandler_Day: (key) -> 
+  clickHandler_Day: (key) ->
     return (event) =>
       new_show_weekdays = @state.show_weekdays.slice() #copy state
       new_show_weekdays[key] = !new_show_weekdays[key] #toggle day
@@ -334,7 +337,7 @@ TimeTable = React.createClass
       #TODO: can be done within timeCell directly - move it there
       timeCellHide = (day) =>  #if day is not shown, display a placeholder
         classes = 'cell-mentor ' + if not nextTime then 'time-last'
-        style = 
+        style =
           width: STYLE_DAY_PLACEHOLDER_WIDTH + '%'
           cursor: 'pointer'
           backgroundColor: '#EFEFEF'
@@ -349,9 +352,9 @@ TimeTable = React.createClass
       timeCell = (day) =>
         kidIsAvailable = availableInSchedule @props.kid.schedules, day, time
         #FIXIT: check if start_at time is in range of time-key. It bight not get it now.
-        meetingFixed = (parseInt(@props.kid.meeting_day,10) is parseInt(day.key,10) && @props.kid.meeting_start_at is time.key) 
+        meetingFixed = (parseInt(@props.kid.meeting_day,10) is parseInt(day.key,10) && @props.kid.meeting_start_at is time.key)
         hasNoSecondaryMentor = if @props.kid.secondary_mentor_id is null then true else false
-        
+
         kidCell = (day, showMeeting) =>
           kidCellClasses = createTimeCellClasses
             primaryClass: "cell-kid"
@@ -367,16 +370,16 @@ TimeTable = React.createClass
         mentorCell = (mentor, day) =>
           onClick = =>
             @props.onSelectDate? mentor, day, time
-          <TimeTable_MentorCell 
+          <TimeTable_MentorCell
             key="mentor_cell_#{day.key}_#{time.key}_#{mentor.id}"
-            mentor=mentor 
+            mentor=mentor
             onClick=onClick
-            kidIsAvailable=kidIsAvailable 
+            kidIsAvailable=kidIsAvailable
             numberOfMentors={_.size @props.mentors}
             day=day time=time lastTime=lastTime nextTime=nextTime />
           # end mentorCell
 
-        classes = classNames "time-cell", 
+        classes = classNames "time-cell",
           "kid-available": kidIsAvailable
 
         calcWidth = () => #calculate column-with
@@ -384,7 +387,7 @@ TimeTable = React.createClass
           return (100 - (days.length-count)*STYLE_DAY_PLACEHOLDER_WIDTH)/count
 
         style = width: calcWidth()+"%"
-        <td key="time_cell_#{day.key}_#{time.key}" 
+        <td key="time_cell_#{day.key}_#{time.key}"
           className=classes style=style>
           { kidCell day, (meetingFixed && hasNoSecondaryMentor) }
           { mentorCell mentor, day for mentor in mentors}
@@ -439,9 +442,9 @@ TimeTable_MentorCell = React.createClass
         nextTime: @props.nextTime
         time: @props.time
         schedules: @props.mentor.schedules
-      style = 
+      style =
         backgroundColor: @props.mentor.colors.background
-        color: @props.mentor.colors.text, 
+        color: @props.mentor.colors.text,
         width: mentorColumnWidth+'%'
 
       <div className=classes style=style>
@@ -456,8 +459,8 @@ TimeTable_MentorCell = React.createClass
         </span>
       </div>
     else
-      <div 
-        className="column spacer" 
+      <div
+        className="column spacer"
         style={width: mentorColumnWidth+'%'}
         />
 # helpers
@@ -470,7 +473,7 @@ limit = (mentorsOrArrayOfIds) ->
     _.pick mentorsOrArrayOfIds, limitArray _.keys mentorsOrArrayOfIds
 
 
-displayName = (person) -> "#{person.name} #{person.prename}"    
+displayName = (person) -> "#{person.name} #{person.prename}"
 limitAndRemoveFromBeginning = (mentorIds) -> mentorIds.slice(Math.max(mentorIds.length - MAX_MENTORS_TO_DISPLAY, 0))
 availableInSchedule = (schedules, day, time) ->
   schedules?[day?.key]?[time?.key]?
@@ -484,8 +487,7 @@ getMentorIds = (mentorsObject) ->
   (parseInt id, 10 for id in _.keys(mentorsObject))
 
 createTimeCellClasses = ({primaryClass, day, lastTime, time, nextTime, schedules}) ->
-  classNames primaryClass, 
+  classNames primaryClass,
     'time-available': availableInSchedule schedules, day, time
     'time-first': not availableInSchedule schedules, day, lastTime
     'time-last': not availableInSchedule schedules, day, nextTime
-

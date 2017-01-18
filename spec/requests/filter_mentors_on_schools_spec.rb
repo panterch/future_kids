@@ -32,12 +32,6 @@ feature 'Mentor index' do
     expect(page).to have_css('a', text: 'second mentor')
   end
 
-  scenario 'filtering on coaches should not affect other filters' do
-    select('Regenbogen Kanton', from: 'mentor_transport')
-    click_button('Filter anwenden')
-    expect(page).to have_text ('0 Mentor/innen')
-  end
-
   scenario 'filtering on schools should interact with other filters (other chosen first)' do
     select('GA', from: 'mentor_transport')
     click_button('Filter anwenden')
