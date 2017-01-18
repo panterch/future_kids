@@ -5,7 +5,11 @@ class Review < ActiveRecord::Base
 
   belongs_to :kid
 
+  accepts_nested_attributes_for :kid
+
   validates_presence_of :kid, :held_at
+
+  after_save :sync_fields_with_kid
 
   def display_name
     return 'Neue Gesprächsdoku' if new_record?
@@ -31,5 +35,12 @@ class Review < ActiveRecord::Base
 
   def human_attendee
     text_format(attendee)
+  end
+
+  def sync_fields_with_kid
+    if kind == 'telefonisch'
+      kid.update_attributes(
+        coached_at: held_at)
+    end
   end
 end
