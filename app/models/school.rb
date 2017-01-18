@@ -6,6 +6,8 @@ class School < ActiveRecord::Base
   has_many :principal_school_relations
   has_many :principals, through: :principal_school_relations
   has_many :teachers
+  has_many :kids
+  has_many :mentors, through: :kids
 
   def display_name
     name

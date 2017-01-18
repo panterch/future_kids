@@ -115,7 +115,8 @@ de:
       mentor:
         available: "Mögliche Termine"
         absence: "Bekannte Absenzen / Verfügbarkeit"
-        primary_kids_school: "Einsatzort"
+        school: Einsatzort
+        schools: Einsatzort(e)
         primary_kids_meeting_day: "Einsatztag"
         term: "Startzeit"
         kids: Kinder

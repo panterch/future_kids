@@ -3,6 +3,8 @@ class Mentor < User
   attr_accessor :filter_by_coach_id
   # Filters mentors by their kids meeting day. Used only in the mentor index form.
   attr_accessor :filter_by_meeting_day
+  # Filters mentors by their kids school. Used only in the mentor index form.
+  attr_accessor :filter_by_school_id
 
   has_many :kids
   has_many :admins, through: :kids
@@ -13,7 +15,11 @@ class Mentor < User
   has_many :secondary_reminders, class_name: 'Reminder',
                                  foreign_key: 'secondary_mentor_id'
   has_many :schedules, as: :person
-  belongs_to :primary_kids_school, class_name: 'School'
+
+  # Unscope is needed because the association is done through kids.
+  # Kids are ordered so distinct was looking at the kids scope in order to
+  # produce distinct results. Unscoping order enables distinct to remove duplicates.
+  has_many :schools, -> {unscope(:order).distinct}, through: :kids
 
   accepts_nested_attributes_for :schedules
 

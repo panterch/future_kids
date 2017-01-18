@@ -14,8 +14,9 @@
       = show.attribute :field_of_study
       = show.attribute :education
       = show.attribute :transport
-      = show.association :primary_kids_school do
-        = can_link_to(@mentor.primary_kids_school)
+      = show.association :schools do |k|
+        %li
+          = can_link_to k
       = show.association :kids do |k|
         %li
           = can_link_to k
@@ -23,6 +24,7 @@
           = "in #{k.city}" if k.city.present?
       = show.association :secondary_kids do |k|
         %li
+
           = can_link_to k
           = "am #{k.human_meeting_day}" if k.meeting_day.present?
           = "in #{k.city}" if k.city.present?

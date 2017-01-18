@@ -123,17 +123,19 @@ describe Mentor do
     end
   end
 
-  context 'association with kids, admins and meeting day' do
+  context 'association with kids, admins, meeting day and schools' do
     before do
       @admin1  = create(:admin)
       @admin2  = create(:admin)
       @mentor1 = create(:mentor)
       @mentor2 = create(:mentor)
-      @kid1    = create(:kid, mentor: @mentor1, admin: @admin1, meeting_day: '1')
-      @kid2    = create(:kid, mentor: @mentor2, admin: @admin1, meeting_day: '1')
-      @kid3    = create(:kid, mentor: @mentor1, admin: @admin1, meeting_day: '1')
-      @kid4    = create(:kid, mentor: @mentor2, admin: @admin1, meeting_day: '1')
-      @kid5    = create(:kid, mentor: @mentor1, admin: @admin2, meeting_day: '2')
+      @school1 = create(:school)
+      @school2 = create(:school)
+      @kid1    = create(:kid, mentor: @mentor1, admin: @admin1, meeting_day: '1', school: @school1)
+      @kid2    = create(:kid, mentor: @mentor2, admin: @admin1, meeting_day: '1', school: @school1)
+      @kid3    = create(:kid, mentor: @mentor1, admin: @admin1, meeting_day: '1', school: @school1)
+      @kid4    = create(:kid, mentor: @mentor2, admin: @admin1, meeting_day: '1', school: @school1)
+      @kid5    = create(:kid, mentor: @mentor1, admin: @admin2, meeting_day: '2', school: @school2)
     end
 
     it 'has many kids' do
@@ -142,6 +144,10 @@ describe Mentor do
 
     it 'has many admins through kids' do
       should have_many(:admins).through(:kids)
+    end
+
+    it 'has many schools through kids' do
+      should have_many(:schools).through(:kids)
     end
 
     it 'should filter mentors by admins' do
@@ -166,6 +172,18 @@ describe Mentor do
       expect(@mentors_by_meeting_day2.size).to eq(1)
       expect(@mentors_by_meeting_day2).to include(@mentor1)
       expect(@mentors_by_meeting_day2).to_not include(@mentor2)
+    end
+
+    it 'should filter mentors by schools' do
+      @mentors_by_school1 = Mentor.joins(:schools).where('kids.school_id = ?', @school1.id).uniq
+      expect(@mentors_by_school1.size).to eq(2)
+      expect(@mentors_by_school1.size).to eq(2)
+      expect(@mentors_by_school1).to include(@mentor1)
+      expect(@mentors_by_school1).to include(@mentor2)
+      @mentors_by_school2 = Mentor.joins(:schools).where('kids.school_id = ?', @school2.id).uniq
+      expect(@mentors_by_school2.size).to eq(1)
+      expect(@mentors_by_school2).to include(@mentor1)
+      expect(@mentors_by_school2).to_not include(@mentor2)
     end
   end
 end
