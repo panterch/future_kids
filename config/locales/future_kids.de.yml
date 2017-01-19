@@ -68,6 +68,7 @@ de:
         start_at: Von
         end_at: Bis
         cancelled: Ausgefallen
+        important: 'Bitte sofort lesen.'
         duration: Dauer
         title: Titel
         goal: Lernziel
@@ -191,6 +192,7 @@ de:
     journals_created:
       subject: Neue Lernjournale
     default_email: 'Future Kids <futurekids-tech@panter.ch>'
+    important_subject: 'Wichtiges Lernjournal - bitte sofort lesen.'
 
   kids:
     criticality:

@@ -16,6 +16,8 @@ class Journal < ActiveRecord::Base
   before_save :calculate_year
   before_save :calculate_month
 
+  after_create :send_notification, if: :important
+
   def display_name
     return 'Neuer Lernjournal Eintrag' if new_record?
     # altough held_at is mandatory for saved records, it may
@@ -85,5 +87,9 @@ class Journal < ActiveRecord::Base
 
   def calculate_month
     self.month = held_at.month
+  end
+
+  def send_notification
+    Notifications.important_journal_created(self).deliver_now
   end
 end

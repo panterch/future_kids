@@ -72,7 +72,7 @@ class JournalsController < ApplicationController
   def journal_params
     if params[:journal].present?
       params.require(:journal).permit(
-        :mentor_id, :held_at, :cancelled, :start_at, :end_at, :goal, :subject,
+        :mentor_id, :held_at, :cancelled, :important, :start_at, :end_at, :goal, :subject,
         :method, :outcome, :note
       )
     else
