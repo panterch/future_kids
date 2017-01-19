@@ -31,4 +31,13 @@ class Notifications < ActionMailer::Base
     @journals = journals
     mail to: to.email
   end
+
+  def important_journal_created(journal)
+    @journal = journal
+    recipients = []
+    recipients << I18n.t('notifications.default_email')
+    recipients << @journal.kid.admin&.email if @journal.kid.admin
+    mail subject: I18n.t('notifications.important_subject'),
+         to: recipients
+  end
 end

@@ -1,0 +1,30 @@
+Liebe Coaches
+
+Es wurde ein neues Lernjournal auf der Future Kids-Onlineplattform angelegt:
+
+Schüler/in:   <%= @journal.kid.display_name %>
+Journal:      <%= @journal.display_name %>
+Link:         <%= kid_url(@journal.kid)+"#journal_#{@journal.id}" %>
+Datum:        <%= I18n.l(@journal.held_at) if @journal.held_at %>
+<%- if @journal.cancelled? %>
+Treffen ausgefallen
+<%- else %>
+Von:          <%= @journal.human_start_at %>
+Bis:          <%= @journal.human_end_at %>
+Lernziel:
+<%= @journal.goal %>
+Fach / Thema:
+<%= @journal.subject %>
+Beobachtungen und Vorgehensweise:
+<%= @journal.method %>
+Erfolge / Schwierigkeiten und Interpretation:
+<%= @journal.outcome %>
+Bemerkungen:
+<%= @journal.note %>
+
+<%- end %>
+
+
+Herzliche Gruesse
+das Future Kids Team
+
