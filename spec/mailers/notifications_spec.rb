@@ -81,8 +81,8 @@ describe Notifications do
     end
 
     it 'renders the body' do
-      expect(@mail1.body.encoded).to match('Liebe Lehrperson')
-      expect(@mail2.body.encoded).to match('Liebe Lehrperson')
+      expect(@mail1.body.encoded).to match('Liebe Coaches')
+      expect(@mail2.body.encoded).to match('Liebe Coaches')
       expect(@mail1.body.encoded).to match(@journal1.kid.name)
       expect(@mail2.body.encoded).to match(@journal2.kid.name)
     end
