@@ -360,6 +360,7 @@ DEPENDENCIES
   capybara
   codeclimate-test-reporter
   coffee-rails
+  countries
   country_select
   database_cleaner
   devise
@@ -390,4 +391,4 @@ DEPENDENCIES
   whenever
 
 BUNDLED WITH
-   1.13.6
+   1.13.7

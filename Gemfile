@@ -27,6 +27,7 @@ gem 'bower-rails'
 gem 'uglifier'
 gem 'i18n-active_record'
 gem 'panter-rails-deploy'
+gem 'countries'
 gem 'country_select'
 
 # Bundle gems for the local environment. Make sure to
