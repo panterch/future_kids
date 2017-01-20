@@ -202,7 +202,8 @@ CREATE TABLE kids (
     exit_at date,
     goal_1_updated_at timestamp without time zone,
     goal_2_updated_at timestamp without time zone,
-    third_teacher_id integer
+    third_teacher_id integer,
+    parent_country character varying
 );
 
 
@@ -1143,4 +1144,6 @@ INSERT INTO schema_migrations (version) VALUES ('20170111165510');
 INSERT INTO schema_migrations (version) VALUES ('20170112142758');
 
 INSERT INTO schema_migrations (version) VALUES ('20170118161950');
+
+INSERT INTO schema_migrations (version) VALUES ('20170120100844');
 
