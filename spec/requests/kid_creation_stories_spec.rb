@@ -36,7 +36,7 @@ feature 'TEACHER::CREATE:KID', '
     click_link 'Erfassen'
     fill_in 'kid_name', with: 'Last Name'
     fill_in 'kid_prename', with: 'First Name'
-    page.should have_select('kid_parent_country', :with_options => ['Albanien', 'Türkei', 'Sri Lanka', 'Kosovo', 'Spanien', 'Portugal'])
+    expect(page).to have_select('kid_parent_country', :with_options => ['Albanien', 'Türkei', 'Sri Lanka', 'Kosovo', 'Spanien', 'Portugal'])
     select('Syrien, Arabische Republik', from: 'kid_parent_country')
     click_button 'Schüler/in erstellen'
     expect(page.status_code).to eq(200)
@@ -80,7 +80,7 @@ feature 'ADMIN::CREATE:KID', '
     click_link 'Erfassen'
     fill_in 'kid_name', with: 'Last Name'
     fill_in 'kid_prename', with: 'First Name'
-    page.should have_select('kid_parent_country', :with_options => ['Albanien', 'Türkei', 'Sri Lanka', 'Kosovo', 'Spanien', 'Portugal'])
+    expect(page).to have_select('kid_parent_country', :with_options => ['Albanien', 'Türkei', 'Sri Lanka', 'Kosovo', 'Spanien', 'Portugal'])
     select('Syrien, Arabische Republik', from: 'kid_parent_country')
     click_button 'Schüler/in erstellen'
     expect(page.status_code).to eq(200)
