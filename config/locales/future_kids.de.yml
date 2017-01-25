@@ -46,6 +46,8 @@ de:
         third_teacher: "Dritte Lehrperson"
         dob: Geburtsdatum
         language: Erstsprache
+        parent_country: Herkunftsland Eltern
+        parent_country_name: Herkunftsland Eltern
         phone: Telefonnummer
         translator: 'Eltern brauchen bei Gesprächen unbedingt einen Dolmetscher'
         school: Schule

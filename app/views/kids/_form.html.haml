@@ -5,6 +5,7 @@
   = form.input :dob
   = form.input :grade, :collection => grade_collection
   = form.input :language
+  = form.input :parent_country, priority: ["AL", "TR", "LK", "XK", "ES", "PT"], :include_blank => true
   = form.input :parent
   = form.input :address
   = form.input :city

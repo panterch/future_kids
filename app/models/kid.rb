@@ -127,6 +127,12 @@ class Kid < ActiveRecord::Base
     I18n.t(exit_kind, scope: 'exit_kind')
   end
 
+  def parent_country_name
+    return '' if parent_country.blank?
+    c = ISO3166::Country[self.parent_country]
+    return c.translations[I18n.locale.to_s] || c.name
+  end
+
   protected
 
   def release_relations
