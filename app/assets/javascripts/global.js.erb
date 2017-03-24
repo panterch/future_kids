@@ -55,10 +55,11 @@ function register_datepickers() {
       if (end_settings.maxTime.hour == 19 && end_settings.maxTime.minute == 45) {
         end_settings.maxTime.minute = 30;
       }
+
     });
   });
+  $('#journal_end_at').calendricalTime(end_settings);
   $('#journal_start_at').calendricalTime(start_settings);
-  $('#journal_start_at, #journal_end_at').calendricalTimeRange(end_settings);
 }
 
 // register active features on the journal entry form
