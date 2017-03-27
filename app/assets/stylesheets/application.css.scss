@@ -334,7 +334,7 @@ form.schedule {
       height: $kidMentorSchedulesRowHeight;
       overflow: visible;
       cursor: pointer;
-      
+
 
 
       .btn-set-date{
@@ -363,7 +363,7 @@ form.schedule {
 
         }
       }
-      
+
       .name-label {
         display: none;
         pointer-events:none;
@@ -380,9 +380,19 @@ form.schedule {
           margin-left: -8px;
         }
       }
-
-      
     }
   }
 }
 
+// align checkboxes - override bootstrap setting
+.checkbox label {
+  display: block;
+  input {
+    width: 13px;
+    height: 13px;
+    padding: 0;
+    margin:0;
+    position: relative !important;
+    top: -1px;
+  }
+}
