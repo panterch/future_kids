@@ -34,11 +34,32 @@ function register_datepickers() {
   $('#kid_meeting_start_at').calendricalTime(time_settings);
 
   // journal entries may take longer than official meeting hours
+  var start_settings = $.extend(true, {}, time_settings);
   var end_settings = $.extend(true, {}, time_settings);
+  start_settings.maxTime.hour = 19;
+  start_settings.timeInterval = 15;
   end_settings.maxTime.hour = 19;
   end_settings.timeInterval = 15;
-  $('#journal_start_at, #journal_end_at').calendricalTimeRange(end_settings);
 
+  $(function(){
+    $('#journal_start_at').on('blur', function() {
+      var journal_start_at_time = document.getElementById('journal_start_at').value.split(':');
+      var journal_start_at_hour = Number(journal_start_at_time[0]);
+      var journal_start_at_min = Number(journal_start_at_time[1]);
+      end_settings.maxTime.hour = Math.min(journal_start_at_hour + 2, 19);
+      if (end_settings.maxTime.hour - journal_start_at_hour < 2) {
+        end_settings.maxTime.minute = 45;
+      } else {
+        end_settings.maxTime.minute = journal_start_at_min;
+      }
+      if (end_settings.maxTime.hour == 19 && end_settings.maxTime.minute == 45) {
+        end_settings.maxTime.minute = 30;
+      }
+
+    });
+  });
+  $('#journal_end_at').calendricalTime(end_settings);
+  $('#journal_start_at').calendricalTime(start_settings);
 }
 
 // register active features on the journal entry form
