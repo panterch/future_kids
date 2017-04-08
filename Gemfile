@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails'
+gem 'rails', '4.2.8'
 gem 'haml-rails'
 gem 'jquery-rails'
 gem 'jbuilder'
@@ -36,7 +36,8 @@ gem 'country_select'
 group :development, :test do
   gem 'rspec-rails'
   gem 'shoulda-matchers'
-  gem 'capybara'
+  # capybara is pinned because of pinned selenium-webdriver
+  gem 'capybara', '=2.7.1'
   gem 'factory_girl_rails'
   gem 'factory_girl'
   # this gem has to be pinned, see https://github.com/panterch/future_kids/issues/117
