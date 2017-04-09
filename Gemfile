@@ -14,7 +14,7 @@ gem 'simple_form'
 gem 'paperclip'
 gem 'pg'
 gem 'responders'
-gem 'show_for', github: 'plataformatec/show_for'
+gem 'show_for'
 gem 'whenever', require: false
 gem 'bootstrap-sass'
 gem 'quiet_assets'
@@ -43,8 +43,9 @@ group :development, :test do
   # this gem has to be pinned, see https://github.com/panterch/future_kids/issues/117
   gem 'selenium-webdriver', '=2.47.1'
   gem 'database_cleaner'
+  gem 'codeclimate-test-reporter'
+  gem "simplecov"
 end
 
-gem 'codeclimate-test-reporter', group: :test, require: nil
 
 gem 'sdoc', group: :doc

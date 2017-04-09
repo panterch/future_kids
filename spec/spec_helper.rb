@@ -1,9 +1,8 @@
 require 'rubygems'
-require 'codeclimate-test-reporter'
-
-CodeClimate::TestReporter.start
+require "simplecov"
 
 ENV['RAILS_ENV'] ||= 'test'
+SimpleCov.start
 
 require 'rails/application'
 

@@ -1,6 +1,9 @@
 language: ruby
 cache: bundler
 sudo: false
+addons:
+  code_climate:
+    repo_token: 3e934587dafc53ec05a0d7d5b63b7b21c6cbfd44fdf5d5c3f0e9f2895f21a7d0
 rvm:
   - 2.3.0
 script: 'bundle exec rake db:migrate spec'
@@ -9,3 +12,5 @@ before_script:
   - psql -c 'create database futurekids_test;' -U postgres
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+after_success:
+  - bundle exec codeclimate-test-reporter
