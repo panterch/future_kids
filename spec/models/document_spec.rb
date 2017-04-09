@@ -38,4 +38,12 @@ describe Document do
     sub = create(:document, title: 's', category: 'a', subcategory: 'x')
     expect(Document.in_subcategory('a', 'x')).to eq([sub])
   end
+
+  it 'lists categories' do
+    create(:document, title: 'a1', category: 'a', subcategory: 'x')
+    create(:document, title: 'a3', category: 'a', subcategory: 'y')
+    create(:document, title: 'a2', category: 'b', subcategory: 'y')
+    expect(Document.categories).to eq(%w[a b])
+    expect(Document.subcategories).to eq(%w[x y])
+  end
 end

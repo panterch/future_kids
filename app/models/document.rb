@@ -31,4 +31,13 @@ class Document < ActiveRecord::Base
       .where(subcategory: subcategory)
       .order(:title)
   end
+
+  def self.categories
+    Document.uniq.pluck(:category).sort
+  end
+
+  def self.subcategories
+    Document.uniq.pluck(:subcategory).sort
+  end
+
 end

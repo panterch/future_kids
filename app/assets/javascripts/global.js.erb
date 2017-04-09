@@ -11,6 +11,7 @@ $(function () {
   register_submit_action_in_sidebar();
   register_back_to_top_link();
   register_exit_at_toggler();
+  register_freetext_toggler();
   setTimeout(remove_alerts, 3000);
 });
 
@@ -150,4 +151,25 @@ function register_exit_at_toggler() {
 
 function remove_alerts() {
   $('.alert').fadeOut();
+}
+
+// document view allows users to change input from select field to freetext input
+// markup is prepared by rendering both field types, this listener toggles between
+// both
+function register_freetext_toggler() {
+  $('a.freetext').click(function() {
+    $(this).parents('.form-group').find(':input').each(function() {
+      var $input = $(this);
+      $input.toggle();
+      // assure that only the visible field has the name attribute
+      // set to avoid double submits
+      if ($input.is(':visible')) {
+        $input.attr('name', $input.data('name'));
+      } else {
+        $input.data('name', $input.attr('name'));
+        $input.removeAttr('name');
+      };
+    });
+  });
+  $('a.freetext').click();
 }
