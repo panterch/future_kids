@@ -37,5 +37,13 @@ module FutureKids
     # we dump values to webpages (e.g. in documents_controller) and
     # the escaping has to be the same as when
     config.active_support.escape_html_entities_in_json = false
+
+
+    # optimize country select only to available locales (this does not to work automatically with
+    # i18n active_record)
+    ISO3166.configure do |config|
+      config.locales = [ :de ]
+    end
+
   end
 end
