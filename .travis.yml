@@ -23,6 +23,6 @@ before_script:
 # travis cannot detect modal dialogs with current setup
 script:
   - bundle exec rake db:migrate
-  - bundle exec rspec --tag ~@modal
+  - bundle exec rspec
 after_success:
   - bundle exec codeclimate-test-reporter
