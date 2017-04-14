@@ -41,7 +41,7 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'database_cleaner'
   gem 'codeclimate-test-reporter'
-  gem "simplecov"
+  gem 'simplecov'
 end
 
 

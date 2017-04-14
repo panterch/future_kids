@@ -4,14 +4,16 @@ sudo: false
 addons:
   code_climate:
     repo_token: 3e934587dafc53ec05a0d7d5b63b7b21c6cbfd44fdf5d5c3f0e9f2895f21a7d0
-  firefox: "latest"
+  apt:
+    packages:
+      - google-chrome-stable
 rvm:
   - 2.3.0
 before_install:
-  - wget https://github.com/mozilla/geckodriver/releases/download/v0.15.0/geckodriver-v0.15.0-linux64.tar.gz
-  - mkdir geckodriver
-  - tar -xzf geckodriver-v0.15.0-linux64.tar.gz -C geckodriver
-  - export PATH=$PATH:$PWD/geckodriver
+  - wget https://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip
+  - mkdir chromedriver
+  - unzip chromedriver_linux64.zip -d chromedriver
+  - export PATH=$PATH:$PWD/chromedriver
 script: 'bundle exec rake db:migrate spec'
 before_script:
   - cp config/database.travis.yml config/database.yml
