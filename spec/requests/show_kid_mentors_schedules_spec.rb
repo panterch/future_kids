@@ -460,7 +460,7 @@ feature 'Kid Mentor planning', js: true do
       end
 
 
-      scenario 'a set meeting is visually indicated' do
+      scenario 'a set meeting is visually indicated', modal: true do
         # TOOD: did not know how to assign the mentor to the kid directly
         # so it just klicks through it
 
@@ -479,7 +479,7 @@ feature 'Kid Mentor planning', js: true do
       end
 
       describe 'selection of mentors' do
-        scenario 'if the kid has no mentor assigned, it will be assign as primary mentor' do
+        scenario 'if the kid has no mentor assigned, it will be assign as primary mentor', modal: true do
           within('.timetable') do
             message = accept_alert do
               first('.kid-available .cell-mentor .btn-set-date').click
@@ -502,7 +502,7 @@ feature 'Kid Mentor planning', js: true do
             expect(page).to have_content ''
           end
         end
-        scenario 'if the kid has already a mentor assigned, it will be assign as secondary mentor' do
+        scenario 'if the kid has already a mentor assigned, it will be assign as secondary mentor', modal: true do
           # TOOD: did not know how to assign the mentor to the kid directly
           # so it just klicks through it
 
@@ -538,7 +538,7 @@ feature 'Kid Mentor planning', js: true do
           let(:mentor_max){super().secondary_kids.push create(:kid, name:'Tolkien', prename: 'Pippin')}
 
 
-          scenario 'the selected mentor is primary mentor for another kid' do
+          scenario 'the selected mentor is primary mentor for another kid', modal: true do
             within('.filters [name="number-of-kids"]') do
               find('option[value="primary-only"]').click
             end
