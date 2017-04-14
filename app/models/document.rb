@@ -1,4 +1,4 @@
-class Document < ActiveRecord::Base
+class Document < ApplicationRecord
   has_attached_file :attachment,
                     path: ':rails_root/public/system/:attachment/:id/:style/:filename',
                     url: '/system/:attachment/:id/:style/:filename'

@@ -1,4 +1,4 @@
-class Substitution < ActiveRecord::Base
+class Substitution < ApplicationRecord
   validates :start_at, :end_at, :mentor, :kid, presence: true
 
   belongs_to :mentor

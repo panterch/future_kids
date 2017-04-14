@@ -1,5 +1,5 @@
 - content_for :contextual_links do
-  = contextual_link_to :xlsx, url_for(params.merge(format: 'xlsx'))
+  = contextual_link_to :xlsx, url_for(params.permit!.merge(format: 'xlsx'))
   = contextual_link_to 'reset_all', destroy_all_kid_mentor_relations_path, method: :delete, data: { confirm: "Sind Sie sicher?" }
 
 - content_for :sidebar do

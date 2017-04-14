@@ -1,4 +1,4 @@
-class School < ActiveRecord::Base
+class School < ApplicationRecord
   validates_presence_of :name
 
   default_scope { order(:name) }

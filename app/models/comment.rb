@@ -1,4 +1,4 @@
-class Comment < ActiveRecord::Base
+class Comment < ApplicationRecord
   include ActionView::Helpers::TextHelper
 
   after_create :send_notification

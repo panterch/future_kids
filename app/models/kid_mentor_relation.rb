@@ -3,7 +3,7 @@
 #
 # to describe view use on postgres console:
 # \d+ kid_mentor_relations;
-class KidMentorRelation < ActiveRecord::Base
+class KidMentorRelation < ApplicationRecord
   self.primary_key = 'kid_id' # use kid id to identify records
 
   belongs_to :kid

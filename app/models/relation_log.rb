@@ -1,4 +1,4 @@
-class RelationLog < ActiveRecord::Base
+class RelationLog < ApplicationRecord
   belongs_to :kid
   belongs_to :user
 

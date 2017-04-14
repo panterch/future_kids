@@ -1,4 +1,4 @@
-class Schedule < ActiveRecord::Base
+class Schedule < ApplicationRecord
   belongs_to :person, polymorphic: true
 
   validates_numericality_of :day, only_integer: true,

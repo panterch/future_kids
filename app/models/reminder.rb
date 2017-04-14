@@ -1,4 +1,4 @@
-class Reminder < ActiveRecord::Base
+class Reminder < ApplicationRecord
   default_scope { order('held_at DESC, id') }
   scope :active, -> { where('reminders.acknowledged_at IS NULL') }
 
