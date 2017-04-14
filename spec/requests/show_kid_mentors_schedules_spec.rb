@@ -551,7 +551,7 @@ feature 'Kid Mentor planning', js: true do
               expect(message).to include('Ende Momo')
             end
           end
-          scenario 'the selected mentor is secondary mentor for another kid' do
+          scenario 'the selected mentor is secondary mentor for another kid', modal: true do
             # TOOD: did not know how to assign the mentor to the kid directly
             # so it just klicks through it
 
