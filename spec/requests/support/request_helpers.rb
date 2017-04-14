@@ -3,5 +3,6 @@ def log_in(user, _options = {})
   fill_in 'user_email', with: user.email
   fill_in 'user_password', with: user.password
   click_button 'Anmelden'
+  expect(page).to have_content('Erfolgreich angemeldet')
   user
 end

@@ -118,7 +118,6 @@ feature 'Kid Mentor planning', js: true do
 
 
   background do
-    expect(User.first.valid_password?(admin.password)).to eq(true)
     log_in(admin)
     visit show_kid_mentors_schedules_kid_path(id: kid.id)
   end
