@@ -13,7 +13,9 @@ before_install:
   - tar -xzf geckodriver-v0.15.0-linux64.tar.gz -C geckodriver
   - export PATH=$PATH:$PWD/geckodriver
 # travis cannot detect modal dialogs with current setup
-script: 'bundle exec rake db:migrate spec --tag ~@modal'
+script:
+  - bundle exec db:test:prepare
+  - bundle exec rspec --tag ~@modal
 before_script:
   - cp config/database.travis.yml config/database.yml
   - psql -c 'create database futurekids_test;' -U postgres
