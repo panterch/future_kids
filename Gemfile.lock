@@ -85,6 +85,9 @@ GEM
       rack (>= 1.0.0)
       rack-test (>= 0.5.4)
       xpath (~> 2.0)
+    capybara-screenshot (1.0.14)
+      capybara (>= 1.0, < 3)
+      launchy
     childprocess (0.6.3)
       ffi (~> 1.0, >= 1.0.11)
     chronic (0.10.2)
@@ -168,6 +171,8 @@ GEM
       thor (>= 0.14, < 2.0)
     json (1.8.6)
     kgio (2.11.0)
+    launchy (2.4.3)
+      addressable (~> 2.3)
     libv8 (3.16.14.19)
     loofah (2.0.3)
       nokogiri (>= 1.5.9)
@@ -348,6 +353,7 @@ DEPENDENCIES
   bootstrap-sass
   cancancan
   capybara
+  capybara-screenshot
   codeclimate-test-reporter
   coffee-rails
   countries

@@ -1,8 +1,10 @@
 require 'rubygems'
-require "simplecov"
+require 'simplecov'
+require 'capybara-screenshot/rspec'
 
 ENV['RAILS_ENV'] ||= 'test'
 SimpleCov.start
+Capybara.asset_host = 'http://localhost:3000'
 
 require 'rails/application'
 
