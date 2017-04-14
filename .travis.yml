@@ -7,6 +7,11 @@ addons:
   firefox: "latest"
 rvm:
   - 2.3.0
+before_install:
+  - wget https://github.com/mozilla/geckodriver/releases/download/v0.15.0/geckodriver-v0.15.0-linux64.tar.gz
+  - mkdir geckodriver
+  - tar -xzf geckodriver-v0.15.0-linux64.tar.gz -C geckodriver
+  - export PATH=$PATH:$PWD/geckodriver
 script: 'bundle exec rake db:migrate spec'
 before_script:
   - cp config/database.travis.yml config/database.yml
