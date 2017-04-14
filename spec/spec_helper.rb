@@ -5,6 +5,7 @@ require 'capybara-screenshot/rspec'
 ENV['RAILS_ENV'] ||= 'test'
 SimpleCov.start
 Capybara.asset_host = 'http://localhost:3000'
+Capybara::Screenshot.autosave_on_failure = true
 
 require 'rails/application'
 
