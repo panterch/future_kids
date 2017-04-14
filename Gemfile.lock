@@ -39,15 +39,15 @@ GEM
       tzinfo (~> 1.1)
     addressable (2.5.1)
       public_suffix (~> 2.0, >= 2.0.2)
-    airbrussh (1.1.2)
+    airbrussh (1.2.0)
       sshkit (>= 1.6.1, != 1.7.0)
     arel (6.0.4)
     autoprefixer-rails (6.7.7.2)
       execjs
-    axlsx (2.0.1)
+    axlsx (2.1.0.pre)
       htmlentities (~> 4.3.1)
       nokogiri (>= 1.4.1)
-      rubyzip (~> 1.0.0)
+      rubyzip (~> 1.1.7)
     axlsx_rails (0.5.1)
       actionpack (>= 3.1)
       axlsx (>= 2.0.1)
@@ -72,7 +72,7 @@ GEM
     capistrano-rails (1.2.3)
       capistrano (~> 3.1)
       capistrano-bundler (~> 1.1)
-    capistrano-rbenv (2.1.0)
+    capistrano-rbenv (2.1.1)
       capistrano (~> 3.1)
       sshkit (~> 1.3)
     capistrano-rbenv-install (1.2.0)
@@ -267,7 +267,7 @@ GEM
     rspec-support (3.5.0)
     ruby_parser (3.9.0)
       sexp_processor (~> 4.1)
-    rubyzip (1.0.0)
+    rubyzip (1.1.7)
     sass (3.4.23)
     sass-rails (5.0.6)
       railties (>= 4.0.0, < 6)
@@ -344,6 +344,7 @@ PLATFORMS
 
 DEPENDENCIES
   actionview-encoded_mail_to
+  axlsx (= 2.1.0.pre)
   axlsx_rails
   bootstrap-sass
   cancancan

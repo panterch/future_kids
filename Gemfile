@@ -29,6 +29,10 @@ gem 'panter-rails-deploy'
 gem 'countries'
 gem 'country_select'
 
+# pin axls to pre-version to force update of rubyzip
+# can be removed as soon version is released
+gem 'axlsx', '2.1.0.pre'
+
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
