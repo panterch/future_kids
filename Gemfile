@@ -36,7 +36,6 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'shoulda-matchers'
   gem 'capybara'
-  gem 'capybara-screenshot'
   gem 'factory_girl_rails'
   gem 'factory_girl'
   gem 'selenium-webdriver'

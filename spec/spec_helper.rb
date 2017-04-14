@@ -1,11 +1,10 @@
 require 'rubygems'
 require 'simplecov'
-require 'capybara-screenshot/rspec'
+require 'capybara/rspec'
 
 ENV['RAILS_ENV'] ||= 'test'
 SimpleCov.start
-Capybara.asset_host = 'http://localhost:3000'
-Capybara::Screenshot.autosave_on_failure = true
+
 Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
