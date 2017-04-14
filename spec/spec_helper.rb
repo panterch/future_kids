@@ -6,12 +6,11 @@ ENV['RAILS_ENV'] ||= 'test'
 SimpleCov.start
 Capybara.asset_host = 'http://localhost:3000'
 Capybara::Screenshot.autosave_on_failure = true
+Capybara.register_driver :selenium do |app|
+  Capybara::Selenium::Driver.new(app, browser: :chrome)
+end
 
 require 'rails/application'
-
-# Loading more in this block will cause your tests to run faster. However,
-# if you change any configuration or code from libraries loaded here, you'll
-# need to restart spork for it take effect.
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 
