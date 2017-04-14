@@ -465,10 +465,10 @@ feature 'Kid Mentor planning', js: true do
         # so it just klicks through it
 
         within('.timetable') do
-          first('.kid-available .cell-mentor .btn-set-date').click
-          expect(page.driver.browser.switch_to.alert.text).to have_content 'primärer Mentor'
-          page.driver.browser.switch_to.alert.accept
-
+          message = accept_alert do
+            first('.kid-available .cell-mentor .btn-set-date').click
+          end
+          expect(message).to include('primärer Mentor')
         end
         find('a', :text => 'Mentor finden').click
 
@@ -481,9 +481,10 @@ feature 'Kid Mentor planning', js: true do
       describe 'selection of mentors' do
         scenario 'if the kid has no mentor assigned, it will be assign as primary mentor' do
           within('.timetable') do
-            first('.kid-available .cell-mentor .btn-set-date').click
-            expect(page.driver.browser.switch_to.alert.text).to have_content 'primärer Mentor'
-            page.driver.browser.switch_to.alert.accept
+            message = accept_alert do
+              first('.kid-available .cell-mentor .btn-set-date').click
+            end
+            expect(message).to include('primärer Mentor')
           end
           within('.kid_meeting_day') do
             expect(page).to have_content 'Dienstag'
@@ -506,17 +507,18 @@ feature 'Kid Mentor planning', js: true do
           # so it just klicks through it
 
           within('.timetable') do
-            first('.kid-available .cell-mentor .btn-set-date').click
-            expect(page.driver.browser.switch_to.alert.text).to have_content 'primärer Mentor'
-            page.driver.browser.switch_to.alert.accept
-
+            message = accept_alert do
+              first('.kid-available .cell-mentor .btn-set-date').click
+            end
+            expect(message).to include('primärer Mentor')
           end
           find('a', :text => 'Mentor finden').click
 
           within('.timetable') do
-            first('.kid-available .cell-mentor .btn-set-date').click
-            expect(page.driver.browser.switch_to.alert.text).to have_content 'Ersatzmentor'
-            page.driver.browser.switch_to.alert.accept
+            message = accept_alert do
+              first('.kid-available .cell-mentor .btn-set-date').click
+            end
+            expect(message).to include('Ersatzmentor')
           end
 
 
@@ -542,9 +544,11 @@ feature 'Kid Mentor planning', js: true do
             end
 
             within('.timetable') do
-              first('.kid-available .cell-mentor .btn-set-date').click
-              expect(page.driver.browser.switch_to.alert.text).to have_content 'primärer Mentor'
-              expect(page.driver.browser.switch_to.alert.text).to have_content 'Ende Momo'
+              message = accept_alert do
+                first('.kid-available .cell-mentor .btn-set-date').click
+              end
+              expect(message).to include('primärer Mentor')
+              expect(message).to include('Ende Momo')
             end
           end
           scenario 'the selected mentor is secondary mentor for another kid' do
@@ -552,9 +556,10 @@ feature 'Kid Mentor planning', js: true do
             # so it just klicks through it
 
             within('.timetable') do
-              first('.kid-available .cell-mentor .btn-set-date').click
-              expect(page.driver.browser.switch_to.alert.text).to have_content 'primärer Mentor'
-              page.driver.browser.switch_to.alert.accept
+              message = accept_alert do
+                first('.kid-available .cell-mentor .btn-set-date').click
+              end
+              expect(message).to include('primärer Mentor')
 
             end
             find('a', :text => 'Mentor finden').click
@@ -564,9 +569,11 @@ feature 'Kid Mentor planning', js: true do
             end
 
             within('.timetable') do
-              first('.kid-available .cell-mentor .btn-set-date').click
-              expect(page.driver.browser.switch_to.alert.text).to have_content 'Ersatzmentor'
-              expect(page.driver.browser.switch_to.alert.text).to have_content 'Tolkien Pippin'
+              message = accept_alert do
+                first('.kid-available .cell-mentor .btn-set-date').click
+              end
+              expect(message).to include('Ersatzmentor')
+              expect(message).to include('Tolkien Pippin')
             end
           end
         end
