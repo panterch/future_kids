@@ -5,6 +5,8 @@ addons:
   code_climate:
     repo_token: 3e934587dafc53ec05a0d7d5b63b7b21c6cbfd44fdf5d5c3f0e9f2895f21a7d0
   apt:
+    sources:
+      - google-chrome
     packages:
       - google-chrome-stable
 rvm:
