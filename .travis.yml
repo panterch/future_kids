@@ -14,7 +14,7 @@ before_install:
   - export PATH=$PATH:$PWD/geckodriver
 # travis cannot detect modal dialogs with current setup
 script:
-  - bundle exec db:test:prepare
+  - bundle exec rake db:migrate
   - bundle exec rspec --tag ~@modal
 before_script:
   - cp config/database.travis.yml config/database.yml
