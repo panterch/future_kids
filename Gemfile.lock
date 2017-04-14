@@ -278,9 +278,8 @@ GEM
     sdoc (0.4.2)
       json (~> 1.7, >= 1.7.7)
       rdoc (~> 4.0)
-    selenium-webdriver (2.47.1)
+    selenium-webdriver (2.53.0)
       childprocess (~> 0.5)
-      multi_json (~> 1.0)
       rubyzip (~> 1.0)
       websocket (~> 1.0)
     sexp_processor (4.9.0)
@@ -373,7 +372,7 @@ DEPENDENCIES
   rspec-rails
   sass-rails
   sdoc
-  selenium-webdriver (= 2.47.1)
+  selenium-webdriver
   shoulda-matchers
   show_for
   simple_form
