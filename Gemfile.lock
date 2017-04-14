@@ -59,7 +59,6 @@ GEM
     bootstrap-sass (3.3.7)
       autoprefixer-rails (>= 5.2.1)
       sass (>= 3.3.4)
-    bower-rails (0.11.0)
     builder (3.2.3)
     cancancan (1.16.0)
     capistrano (3.8.0)
@@ -349,7 +348,6 @@ DEPENDENCIES
   actionview-encoded_mail_to
   axlsx_rails
   bootstrap-sass
-  bower-rails
   cancancan
   capybara (= 2.7.1)
   codeclimate-test-reporter
