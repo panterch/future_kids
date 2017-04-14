@@ -1,16 +1,28 @@
+dist: trusty
 language: ruby
 cache: bundler
 sudo: false
 addons:
   code_climate:
     repo_token: 3e934587dafc53ec05a0d7d5b63b7b21c6cbfd44fdf5d5c3f0e9f2895f21a7d0
+  apt:
+    packages:
+      google-chrome-stable
 rvm:
   - 2.3.0
-script: 'bundle exec rake db:migrate spec'
+before_install:
+  - wget https://chromedriver.storage.googleapis.com/2.29/chromedriver_linux64.zip
+  - mkdir chromedriver
+  - unzip chromedriver_linux64.zip -d chromedriver
+  - export PATH=$PATH:$PWD/chromedriver
 before_script:
   - cp config/database.travis.yml config/database.yml
   - psql -c 'create database futurekids_test;' -U postgres
   - export DISPLAY=:99.0
   - sh -e /etc/init.d/xvfb start
+# travis cannot detect modal dialogs with current setup
+script:
+  - bundle exec rake db:migrate
+  - bundle exec rspec
 after_success:
   - bundle exec codeclimate-test-reporter

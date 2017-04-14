@@ -1,14 +1,15 @@
 require 'rubygems'
-require "simplecov"
+require 'simplecov'
+require 'capybara/rspec'
 
 ENV['RAILS_ENV'] ||= 'test'
 SimpleCov.start
 
-require 'rails/application'
+Capybara.register_driver :selenium do |app|
+  Capybara::Selenium::Driver.new(app, browser: :chrome)
+end
 
-# Loading more in this block will cause your tests to run faster. However,
-# if you change any configuration or code from libraries loaded here, you'll
-# need to restart spork for it take effect.
+require 'rails/application'
 require File.expand_path('../../config/environment', __FILE__)
 require 'rspec/rails'
 

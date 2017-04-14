@@ -118,7 +118,6 @@ feature 'Kid Mentor planning', js: true do
 
 
   background do
-    expect(User.first.valid_password?(admin.password)).to eq(true)
     log_in(admin)
     visit show_kid_mentors_schedules_kid_path(id: kid.id)
   end
@@ -461,15 +460,15 @@ feature 'Kid Mentor planning', js: true do
       end
 
 
-      scenario 'a set meeting is visually indicated' do
+      scenario 'a set meeting is visually indicated', modal: true do
         # TOOD: did not know how to assign the mentor to the kid directly
         # so it just klicks through it
 
         within('.timetable') do
-          first('.kid-available .cell-mentor .btn-set-date').click
-          expect(page.driver.browser.switch_to.alert.text).to have_content 'primärer Mentor'
-          page.driver.browser.switch_to.alert.accept
-
+          message = accept_alert do
+            first('.kid-available .cell-mentor .btn-set-date').click
+          end
+          expect(message).to include('primärer Mentor')
         end
         find('a', :text => 'Mentor finden').click
 
@@ -480,11 +479,12 @@ feature 'Kid Mentor planning', js: true do
       end
 
       describe 'selection of mentors' do
-        scenario 'if the kid has no mentor assigned, it will be assign as primary mentor' do
+        scenario 'if the kid has no mentor assigned, it will be assign as primary mentor', modal: true do
           within('.timetable') do
-            first('.kid-available .cell-mentor .btn-set-date').click
-            expect(page.driver.browser.switch_to.alert.text).to have_content 'primärer Mentor'
-            page.driver.browser.switch_to.alert.accept
+            message = accept_alert do
+              first('.kid-available .cell-mentor .btn-set-date').click
+            end
+            expect(message).to include('primärer Mentor')
           end
           within('.kid_meeting_day') do
             expect(page).to have_content 'Dienstag'
@@ -502,22 +502,23 @@ feature 'Kid Mentor planning', js: true do
             expect(page).to have_content ''
           end
         end
-        scenario 'if the kid has already a mentor assigned, it will be assign as secondary mentor' do
+        scenario 'if the kid has already a mentor assigned, it will be assign as secondary mentor', modal: true do
           # TOOD: did not know how to assign the mentor to the kid directly
           # so it just klicks through it
 
           within('.timetable') do
-            first('.kid-available .cell-mentor .btn-set-date').click
-            expect(page.driver.browser.switch_to.alert.text).to have_content 'primärer Mentor'
-            page.driver.browser.switch_to.alert.accept
-
+            message = accept_alert do
+              first('.kid-available .cell-mentor .btn-set-date').click
+            end
+            expect(message).to include('primärer Mentor')
           end
           find('a', :text => 'Mentor finden').click
 
           within('.timetable') do
-            first('.kid-available .cell-mentor .btn-set-date').click
-            expect(page.driver.browser.switch_to.alert.text).to have_content 'Ersatzmentor'
-            page.driver.browser.switch_to.alert.accept
+            message = accept_alert do
+              first('.kid-available .cell-mentor .btn-set-date').click
+            end
+            expect(message).to include('Ersatzmentor')
           end
 
 
@@ -537,25 +538,28 @@ feature 'Kid Mentor planning', js: true do
           let(:mentor_max){super().secondary_kids.push create(:kid, name:'Tolkien', prename: 'Pippin')}
 
 
-          scenario 'the selected mentor is primary mentor for another kid' do
+          scenario 'the selected mentor is primary mentor for another kid', modal: true do
             within('.filters [name="number-of-kids"]') do
               find('option[value="primary-only"]').click
             end
 
             within('.timetable') do
-              first('.kid-available .cell-mentor .btn-set-date').click
-              expect(page.driver.browser.switch_to.alert.text).to have_content 'primärer Mentor'
-              expect(page.driver.browser.switch_to.alert.text).to have_content 'Ende Momo'
+              message = accept_alert do
+                first('.kid-available .cell-mentor .btn-set-date').click
+              end
+              expect(message).to include('primärer Mentor')
+              expect(message).to include('Ende Momo')
             end
           end
-          scenario 'the selected mentor is secondary mentor for another kid' do
+          scenario 'the selected mentor is secondary mentor for another kid', modal: true do
             # TOOD: did not know how to assign the mentor to the kid directly
             # so it just klicks through it
 
             within('.timetable') do
-              first('.kid-available .cell-mentor .btn-set-date').click
-              expect(page.driver.browser.switch_to.alert.text).to have_content 'primärer Mentor'
-              page.driver.browser.switch_to.alert.accept
+              message = accept_alert do
+                first('.kid-available .cell-mentor .btn-set-date').click
+              end
+              expect(message).to include('primärer Mentor')
 
             end
             find('a', :text => 'Mentor finden').click
@@ -565,9 +569,11 @@ feature 'Kid Mentor planning', js: true do
             end
 
             within('.timetable') do
-              first('.kid-available .cell-mentor .btn-set-date').click
-              expect(page.driver.browser.switch_to.alert.text).to have_content 'Ersatzmentor'
-              expect(page.driver.browser.switch_to.alert.text).to have_content 'Tolkien Pippin'
+              message = accept_alert do
+                first('.kid-available .cell-mentor .btn-set-date').click
+              end
+              expect(message).to include('Ersatzmentor')
+              expect(message).to include('Tolkien Pippin')
             end
           end
         end

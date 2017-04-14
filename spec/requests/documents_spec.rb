@@ -6,6 +6,7 @@ feature 'Document Slider', js: true do
 
   background do
     log_in(admin)
+    visit '/'
   end
 
   scenario 'expands the slider' do
