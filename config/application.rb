@@ -28,9 +28,6 @@ module FutureKids
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     config.i18n.default_locale = :de
 
-    # Do not swallow errors in after_commit/after_rollback callbacks.
-    config.active_record.raise_in_transactional_callbacks = true
-
     # support sql views in tests
     config.active_record.schema_format = :sql
 
@@ -38,6 +35,7 @@ module FutureKids
     # the escaping has to be the same as when
     config.active_support.escape_html_entities_in_json = false
 
+    config.active_record.time_zone_aware_types = [:datetime, :time]
 
     # optimize country select only to available locales (this does not to work automatically with
     # i18n active_record)
