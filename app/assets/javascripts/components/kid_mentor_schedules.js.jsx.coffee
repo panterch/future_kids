@@ -133,38 +133,38 @@ MAX_MENTORS_TO_DISPLAY = 10
     filteredMentors = @getFilteredMentors()
     selectedMentors = @getSelectedMentors filteredMentors
     selectedMentorIds = getMentorIds selectedMentors
-    <div className="kid-mentor-schedules row">
-      <div className="header panel panel-default">
-        <div className="row">
-          <div className="col-xs-2 title">Mentoren Filtern: </div>
-          <div className="col-xs-10">
-            <Filters
-              mentors=@props.mentors
-              schools=@props.schools
-              initialFilters=@state.filters
-              onChange=@onChangeFilter
-            />
-          </div>
-        </div>
-        <div className="row">
-          <div className="col-xs-2 title">Mentoren anzeigen: </div>
-          <div className="col-xs-10">
-            <MentorsForDisplayingFilter
-              mentors=filteredMentors
-              selection=selectedMentorIds
-              onChange=@onChangeSelectedMentorsToDisplay
-              visitedMentors=@state.visitedMentors
-            />
-          </div>
-        </div>
-      </div>
+    React.createElement("div", {"className": "kid-mentor-schedules row"},
+      React.createElement("div", {"className": "header panel panel-default"},
+        React.createElement("div", {"className": "row"},
+          React.createElement("div", {"className": "col-xs-2 title"}, "Mentoren Filtern: "),
+          React.createElement("div", {"className": "col-xs-10"},
+            React.createElement(Filters, { \
+              "mentors": @props.mentors,  \
+              "schools": @props.schools,  \
+              "initialFilters": @state.filters,  \
+              "onChange": @onChangeFilter
+            })
+          )
+        ),
+        React.createElement("div", {"className": "row"},
+          React.createElement("div", {"className": "col-xs-2 title"}, "Mentoren anzeigen: "),
+          React.createElement("div", {"className": "col-xs-10"},
+            React.createElement(MentorsForDisplayingFilter, { \
+              "mentors": filteredMentors,  \
+              "selection": selectedMentorIds,  \
+              "onChange": @onChangeSelectedMentorsToDisplay,  \
+              "visitedMentors": @state.visitedMentors
+            })
+          )
+        )
+      ),
 
-      <TimeTable
-        kid=@props.kid
-        mentors=selectedMentors
-        onSelectDate=@onSelectDate
-      />
-    </div>
+      React.createElement(TimeTable, { \
+        "kid": @props.kid,  \
+        "mentors": selectedMentors,  \
+        "onSelectDate": @onSelectDate
+      })
+    )
 
 MentorsForDisplayingFilter = React.createClass
   DELEMITER: ";"
@@ -201,32 +201,32 @@ MentorsForDisplayingFilter = React.createClass
     if value.length == 0 then value = null
     sizeLabel =
       if _.size(@props.mentors) > MAX_MENTORS_TO_DISPLAY
-        <span>
-          ({MAX_MENTORS_TO_DISPLAY} von {_.size @props.mentors}) <br />
-          <strong>Max. erreicht</strong>
-        </span>
+        React.createElement("span", null, """
+          (""", (MAX_MENTORS_TO_DISPLAY), " von ", (_.size @props.mentors), ") ", React.createElement("br", null),
+          React.createElement("strong", null, "Max. erreicht")
+        )
       else
-        <span>({_.size @props.mentors})</span>
+        React.createElement("span", null, "(", (_.size @props.mentors), ")")
     optionRenderer = (option) ->
-      <span>{if option.visited then <i className='glyphicon glyphicon-eye-open'></i>} {option.label}</span>
+      React.createElement("span", null, (if option.visited then React.createElement("i", {"className": 'glyphicon glyphicon-eye-open'})), " ", (option.label))
 
-    <div className="mentors-display-filter row">
-      <div className="col-xs-10">
-        <Select
-          options=options
-          multi=true
-          optionRenderer=optionRenderer
-          delimiter=@DELEMITER
-          value=value
-          onChange=@onChange
-        />
-      </div>
-      <button
-        onClick=@selectAll
-        className="btn btn-default col-xs-2">
-          Alle wählen <br />{sizeLabel}
-      </button>
-    </div>
+    React.createElement("div", {"className": "mentors-display-filter row"},
+      React.createElement("div", {"className": "col-xs-10"},
+        React.createElement(Select, { \
+          "options": options,  \
+          "multi": true,  \
+          "optionRenderer": optionRenderer,  \
+          "delimiter": @DELEMITER,  \
+          "value": value,  \
+          "onChange": @onChange
+        })
+      ),
+      React.createElement("button", { \
+        "onClick": @selectAll,  \
+        "className": "btn btn-default col-xs-2"}, """
+          Alle wählen """, React.createElement("br", null), (sizeLabel)
+      )
+    )
 
 Filters = React.createClass
   onChangeSex: (event) ->
@@ -249,45 +249,45 @@ Filters = React.createClass
   onChangeNumberOfKids: (event) ->
     @props.onChange? "numberOfKids", event.target.value
   render: ->
-    <div className="filters form-inline">
-      <div className="form-group">
-        <label htmlFor="number-of-kids">Zeige Mentoren mit </label>
-        <select name="number-of-kids" className="form-control" value=@props.initialFilters.numberOfKids onChange=@onChangeNumberOfKids>
-          <option value="no-kid">keinem Schüler zugewiesen</option>
-          <option value="primary-only">nur primärem Schüler zugewiesen</option>
-          <option value="secondary-only">nur sekundärem Schüler</option>
-          <option value="primary-and-secondary">primärem und sekundärem Schüler</option>
-        </select>
-      </div>
+    React.createElement("div", {"className": "filters form-inline"},
+      React.createElement("div", {"className": "form-group"},
+        React.createElement("label", {"htmlFor": "number-of-kids"}, "Zeige Mentoren mit "),
+        React.createElement("select", {"name": "number-of-kids", "className": "form-control", "value": @props.initialFilters.numberOfKids, "onChange": @onChangeNumberOfKids},
+          React.createElement("option", {"value": "no-kid"}, "keinem Schüler zugewiesen"),
+          React.createElement("option", {"value": "primary-only"}, "nur primärem Schüler zugewiesen"),
+          React.createElement("option", {"value": "secondary-only"}, "nur sekundärem Schüler"),
+          React.createElement("option", {"value": "primary-and-secondary"}, "primärem und sekundärem Schüler")
+        )
+      ),
 
-      <div className="form-group">
-        <label htmlFor="ects">ECTS </label>
-        <select name="ects" className="form-control" value=@props.initialFilters.ects onChange=@onChangeECTS>
-          <option></option>
-          <option value="true">ECTS</option>
-          <option value="false">kein ECTS</option>
-        </select>
-      </div>
-      <div className="form-group">
-        <label htmlFor="sex">Geschlecht </label>
-        <select name="sex" className="form-control" value=@props.initialFilters.sex onChange=@onChangeSex>
-          <option></option>
-          <option value="m">Männlich</option>
-          <option value="f">Weiblich</option>
-        </select>
-      </div>
-      <div className="form-group">
-        <label htmlFor="school">Schule </label>
-        <select name="school" className="form-control" value=@props.initialFilters.school onChange=@onChangeSchool>
-          <option></option>
-          {
+      React.createElement("div", {"className": "form-group"},
+        React.createElement("label", {"htmlFor": "ects"}, "ECTS "),
+        React.createElement("select", {"name": "ects", "className": "form-control", "value": @props.initialFilters.ects, "onChange": @onChangeECTS},
+          React.createElement("option", null),
+          React.createElement("option", {"value": "true"}, "ECTS"),
+          React.createElement("option", {"value": "false"}, "kein ECTS")
+        )
+      ),
+      React.createElement("div", {"className": "form-group"},
+        React.createElement("label", {"htmlFor": "sex"}, "Geschlecht "),
+        React.createElement("select", {"name": "sex", "className": "form-control", "value": @props.initialFilters.sex, "onChange": @onChangeSex},
+          React.createElement("option", null),
+          React.createElement("option", {"value": "m"}, "Männlich"),
+          React.createElement("option", {"value": "f"}, "Weiblich")
+        )
+      ),
+      React.createElement("div", {"className": "form-group"},
+        React.createElement("label", {"htmlFor": "school"}, "Schule "),
+        React.createElement("select", {"name": "school", "className": "form-control", "value": @props.initialFilters.school, "onChange": @onChangeSchool},
+          React.createElement("option", null),
+          (
             for school in @props.schools
-              <option value="#{school.id}">{school.display_name}</option>
-          }
+              React.createElement("option", {"value": "#{school.id}"}, (school.display_name))
+          )
 
-        </select>
-      </div>
-    </div>
+        )
+      )
+    )
 
 TimeTable = React.createClass
   getInitialState: ->
@@ -343,11 +343,11 @@ TimeTable = React.createClass
           backgroundColor: '#EFEFEF'
 
         #TODO: move style to external stylesheet
-        <td key="time_cell_#{day.key}_#{time.key}" className="time-cell" style=style onClick={@clickHandler_Day(day.key)}>
-          <div className=classes>
-            <span className="name-label">{ day.label }</span>
-          </div>
-        </td>
+        React.createElement("td", {"key": "time_cell_#{day.key}_#{time.key}", "className": "time-cell", "style": style, "onClick": (@clickHandler_Day(day.key))},
+          React.createElement("div", {"className": classes},
+            React.createElement("span", {"className": "name-label"}, ( day.label ))
+          )
+        )
 
       timeCell = (day) =>
         kidIsAvailable = availableInSchedule @props.kid.schedules, day, time
@@ -364,19 +364,19 @@ TimeTable = React.createClass
             time: time
             schedules: @props.kid.schedules
           if showMeeting then kidCellClasses += " kid-booked"
-          <div className=kidCellClasses></div>
+          React.createElement("div", {"className": kidCellClasses})
           # end kidCell
 
         mentorCell = (mentor, day) =>
           onClick = =>
             @props.onSelectDate? mentor, day, time
-          <TimeTable_MentorCell
-            key="mentor_cell_#{day.key}_#{time.key}_#{mentor.id}"
-            mentor=mentor
-            onClick=onClick
-            kidIsAvailable=kidIsAvailable
-            numberOfMentors={_.size @props.mentors}
-            day=day time=time lastTime=lastTime nextTime=nextTime />
+          React.createElement(TimeTable_MentorCell, { \
+            "key": "mentor_cell_#{day.key}_#{time.key}_#{mentor.id}",  \
+            "mentor": mentor,  \
+            "onClick": onClick,  \
+            "kidIsAvailable": kidIsAvailable,  \
+            "numberOfMentors": (_.size @props.mentors),  \
+            "day": day, "time": time, "lastTime": lastTime, "nextTime": nextTime})
           # end mentorCell
 
         classes = classNames "time-cell",
@@ -387,42 +387,42 @@ TimeTable = React.createClass
           return (100 - (days.length-count)*STYLE_DAY_PLACEHOLDER_WIDTH)/count
 
         style = width: calcWidth()+"%"
-        <td key="time_cell_#{day.key}_#{time.key}"
-          className=classes style=style>
-          { kidCell day, (meetingFixed && hasNoSecondaryMentor) }
-          { mentorCell mentor, day for mentor in mentors}
-        </td>
+        React.createElement("td", {"key": "time_cell_#{day.key}_#{time.key}",  \
+          "className": classes, "style": style},
+          ( kidCell day, (meetingFixed && hasNoSecondaryMentor) ),
+          ( mentorCell mentor, day for mentor in mentors)
+        )
         # end timecell
 
       mentors = _.values @props.mentors
-      <tr key=time.key>
-        <th>{time.label}</th>
-        { for day in days
+      React.createElement("tr", {"key": time.key},
+        React.createElement("th", null, (time.label)),
+        ( for day in days
             if @state.show_weekdays[day.key] then timeCell day else timeCellHide day
-        }
-      </tr>
+        )
+      )
       # end timeRow
 
     #TODO: move style to external stylesheet
-    showIcon = <span className="glyphicon glyphicon-eye-open" style={"display":"block", "textAlign":"center"}></span>
+    showIcon = React.createElement("span", {"className": "glyphicon glyphicon-eye-open", "style": ("display":"block", "textAlign":"center")})
 
-    <table className="timetable">
-      <thead>
-        <tr>
-          <th></th>
-          { for day in days
-              <th key=day.key onClick={@clickHandler_Day(day.key)} className={"clickable_dayLabel "+day.label}>
-                <span>
-                  {if @state.show_weekdays[day.key] then day.label else showIcon}
-                </span>
-              </th>
-          }
-        </tr>
-      </thead>
-      <tbody>
-      { timeRow time, i for time, i in times }
-      </tbody>
-    </table>
+    React.createElement("table", {"className": "timetable"},
+      React.createElement("thead", null,
+        React.createElement("tr", null,
+          React.createElement("th", null),
+          ( for day in days
+              React.createElement("th", {"key": day.key, "onClick": (@clickHandler_Day(day.key)), "className": ("clickable_dayLabel "+day.label)},
+                React.createElement("span", null,
+                  (if @state.show_weekdays[day.key] then day.label else showIcon)
+                )
+              )
+          )
+        )
+      ),
+      React.createElement("tbody", null,
+      ( timeRow time, i for time, i in times )
+      )
+    )
     # end render
 
 TimeTable_MentorCell = React.createClass
@@ -447,22 +447,22 @@ TimeTable_MentorCell = React.createClass
         color: @props.mentor.colors.text,
         width: mentorColumnWidth+'%'
 
-      <div className=classes style=style>
-        {
+      React.createElement("div", {"className": classes, "style": style},
+        (
           if @props.kidIsAvailable
-            <a className="btn-set-date" onClick=@props.onClick>
-              <i className="icon glyphicon glyphicon-calendar"></i>
-            </a>
-        }
-        <span className="name-label">
-          { @props.mentor.name }&nbsp;{ @props.mentor.prename }
-        </span>
-      </div>
+            React.createElement("a", {"className": "btn-set-date", "onClick": @props.onClick},
+              React.createElement("i", {"className": "icon glyphicon glyphicon-calendar"})
+            )
+        ),
+        React.createElement("span", {"className": "name-label"},
+          ( @props.mentor.name ), " ", ( @props.mentor.prename )
+        )
+      )
     else
-      <div
-        className="column spacer"
-        style={width: mentorColumnWidth+'%'}
-        />
+      React.createElement("div", { \
+        "className": "column spacer",  \
+        "style": (width: mentorColumnWidth+'%')
+        })
 # helpers
 
 limit = (mentorsOrArrayOfIds) ->

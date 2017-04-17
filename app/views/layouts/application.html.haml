@@ -85,11 +85,12 @@
               = boot_alert(msg, name) unless msg.blank?
             = yield
 
-    #footer
-      .container
-        .col-md12
-          = @site.footer_address
-          - if @site.footer_email.present?
-            = mail_to @site.footer_email, nil, :encode => "hex"
+    - if @site.footer_address.present? || @site.footer_email.present?
+      #footer
+        .container
+          .col-md12
+            = @site.footer_address
+            - if @site.footer_email.present?
+              = mail_to @site.footer_email, nil, :encode => "hex"
 
 -
