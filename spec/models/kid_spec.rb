@@ -166,11 +166,11 @@ describe Kid do
     end
     it 'should calculate the correct meeting time in past' do
       meeting = @kid.calculate_meeting_time(thursday)
-      expect(meeting).to eq(Time.parse('2011-01-05 18:00'))
+      expect(meeting).to eq(Time.parse('2011-01-05 18:00 MET'))
     end
     it 'should calculate the correct meeting time in future' do
       meeting = @kid.calculate_meeting_time(monday)
-      expect(meeting).to eq(Time.parse('2011-01-05 18:00'))
+      expect(meeting).to eq(Time.parse('2011-01-05 18:00 MET'))
     end
     it 'has no journal entry due at monday' do
       expect(@kid.journal_entry_due?(monday)).to be_falsey
