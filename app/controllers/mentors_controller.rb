@@ -14,15 +14,15 @@ class MentorsController < ApplicationController
     last_selected_meeting_day = params[:mentor][:filter_by_meeting_day]
     last_selected_school = params[:mentor][:filter_by_school_id]
     unless params[:mentor][:filter_by_coach_id].blank?
-      @mentors = @mentors.joins(:admins).where('kids.admin_id = ?', params[:mentor][:filter_by_coach_id].to_i).uniq
+      @mentors = @mentors.joins(:admins).where('kids.admin_id = ?', params[:mentor][:filter_by_coach_id].to_i).distinct
       params[:mentor][:filter_by_coach_id] = nil
     end
     unless params[:mentor][:filter_by_meeting_day].blank?
-      @mentors = @mentors.joins(:kids).where('kids.meeting_day = ?', params[:mentor][:filter_by_meeting_day].to_i).uniq
+      @mentors = @mentors.joins(:kids).where('kids.meeting_day = ?', params[:mentor][:filter_by_meeting_day].to_i).distinct
       params[:mentor][:filter_by_meeting_day] = nil
     end
     unless params[:mentor][:filter_by_school_id].blank?
-      @mentors = @mentors.joins(:schools).where('kids.school_id = ?', params[:mentor][:filter_by_school_id].to_i).uniq
+      @mentors = @mentors.joins(:schools).where('kids.school_id = ?', params[:mentor][:filter_by_school_id].to_i).distinct
       params[:mentor][:filter_by_school_id] = nil
     end
     @mentors = @mentors.where(mentor_params.to_h.delete_if { |_key, val| val.blank? })

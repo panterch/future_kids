@@ -12,23 +12,23 @@ describe ReviewsController do
     end
 
     it 'should render the new template' do
-      get :new, kid_id: @kid.id
+      get :new, params: { kid_id: @kid.id }
       expect(response).to be_successful
     end
 
     it 'should deny access for foreign kids' do
-      expect { get :new, kid_id: create(:kid).id }.to raise_error(CanCan::AccessDenied)
+      expect { get :new, params: { kid_id: create(:kid).id }}.to raise_error(CanCan::AccessDenied)
     end
 
     it 'should create a new entry' do
-      post :create, valid_attributes
+      post :create, params: valid_attributes
       expect(assigns(:review)).not_to be_new_record
     end
 
     it 'should not be able to create entries for other kids' do
       attrs = valid_attributes
       attrs[:kid_id] = create(:kid).id
-      expect { post :create, attrs }.to raise_error(CanCan::AccessDenied)
+      expect { post :create, params: attrs }.to raise_error(CanCan::AccessDenied)
     end
 
     # kid_id is submitted as url parameter - it should not be taintable
@@ -36,17 +36,17 @@ describe ReviewsController do
     it 'should not be able to taint kid_id via review parameters' do
       attrs = valid_attributes
       attrs[:review][:kid_id] = create(:kid).id
-      post :create, attrs
+      post :create, params: attrs
       expect(assigns(:review).kid).to eq(@kid)
     end
 
     it 'redirects on show' do
-      get :show, kid_id: @kid.id, id: create(:review, kid: @kid)
+      get :show, params: { kid_id: @kid.id, id: create(:review, kid: @kid) }
       expect(response).to be_redirect
     end
 
     it 'redirects on index' do
-      get :index, kid_id: @kid.id
+      get :index, params: { kid_id: @kid.id }
       expect(response).to be_redirect
     end
   end # end of as a mentor

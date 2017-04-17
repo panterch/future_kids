@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.8'
+gem 'rails'
 gem 'haml-rails'
 gem 'jquery-rails'
 gem 'jbuilder'
@@ -17,7 +17,6 @@ gem 'responders'
 gem 'show_for'
 gem 'whenever', require: false
 gem 'bootstrap-sass'
-gem 'quiet_assets'
 gem 'i18n_rails_helpers'
 gem 'react-rails'
 gem 'sass-rails'
@@ -44,7 +43,8 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'database_cleaner'
   gem 'codeclimate-test-reporter'
-  gem "simplecov"
+  gem 'simplecov'
+  gem 'rails-controller-testing'
 end
 
 

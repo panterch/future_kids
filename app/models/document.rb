@@ -1,4 +1,4 @@
-class Document < ActiveRecord::Base
+class Document < ApplicationRecord
   has_attached_file :attachment,
                     path: ':rails_root/public/system/:attachment/:id/:style/:filename',
                     url: '/system/:attachment/:id/:style/:filename'
@@ -7,9 +7,9 @@ class Document < ActiveRecord::Base
 
   def self.category_tree
     tree = ActiveSupport::OrderedHash.new
-    Document.uniq.order(:category).pluck(:category).each do |category|
+    Document.distinct.order(:category).pluck(:category).each do |category|
       tree[category] =
-        Document.uniq
+        Document.distinct
         .where(category: category)
         .where.not(subcategory: nil)
         .where.not(subcategory: '')
@@ -33,11 +33,11 @@ class Document < ActiveRecord::Base
   end
 
   def self.categories
-    Document.uniq.pluck(:category).sort
+    Document.distinct.pluck(:category).sort
   end
 
   def self.subcategories
-    Document.uniq.pluck(:subcategory).sort
+    Document.distinct.pluck(:subcategory).sort
   end
 
 end

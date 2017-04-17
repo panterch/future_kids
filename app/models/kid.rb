@@ -1,4 +1,4 @@
-class Kid < ActiveRecord::Base
+class Kid < ApplicationRecord
   include ActionView::Helpers::TextHelper
 
   default_scope { order(:name, :prename) }

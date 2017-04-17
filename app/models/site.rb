@@ -1,4 +1,4 @@
-class Site < ActiveRecord::Base
+class Site < ApplicationRecord
   has_attached_file :logo,
                     styles: { medium: ['440>', :png] },
                     default_url: '/images/:style/default_logo.png',

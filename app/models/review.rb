@@ -1,4 +1,4 @@
-class Review < ActiveRecord::Base
+class Review < ApplicationRecord
   include ActionView::Helpers::TextHelper
 
   default_scope { order('held_at DESC') }

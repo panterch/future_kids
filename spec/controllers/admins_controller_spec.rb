@@ -25,7 +25,7 @@ describe AdminsController do
     context 'show' do
       it 'displays relation log' do
         @kid = create(:kid, admin: @admin)
-        get :show, id: @admin.id
+        get :show, params: { id: @admin.id }
         expect(response).to be_success
         expect(response.body).to match /#{@kid.name}/
       end
@@ -33,7 +33,7 @@ describe AdminsController do
 
     context 'edit' do
       it 'renders' do
-        get :show, id: @admin.id
+        get :show, params: { id: @admin.id }
         expect(response).to be_success
       end
     end

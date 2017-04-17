@@ -1,4 +1,4 @@
-class Journal < ActiveRecord::Base
+class Journal < ApplicationRecord
   include ActionView::Helpers::TextHelper
 
   default_scope { order('held_at DESC', :id).joins(:kid) }

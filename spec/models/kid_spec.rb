@@ -1,9 +1,9 @@
 require 'spec_helper'
 
 describe Kid do
-  let(:monday) { Time.parse('2011-01-03 22:00') }
-  let(:thursday) { Time.parse('2011-01-06 22:00') }
-  let(:friday) { Time.parse('2011-01-07 22:00') }
+  let(:monday) { Time.zone.parse('2011-01-03 22:00') }
+  let(:thursday) { Time.zone.parse('2011-01-06 22:00') }
+  let(:friday) { Time.zone.parse('2011-01-07 22:00') }
 
   context 'embedded journals' do
     let(:kid) { create(:kid) }
@@ -22,7 +22,7 @@ describe Kid do
       old_record =      create(:journal, held_at: Date.parse('2010-01-01'), kid: kid)
       recent_record =   create(:journal, held_at: Date.parse('2020-01-01'), kid: kid)
       very_old_record = create(:journal, held_at: Date.parse('2000-01-01'), kid: kid)
-      expect(kid.journals(true).map(&:held_at)).to eq(
+      expect(kid.journals.map(&:held_at)).to eq(
         [recent_record, old_record, very_old_record].map(&:held_at))
     end
   end
@@ -158,7 +158,7 @@ describe Kid do
   context 'meeting time calculation' do
     before(:each) do
       @kid = create(:kid, meeting_day: 3,
-                          meeting_start_at: Time.parse('18:00'))
+                          meeting_start_at: Time.zone.parse('18:00'))
     end
     it 'should return nil when not enough information' do
       @kid.meeting_day = nil
@@ -166,11 +166,11 @@ describe Kid do
     end
     it 'should calculate the correct meeting time in past' do
       meeting = @kid.calculate_meeting_time(thursday)
-      expect(meeting).to eq(Time.parse('2011-01-05 18:00'))
+      expect(meeting).to eq(Time.zone.parse('2011-01-05 18:00'))
     end
     it 'should calculate the correct meeting time in future' do
       meeting = @kid.calculate_meeting_time(monday)
-      expect(meeting).to eq(Time.parse('2011-01-05 18:00'))
+      expect(meeting).to eq(Time.zone.parse('2011-01-05 18:00'))
     end
     it 'has no journal entry due at monday' do
       expect(@kid.journal_entry_due?(monday)).to be_falsey

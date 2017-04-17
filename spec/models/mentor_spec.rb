@@ -153,34 +153,34 @@ describe Mentor do
     it 'should filter mentors by admins' do
       expect(@mentor1.kids.size).to eq(3)
       expect(@mentor2.kids.size).to eq(2)
-      @mentors_by_admin1 = Mentor.joins(:admins).where('kids.admin_id = ?', @admin1.id).uniq
+      @mentors_by_admin1 = Mentor.joins(:admins).where('kids.admin_id = ?', @admin1.id).distinct!
       expect(@mentors_by_admin1.size).to eq(2)
       expect(@mentors_by_admin1).to include(@mentor1)
       expect(@mentors_by_admin1).to include(@mentor2)
-      @mentors_by_admin2 = Mentor.joins(:admins).where('kids.admin_id = ?', @admin2.id).uniq
+      @mentors_by_admin2 = Mentor.joins(:admins).where('kids.admin_id = ?', @admin2.id).distinct!
       expect(@mentors_by_admin2.size).to eq(1)
       expect(@mentors_by_admin2).to include(@mentor1)
       expect(@mentors_by_admin2).to_not include(@mentor2)
     end
 
     it 'should filter mentors by meeting day' do
-      @mentors_by_meeting_day1 = Mentor.joins(:kids).where('kids.meeting_day = ?', '1').uniq
+      @mentors_by_meeting_day1 = Mentor.joins(:kids).where('kids.meeting_day = ?', '1').distinct!
       expect(@mentors_by_meeting_day1.size).to eq(2)
       expect(@mentors_by_meeting_day1).to include(@mentor1)
       expect(@mentors_by_meeting_day1).to include(@mentor2)
-      @mentors_by_meeting_day2 = Mentor.joins(:kids).where('kids.meeting_day = ?', '2').uniq
+      @mentors_by_meeting_day2 = Mentor.joins(:kids).where('kids.meeting_day = ?', '2').distinct!
       expect(@mentors_by_meeting_day2.size).to eq(1)
       expect(@mentors_by_meeting_day2).to include(@mentor1)
       expect(@mentors_by_meeting_day2).to_not include(@mentor2)
     end
 
     it 'should filter mentors by schools' do
-      @mentors_by_school1 = Mentor.joins(:schools).where('kids.school_id = ?', @school1.id).uniq
+      @mentors_by_school1 = Mentor.joins(:schools).where('kids.school_id = ?', @school1.id).distinct!
       expect(@mentors_by_school1.size).to eq(2)
       expect(@mentors_by_school1.size).to eq(2)
       expect(@mentors_by_school1).to include(@mentor1)
       expect(@mentors_by_school1).to include(@mentor2)
-      @mentors_by_school2 = Mentor.joins(:schools).where('kids.school_id = ?', @school2.id).uniq
+      @mentors_by_school2 = Mentor.joins(:schools).where('kids.school_id = ?', @school2.id).distinct!
       expect(@mentors_by_school2.size).to eq(1)
       expect(@mentors_by_school2).to include(@mentor1)
       expect(@mentors_by_school2).to_not include(@mentor2)
