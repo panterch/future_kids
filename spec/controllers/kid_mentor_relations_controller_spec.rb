@@ -19,7 +19,7 @@ describe KidMentorRelationsController do
 
       it 'should filter kids when criteria given' do
         create(:kid, exit_kind: 'exit', mentor: @mentor)
-        get :index, kid_mentor_relation: { kid_exit_kind: 'exit' }
+        get :index, params: { kid_mentor_relation: { kid_exit_kind: 'exit' } }
         expect(assigns(:kid_mentor_relations).length).to eq(1)
       end
 

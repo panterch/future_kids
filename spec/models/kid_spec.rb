@@ -22,7 +22,7 @@ describe Kid do
       old_record =      create(:journal, held_at: Date.parse('2010-01-01'), kid: kid)
       recent_record =   create(:journal, held_at: Date.parse('2020-01-01'), kid: kid)
       very_old_record = create(:journal, held_at: Date.parse('2000-01-01'), kid: kid)
-      expect(kid.journals(true).map(&:held_at)).to eq(
+      expect(kid.journals.map(&:held_at)).to eq(
         [recent_record, old_record, very_old_record].map(&:held_at))
     end
   end

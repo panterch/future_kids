@@ -14,29 +14,29 @@ describe CommentsController do
     end
 
     it 'should render the new template' do
-      get :new, kid_id: @kid.id, journal_id: @journal.id
+      get :new, params: { kid_id: @kid.id, journal_id: @journal.id }
       expect(response).to be_successful
     end
 
     it 'should not render the new template for foreign journal entries' do
       @foreign = create(:journal)
-      expect { get :new, kid_id: @foreign.kid.id, journal_id: @foreign.id }.to raise_error(CanCan::AccessDenied)
+      expect { get :new, params: { kid_id: @foreign.kid.id, journal_id: @foreign.id } }.to raise_error(CanCan::AccessDenied)
     end
 
     it 'should not create an invalid journal entry' do
-      post :create, kid_id: @kid.id, journal_id: @journal.id
+      post :create, params: { kid_id: @kid.id, journal_id: @journal.id }
       expect(response).to be_success
     end
 
     it 'should create a journal entry' do
-      post :create, kid_id: @kid.id, journal_id: @journal.id,
-                    comment: attributes_for(:comment)
+      post :create, params: { kid_id: @kid.id, journal_id: @journal.id,
+                    comment: attributes_for(:comment) }
       expect(response).to be_redirect
     end
 
     it 'should send a mail on comment creation' do
-      post :create, kid_id: @kid.id, journal_id: @journal.id,
-                    comment: attributes_for(:comment)
+      post :create, params: { kid_id: @kid.id, journal_id: @journal.id,
+                    comment: attributes_for(:comment) }
       expect(ActionMailer::Base.deliveries.size).to eq 1
     end
   end

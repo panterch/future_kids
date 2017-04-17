@@ -13,30 +13,30 @@ describe MentorsController do
       end
 
       it 'assigns no journal entries when no available' do
-        get :show, id: @mentor
+        get :show, params: { id: @mentor }
         expect(assigns(:journals).size).to eq(1) # default entry
       end
 
       it 'assigns the pre-created journal entries when no available' do
-        get :show, id: @mentor, month: '1', year: '2011'
+        get :show, params: { id: @mentor, month: '1', year: '2011' }
         expect(assigns(:journals)).to include(@journal)
       end
     end
 
     context 'edit_schedules' do
       it 'updates the schedule seen timestamp' do
-        get :edit_schedules, id: @mentor.id
+        get :edit_schedules, params: { id: @mentor.id }
         expect(@mentor.reload.schedules_seen_at).not_to be_nil
       end
     end
 
     context 'update_schedules' do
       it 'creates schedule entries' do
-        put :update_schedules, id: @mentor.id, mentor: {
+        put :update_schedules, params: { id: @mentor.id, mentor: {
           schedules_attributes: [
             { day: 1, hour: 15, minute: 0 },
             { day: 2, hour: 16, minute: 30 }
-          ] }
+          ] } }
         expect(@mentor.reload.schedules.count).to eq(2)
       end
     end
@@ -70,7 +70,7 @@ describe MentorsController do
 
     context 'edit_schedules' do
       it 'does not update the schedule seen timestamp' do
-        get :edit_schedules, id: @mentor.id
+        get :edit_schedules, params: { id: @mentor.id }
         expect(@mentor.reload.schedules_seen_at).to be_nil
       end
     end

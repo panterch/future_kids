@@ -20,7 +20,7 @@ describe TeachersController do
       end
       it 'filters for inactive teacher' do
         create(:teacher, inactive: true)
-        get :index, inactive: '1'
+        get :index, params: { inactive: '1' }
         expect(assigns(:teachers).size).to eq(0)
       end
     end
@@ -28,7 +28,7 @@ describe TeachersController do
     context 'show' do
       it 'renders' do
         @teacher = create(:teacher)
-        get :show, id: @teacher.id
+        get :show, params: { id: @teacher.id }
         expect(response).to be_success
       end
     end
@@ -36,7 +36,7 @@ describe TeachersController do
     context 'edit' do
       it 'renders' do
         @teacher = create(:teacher)
-        get :edit, id: @teacher.id
+        get :edit, params: { id: @teacher.id }
         expect(response).to be_success
       end
     end
@@ -72,13 +72,13 @@ describe TeachersController do
       let(:teacher_params) { attributes_for(:teacher)}
       it 'can create teacher in own school' do
         teacher_params[:school_id] = @school.id
-        put :create, teacher: teacher_params
+        put :create, params: { teacher: teacher_params }
         expect(response).to be_redirect
         expect(Teacher.count).to eq(1)
       end
       it 'fails when creating teacher for foreign schools' do
         teacher_params[:school_id] = create(:school).id
-        expect { put :create, teacher: teacher_params }.to raise_error SecurityError
+        expect { put :create, params: { teacher: teacher_params } }.to raise_error SecurityError
         expect(Teacher.count).to eq(0)
       end
     end

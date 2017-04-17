@@ -17,7 +17,7 @@ describe DocumentsController do
 
     it 'cannot destroy a document' do
       expect do
-        delete :destroy, id: Document.first.id
+        delete :destroy, params: { id: Document.first.id }
       end.to raise_error(CanCan::AccessDenied)
     end
   end
@@ -30,7 +30,7 @@ describe DocumentsController do
     it 'creates a new document' do
       path = File.join(Rails.root, 'doc/gespraechsdoku.pdf')
       file = fixture_file_upload(path, 'application/pdf')
-      post :create, document: { title: 't', category: 'c', attachment: file }
+      post :create, params: {  document: { title: 't', category: 'c', attachment: file } }
       expect(response).to redirect_to(action: 'index')
       expect(Document.first.title).to eq('t')
       expect(Document.first.attachment).to be_present
@@ -38,7 +38,7 @@ describe DocumentsController do
 
     it 'destroys documents' do
       document = create(:document, title: 'a1', category: 'a')
-      delete :destroy, id: document.id
+      delete :destroy, params: { id: document.id }
       expect(response).to redirect_to(action: 'index')
       expect(Document.count).to eq(0)
     end

@@ -23,7 +23,7 @@ class KidMentorRelationsController < ApplicationController
 
   def destroy
     KidMentorRelation.inactivate(params[:id])
-    redirect_to :back
+    redirect_back(fallback_location: kids_url)
   end
 
   def destroy_all

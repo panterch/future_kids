@@ -416,7 +416,7 @@ feature 'Kid Mentor planning', js: true do
       it 'allows hiding the weekdays' do
         #TODO: also test if entire column gets hidden
         within('.timetable') do
-          days = ['Montag', 'Dienstag', 'Mittwoch', 'Donnerstag', 'Freitag']
+          days = %w(Montag Dienstag Mittwoch Donnerstag)
           for week_day in days
             day = find('.clickable_dayLabel.'+week_day)
             expect(day).to have_content week_day

@@ -9,24 +9,24 @@ describe PrincipalsController do
 
     context 'show' do
       it 'can show the own record' do
-        get :show, id: @principal.id
+        get :show, params: { id: @principal.id }
         expect(response).to be_successful
       end
 
       it 'can edit the own record' do
-        get :edit, id: @principal.id
+        get :edit, params: { id: @principal.id }
         expect(response).to be_successful
       end
 
       it 'cant edit the other record' do
         expect do
-          get :edit, id: create(:principal).id
+          get :edit, params: { id: create(:principal).id }
         end.to raise_error(CanCan::AccessDenied)
       end
 
       it 'can update its own record' do
-        put :update, id: @principal.id, principal: {
-          name: 'changed' }
+        put :update, params: { id: @principal.id, principal: {
+          name: 'changed' } }
         expect(response).to be_redirect
         expect(@principal.reload.name).to eq('changed')
       end
@@ -35,8 +35,8 @@ describe PrincipalsController do
         @original_school = @principal.schools.first
         @school = create(:school)
         expect do
-          put :update, id: @principal.id, principal: {
-            school_ids: [@school.id, @original_school.id]  }
+          put :update, params: { id: @principal.id, principal: {
+            school_ids: [@school.id, @original_school.id]  } }
         end.to raise_error(SecurityError)
         expect(@principal.reload.schools).to_not include(@school)
       end
@@ -62,19 +62,19 @@ describe PrincipalsController do
     end
 
     it 'show' do
-      get :show, id: @principal.id
+      get :show, params: { id: @principal.id }
       expect(response).to be_successful
     end
 
     it 'edit' do
-      get :edit, id: @principal.id
+      get :edit, params: { id: @principal.id }
       expect(response).to be_successful
     end
 
     it 'can update the principals school' do
       @school = create(:school)
-      put :update, id: @principal.id, principal: {
-        school_ids: [@school.id]  }
+      put :update, params: { id: @principal.id, principal: {
+        school_ids: [@school.id]  } }
       expect(response).to be_redirect
       expect(@principal.reload.schools).to include(@school)
     end

@@ -23,7 +23,7 @@ describe RemindersController do
 
     context 'update' do
       it 'delivers the reminder' do
-        put :update, id: @reminder.id
+        put :update, params: { id: @reminder.id }
         expect(response).to redirect_to(action: 'index')
         expect(@reminder.reload.sent_at).not_to be_nil
       end
@@ -31,7 +31,7 @@ describe RemindersController do
 
     context 'destroy' do
       it 'delivers the reminder' do
-        delete :destroy, id: @reminder.id
+        delete :destroy, params: { id: @reminder.id }
         expect(response).to redirect_to(action: 'index')
         expect(Reminder.active.count).to eq(0)
         expect(Reminder.count).to eq(1) # soft delete
