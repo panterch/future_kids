@@ -8,9 +8,9 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
   before_action :logout_inactive
   before_action :intercept_sensitive_params!
-  protect_from_forgery with: :exception
+  protect_from_forgery prepend: true, with: :exception
 
-  protected
+protected
 
   def admin?
     user_signed_in? && current_user.is_a?(Admin)
