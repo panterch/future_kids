@@ -383,16 +383,3 @@ form.schedule {
     }
   }
 }
-
-// align checkboxes - override bootstrap setting
-.checkbox label {
-  display: block;
-  input {
-    width: 13px;
-    height: 13px;
-    padding: 0;
-    margin:0;
-    position: relative !important;
-    top: -1px;
-  }
-}
