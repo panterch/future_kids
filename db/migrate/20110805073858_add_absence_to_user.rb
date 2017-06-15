@@ -1,4 +1,4 @@
-class AddAbsenceToUser < ActiveRecord::Migration
+class AddAbsenceToUser < ActiveRecord::Migration[4.2]
   def self.up
     add_column :users, :absence, :text
   end

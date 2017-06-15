@@ -1,4 +1,4 @@
-class CreateInititalTables < ActiveRecord::Migration
+class CreateInititalTables < ActiveRecord::Migration[4.2]
   def self.up
     create_table :kids do |t|
       t.string :name

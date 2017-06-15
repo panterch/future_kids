@@ -1,4 +1,4 @@
-class AddExpenseFields < ActiveRecord::Migration
+class AddExpenseFields < ActiveRecord::Migration[4.2]
   def up
     add_column :kids, :city, :string
     add_column :users, :city, :string

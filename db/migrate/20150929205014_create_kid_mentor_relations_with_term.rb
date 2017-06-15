@@ -1,4 +1,4 @@
-class CreateKidMentorRelationsWithTerm < ActiveRecord::Migration
+class CreateKidMentorRelationsWithTerm < ActiveRecord::Migration[4.2]
   def up
     connection.execute 'DROP VIEW IF EXISTS kid_mentor_relations;'
     connection.execute %(

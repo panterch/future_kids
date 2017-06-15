@@ -1,4 +1,4 @@
-class AddFieldsToSchool < ActiveRecord::Migration
+class AddFieldsToSchool < ActiveRecord::Migration[4.2]
   def change
     add_column :schools, :street, :string
     add_column :schools, :street_no, :string

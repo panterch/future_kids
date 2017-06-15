@@ -155,11 +155,11 @@ class Kid < ApplicationRecord
 
   # create a relation log for the given field if it has changed
   def track_relation(field)
-    changed = send("#{field}_id_changed?")
+    changed = saved_change_to_attribute?("#{field}_id")
     current_id = send("#{field}_id")
-    previous_id = send("#{field}_id_was")
+    previous_id = attribute_before_last_save("#{field}_id")
     if changed && previous_id
-      relation_logs.create!(user_id: send("#{field}_id_was"),
+      relation_logs.create!(user_id: previous_id,
                             role: field,
                             end_at: Time.now)
     end
