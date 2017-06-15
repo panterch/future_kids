@@ -2,7 +2,7 @@
   /= form.input :closed, disabled: false
   -unless @substitution.new_record?
     = form.association :mentor
-  = form.association :kid
+  = form.association :kid, collection: Kid.with_mentor
   = form.association :secondary_mentor
   = form.input :start_at
   = form.input :end_at

@@ -4,6 +4,7 @@ class Kid < ApplicationRecord
   default_scope { order(:name, :prename) }
 
   scope :active, -> { where(inactive: false) }
+  scope :with_mentor, -> { where.not(mentor_id: nil) }
 
   belongs_to :mentor
   belongs_to :secondary_mentor, class_name: 'Mentor'
