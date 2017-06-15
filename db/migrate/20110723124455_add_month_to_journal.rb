@@ -1,4 +1,4 @@
-class AddMonthToJournal < ActiveRecord::Migration
+class AddMonthToJournal < ActiveRecord::Migration[4.2]
   def self.up
     add_column :journals, :month, :integer
     add_index :journals, :month

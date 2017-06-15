@@ -1,4 +1,4 @@
-class AddStateFieldsToReminders < ActiveRecord::Migration
+class AddStateFieldsToReminders < ActiveRecord::Migration[4.2]
   def self.up
     add_column :reminders, :acknowledged_at, :timestamp
   end

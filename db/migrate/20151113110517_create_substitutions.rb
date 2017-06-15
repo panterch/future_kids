@@ -1,4 +1,4 @@
-class CreateSubstitutions < ActiveRecord::Migration
+class CreateSubstitutions < ActiveRecord::Migration[4.2]
   def change
     create_table :substitutions do |t|
       t.date :start_at, null: false

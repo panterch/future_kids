@@ -1,4 +1,4 @@
-class AddAdditionalFieldsToKid < ActiveRecord::Migration
+class AddAdditionalFieldsToKid < ActiveRecord::Migration[4.2]
   def self.up
     add_column :kids, :dob, :date
     add_column :kids, :language, :string

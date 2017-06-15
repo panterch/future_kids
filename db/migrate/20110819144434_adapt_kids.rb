@@ -1,4 +1,4 @@
-class AdaptKids < ActiveRecord::Migration
+class AdaptKids < ActiveRecord::Migration[4.2]
   def self.up
     add_column :kids, :note, :text
     remove_column :kids, :goal

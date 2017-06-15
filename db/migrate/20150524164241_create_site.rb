@@ -1,4 +1,4 @@
-class CreateSite < ActiveRecord::Migration
+class CreateSite < ActiveRecord::Migration[4.2]
   def change
     create_table :sites do |t|
       t.string :footer_address
