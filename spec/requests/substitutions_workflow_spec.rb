@@ -9,14 +9,9 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
 
   let!(:admin) { create(:admin) }
   let!(:mentor_frederik) {
-    mentor = create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'm')
-    mentor
+    create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'm')
   }
-  let!(:kid) {
-    kid = create(:kid)
-    kid.mentor = mentor_frederik
-    kid
-  }
+  let!(:kid) { create(:kid, mentor: mentor_frederik)}
 
   background do
     expect(User.first.valid_password?(admin.password)).to eq(true)
@@ -32,7 +27,7 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
     expect(page).to have_content('muss ausgefüllt werden')
   end
 
-  scenario 'should create a new kid with required values' do
+  scenario 'should create a substitution with required values' do
     click_link 'Ersatz'
     click_link 'Erfassen'
     select kid.display_name, from: 'substitution[kid_id]'
@@ -65,20 +60,15 @@ feature 'ADMIN::UPDATE:SUBSTITUTION', '
 
   let!(:admin) { create(:admin) }
   let!(:mentor_frederik) {
-    mentor = create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'm')
-    mentor
+    create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'm')
   }
   let!(:mentor_melanie) {
-    mentor = create(:mentor, ects: true, prename: 'Melanie', name:'Rohner', sex: 'f')
-    mentor
+    create(:mentor, ects: true, prename: 'Melanie', name:'Rohner', sex: 'f')
   }
-  let!(:kid) {
-    kid = create(:kid, mentor: mentor_frederik)
-    kid
-  }
+  let!(:kid) { create(:kid, mentor: mentor_frederik) }
+
   let!(:substitution) {
-    substitution = create(:substitution, mentor: mentor_frederik, secondary_mentor:false, kid: kid, start_at: (Date.today - 1), end_at: (Date.today + 10))
-    substitution
+    create(:substitution, mentor: mentor_frederik, secondary_mentor:false, kid: kid, start_at: (Date.today - 1), end_at: (Date.today + 10))
   }
 
   background do
@@ -111,8 +101,7 @@ feature 'MENTOR::SHOW:SUBSTITUTION', '
 ' do
 
   let!(:mentor) {
-    mentor = create(:mentor, prename: 'Mentor', name: 'Mentor', sex: 'm')
-    mentor
+    create(:mentor, prename: 'Mentor', name: 'Mentor', sex: 'm')
   }
 
   background do
