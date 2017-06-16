@@ -86,6 +86,7 @@ class Ability
     elsif user.is_a?(Principal)
       # own record may be read
       can [:read, :update], Principal, id: user.id
+      can :create, Kid
       can :read, Kid, school_id: user.school_ids, inactive: false
       can :create, Teacher
       can [:read, :update], Teacher, school_id: user.school_ids, inactive: false

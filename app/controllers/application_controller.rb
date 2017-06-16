@@ -34,9 +34,18 @@ protected
     return true unless %w(update create).include?(action_name)
     return true if current_user.is_a?(Admin)
     return true if params.nil? || params.empty?
-    if params.inspect =~ /school_id/ ||
-       params.inspect =~ /inactive/
-      fail SecurityError.new("User #{current_user.id} not allowed to change sensitive data")
+    # inactive is a sensitive param that is only manageable by admins
+    if params.inspect =~ /inactive/
+      fail SecurityError.new("User #{current_user.id} not allowed to change inactive flag")
+    end
+    # school_id may allow users to assign each other to another school
+    # this has to be protected (unless for kids controller, there it is
+    # managed by its own method #intercept_school_id)
+    if 'kids' != controller_name && params.inspect =~ /school_id/
+      fail SecurityError.new("User #{current_user.id} not allowed to change school_id")
     end
   end
+
+
+
 end
