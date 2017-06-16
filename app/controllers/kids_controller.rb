@@ -8,6 +8,8 @@ class KidsController < ApplicationController
   before_action :cancan_prototypes, only: [:show]
   before_action :assign_current_teacher, only: [:create]
   before_action :prepare_substitution
+  before_action :intercept_school_id
+  before_action :load_and_constrain_schools, except: [:index, :show, :show_kid_mentors_schedules]
   after_action :track_creation_relation, only: [:create]
 
   def index
@@ -111,9 +113,6 @@ class KidsController < ApplicationController
     unless @kid.secondary_teacher == current_user || @kid.third_teacher == current_user
       @kid.teacher ||= current_user
     end
-    @kid.school ||= @kid.teacher&.school
-    @kid.school ||= @kid.secondary_teacher&.school
-    @kid.school ||= @kid.third_teacher&.school
   end
 
   def track_creation_relation
@@ -171,6 +170,41 @@ class KidsController < ApplicationController
   def prepare_substitution
     if params[:substitution_id].present?
       @substitution = Substitution.find(params[:substitution_id])
+    end
+  end
+
+  def load_and_constrain_schools
+    case current_user
+      when Teacher
+        @schools = [ current_user.school ]
+        @schools_include_blank = false
+      when Principal
+        @schools = current_user.schools
+        @schools_include_blank = false
+      when Admin
+        @schools = School.all
+        @schools_include_blank = true
+      else
+        fail SecurityError.new("User #{current_user.id}")
+    end
+  end
+
+  # do not let teachers and principals change the school id of foreign
+  # objects not to let kids be assigned to other entities
+  def intercept_school_id
+    return if current_user.is_a?(Admin)
+
+    school_id = params[:kid] && params[:kid][:school_id]
+    if school_id.present?
+      valid_school_ids = []
+      if current_user.is_a?(Principal)
+        valid_school_ids = current_user.schools.map(&:id)
+      elsif current_user.is_a?(Teacher)
+        valid_school_ids = [ current_user.school_id ]
+      end
+      unless valid_school_ids.map(&:to_s).include?(school_id)
+        fail SecurityError.new("User #{current_user.id} not allowed to change school_id to #{school_id}")
+      end
     end
   end
 end

@@ -95,7 +95,7 @@ describe KidsController do
 
     context 'create' do
       it 'should assign itself as teacher' do
-        post :create, params: { kid: attributes_for(:kid) }
+        post :create, params: { kid: attributes_for(:kid, school_id: @school.id) }
         kid = Kid.find(assigns(:kid).id)
         expect(kid.teacher).to eq(@teacher)
         expect(kid.school).not_to be_nil
@@ -105,22 +105,27 @@ describe KidsController do
 
       it 'should assign itself as teacher even when secondary teacher set' do
         @secondary = create(:teacher)
-        post :create, params: { kid: attributes_for(:kid, secondary_teacher_id: @secondary.id) }
+        post :create, params: { kid: attributes_for(:kid, secondary_teacher_id: @secondary.id, school_id: @school.id) }
         kid = Kid.find(assigns(:kid).id)
         expect(kid.teacher).to eq(@teacher)
         expect(kid.secondary_teacher).to eq(@secondary)
         expect(kid.school).not_to be_nil
-        expect(kid.school).to eq(@school)
         expect(response).to be_redirect
       end
 
       it 'can assign itself as secondary teacher' do
-        post :create, params: { kid: attributes_for(:kid, secondary_teacher_id: @teacher.id) }
+        post :create, params: { kid: attributes_for(:kid, secondary_teacher_id: @teacher.id, school_id: @school.id) }
         kid = Kid.find(assigns(:kid).id)
         expect(kid.teacher).to be_nil
         expect(kid.secondary_teacher).to eq(@teacher)
         expect(kid.school).to eq(@school)
         expect(response).to be_redirect
+      end
+
+      it 'cannot assign a foreign school' do
+        expect {
+          post :create, params: { kid: attributes_for(:kid, school_id: "non-existant") }
+        }.to raise_error SecurityError
       end
 
       it 'tracks creation as relationlog' do
@@ -138,4 +143,29 @@ describe KidsController do
       end
     end
   end
+
+
+  context 'as a principal' do
+    before(:each) do
+      @school = create(:school)
+      @principal = create(:principal, schools: [ @school ])
+      sign_in @principal
+    end
+
+    context 'create' do
+      it 'should be able to create' do
+        post :create, params: { kid: attributes_for(:kid, school_id: @school.id) }
+        kid = Kid.find(assigns(:kid).id)
+        expect(kid.school).to eq(@school)
+        expect(response).to be_redirect
+      end
+    end
+    it 'cannot assign a foreign school' do
+      expect {
+        post :create, params: { kid: attributes_for(:kid, school_id: "non-existant") }
+      }.to raise_error SecurityError
+    end
+  end
+
+
 end

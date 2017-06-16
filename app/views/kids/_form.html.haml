@@ -13,8 +13,7 @@
   = form.input :phone
   = form.input :translator
   = form.input :note
-  - if current_user.is_a?(Admin)
-    = form.association :school, :collection => School.all
+  = form.association :school, collection: @schools, include_blank: @schools_include_blank
 
   %h2#school Allgemeine Informationen
   = form.input :goal_1
