@@ -81,6 +81,31 @@ describe Mentor do
     end
   end
 
+  context 'total duration' do
+    before do
+      @mentor = create(:mentor)
+      create(:journal, mentor: @mentor,
+             held_at: Date.parse('1970-05-30'),
+             start_at: Time.parse('13:00'),
+             end_at: Time.parse('14:30'))
+      create(:journal, mentor: @mentor,
+             held_at: Date.today() - 1.month,
+             start_at: Time.parse('13:00'),
+             end_at: Time.parse('13:30'))
+      create(:journal, mentor: @mentor,
+             held_at: Date.today() - 1.month,
+             start_at: Time.parse('13:00'),
+             end_at: Time.parse('14:30'))
+    end
+    it 'sums up duration' do
+      expect(@mentor.total_duration).to eq(210)
+    end
+    it 'sums up last months duration' do
+      expect(@mentor.total_duration_last_month).to eq(120)
+    end
+
+  end
+
   context 'month_count' do
     it 'counts journals per month' do
       @mentor = create(:mentor)
