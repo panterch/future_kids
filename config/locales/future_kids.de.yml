@@ -132,6 +132,7 @@ de:
         exit_at: "Ausstiegsdatum"
         schedules_updated_at: "Stundenplan aktualisiert"
         schedules_seen_at: "Stundenplan eingesehen"
+        total_duration_last_month: 'Geleistet im letzten Monat'
       teacher:
         kids: Kinder
         secondary_kids: "Kinder (als 2. Lehrperson)"

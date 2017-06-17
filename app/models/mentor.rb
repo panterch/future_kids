@@ -47,6 +47,11 @@ class Mentor < User
     journals.sum(:duration)
   end
 
+  def total_duration_last_month
+    last_month = Date.today() - 1.month
+    journals.where(year: last_month.year, month: last_month.month).sum(:duration)
+  end
+
   def month_count
     Journal.unscoped.where(mentor_id: id).select('DISTINCT (month, year)').count
   end
