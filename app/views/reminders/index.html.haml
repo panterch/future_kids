@@ -1,3 +1,13 @@
+- content_for :sidebar do
+  -if current_user.is_a?(Admin)
+    = form_for :reminder, url: { action: 'index' }, html: { method: :get, class: 'filter' } do |f|
+      .form-group
+        %label= Kid.human_attribute_name(:school)
+        = f.select :filter_by_school_id, school_collection, { include_blank: true }, class: 'form-control'
+      .form-group
+        = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
+        = link_to 'Filter aufheben', reminders_path, class: 'btn btn-xs'
+
 = boot_page_title do
   %h2 Erinnerungen
 
