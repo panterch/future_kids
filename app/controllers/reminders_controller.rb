@@ -3,7 +3,15 @@ class RemindersController < ApplicationController
   include CrudActions
 
   def index
+    params[:reminder] ||= {}
     @reminders = @reminders.active
+    last_selected_school = params[:reminder][:filter_by_school_id]
+    if last_selected_school.present?
+      @reminders = @reminders.joins(kid: [:school])
+        .where({kids: { school_id: last_selected_school.to_i } })
+    end
+    params[:reminder][:filter_by_school_id] = last_selected_school
+    @reminder = Reminder.new(reminder_params)
     respond_with @reminders
   end
 
@@ -21,5 +29,15 @@ class RemindersController < ApplicationController
   def destroy
     @reminder.update_attribute(:acknowledged_at, Time.now)
     redirect_to reminders_url
+  end
+
+  private
+
+  def reminder_params
+    if params[:reminder].present?
+      params.require(:reminder).permit(:filter_by_school_id)
+    else
+      {}
+    end
   end
 end

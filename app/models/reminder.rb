@@ -1,4 +1,5 @@
 class Reminder < ApplicationRecord
+  attr_accessor :filter_by_school_id
   default_scope { order('held_at DESC, id') }
   scope :active, -> { where('reminders.acknowledged_at IS NULL') }
 
