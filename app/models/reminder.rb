@@ -49,7 +49,7 @@ class Reminder < ApplicationRecord
   # - have mentors assigned to kids
   # - kids have meeting days (best at start of week) and meeting time set
   # - not all journal entries or reminders are there
-  # - you pass a parater time that is a few days after the kids meeting das
+  # - you pass a parameter time that is a few days after the kids meeting das
   def self.conditionally_create_reminders(time = Time.now)
     logger.info("Beginning reminder run, reference Date #{time}")
     logger.flush
@@ -69,7 +69,7 @@ class Reminder < ApplicationRecord
     )
     logger.flush
 
-    reminders_created
+    return reminders_created_count
   rescue => e
     logger.error 'Exception during reminder run'
     logger.error e.message
