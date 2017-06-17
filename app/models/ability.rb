@@ -105,10 +105,13 @@ class Ability
     # reminders are only created by a batch job, but the destruction is
     # customized in the controller to allow setting the acknowledged_at date
     cannot :create, Reminder
-    can :destroy, Reminder if user.is_a?(Admin)
-    can :destroy, Document if user.is_a?(Admin)
-    can :destroy, Journal if user.is_a?(Admin)
-    can :destroy, KidMentorRelation if user.is_a?(Admin)
+    if user.is_a?(Admin)
+      can :destroy, Reminder
+      can :destroy, Document
+      can :destroy, Journal
+      can :destroy, KidMentorRelation
+      can :destroy, Review
+    end
 
     # special manage definition for mentors - OVERWRITING even the global
     # destroy protection

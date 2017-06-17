@@ -27,6 +27,11 @@ class ReviewsController < ApplicationController
     redirect_to kid_url(@kid)
   end
 
+  def destroy
+    @review.destroy
+    respond_with @review.kid
+  end
+
   private
 
   def review_params
