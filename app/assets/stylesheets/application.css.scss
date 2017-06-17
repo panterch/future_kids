@@ -110,6 +110,7 @@ textarea {
 .checkbox {
   input[type=checkbox] {
     margin-top: 2px;
+    width: 20px; // needed for firefox
   }
 }
 
