@@ -132,6 +132,8 @@
         .btn-group.pull-right
           - if can?(:edit, review)
             = link_to 'Bearbeiten', edit_kid_review_path(@kid, review), class: 'btn btn-default'
+          - if can?(:delete, review)
+            = link_to "Löschen", kid_review_path(@kid, review), { :method => :delete, :class => 'btn btn-default', data: { confirm: "Sind Sie sicher?" } }
         %h4= review.display_name
       .panel-body
         = show_for review do |review_show|
