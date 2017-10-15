@@ -38,4 +38,31 @@ describe AdminsController do
       end
     end
   end
+
+  context 'as a mentor' do
+    before(:each) do
+      @admin = create(:admin)
+      @mentor = create(:mentor)
+      sign_in @mentor
+    end
+
+    context 'show' do
+      it 'is not allowed to display random mentors' do
+        expect {
+          get :show, params: { id: @admin.id }
+        }.to raise_error CanCan::AccessDenied
+      end
+
+      it 'displays only basic information on coaches' do
+        create(:kid, mentor: @mentor, admin: @admin)
+        get :show, params: { id: @admin.id }
+        expect(response).to be_success
+        expect(response.body).to match /#{@admin.name}/
+        expect(response.body).not_to match /Pendenzen/
+      end
+    end
+
+  end
+
+
 end
