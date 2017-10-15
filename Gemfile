@@ -29,7 +29,7 @@ gem 'country_select'
 
 # pin axls to pre-version to force update of rubyzip
 # can be removed as soon version is released
-gem 'axlsx', '2.1.0.pre'
+gem 'axlsx', :git => 'https://github.com/mdavidn/axlsx.git', :ref => 'a0b950ab2e27b1352653078c2c09a0bf94589422'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
