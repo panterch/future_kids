@@ -101,7 +101,8 @@ describe Mentor do
       expect(@mentor.total_duration).to eq(210)
     end
     it 'sums up last months duration' do
-      expect(@mentor.total_duration_last_month).to eq(120)
+      # sum of journal entries + coaching
+      expect(@mentor.total_duration_last_month_with_coaching).to eq(180)
     end
 
   end

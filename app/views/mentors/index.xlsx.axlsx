@@ -53,7 +53,7 @@ wb.add_worksheet(name: "Mentor") do |sheet|
       m.substitute,
       m.exit_kind,
       m.exit_at,
-      (m.total_duration_last_month / 60.0).round(2),
+      (m.total_duration_last_month_with_coaching / 60.0).round(2),
       m.inactive
     ]
   end

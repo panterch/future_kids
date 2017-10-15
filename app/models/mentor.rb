@@ -47,9 +47,11 @@ class Mentor < User
     journals.sum(:duration)
   end
 
-  def total_duration_last_month
+  def total_duration_last_month_with_coaching
     last_month = Date.today() - 1.month
-    journals.where(year: last_month.year, month: last_month.month).sum(:duration)
+    journals = self.journals.where(year: last_month.year, month: last_month.month).to_a
+    journals << Journal.coaching_entry(self, last_month.month, last_month.year)
+    journals.sum(&:duration)
   end
 
   def month_count
