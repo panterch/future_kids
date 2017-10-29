@@ -12,6 +12,7 @@ $(function () {
   register_back_to_top_link();
   register_exit_at_toggler();
   register_freetext_toggler();
+  register_treeview();
   setTimeout(remove_alerts, 3000);
 });
 
@@ -172,4 +173,39 @@ function register_freetext_toggler() {
     });
   });
   $('a.freetext').click();
+}
+
+/* controls the treeview plugin to display the documents tree */
+function register_treeview() {
+    $('#tree').treeview({
+        data: $('#tree').data('tree'),
+        enableLinks: true,
+        levels: 1
+    });
+    $('#tree_expand_all').click(function() {
+        $('#tree').treeview('expandAll');
+    });
+    $('#tree_collapse_all').click(function() {
+        $('#tree').treeview('collapseAll');
+    });
+    $('#tree_delete_node').click(function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var nodes = $('#tree').treeview('getSelected');
+        if (1 > nodes.length) {
+            alert('Bitte wählen Sie ein Dokument zum löschen.')
+            return;
+        }
+        if (!window.confirm("Wirklich löschen?")) {
+            return;
+        }
+        var href = $(this).attr("href") + '/' + nodes[0].documentId;
+        $.ajax(href, {method: "DELETE", async: false})
+        location.reload();
+    });
+    $( "#tree" ).on( "click", "a", function(event) {
+        event.preventDefault();
+        var href = $(this).attr("href");
+        if ('#' != href) { window.open(href); }
+    });
 }

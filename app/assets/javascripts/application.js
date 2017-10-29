@@ -9,6 +9,7 @@
 //= require bootstrap
 //= require jquery.calendrical
 //= require jquery.disable
+//= require bootstrap-treeview
 //= require react
 //= require react_ujs
 //= require_tree ./components

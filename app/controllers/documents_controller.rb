@@ -3,31 +3,7 @@ class DocumentsController < ApplicationController
   include CrudActions
 
   def index
-    @category_tree = Document.category_tree
-    @documents_by_category = {}
-    @documents.each do |d|
-      key = [d.category, d.subcategory].to_json
-      @documents_by_category[key] ||= []
-      @documents_by_category[key] << d
-    end
-    @documents_json = Jbuilder.new do |json|
-      json.categoryTree @category_tree
-      json.documentsByCategory do
-        @documents_by_category.each do |key, doc|
-          json.set! key do
-            json.array! doc do |d|
-              json.key d.id
-              json.title d.title
-              json.link d.attachment.url
-              if can?(:destroy, d)
-                json.destroy_link document_path(d)
-              end
-            end
-          end
-        end
-      end
-    end.attributes!
-
+    @documents_json = DocumentTreeview.new.document_js_nodes
     respond_with @documents
   end
 
@@ -44,7 +20,7 @@ class DocumentsController < ApplicationController
 
   def document_params
     params.require(:document).permit(
-      :category, :subcategory, :title, :attachment
+      :category0, :category1, :category2, :category3, :subcategory, :title, :attachment
     )
   end
 end

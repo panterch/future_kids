@@ -221,6 +221,8 @@ de:
       reset_all: 'Alle zurücksetzen'
       update_success: 'Erfolgreich gespeichert'
       new_substitution: 'Neue Abwesenheit'
+      expand_all: "Alle anzeigen"
+      collapse_all: "Alle einklappen"
 
   title:
     kid_mentor_relation_index:

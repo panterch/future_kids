@@ -1,3 +1,11 @@
+- content_for :contextual_links do
+  = contextual_links do
+    = contextual_link_to :expand_all, '#', id: 'tree_expand_all'
+    = contextual_link_to :collapse_all, '#', id: 'tree_collapse_all'
+
+    - if current_user.is_a?(Admin)
+      = contextual_link_to :delete, documents_path, id: 'tree_delete_node'
+
 = boot_page_title
 
-= react_component 'DocumentSlider', @documents_json
+#tree(data-tree="#{@documents_json.to_json}")

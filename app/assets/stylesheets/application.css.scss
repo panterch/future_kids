@@ -4,6 +4,7 @@
  * the top of the compiled file, but it's generally better to create a new file per style scope.
  * = require calendrical
  * = require react-select
+ * = require bootstrap-treeview
 */
 
 $font-size-base:             12px;
@@ -193,33 +194,6 @@ form.schedule {
 
 }
 
-.document-slider {
-  .panel-heading {
-    cursor: pointer;
-  }
-
-  .panel-heading:before  {
-    content: "▶ "
-  }
-
-  .panel-heading.open:before {
-    content: '▼ '
-  }
-
-  .list-group {
-    display: none;
-
-    .panel {
-      padding: 0;
-      margin: 0;
-      border-bottom: 0;
-    }
-  }
-
-  .list-group.open {
-    display: block;
-  }
-}
 
 .portrait {
   overflow: hidden;

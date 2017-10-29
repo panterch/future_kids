@@ -1,19 +1,13 @@
 = simple_form_for @document do |form|
   -# allow user to select category or enter it via freetext
-  .form-group.string.optional.document_category
-    %label.string.optional.col-sm-3.control-label(for="document_category")
-      = Document.human_attribute_name(:category)
-      %a(class='freetext glyphicon glyphicon-edit' href="#")
-    .col-sm-9
-      = form.select :category, Document.categories, {}, class: 'select optional form-control', style: 'display: none;'
-      = form.text_field :category, class: 'string optional form-control'
-  .form-group.string.optional.document_subcategory
-    %label.string.optional.col-sm-3.control-label(for="document_subcategory")
-      = Document.human_attribute_name(:subcategory)
-      %a(class='freetext glyphicon glyphicon-edit' href="#")
-    .col-sm-9
-      = form.select :subcategory, Document.subcategories, {}, class: 'select optional form-control', style: 'display: none;'
-      = form.text_field :subcategory, class: 'string optional form-control'
+  - (0..3).each do |i|
+    .form-group.string.optional.document_category
+      %label.string.optional.col-sm-3.control-label(for="document_category#{i}")
+        = Document.human_attribute_name("category#{i}")
+        %a(class='freetext glyphicon glyphicon-edit' href="#")
+      .col-sm-9
+        = form.select "category#{i}", Document.categories(i), {}, class: 'select optional form-control', style: 'display: none;'
+        = form.text_field "category#{i}", class: 'string optional form-control'
   = form.input :title
   = form.input :attachment
 
