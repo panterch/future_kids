@@ -46,6 +46,8 @@ protected
     end
   end
 
-
+  def valid_order_by?(klass, params)
+    params.split(',').map(&:strip).all? { |param| klass.column_names.include?(param) }
+  end
 
 end
