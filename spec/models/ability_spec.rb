@@ -334,10 +334,16 @@ describe Ability do
                                                              inactive: true))
     end
     it 'cannot edit own schools kids' do
-      expect(@ability).not_to be_able_to(:edit, create(:kid, school: @school))
+      expect(@ability).to be_able_to(:edit, create(:kid, school: @school))
     end
     it 'cannot update own schools kids' do
-      expect(@ability).not_to be_able_to(:update, create(:kid, school: @school))
+      expect(@ability).to be_able_to(:update, create(:kid, school: @school))
+    end
+    it 'cannot edit foreign schools kids' do
+      expect(@ability).not_to be_able_to(:edit, create(:kid))
+    end
+    it 'cannot update foreign schools kids' do
+      expect(@ability).not_to be_able_to(:update, create(:kid))
     end
 
     it 'cannot read teachers of other schools' do
