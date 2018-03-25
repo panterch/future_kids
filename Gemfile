@@ -40,6 +40,8 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_girl_rails'
   gem 'factory_girl'
+  # when upgrading this gem also run
+  # bundle update selenium-webdriver
   gem 'selenium-webdriver'
   gem 'database_cleaner'
   gem 'codeclimate-test-reporter'
