@@ -47,7 +47,11 @@ class DocumentTreeview
           documentId: d.id,
           icon: 'glyphicon glyphicon-book'
       }
-      nodes.sort_by!{ |node| node[:text] }
+      nodes.sort_by! do |node|
+        key = node[:nodes] ? '0folder' : '1doc' # prefer folders over documents
+        key += node[:text]
+        key
+      end
     end
     js_nodes
   end

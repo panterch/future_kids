@@ -30,17 +30,17 @@ describe DocumentTreeview do
   end
 
   it 'transform appends documents to nodes js' do
-    create(:document, title: 'a', category0: 'a')
-    create(:document, title: 'a b', category0: 'a', category1: 'b')
-    create(:document, title: 'a b c1', category0: 'a', category1: 'b', category2: 'c1')
-    create(:document, title: 'a b c2', category0: 'a', category1: 'b', category2: 'c2')
-    create(:document, title: 'x y', category0: 'x', category1: 'y')
+    create(:document, title: 'doc a', category0: 'a')
+    create(:document, title: 'doc a b', category0: 'a', category1: 'b')
+    create(:document, title: 'doc a b c1', category0: 'a', category1: 'b', category2: 'c1')
+    create(:document, title: 'doc a b c2', category0: 'a', category1: 'b', category2: 'c2')
+    create(:document, title: 'doc x y', category0: 'x', category1: 'y')
 
     js_nodes = dtv.document_js_nodes
     expect(js_nodes[0][:text]).to eq('a')
-    expect(js_nodes[0][:nodes][0][:text]).to eq('a')
-    expect(js_nodes[0][:nodes][1][:text]).to eq('b')
-    expect(js_nodes[0][:nodes][1][:nodes][0][:text]).to eq('a b')
+    expect(js_nodes[0][:nodes][0][:text]).to eq('b')
+    expect(js_nodes[0][:nodes][1][:text]).to eq('doc a')
+    expect(js_nodes[0][:nodes][0][:nodes][0][:text]).to eq('c1')
   end
 
   it 'sorts documents by title' do
@@ -55,6 +55,20 @@ describe DocumentTreeview do
     expect(js_nodes[0][:nodes][2][:text]).to eq('b')
     expect(js_nodes[0][:nodes][3][:text]).to eq('x')
   end
+
+  it 'sorts documents after folders by title' do
+    create(:document, title: 'x', category0: 'cat0')
+    create(:document, title: '2', category0: 'cat0', category1: 'cat2')
+    create(:document, title: '1', category0: 'cat0', category1: 'cat1')
+    create(:document, title: 'a', category0: 'cat0')
+
+    js_nodes = dtv.document_js_nodes
+    expect(js_nodes[0][:nodes][0][:text]).to eq('cat1')
+    expect(js_nodes[0][:nodes][1][:text]).to eq('cat2')
+    expect(js_nodes[0][:nodes][2][:text]).to eq('a')
+    expect(js_nodes[0][:nodes][3][:text]).to eq('x')
+  end
+
 
   it 'converts arrays to hashes' do
     h = dtv.a_to_h(%w(a b c), {})
