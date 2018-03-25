@@ -47,6 +47,7 @@ class DocumentTreeview
           documentId: d.id,
           icon: 'glyphicon glyphicon-book'
       }
+      nodes.sort_by!{ |node| node[:text] }
     end
     js_nodes
   end

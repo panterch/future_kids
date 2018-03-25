@@ -203,6 +203,17 @@ function register_treeview() {
         $.ajax(href, {method: "DELETE", async: false})
         location.reload();
     });
+    $('#tree_edit_node').click(function(event) {
+        event.preventDefault();
+        event.stopPropagation();
+        var nodes = $('#tree').treeview('getSelected');
+        if (1 > nodes.length) {
+            alert('Bitte wählen Sie ein Dokument zum bearbeiten.')
+            return;
+        }
+        var href = $(this).attr("href") + '/' + nodes[0].documentId+ '/edit';
+        window.location = href;
+    });
     $( "#tree" ).on( "click", "a", function(event) {
         event.preventDefault();
         var href = $(this).attr("href");

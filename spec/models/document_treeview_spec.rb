@@ -29,7 +29,7 @@ describe DocumentTreeview do
     expect(js_nodes[0][:nodes].first[:text]).to eq('b')
   end
 
-  it 'transformas appends documents to nodes js' do
+  it 'transform appends documents to nodes js' do
     create(:document, title: 'a', category0: 'a')
     create(:document, title: 'a b', category0: 'a', category1: 'b')
     create(:document, title: 'a b c1', category0: 'a', category1: 'b', category2: 'c1')
@@ -38,7 +38,22 @@ describe DocumentTreeview do
 
     js_nodes = dtv.document_js_nodes
     expect(js_nodes[0][:text]).to eq('a')
-    expect(js_nodes[0][:nodes].first[:text]).to eq('b')
+    expect(js_nodes[0][:nodes][0][:text]).to eq('a')
+    expect(js_nodes[0][:nodes][1][:text]).to eq('b')
+    expect(js_nodes[0][:nodes][1][:nodes][0][:text]).to eq('a b')
+  end
+
+  it 'sorts documents by title' do
+    create(:document, title: 'b', category0: 'a')
+    create(:document, title: 'x', category0: 'a')
+    create(:document, title: 'a', category0: 'a')
+    create(:document, title: '1', category0: 'a')
+
+    js_nodes = dtv.document_js_nodes
+    expect(js_nodes[0][:nodes][0][:text]).to eq('1')
+    expect(js_nodes[0][:nodes][1][:text]).to eq('a')
+    expect(js_nodes[0][:nodes][2][:text]).to eq('b')
+    expect(js_nodes[0][:nodes][3][:text]).to eq('x')
   end
 
   it 'converts arrays to hashes' do

@@ -16,6 +16,16 @@ class DocumentsController < ApplicationController
     end
   end
 
+
+  def update
+    @document.update(document_params)
+    if @document.valid?
+      redirect_to action: :index
+    else
+      render :edit
+    end
+  end
+
   private
 
   def document_params
