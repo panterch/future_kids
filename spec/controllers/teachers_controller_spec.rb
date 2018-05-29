@@ -29,7 +29,7 @@ describe TeachersController do
       it 'renders' do
         @teacher = create(:teacher)
         get :show, params: { id: @teacher.id }
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
 
@@ -37,7 +37,7 @@ describe TeachersController do
       it 'renders' do
         @teacher = create(:teacher)
         get :edit, params: { id: @teacher.id }
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end
@@ -57,13 +57,13 @@ describe TeachersController do
       end
       it 'renders' do
         get :index
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(assigns(:teachers)).to eq([@teacher])
       end
       it 'shows only teachers of own school' do
         create(:teacher)
         get :index
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(assigns(:teachers)).to eq([@teacher])
       end
     end

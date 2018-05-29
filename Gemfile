@@ -13,6 +13,7 @@ gem 'exception_notification'
 gem 'simple_form'
 gem 'paperclip'
 gem 'pg'
+gem 'puma'
 gem 'responders'
 gem 'show_for'
 gem 'whenever', require: false
@@ -38,11 +39,9 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'shoulda-matchers'
   gem 'capybara'
-  gem 'factory_girl_rails'
-  gem 'factory_girl'
-  # when upgrading this gem also run
-  # brew upgrade chromedriver
-  gem 'selenium-webdriver'
+  gem 'factory_bot_rails'
+  gem 'factory_bot'
+  gem 'selenium-webdriver' # make sure to upgrade chromedriver too when upgrading this gem
   gem 'database_cleaner'
   gem 'codeclimate-test-reporter'
   gem 'simplecov'

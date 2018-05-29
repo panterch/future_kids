@@ -1,4 +1,4 @@
-FactoryGirl.define do  
+FactoryBot.define do  
 
 
   factory :substitution do
@@ -31,7 +31,7 @@ FactoryGirl.define do
 
   factory :principal, class: 'Principal', parent: :user do
     sequence(:email) { |n| "principal_#{n}@example.com" }
-    schools {[FactoryGirl.create(:school)]}
+    schools {[FactoryBot.create(:school)]}
   end
 
   factory :kid do

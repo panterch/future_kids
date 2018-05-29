@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe 'FactoryGirl' do
+describe 'FactoryBot' do
   describe 'a mentor by factory' do
     let(:mentor) { build(:mentor) }
     it('should be valid') { expect(mentor).to be_valid }

@@ -12,7 +12,7 @@ describe AdminsController do
         2.times { create(:admin) }
         get :index
         expect(assigns(:admins).size).to eq(3) # 3 including the signed in admin
-        expect(response).to be_success
+        expect(response).to be_successful
       end
 
       it 'excludes inactive admins' do
@@ -26,7 +26,7 @@ describe AdminsController do
       it 'displays relation log' do
         @kid = create(:kid, admin: @admin)
         get :show, params: { id: @admin.id }
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.body).to match /#{@kid.name}/
       end
     end
@@ -34,7 +34,7 @@ describe AdminsController do
     context 'edit' do
       it 'renders' do
         get :show, params: { id: @admin.id }
-        expect(response).to be_success
+        expect(response).to be_successful
       end
     end
   end
@@ -56,7 +56,7 @@ describe AdminsController do
       it 'displays only basic information on coaches' do
         create(:kid, mentor: @mentor, admin: @admin)
         get :show, params: { id: @admin.id }
-        expect(response).to be_success
+        expect(response).to be_successful
         expect(response.body).to match /#{@admin.name}/
         expect(response.body).not_to match /Pendenzen/
       end

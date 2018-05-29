@@ -21,7 +21,7 @@ describe SchoolsController do
     it 'renders again on failure' do
       post :create, params: { school: { name: '' } }
       expect(School.count).to eq(0)
-      expect(response).to be_success
+      expect(response).to be_successful
     end
   end
 

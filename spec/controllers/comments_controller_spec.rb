@@ -25,7 +25,7 @@ describe CommentsController do
 
     it 'should not create an invalid journal entry' do
       post :create, params: { kid_id: @kid.id, journal_id: @journal.id }
-      expect(response).to be_success
+      expect(response).to be_successful
     end
 
     it 'should create a journal entry' do

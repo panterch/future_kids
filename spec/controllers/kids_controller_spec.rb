@@ -129,7 +129,7 @@ describe KidsController do
       end
 
       it 'tracks creation as relationlog' do
-        post :create, params: { kid: FactoryGirl.attributes_for(:kid) }
+        post :create, params: { kid: FactoryBot.attributes_for(:kid) }
         expect(RelationLog.where(role: 'creator').count).to eq(1)
         rl = RelationLog.where(role: 'creator').first
         expect(rl.user).to eq(@teacher)

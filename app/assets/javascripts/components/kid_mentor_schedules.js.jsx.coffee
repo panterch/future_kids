@@ -7,7 +7,7 @@
 
 STYLE_DAY_PLACEHOLDER_WIDTH = 4
 MAX_MENTORS_TO_DISPLAY = 10
-@KidMentorSchedules = React.createClass
+@KidMentorSchedules = createReactClass
   getInitialState: ->
     mentorsToDisplay: getMentorIds @props.mentors
     visitedMentors: []
@@ -166,7 +166,7 @@ MAX_MENTORS_TO_DISPLAY = 10
       })
     )
 
-MentorsForDisplayingFilter = React.createClass
+MentorsForDisplayingFilter = createReactClass
   DELEMITER: ";"
   onChange: (valuesAsString) ->
     if valuesAsString? and valuesAsString.length > 0
@@ -228,7 +228,7 @@ MentorsForDisplayingFilter = React.createClass
       )
     )
 
-Filters = React.createClass
+Filters = createReactClass
   onChangeSex: (event) ->
     sanitize = (value) -> if value is 'm' or value is 'f' then value else null
     @props.onChange? "sex", sanitize event.target.value
@@ -262,7 +262,7 @@ Filters = React.createClass
 
       React.createElement("div", {"className": "form-group"},
         React.createElement("label", {"htmlFor": "ects"}, "ECTS "),
-        React.createElement("select", {"name": "ects", "className": "form-control", "value": @props.initialFilters.ects, "onChange": @onChangeECTS},
+        React.createElement("select", {"name": "ects", "className": "form-control", "value": @props.initialFilters.ects or "", "onChange": @onChangeECTS},
           React.createElement("option", null),
           React.createElement("option", {"value": "true"}, "ECTS"),
           React.createElement("option", {"value": "false"}, "kein ECTS")
@@ -270,7 +270,7 @@ Filters = React.createClass
       ),
       React.createElement("div", {"className": "form-group"},
         React.createElement("label", {"htmlFor": "sex"}, "Geschlecht "),
-        React.createElement("select", {"name": "sex", "className": "form-control", "value": @props.initialFilters.sex, "onChange": @onChangeSex},
+        React.createElement("select", {"name": "sex", "className": "form-control", "value": @props.initialFilters.sex or "", "onChange": @onChangeSex},
           React.createElement("option", null),
           React.createElement("option", {"value": "m"}, "Männlich"),
           React.createElement("option", {"value": "f"}, "Weiblich")
@@ -278,18 +278,18 @@ Filters = React.createClass
       ),
       React.createElement("div", {"className": "form-group"},
         React.createElement("label", {"htmlFor": "school"}, "Schule "),
-        React.createElement("select", {"name": "school", "className": "form-control", "value": @props.initialFilters.school, "onChange": @onChangeSchool},
+        React.createElement("select", {"name": "school", "className": "form-control", "value": @props.initialFilters.school or "", "onChange": @onChangeSchool},
           React.createElement("option", null),
           (
             for school in @props.schools
-              React.createElement("option", {"value": "#{school.id}"}, (school.display_name))
-          )
+              React.createElement("option", {"value": "#{school.id}", "key": "#{school.id}"}, (school.display_name))
+    )
 
         )
       )
     )
 
-TimeTable = React.createClass
+TimeTable = createReactClass
   getInitialState: ->
     return {
       #                     mo    di    mi    do    fr
@@ -425,7 +425,7 @@ TimeTable = React.createClass
     )
     # end render
 
-TimeTable_MentorCell = React.createClass
+TimeTable_MentorCell = createReactClass
   mentorIsAvailable: ->
     @props.mentor.schedules?[@props.day.key]?[@props.time.key]?
   render: ->
