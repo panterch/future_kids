@@ -36,7 +36,7 @@ class Review < ApplicationRecord
   end
 
   def sync_fields_with_kid
-    if kind == 'telefonisch'
+    if reason == 'Telefoncoaching'
       kid.update_attributes(
         coached_at: held_at)
     end
