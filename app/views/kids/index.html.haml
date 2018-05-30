@@ -62,7 +62,8 @@
       - if @site.feature_coach?
         %th Letztes Coaching
       %th Pendenzen
-    - if @site.feature_coach?
+    %th Mentor/in
+    - if @site.feature_coach? && !@kid.admin_id.present?
       %th Coach
   - @kids.each do |kid|
     %tr
@@ -80,9 +81,10 @@
             %a.todotoggle.btn.btn-xs{data: { content: kid.human_todo}, href:  edit_kid_path(kid, :anchor => 'todo') }
               Pendenz
               %span.glyphicon.glyphicon-info-sign
-      - if @site.feature_coach?
+      %td
+        = can_link_to(kid.mentor) if kid.mentor.present?
+      - if @site.feature_coach? && !@kid.admin_id.present?
         %td
-          Coach:
           = can_link_to(kid.admin) if kid.admin.present?
 
 
