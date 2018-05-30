@@ -65,6 +65,7 @@ describe ReviewsController do
       expect(response).to be_redirect
       expect(@kid.reload.coached_at).not_to be_nil
       expect(@kid.coached_at).to eq(attrs[:review][:held_at])
+      expect(@kid.checked_at).to eq(attrs[:review][:held_at])
     end
   end
 
