@@ -4,8 +4,9 @@
       = contextual_link_to :xlsx, url_for(params.permit!.merge(format: 'xlsx'))
 
 - content_for :sidebar do
-  - if current_user.is_a?(Admin)
-    = form_for :kid, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
+  = form_for :kid, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
+
+    - if current_user.is_a?(Admin)
       .form-group
         %label= Kid.human_attribute_name(:term)
         = f.select :term, term_collection, { :include_blank => true }, class: 'form-control'
@@ -25,19 +26,27 @@
       .form-group
         %label= Kid.human_attribute_name(:meeting_day)
         = f.select :meeting_day, wday_collection, { :include_blank => true }, class: 'form-control'
+
+
+    - if current_user.is_a?(Admin) || current_user.is_a?(Principal)
       .form-group
         %label Klasse
         = f.select :grade, grade_collection, { :include_blank => true }, class: 'form-control'
+
+    - if current_user.is_a?(Admin)
       .checkbox
         %label
           = f.check_box :inactive
           %p
             %b Inaktive
-      .form-group
-        %label Ordnen nach
-        = select_tag 'order_by', order_by_collection_for_kids(params[:order_by]), class: 'form-control'
-      .form-group
-        = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
+
+    .form-group
+      %label Ordnen nach
+      = select_tag 'order_by', order_by_collection_for_kids(params[:order_by]), class: 'form-control'
+    .form-group
+      = f.submit 'Suchen', class: 'btn btn-xs btn-success'
+
+      - if current_user.is_a?(Admin) || current_user.is_a?(Principal)
         = link_to 'Filter aufheben', kids_path, class: 'btn btn-xs'
 
 = boot_page_title do

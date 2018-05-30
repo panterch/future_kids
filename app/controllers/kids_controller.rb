@@ -19,7 +19,7 @@ class KidsController < ApplicationController
     # executed for admins since else we would have to take care that no other
     # user overwrites its filter constraints by adding a certain query parameter
     # here
-    if current_user.is_a?(Admin)
+    if current_user.is_a?(Admin) || current_user.is_a?(Principal)
       # a prototyped kid is submitted with each index query. if the prototype
       # is not present, it is built here with default values
       # build a where condition out of all parameters supplied for kid
