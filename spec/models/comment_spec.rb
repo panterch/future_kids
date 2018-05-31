@@ -46,7 +46,7 @@ describe Comment do
     end
     it 'is not the mentor when he is the sender' do
       @comment.created_by = @kid.mentor
-      expect(@comment.recipients).to eq([])
+      expect(@comment.recipients).not_to include(@kid.mentor.email)
     end
     it 'add the coach when present' do
       @coach = create(:admin)
