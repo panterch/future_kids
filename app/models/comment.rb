@@ -46,7 +46,18 @@ class Comment < ApplicationRecord
 
     # do not send emails out to the original creator
     to.delete(self.created_by.try(:email))
-    to.compact
+
+    to.compact!
+
+    # guard against the edge case where no receiver at all for the email
+    # is left at all
+    if to.empty?
+      fallback_email = Site.first_or_create.comment_bcc
+      fallback_email ||= I18n.t('notifications.default_email')
+      to << fallback_email
+    end
+
+    to
   end
 
   def human_body
