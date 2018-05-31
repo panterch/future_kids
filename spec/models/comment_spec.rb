@@ -32,6 +32,7 @@ describe Comment do
       expect(@comment.to_teacher).to eq(true)
       expect(@comment.to_secondary_teacher).to eq(false)
     end
+
   end
 
   context 'recipients' do
@@ -42,6 +43,10 @@ describe Comment do
     end
     it 'is the mentor' do
       expect(@comment.recipients).to eq([@kid.mentor.email])
+    end
+    it 'is not the mentor when he is the sender' do
+      @comment.created_by = @kid.mentor
+      expect(@comment.recipients).not_to include(@kid.mentor.email)
     end
     it 'add the coach when present' do
       @coach = create(:admin)

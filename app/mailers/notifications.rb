@@ -17,10 +17,11 @@ class Notifications < ActionMailer::Base
   end
 
   def comment_created(comment)
+    @site = Site.first_or_create!
     @comment = comment
     @journal = comment.journal
     @kid = @journal.kid
-    mail to: @comment.recipients
+    mail to: @comment.recipients, bcc: @site.comment_bcc
   end
 
   def test(to)

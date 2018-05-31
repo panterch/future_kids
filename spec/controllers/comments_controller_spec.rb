@@ -3,7 +3,8 @@ require 'spec_helper'
 describe CommentsController do
   before(:each) do
     @mentor = create(:mentor)
-    @kid = create(:kid, mentor: @mentor)
+    @coach = create(:admin)
+    @kid = create(:kid, mentor: @mentor, admin: @coach)
     @journal =  create(:journal, kid: @kid, mentor: @mentor)
     ActionMailer::Base.deliveries.clear
   end

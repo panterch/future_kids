@@ -4,6 +4,7 @@ class Comment < ApplicationRecord
   after_create :send_notification
 
   belongs_to :journal
+  belongs_to :created_by, class_name: 'User'
 
   default_scope { order('id') }
   validates_presence_of :body, :by, :journal_id
@@ -42,7 +43,21 @@ class Comment < ApplicationRecord
     to << kid.teacher&.email if self.to_teacher?
     to << kid.secondary_teacher&.email if self.to_secondary_teacher?
     to << kid.third_teacher&.email if self.to_third_teacher?
-    to.compact
+
+    # do not send emails out to the original creator
+    to.delete(self.created_by.try(:email))
+
+    to.compact!
+
+    # guard against the edge case where no receiver at all for the email
+    # is left at all
+    if to.empty?
+      fallback_email = Site.first_or_create.comment_bcc
+      fallback_email ||= I18n.t('notifications.default_email')
+      to << fallback_email
+    end
+
+    to
   end
 
   def human_body
