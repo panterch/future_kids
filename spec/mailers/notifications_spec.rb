@@ -51,7 +51,7 @@ describe Notifications do
 
   describe 'comment created with site wide bcc feature' do
     before(:each) do
-      Site.first.update_attribute(:comment_bcc, 'bcc@example.com')
+      Site.create!(comment_bcc: 'bcc@example.com')
       @comment = create(:comment)
       @mail = Notifications.comment_created(@comment)
     end
