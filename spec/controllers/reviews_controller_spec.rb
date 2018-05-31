@@ -51,6 +51,25 @@ describe ReviewsController do
     end
   end # end of as a mentor
 
+
+  context 'as an admin' do
+    before(:each) do
+      sign_in create(:admin)
+    end
+
+    it 'should record phone coaching' do
+      attrs = valid_attributes
+      attrs[:review][:reason] = 'Telefoncoaching'
+      post :create, params: attrs
+
+      expect(response).to be_redirect
+      expect(@kid.reload.coached_at).not_to be_nil
+      expect(@kid.coached_at).to eq(attrs[:review][:held_at])
+      expect(@kid.checked_at).to eq(attrs[:review][:held_at])
+    end
+  end
+
+
   # valid attributes to create a journal
   # this uses strings for time and date fields, since this is what we
   # want to submit via the jquery widgets

@@ -28,12 +28,15 @@
           = can_link_to k
           = "am #{k.human_meeting_day}" if k.meeting_day.present?
           = "in #{k.city}" if k.city.present?
-      = show.attribute :personnel_number
-      = show.attribute :ects
-      = show.attribute :term
 
-      -if current_user.is_a?(Admin)
-        .hidden-print
+
+    -if current_user.is_a?(Admin)
+      .hidden-print(style='margin-top: 40px')
+        = show_for @mentor do |show|
+          %h2#internal Projektinterne Informationen
+          = show.attribute :personnel_number
+          = show.attribute :ects
+          = show.attribute :term
           = show.attribute :absence
           = show.attribute :note
           = show.attribute :todo
@@ -97,7 +100,7 @@
           Stunden
       %tr
         %td
-          Coachingpauschale für
+          Pauschalzuschlag für
           = coaching
           Monate Einsatz
         %td

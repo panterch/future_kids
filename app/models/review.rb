@@ -35,10 +35,12 @@ class Review < ApplicationRecord
     text_format(attendee)
   end
 
+  # coaching via phone can be recorded as check / coaching
   def sync_fields_with_kid
-    if kind == 'telefonisch'
+    if reason == 'Telefoncoaching'
       kid.update_attributes(
-        coached_at: held_at)
+          checked_at: held_at,
+          coached_at: held_at)
     end
   end
 end

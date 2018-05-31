@@ -16,6 +16,7 @@
   = form.input :transport, :collection => transport_collection
 
   -if current_user.is_a?(Admin)
+    %h2#internal Projektinterne Informationen
     = form.input :personnel_number
     = form.input :ects
     = form.input :term, :collection => term_collection

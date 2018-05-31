@@ -20,11 +20,11 @@ module ApplicationHelper
 
   # values for the collection select 'sex'
   def sex_collection
-    { 'Mädchen' => 'f', 'Knabe' => 'm' }
+    { '♀' => 'f', '♂' => 'm' }
   end
 
   def transport_collection
-    %w(Halbtax GA Regenbogen\ Kanton Zone\ 10\ mit\ Halbtax Zone\ 10\ ohne\ Halbtax)
+    %w(Halbtax GA Zone\ 10\ mit\ Halbtax Zone\ 10\ ohne\ Halbtax ZVV\ Netzpass Regenbogen\ Kanton)
   end
 
   def boolean_collection
