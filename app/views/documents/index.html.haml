@@ -7,6 +7,4 @@
       = contextual_link_to :edit, documents_path, id: 'tree_edit_node'
       = contextual_link_to :delete, documents_path, id: 'tree_delete_node'
 
-= boot_page_title
-
 #tree(data-tree="#{@documents_json.to_json}")
