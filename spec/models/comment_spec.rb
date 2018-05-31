@@ -32,6 +32,12 @@ describe Comment do
       expect(@comment.to_teacher).to eq(true)
       expect(@comment.to_secondary_teacher).to eq(false)
     end
+
+    it 'sets created_by' do
+      @mentor = create(:mentor)
+      @comment.initialize_default_values(@mentor)
+      expect(@comment.created_by).to eq(@mentor)
+    end
   end
 
   context 'recipients' do
@@ -42,6 +48,10 @@ describe Comment do
     end
     it 'is the mentor' do
       expect(@comment.recipients).to eq([@kid.mentor.email])
+    end
+    it 'is not the mentor when he is the sender' do
+      @comment.created_by = @kid.mentor
+      expect(@comment.recipients).to eq([])
     end
     it 'add the coach when present' do
       @coach = create(:admin)
