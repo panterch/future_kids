@@ -49,6 +49,18 @@ describe Notifications do
     end
   end
 
+  describe 'comment created with site wide bcc feature' do
+    before(:each) do
+      Site.first.update_attribute(:comment_bcc, 'bcc@example.com')
+      @comment = create(:comment)
+      @mail = Notifications.comment_created(@comment)
+    end
+
+    it 'renders the body' do
+      expect(@mail.bcc.first).to eq('bcc@example.com')
+    end
+  end
+
   describe 'journal' do
     before(:each) do
       @admin    = create(:admin, email: 'admin@example.com')
