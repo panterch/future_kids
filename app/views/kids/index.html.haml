@@ -63,7 +63,7 @@
         %th Letztes Coaching
       %th Pendenzen
     %th Mentor/in
-    - if @site.feature_coach? && !@kid.admin_id.present?
+    - if @site.feature_coach?
       %th Coach
   - @kids.each do |kid|
     %tr
@@ -83,7 +83,7 @@
               %span.glyphicon.glyphicon-info-sign
       %td
         = can_link_to(kid.mentor) if kid.mentor.present?
-      - if @site.feature_coach? && !@kid.admin_id.present?
+      - if @site.feature_coach?
         %td
           = can_link_to(kid.admin) if kid.admin.present?
 
