@@ -1,5 +1,5 @@
 = show_for @school do |show|
-  = show.association :principals do |p|
+  = show.association :active_principals do |p|
     %li= can_link_to(p)
-  = show.association :teachers do |t|
+  = show.association :active_teachers do |t|
     %li= can_link_to(t)

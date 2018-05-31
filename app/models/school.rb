@@ -9,6 +9,14 @@ class School < ApplicationRecord
   has_many :kids
   has_many :mentors, through: :kids
 
+  def active_teachers
+    self.teachers.active
+  end
+
+  def active_principals
+    self.principals.active
+  end
+
   def display_name
     name
   end

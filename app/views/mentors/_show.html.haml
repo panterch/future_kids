@@ -31,22 +31,21 @@
 
 
     -if current_user.is_a?(Admin)
-      .hidden-print(style='margin-top: 40px')
-        = show_for @mentor do |show|
-          %h2#internal Projektinterne Informationen
-          = show.attribute :personnel_number
-          = show.attribute :ects
-          = show.attribute :term
-          = show.attribute :absence
-          = show.attribute :note
-          = show.attribute :todo
-          = show.attribute :substitute
-          = show.attribute :exit_kind
-          - if 'later' == @mentor.exit_kind
-            = show.attribute :exit_at
-          = show.attribute :schedules_seen_at
-          = show.attribute :schedules_updated_at
-          = show.attribute :inactive
+      = show_for @mentor do |show|
+        %h2#internal Projektinterne Informationen
+        = show.attribute :personnel_number
+        = show.attribute :ects
+        = show.attribute :term
+        = show.attribute :absence
+        = show.attribute :note
+        = show.attribute :todo
+        = show.attribute :substitute
+        = show.attribute :exit_kind
+        - if 'later' == @mentor.exit_kind
+          = show.attribute :exit_at
+        = show.attribute :schedules_seen_at
+        = show.attribute :schedules_updated_at
+        = show.attribute :inactive
 
 
   .col-md-4
@@ -72,7 +71,7 @@
           - if journal.kid
             = journal.kid.display_name
           - else
-            Coaching Pauschale
+            Pauschalzuschlag
         %td
           - if journal.cancelled?
             ausgefallen
@@ -88,7 +87,7 @@
 
   .hidden-print
     %h2
-      Zeiterfassung über die Projektdauer
+      Zeiterfassung seit Einstieg
     %table.table.table-striped.table-hover
       - duration = (@mentor.total_duration / 60)
       - coaching = @mentor.month_count

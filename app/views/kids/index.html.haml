@@ -50,7 +50,7 @@
         = link_to 'Filter aufheben', kids_path, class: 'btn btn-xs'
 
 = boot_page_title do
-  = @kids.count if current_user.is_a?(Admin)
+  = @kids.count if current_user.is_a?(Admin) || current_user.is_a?(Principal)
   Sch&uuml;ler/innen
 
 %table.table.table-striped.table-condensed.table-hover

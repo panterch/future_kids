@@ -3,9 +3,11 @@
   = show.attribute :prename
   = show.attribute(:email) { mail_to @admin.email }
   = show.attribute :phone
+  = show.attribute :address
+  = show.attribute :city
 
   -if current_user.is_a?(Admin) && @site.feature_coach?
-    = show.attribute :todo
+    = show.attribute :note
     = show.association :coachings do |k|
       %li
         = "#{Kid.model_name.human}:"

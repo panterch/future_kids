@@ -159,7 +159,9 @@ de:
         phone: Telefon Teamzimmer
         homepage: Homepage
         principals: SL/QUIMS-Verantwortliche/r
+        active_principals: SL/QUIMS-Verantwortliche/r
         teachers: Lehrer
+        active_teachers: Lehrer
         social: Schulsozialarbeiter/in
         district: Schulgemeinde
         note: Bemerkungen

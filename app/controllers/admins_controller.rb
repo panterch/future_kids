@@ -19,8 +19,8 @@ class AdminsController < ApplicationController
 
   def admin_params
     params.require(:admin).permit(
-      :name, :prename, :email, :phone, :password, :password_confirmation, :todo,
-      :inactive
+      :name, :prename, :email, :phone, :password, :password_confirmation,
+      :address, :city, :note, :inactive
     )
   end
 end

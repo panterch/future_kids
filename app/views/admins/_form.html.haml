@@ -5,9 +5,11 @@
   = form.input :phone
   = form.input :password
   = form.input :password_confirmation
-  = form.input :todo
+  = form.input :address
+  = form.input :city
 
   -if current_user.is_a?(Admin)
+    = form.input :note
     = form.input :inactive
 
   .col-sm-offset-3.col-sm-9
