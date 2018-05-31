@@ -10,7 +10,6 @@ class Comment < ApplicationRecord
   validates_presence_of :body, :by, :journal_id
 
   def initialize_default_values(current_user)
-    self.created_by = current_user
     self.by ||= current_user.display_name
     if (previous = previous_comment)
       self.to_teacher = previous.to_teacher

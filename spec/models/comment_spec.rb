@@ -33,11 +33,6 @@ describe Comment do
       expect(@comment.to_secondary_teacher).to eq(false)
     end
 
-    it 'sets created_by' do
-      @mentor = create(:mentor)
-      @comment.initialize_default_values(@mentor)
-      expect(@comment.created_by).to eq(@mentor)
-    end
   end
 
   context 'recipients' do
