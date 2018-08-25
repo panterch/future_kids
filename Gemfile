@@ -20,7 +20,7 @@ gem 'whenever', require: false
 gem 'bootstrap-sass'
 gem 'i18n_rails_helpers'
 gem 'react-rails'
-gem 'sass-rails'
+gem 'sassc-rails'
 gem 'coffee-rails'
 gem 'uglifier'
 gem 'i18n-active_record'
@@ -43,10 +43,5 @@ group :development, :test do
   gem 'factory_bot'
   gem 'selenium-webdriver' # make sure to upgrade chromedriver too when upgrading this gem
   gem 'database_cleaner'
-  gem 'codeclimate-test-reporter'
-  gem 'simplecov'
   gem 'rails-controller-testing'
 end
-
-
-gem 'sdoc', group: :doc

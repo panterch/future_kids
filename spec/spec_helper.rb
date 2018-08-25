@@ -1,9 +1,7 @@
 require 'rubygems'
-require 'simplecov'
 require 'capybara/rspec'
 
 ENV['RAILS_ENV'] ||= 'test'
-SimpleCov.start
 
 Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)

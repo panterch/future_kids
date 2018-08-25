@@ -3,13 +3,11 @@ language: ruby
 cache: bundler
 sudo: required # needed for chrome
 addons:
-  code_climate:
-    repo_token: 3e934587dafc53ec05a0d7d5b63b7b21c6cbfd44fdf5d5c3f0e9f2895f21a7d0
   chrome: stable
 rvm:
   - 2.3.0
 before_install:
-  - wget https://chromedriver.storage.googleapis.com/2.38/chromedriver_linux64.zip
+  - wget https://chromedriver.storage.googleapis.com/2.41/chromedriver_linux64.zip
   - mkdir chromedriver
   - unzip chromedriver_linux64.zip -d chromedriver
   - export PATH=$PATH:$PWD/chromedriver
@@ -21,5 +19,4 @@ before_script:
 script:
   - bundle exec rake db:migrate
   - bundle exec rspec
-after_success:
-  - bundle exec codeclimate-test-reporter
+
