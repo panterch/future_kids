@@ -168,12 +168,8 @@ MAX_MENTORS_TO_DISPLAY = 10
 
 MentorsForDisplayingFilter = createReactClass
   DELEMITER: ";"
-  onChange: (valuesAsString) ->
-    if valuesAsString? and valuesAsString.length > 0
-      values = valuesAsString.split(@DELEMITER).map (id) -> parseInt id, 10
-      selectedMentorIds = limitAndRemoveFromBeginning values
-    else
-      selectedMentorIds = []
+  onChange: (values) ->
+    selectedMentorIds = limitAndRemoveFromBeginning(values.map((m) -> Number(m.value)))
     @triggerChange selectedMentorIds
 
   triggerChange: (selectedMentorIds) ->
