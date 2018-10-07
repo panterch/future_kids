@@ -15,6 +15,7 @@ Rails.application.routes.draw do
       resources :comments, only: %w(new create update)
     end
     resources :reviews
+    resources :first_year_assessments
     member do
       get 'edit_schedules'
       get 'show_kid_mentors_schedules'

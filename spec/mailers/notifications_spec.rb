@@ -99,4 +99,17 @@ describe Notifications do
       expect(@mail2.body.encoded).to match(@journal2.kid.name)
     end
   end
+
+  describe 'first_year_assessment created' do
+    before(:each) do
+      Site.first_or_create!.update_attribute(:comment_bcc, 'bcc@example.com')
+      @first_year_assessment = create(:first_year_assessment)
+      @mail = Notifications.first_year_assessment_created(@first_year_assessment)
+    end
+
+    it 'renders the body' do
+      expect(@mail.to.first).to eq('bcc@example.com')
+      expect(@mail.body.encoded).to match(@first_year_assessment.kid.name)
+    end
+  end
 end

@@ -41,4 +41,12 @@ class Notifications < ActionMailer::Base
     mail subject: I18n.t('notifications.important_subject'),
          to: recipients
   end
+
+  def first_year_assessment_created(assessment)
+    @assessment = assessment
+    recipients = []
+    recipients << assessment.kid.admin&.email
+    recipients << Site.first_or_create.comment_bcc
+    mail to: recipients
+  end
 end

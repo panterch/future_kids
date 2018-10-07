@@ -1,4 +1,11 @@
 FactoryBot.define do
+  factory :first_year_assessment do
+    association :kid
+    association :teacher
+    association :mentor
+    created_by { |a| a.mentor }
+    held_at { Date.parse('2018-10-01') }
+  end
 
 
   factory :substitution do

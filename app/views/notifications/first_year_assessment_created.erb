@@ -1,0 +1,79 @@
+Liebe Coaches
+
+Es wurde ein neues Auswertungsgespräch auf der Future Kids-Onlineplattform angelegt:
+
+Schüler/in:   <%= @assessment.kid.display_name %>
+
+Mentor/in:    <%= @assessment.mentor.display_name %>
+
+Lehrperson:   <%= @assessment.teacher.display_name %>
+
+Gespräch:     <%= @assessment.display_name %>
+
+Link:         <%= kid_url(@assessment.kid)+"#first_year_assessment_#{@assessment.id}" %>
+
+Datum:        <%= I18n.l(@assessment.held_at) if @assessment.held_at %>
+
+
+<%= I18n.t('activerecord.attributes.first_year_assessment.development_teacher') %>
+<%= @assessment.human_development_teacher %>
+
+
+<%= I18n.t('activerecord.attributes.first_year_assessment.development_mentor') %>
+<%= @assessment.human_development_mentor %>
+
+
+<%= I18n.t('activerecord.attributes.first_year_assessment.goals_teacher') %>
+<%= @assessment.human_goals_teacher %>
+
+
+<%= I18n.t('activerecord.attributes.first_year_assessment.goals_mentor') %>
+<%= @assessment.human_goals_mentor %>
+
+
+<%= I18n.t('activerecord.attributes.first_year_assessment.relation_mentor') %>
+<%= @assessment.human_relation_mentor %>
+
+
+<%= I18n.t('activerecord.attributes.first_year_assessment.motivation') %>
+<%= @assessment.human_motivation %>
+
+
+<%= I18n.t('activerecord.attributes.first_year_assessment.collaboration') %>
+<%= @assessment.human_collaboration %>
+
+
+<%= I18n.t('activerecord.attributes.first_year_assessment.breaking_off') %>
+<%= @assessment.breaking_off %>
+
+
+<%= I18n.t('activerecord.attributes.first_year_assessment.breaking_reason') %>
+<%= @assessment.human_breaking_reason %>
+
+
+<%= I18n.t('activerecord.attributes.first_year_assessment.goal_1') %>
+<%= @assessment.human_goal_1 %>
+
+
+<%= I18n.t('activerecord.attributes.first_year_assessment.goal_2') %>
+<%= @assessment.human_goal_2 %>
+
+
+<%= I18n.t('activerecord.attributes.first_year_assessment.goal_3') %>
+<%= @assessment.human_goal_3 %>
+
+
+<%= I18n.t('activerecord.attributes.first_year_assessment.improvements') %>
+<%= @assessment.human_improvements %>
+
+
+<%= I18n.t('activerecord.attributes.first_year_assessment.mentor_stays') %>
+<%= @assessment.mentor_stays %>
+
+
+<%= I18n.t('activerecord.attributes.first_year_assessment.note') %>
+<%= @assessment.human_note %>
+
+
+Herzliche Gruesse
+das Future Kids Team

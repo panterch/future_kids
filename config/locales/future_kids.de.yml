@@ -16,6 +16,7 @@ de:
       site: 'Seitenweite Konfiguration'
       substitutions: 'Ersatz'
       substitution: 'Ersatz'
+      first_year_assessment: "Auswertungsgespräch"
 
     attributes:
       kid:
@@ -90,6 +91,27 @@ de:
         outcome: "Abmachungen"
         note: "Beobachtungen / Anmerkungen"
         attendee: "Teilnehmer"
+      first_year_assessment:
+        held_at: "Datum"
+        kid: "Kind"
+        teacher: "Lehrperson"
+        mentor: "Mentor/in"
+        duration: "Dauer des Gesprächs"
+        development_teacher: "Wie ist die schulische Entwicklung des Kindes seit Beginn von Future Kids, insbesondere im Hinblick auf die gesetzten fachlichen Lernziele zu beurteilen? (Sicht Lehrperson)"
+        development_mentor: "Wie ist die schulische Entwicklung des Kindes seit Beginn von Future Kids, insbesondere im Hinblick auf die gesetzten fachlichen Lernziele zu beurteilen? (Sicht Mentor/in)"
+        goals_teacher: "Wie hat sich das Kind im Hinblick auf die gesetzten überfachlichen Lernziele entwickelt?"
+        goals_mentor: "Wie hat sich das Kind im Hinblick auf die gesetzten überfachlichen Lernziele entwickelt?"
+        relation_mentor: "Wie nimmt der/die Mentor/in die persönliche Beziehung zum Kind wahr?"
+        motivation: "Wie beurteilt der/die Mentor/in die Arbeitshaltung des Kindes?"
+        collaboration: "Wie beurteilt er/sie die Zusammenarbeit mit der Familie (zB. Erreichbarkeit, Zuverlässigkeit)?"
+        breaking_off: "Wird ein vorzeitiger Abbruch empfohlen?"
+        breaking_reason: "Wenn ja: Von wem und weshalb?"
+        goal_1: "Fachliche Lernziele für das zweite Future Kids-Jahr"
+        goal_2: "Überfachliche Lernziele für das zweite Future Kids-Jahr"
+        goal_3: "Weitere Lernziele"
+        improvements: "Welche Verbesserungsmöglichkeiten gibt es in der Zusammenarbeit zwischen Lehrperson und Mentor/in?"
+        mentor_stays: "Bleibt der/die Mentor/in weiterhin bei Future Kids?"
+        note: "Weitere Bemerkungen"
       user:
         email: "E-Mail"
         password: Passwort
@@ -218,6 +240,7 @@ de:
       show_kid_mentors_schedules: Mentor finden
       new_journal: Neues Lernjournal
       new_review: Neues Gespräch
+      new_first_year_assessment: Neues Auswertungsgespräch
       comment: Kommentieren
       index: "Zurück zur Liste"
       xlsx: "Excel Export"

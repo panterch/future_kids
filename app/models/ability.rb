@@ -55,6 +55,8 @@ class Ability
       # reviews can be edited by mentors who are associated with the kids
       # about whom the entry is
       can :manage, Review, kid: { mentor_id: user.id }
+      can :manage, FirstYearAssessment, kid: { mentor_id: user.id }
+      can :manage, FirstYearAssessment, kid: { secondary_mentor_id: user.id }
       # has read access to teachers he is connected
       can :read, Teacher, kids: { mentor_id: user.id }
       can :read, Teacher, secondary_kids: { mentor_id: user.id }
@@ -82,6 +84,9 @@ class Ability
       can :read, Journal, kid: { teacher_id: user.id }
       can :read, Journal, kid: { secondary_teacher_id: user.id }
       can :read, Journal, kid: { third_teacher_id: user.id }
+      can :read, FirstYearAssessment, kid: { teacher_id: user.id }
+      can :read, FirstYearAssessment, kid: { secondary_teacher_id: user.id }
+      can :read, FirstYearAssessment, kid: { third_teacher_id: user.id }
 
     elsif user.is_a?(Principal)
       # own record may be read
@@ -111,6 +116,7 @@ class Ability
       can :destroy, Journal
       can :destroy, KidMentorRelation
       can :destroy, Review
+      can :destroy, FirstYearAssessment
     end
 
     # special manage definition for mentors - OVERWRITING even the global

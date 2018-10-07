@@ -21,6 +21,16 @@
           .list-group-item
             = link_to review.display_name, :anchor => dom_id(review)
 
+  .panel.panel-default
+    .panel-heading
+      %h4.panel-title(data-toggle="collapse" data-target="#collapseFirstYearAssessments")
+        Auswertungsgespräche
+        %span.badge.pull-right=@kid.first_year_assessments.size
+    #collapseFirstYearAssessments.collapse.list-group.kidanchors
+      - @kid.first_year_assessments.each do |assessment|
+        .list-group-item
+          = link_to assessment.display_name, :anchor => dom_id(assessment)
+
 = show_for @kid do |show|
   = show.attribute :name
   = show.attribute :prename
@@ -92,7 +102,7 @@
       .btn-group.pull-right
         - if can?(:edit, journal)
           = link_to 'Bearbeiten', edit_kid_journal_path(@kid, journal), class: 'btn btn-default'
-        - if can?(:delete, journal)
+        - if current_user.is_a?(Admin)
           = link_to "Löschen", kid_journal_path(@kid, journal), { :method => :delete, :class => 'btn btn-default', data: { confirm: "Sind Sie sicher?" } }
         - if can?(:create, Comment)
           = link_to 'Kommentieren', new_kid_journal_comment_path(@kid, journal), class: 'btn btn-default'
@@ -132,7 +142,7 @@
         .btn-group.pull-right
           - if can?(:edit, review)
             = link_to 'Bearbeiten', edit_kid_review_path(@kid, review), class: 'btn btn-default'
-          - if can?(:delete, review)
+          - if current_user.is_a?(Admin)
             = link_to "Löschen", kid_review_path(@kid, review), { :method => :delete, :class => 'btn btn-default', data: { confirm: "Sind Sie sicher?" } }
         %h4= review.display_name
       .panel-body
@@ -143,3 +153,41 @@
           = review_show.attribute :content
           = review_show.attribute :outcome
           = review_show.attribute :note
+
+
+%h2#half_year_assessments
+  Auswertungsgespräche
+  - if can?(:create, @cancan_half_year_assessment)
+    =link_to 'Neues Auswertungsgespräch', new_kid_first_year_assessment_path(@kid), class: 'btn btn-default pull-right'
+- @kid.first_year_assessments.each do |assessment|
+  .panel.panel-default[assessment]
+    .panel-heading
+      .btn-group.pull-right
+        - if can?(:edit, assessment)
+          = link_to 'Bearbeiten', edit_kid_first_year_assessment_path(@kid, assessment), class: 'btn btn-default'
+        - if current_user.is_a?(Admin)
+          = link_to "Löschen", kid_first_year_assessment_path(@kid, assessment), { :method => :delete, :class => 'btn btn-default', data: { confirm: "Sind Sie sicher?" } }
+      %h4= assessment.display_name
+    .panel-body
+      = show_for assessment do |assessment_show|
+        = assessment_show.attribute :held_at
+        = assessment_show.attribute :mentor do
+          = can_link_to(assessment.mentor)
+        = assessment_show.attribute :teacher do
+          = can_link_to(assessment.teacher)
+        = assessment_show.attribute :duration
+        = assessment_show.attribute :development_teacher
+        = assessment_show.attribute :development_mentor
+        = assessment_show.attribute :goals_teacher
+        = assessment_show.attribute :goals_mentor
+        = assessment_show.attribute :relation_mentor
+        = assessment_show.attribute :motivation
+        = assessment_show.attribute :collaboration
+        = assessment_show.attribute :breaking_off
+        = assessment_show.attribute :breaking_reason
+        = assessment_show.attribute :goal_1
+        = assessment_show.attribute :goal_2
+        = assessment_show.attribute :goal_3
+        = assessment_show.attribute :improvements
+        = assessment_show.attribute :mentor_stays
+        = assessment_show.attribute :note

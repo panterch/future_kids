@@ -70,4 +70,10 @@ describe 'FactoryBot' do
     it('should be valid') { expect(relation_log).to be_valid }
     it('should be persistable') { expect(relation_log.save!).to be_truthy }
   end
+
+  describe 'a first_year_assessment by factory' do
+    let(:first_year_assessment) { build(:first_year_assessment) }
+    it('should be valid') { expect(first_year_assessment).to be_valid }
+    it('should be persistable') { expect(first_year_assessment.save!).to be_truthy }
+  end
 end

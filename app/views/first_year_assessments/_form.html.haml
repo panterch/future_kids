@@ -1,0 +1,32 @@
+
+= simple_form_for [@kid, @first_year_assessment] do |form|
+  .form-group.string.optional.document_category
+    %label.string.optional.col-sm-3.control-label
+      Inhalt des Gespräches
+    .col-sm-9
+      %p Reflektion des vergangenen ersten Future Kids-Jahres. Zielsetzung für das kommende zweite Future Kids-Jahr.
+      %p Teilnahmedauer bei Future Kids ist regulär zwei Jahre. Ein Abbruch nach einem Jahr ist in begründeten Ausnahmefällen möglich, die definitive Entscheidung darüber liegt beim Future Kids-Büro.
+      %p Ist das Kind erst kürzlich bei der beurteilenden Lehrperson im Unterricht, bitten wir die Lehrperson, die fehlenden Informationen bei der vorherigen Lehrperson einzuholen.
+  = form.input :held_at
+  = form.association :teacher, collection: teacher_collection(@kid)
+  = form.association :mentor, collection: mentor_collection(@kid)
+  = form.input :duration, collection: duration_collection
+  = form.input :development_teacher
+  = form.input :development_mentor
+  = form.input :goals_teacher
+  = form.input :goals_mentor
+  = form.input :relation_mentor
+  = form.input :motivation
+  = form.input :collaboration
+  = form.input :breaking_off, collection: boolean_collection
+  = form.input :breaking_reason
+  = form.input :goal_1
+  = form.input :goal_2
+  = form.input :goal_3
+  = form.input :improvements
+  = form.input :mentor_stays, collection: boolean_collection
+  = form.input :note
+
+
+  .col-sm-offset-3.col-sm-9
+    = form.button :submit

@@ -16,6 +16,7 @@ class Kid < ApplicationRecord
 
   has_many :journals
   has_many :reviews
+  has_many :first_year_assessments
   has_many :reminders
   has_many :schedules, as: :person
   has_many :relation_logs

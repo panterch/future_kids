@@ -56,12 +56,24 @@ module ApplicationHelper
     Admin.active.map { |a| [a.display_name, a.id] }
   end
 
-  def mentor_collection
-    Mentor.active.map { |m| [m.display_name, m.id] }
+  # collection suitable for select form fields
+  # returns all active teachers or if kid is given teachers of the kid itself
+  def mentor_collection(kid = nil)
+    if kid
+      collection = [ kid.mentor, kid.secondary_mentor].compact
+    else
+      collection = Mentor.active
+    end
+    collection.map { |m| [m.display_name, m.id] }
   end
 
-  def teacher_collection
-    Teacher.active.map { |t| [t.display_name, t.id] }
+  def teacher_collection(kid = nil)
+    if kid
+      collection = [ kid.teacher, kid.secondary_teacher, kid.third_teacher].compact
+    else
+      collection = Teacher.active
+    end
+    collection.map { |t| [t.display_name, t.id] }
   end
 
   def order_by_collection_for_kids(selected)
@@ -92,6 +104,16 @@ module ApplicationHelper
   def criticality_collection
     (1..3).map { |i| [I18n.t(i, scope: 'kids.criticality'), i] }
   end
+
+  def duration_collection
+    [
+        ['30 Minuten', 30],
+        ['1 Stunde', 60],
+        ['1½ Stunden', 90],
+        ['2 Stunden', 120]
+    ]
+  end
+
 
   def kind_collection
     ['bei Familie zu Hause',
