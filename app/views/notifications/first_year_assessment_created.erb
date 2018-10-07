@@ -2,18 +2,35 @@ Liebe Coaches
 
 Es wurde ein neues Auswertungsgespräch auf der Future Kids-Onlineplattform angelegt:
 
-Schüler/in:   <%= @assessment.kid.display_name %>
+<p>
+Schüler/in:
+<%= @assessment.kid.display_name %>
+</p>
 
-Mentor/in:    <%= @assessment.mentor.display_name %>
+<p>
+Mentor/in:
+<%= @assessment.mentor.display_name %>
+</p>
 
-Lehrperson:   <%= @assessment.teacher.display_name %>
+<p>
+Lehrperson:
+<%= @assessment.teacher.display_name %>
+</p>
 
-Gespräch:     <%= @assessment.display_name %>
+<p>
+Gespräch:
+<%= @assessment.display_name %>
+</p>
 
-Link:         <%= kid_url(@assessment.kid)+"#first_year_assessment_#{@assessment.id}" %>
+<p>
+Link:
+<%= kid_url(@assessment.kid)+"#first_year_assessment_#{@assessment.id}" %>
+</p>
 
-Datum:        <%= I18n.l(@assessment.held_at) if @assessment.held_at %>
-
+<p>
+Datum:
+<%= I18n.l(@assessment.held_at) if @assessment.held_at %>
+</p>
 
 <%= I18n.t('activerecord.attributes.first_year_assessment.development_teacher') %>
 <%= @assessment.human_development_teacher %>
