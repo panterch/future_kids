@@ -46,7 +46,7 @@ class Notifications < ActionMailer::Base
     @assessment = assessment
     recipients = []
     recipients << assessment.kid.admin&.email
-    recipients << Site.first_or_create.comment_bcc
-    mail to: recipients
+    recipients << I18n.t('notifications.default_email')
+    mail to: recipients.compact
   end
 end

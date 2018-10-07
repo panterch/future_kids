@@ -41,7 +41,11 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_bot_rails'
   gem 'factory_bot'
-  gem 'selenium-webdriver' # make sure to upgrade chromedriver too when upgrading this gem
+  gem 'selenium-webdriver'
+  # make sure to update chromedriver on your local system and on travis
+  # - chromedriver-update
+  # - .travis.yml
+  gem 'chromedriver-helper'
   gem 'database_cleaner'
   gem 'rails-controller-testing'
 end

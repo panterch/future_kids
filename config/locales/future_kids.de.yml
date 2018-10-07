@@ -219,6 +219,8 @@ de:
       subject: "BITTE BEACHTEN: Neuer Lernjournal Kommentar"
     journals_created:
       subject: Neue Lernjournale
+    first_year_assessment_created:
+      subject: "Neues Auswertungsgespräch"
     default_email: 'Future Kids <futurekids-tech@panter.ch>'
     important_subject: 'Wichtiges Lernjournal - bitte sofort lesen.'
 
