@@ -6,7 +6,8 @@
       = contextual_link_to :new_journal, new_kid_journal_path(@kid)
     - if can? :create, @cancan_review
       = contextual_link_to :new_review, new_kid_review_path(@kid)
-    = contextual_link_to :new_first_year_assessment, new_kid_first_year_assessment_path(@kid)
+    - if can? :create, @cancan_first_year_assessment
+      = contextual_link_to :new_first_year_assessment, new_kid_first_year_assessment_path(@kid)
     = contextual_link_to :edit_schedules
     = contextual_link_to :show_kid_mentors_schedules
 

@@ -1,7 +1,7 @@
 
 = simple_form_for [@kid, @first_year_assessment] do |form|
   .form-group.string.optional.document_category
-    %label.string.optional.col-sm-3.control-label
+    %label.string.col-sm-3.control-label
       Inhalt des Gespräches
     .col-sm-9
       %p Reflektion des vergangenen ersten Future Kids-Jahres. Zielsetzung für das kommende zweite Future Kids-Jahr.
@@ -11,8 +11,14 @@
   = form.association :teacher, collection: teacher_collection(@kid)
   = form.association :mentor, collection: mentor_collection(@kid)
   = form.input :duration, collection: duration_collection
+  %label.string.col-sm-3.control-label
+  .col-sm-9
+    %h4=t('activerecord.attributes.first_year_assessment.development')
   = form.input :development_teacher
   = form.input :development_mentor
+  %label.string.col-sm-3.control-label
+  .col-sm-9
+    %h4=t('activerecord.attributes.first_year_assessment.goals')
   = form.input :goals_teacher
   = form.input :goals_mentor
   = form.input :relation_mentor

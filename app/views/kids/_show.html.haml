@@ -176,8 +176,14 @@
         = assessment_show.attribute :teacher do
           = can_link_to(assessment.teacher)
         = assessment_show.attribute :duration
+        .wrapper
+          .col-sm-offset-3
+            %h4=t('activerecord.attributes.first_year_assessment.development')
         = assessment_show.attribute :development_teacher
         = assessment_show.attribute :development_mentor
+        .wrapper
+          .col-sm-offset-3
+            %h4=t('activerecord.attributes.first_year_assessment.goals')
         = assessment_show.attribute :goals_teacher
         = assessment_show.attribute :goals_mentor
         = assessment_show.attribute :relation_mentor

@@ -130,6 +130,7 @@ class KidsController < ApplicationController
     @cancan_journal = Journal.new(kid: @kid)
     @cancan_review = Review.new(kid: @kid)
     @cancan_journal.mentor = current_user if current_user.is_a?(Mentor)
+    @cancan_first_year_assessment = FirstYearAssessment.new(kid: @kid)
   end
 
   private
