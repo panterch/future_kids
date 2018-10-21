@@ -24,7 +24,7 @@ gem 'sassc-rails'
 gem 'coffee-rails'
 gem 'uglifier'
 gem 'i18n-active_record'
-gem 'panter-rails-deploy'
+gem 'panter-rails-deploy', '=1.3.4' # pinned because of rubyracer dependency on servers
 gem 'countries'
 gem 'country_select'
 
