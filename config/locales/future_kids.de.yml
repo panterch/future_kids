@@ -233,6 +233,8 @@ de:
       subject: Neue Lernjournale
     first_year_assessment_created:
       subject: "Neues Auswertungsgespräch"
+    termination_assessment_created:
+      subject: "Neues Abschlussgespräch"
     default_email: 'Future Kids <futurekids-tech@panter.ch>'
     important_subject: 'Wichtiges Lernjournal - bitte sofort lesen.'
 
