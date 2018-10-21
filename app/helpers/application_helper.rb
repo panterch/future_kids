@@ -114,6 +114,9 @@ module ApplicationHelper
     ]
   end
 
+  def trinary_collection
+    %w(yes no partially).map { |s| [I18n.t(s, scope: 'trinary'), s] }
+  end
 
   def kind_collection
     ['bei Familie zu Hause',

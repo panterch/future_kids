@@ -1,0 +1,19 @@
+
+= simple_form_for [@kid, @termination_assessment] do |form|
+  .form-group.string.optional.document_category
+    %label.string.col-sm-3.control-label
+      Inhalt des Gespräches
+    .col-sm-9
+      %p Reflektion und Resümee der vergangenen zwei Future Kids-Jahren.
+      %p Ist das Kind erst kürzlich bei der beurteilenden Lehrperson im Unterricht, bitten wir die Lehrperson, die fehlenden Informationen bei der vorherigen Lehrperson einzuholen.
+  = form.input :held_at
+  = form.association :teacher, collection: teacher_collection(@kid)
+  = form.input :development
+  = form.input :goals
+  = form.input :goals_reached, collection: trinary_collection
+  = form.input :note
+  = form.input :improvements
+  = form.input :collaboration
+
+  .col-sm-offset-3.col-sm-9
+    = form.button :submit

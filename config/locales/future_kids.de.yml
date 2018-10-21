@@ -17,6 +17,7 @@ de:
       substitutions: 'Ersatz'
       substitution: 'Ersatz'
       first_year_assessment: "Auswertungsgespräch"
+      termination_assessment: "Abschlussgespräch"
 
     attributes:
       kid:
@@ -113,6 +114,16 @@ de:
         goal_3: "Weitere Lernziele"
         improvements: "Verbesserungs- möglichkeiten in der Zusammenarbeit zwischen LP und Mentor/in?"
         mentor_stays: "Bleibt der/die Mentor/in weiterhin bei Future Kids?"
+        note: "Weitere Bemerkungen"
+      termination_assessment:
+        held_at: "Datum"
+        kid: "Kind"
+        teacher: "Lehrperson"
+        development: "Wie ist die schulische Entwicklung des Kindes seit Beginn von Future Kids, insbesondere im Hinblick auf die gesetzten fachlichen Lernziele?"
+        goals: "Wie ist die persönliche Entwicklung des Kindes seit Beginn von Future Kids, insbesondere im Hinblick auf die gesetzten überfachlichen Lernziele?"
+        goals_reached: "Konnte das Kind in den zwei Jahren die gesetzten Lernziele erreichen?"
+        collaboration: "Wie beurteilen Sie die Zusammenarbeit mit der Mentor/in?"
+        improvements: "Was ist in der verbleibenden Future Kids-Zeit wichtig zu beachten? Auf welche Themen sollte eingegangen werden?"
         note: "Weitere Bemerkungen"
       user:
         email: "E-Mail"
@@ -244,6 +255,7 @@ de:
       new_journal: Neues Lernjournal
       new_review: Neues Gespräch
       new_first_year_assessment: Neues Auswertungsgespräch
+      new_termination_assessment: Neues Abschlussgespräch
       comment: Kommentieren
       index: "Zurück zur Liste"
       xlsx: "Excel Export"
@@ -262,3 +274,7 @@ de:
     principal: 'SL/QUIMS'
     document: 'Anleitungen & Dokumente'
 
+  trinary:
+    'yes': Ja
+    'no': Nein
+    partially: Teilweise

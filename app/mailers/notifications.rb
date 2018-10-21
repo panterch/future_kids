@@ -49,4 +49,12 @@ class Notifications < ActionMailer::Base
     recipients << I18n.t('notifications.default_email')
     mail to: recipients.compact
   end
+
+  def termination_assessment_created(assessment)
+    @assessment = assessment
+    recipients = []
+    recipients << assessment.kid.admin&.email
+    recipients << I18n.t('notifications.default_email')
+    mail to: recipients.compact
+  end
 end

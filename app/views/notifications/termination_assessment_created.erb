@@ -1,0 +1,55 @@
+Liebe Coaches
+
+Es wurde ein neues Abschlussgespräch auf der Future Kids-Onlineplattform angelegt:
+
+<p>
+  Schüler/in:
+  <%= @assessment.kid.display_name %>
+</p>
+
+<p>
+  Lehrperson:
+  <%= @assessment.teacher.display_name %>
+</p>
+
+<p>
+  Gespräch:
+  <%= @assessment.display_name %>
+</p>
+
+<p>
+  Link:
+  <%= kid_url(@assessment.kid)+"#termination_assessment_#{@assessment.id}" %>
+</p>
+
+<p>
+  Datum:
+  <%= I18n.l(@assessment.held_at) if @assessment.held_at %>
+</p>
+
+<%= I18n.t('activerecord.attributes.termination_assessment.development') %>
+<%= @assessment.human_development %>
+
+
+<%= I18n.t('activerecord.attributes.termination_assessment.goals') %>
+<%= @assessment.human_goals %>
+
+
+<%= I18n.t('activerecord.attributes.termination_assessment.goals_reached') %>
+<%= @assessment.human_goals_reached %>
+
+
+<%= I18n.t('activerecord.attributes.termination_assessment.note') %>
+<%= @assessment.human_note %>
+
+
+<%= I18n.t('activerecord.attributes.termination_assessment.collaboration') %>
+<%= @assessment.human_collaboration %>
+
+
+<%= I18n.t('activerecord.attributes.termination_assessment.improvements') %>
+<%= @assessment.human_improvements %>
+
+
+Herzliche Gruesse
+das Future Kids Team

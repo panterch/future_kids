@@ -84,9 +84,9 @@ class Ability
       can :read, Journal, kid: { teacher_id: user.id }
       can :read, Journal, kid: { secondary_teacher_id: user.id }
       can :read, Journal, kid: { third_teacher_id: user.id }
-      can :read, FirstYearAssessment, kid: { teacher_id: user.id }
-      can :read, FirstYearAssessment, kid: { secondary_teacher_id: user.id }
-      can :read, FirstYearAssessment, kid: { third_teacher_id: user.id }
+      can :manage, TerminationAssessment, kid: { teacher_id: user.id }
+      can :manage, TerminationAssessment, kid: { secondary_teacher_id: user.id }
+      can :manage, TerminationAssessment, kid: { third_teacher_id: user.id }
 
     elsif user.is_a?(Principal)
       # own record may be read
@@ -117,6 +117,7 @@ class Ability
       can :destroy, KidMentorRelation
       can :destroy, Review
       can :destroy, FirstYearAssessment
+      can :destroy, TerminationAssessment
     end
 
     # special manage definition for mentors - OVERWRITING even the global

@@ -16,6 +16,7 @@ Rails.application.routes.draw do
     end
     resources :reviews
     resources :first_year_assessments
+    resources :termination_assessments
     member do
       get 'edit_schedules'
       get 'show_kid_mentors_schedules'
