@@ -183,7 +183,7 @@ GEM
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
     kgio (2.11.2)
-    libv8 (3.16.14.19-x86_64-darwin-15)
+    libv8 (3.16.14.19)
     loofah (2.2.2)
       crass (~> 1.0.2)
       nokogiri (>= 1.5.9)
