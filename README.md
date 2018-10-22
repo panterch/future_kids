@@ -1,40 +1,23 @@
 [![Build Status](https://travis-ci.org/panterch/future_kids.svg?branch=master)](http://travis-ci.org/panterch/future_kids)
 
-Future Kids fördert Primarschüler/innen, welche zu Hause bei schulischen
-Aufgaben kaum oder keine Unterstützung erhalten. Dieser Heimnachteil
-beeinträchtigt Kinder nachweislich in ihrer gesamten schulischen Laufbahn. Zur
-Verbesserung der Chancengleichheit stellt ihnen Future Kids eine Student/in
-oder einen Studenten zur Seite. Diese Mentorin bzw. dieser Mentor besucht das
-Kind einmal pro Woche während 11⁄2 Stunden zuhause, um es beim Lernen bzw. beim
-selbständigen Gebrauch geeigneter Lerntechniken voran zu bringen.
+# Future Kids
 
-Die externen Unterstützer/innen bzw. Mentor/innen sind Student/innen der
-Zürcher Hochschulen (Universität Zürich, Eidgenössische Technische Hochschule,
-Pädagogische Hochschule Zürich, Institut Unterstrass an der Pädagogischen
-Hochschule Zürich, Zürcher Hochschulen für angewandte Wissenschaften). Sie
-unterstützen die ausgewählten Schulkinder mindestens über einen einjährigen,
-wenn möglich über einen mehrjährigen Zeitraum hinweg. Dafür erhalten sie eine
-finanzielle Entschädigung oder ECTS Kreditpunkte.
+Future Kids supports primary school students who receive little or no support at school for their school assignments. This home disadvantage has been proven to affect children throughout their school career. To improve equality of opportunity, Future Kids puts a student or a student aside. 
+This mentor visits the child once a week for 11/2 hours at home to help them learn or use independent learning techniques.
 
-Erste Erfahrungen während der Pilotphase 2010/11 in der Zürcher Schule
-Allenmoos deuten darauf hin, dass das Future Kids Angebot sowohl von Eltern und
-Lehrpersonen als auch von Kindern sehr geschätzt wird. Der individualisierte
-Zugang und die Orientierung an den spezifischen Bedürfnissen der einzelnen
-Schüler/innen erweisen sich als Stärken des Projektes.
+## Mentors
+The external supporters and / or mentors are students of the Zurich universities:
+* University of Zurich, Swiss Federal Institute of Technology,
+* Zurich University of Teacher Education, Institute of Understrass at the Zurich University of Education
+* Zurich University of Applied Sciences.
 
-Future Kids versteht sich als Modellvorhaben: Am Hochschulstandort Zürich soll
-im grossen Stil erprobt und gezeigt werden, wie der Schulerfolg von Kindern aus
-benachteiligten Verhältnissen mit einer geeigneten ausserschulischen
-Unterstützung markant zu verbessern ist.
+They support the selected school children for at least one year, if possible over a period of several years. For this they receive a financial compensation or ECTS credits.
 
-Initiatorin und Organisatorin von Future Kids ist die Fachorganisation AOZ,
-eine selbständige öffentlich-rechtliche Anstalt der Stadt Zürich. Mitgetragen
-wird das Projekt vom Sozialdepartement der Stadt Zürich (Startfinanzierung),
-von der Stiftung mercator (Interesse), vom Departement für
-Erziehungswissenschaften der Universität Zürich (Interesse) und vom Institut
-Unterstrass der Pädagogischen Hochschule Zürich (Zusammenarbeitsvereinbarung).
+First experiences during the pilot phase 2010/11 in the Zurich school Allenmoos indicate that the Future Kids offer is highly appreciated by both parents and teachers as well as children. Individualized access and orientation to the specific needs of each pupil prove to be strengths of the project.
 
-Die AOZ strebt die nachhaltige institutionelle Verankerung von Future Kids als
-Angebot der schulergänzenden Lern- und Integrationsförderung an. Dazu sind im
-Raum Zürich bis im Jahr 2015 die zuständigen Behörden und Verwaltungseinheiten
-in die Verantwortung einzubinden.
+Future Kids sees itself as a model project: At the university location in Zurich, it will be tested and shown on a large scale how the school success of children from disadvantaged backgrounds with a suitable extra-curricular support can be markedly improved.
+
+## Initiator
+The initiator and organizer of Future Kids is the specialist organization AOZ, an independent public-law institution of the city of Zurich. The project is supported by the Social Department of the City of Zurich (start-up funding), by the mercator (interest) foundation, the Department of Educational Sciences of the University of Zurich (interest) and by the Unterstrass Institute of the Zurich University of Teacher Education (cooperation agreement).
+
+The AOZ aims for the sustainable institutional anchoring of Future Kids as an offer of school-supplementary learning and integration promotion. For this purpose, the competent authorities and administrative units in the Zurich area are to be included in the responsibility until 2015.
