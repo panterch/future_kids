@@ -3,7 +3,7 @@
 # Future Kids
 
 Future Kids supports primary school students who receive little or no support at school for their school assignments. This home disadvantage has been proven to affect children throughout their school career. To improve equality of opportunity, Future Kids puts a student or a student aside. 
-This mentor visits the child once a week for 11/2 hours at home to help them learn or use independent learning techniques.
+This mentor visits the child once a week for 1 1/2 hours at home to help them learn or use independent learning techniques.
 
 ## Mentors
 The external supporters and / or mentors are students of the Zurich universities:
@@ -11,7 +11,7 @@ The external supporters and / or mentors are students of the Zurich universities
 * Zurich University of Teacher Education, Institute of Understrass at the Zurich University of Education
 * Zurich University of Applied Sciences.
 
-They support the selected school children for at least one year, if possible over a period of several years. For this they receive a financial compensation or ECTS credits.
+They support the selected school children for at least one year, but if possible support them for over a period of several years. In return, they receive a financial compensation or ECTS credits.
 
 First experiences during the pilot phase 2010/11 in the Zurich school Allenmoos indicate that the Future Kids offer is highly appreciated by both parents and teachers as well as children. Individualized access and orientation to the specific needs of each pupil prove to be strengths of the project.
 
