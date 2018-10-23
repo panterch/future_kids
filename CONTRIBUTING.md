@@ -1,19 +1,37 @@
-How to contribute to Future Kids
+# Contributing to Future Kids
 
-Thanks for your interest on contributing to future_kids! Here are a few general guidelines on contributing and reporting bugs/issues to future_kids that you should know before contributing.
+Looking forward to contribute to future kids? Then please take a moment to review this document in order to make the contribution process easy and effective for everyone involved.
 
-Reporting Issues
-Before reporting a new issue, please be sure that the issue wasn't already reported or fixed by searching on GitHub through our issues(https://github.com/panterch/future_kids/issues).
+Here are some guidelines that needs to be followed:
 
-When creating a new issue, be sure to include a title and clear description, as much relevant information as possible, and either a test case example that replicates the issue - we need as much context and details as possible to identify what might be broken for you.
+## Pre-requisite
+* Rails , preferable with rbenv wrapper
+* Postgresql
+* ImageMagick
 
-Avoid opening new issues to ask questions in our issues tracker. Please go through the project, documentation and source code first.
+## Issue Tracker
 
+* Please be sure that you verify if there is any [issue](https://github.com/panterch/future_kids/issues) reported or fixed before reporting a new [issue](https://github.com/panterch/future_kids/issues).
+* Please make sure that __clear title__ and __description__ is given while creating new issue.
 
-Sending Pull Requests
+## Installation Instructions and Pull Requests
 
-Before sending a new Pull Request, take a look on existing Pull Requests and Issues to see if the proposed change or fix has been discussed in the past, or if the change has been already implemented but not yet released.
+Please follow the below process to share your contribution via PR.
 
-We expect new Pull Requests to include enough tests for new or changed behavior.
+1. [Fork](https://help.github.com/articles/fork-a-repo) the repository, and configure the remotes:
+    ```
+    # Clone your fork of the repo into the current directory
+    git clone https://github.com/panterch/future_kids.git
+    # Navigate to the newly cloned directory
+    cd future_kids
+    ```
+2. After cloning, the ruby version is configured in .ruby-version, then its dependencies are installed as follows:
+    ```
+    bundle install
+    bundle exec rake db:create db:migrate db:seed
+    bundle exec rails server
+    ```
+3. Make your contributions.
+4. [Open a Pull Request](https://help.github.com/articles/about-pull-requests/) with __clear title__ and __description__ against the _master_ branch.
 
-If your Pull Request includes new or changed behavior, be sure that the changes are covering wide range of use cases.
+__Note:__ It would be great to have an automated tests included and running test suite.
