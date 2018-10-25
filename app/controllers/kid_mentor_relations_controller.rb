@@ -7,7 +7,9 @@ class KidMentorRelationsController < ApplicationController
     #
     # all fields to filter here have to be present in the sql view
     @kid_mentor_relation = KidMentorRelation.new(filter_params)
-    @kid_mentor_relations = @kid_mentor_relations.where(filter_params.to_h.delete_if { |_key, val| val.blank? })
+    @kid_mentor_relations = @kid_mentor_relations.where(filter_params.to_h.delete_if do |key, val|
+      !KidMentorRelation.column_names.include?(key.to_s) || val.blank?
+    end)
     if params['order_by'] && valid_order_by?(Kid, params['order_by'])
       @kid_mentor_relations = @kid_mentor_relations.reorder(params['order_by'])
     else
