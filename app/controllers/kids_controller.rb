@@ -25,7 +25,7 @@ class KidsController < ApplicationController
       # build a where condition out of all parameters supplied for kid
       params[:kid] ||= {}
       params[:kid][:inactive] = '0' if params[:kid][:inactive].nil?
-      @kids = @kids.where(kid_params.to_h.delete_if { |_key, val| val.blank? })
+      @kids = @kids.where(kid_params.to_h.delete_if { |key, val| !Kid.column_names.include?(key.to_s) || val.blank? })
       # reorder the kids according to the supplied parameter
 
       if params['order_by'] && valid_order_by?(Kid, params['order_by'])
