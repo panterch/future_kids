@@ -14,16 +14,16 @@ feature 'TEACHER::CREATE:TERMINATION_ASSESSMENT', '
   end
 
   scenario 'fill in default data value' do
-    click_link 'Neues Abschlussgespräch'
+    click_link 'Neues Abschluss-Feedback'
     expect(page.status_code).to eq(200)
     expect(find_field('* Lehrperson', type: :select).text).to match(@teacher.name)
   end
 
   scenario 'should create a new assessment with required values' do
-    click_link 'Neues Abschlussgespräch'
-    click_button 'Abschlussgespräch erstellen'
+    click_link 'Neues Abschluss-Feedback'
+    click_button 'Abschluss-Feedback erstellen'
     expect(page.status_code).to eq(200)
-    expect(page).to have_css('h4', text: 'Abschlussgespräch vom ')
+    expect(page).to have_css('h4', text: 'Abschluss-Feedback vom ')
     expect(ActionMailer::Base.deliveries.length).to eq(1)
   end
 

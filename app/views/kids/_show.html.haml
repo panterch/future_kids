@@ -24,7 +24,7 @@
   .panel.panel-default
     .panel-heading
       %h4.panel-title(data-toggle="collapse" data-target="#collapseFirstYearAssessments")
-        Auswertungsgespräche
+        Jahresrückblick
         %span.badge.pull-right=@kid.first_year_assessments.size+@kid.termination_assessments.size
     #collapseFirstYearAssessments.collapse.list-group.kidanchors
       - @kid.first_year_assessments.each do |assessment|
@@ -125,7 +125,6 @@
         = journal_show.attribute :method
         = journal_show.attribute :outcome
         = journal_show.attribute :note
-        -# everybody that has access to the journal (even read) may comment on it
 
     .list-group
       - journal.comments.each do |comment|
@@ -159,7 +158,7 @@
 
 
 %h2#assessments
-  Auswertungsgespräche
+  Jahresrückblick
 
 - @kid.first_year_assessments.each do |assessment|
   .panel.panel-default[assessment]
@@ -177,7 +176,6 @@
           = can_link_to(assessment.mentor)
         = assessment_show.attribute :teacher do
           = can_link_to(assessment.teacher)
-        = assessment_show.attribute :duration
         .wrapper
           .col-sm-offset-3
             %h4=t('activerecord.attributes.first_year_assessment.development')

@@ -12,8 +12,8 @@ class TerminationAssessment < ApplicationRecord
   after_create :send_notification
 
   def display_name
-    return 'Neues Abschlussgespräch' if new_record?
-    return "Abschlussgespräch vom #{I18n.l(held_at.to_date)}" if held_at
+    return 'Neues Abschluss-Feedback' if new_record?
+    return "Abschluss-Feedback vom #{I18n.l(held_at.to_date)}" if held_at
   end
 
   def initialize_default_values(kid)

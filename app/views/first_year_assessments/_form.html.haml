@@ -10,7 +10,6 @@
   = form.input :held_at
   = form.association :teacher, collection: teacher_collection(@kid)
   = form.association :mentor, collection: mentor_collection(@kid)
-  = form.input :duration, collection: duration_collection
   %label.string.col-sm-3.control-label
   .col-sm-9
     %h4=t('activerecord.attributes.first_year_assessment.development')

@@ -44,17 +44,11 @@ class Notifications < ActionMailer::Base
 
   def first_year_assessment_created(assessment)
     @assessment = assessment
-    recipients = []
-    recipients << assessment.kid.admin&.email
-    recipients << I18n.t('notifications.default_email')
-    mail to: recipients.compact
+    mail to: I18n.t('notifications.default_email')
   end
 
   def termination_assessment_created(assessment)
     @assessment = assessment
-    recipients = []
-    recipients << assessment.kid.admin&.email
-    recipients << I18n.t('notifications.default_email')
-    mail to: recipients.compact
+    mail to: I18n.t('notifications.default_email')
   end
 end

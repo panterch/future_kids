@@ -17,7 +17,7 @@ de:
       substitutions: 'Ersatz'
       substitution: 'Ersatz'
       first_year_assessment: "Auswertungsgespräch"
-      termination_assessment: "Abschlussgespräch"
+      termination_assessment: "Abschluss-Feedback"
 
     attributes:
       kid:
@@ -98,10 +98,10 @@ de:
         teacher: "Lehrperson"
         mentor: "Mentor/in"
         duration: "Dauer des Gesprächs"
-        development: "Entwicklung des Kindes im Hinblick auf fachliche Lernziele"
+        development: "Schulische Entwicklung des Kindes, insbesondere im Hinblick auf die fachlichen Lernziele"
         development_teacher: "Sicht Lehrperson"
         development_mentor: " Sicht Mentor/in"
-        goals: "Entwicklung des Kindes im Hinblick auf überfachliche Lernziele"
+        goals: "Persönliche Entwicklung des Kindes, insbesondere im Hinblick auf die überfachlichen Lernziele"
         goals_teacher: "Sicht Lehrperson"
         goals_mentor: " Sicht Mentor/in"
         relation_mentor: "Wie nimmt Mentor/in die persönliche Beziehung zum Kind wahr?"
@@ -111,7 +111,7 @@ de:
         breaking_reason: "Wenn ja: Von wem und weshalb?"
         goal_1: "Fachliche Lernziele für das kommende Jahr"
         goal_2: "Überfachliche Lernziele für das kommende Jahr"
-        goal_3: "Weitere Lernziele"
+        goal_3: "Wichtig zu beachten im kommenden Jahr"
         improvements: "Verbesserungs- möglichkeiten in der Zusammenarbeit zwischen LP und Mentor/in?"
         mentor_stays: "Bleibt der/die Mentor/in weiterhin bei Future Kids?"
         note: "Weitere Bemerkungen"
@@ -234,7 +234,7 @@ de:
     first_year_assessment_created:
       subject: "Neues Auswertungsgespräch"
     termination_assessment_created:
-      subject: "Neues Abschlussgespräch"
+      subject: "Neues Abschluss-Feedback"
     default_email: 'Future Kids <futurekids-tech@panter.ch>'
     important_subject: 'Wichtiges Lernjournal - bitte sofort lesen.'
 
@@ -257,7 +257,7 @@ de:
       new_journal: Neues Lernjournal
       new_review: Neues Gespräch
       new_first_year_assessment: Neues Auswertungsgespräch
-      new_termination_assessment: Neues Abschlussgespräch
+      new_termination_assessment: Neues Abschluss-Feedback
       comment: Kommentieren
       index: "Zurück zur Liste"
       xlsx: "Excel Export"
