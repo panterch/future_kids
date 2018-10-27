@@ -188,10 +188,7 @@ describe Ability do
         expect(ability).to be_able_to(:read, create(:teacher,
                                                     secondary_kids: [secondary_kid]))
       end
-      # FIXME cancan accessible_by for mentor - teacher relation
-      # this test does not work, this seems to be a problem in cancan...
       it 'does retrieve teachers that can be read' do
-        skip('accessible_by mentor - teacher broken')
         teacher = create(:teacher, kids: [kid])
         expect(Teacher.accessible_by(ability, :read)).to eq([teacher])
       end
