@@ -1,11 +1,14 @@
 require 'spec_helper'
 
 describe DocumentsController do
+
+  let(:file) { File.new(File.join(Rails.root, 'doc/gespraechsdoku.pdf')) }
+
   context 'as a mentor' do
     before(:each) do
       sign_in create(:mentor)
-      create(:document, title: 'a1', category0: 'a')
-      create(:document, title: 'ax1', category0: 'a', category1: 'x')
+      create(:document, title: 'a1', category0: 'a', attachment: file)
+      create(:document, title: 'ax1', category0: 'a', category1: 'x', attachment: file)
     end
 
     it 'can browse documents' do
@@ -37,7 +40,7 @@ describe DocumentsController do
     end
 
     it 'destroys documents' do
-      document = create(:document, title: 'a1', category0: 'a')
+      document = create(:document, title: 'a1', category0: 'a', attachment: file)
       delete :destroy, params: { id: document.id }
       expect(response).to redirect_to(action: 'index')
       expect(Document.count).to eq(0)

@@ -92,7 +92,9 @@ FactoryBot.define do
     by { 'Commentator' }
   end
 
-  factory :document
+  factory :document do
+    title { 'A document' }
+  end
 
   factory :relation_log do
     association :kid
