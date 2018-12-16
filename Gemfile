@@ -6,7 +6,6 @@ gem 'jquery-rails'
 gem 'jbuilder'
 
 gem 'actionview-encoded_mail_to'
-gem 'axlsx_rails'
 gem 'cancancan'
 gem 'devise'
 gem 'exception_notification'
@@ -28,9 +27,10 @@ gem 'panter-rails-deploy'
 gem 'countries'
 gem 'country_select'
 
-# pin axls to pre-version to force update of rubyzip
-# can be removed as soon version is released
-gem 'axlsx', :git => 'https://github.com/mdavidn/axlsx.git', :ref => 'a0b950ab2e27b1352653078c2c09a0bf94589422'
+# see https://github.com/straydogstudio/axlsx_rails#installation
+gem 'rubyzip', '>= 1.2.1'
+gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
+gem 'axlsx_rails'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
