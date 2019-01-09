@@ -89,7 +89,7 @@
     %h2
       Zeiterfassung seit Einstieg
     %table.table.table-striped.table-hover
-      - duration = (@mentor.total_duration / 60)
+      - duration = (@mentor.total_duration / 60.0).round(2)
       - coaching = @mentor.month_count
 
       %tr
