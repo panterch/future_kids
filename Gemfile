@@ -45,7 +45,7 @@ group :development, :test do
   # make sure to update chromedriver on your local system and on travis
   # - chromedriver-update
   # - .travis.yml
-  gem 'chromedriver-helper'
+  gem 'webdrivers'
   gem 'database_cleaner'
   gem 'rails-controller-testing'
 end

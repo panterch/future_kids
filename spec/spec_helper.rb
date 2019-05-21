@@ -1,5 +1,6 @@
 require 'rubygems'
 require 'capybara/rspec'
+require 'webdrivers/chromedriver'
 
 ENV['RAILS_ENV'] ||= 'test'
 
