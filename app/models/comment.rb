@@ -7,7 +7,7 @@ class Comment < ApplicationRecord
   belongs_to :created_by, class_name: 'User'
 
   default_scope { order('id') }
-  validates_presence_of :body, :by, :journal_id
+  validates_presence_of :body, :by, :journal
 
   def initialize_default_values(current_user)
     self.by ||= current_user.display_name
