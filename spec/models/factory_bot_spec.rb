@@ -51,6 +51,7 @@ describe 'FactoryBot' do
     let(:comment) { build(:comment) }
     it('should be valid') { expect(comment).to be_valid }
     it('should be persistable') { expect(comment.save!).to be_truthy }
+    it('should associate a journal') { expect(comment.journal).to be_present }
   end
 
   # this test assures that the database is cleaned up before each
