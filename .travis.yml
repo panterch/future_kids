@@ -5,7 +5,7 @@ sudo: required # needed for chrome
 addons:
   chrome: stable
 rvm:
-  - 2.3.8
+  - 2.6.4
 before_script:
   - cp config/database.travis.yml config/database.yml
   - psql -c 'create database futurekids_test;' -U postgres
