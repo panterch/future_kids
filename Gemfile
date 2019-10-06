@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '5.2.3'
+gem 'rails', '6.0.0'
 gem 'haml-rails'
 gem 'jquery-rails'
 gem 'jbuilder'
@@ -48,4 +48,7 @@ group :development, :test do
   gem 'webdrivers'
   gem 'database_cleaner'
   gem 'rails-controller-testing'
+  gem 'listen'
+  gem 'pry-byebug'
+  gem 'pry'
 end
