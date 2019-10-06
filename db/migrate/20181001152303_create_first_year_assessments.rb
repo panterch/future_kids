@@ -23,7 +23,6 @@ class CreateFirstYearAssessments < ActiveRecord::Migration[5.2]
       t.text :improvements
       t.boolean :mentor_stays
       t.text :note
-      t.integer :created_by_id, null: false
 
       t.timestamps
     end

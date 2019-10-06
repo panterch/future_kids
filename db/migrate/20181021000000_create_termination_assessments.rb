@@ -3,7 +3,7 @@ class CreateTerminationAssessments < ActiveRecord::Migration[5.2]
     create_table :termination_assessments do |t|
       t.references :kid, foreign_key: true, null: false
       t.integer :teacher_id, null: false
-      t.integer :created_by_id
+      t.integer :created_by_id, null: false
 
       t.date :held_at
       t.text :development
@@ -12,7 +12,6 @@ class CreateTerminationAssessments < ActiveRecord::Migration[5.2]
       t.text :note
       t.text :improvements
       t.text :collaboration
-      t.integer :created_by_id, null: false
 
       t.timestamps
     end

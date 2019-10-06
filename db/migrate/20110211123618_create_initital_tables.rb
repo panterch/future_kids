@@ -46,7 +46,6 @@ class CreateInititalTables < ActiveRecord::Migration[4.2]
       t.string :kind
       t.text :reason
       t.text :content
-      t.text :outcome
       t.text :note
       t.text :outcome
       t.text :attendee
