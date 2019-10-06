@@ -15,7 +15,7 @@ describe Kid do
       expect(Kid.find(kid.id).journals.size).to eq(1)
     end
     it 'can populate journal via nested attributes' do
-      kid.update_attributes(journals_attributes:[{ 'mentor_id' => mentor.id }])
+      kid.update(journals_attributes:[{ 'mentor_id' => mentor.id }])
       expect(kid.journals.size).to eq(1)
     end
     it 'does sort journal correctly' do

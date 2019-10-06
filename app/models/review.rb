@@ -38,7 +38,7 @@ class Review < ApplicationRecord
   # coaching via phone can be recorded as check / coaching
   def sync_fields_with_kid
     if reason == 'Telefoncoaching'
-      kid.update_attributes(
+      kid.update(
           checked_at: held_at,
           coached_at: held_at)
     end

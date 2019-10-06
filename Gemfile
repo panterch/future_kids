@@ -29,7 +29,7 @@ gem 'country_select'
 
 # see https://github.com/straydogstudio/axlsx_rails#installation
 gem 'rubyzip', '>= 1.2.1'
-gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
+gem 'caxlsx'
 gem 'axlsx_rails'
 
 # Bundle gems for the local environment. Make sure to

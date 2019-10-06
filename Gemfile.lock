@@ -1,14 +1,3 @@
-GIT
-  remote: https://github.com/randym/axlsx.git
-  revision: c8ac844572b25fda358cc01d2104720c4c42f450
-  ref: c8ac844
-  specs:
-    axlsx (2.1.0.pre)
-      htmlentities (~> 4.3.4)
-      mimemagic (~> 0.3)
-      nokogiri (>= 1.6.6)
-      rubyzip (>= 1.2.1)
-
 GEM
   remote: https://rubygems.org/
   specs:
@@ -75,9 +64,9 @@ GEM
       sshkit (>= 1.6.1, != 1.7.0)
     autoprefixer-rails (9.6.1.1)
       execjs
-    axlsx_rails (0.5.2)
+    axlsx_rails (0.6.0)
       actionpack (>= 3.1)
-      axlsx (>= 2.0.1)
+      caxlsx (>= 3.0)
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
@@ -113,6 +102,11 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (~> 1.5)
       xpath (~> 3.2)
+    caxlsx (3.0.1)
+      htmlentities (~> 4.3, >= 4.3.4)
+      mimemagic (~> 0.3)
+      nokogiri (~> 1.10, >= 1.10.4)
+      rubyzip (>= 1.3.0, < 3)
     childprocess (2.0.0)
       rake (< 13.0)
     chronic (0.10.2)
@@ -312,7 +306,7 @@ GEM
     rspec-support (3.8.2)
     ruby_parser (3.13.1)
       sexp_processor (~> 4.9)
-    rubyzip (1.2.3)
+    rubyzip (1.3.0)
     sassc (2.2.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
@@ -383,11 +377,11 @@ PLATFORMS
 
 DEPENDENCIES
   actionview-encoded_mail_to
-  axlsx!
   axlsx_rails
   bootstrap-sass
   cancancan
   capybara
+  caxlsx
   coffee-rails
   countries
   country_select

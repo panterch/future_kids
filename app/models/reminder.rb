@@ -13,7 +13,7 @@ class Reminder < ApplicationRecord
   def deliver_mail
     mail = Notifications.remind(self)
     mail.deliver_now
-    update_attributes!(sent_at: Time.now)
+    update!(sent_at: Time.now)
   end
 
   # create a reminder for the given kid and the given time

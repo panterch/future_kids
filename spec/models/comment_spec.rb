@@ -19,7 +19,7 @@ describe Comment do
     end
 
     it 'does set recipients from previous' do
-      @previous.update_attributes(to_teacher: true,
+      @previous.update(to_teacher: true,
                                   to_secondary_teacher: true)
       @comment.initialize_default_values(@journal.mentor)
       expect(@comment.to_teacher).to eq(true)
@@ -57,7 +57,7 @@ describe Comment do
       @kid.update_attribute(:teacher, @teacher1 = create(:teacher))
       @kid.update_attribute(:secondary_teacher,
                             @teacher2 = create(:teacher))
-      @comment.update_attributes(to_teacher: true,
+      @comment.update(to_teacher: true,
                                  to_secondary_teacher: true)
       expect(@comment.recipients).to eq([@kid.mentor.email,
                                          @teacher1.email, @teacher2.email])

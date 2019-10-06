@@ -43,7 +43,7 @@ describe Teacher do
 
     it 'does not deliver journals when opted out' do
       create(:journal, kid: kid)
-      teacher.update_attributes(receive_journals: false)
+      teacher.update(receive_journals: false)
       create(:journal)
       Teacher.conditionally_send_journals
       expect(ActionMailer::Base.deliveries).to be_empty
