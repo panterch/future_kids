@@ -4,7 +4,7 @@ class Reminder < ApplicationRecord
   scope :active, -> { where('reminders.acknowledged_at IS NULL') }
 
   belongs_to :mentor
-  belongs_to :secondary_mentor, class_name: 'Mentor'
+  belongs_to :secondary_mentor, class_name: 'Mentor', optional: true
   belongs_to :kid
 
   validates_presence_of :kid

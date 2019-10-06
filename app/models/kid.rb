@@ -6,13 +6,13 @@ class Kid < ApplicationRecord
   scope :active, -> { where(inactive: false) }
   scope :with_mentor, -> { where.not(mentor_id: nil) }
 
-  belongs_to :mentor
-  belongs_to :secondary_mentor, class_name: 'Mentor'
-  belongs_to :teacher
-  belongs_to :secondary_teacher, class_name: 'Teacher'
-  belongs_to :third_teacher, class_name: 'Teacher'
-  belongs_to :admin
-  belongs_to :school
+  belongs_to :mentor, optional: true
+  belongs_to :secondary_mentor, class_name: 'Mentor', optional: true
+  belongs_to :teacher, optional: true
+  belongs_to :secondary_teacher, class_name: 'Teacher', optional: true
+  belongs_to :third_teacher, class_name: 'Teacher', optional: true
+  belongs_to :admin, optional: true
+  belongs_to :school, optional: true
 
   has_many :journals
   has_many :reviews

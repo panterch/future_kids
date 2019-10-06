@@ -199,15 +199,15 @@ describe Kid do
 
   context 'association with admin, mentor and school' do
     it 'has admin' do
-      should belong_to(:admin)
+      should belong_to(:admin).optional
     end
 
     it 'has mentor' do
-      should belong_to(:mentor)
+      should belong_to(:mentor).optional
     end
 
     it 'has school' do
-      should belong_to(:school)
+      should belong_to(:school).optional
     end
   end
 end
