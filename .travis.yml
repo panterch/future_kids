@@ -4,6 +4,7 @@ cache: bundler
 sudo: required # needed for chrome
 addons:
   chrome: stable
+  postgresql: '9.4'
 rvm:
   - 2.6.4
 before_script:
