@@ -4,7 +4,7 @@ class Teacher < User
            foreign_key: 'secondary_teacher_id'
   has_many :third_kids, class_name: 'Kid',
            foreign_key: 'third_teacher_id'
-  belongs_to :school
+  belongs_to :school, optional: true
 
   after_save :release_relations, if: :inactive?
 

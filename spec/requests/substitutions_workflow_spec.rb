@@ -68,7 +68,7 @@ feature 'ADMIN::UPDATE:SUBSTITUTION', '
   let!(:kid) { create(:kid, mentor: mentor_frederik) }
 
   let!(:substitution) {
-    create(:substitution, mentor: mentor_frederik, secondary_mentor:false, kid: kid, start_at: (Date.today - 1), end_at: (Date.today + 10))
+    create(:substitution, mentor: mentor_frederik, kid: kid, start_at: (Date.today - 1), end_at: (Date.today + 10))
   }
 
   background do

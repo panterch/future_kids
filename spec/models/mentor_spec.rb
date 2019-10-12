@@ -31,7 +31,7 @@ describe Mentor do
   context 'schedules association' do
     it 'should create associated schedules' do
       @mentor = create(:mentor)
-      @mentor.update_attributes(schedules_attributes: [
+      @mentor.update(schedules_attributes: [
         { day: 1, hour: 15, minute: 0 },
         { day: 2, hour: 16, minute: 30 }
       ])
@@ -65,7 +65,7 @@ describe Mentor do
       @mentor = create(:mentor)
       create(:kid, mentor: @mentor)
       create(:kid, secondary_mentor: @mentor)
-      @mentor.reload.update_attributes(inactive: true)
+      @mentor.reload.update(inactive: true)
       expect(@mentor.reload.kids.count).to eq(0)
       expect(@mentor.secondary_kids.count).to eq(0)
     end

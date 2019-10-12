@@ -9,7 +9,6 @@ FactoryBot.define do
 
 
   factory :substitution do
-    association :secondary_mentor, factory: :mentor, strategy: :build
     mentor
     kid
     start_at { Date.parse('2015-11-13') }
@@ -88,6 +87,7 @@ FactoryBot.define do
 
   factory :comment do
     association :journal
+    association :created_by, factory: :user
     body { 'A comment' }
     by { 'Commentator' }
   end

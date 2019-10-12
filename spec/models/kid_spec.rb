@@ -15,7 +15,7 @@ describe Kid do
       expect(Kid.find(kid.id).journals.size).to eq(1)
     end
     it 'can populate journal via nested attributes' do
-      kid.update_attributes(journals_attributes:[{ 'mentor_id' => mentor.id }])
+      kid.update(journals_attributes:[{ 'mentor_id' => mentor.id }])
       expect(kid.journals.size).to eq(1)
     end
     it 'does sort journal correctly' do
@@ -199,15 +199,15 @@ describe Kid do
 
   context 'association with admin, mentor and school' do
     it 'has admin' do
-      should belong_to(:admin)
+      should belong_to(:admin).optional
     end
 
     it 'has mentor' do
-      should belong_to(:mentor)
+      should belong_to(:mentor).optional
     end
 
     it 'has school' do
-      should belong_to(:school)
+      should belong_to(:school).optional
     end
   end
 end

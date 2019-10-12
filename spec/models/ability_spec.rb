@@ -26,15 +26,15 @@ describe Ability do
         expect(ability).not_to be_able_to(:read, admin)
       end
       it 'can read own kids coach' do
-        kid.update_attributes(admin: admin)
+        kid.update(admin: admin)
         expect(ability).to be_able_to(:read, admin)
       end
       it 'can read secondary kids coach' do
-        secondary_kid.update_attributes(admin: admin)
+        secondary_kid.update(admin: admin)
         expect(ability).to be_able_to(:read, admin)
       end
       it 'never can update coaches' do
-        kid.update_attributes(admin: admin)
+        kid.update(admin: admin)
         expect(ability).not_to be_able_to(:update, admin)
       end
     end

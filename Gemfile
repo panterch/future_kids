@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '5.2.3'
+gem 'rails', '6.0.0'
 gem 'haml-rails'
 gem 'jquery-rails'
 gem 'jbuilder'
@@ -29,7 +29,7 @@ gem 'country_select'
 
 # see https://github.com/straydogstudio/axlsx_rails#installation
 gem 'rubyzip', '>= 1.2.1'
-gem 'axlsx', git: 'https://github.com/randym/axlsx.git', ref: 'c8ac844'
+gem 'caxlsx'
 gem 'axlsx_rails'
 
 # Bundle gems for the local environment. Make sure to
@@ -48,4 +48,7 @@ group :development, :test do
   gem 'webdrivers'
   gem 'database_cleaner'
   gem 'rails-controller-testing'
+  gem 'listen'
+  gem 'pry-byebug'
+  gem 'pry'
 end
