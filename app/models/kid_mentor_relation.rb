@@ -29,7 +29,7 @@ class KidMentorRelation < ApplicationRecord
   # checks elements of relation for candidates of inactivation
   def inactivatable?
     return false unless 'exit' == kid.exit_kind
-    return false unless 'exit' == kid.mentor.exit_kind
+    return false unless 'exit' == kid.mentor.try(:exit_kind)
     true
   end
 
