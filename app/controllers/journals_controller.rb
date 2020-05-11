@@ -8,7 +8,6 @@ class JournalsController < ApplicationController
 
   # these filters have to run after the resource is initialized
   before_action :prepare_mentor_selection, except: [:index, :show], if: :admin?
-  before_action :preset_held_at, only: [:new]
 
   def create
     if @journal.save
@@ -59,12 +58,6 @@ class JournalsController < ApplicationController
     @mentors = [@journal.kid.mentor, @journal.kid.secondary_mentor].compact
     return unless @mentors.empty?
     redirect_to kid_url(@journal.kid), alert: 'Bitte vorher einen Mentor zuordnen.'
-  end
-
-  # the value of the held_at field can be determined by the schedule of the
-  # kid
-  def preset_held_at
-    @journal.held_at ||= @journal.kid.calculate_meeting_time&.to_date
   end
 
   private

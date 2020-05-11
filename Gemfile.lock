@@ -73,9 +73,9 @@ GEM
       autoprefixer-rails (>= 5.2.1)
       sassc (>= 2.0.0)
     builder (3.2.4)
-    byebug (11.1.1)
+    byebug (11.1.3)
     cancancan (3.1.0)
-    capistrano (3.13.0)
+    capistrano (3.14.0)
       airbrussh (>= 1.0.0)
       i18n
       rake (>= 10.0.0)
@@ -128,7 +128,7 @@ GEM
       countries (~> 3.0)
       sort_alphabetical (~> 1.0)
     crass (1.0.6)
-    database_cleaner (1.8.4)
+    database_cleaner (1.8.5)
     devise (4.7.1)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -146,10 +146,10 @@ GEM
       actionmailer (>= 4.0, < 7)
       activesupport (>= 4.0, < 7)
     execjs (2.7.0)
-    factory_bot (5.1.2)
+    factory_bot (5.2.0)
       activesupport (>= 4.2.0)
-    factory_bot_rails (5.1.1)
-      factory_bot (~> 5.1.0)
+    factory_bot_rails (5.2.0)
+      factory_bot (~> 5.2.0)
       railties (>= 4.2.0)
     ffi (1.12.2)
     globalid (0.4.2)
@@ -163,7 +163,6 @@ GEM
       haml (>= 4.0.6, < 6.0)
       html2haml (>= 1.0.1)
       railties (>= 5.1)
-    highline (2.0.3)
     html2haml (2.2.0)
       erubis (~> 2.7.0)
       haml (>= 4.0, < 6)
@@ -179,12 +178,10 @@ GEM
       rails (> 4.0.0)
     jbuilder (2.10.0)
       activesupport (>= 5.0.0)
-    jquery-rails (4.3.5)
+    jquery-rails (4.4.0)
       rails-dom-testing (>= 1, < 3)
       railties (>= 4.2.0)
       thor (>= 0.14, < 2.0)
-    kgio (2.11.3)
-    libv8 (7.3.492.27.1)
     listen (3.2.1)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
@@ -198,30 +195,18 @@ GEM
     method_source (1.0.0)
     mime-types (3.3.1)
       mime-types-data (~> 3.2015)
-    mime-types-data (3.2019.1009)
-    mimemagic (0.3.4)
+    mime-types-data (3.2020.0425)
+    mimemagic (0.3.5)
     mini_mime (1.0.2)
     mini_portile2 (2.4.0)
-    mini_racer (0.2.9)
-      libv8 (>= 6.9.411)
     minitest (5.14.0)
-    net-scp (2.0.0)
-      net-ssh (>= 2.6.5, < 6.0.0)
-    net-ssh (5.2.0)
+    net-scp (3.0.0)
+      net-ssh (>= 2.6.5, < 7.0.0)
+    net-ssh (6.0.2)
     nio4r (2.5.2)
     nokogiri (1.10.9)
       mini_portile2 (~> 2.4.0)
     orm_adapter (0.5.0)
-    panter-rails-deploy (1.4.1)
-      capistrano (~> 3.5)
-      capistrano-bundler
-      capistrano-rails
-      capistrano-rbenv
-      capistrano-rbenv-install
-      dotenv-rails
-      highline
-      mini_racer
-      unicorn-rails
     paperclip (6.1.0)
       activemodel (>= 4.2.0)
       activesupport (>= 4.2.0)
@@ -229,13 +214,13 @@ GEM
       mimemagic (~> 0.3.0)
       terrapin (~> 0.6.0)
     pg (1.2.3)
-    pry (0.13.0)
+    pry (0.13.1)
       coderay (~> 1.1)
       method_source (~> 1.0)
     pry-byebug (3.9.0)
       byebug (~> 11.0)
       pry (~> 0.13.0)
-    public_suffix (4.0.4)
+    public_suffix (4.0.5)
     puma (4.3.3)
       nio4r (~> 2.0)
     rack (2.2.2)
@@ -271,9 +256,8 @@ GEM
       method_source
       rake (>= 0.8.7)
       thor (>= 0.20.3, < 2.0)
-    raindrops (0.19.1)
     rake (13.0.1)
-    rb-fsevent (0.10.3)
+    rb-fsevent (0.10.4)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
     react-rails (2.6.1)
@@ -286,9 +270,9 @@ GEM
     responders (3.0.0)
       actionpack (>= 5.0)
       railties (>= 5.0)
-    rspec-core (3.9.1)
-      rspec-support (~> 3.9.1)
-    rspec-expectations (3.9.1)
+    rspec-core (3.9.2)
+      rspec-support (~> 3.9.3)
+    rspec-expectations (3.9.2)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.9.0)
     rspec-mocks (3.9.1)
@@ -302,11 +286,11 @@ GEM
       rspec-expectations (~> 3.9)
       rspec-mocks (~> 3.9)
       rspec-support (~> 3.9)
-    rspec-support (3.9.2)
+    rspec-support (3.9.3)
     ruby_parser (3.14.2)
       sexp_processor (~> 4.9)
     rubyzip (2.3.0)
-    sassc (2.2.1)
+    sassc (2.3.0)
       ffi (~> 1.9)
     sassc-rails (2.1.2)
       railties (>= 4.0.0)
@@ -350,15 +334,9 @@ GEM
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
     unicode_utils (1.4.0)
-    unicorn (5.5.4)
-      kgio (~> 2.6)
-      raindrops (~> 0.7)
-    unicorn-rails (2.2.1)
-      rack
-      unicorn
     warden (1.2.8)
       rack (>= 2.0.6)
-    webdrivers (4.2.0)
+    webdrivers (4.3.0)
       nokogiri (~> 1.6)
       rubyzip (>= 1.3.0)
       selenium-webdriver (>= 3.0, < 4.0)
@@ -378,6 +356,11 @@ DEPENDENCIES
   actionview-encoded_mail_to
   bootstrap-sass
   cancancan
+  capistrano
+  capistrano-bundler
+  capistrano-rails
+  capistrano-rbenv
+  capistrano-rbenv-install
   capybara
   caxlsx
   caxlsx_rails
@@ -386,6 +369,7 @@ DEPENDENCIES
   country_select
   database_cleaner
   devise
+  dotenv-rails
   exception_notification
   factory_bot
   factory_bot_rails
@@ -395,7 +379,6 @@ DEPENDENCIES
   jbuilder
   jquery-rails
   listen
-  panter-rails-deploy
   paperclip
   pg
   pry
