@@ -1,10 +1,11 @@
-dist: trusty
+dist: bionic
 language: ruby
 cache: bundler
 sudo: required # needed for chrome
+services:
+  - postgresql
 addons:
   chrome: stable
-  postgresql: '9.4'
 rvm:
   - 2.6.4
 before_script:
