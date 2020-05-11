@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '6.0.0'
+gem 'rails'
 gem 'haml-rails'
 gem 'jquery-rails'
 gem 'jbuilder'
