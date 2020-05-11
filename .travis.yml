@@ -1,9 +1,9 @@
 dist: bionic
 language: ruby
 cache: bundler
-sudo: required # needed for chrome
 services:
   - postgresql
+  - xvfb
 addons:
   chrome: stable
 before_script:
