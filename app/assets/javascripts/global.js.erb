@@ -128,7 +128,7 @@ function register_submit_action_in_sidebar() {
       event.preventDefault();
       $original.click();
     });
-    $clone.prependTo($('#contextual_links_panel .list-group'));
+    $clone.prependTo($('.contextual_links_panel .list-group'));
   });
 }
 
@@ -140,7 +140,7 @@ function register_back_to_top_link() {
     event.preventDefault();
     $('html, body').stop().animate({ 'scrollTop': 0 }, 500, 'swing');
   });
-  $toTop.appendTo($('#contextual_links_panel .list-group'));
+  $toTop.appendTo($('.contextual_links_panel .list-group'));
 }
 
 function register_exit_at_toggler() {

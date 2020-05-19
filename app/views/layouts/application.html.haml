@@ -3,7 +3,7 @@
   %head
     %meta{charset: "utf-8"}/
     %meta{content: "IE=edge", "http-equiv" => "X-UA-Compatible"}/
-    %meta{content: "width=960", name: "viewport"}/
+    %meta{content: "width=device-width, initial-scale=1", name: "viewport"}/
     %title FutureKids
     = stylesheet_link_tag 'application', :media => :all
     = stylesheet_link_tag 'print', :media => :print
@@ -24,27 +24,17 @@
           #nav
             .container
               .navbar.navbar-default{role: "navigation"}
-                %ul.nav.navbar-nav
-                  -if current_user.is_a?(Admin)
-                    %li
-                      = nav_link Admin.model_name.human, admins_path
-                  -if can? :read, Kid
-                    %li= nav_link Kid.model_name.human, kids_path
-                  -# FIXME load of teachers for mentors via cancan does not yet
-                  -#       work correctly, see ability_spec.rb. till this is fixed
-                  -#       we do not display this option to mentors
-                  -if current_user.is_a?(Admin) or current_user.is_a?(Principal)
-                    %li= nav_link :teacher
-                  -if current_user.is_a?(Admin)
-                    %li= nav_link :mentor
-                    %li= nav_link :principal
-                    %li= nav_link :kid_mentor_relation
-                    %li=  nav_link :substitutions
-                  -if can? :read, Reminder
-                    %li= nav_link :reminder
-                  %li= nav_link :document
-                  -if can? :read, School
-                    %li= nav_link :school
+                %ul.nav.navbar-nav.hidden-xs.hidden-sm.visible-md.visible-lg
+                  = render 'layouts/navigation_items'
+
+                %ul.nav.navbar-nav.navbar-left.visible-xs.visible-sm.hidden-md.hidden-lg
+                  %li.dropdown(style="display: block !important")
+                    = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown' do
+                      %span.glyphicon.glyphicon-menu-hamburger
+                      %span.caret
+                    %ul.dropdown-menu
+                      = render 'layouts/navigation_items'
+
 
                 %ul.nav.navbar-nav.navbar-right
                   %li.dropdown(style="display: block !important")
@@ -61,20 +51,14 @@
 
     #sidebar-wrapper
       .container
-        #sidebar
+        #sidebar.hidden-xs.hidden-sm
           %h1.logo
             - if @site.logo.present?
               %img{:src => @site.logo.url(:medium)}
 
           - if user_signed_in?
-            #contextual_links_panel.panel.panel-default
-              .panel-heading
-                %h4.panel-title Aktionen
-              - if content_for?(:contextual_links)
-                = yield :contextual_links
-              - else
-                = contextual_links
-
+            .contextual_links_panel.panel.panel-default.hidden-xs.hidden-sm
+              = render 'layouts/actions'
             = yield :sidebar
 
     #main
@@ -84,6 +68,12 @@
             - flash.each do |name, msg|
               = boot_alert(msg, name) unless msg.blank?
             = yield
+
+      .container
+        .row.visible-xs.visible-sm.hidden-md.hidden-lg
+          - if user_signed_in?
+            .contextual_links_panel.mobile-actions.panel.panel-default
+              = render 'layouts/actions'
 
     - if @site.footer_address.present? || @site.footer_email.present?
       #footer
