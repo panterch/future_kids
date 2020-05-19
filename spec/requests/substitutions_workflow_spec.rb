@@ -42,7 +42,7 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
   describe 'mentor should have a quicklink for substitution and mentor and kid should be preset' do
     scenario 'contextual_link to add substitution' do
       visit mentor_path(id: mentor_frederik.id)
-      find('#contextual_links_panel').click_link("Neue Abwesenheit")
+      find('.contextual_links_panel').click_link("Neue Abwesenheit")
       expect(page.status_code).to eq(200)
       expect(page).to have_content('Ersatz erfassen')
       expect(page).to have_content(mentor_frederik.display_name)

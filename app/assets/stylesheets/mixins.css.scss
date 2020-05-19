@@ -1,0 +1,7 @@
+// mixins
+
+@mixin desktop {
+  @media (min-width: #{$screen-md - 1}) {
+    @content;
+  }
+}
