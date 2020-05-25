@@ -32,7 +32,6 @@ gem 'caxlsx'
 gem 'caxlsx_rails'
 
 gem 'puma' # needed for travis, see https://github.com/panterch/future_kids/issues/223
-gem 'panter-rails-deploy' # will inject unicorn for production deploy
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
