@@ -64,7 +64,6 @@ class ConvertToActiveStorage < ActiveRecord::Migration[5.2]
         end
       end
     end
-    move_files
   end
 
   def down
@@ -72,24 +71,6 @@ class ConvertToActiveStorage < ActiveRecord::Migration[5.2]
   end
 
   private
-
-  def move_files
-    ActiveStorage::Attachment.find_each do |attachment|
-      name = attachment.name
-      filename = attachment.blob.filename
-
-      source = "#{Rails.root}/public/system/#{ActiveSupport::Inflector.pluralize(name)}/#{attachment.record_id}/original/#{filename}"
-      dest_dir = File.join(
-        "storage",
-        attachment.blob.key.first(2),
-        attachment.blob.key.first(4).last(2))
-      dest = File.join(dest_dir, attachment.blob.key)
-
-      FileUtils.mkdir_p(dest_dir)
-      puts "Moving #{source} to #{dest}"
-      FileUtils.cp(source, dest)
-    end
-  end
 
   def key(instance, attachment)
     SecureRandom.uuid
