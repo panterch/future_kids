@@ -64,7 +64,7 @@
         #sidebar
           %h1.logo
             - if @site.logo.present?
-              %img{:src => @site.logo.url(:medium)}
+              %img{:src => rails_representation_url(@site.logo_medium)}
 
           - if user_signed_in?
             #contextual_links_panel.panel.panel-default

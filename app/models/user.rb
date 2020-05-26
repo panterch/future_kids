@@ -4,13 +4,8 @@ class User < ApplicationRecord
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
 
-  has_attached_file :photo,
-                    styles: { medium: ['300x300>', :png] },
-                    default_url: '/images/:style/missing.png',
-                    path: ':rails_root/public/system/:attachment/:id/:style/:filename',
-                    url: '/system/:attachment/:id/:style/:filename'
-
-  validates_attachment_content_type :photo, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
+  has_one_attached :photo
+  validates :photo, content_type: ['image/jpg', 'image/jpeg', 'image/png', 'image/gif']
 
   default_scope -> { order(:name, :prename) }
   scope :active, -> { where(inactive: false) }
@@ -39,6 +34,10 @@ class User < ApplicationRecord
 
   def human_sex
     { 'm' => '♂', 'f' => '♀' }[sex]
+  end
+
+  def photo_medium
+    photo.variant(resize: '300x300>').processed
   end
 
   protected
