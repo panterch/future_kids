@@ -3,15 +3,16 @@ require 'spec_helper'
 describe DocumentTreeview do
 
   let(:dtv) { DocumentTreeview.new }
-  let(:file) { File.new(File.join(Rails.root, 'doc/gespraechsdoku.pdf')) }
+  let(:file) { fixture_file_upload(File.join(Rails.root, 'doc/gespraechsdoku.pdf'), 'application/pdf') }
 
 
   it 'deliver categories tree' do
-    create(:document, category0: 'a', attachment: file)
-    create(:document, category0: 'a', category1: 'b', attachment: file)
-    create(:document, category0: 'a', category1: 'b', category2: 'c1', attachment: file)
-    create(:document, category0: 'a', category1: 'b', category2: 'c2', attachment: file)
-    create(:document, category0: 'x', category1: 'y', attachment: file)
+    build(:document, category0: 'a').attachment.attach(file).record.save!
+    build(:document, category0: 'a', category1: 'b').attachment.attach(file).record.save!
+    build(:document, category0: 'a', category1: 'b', category2: 'c1').attachment.attach(file).record.save!
+
+    build(:document, category0: 'a', category1: 'b', category2: 'c2').attachment.attach(file).record.save!
+    build(:document, category0: 'x', category1: 'y').attachment.attach(file).record.save!
 
     tree =  dtv.categories_tree
 
@@ -20,11 +21,11 @@ describe DocumentTreeview do
   end
 
   it 'transforms nodes to js' do
-    create(:document, title: 'a', category0: 'a', attachment: file)
-    create(:document, title: 'a b', category0: 'a', category1: 'b', attachment: file)
-    create(:document, title: 'a b c1', category0: 'a', category1: 'b', category2: 'c1', attachment: file)
-    create(:document, title: 'a b c2', category0: 'a', category1: 'b', category2: 'c2', attachment: file)
-    create(:document, title: 'x y', category0: 'x', category1: 'y', attachment: file)
+    build(:document, title: 'a', category0: 'a').attachment.attach(file).record.save!
+    build(:document, title: 'a b', category0: 'a', category1: 'b').attachment.attach(file).record.save!
+    build(:document, title: 'a b c1', category0: 'a', category1: 'b', category2: 'c1').attachment.attach(file).record.save!
+    build(:document, title: 'a b c2', category0: 'a', category1: 'b', category2: 'c2').attachment.attach(file).record.save!
+    build(:document, title: 'x y', category0: 'x', category1: 'y').attachment.attach(file).record.save!
 
     js_nodes = dtv.category_js_nodes
     expect(js_nodes[0][:text]).to eq('a')
@@ -32,11 +33,11 @@ describe DocumentTreeview do
   end
 
   it 'transform appends documents to nodes js' do
-    create(:document, title: 'doc a', category0: 'a', attachment: file)
-    create(:document, title: 'doc a b', category0: 'a', category1: 'b', attachment: file)
-    create(:document, title: 'doc a b c1', category0: 'a', category1: 'b', category2: 'c1', attachment: file)
-    create(:document, title: 'doc a b c2', category0: 'a', category1: 'b', category2: 'c2', attachment: file)
-    create(:document, title: 'doc x y', category0: 'x', category1: 'y', attachment: file)
+    build(:document, title: 'doc a', category0: 'a').attachment.attach(file).record.save!
+    build(:document, title: 'doc a b', category0: 'a', category1: 'b').attachment.attach(file).record.save!
+    build(:document, title: 'doc a b c1', category0: 'a', category1: 'b', category2: 'c1').attachment.attach(file).record.save!
+    build(:document, title: 'doc a b c2', category0: 'a', category1: 'b', category2: 'c2').attachment.attach(file).record.save!
+    build(:document, title: 'doc x y', category0: 'x', category1: 'y').attachment.attach(file).record.save!
 
     js_nodes = dtv.document_js_nodes
     expect(js_nodes[0][:text]).to eq('a')
@@ -46,10 +47,10 @@ describe DocumentTreeview do
   end
 
   it 'sorts documents by title' do
-    create(:document, title: 'b', category0: 'a', attachment: file)
-    create(:document, title: 'x', category0: 'a', attachment: file)
-    create(:document, title: 'a', category0: 'a', attachment: file)
-    create(:document, title: '1', category0: 'a', attachment: file)
+    build(:document, title: 'b', category0: 'a').attachment.attach(file).record.save!
+    build(:document, title: 'x', category0: 'a').attachment.attach(file).record.save!
+    build(:document, title: 'a', category0: 'a').attachment.attach(file).record.save!
+    build(:document, title: '1', category0: 'a').attachment.attach(file).record.save!
 
     js_nodes = dtv.document_js_nodes
     expect(js_nodes[0][:nodes][0][:text]).to eq('1')
@@ -59,10 +60,10 @@ describe DocumentTreeview do
   end
 
   it 'sorts documents after folders by title' do
-    create(:document, title: 'x', category0: 'cat0', attachment: file)
-    create(:document, title: '2', category0: 'cat0', category1: 'cat2', attachment: file)
-    create(:document, title: '1', category0: 'cat0', category1: 'cat1', attachment: file)
-    create(:document, title: 'a', category0: 'cat0', attachment: file)
+    build(:document, title: 'x', category0: 'cat0').attachment.attach(file).record.save!
+    build(:document, title: '2', category0: 'cat0', category1: 'cat2').attachment.attach(file).record.save!
+    build(:document, title: '1', category0: 'cat0', category1: 'cat1').attachment.attach(file).record.save!
+    build(:document, title: 'a', category0: 'cat0').attachment.attach(file).record.save!
 
     js_nodes = dtv.document_js_nodes
     expect(js_nodes[0][:nodes][0][:text]).to eq('cat1')

@@ -138,14 +138,14 @@ describe Mentor do
 
   context 'has attached file photo' do
     before do
-      @file = File.new(Rails.root.join('spec/fixtures/logo.png'))
+      @file = fixture_file_upload(Rails.root.join('spec/fixtures/logo.png'))
       @mentor = build(:mentor)
     end
     it 'attaches a photo' do
-      @mentor.photo = @file
+      @mentor.photo.attach(@file)
       @mentor.save!; @mentor = Mentor.first
       expect(@mentor.photo).to be_present
-      expect(@mentor.photo_medium).to match(/logo\.png/)
+      expect(@mentor.photo_medium.filename.to_s).to match(/logo\.png/)
     end
   end
 
