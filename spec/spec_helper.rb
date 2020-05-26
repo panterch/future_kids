@@ -54,4 +54,9 @@ RSpec.configure do |config|
       with.library :rails
     end
   end
+
+  # Ignore hidden elements, mobile version hidden elements
+  Capybara.configure do |config|
+    config.match = :prefer_exact
+  end
 end

@@ -12,11 +12,11 @@ ShowFor.setup do |config|
 
   # The tag used to wrap each label. Default is :strong.
   config.label_tag = :label
-  config.label_class = 'col-sm-3 text-right'
+  config.label_class = 'col-sm-3 col-xs-6 text-right'
 
   # The tag used to wrap each content (value). Default is nil.
   config.content_tag = :div
-  config.content_class = 'col-sm-offset-3'
+  config.content_class = 'col-sm-offset-3 col-xs-offset-3'
 
   # The DOM class set for blank content tags. Default is "blank".
   config.blank_content_class = 'no_content'

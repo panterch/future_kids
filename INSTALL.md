@@ -36,4 +36,15 @@ Please follow the below process to share your contribution via PR.
 3. Make your contributions.
 4. [Open a Pull Request](https://help.github.com/articles/about-pull-requests/) with __clear title__ and __description__ against the _master_ branch.
 
+## Tests
+
+1.  Initialize test db
+    ```
+    bundle exec rake db:test:prepare
+    ```
+2.  Run specs
+    ```
+    bundle exec rspec
+    ```
+
 __Note:__ It would be great to have an automated tests included and running test suite.
