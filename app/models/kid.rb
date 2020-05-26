@@ -1,5 +1,5 @@
 class Kid < ApplicationRecord
-  include ActionView::Helpers::TextHelper
+  include ActionView::Helpers::TextHelper, HasCoordinates
 
   default_scope { order(:name, :prename) }
 
