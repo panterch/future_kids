@@ -1,7 +1,7 @@
 class Document < ApplicationRecord
   has_one_attached :attachment
   validates :attachment, attached: true,
-                         content_type: ['application/pdf', 'application/vnd.ms-excel', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet']
+                         content_type: document_content_types
   validates :title, presence: true
 
   def self.categories(level = 0)
