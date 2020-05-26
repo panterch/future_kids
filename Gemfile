@@ -24,7 +24,6 @@ gem 'uglifier'
 gem 'i18n-active_record'
 gem 'countries'
 gem 'country_select'
-gem 'aws-sdk-s3', require: false
 gem 'image_processing'
 gem 'active_storage_validations'
 
