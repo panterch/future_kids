@@ -1,12 +1,23 @@
+test:
+  service: Disk
+  root: <%= Rails.root.join("tmp/storage") %>
+
 local:
   service: Disk
   root: <%= Rails.root.join("storage") %>
 
-amazon:
-  service: S3
-  access_key_id: ""
-  secret_access_key: ""
-  region: ""
-  bucket: ""
-  upload:
-    server_side_encryption: "" # 'aws:kms' or 'AES256'
+google:
+  service: GCS
+  credentials:
+    type: "service_account"
+    project_id: "<%= ENV.fetch('GOOGLE_PROJECT_ID') %>"
+    private_key_id: "<%= ENV.fetch('GOOGLE_PRIVATE_KEY_ID') %>"
+    private_key: "<%= ENV.fetch('GOOGLE_PRIVATE_KEY') %>"
+    client_email: ""
+    client_id: ""
+    auth_uri: "https://accounts.google.com/o/oauth2/auth"
+    token_uri: "https://accounts.google.com/o/oauth2/token"
+    auth_provider_x509_cert_url: "https://www.googleapis.com/oauth2/v1/certs"
+    client_x509_cert_url: ""
+  project: ""
+  bucket: "<%= ENV.fetch('GOOGLE_BUCKET') %>"

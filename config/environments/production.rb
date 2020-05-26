@@ -88,5 +88,9 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  config.active_storage.service = :amazon
+  if ENV.fetch('GOOGLE_PROJECT_ID')
+    config.active_storage.service = :google
+  else
+    config.active_storage.service = :local
+  end
 end

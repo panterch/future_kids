@@ -47,6 +47,6 @@ namespace :active_storage do
   end
 
   task migrate_to_s3: :environment do
-    migrate(:local, :amazon)
+    migrate(:local, :google)
   end
 end
