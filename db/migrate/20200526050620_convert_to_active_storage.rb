@@ -39,10 +39,10 @@ class ConvertToActiveStorage < ActiveRecord::Migration[5.2]
         model.find_each.each do |instance|
           attachments.each do |attachment|
             filename = instance.send("#{attachment}_file_name")
-            if filename.blank?
+            full_path = "#{Rails.root}/public/system/#{ActiveSupport::Inflector.pluralize(attachment)}/#{instance.id}/original/#{filename.to_s}"
+            if filename.blank? || !File.file?(filename)
               next
             end
-            full_path = "#{Rails.root}/public/system/#{ActiveSupport::Inflector.pluralize(attachment)}/#{instance.id}/original/#{filename}"
             ActiveRecord::Base.connection.raw_connection.exec_prepared(
               'active_storage_blob_statement', [
                 key(instance, attachment),
@@ -80,11 +80,7 @@ class ConvertToActiveStorage < ActiveRecord::Migration[5.2]
 
   def checksum(filename)
     # local files stored on disk:
-    if File.file?(filename)
-      Digest::MD5.base64digest(File.read(filename))
-    else
-      ''
-    end
+    Digest::MD5.base64digest(File.read(filename))
 
     # remote files stored on another person's computer:
     # url = attachment.url
