@@ -40,7 +40,7 @@ class ConvertToActiveStorage < ActiveRecord::Migration[5.2]
           attachments.each do |attachment|
             filename = instance.send("#{attachment}_file_name")
             full_path = "#{Rails.root}/public/system/#{ActiveSupport::Inflector.pluralize(attachment)}/#{instance.id}/original/#{filename.to_s}"
-            if filename.blank? || !File.file?(filename)
+            if filename.blank? || !File.file?(full_path)
               next
             end
             ActiveRecord::Base.connection.raw_connection.exec_prepared(
