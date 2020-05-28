@@ -3,7 +3,9 @@ module HasCoordinates
 
   included do
     geocoded_by :full_address
-    after_validation :geocode, if: ->(obj){ (obj.address.present? || obj.city.present?) and obj.full_address_changed? }
+    after_validation :geocode, if: lambda { |obj|
+      (obj.address.present? || obj.city.present?) and obj.full_address_changed?
+    }
     after_validation :location_found?
   end
 
