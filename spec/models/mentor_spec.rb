@@ -176,6 +176,10 @@ describe Mentor do
       should have_many(:schools).through(:kids)
     end
 
+    it 'has his own school' do
+      should belong_to(:school).optional
+    end
+
     it 'should filter mentors by admins' do
       expect(@mentor1.kids.size).to eq(3)
       expect(@mentor2.kids.size).to eq(2)

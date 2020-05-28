@@ -15,6 +15,8 @@ class Mentor < User
   has_many :secondary_reminders, class_name: 'Reminder',
                                  foreign_key: 'secondary_mentor_id'
   has_many :schedules, as: :person
+  
+  belongs_to :school, optional: true
 
   # Unscope is needed because the association is done through kids.
   # Kids are ordered so distinct was looking at the kids scope in order to
