@@ -137,6 +137,7 @@ GEM
     faraday (1.0.1)
       multipart-post (>= 1.2, < 3)
     ffi (1.12.2)
+    geocoder (1.6.3)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     google-api-client (0.39.5)
@@ -398,6 +399,7 @@ DEPENDENCIES
   exception_notification
   factory_bot
   factory_bot_rails
+  geocoder
   google-cloud-storage (~> 1.11)
   haml-rails
   i18n-active_record

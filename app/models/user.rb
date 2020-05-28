@@ -1,5 +1,5 @@
 class User < ApplicationRecord
-  include ActionView::Helpers::TextHelper
+  include ActionView::Helpers::TextHelper, HasCoordinates
 
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
