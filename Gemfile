@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+ruby '2.6.6'
 
 gem 'rails'
 gem 'haml-rails'
@@ -24,6 +25,7 @@ gem 'uglifier'
 gem 'i18n-active_record'
 gem 'countries'
 gem 'country_select'
+gem 'geocoder'
 
 # see https://github.com/straydogstudio/axlsx_rails#installation
 gem 'rubyzip', '>= 1.2.1'
@@ -31,7 +33,6 @@ gem 'caxlsx'
 gem 'caxlsx_rails'
 
 gem 'puma' # needed for travis, see https://github.com/panterch/future_kids/issues/223
-gem 'panter-rails-deploy' # will inject unicorn for production deploy
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
