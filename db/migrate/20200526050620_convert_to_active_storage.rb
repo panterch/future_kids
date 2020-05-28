@@ -80,7 +80,11 @@ class ConvertToActiveStorage < ActiveRecord::Migration[5.2]
 
   def checksum(filename)
     # local files stored on disk:
-    Digest::MD5.base64digest(File.read(filename))
+    if File.file?(filename)
+      Digest::MD5.base64digest(File.read(filename))
+    else
+      ''
+    end
 
     # remote files stored on another person's computer:
     # url = attachment.url
