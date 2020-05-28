@@ -8,9 +8,9 @@ class ApplicationRecord < ActiveRecord::Base
     simple_format(text)
   end
 
-  def self.document_content_types
-    %w[xls xlsx doc docx ods odt pdf xlsm xlsb].flat_map do |ext|
-      MIME::Types.select { |type| type.extensions.include?(ext) }
+  def self.ext_mimes(*extensions)
+    extensions.flat_map do |ext|
+        MIME::Types.select { |type| type.extensions.include?(ext.to_s) }
     end.map(&:to_s)
   end
 end

@@ -37,6 +37,8 @@ namespace :active_storage do
       file.rewind
       checksum = blob.checksum
       to_service.upload(blob.key, file, checksum: checksum)
+      file.close
+      file.unlink
     rescue Errno::ENOENT
       puts "Rescued by Errno::ENOENT statement. ID: #{blob.id} / Key: #{blob.key}"
       next
