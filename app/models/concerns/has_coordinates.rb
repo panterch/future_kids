@@ -2,7 +2,7 @@ module HasCoordinates
   extend ActiveSupport::Concern
 
   included do
-    after_validation :geocode, if: :geocodable?
+    after_validation :geocode, if: :full_address_changed?
   end
 
   def full_address
@@ -25,11 +25,5 @@ module HasCoordinates
       self.latitude = results.first.latitude
       self.longitude = results.first.longitude
     end
-  end
-
-  private
-
-  def geocodable?
-    full_address_changed?
   end
 end
