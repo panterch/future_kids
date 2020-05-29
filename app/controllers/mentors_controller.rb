@@ -3,6 +3,8 @@ class MentorsController < ApplicationController
   include CrudActions
   include ManageSchedules # edit_schedules & update_schedules
 
+  before_action :load_schools, except: [:index]
+
   def index
     # a prototyped mentor is submitted with each index query. if the prototype
     # is not present, it is built here with default values
@@ -68,7 +70,7 @@ class MentorsController < ApplicationController
     if params[:mentor].present?
       params.require(:mentor).permit(
         :name, :prename, :email, :password, :password_confirmation, :address, :sex,
-        :city, :dob, :phone, :college, :field_of_study, :education, :transport,
+        :city, :dob, :phone, :college, :school_id, :field_of_study, :education, :transport,
         :personnel_number, :ects, :term, :absence, :note, :todo, :substitute,
         :filter_by_school_id, :filter_by_meeting_day, :filter_by_coach_id,
         :exit_kind, :exit_at,
@@ -77,5 +79,10 @@ class MentorsController < ApplicationController
     else
       {}
     end
+  end
+
+  def load_schools
+    @schools = School.all
+    @schools_include_blank = true
   end
 end
