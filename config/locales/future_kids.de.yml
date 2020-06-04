@@ -200,6 +200,7 @@ de:
         district: Schulgemeinde
         note: Bemerkungen
         term: Startzeit
+        school_kind: Schultyp
       relation_log:
         kid: "Schüler/in"
         user: Person
