@@ -1,7 +1,7 @@
 = show_for @school do |show|
   = show.attribute :name
   = show.attribute :school_kind do
-    -@school.school_kind.humanize
+    -@school.school_kind && @school.school_kind.humanize
   = show.attribute :street
   = show.attribute :city
   = show.attribute :homepage do
