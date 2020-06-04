@@ -1,5 +1,6 @@
 = simple_form_for @school do |form|
   = form.input :name
+  = form.input :school_kind, :collection => School.school_kinds.map { |key, value| [key.humanize, key] }
   = form.input :street
   = form.input :city
   = form.input :phone
