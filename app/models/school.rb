@@ -32,6 +32,7 @@ class School < ApplicationRecord
       when :mentor
         self.high_school + self.gymnasium
       when :teacher
+        self.primary_school + self.secondary_school
       when :kid
         self.primary_school + self.secondary_school
     end
