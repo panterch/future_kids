@@ -22,4 +22,14 @@ class School < ApplicationRecord
   def display_name
     name
   end
+
+  def self.by_kind(role)
+    case role
+      when :mentor
+        self.high_school + self.gymnasium
+      when :teacher
+      when :kid
+        self.primary_school + self.secondary_school
+    end
+  end
 end
