@@ -223,6 +223,13 @@ de:
         end_at: "Ende"
         comments: Bemerkungen
 
+    enums:
+      school_kinds:
+        high_school: "High school"
+        gymnasium: "Gymnasium"
+        secondary_school: "Oberschule"
+        primary_school: "Grundschule"
+
   notifications:
     remind:
       subject: Future Kids Erinnerung

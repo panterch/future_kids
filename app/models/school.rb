@@ -23,6 +23,10 @@ class School < ApplicationRecord
     name
   end
 
+  def self.kinds
+    self.school_kinds.map { |key, value| [ self.humanize_enum('school_kind', key), key ] }
+  end
+
   def self.by_kind(role)
     case role
       when :mentor
