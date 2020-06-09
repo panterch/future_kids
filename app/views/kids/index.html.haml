@@ -15,7 +15,7 @@
         = f.select :exit, term_collection, { :include_blank => true }, class: 'form-control'
       .form-group
         %label= Kid.human_attribute_name(:school)
-        = f.select :school_id, school_collection, { :include_blank => true }, class: 'form-control'
+        = f.select :school_id, school_collection_by_kind(:kid), { :include_blank => true }, class: 'form-control'
       - if @site.feature_coach?
         .form-group
           %label Coach
