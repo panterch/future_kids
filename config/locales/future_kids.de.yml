@@ -225,9 +225,9 @@ de:
 
     enums:
       school_kinds:
-        high_school: "High school"
+        high_school: "Fachhochschule / Uni"
         gymnasium: "Gymnasium"
-        secondary_school: "Oberschule"
+        secondary_school: "Sekundarschule"
         primary_school: "Grundschule"
 
   notifications:
