@@ -15,6 +15,9 @@
       .form-group
         %label Einsatztag
         = f.select :filter_by_meeting_day, wday_collection, { :include_blank => true }, class: 'form-control'
+      .form-group
+        %label Schule
+        = f.select :school_id, school_collection_by_kind(:mentor), { :include_blank => true }, class: 'form-control'
       - if @site.feature_coach?
         .form-group
           %label Coach
