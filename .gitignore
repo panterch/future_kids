@@ -23,3 +23,4 @@ config/newrelic.yml
 .DS_Store
 .ruby-gemset
 /db/structure.sql
+storage/

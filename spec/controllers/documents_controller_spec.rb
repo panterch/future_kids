@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe DocumentsController do
 
-  let(:file) { File.new(File.join(Rails.root, 'doc/gespraechsdoku.pdf')) }
+  let(:file) { fixture_file_upload(File.join(Rails.root, 'doc/gespraechsdoku.pdf'), 'application/pdf') }
 
   context 'as a mentor' do
     before(:each) do
       sign_in create(:mentor)
-      create(:document, title: 'a1', category0: 'a', attachment: file)
-      create(:document, title: 'ax1', category0: 'a', category1: 'x', attachment: file)
+      build(:document, title: 'a1', category0: 'a').attachment.attach(file).record.save!
+      build(:document, title: 'ax1', category0: 'a', category1: 'x').attachment.attach(file).record.save!
     end
 
     it 'can browse documents' do

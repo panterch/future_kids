@@ -53,7 +53,7 @@
   .col-md-4
     - if @mentor.photo.present?
       .portrait
-        %img{:src => @mentor.photo.url(:medium)}
+        %img{:src => rails_representation_url(@mentor.photo_medium)}
   .col-md-12.hidden-print
     = render 'relation_logs/collection', resource: @mentor
 

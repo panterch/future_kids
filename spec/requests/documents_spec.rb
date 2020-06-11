@@ -2,7 +2,7 @@ require 'requests/acceptance_helper'
 
 feature 'Document Tree', js: true do
   let!(:admin) { create(:admin) }
-  let(:file) { File.new(File.join(Rails.root, 'doc/gespraechsdoku.pdf')) }
+  let(:file) { fixture_file_upload(File.join(Rails.root, 'doc/gespraechsdoku.pdf'), 'application/pdf') }
 
   background do
     log_in(admin)

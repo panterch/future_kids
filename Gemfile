@@ -25,6 +25,9 @@ gem 'uglifier'
 gem 'i18n-active_record'
 gem 'countries'
 gem 'country_select'
+gem 'image_processing'
+gem 'active_storage_validations'
+gem 'google-cloud-storage', '~> 1.11', require: false
 gem 'geocoder'
 
 # see https://github.com/straydogstudio/axlsx_rails#installation

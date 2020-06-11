@@ -78,7 +78,15 @@ Rails.application.configure do
       authentication: :plain
     }
     ActionMailer::Base.delivery_method = :smtp
+  else
+    # probably required for old hostings
+    ActionMailer::Base.delivery_method = :sendmail
   end
+
+  config.action_mailer.default_url_options = {
+    host: ENV.fetch('APP_DOMAIN', 'www.aoz-futurekids.ch'),
+    protocol: 'https'
+  }
 
   # Enable locale fallbacks for I18n (makes lookups for any locale fall back to
   # the I18n.default_locale when a translation cannot be found).
@@ -101,4 +109,10 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
+
+  if ENV.fetch('GOOGLE_PROJECT_ID', '').present?
+    config.active_storage.service = :google
+  else
+    config.active_storage.service = :local
+  end
 end
