@@ -37,7 +37,7 @@ class TeachersController < ApplicationController
   def load_and_constrain_schools
     case current_user
       when Admin
-        @schools = School.all
+        @schools = School.by_kind(:teacher)
       when Principal
         @schools = current_user.schools
       else

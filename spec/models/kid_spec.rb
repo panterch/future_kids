@@ -237,11 +237,12 @@ describe Kid do
       expect(kid.longitude).to eq(1.234)
     end
 
-    it 'invalidates model if address is not found' do
+    it 'sets coords nil if address is not found' do
       kid.address = 'Street 404'
-      kid.city = 'Nocity'
-      kid.valid?
-      expect(kid.errors[:address]).to include("Adresse wurde nicht gefunden")
+      kid.city = 'Notfoundtown'
+      kid.save!
+      expect(kid.latitude.blank?).to be_truthy
+      expect(kid.longitude.blank?).to be_truthy
     end
 
     it 'resets coordinates if address becomes blank' do

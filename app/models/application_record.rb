@@ -13,4 +13,8 @@ class ApplicationRecord < ActiveRecord::Base
         MIME::Types.select { |type| type.extensions.include?(ext.to_s) }
     end.map(&:to_s)
   end
+  
+  def self.humanize_enum(enum_name, enum_value)
+    I18n.t("activerecord.enums.#{enum_name.to_s.pluralize}.#{enum_value}").humanize
+  end
 end

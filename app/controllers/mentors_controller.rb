@@ -82,7 +82,7 @@ class MentorsController < ApplicationController
   end
 
   def load_schools
-    @schools = School.all
+    @schools = School.by_kind(:mentor)
     @schools_include_blank = true
   end
 end

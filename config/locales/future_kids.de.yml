@@ -200,6 +200,7 @@ de:
         district: Schulgemeinde
         note: Bemerkungen
         term: Startzeit
+        school_kind: Schultyp
       relation_log:
         kid: "Schüler/in"
         user: Person
@@ -221,6 +222,13 @@ de:
         start_at: "Beginn"
         end_at: "Ende"
         comments: Bemerkungen
+
+    enums:
+      school_kinds:
+        high_school: "Fachhochschule / Uni"
+        gymnasium: "Gymnasium"
+        secondary_school: "Sekundarschule"
+        primary_school: "Grundschule"
 
   notifications:
     remind:

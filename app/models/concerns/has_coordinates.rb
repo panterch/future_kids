@@ -2,33 +2,28 @@ module HasCoordinates
   extend ActiveSupport::Concern
 
   included do
-    geocoded_by :full_address
-    after_validation :geocode, if: ->(obj){ (obj.address.present? || obj.city.present?) and obj.full_address_changed? }
-    after_validation :location_found?
+    after_validation :geocode, if: :full_address_changed?
   end
 
   def full_address
-    [address, city].reject(&:blank?).join(' ')
+    full_address = [address, city].reject(&:blank?)
+    return if full_address.none? 
+
+    full_address.join(' ')
   end
 
   def full_address_changed?
-    :address_changed? || :city_changed?
+    address_changed? || city_changed?
   end
 
-  # Check if location was found by geocoder.
-  # If full address is blank, set coords to nil
-  # If full adress has changed, but coords did not, it means geocoder was unable to find new location
-  def location_found?
-    if (full_address.blank?)
+  def geocode
+    results = Geocoder.search(full_address)
+    if results.empty?
       self.latitude = nil
       self.longitude = nil
-      return true
-    end
-    if (full_address_changed?)
-      if !(self.latitude_changed?)
-        self.errors.add(:address, "Adresse wurde nicht gefunden")
-        return false
-      end
+    else
+      self.latitude = results.first.latitude
+      self.longitude = results.first.longitude
     end
   end
 end

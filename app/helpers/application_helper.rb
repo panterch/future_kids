@@ -52,6 +52,12 @@ module ApplicationHelper
     School.all.map { |s| [s.display_name, s.id] }
   end
 
+  def school_collection_by_kind(role)
+    schools = School.by_kind(role)
+    return [] unless schools
+    schools.map { |s| [s.display_name, s.id] }
+  end
+
   def admin_collection
     Admin.active.map { |a| [a.display_name, a.id] }
   end

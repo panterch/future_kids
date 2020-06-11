@@ -187,7 +187,7 @@ class KidsController < ApplicationController
         @schools = current_user.schools
         @schools_include_blank = false
       when Admin
-        @schools = School.all
+        @schools = School.by_kind(:kid)
         @schools_include_blank = true
       else
         fail SecurityError.new("User #{current_user.id}")

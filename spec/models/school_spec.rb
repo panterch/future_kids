@@ -42,4 +42,29 @@ describe School do
       expect(@mentor1.schools).to include(@school)
     end
   end
+
+  context 'filtered by kind' do
+    before do
+      # Create 2 high schools, 3 gymnasiums, 1 secondary school and 1 primary school
+      create(:school, school_kind: :high_school)
+      create(:school, school_kind: :high_school)
+      create(:school, school_kind: :gymnasium)
+      create(:school, school_kind: :gymnasium)
+      create(:school, school_kind: :gymnasium)
+      create(:school, school_kind: :secondary_school)
+      create(:school, school_kind: :primary_school)
+    end
+
+    it 'should be only of high schools or gymnasiums for mentors' do
+      expect(School.by_kind(:mentor).length).to eq(5)
+    end
+
+    it 'should be only of primary and secondary schools for kids' do
+      expect(School.by_kind(:kid).length).to eq(2)
+    end
+
+    it 'should be only of primary and secondary schools for teachers' do
+      expect(School.by_kind(:teacher).length).to eq(2)
+    end
+  end
 end
