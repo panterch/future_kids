@@ -53,7 +53,7 @@ class Comment < ApplicationRecord
     # is left at all
     if to.empty?
       fallback_email = Site.first_or_create.comment_bcc
-      fallback_email ||= I18n.t('notifications.default_email')
+      fallback_email ||= Notifications.default_email
       to << fallback_email
     end
 

@@ -1,5 +1,13 @@
 class Notifications < ActionMailer::Base
-  default from: I18n.t('notifications.default_email')
+
+  def self.default_email
+    Site.first_or_create.try(:notifications_default_email) ||
+        I18n.t('notifications.default_email')
+  end
+
+  default from: Notifications.default_email
+
+
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
@@ -8,12 +16,12 @@ class Notifications < ActionMailer::Base
   #
   def remind(reminder)
     @reminder = reminder
-    mail to: @reminder.recipient, bcc: I18n.t('notifications.default_email')
+    mail to: @reminder.recipient, bcc: Site.first_or_create.comment_bcc
   end
 
   def reminders_created(count)
     @count = count
-    mail to: I18n.t('notifications.default_email')
+    mail to: Notifications.default_email
   end
 
   def comment_created(comment)
@@ -36,7 +44,7 @@ class Notifications < ActionMailer::Base
   def important_journal_created(journal)
     @journal = journal
     recipients = []
-    recipients << I18n.t('notifications.default_email')
+    recipients << Notifications.default_email
     recipients << @journal.kid.admin&.email if @journal.kid.admin
     mail subject: I18n.t('notifications.important_subject'),
          to: recipients
@@ -44,11 +52,11 @@ class Notifications < ActionMailer::Base
 
   def first_year_assessment_created(assessment)
     @assessment = assessment
-    mail to: I18n.t('notifications.default_email')
+    mail to: Notifications.default_email
   end
 
   def termination_assessment_created(assessment)
     @assessment = assessment
-    mail to: I18n.t('notifications.default_email')
+    mail to: Notifications.default_email
   end
 end
