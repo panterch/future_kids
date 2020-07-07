@@ -68,6 +68,9 @@ GEM
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
       execjs (~> 2.0)
+    barnes (0.0.8)
+      multi_json (~> 1)
+      statsd-ruby (~> 1.1)
     bcrypt (3.1.13)
     bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
@@ -354,6 +357,7 @@ GEM
       actionpack (>= 4.0)
       activesupport (>= 4.0)
       sprockets (>= 3.0.0)
+    statsd-ruby (1.4.0)
     temple (0.8.2)
     terrapin (0.6.0)
       climate_control (>= 0.0.3, < 1.0)
@@ -387,6 +391,7 @@ PLATFORMS
 DEPENDENCIES
   actionview-encoded_mail_to
   active_storage_validations
+  barnes
   bootstrap-sass
   cancancan
   capybara
