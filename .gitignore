@@ -24,3 +24,4 @@ config/newrelic.yml
 .ruby-gemset
 /db/structure.sql
 storage/
+.generators
