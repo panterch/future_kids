@@ -14,4 +14,15 @@ feature 'Site' do
     log_in(create(:mentor))
     expect { visit edit_site_url }.to raise_error(CanCan::AccessDenied)
   end
+
+  scenario 'should show teachers reviews when site configuration allows it' do
+    Site.load.update!(teachers_can_access_reviews: true)
+    @teacher = create(:teacher)
+    create(:kid, name: 'last1', prename: 'first1', teacher: @teacher)
+    log_in(@teacher)
+    click_link 'Schüler/in'
+    click_link 'last1 first1'
+    expect(page).to have_css('h1', text: 'last1 first1')
+    expect(page).to have_css('h2', text: 'Gesprächsdokumentationen')
+  end
 end

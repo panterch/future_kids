@@ -1,7 +1,7 @@
 class Notifications < ActionMailer::Base
 
   def self.default_email
-    Site.first_or_create.try(:notifications_default_email) ||
+    Site.load.try(:notifications_default_email) ||
         I18n.t('notifications.default_email')
   end
 
@@ -16,7 +16,7 @@ class Notifications < ActionMailer::Base
   #
   def remind(reminder)
     @reminder = reminder
-    mail to: @reminder.recipient, bcc: Site.first_or_create.comment_bcc
+    mail to: @reminder.recipient, bcc: Site.load.comment_bcc
   end
 
   def reminders_created(count)
@@ -25,7 +25,7 @@ class Notifications < ActionMailer::Base
   end
 
   def comment_created(comment)
-    @site = Site.first_or_create!
+    @site = Site.load
     @comment = comment
     @journal = comment.journal
     @kid = @journal.kid

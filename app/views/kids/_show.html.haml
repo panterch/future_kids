@@ -10,7 +10,7 @@
         .list-group-item
           = link_to journal.display_name, :anchor => dom_id(journal)
 
-  - if @kid.mentor == current_user || current_user.is_a?(Admin)
+  - if can?(:read, @cancan_review)
     .panel.panel-default
       .panel-heading
         %h4.panel-title(data-toggle="collapse" data-target="#collapseReviews")
@@ -132,8 +132,7 @@
           %label.col-sm-3.text-right= comment.display_name
           .col-sm-offset-3= comment.human_body
 
--# reviews are only visible for admins and first mentors
-- if @kid.mentor == current_user || current_user.is_a?(Admin)
+- if can?(:read, @cancan_review)
   %h2#reviews
     Gesprächsdokumentationen
     - if can?(:create, @cancan_review)

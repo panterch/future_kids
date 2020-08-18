@@ -215,6 +215,7 @@ de:
         term_collection_start: Erstes Jahr Semesterauswahl
         term_collection_end: Letztes Jahr Semesterauswahl
         comment_bcc: Email Adresse für alle Kommentare (bcc:)
+        teachers_can_access_reviews: Lehrpersonen können Gesprächsnotizen einsehen
       substitution:
         kid: "Kind"
         mentor: "Mentor/in"

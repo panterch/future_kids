@@ -33,5 +33,9 @@ feature 'TEACHER::NAVIGATION:KID', "
     expect(page).to have_css('h1', text: 'last1 first1')
     expect(page).to have_css('h2', text: 'Allgemeine Informationen')
     expect(page).to have_css('h2', text: 'Lernjournale')
+    # reviews are normally not accessible for teachers. see site_configuration_spec for different setup
+    expect(page).not_to have_css('h2', text: 'Gesprächsdokumentationen')
   end
+
+
 end

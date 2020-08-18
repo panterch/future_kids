@@ -52,7 +52,7 @@ class Comment < ApplicationRecord
     # guard against the edge case where no receiver at all for the email
     # is left at all
     if to.empty?
-      fallback_email = Site.first_or_create.comment_bcc
+      fallback_email = Site.load.comment_bcc
       fallback_email ||= Notifications.default_email
       to << fallback_email
     end

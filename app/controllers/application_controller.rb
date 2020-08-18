@@ -17,7 +17,7 @@ protected
   end
 
   def load_site_configuration
-    @site = Site.first_or_create!
+    @site = Site.load
   end
 
   def logout_inactive
