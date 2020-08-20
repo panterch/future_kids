@@ -1,13 +1,16 @@
 class Notifications < ActionMailer::Base
 
   def self.default_email
-    Site.load.try(:notifications_default_email) ||
-        I18n.t('notifications.default_email')
+    email = Site.first_or_create.try(:notifications_default_email)
+    if email.blank?
+      email = I18n.t('notifications.default_email')
+    end
+    return email
   end
 
+
   default from: Notifications.default_email
-
-
+  
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
