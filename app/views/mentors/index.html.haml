@@ -26,7 +26,7 @@
         %label ÖV
         = f.select :transport, transport_collection, { :include_blank => true }, class: 'form-control'
       .form-group
-        %label ECTS
+        %label=Mentor.human_attribute_name('ects')
         = f.select :ects, boolean_collection, { include_blank: true }, class: 'form-control'
       .checkbox
         %label
