@@ -1,6 +1,6 @@
 filename = 'future_kids.' + Time.now.strftime("%Y-%m-%d_%H-%M-%S") + '.xlsx'
 
-view_assigns = {kids: Kid.all, mentors: Mentor.all}
+view_assigns = {kids: Kid.all, mentors: Mentor.all, kid_mentor_relations: KidMentorRelation.all}
 av = ActionView::Base.new(ActionController::Base.view_paths, view_assigns)
 av.class_eval do
   # include any needed helpers (for the view)
