@@ -10,6 +10,8 @@ class MentorsController < ApplicationController
     # is not present, it is built here with default values
     params[:mentor] ||= {}
     params[:mentor][:inactive] = '0' if params[:mentor][:inactive].nil?
+    params[:mentor][:ects] = nil if params[:mentor][:ects].nil?
+
 
     # mentors are filtered by the criteria above
     last_selected_coach = params[:mentor][:filter_by_coach_id]

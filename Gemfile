@@ -49,9 +49,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'factory_bot'
   gem 'selenium-webdriver'
-  # make sure to update chromedriver on your local system and on travis
-  # - chromedriver-update
-  # - .travis.yml
+  gem 'launchy'
   gem 'webdrivers'
   gem 'database_cleaner'
   gem 'rails-controller-testing'
