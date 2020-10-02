@@ -1,0 +1,31 @@
+wb.add_worksheet(name: "Beziehungen") do |sheet|
+  sheet.add_row [
+    Kid.human_attribute_name(:id) + ' ' + Kid.model_name.human,
+    Kid.human_attribute_name(:name) + ' ' + Kid.model_name.human,
+    'Einstieg',
+    Kid.human_attribute_name(:exit_kind),
+    Kid.human_attribute_name(:exit_at),
+    Mentor.human_attribute_name(:id) + ' ' + Mentor.model_name.human,
+    Mentor.human_attribute_name(:name) + ' ' + Mentor.model_name.human,
+    Mentor.human_attribute_name(:email),
+    Mentor.human_attribute_name(:exit_kind),
+    Mentor.human_attribute_name(:exit_at),
+    School.model_name.human
+  ]
+
+  @kid_mentor_relations.each do |r|
+    sheet.add_row [
+      r.kid.id,
+      r.kid.display_name,
+      r.simple_term,
+      r.kid.human_exit_kind,
+      human_date(r.kid.exit_at),
+      r.mentor.try(:id),
+      r.mentor.try(:display_name),
+      r.mentor.try(:email),
+      r.mentor.try(:human_exit_kind),
+      human_date(r.mentor.try(:exit_at)),
+      r.school.try(:display_name)
+    ]
+  end
+end

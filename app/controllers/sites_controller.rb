@@ -5,7 +5,16 @@ class SitesController < ApplicationController
   end
 
   def show
-    redirect_to edit_site_url
+    # in xlsx format show is a full dump of the site
+    if 'xlsx' == params[:format]
+      @kids = Kid.all
+      @mentors = Mentor.all
+      @kid_mentor_relations = KidMentorRelation.all
+      return render xlsx: 'show'
+    # normal call redirects to the site wide features
+    else
+      redirect_to edit_site_url
+    end
   end
 
   def update
