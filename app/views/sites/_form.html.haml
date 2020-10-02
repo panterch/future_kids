@@ -1,3 +1,8 @@
+- content_for :contextual_links do
+  = contextual_links do
+    = contextual_link_to :xlsx, site_path(format: 'xlsx')
+
+
 = simple_form_for @site do |form|
   = form.input :footer_address
   = form.input :footer_email
