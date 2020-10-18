@@ -18,6 +18,8 @@ class Mentor < User
   
   belongs_to :school, optional: true
 
+  enum ects: { currently: 1, alumni: 2 }
+
   # Unscope is needed because the association is done through kids.
   # Kids are ordered so distinct was looking at the kids scope in order to
   # produce distinct results. Unscoping order enables distinct to remove duplicates.
@@ -63,6 +65,11 @@ class Mentor < User
   def human_exit_kind
     return '' if exit_kind.blank?
     I18n.t(exit_kind, scope: 'exit_kind')
+  end
+
+  def human_ects
+    return '' if ects.blank?
+    I18n.t(ects, scope: 'ects')
   end
 
   # shows when last schedule relation entry was edited
