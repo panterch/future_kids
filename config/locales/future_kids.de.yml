@@ -144,7 +144,7 @@ de:
         education: Ausbildungsstufe
         school: Schule
         schools: Schule(n)
-        ects: ECTS aktiv
+        ects: ECTS
         entry_date: Datum des Einstiges
         remember_me: Angemeldet bleiben
         inactive: Inaktiv gesetzt
@@ -258,6 +258,10 @@ de:
     later: "Alternatives Ausstiegsdatum"
     continue_term: "macht ½ Jahr weiter"
     continue: "macht 1 Jahr weiter"
+
+  ects:
+    currently: "Aktiv"
+    alumni: "Alumni"
 
   crud:
     action:

@@ -36,6 +36,10 @@ module ApplicationHelper
       .reduce([]) { |ar, year| ar << "#{year} Frühling" << "#{year} Herbst" }
   end
 
+  def ects_collection
+    Mentor.ects.keys.map { |key| [ I18n.t(key, scope: :ects), key] }
+  end
+
   def exit_reason_collection
     ['Übertritt',
      'Wegzug',

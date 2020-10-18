@@ -37,8 +37,7 @@ feature 'Kid Mentor planning', js: true do
   }
   let!(:admin) { create(:admin) }
   let!(:mentor_frederik) {
-    # Frederik receives ects
-    mentor = create(:mentor, ects: true, prename: 'Frederik', name: 'Haller', sex: 'm')
+    mentor = create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'm')
     mentor.schedules.create(day: 1, hour: 14, minute: 0)
     mentor.schedules.create(day: 1, hour: 14, minute: 30)
     mentor.schedules.create(day: 1, hour: 15, minute: 0)
@@ -54,8 +53,7 @@ feature 'Kid Mentor planning', js: true do
     mentor
   }
   let!(:mentor_melanie) {
-    # melanie receives ects
-    mentor = create(:mentor, ects: true, prename: 'Melanie', name:'Rohner', sex: 'f')
+    mentor = create(:mentor, prename: 'Melanie', name:'Rohner', sex: 'f')
     mentor.schedules.create(day: 3, hour: 14, minute: 0)
     mentor.schedules.create(day: 3, hour: 14, minute: 30)
     mentor.schedules.create(day: 3, hour: 15, minute: 0)
@@ -71,8 +69,7 @@ feature 'Kid Mentor planning', js: true do
     mentor
   }
   let!(:mentor_max) {
-    # max does not receive ects
-    mentor =create(:mentor, ects: false, prename: 'Max', name: 'Steiner', sex: 'm')
+    mentor =create(:mentor, prename: 'Max', name: 'Steiner', sex: 'm')
     mentor.schedules.create(day: 1, hour: 17, minute: 0)
     mentor.schedules.create(day: 1, hour: 17, minute: 30)
     mentor.schedules.create(day: 1, hour: 18, minute: 0)
@@ -89,9 +86,7 @@ feature 'Kid Mentor planning', js: true do
   }
 
   let!(:mentor_sarah) {
-
-    # sarah does not receive ects
-    mentor =create(:mentor, ects: false, prename: 'Sarah', name: 'Koller', sex: 'f')
+    mentor =create(:mentor, prename: 'Sarah', name: 'Koller', sex: 'f')
     mentor.schedules.create(day: 1, hour: 17, minute: 0)
     mentor.schedules.create(day: 1, hour: 17, minute: 30)
     mentor.schedules.create(day: 1, hour: 18, minute: 0)
@@ -195,40 +190,8 @@ feature 'Kid Mentor planning', js: true do
           end
         end
       end
-      describe 'ects-filter' do
-
-
-        scenario 'initially is set to show mentors with ects and without' do
-          val = find(:css, '.filters [name="ects"]').value
-          expect(val).to eq('')
-        end
-        scenario 'select ects' do
-          within('.filters [name="ects"]') do
-            find('option[value="true"]').click
-          end
-          within('.kid-mentor-schedules') do
-            expect(page).to have_content 'Haller Frederik'
-            expect(page).to have_content 'Rohner Melanie'
-            expect(page).to_not have_content 'Steiner Max'
-            expect(page).to_not have_content 'Koller Sarah'
-          end
-        end
-        scenario 'select no ects' do
-          within('.filters [name="ects"]') do
-            find('option[value="false"]').click
-          end
-          within('.kid-mentor-schedules') do
-            expect(page).to_not have_content 'Haller Frederik'
-            expect(page).to_not have_content 'Rohner Melanie'
-            expect(page).to have_content 'Steiner Max'
-            expect(page).to have_content 'Koller Sarah'
-          end
-        end
-
-      end
 
       describe 'sex-filter' do
-
         scenario 'initially is set to show both gender' do
           val = find(:css, '.filters [name="sex"]').value
           expect(val).to eq('')
@@ -432,24 +395,13 @@ feature 'Kid Mentor planning', js: true do
           expect(page).to have_selector('.cell-mentor', count: 12*4)
         end
       end
-      scenario 'select no ects' do
-        within('.filters [name="ects"]') do
-          find('option[value="false"]').click
-        end
-        within('.timetable') do
-          expect(page).to have_selector('.cell-mentor', count: 12*2)
-        end
-      end
 
-      scenario 'select female mentors with ects' do
-        within('.filters [name="ects"]') do
-          find('option[value="true"]').click
-        end
+      scenario 'select female mentors' do
         within('.filters [name="sex"]') do
           find('option[value="f"]').click
         end
         within('.timetable') do
-          expect(page).to have_selector('.cell-mentor', count: 12)
+          expect(page).to have_selector('.cell-mentor', count: 24)
         end
       end
 

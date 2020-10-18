@@ -12,7 +12,6 @@ MAX_MENTORS_TO_DISPLAY = 10
     mentorsToDisplay: getMentorIds @props.mentors
     visitedMentors: []
     filters:
-      ects: null
       sex: null
       numberOfKids: "no-kid"
       school: null
@@ -24,8 +23,6 @@ MAX_MENTORS_TO_DISPLAY = 10
     for id, mentor of filteredMentors
       mentor.colors = @getColorsOfMentor total, index
       index++
-      if @state.filters?.ects?
-        delete filteredMentors[id] if mentor.ects isnt @state.filters.ects
       if @state.filters?.sex?
         delete filteredMentors[id] if mentor.sex isnt @state.filters?.sex
       if @state.filters?.school?
@@ -229,16 +226,6 @@ Filters = createReactClass
     sanitize = (value) -> if value is 'm' or value is 'f' then value else null
     @props.onChange? "sex", sanitize event.target.value
 
-  onChangeECTS: (event) ->
-    asBoolean = (value) -> switch value
-      when "true" then true
-      when "false" then false
-      else null
-
-    @props.onChange? "ects", asBoolean event.target.value
-
-
-
   onChangeSchool: (event) ->
     sanitize = (value) -> if _.size(value) == 0 then null else parseInt value, 10
     @props.onChange? "school", sanitize event.target.value
@@ -253,15 +240,6 @@ Filters = createReactClass
           React.createElement("option", {"value": "primary-only"}, "nur primärem Schüler zugewiesen"),
           React.createElement("option", {"value": "secondary-only"}, "nur sekundärem Schüler"),
           React.createElement("option", {"value": "primary-and-secondary"}, "primärem und sekundärem Schüler")
-        )
-      ),
-
-      React.createElement("div", {"className": "form-group"},
-        React.createElement("label", {"htmlFor": "ects"}, "ECTS "),
-        React.createElement("select", {"name": "ects", "className": "form-control", "value": @props.initialFilters.ects or "", "onChange": @onChangeECTS},
-          React.createElement("option", null),
-          React.createElement("option", {"value": "true"}, "ECTS"),
-          React.createElement("option", {"value": "false"}, "kein ECTS")
         )
       ),
       React.createElement("div", {"className": "form-group"},

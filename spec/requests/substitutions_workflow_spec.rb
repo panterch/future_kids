@@ -63,7 +63,7 @@ feature 'ADMIN::UPDATE:SUBSTITUTION', '
     create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'm')
   }
   let!(:mentor_melanie) {
-    create(:mentor, ects: true, prename: 'Melanie', name:'Rohner', sex: 'f')
+    create(:mentor, ects: :currently, prename: 'Melanie', name:'Rohner', sex: 'f')
   }
   let!(:kid) { create(:kid, mentor: mentor_frederik) }
 
