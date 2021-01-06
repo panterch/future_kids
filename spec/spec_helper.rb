@@ -27,6 +27,9 @@ RSpec.configure do |config|
   config.use_transactional_examples = false
   config.expose_current_running_example_as :example
 
+  # Remove this line if you're not using ActiveRecord or ActiveRecord fixtures
+  config.fixture_path = "#{::Rails.root}/spec/fixtures/files"
+
   config.before(:suite) do
     DatabaseCleaner.clean_with(:transaction)
   end

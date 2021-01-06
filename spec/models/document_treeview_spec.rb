@@ -3,7 +3,7 @@ require 'spec_helper'
 describe DocumentTreeview do
 
   let(:dtv) { DocumentTreeview.new }
-  let(:file) { fixture_file_upload(File.join(Rails.root, 'doc/gespraechsdoku.pdf'), 'application/pdf') }
+  let(:file) { fixture_file_upload('gespraechsdoku.pdf', 'application/pdf') }
 
 
   it 'deliver categories tree' do

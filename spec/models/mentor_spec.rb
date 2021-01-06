@@ -138,7 +138,7 @@ describe Mentor do
 
   context 'has attached file photo' do
     before do
-      @file = fixture_file_upload(Rails.root.join('spec/fixtures/logo.png'))
+      @file = fixture_file_upload('logo.png')
       @mentor = build(:mentor)
     end
     it 'attaches a photo' do

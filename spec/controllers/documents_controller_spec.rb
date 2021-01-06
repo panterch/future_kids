@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe DocumentsController do
 
-  let(:file) { fixture_file_upload(File.join(Rails.root, 'doc/gespraechsdoku.pdf'), 'application/pdf') }
+  let(:file) { fixture_file_upload('gespraechsdoku.pdf', 'application/pdf') }
 
   context 'as a mentor' do
     before(:each) do
@@ -31,8 +31,6 @@ describe DocumentsController do
     end
 
     it 'creates a new document' do
-      path = File.join(Rails.root, 'doc/gespraechsdoku.pdf')
-      file = fixture_file_upload(path, 'application/pdf')
       post :create, params: {  document: { title: 't', category0: 'c', attachment: file } }
       expect(response).to redirect_to(action: 'index')
       expect(Document.first.title).to eq('t')

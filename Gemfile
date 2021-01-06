@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '2.6.6'
 
-gem 'rails'
+gem 'rails', '= 6.0.3.4'
 gem 'haml-rails'
 gem 'jquery-rails'
 gem 'jbuilder'
