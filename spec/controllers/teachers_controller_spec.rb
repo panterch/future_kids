@@ -39,6 +39,7 @@ describe TeachersController do
         get :edit, params: { id: @teacher.id }
         expect(response).to be_successful
       end
+
     end
   end
 
@@ -81,6 +82,32 @@ describe TeachersController do
         expect { put :create, params: { teacher: teacher_params } }.to raise_error SecurityError
         expect(Teacher.count).to eq(0)
       end
+    end
+
+    context 'as a teacher' do
+      before(:each) do
+        @school = create(:school)
+        @teacher = create(:teacher, school: @school)
+        sign_in @teacher
+      end
+
+      it 'can update its own record' do
+        put :update, params: { id: @teacher.id, teacher: {
+          name: 'changed' } }
+        expect(response).to be_redirect
+        expect(@teacher.reload.name).to eq('changed')
+      end
+
+      it 'cannot update its own school or inactivity' do
+        @original_school = @teacher.school
+        @school = create(:school)
+        expect do
+          put :update, params: { id: @teacher.id, teacher: {
+            school_id: @school.id  } }
+        end.to raise_error(SecurityError)
+        expect(@teacher.reload.school).to_not eq(@school)
+      end
+
     end
 
   end

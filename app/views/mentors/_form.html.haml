@@ -10,8 +10,7 @@
   = form.input :photo
   = form.input :dob
   = form.input :phone
-  -if current_user.is_a?(Admin) || current_user.is_a?(Principal)
-    = form.association :school, collection: @schools, include_blank: @schools_include_blank
+  = form.association :school, collection: @schools, include_blank: @schools_include_blank
   = form.input :field_of_study
   = form.input :education
   = form.input :transport, collection: transport_collection

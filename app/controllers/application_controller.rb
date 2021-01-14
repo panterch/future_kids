@@ -38,10 +38,11 @@ protected
     if params.inspect =~ /inactive/
       fail SecurityError.new("User #{current_user.id} not allowed to change inactive flag")
     end
-    # school_id may allow users to assign each other to another school
+    # school_id may allow users for principals and teachers access to kids outside their school
     # this has to be protected (unless for kids controller, there it is
     # managed by its own method #intercept_school_id)
-    if 'kids' != controller_name && params.inspect =~ /school_id/
+    # for mentors controller it is unproblematic, since it has no influence on access rights
+    if %w(principals teachers).include?(controller_name) && params.inspect =~ /school_id/
       fail SecurityError.new("User #{current_user.id} not allowed to change school_id")
     end
   end

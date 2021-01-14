@@ -23,6 +23,9 @@ describe PrincipalsController do
           get :edit, params: { id: create(:principal).id }
         end.to raise_error(CanCan::AccessDenied)
       end
+    end
+
+    context 'edit' do
 
       it 'can update its own record' do
         put :update, params: { id: @principal.id, principal: {
