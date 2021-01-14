@@ -1,11 +1,12 @@
 = simple_form_for [@journal.kid, @journal] do |form|
   - if current_user.is_a?(Admin)
-    = form.association :mentor, :collection => @mentors
+    = form.association :mentor, collection: @mentors
   = form.input :held_at
+  = form.input :meeting_type, collection: meeting_type_collection, include_blank: false
   = form.input :cancelled
   = form.input :important
-  = form.input :start_at, :as => :string, :required => true, input_html: { value: @journal.human_start_at, autocomplete: 'off' }
-  = form.input :end_at, :as => :string, :required => true, input_html: { value: @journal.human_end_at, autocomplete: 'off' }
+  = form.input :start_at, as: :string, required: true, input_html: { value: @journal.human_start_at, autocomplete: 'off' }
+  = form.input :end_at, as: :string, required: true, input_html: { value: @journal.human_end_at, autocomplete: 'off' }
   = form.input :goal
   = form.input :subject
   = form.input :method

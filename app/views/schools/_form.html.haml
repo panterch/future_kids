@@ -1,6 +1,6 @@
 = simple_form_for @school do |form|
   = form.input :name
-  = form.input :school_kind, :collection => School.kinds
+  = form.input :school_kind, :collection => school_kind_collection
   = form.input :street
   = form.input :city
   = form.input :phone

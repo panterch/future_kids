@@ -15,6 +15,6 @@ class ApplicationRecord < ActiveRecord::Base
   end
   
   def self.humanize_enum(enum_name, enum_value)
-    I18n.t("activerecord.enums.#{enum_name.to_s.pluralize}.#{enum_value}").humanize
+    I18n.t("activerecord.enums.#{enum_name.to_s.pluralize}.#{enum_value}")
   end
 end

@@ -115,6 +115,7 @@
         = journal_show.attribute :mentor do
           = can_link_to(journal.mentor)
         = journal_show.attribute :held_at
+        = journal_show.attribute :meeting_type
         - if journal.cancelled?
           = journal_show.attribute :cancelled
         - else

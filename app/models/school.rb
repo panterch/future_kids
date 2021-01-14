@@ -23,8 +23,9 @@ class School < ApplicationRecord
     name
   end
 
-  def self.kinds
-    self.school_kinds.map { |key, value| [ self.humanize_enum('school_kind', key), key ] }
+  def human_school_kind
+    return nil unless school_kind
+    School.humanize_enum('school_kind', school_kind)
   end
 
   def self.by_kind(role)

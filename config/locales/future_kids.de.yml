@@ -71,6 +71,7 @@ de:
         held_at: Datum
         start_at: Von
         end_at: Bis
+        meeting_type: Treffen
         cancelled: Ausgefallen
         important: 'Bitte sofort lesen.'
         duration: Dauer
@@ -230,6 +231,9 @@ de:
         gymnasium: "Gymnasium"
         secondary_school: "Sekundarschule"
         primary_school: "Grundschule"
+      meeting_types:
+        physical: "Phyisch"
+        virtual: "Virtuell"
 
   notifications:
     remind:

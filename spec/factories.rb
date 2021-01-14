@@ -51,6 +51,7 @@ FactoryBot.define do
     held_at { Date.parse('2011-05-30') }
     start_at { Time.parse('13:00') }
     end_at { Time.parse('14:00') }
+    meeting_type { :physical }
   end
 
   factory :cancelled_journal, parent: :journal do

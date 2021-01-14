@@ -7,7 +7,9 @@ class Journal < ApplicationRecord
   belongs_to :mentor
   has_many :comments, -> { order('created_at ASC') }, dependent: :destroy
 
-  validates_presence_of :kid, :mentor, :held_at
+  enum meeting_type: { physical:0 , virtual: 1 }
+
+  validates_presence_of :kid, :mentor, :held_at, :meeting_type
   validates_presence_of :start_at, :end_at, unless: :cancelled
 
   before_validation :clean_times, if: :cancelled
@@ -55,6 +57,11 @@ class Journal < ApplicationRecord
   def human_end_at
     return nil unless end_at
     I18n.l(end_at, format: :time)
+  end
+
+  def human_meeting_type
+    return nil unless meeting_type
+    Journal.humanize_enum('meeting_type', meeting_type)
   end
 
   # there is a default entry per month which represents the administrative

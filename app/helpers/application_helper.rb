@@ -143,6 +143,14 @@ module ApplicationHelper
      'Weiteres']
   end
 
+  def meeting_type_collection
+    Journal.meeting_types.keys.map { |s| [Journal.humanize_enum('meeting_type', s), s] }
+  end
+
+  def school_kind_collection
+    School.school_kinds.keys.map { |s| [School.humanize_enum('school_kind', s), s] }
+  end
+
   # can be used in view to display private data only to their owners (and
   # admins)
   def is_viewing_own_data(resource)
