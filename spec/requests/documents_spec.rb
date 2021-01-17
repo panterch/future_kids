@@ -1,7 +1,10 @@
 require 'requests/acceptance_helper'
 
 feature 'Document Tree', js: true do
+
   let!(:admin) { create(:admin) }
+
+  include ActionDispatch::TestProcess::FixtureFile
   let(:file) { fixture_file_upload('gespraechsdoku.pdf', 'application/pdf') }
 
   background do

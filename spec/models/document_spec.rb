@@ -2,6 +2,7 @@ require 'spec_helper'
 
 describe Document do
 
+  include ActionDispatch::TestProcess::FixtureFile
   let(:file) { fixture_file_upload('gespraechsdoku.pdf', 'application/pdf') }
 
   it 'attaches files' do

@@ -2,9 +2,9 @@ require 'spec_helper'
 
 describe DocumentTreeview do
 
-  let(:dtv) { DocumentTreeview.new }
+  include ActionDispatch::TestProcess::FixtureFile
   let(:file) { fixture_file_upload('gespraechsdoku.pdf', 'application/pdf') }
-
+  let(:dtv) { DocumentTreeview.new }
 
   it 'deliver categories tree' do
     build(:document, category0: 'a').attachment.attach(file).record.save!

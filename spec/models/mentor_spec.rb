@@ -1,6 +1,9 @@
 require 'spec_helper'
 
 describe Mentor do
+
+  include ActionDispatch::TestProcess::FixtureFile
+
   it 'has a valid factory' do
     mentor = build(:mentor)
     expect(mentor).to be_valid
