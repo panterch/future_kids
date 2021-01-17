@@ -1,20 +1,19 @@
-require 'rubygems'
+ENV['RAILS_ENV'] ||= 'test'
+
+require File.expand_path('../../config/environment', __FILE__)
+require 'rspec/rails'
 require 'capybara/rspec'
 require 'webdrivers/chromedriver'
+# Requires supporting ruby files with custom matchers and macros, etc,
+# in spec/support/ and its subdirectories.
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
-ENV['RAILS_ENV'] ||= 'test'
 
 Capybara.register_driver :selenium do |app|
   Capybara::Selenium::Driver.new(app, browser: :chrome)
 end
 
-require 'rails/application'
-require File.expand_path('../../config/environment', __FILE__)
-require 'rspec/rails'
 
-# Requires supporting ruby files with custom matchers and macros, etc,
-# in spec/support/ and its subdirectories.
-Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods

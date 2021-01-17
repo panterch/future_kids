@@ -5,7 +5,7 @@ class User < ApplicationRecord
          :recoverable, :rememberable, :trackable, :validatable
 
   has_one_attached :photo
-  validates :photo, content_type: ext_mimes(:jpg, :png, :gif)
+  validates :photo, content_type: [:jpg, :png, :gif], size: { less_than: 3.megabytes }
 
   default_scope -> { order(:name, :prename) }
   scope :active, -> { where(inactive: false) }

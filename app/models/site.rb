@@ -1,6 +1,6 @@
 class Site < ApplicationRecord
   has_one_attached :logo
-  validates :logo, content_type: ext_mimes(:jpg, :png, :gif)
+  validates :logo, content_type: [ :jpg, :png, :gif ], size: { less_than: 3.megabytes }
 
   def self.load
     first_or_create!

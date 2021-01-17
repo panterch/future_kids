@@ -209,7 +209,7 @@ de:
         end_at: Entfernt am
         role: Rolle
       site:
-        logo: Seitenlogo rechte Spalte
+        logo: Seitenlogo linke Spalte
         feature_coach: Feature 'Coach' aktiviert
         footer_address: Adressangaben in Fusszeile
         footer_email: Email Adresse in Fusszeile
