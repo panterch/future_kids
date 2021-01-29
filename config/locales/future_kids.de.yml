@@ -232,7 +232,7 @@ de:
         secondary_school: "Sekundarschule"
         primary_school: "Grundschule"
       meeting_types:
-        physical: "Phyisch"
+        physical: "Physisch"
         virtual: "Virtuell"
 
   notifications:
