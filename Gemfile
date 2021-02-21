@@ -5,6 +5,7 @@ gem 'rails'
 gem 'haml-rails'
 gem 'jquery-rails'
 gem 'jbuilder'
+gem 'rails-i18n', '~> 6.0.0'
 
 gem 'actionview-encoded_mail_to'
 gem 'cancancan'

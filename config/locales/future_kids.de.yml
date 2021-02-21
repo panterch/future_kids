@@ -297,3 +297,7 @@ de:
     'yes': Ja
     'no': Nein
     partially: Teilweise
+
+  time:
+    formats:
+      time: "%H:%M"

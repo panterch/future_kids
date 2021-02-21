@@ -50,4 +50,7 @@ Rails.application.configure do
   # config.action_view.raise_on_missing_translations = true
 
   config.active_storage.service = :test
+
+  config.i18n.available_locales = :de
+
 end
