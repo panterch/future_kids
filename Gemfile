@@ -51,7 +51,7 @@ group :development, :test do
   gem 'selenium-webdriver'
   gem 'launchy'
   gem 'webdrivers'
-  gem 'database_cleaner', '=1.8.5'
+  gem 'database_cleaner', '=1.99.0'
   gem 'rails-controller-testing'
   gem 'listen'
   gem 'pry-byebug'

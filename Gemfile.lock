@@ -118,7 +118,7 @@ GEM
       countries (~> 3.0)
       sort_alphabetical (~> 1.0)
     crass (1.0.6)
-    database_cleaner (1.8.5)
+    database_cleaner (1.99.0)
     declarative (0.0.20)
     declarative-option (0.1.0)
     devise (4.7.3)
@@ -414,7 +414,7 @@ DEPENDENCIES
   coffee-rails
   countries
   country_select
-  database_cleaner (= 1.8.5)
+  database_cleaner (= 1.99.0)
   devise
   exception_notification
   factory_bot
