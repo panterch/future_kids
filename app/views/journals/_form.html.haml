@@ -2,7 +2,7 @@
   - if current_user.is_a?(Admin)
     = form.association :mentor, collection: @mentors
   = form.input :held_at
-  = form.input :meeting_type, collection: meeting_type_collection, include_blank: false
+  = form.input :meeting_type, collection: meeting_type_collection
   = form.input :cancelled
   = form.input :important
   = form.input :start_at, as: :string, required: true, input_html: { value: @journal.human_start_at, autocomplete: 'off' }
