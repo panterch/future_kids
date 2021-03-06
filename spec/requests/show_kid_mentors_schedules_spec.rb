@@ -290,9 +290,7 @@ feature 'Kid Mentor planning', js: true do
         end
 
         scenario 'select only mentors from zhaw' do
-          within('.filters [name="school"]') do
-            find('option[value="1"]').click
-          end
+          select school_zhaw.name, from: 'school'
           within('.kid-mentor-schedules') do
             expect(page).to have_content 'Haller Frederik'
             expect(page).to_not have_content 'Rohner Melanie'
@@ -301,9 +299,7 @@ feature 'Kid Mentor planning', js: true do
           end
         end
         scenario 'select only mentors from the secondary school' do
-          within('.filters [name="school"]') do
-            find('option[value="2"]').click
-          end
+          select school_secondary_school.name, from: 'school'
           within('.kid-mentor-schedules') do
             expect(page).to have_content 'Haller Frederik'
             expect(page).to have_content 'Rohner Melanie'
@@ -331,9 +327,7 @@ feature 'Kid Mentor planning', js: true do
             expect(page).to have_content 'Steiner Max'
             expect(page).to_not have_content 'Koller Sarah'
           end
-          within('.filters [name="school"]') do
-            find('option[value="3"]').click
-          end
+          select school_primary_school.name, from: 'school'
           within('.kid-mentor-schedules') do
             expect(page).to_not have_content 'Haller Frederik'
             expect(page).to_not have_content 'Rohner Melanie'
