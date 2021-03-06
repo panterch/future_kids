@@ -49,11 +49,7 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'factory_bot'
   gem 'selenium-webdriver'
-  gem 'launchy'
   gem 'webdrivers'
-  gem 'database_cleaner', '=1.99.0'
   gem 'rails-controller-testing'
   gem 'listen'
-  gem 'pry-byebug'
-  gem 'pry'
 end
