@@ -67,6 +67,7 @@ de:
         admin: Coach
         admin_id: Coach
         creator: Ersteller/in
+        simplified_schedule: Verfügbare Zeiten
       journal:
         held_at: Datum
         start_at: Von
@@ -217,6 +218,7 @@ de:
         term_collection_end: Letztes Jahr Semesterauswahl
         comment_bcc: Email Adresse für alle Kommentare (bcc:)
         teachers_can_access_reviews: Lehrpersonen können Gesprächsnotizen einsehen
+        kids_schedule_hourly: Stundenplan aktivieren
       substitution:
         kid: "Kind"
         mentor: "Mentor/in"

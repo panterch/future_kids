@@ -140,7 +140,7 @@ class KidsController < ApplicationController
     if params[:kid].present?
       params.require(:kid).permit(
           :name, :prename, :sex, :dob, :grade, :language, :parent_country, :parent, :address,
-          :city, :phone, :translator, :note, :school_id, :goal_1, :goal_2,
+          :city, :phone, :translator, :note, :school_id, :goal_1, :goal_2, :simplified_schedule,
           :meeting_day, :meeting_start_at, :teacher_id, :secondary_teacher_id,
           :third_teacher_id, :mentor_id, :secondary_mentor_id, :secondary_active, :admin_id, :term,
           :exit, :exit_reason, :exit_kind, :exit_at, :checked_at,

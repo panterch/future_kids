@@ -10,7 +10,8 @@
       = contextual_link_to :new_first_year_assessment, new_kid_first_year_assessment_path(@kid)
     - if can? :create, @cancan_termination_assessment
       = contextual_link_to :new_termination_assessment, new_kid_termination_assessment_path(@kid)
-    = contextual_link_to :edit_schedules
-    = contextual_link_to :show_kid_mentors_schedules
+    - if @site.kids_schedule_hourly
+      = contextual_link_to :edit_schedules
+      = contextual_link_to :show_kid_mentors_schedules
 
 = render "show"
