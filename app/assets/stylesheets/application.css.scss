@@ -41,6 +41,9 @@ $sidebar-width: 220px;
 @import 'bootstrap';
 @import 'mixins';
 
+/* self_registrations */
+@import 'self_registrations/select_resource';
+
 #header {
   position: fixed;
   top: 0;

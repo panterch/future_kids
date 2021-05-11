@@ -1,6 +1,10 @@
 Rails.application.routes.draw do
   devise_for :user
 
+  resources :self_registrations, { only: [:create, :new] } do
+    get 'success', on: :collection
+  end
+
   root to: 'kids#index'
   resources :admins
   resources :documents

@@ -53,3 +53,8 @@ group :development, :test do
   gem 'rails-controller-testing'
   gem 'listen'
 end
+
+group :development do 
+  gem 'byebug'
+  gem 'letter_opener'
+end

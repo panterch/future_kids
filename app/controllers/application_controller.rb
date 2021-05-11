@@ -5,8 +5,8 @@ class ApplicationController < ActionController::Base
   respond_to :html
 
   before_action :load_site_configuration
-  before_action :authenticate_user!
   before_action :logout_inactive
+  before_action :authenticate_user!
   before_action :intercept_sensitive_params!
   protect_from_forgery prepend: true, with: :exception
 
@@ -22,6 +22,7 @@ protected
 
   def logout_inactive
     return true if 'sessions' == controller_name
+    return true if controller_name == 'self_registrations'
     return true unless user_signed_in?
     return true unless current_user.inactive?
     sign_out current_user

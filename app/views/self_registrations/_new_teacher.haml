@@ -1,0 +1,11 @@
+%h1= t(".title")
+= simple_form_for @resource, :url => self_registrations_path do |form|
+  = form.hidden_field :type
+  = form.input :name
+  = form.input :prename
+  = form.input :email, required: true
+  = form.input :phone
+  = form.association :school, collection: School.all, include_blank: false
+  
+  .col-sm-offset-3.col-sm-9
+    = form.button :submit

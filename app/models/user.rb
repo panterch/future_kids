@@ -16,6 +16,12 @@ class User < ApplicationRecord
 
   has_many :relation_logs, -> { order('created_at DESC') }
 
+  enum state: { unproven: 'unproven',
+                lebendeleife: 'lebendeleife',
+                zur_wahrnehmung: 'zur_wahrnehmung',
+                confirmed: 'confirmed',
+                cancelled: 'cancelled' }
+
   def display_name
     [name, prename].reject(&:blank?).join(' ')
   end
@@ -38,6 +44,14 @@ class User < ApplicationRecord
 
   def photo_medium
     photo.variant(resize: '300x300>').processed
+  end
+
+  def human_state
+    I18n.t("activerecord.attributes.user.states.#{state}")
+  end
+
+  def self.human_state(state)
+    I18n.t("activerecord.attributes.user.states.#{state}")
   end
 
   protected

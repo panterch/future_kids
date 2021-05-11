@@ -5,6 +5,8 @@
   = show.attribute :school do
     = can_link_to(@teacher.school)
   = show.attribute :phone
+  - if can? :read, @mentor, :state
+    = show.attribute :state
   = show.association :kids do |k|
     %li= can_link_to(k)
   = show.association :secondary_kids do |k|

@@ -151,6 +151,13 @@ de:
         inactive: Inaktiv gesetzt
         todo: Pendenzen
         note: Bemerkungen
+        state: Zustand
+        states:
+          unproven: Neu erfasst
+          lebendeleife: Warteschleife
+          zur_wahrnehmung: Zur Schulung eingeladen
+          confirmed: Zusage
+          cancelled: Absage
       mentor:
         available: "Mögliche Termine"
         absence: "Bekannte Absenzen / Verfügbarkeit"
@@ -288,6 +295,26 @@ de:
     kid_mentor_relation_index:
       one: '%{count} Bewegung'
       other: '%{count} Bewegungen'
+
+  
+  self_registrations:
+    select_resource: 
+      title: Als wen möchten Sie sich registrieren?
+      teacher: "Lehrer/in"
+      mentor: "Mentor/in"
+    new_mentor:
+      title: "Registrieren Sie sich als Mentor/in"
+    new_teacher:
+      title: "Registrieren Sie sich als Lehrer/in"
+    success:
+      title: Registrierung erfolgreich
+      text: Vielen Dank für Ihre Anmeldung. Sie erhalten demnächst eine Einladung zum Vorstellungsgespräch.
+  
+  self_registrations_mailer:
+    user_registered:
+      subject: New %{user_type} registered
+      body: "New %{user_type} registered:"
+
 
   nav:
     principal: 'SL/QUIMS'

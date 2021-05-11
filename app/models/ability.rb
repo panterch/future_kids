@@ -42,6 +42,8 @@ class Ability
                                   secondary_active: true }
       can :read, Teacher, secondary_kids: { secondary_mentor_id: user.id,
                                             secondary_active: true }
+      # mentor can not update its state
+      cannot [:read, :update], Mentor, :state
     elsif user.is_a?(Teacher)
       can :manage, Teacher, id: user.id
       can :create, Kid
@@ -71,8 +73,8 @@ class Ability
         can :manage, Review, kid: { secondary_teacher_id: user.id }
         can :manage, Review, kid: { third_teacher_id: user.id }
       end
-
-
+      # teacher can not update its state
+      cannot [:read, :update], Teacher, :state
     elsif user.is_a?(Principal)
       # own record may be read
       can [:read, :update], Principal, id: user.id
