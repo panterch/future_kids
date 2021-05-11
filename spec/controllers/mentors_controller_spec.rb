@@ -40,6 +40,16 @@ describe MentorsController do
         expect(@mentor.reload.schedules.count).to eq(2)
       end
     end
+
+    context 'update' do 
+      it 'cannot update its state' do
+        expect do
+          put :update, params: { id: @mentor.id, mentor: { state: :cancelled } }
+        end.to raise_error(SecurityError)
+
+        expect(@mentor.reload.state).to eq 'confirmed'
+      end
+    end
   end
 
   context 'as an admin' do
@@ -72,6 +82,15 @@ describe MentorsController do
       it 'does not update the schedule seen timestamp' do
         get :edit_schedules, params: { id: @mentor.id }
         expect(@mentor.reload.schedules_seen_at).to be_nil
+      end
+    end
+
+    context 'update' do
+      it 'can update state' do
+        @teacher = create(:teacher)
+        patch :update, params: { id: @mentor.id, mentor: {
+            state: :cancelled} }
+        expect(@mentor.reload.state).to eq 'cancelled'
       end
     end
 

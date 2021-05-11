@@ -39,7 +39,14 @@ describe TeachersController do
         get :edit, params: { id: @teacher.id }
         expect(response).to be_successful
       end
+    end
 
+    context 'update' do
+      it 'can update state' do
+        @teacher = create(:teacher)
+        patch :update, params: { id: @teacher.id, teacher: { state: :cancelled } }
+        expect(@teacher.reload.state).to eq 'cancelled'
+      end
     end
   end
 
@@ -76,6 +83,7 @@ describe TeachersController do
         put :create, params: { teacher: teacher_params }
         expect(response).to be_redirect
         expect(Teacher.count).to eq(1)
+        expect(Teacher.first.reload.state).to eq 'confirmed'
       end
       it 'fails when creating teacher for foreign schools' do
         teacher_params[:school_id] = create(:school).id
@@ -108,12 +116,14 @@ describe TeachersController do
         expect(@teacher.reload.school).to_not eq(@school)
       end
 
+      it 'cannot update its state' do
+        expect do
+          put :update, params: { id: @teacher.id, teacher: { state: :cancelled }  }
+        end.to raise_error(SecurityError)
+
+        expect(@teacher.reload.state).to eq 'confirmed'
+      end
     end
-
   end
-
-
-
-
 end
 

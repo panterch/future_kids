@@ -52,9 +52,9 @@ group :development, :test do
   gem 'webdrivers'
   gem 'rails-controller-testing'
   gem 'listen'
+  gem 'byebug'
 end
 
 group :development do 
-  gem 'byebug'
   gem 'letter_opener'
 end

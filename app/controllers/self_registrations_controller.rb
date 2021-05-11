@@ -3,8 +3,6 @@ class SelfRegistrationsController < ApplicationController
 
   skip_before_action :authenticate_user!
   before_action :redirect_if_signed_in
-  
-  def index; end
 
   def new
     resource_whitelist = { 'mentor' => Mentor, 'teacher' => Teacher }
@@ -28,7 +26,7 @@ class SelfRegistrationsController < ApplicationController
   def user_params
     p = params[:teacher].nil? ? params.require(:mentor) : params.require(:teacher)
     p = p.permit(
-      :type, :prename, :name, :email
+      :type, :email, :name, :prename, :sex, :address, :photo, :dob, :phone, :school, :field_of_study
     )
     new_password = Devise.friendly_token.first(10)
     p.merge password: new_password, password_confirmation: new_password, state: :unproven

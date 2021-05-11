@@ -55,6 +55,9 @@ class TeachersController < ApplicationController
           :phone, :receive_journals, :todo, :note]
       keys << :inactive if current_user.is_a?(Admin)
       keys << :state if can? :update, Mentor, :state
+      if params[:teacher][:state] && !(can? :update, Mentor, :state)
+        fail SecurityError.new("User #{current_user.id} not allowed to change its state")
+      end
       params.require(:teacher).permit(keys)
     else
       {}

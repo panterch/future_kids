@@ -77,6 +77,10 @@ class MentorsController < ApplicationController
       ]
       p << :state if can? :update, Mentor, :state
 
+      if params[:mentor][:state] && !(can? :update, Mentor, :state)
+        fail SecurityError.new("User #{current_user.id} not allowed to change its state")
+      end
+      
       params.require(:mentor).permit(*p)
     else
       {}
