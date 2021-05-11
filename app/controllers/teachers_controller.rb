@@ -54,8 +54,7 @@ class TeachersController < ApplicationController
       keys = [ :name, :prename, :email, :password, :password_confirmation, :school_id,
           :phone, :receive_journals, :todo, :note]
       keys << :inactive if current_user.is_a?(Admin)
-      keys = keys & current_ability.permitted_attributes(:update, Teacher)
-
+      keys << :state if can? :update, Mentor, :state
       params.require(:teacher).permit(keys)
     else
       {}

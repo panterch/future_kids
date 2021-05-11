@@ -12,7 +12,7 @@
   = form.input :photo
   = form.input :dob
   = form.input :phone
-  = form.association :school, collection: @schools, include_blank: @schools_include_blank
+  = form.association :school, collection: School.all, include_blank: false
   = form.input :field_of_study
   = form.input :education
   = form.input :transport, collection: transport_collection

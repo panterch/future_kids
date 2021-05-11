@@ -72,9 +72,10 @@ class MentorsController < ApplicationController
         :city, :dob, :phone, :school_id, :field_of_study, :education, :transport,
         :personnel_number, :ects, :term, :absence, :note, :todo, :substitute,
         :filter_by_school_id, :filter_by_meeting_day, :filter_by_coach_id,
-        :exit_kind, :exit_at, :state,
+        :exit_kind, :exit_at,
         :inactive, :photo, schedules_attributes: [:day, :hour, :minute]
-      ] & current_ability.permitted_attributes(:update, Mentor)
+      ]
+      p << :state if can? :update, Mentor, :state
 
       params.require(:mentor).permit(*p)
     else

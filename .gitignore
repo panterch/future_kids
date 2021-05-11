@@ -25,3 +25,4 @@ config/newrelic.yml
 /db/structure.sql
 storage/
 .generators
+.byebug_history
