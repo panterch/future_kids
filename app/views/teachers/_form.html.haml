@@ -4,6 +4,8 @@
   = form.input :email
   = form.input :password
   = form.input :password_confirmation
+  - if can? :update, @teacher, :state
+    = form.input :state, :collection => User.states.transform_keys { |k| User.human_state(k) }
   -if current_user.is_a?(Admin) || current_user.is_a?(Principal)
     = form.association :school, collection: @schools, include_blank: false
   = form.input :phone

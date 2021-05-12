@@ -1,0 +1,7 @@
+.select-resource
+  %h1= t(".title")
+  .row 
+    .col-xs-6
+      = link_to t(".teacher"), url_for({type: "teacher"}), class: "select-resource__resource"
+    .col-xs-6
+      = link_to t(".mentor"), url_for({type: "mentor"}), class: "select-resource__resource"

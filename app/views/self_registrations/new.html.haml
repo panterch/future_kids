@@ -1,0 +1,6 @@
+- if @resource&.type == "Mentor"
+  = render "new_mentor"
+- elsif @resource&.type == "Teacher"
+  = render "new_teacher"
+- else 
+  = render "select_resource"

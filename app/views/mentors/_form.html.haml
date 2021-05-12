@@ -4,13 +4,15 @@
   = form.input :email
   = form.input :password
   = form.input :password_confirmation
+  - if can? :update, @mentor, :state
+    = form.input :state, :collection => User.states.transform_keys {|k| User.human_state(k) }
   = form.input :sex, :collection => sex_collection
   = form.input :address
   = form.input :city
   = form.input :photo
   = form.input :dob
   = form.input :phone
-  = form.association :school, collection: @schools, include_blank: @schools_include_blank
+  = form.association :school, collection: School.all, include_blank: false
   = form.input :field_of_study
   = form.input :education
   = form.input :transport, collection: transport_collection
