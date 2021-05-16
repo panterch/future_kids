@@ -14,7 +14,7 @@ class User < ApplicationRecord
 
   validates_presence_of :name, :prename
 
-  has_many :relation_logs, -> { order('created_at DESC') }
+  has_many :relation_logs, -> { order('created_at DESC') }, dependent: :nullify
 
   enum state: { unproven: 'unproven',
                 lebendeleife: 'lebendeleife',

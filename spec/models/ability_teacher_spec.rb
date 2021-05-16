@@ -43,6 +43,10 @@ describe Ability do
     it 'cannot update foreign kid' do
       expect(@ability).not_to be_able_to(:update, foreign_kid)
     end
+    it 'cannot destroy inactive kid' do
+      kid.update!(inactive: true)
+      expect(@ability).not_to be_able_to(:destroy, kid)
+    end
     it 'can read mentor of assigned kid' do
       mentor = create(:mentor)
       mentor.kids << kid

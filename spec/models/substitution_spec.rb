@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe Substitution, :issue126 => true do
+describe Substitution do
   it "has a valid factory" do
     substitution = build(:substitution)
     expect(substitution).to be_valid
@@ -18,5 +18,11 @@ describe Substitution, :issue126 => true do
   it { should belong_to(:mentor) }
   it { should belong_to(:secondary_mentor).optional  }
   it { should belong_to(:kid) }
+
+  it "is destroyed when kid is destroyed" do
+    substitution = create(:substitution)
+    substitution.kid.destroy
+    expect(Substitution.exists?(substitution.id)).to be_falsey
+  end
 
 end

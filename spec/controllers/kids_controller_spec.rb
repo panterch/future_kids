@@ -84,6 +84,22 @@ describe KidsController do
         expect(@kid.schedules.count).to eq(1)
       end
     end
+
+    context 'destroy' do
+      it 'can destroy inactive' do
+        @kid.update(inactive: true)
+        delete :destroy, params: { id: @kid.id }
+        expect(Kid.exists?(@kid.id)).to be_falsey
+      end
+
+      it 'cannot destroy active' do
+        expect do
+          delete :destroy, params: { id: @kid.id }
+        end.to raise_error(CanCan::AccessDenied)
+        expect(Kid.exists?(@kid.id)).to be_truthy
+      end
+    end
+    
   end # end of as an admin
 
   context 'as a teacher' do

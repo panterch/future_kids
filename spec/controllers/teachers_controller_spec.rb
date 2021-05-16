@@ -48,6 +48,23 @@ describe TeachersController do
         expect(@teacher.reload.state).to eq 'cancelled'
       end
     end
+
+    context 'destroy' do
+      it 'can destroy inactive' do
+        @teacher = create(:teacher, inactive: true)
+        delete :destroy, params: { id: @teacher.id }
+        expect(Teacher.exists?(@teacher.id)).to be_falsey
+      end
+
+      it 'cannot destroy active' do
+        @teacher = create(:teacher)
+        expect do
+          delete :destroy, params: { id: @teacher.id }
+        end.to raise_error(CanCan::AccessDenied)
+        expect(Teacher.exists?(@teacher.id)).to be_truthy
+      end
+    end
+
   end
 
 

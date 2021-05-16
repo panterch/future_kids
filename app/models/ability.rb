@@ -105,6 +105,8 @@ class Ability
       can :destroy, Review
       can :destroy, FirstYearAssessment
       can :destroy, TerminationAssessment
+      can :destroy, Teacher, inactive: true
+      can :destroy, Kid, inactive: true
     end
 
     # special manage definition for mentors - OVERWRITING even the global
