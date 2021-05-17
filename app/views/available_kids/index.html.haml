@@ -1,21 +1,23 @@
 - content_for :contextual_links do
   != '&nbsp;'
 
-
-- #content_for :sidebar do
+- content_for :sidebar do
+  = form_for :kid, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
+    .form-group
+      %label= Kid.human_attribute_name(:grade)
+      = select_tag 'grade_group', grade_group_collection(params[:grade_group]), include_blank: true, class: 'form-control'
 
 = boot_page_title do
-  = #@kids.count if current_user.is_a?(Mentor)
-  Sch&uuml;ler/innen
+  Available kids
 
 %table.table.table-striped.table-condensed.table-hover
   %tr
-    %th Name
-    %th Wohnort
-    %th Distance
-    %th Klassenstufe
-    %th Geschlecht
-    %th Available times
+    %th= Kid.human_attribute_name(:name)
+    %th= Kid.human_attribute_name(:city)
+    %th= Kid.human_attribute_name(:distance)
+    %th= Kid.human_attribute_name(:grade)
+    %th= Kid.human_attribute_name(:sex)
+    %th= Kid.human_attribute_name(:available)
 
   - @kids.each do |kid|
     %tr
@@ -24,7 +26,6 @@
       %td= human_distance(kid.distance)
       %td= kid.grade
       %td= kid.human_sex
-
 
 - if @kids.empty?
   Zur Zeit sind Ihnen keine Kinder zugeordnet.

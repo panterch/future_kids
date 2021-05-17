@@ -111,6 +111,12 @@ module ApplicationHelper
     (1..6).to_a.reverse
   end
 
+  def grade_group_collection(selected)
+    options = [%w[Unterstufe 1-3],
+               %w[Mittelstufe 4-6]]
+    options_for_select(options, selected)
+  end
+
   def criticality_collection
     (1..3).map { |i| [I18n.t(i, scope: 'kids.criticality'), i] }
   end

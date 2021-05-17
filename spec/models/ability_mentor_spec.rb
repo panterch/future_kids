@@ -9,6 +9,8 @@ describe Ability do
     let(:ability) { Ability.new(mentor) }
     let(:foreign_kid) { create(:kid) }
     let(:kid) { create(:kid, mentor: mentor) }
+    let(:male_kid) { create(:kid, sex: 'm') }
+    let(:female_kid) { create(:kid, sex: 'f') }
     let(:secondary_kid) do
       create(:kid, secondary_mentor: mentor,
                    secondary_active: true)
@@ -65,6 +67,10 @@ describe Ability do
       end
       it 'cannot edit foreign mentors schedules' do
         expect(ability).not_to be_able_to(:edit_schedules, other_mentor)
+      end
+      it 'can find only men' do
+        expect(ability).to be_able_to(:search, male_kid)
+        expect(ability).not_to be_able_to(:search, female_kid)
       end
     end
 
