@@ -94,7 +94,7 @@ describe TeachersController do
     end
 
     context 'create' do
-      let(:teacher_params) { attributes_for(:teacher)}
+      let(:teacher_params) { attributes_for(:teacher).except(:state) }
       it 'can create teacher in own school' do
         teacher_params[:school_id] = @school.id
         put :create, params: { teacher: teacher_params }
