@@ -146,6 +146,10 @@ GEM
     faraday-net_http (1.0.1)
     ffi (1.15.0)
     geocoder (1.6.6)
+    geokit (1.13.1)
+    geokit-rails (2.3.2)
+      geokit (~> 1.5)
+      rails (>= 3.0)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
     google-apis-core (0.2.1)
@@ -415,6 +419,7 @@ DEPENDENCIES
   factory_bot
   factory_bot_rails
   geocoder
+  geokit-rails
   google-cloud-storage (~> 1.11)
   haml-rails
   i18n-active_record

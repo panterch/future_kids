@@ -18,3 +18,5 @@
 %li= nav_link :document
 -if can? :read, School
   %li= nav_link :school
+-if can? :search, Kid
+  %li= nav_link :available_kids

@@ -1,0 +1,30 @@
+- content_for :contextual_links do
+  != '&nbsp;'
+
+
+- #content_for :sidebar do
+
+= boot_page_title do
+  = #@kids.count if current_user.is_a?(Mentor)
+  Sch&uuml;ler/innen
+
+%table.table.table-striped.table-condensed.table-hover
+  %tr
+    %th Name
+    %th Wohnort
+    %th Distance
+    %th Klassenstufe
+    %th Geschlecht
+    %th Available times
+
+  - @kids.each do |kid|
+    %tr
+      %td= kid.display_name
+      %td= kid.city
+      %td= human_distance(kid.distance)
+      %td= kid.grade
+      %td= kid.human_sex
+
+
+- if @kids.empty?
+  Zur Zeit sind Ihnen keine Kinder zugeordnet.

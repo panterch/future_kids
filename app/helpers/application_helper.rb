@@ -202,4 +202,8 @@ module ApplicationHelper
     return nil unless date.present?
     I18n.l(date)
   end
+
+  def human_distance(distance)
+    "#{distance.round(2)} km"
+  end
 end

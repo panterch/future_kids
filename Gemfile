@@ -29,6 +29,7 @@ gem 'image_processing'
 gem 'active_storage_validations'
 gem 'google-cloud-storage', '~> 1.11', require: false
 gem 'geocoder'
+gem 'geokit-rails'
 gem 'net-sftp'
 
 # see https://github.com/straydogstudio/axlsx_rails#installation
@@ -55,6 +56,6 @@ group :development, :test do
   gem 'byebug'
 end
 
-group :development do 
+group :development do
   gem 'letter_opener'
 end
