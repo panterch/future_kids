@@ -71,8 +71,8 @@ class MentorsController < ApplicationController
       respond_with @mentor, notice: I18n.t('mentors.form.resend_password.sent_successfully')
       return
     end
-    # switched to confirmed state
-    if mentor_params[:state] == 'confirmed' && @mentor.state != mentor_params[:state]
+    # switched to accepted state
+    if mentor_params[:state] == 'accepted' && @mentor.state != mentor_params[:state]
       SelfRegistrationsMailer.reset_and_send_password(@mentor).deliver_now
     end
 

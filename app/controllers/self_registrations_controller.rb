@@ -27,7 +27,7 @@ class SelfRegistrationsController < ApplicationController
       :type, :email, :name, :prename, :sex, :address, :photo, :dob, :phone, :school, :field_of_study
     )
     new_password = Devise.friendly_token.first(10)
-    p.merge password: new_password, password_confirmation: new_password, state: :unproven
+    p.merge password: new_password, password_confirmation: new_password, state: :selfservice
   end
 
   def redirect_if_signed_in

@@ -154,11 +154,11 @@ de:
         note: Bemerkungen
         state: Zustand
         states:
-          unproven: Neu erfasst
-          lebendeleife: Warteschleife
-          zur_wahrnehmung: Zur Schulung eingeladen
-          confirmed: Zusage
-          cancelled: Absage
+          selfservice: Neu erfasst
+          queued: Warteschleife
+          invited: Zur Schulung eingeladen
+          accepted: Zusage
+          declined: Absage
       mentor:
         available: "Mögliche Termine"
         absence: "Bekannte Absenzen / Verfügbarkeit"

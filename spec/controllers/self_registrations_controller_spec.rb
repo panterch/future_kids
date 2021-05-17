@@ -25,8 +25,8 @@ describe SelfRegistrationsController do
         expect(response).to redirect_to action: :success
       end
 
-      it 'created teacher has unproven status' do
-        expect(Teacher.first.state).to eq 'unproven'
+      it 'created teacher has selfservice status' do
+        expect(Teacher.first.state).to eq 'selfservice'
       end
 
       it 'sends email to all admins' do
@@ -35,9 +35,9 @@ describe SelfRegistrationsController do
       end
 
       it "can't force state" do
-        post :create, params: { teacher: attributes_for(:teacher).merge(type: 'Teacher', state: :confirmed) }
+        post :create, params: { teacher: attributes_for(:teacher).merge(type: 'Teacher', state: :accepted) }
         expect(response).to redirect_to action: :success
-        expect(Teacher.last.state).to eq 'unproven'
+        expect(Teacher.last.state).to eq 'selfservice'
       end
     end
 
@@ -55,8 +55,8 @@ describe SelfRegistrationsController do
         expect(response).to redirect_to action: :success
       end
 
-      it 'created teacher has unproven status' do
-        expect(Mentor.first.state).to eq 'unproven'
+      it 'created teacher has selfservice status' do
+        expect(Mentor.first.state).to eq 'selfservice'
       end
 
       it 'sends email to all admins' do
@@ -65,9 +65,9 @@ describe SelfRegistrationsController do
       end
 
       it "can't force state" do
-        post :create, params: { mentor: attributes_for(:mentor).merge(type: 'Mentor', state: :confirmed) }
+        post :create, params: { mentor: attributes_for(:mentor).merge(type: 'Mentor', state: :accepted) }
         expect(response).to redirect_to action: :success
-        expect(Mentor.last.state).to eq 'unproven'
+        expect(Mentor.last.state).to eq 'selfservice'
       end
     end
   end

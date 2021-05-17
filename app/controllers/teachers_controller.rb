@@ -35,8 +35,8 @@ class TeachersController < ApplicationController
       respond_with @teacher, notice: I18n.t('teachers.form.resend_password.sent_successfully')
       return
     end
-    # switched to confirmed state
-    if teacher_params[:state] == 'confirmed' && @teacher.state != teacher_params[:state]
+    # switched to accepted state
+    if teacher_params[:state] == 'accepted' && @teacher.state != teacher_params[:state]
       SelfRegistrationsMailer.reset_and_send_password(@teacher).deliver_now
     end
 
