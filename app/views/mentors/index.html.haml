@@ -28,6 +28,10 @@
       .form-group
         %label=Mentor.human_attribute_name('ects')
         = f.select :ects, ects_collection, { include_blank: true }, class: 'form-control'
+      .form-group
+        %label=t("activerecord.attributes.user.state")
+        = f.select :state, user_status_collection, { include_blank: true }, class: 'form-control'
+
       .checkbox
         %label
           = f.check_box :inactive

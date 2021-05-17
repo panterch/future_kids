@@ -5,7 +5,7 @@
   = form.input :password
   = form.input :password_confirmation
   - if can? :update, @mentor, :state
-    = form.input :state, :collection => User.states.transform_keys {|k| User.human_state(k) }
+    = form.input :state, :collection => user_status_collection
   = form.input :sex, :collection => sex_collection
   = form.input :address
   = form.input :city
