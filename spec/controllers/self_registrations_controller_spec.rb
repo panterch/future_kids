@@ -12,9 +12,10 @@ describe SelfRegistrationsController do
     let!(:admin) { create(:admin) }
     let!(:admin2) { create(:admin) }
     context 'teacher' do
-      let(:teacher_params) { attributes_for(:teacher).merge(type: 'Teacher') }
+      let(:params) { { teacher: attributes_for(:teacher).merge(type: 'Teacher'), terms_of_use: { accepted: "yes" } } }
+
       before do
-        post :create, params: { teacher: teacher_params }
+        post :create, params: params
       end
 
       it 'creates teacher' do
@@ -35,16 +36,21 @@ describe SelfRegistrationsController do
       end
 
       it "can't force state" do
-        post :create, params: { teacher: attributes_for(:teacher).merge(type: 'Teacher', state: :accepted) }
+        post :create, params: params.deep_merge({ teacher: { state: :accepted, email: attributes_for(:teacher)[:email] }})
         expect(response).to redirect_to action: :success
         expect(Teacher.last.state).to eq 'selfservice'
+      end
+
+      it "can't be created if not accepted terms of conditions" do
+        post :create, params: params.deep_merge({ teacher: { email: attributes_for(:teacher)[:email] }}).except(:terms_of_use)
+        expect(response).to have_http_status :success
       end
     end
 
     context 'mentor' do
-      let(:mentor_params) { attributes_for(:mentor).merge(type: 'Mentor') }
+      let(:params) {{ mentor: attributes_for(:mentor).merge(type: 'Mentor'), terms_of_use: { accepted: "yes" } }}
       before do
-        post :create, params: { mentor: mentor_params }
+        post :create, params: params
       end
 
       it 'creates mentor' do
@@ -65,9 +71,14 @@ describe SelfRegistrationsController do
       end
 
       it "can't force state" do
-        post :create, params: { mentor: attributes_for(:mentor).merge(type: 'Mentor', state: :accepted) }
+        post :create, params: params.deep_merge({ mentor: { state: :accepted, email: attributes_for(:mentor)[:email] } })
         expect(response).to redirect_to action: :success
         expect(Mentor.last.state).to eq 'selfservice'
+      end
+
+      it "can't be created if not accepted terms of conditions" do
+        post :create, params: params.deep_merge({ mentor: { email: attributes_for(:mentor)[:email] }}).except(:terms_of_use)
+        expect(response).to have_http_status :success
       end
     end
   end
@@ -75,6 +86,13 @@ describe SelfRegistrationsController do
   context 'success' do
     it 'renders' do
       get :new
+      expect(response).to be_successful
+    end
+  end
+
+  context 'terms_of_use' do
+    it 'renders' do
+      get :terms_of_use
       expect(response).to be_successful
     end
   end

@@ -12,6 +12,14 @@
   = form.input :phone
   = form.association :school, collection: school_collection_by_kind(:mentor), include_blank: false
   = form.input :field_of_study
-  
+  %div{class: "form-group #{@terms_of_use_error ? 'has-error' : '' }"}
+    .col-sm-3
+    .col-sm-9
+      = check_box(:terms_of_use, "accepted", {required: true}, "yes", "no")
+      = form.label :terms_of_use, class: "control-label ml-2", for: "terms_of_use_accepted" do
+        =t(".terms_of_use.text", link: link_to(t(".terms_of_use.link"), terms_of_use_self_registrations_path, {target: "__blank"} )).html_safe
+
+      %span.help-block=t("errors.messages.required") if @terms_of_use_error
+
   .col-sm-offset-3.col-sm-9
     = form.button :submit

@@ -21,6 +21,11 @@ feature 'Self registrations' do
     fill_in 'Vorname', with: 'Fibbioli'
     fill_in 'E-Mail', with: 'raffael@example.com'
     fill_in 'Telefon', with: '123123123'
+    check 'terms_of_use_accepted'
+
+
+    expect(page).to have_link('Nutzungsbedingungen', href: terms_of_use_self_registrations_path)
+    expect(find_link('Nutzungsbedingungen')[:target]).to eq('__blank')
 
     expect(page).to have_select('Schule', options: ['Teacher school'])
 
@@ -42,6 +47,10 @@ feature 'Self registrations' do
     page.select '♀', from: 'Geschlecht'
     fill_in 'Strasse, Nr.', with: 'example strasse'
     fill_in 'PLZ, Ort', with: '12345'
+    check 'terms_of_use_accepted'
+
+    expect(page).to have_link('Nutzungsbedingungen', href: terms_of_use_self_registrations_path)
+    expect(find_link('Nutzungsbedingungen')[:target]).to eq('__blank')
 
     expect(page).to have_select('Schule', options: ['Mentor school'])
 
@@ -49,5 +58,11 @@ feature 'Self registrations' do
 
     expect(page).to have_content 'Registrierung erfolgreich'
     expect(Mentor.count).to eq 1
+  end
+
+  scenario "terms of conditions" do 
+    visit terms_of_use_self_registrations_path
+
+    expect(page).to have_content Site.load.terms_of_use_content_parsed
   end
 end

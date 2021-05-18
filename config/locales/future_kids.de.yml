@@ -228,6 +228,7 @@ de:
         comment_bcc: Email Adresse für alle Kommentare (bcc:)
         teachers_can_access_reviews: Lehrpersonen können Gesprächsnotizen einsehen
         kids_schedule_hourly: Stundenplan aktivieren
+        terms_of_use_content: Nutzungsbedingungen
       substitution:
         kid: "Kind"
         mentor: "Mentor/in"
@@ -308,8 +309,14 @@ de:
       mentor: "Mentor/in"
     new_mentor:
       title: "Registrieren Sie sich als Mentor/in"
+      terms_of_use: 
+        text: "Ich bestätige hiermit, die %{link} gelesen zu haben und zu akzeptieren"
+        link: "Nutzungsbedingungen"
     new_teacher:
       title: "Registrieren Sie sich als Lehrer/in"
+      terms_of_use: 
+        text: "Ich bestätige hiermit, die %{link} gelesen zu haben und zu akzeptieren"
+        link: "Nutzungsbedingungen"
     success:
       title: Registrierung erfolgreich
       text: Vielen Dank für Ihre Anmeldung. Sie erhalten demnächst eine Einladung zum Vorstellungsgespräch.
