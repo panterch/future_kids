@@ -18,7 +18,7 @@ de:
       substitution: 'Ersatz'
       first_year_assessment: "Auswertungsgespräch"
       termination_assessment: "Abschluss-Feedback"
-      available_kids: 'Find kids'
+      available_kids: 'Finde Kinder'
 
     attributes:
       kid:

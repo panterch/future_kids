@@ -86,12 +86,13 @@ module ApplicationHelper
     collection.map { |t| [t.display_name, t.id] }
   end
 
-  def order_by_collection_for_kids(selected)
+  def order_by_collection_for_kids(selected, distance = false)
     options = [%w[Name name],
                %w[Kontrolldatum checked_at],
                %w[Coachingdatum coached_at],
                %w[Erfassungsdatum created_at],
                %w[Kritikalität abnormality_criticality]]
+    options << %w[Entfernung distance] if distance
     options_for_select(options, selected)
   end
 
@@ -114,6 +115,12 @@ module ApplicationHelper
   def grade_group_collection(selected)
     options = [%w[Unterstufe 1-3],
                %w[Mittelstufe 4-6]]
+    options_for_select(options, selected)
+  end
+
+  def distance_from_collection(selected)
+    options = [%w[Mentor mentor],
+               ['Zürich HB', 'zurich']]
     options_for_select(options, selected)
   end
 

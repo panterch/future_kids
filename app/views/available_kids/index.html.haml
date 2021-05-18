@@ -4,11 +4,17 @@
 - content_for :sidebar do
   = form_for :kid, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
     .form-group
+      %label= Kid.human_attribute_name(:distance)
+      = select_tag 'distance_from', distance_from_collection(params[:distance_from]), class: 'form-control'
+    .form-group
       %label= Kid.human_attribute_name(:grade)
       = select_tag 'grade_group', grade_group_collection(params[:grade_group]), include_blank: true, class: 'form-control'
+    .form-group
+      %label Ordnen nach
+      = select_tag 'order_by', order_by_collection_for_kids(params[:order_by], true), class: 'form-control'
 
 = boot_page_title do
-  Available kids
+  Finde Kinder
 
 %table.table.table-striped.table-condensed.table-hover
   %tr
@@ -17,7 +23,8 @@
     %th= Kid.human_attribute_name(:distance)
     %th= Kid.human_attribute_name(:grade)
     %th= Kid.human_attribute_name(:sex)
-    %th= Kid.human_attribute_name(:available)
+    - unless @site.kids_schedule_hourly
+      %th= Kid.human_attribute_name(:available)
 
   - @kids.each do |kid|
     %tr
@@ -26,6 +33,8 @@
       %td= human_distance(kid.distance)
       %td= kid.grade
       %td= kid.human_sex
+      - unless @site.kids_schedule_hourly
+        %td= kid.simplified_schedule
 
 - if @kids.empty?
   Zur Zeit sind Ihnen keine Kinder zugeordnet.
