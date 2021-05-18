@@ -16,11 +16,11 @@ class User < ApplicationRecord
 
   has_many :relation_logs, -> { order('created_at DESC') }, dependent: :nullify
 
-  enum state: { unproven: 'unproven',
-                lebendeleife: 'lebendeleife',
-                zur_wahrnehmung: 'zur_wahrnehmung',
-                confirmed: 'confirmed',
-                cancelled: 'cancelled' }
+  enum state: { selfservice: 'selfservice',
+                queued: 'queued',
+                invited: 'invited',
+                accepted: 'accepted',
+                declined: 'declined' }
 
   def display_name
     [name, prename].reject(&:blank?).join(' ')

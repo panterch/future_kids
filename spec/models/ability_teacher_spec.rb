@@ -94,6 +94,9 @@ describe Ability do
       Site.load.update!(teachers_can_access_reviews: true)
       expect(@ability).not_to be_able_to(:read, review)
     end
+    it 'cannot read & edit its state' do
+      expect(@ability).not_to be_able_to([:read, :update], @teacher, :state)
+    end
   end
 
 end

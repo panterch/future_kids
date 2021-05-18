@@ -28,6 +28,21 @@ class TeachersController < ApplicationController
     end
   end
 
+  def update
+    # resend password button
+    if params[:commit] == I18n.t('teachers.form.resend_password.btn_text')
+      SelfRegistrationsMailer.reset_and_send_password(@teacher).deliver_now
+      respond_with @teacher, notice: I18n.t('teachers.form.resend_password.sent_successfully')
+      return
+    end
+    # switched to accepted state
+    if teacher_params[:state] == 'accepted' && @teacher.state != teacher_params[:state]
+      SelfRegistrationsMailer.reset_and_send_password(@teacher).deliver_now
+    end
+
+    super
+  end
+
   private
 
   # admins and principal may change the school of a teacher. we have to make

@@ -44,8 +44,28 @@ describe TeachersController do
     context 'update' do
       it 'can update state' do
         @teacher = create(:teacher)
-        patch :update, params: { id: @teacher.id, teacher: { state: :cancelled } }
-        expect(@teacher.reload.state).to eq 'cancelled'
+        patch :update, params: { id: @teacher.id, teacher: { state: :declined } }
+        expect(@teacher.reload.state).to eq 'declined'
+      end
+
+      it 'sends email if state updated to accepted' do
+        @teacher = create(:teacher, state: :selfservice)
+        patch :update, params: { id: @teacher.id, teacher: { state: :accepted } }
+        last_email = ActionMailer::Base.deliveries.last
+        expect(last_email.subject).to eq I18n.translate('self_registrations_mailer.reset_and_send_password.subject')
+      end
+
+      it "doesn't send an email if update other fields than state" do
+        @teacher = create(:teacher)
+        patch :update, params: { id: @teacher.id, mentor: { first_name: 'Karl' } }
+        expect(ActionMailer::Base.deliveries.count).to eq 0
+      end
+
+      it 'resends email with password with resend password button if user is accepted' do
+        @teacher = create(:teacher)
+        patch :update, params: { id: @teacher.id, commit: I18n.translate('teachers.form.resend_password.btn_text') }
+        last_email = ActionMailer::Base.deliveries.last
+        expect(last_email.subject).to eq I18n.translate('self_registrations_mailer.reset_and_send_password.subject')
       end
     end
 
@@ -94,13 +114,13 @@ describe TeachersController do
     end
 
     context 'create' do
-      let(:teacher_params) { attributes_for(:teacher)}
+      let(:teacher_params) { attributes_for(:teacher).except(:state) }
       it 'can create teacher in own school' do
         teacher_params[:school_id] = @school.id
         put :create, params: { teacher: teacher_params }
         expect(response).to be_redirect
         expect(Teacher.count).to eq(1)
-        expect(Teacher.first.reload.state).to eq 'confirmed'
+        expect(Teacher.first.reload.state).to eq 'accepted'
       end
       it 'fails when creating teacher for foreign schools' do
         teacher_params[:school_id] = create(:school).id
@@ -135,10 +155,10 @@ describe TeachersController do
 
       it 'cannot update its state' do
         expect do
-          put :update, params: { id: @teacher.id, teacher: { state: :cancelled }  }
+          put :update, params: { id: @teacher.id, teacher: { state: :declined }  }
         end.to raise_error(SecurityError)
 
-        expect(@teacher.reload.state).to eq 'confirmed'
+        expect(@teacher.reload.state).to eq 'accepted'
       end
     end
   end
