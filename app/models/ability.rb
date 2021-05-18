@@ -18,6 +18,13 @@ class Ability
       # mentor may be associated via two fields to a kid
       can :read, Kid, mentor_id: user.id, inactive: false
       can :read, Kid, secondary_mentor_id: user.id, secondary_active: true, inactive: false
+      if user.accepted?
+        if user.sex == 'f'
+          can :search, Kid, mentor_id: nil
+        else
+          can :search, Kid, mentor_id: nil, sex: 'm'
+        end
+      end
 
       # journals can be read indirect via kids or direct if they are associated
       # a mentor may read all journal entries with whom he is directly or

@@ -18,6 +18,7 @@ de:
       substitution: 'Ersatz'
       first_year_assessment: "Auswertungsgespräch"
       termination_assessment: "Abschluss-Feedback"
+      available_kids: 'Finde Kinder'
 
     attributes:
       kid:
@@ -27,6 +28,7 @@ de:
         address: "Strasse, Nr."
         city: "PLZ, Ort"
         zip: "PLZ"
+        distance: "Entfernung"
         street_no: "Hausnummer"
         note: "Weitere Bemerkungen"
         sex: "Geschlecht"
@@ -298,9 +300,9 @@ de:
       one: '%{count} Bewegung'
       other: '%{count} Bewegungen'
 
-  
+
   self_registrations:
-    select_resource: 
+    select_resource:
       title: Als wen möchten Sie sich registrieren?
       teacher: "Lehrer/in"
       mentor: "Mentor/in"
@@ -311,7 +313,7 @@ de:
     success:
       title: Registrierung erfolgreich
       text: Vielen Dank für Ihre Anmeldung. Sie erhalten demnächst eine Einladung zum Vorstellungsgespräch.
-  
+
   self_registrations_mailer:
     user_registered:
       subject: Neuer %{user_type} registriert

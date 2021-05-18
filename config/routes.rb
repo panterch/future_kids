@@ -31,6 +31,7 @@ Rails.application.routes.draw do
   resources :kid_mentor_relations do
     delete :destroy_all, on: :collection
   end
+  resources :available_kids
   resources :schedules
   resources :schools
   resources :reminders
