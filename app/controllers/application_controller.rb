@@ -24,7 +24,8 @@ protected
     return true if 'sessions' == controller_name
     return true if controller_name == 'self_registrations'
     return true unless user_signed_in?
-    return true unless current_user.inactive?
+    return true if current_user.state == 'confirmed' && !current_user.inactive?
+
     sign_out current_user
     redirect_to root_url, alert: 'Benutzer/in inaktiv'
   end
