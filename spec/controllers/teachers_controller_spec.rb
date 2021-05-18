@@ -47,6 +47,26 @@ describe TeachersController do
         patch :update, params: { id: @teacher.id, teacher: { state: :cancelled } }
         expect(@teacher.reload.state).to eq 'cancelled'
       end
+
+      it 'sends email if state updated to accepted' do
+        @teacher = create(:teacher, state: :unproven)
+        patch :update, params: { id: @teacher.id, teacher: { state: :confirmed } }
+        last_email = ActionMailer::Base.deliveries.last
+        expect(last_email.subject).to eq I18n.translate('self_registrations_mailer.reset_and_send_password.subject')
+      end
+
+      it "doesn't send an email if update other fields than state" do
+        @teacher = create(:teacher)
+        patch :update, params: { id: @teacher.id, mentor: { first_name: 'Karl' } }
+        expect(ActionMailer::Base.deliveries.count).to eq 0
+      end
+
+      it 'resends email with password if confirmed with resend password button' do
+        @teacher = create(:teacher)
+        patch :update, params: { id: @teacher.id, commit: I18n.translate('teachers.form.resend_password.btn_text') }
+        last_email = ActionMailer::Base.deliveries.last
+        expect(last_email.subject).to eq I18n.translate('self_registrations_mailer.reset_and_send_password.subject')
+      end
     end
 
     context 'destroy' do

@@ -314,13 +314,29 @@ de:
   
   self_registrations_mailer:
     user_registered:
-      subject: New %{user_type} registered
-      body: "New %{user_type} registered:"
-
+      subject: Neuer %{user_type} registriert
+      body: "Neuer %{user_type} registriert:"
+    reset_and_send_password:
+      subject: "Future kids: Registrierung wurde bestätigt"
+      body: 'Sie können sich mit dem Passwort "%{new_password}" auf der Seite anmelden:'
 
   nav:
     principal: 'SL/QUIMS'
     document: 'Anleitungen & Dokumente'
+
+  teachers: 
+    form:
+      resend_password:
+        btn_text: Passwort erneut senden
+        confirm: Das neue Passwort wird an den Benutzer gesendet. Bist du sicher?
+        sent_successfully: Erfolgreich gesendet
+
+  mentors: 
+    form:
+      resend_password:
+        btn_text: Passwort erneut senden
+        confirm: Das neue Passwort wird an den Benutzer gesendet. Bist du sicher?
+        sent_successfully: Erfolgreich gesendet
 
   trinary:
     'yes': Ja

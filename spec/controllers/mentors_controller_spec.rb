@@ -87,12 +87,27 @@ describe MentorsController do
 
     context 'update' do
       it 'can update state' do
-        @teacher = create(:teacher)
-        patch :update, params: { id: @mentor.id, mentor: {
-            state: :cancelled} }
+        patch :update, params: { id: @mentor.id, mentor: { state: :cancelled } }
         expect(@mentor.reload.state).to eq 'cancelled'
       end
-    end
 
+      it 'sends email if state updated to accepted' do
+        @mentor.update(state: :unproven)
+        patch :update, params: { id: @mentor.id, mentor: { state: :confirmed } }
+        last_email = ActionMailer::Base.deliveries.last
+        expect(last_email.subject).to eq I18n.translate('self_registrations_mailer.reset_and_send_password.subject')
+      end
+
+      it "doesn't send an email if update other fields than state" do
+        patch :update, params: { id: @mentor.id, mentor: { first_name: 'Karl' } }
+        expect(ActionMailer::Base.deliveries.count).to eq 0
+      end
+
+      it 'resends email with password if confirmed with resend password button' do
+        patch :update, params: { id: @mentor.id, commit: I18n.translate('teachers.form.resend_password.btn_text') }
+        last_email = ActionMailer::Base.deliveries.last
+        expect(last_email.subject).to eq I18n.translate('self_registrations_mailer.reset_and_send_password.subject')
+      end
+    end
   end
 end
