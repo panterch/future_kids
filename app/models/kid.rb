@@ -12,7 +12,7 @@ class Kid < ApplicationRecord
   belongs_to :secondary_teacher, class_name: 'Teacher', optional: true
   belongs_to :third_teacher, class_name: 'Teacher', optional: true
   belongs_to :admin, optional: true
-  belongs_to :school, optional: true
+  belongs_to :school, optional: true  
 
   has_many :journals, dependent: :destroy
   has_many :reviews, dependent: :destroy
@@ -22,6 +22,7 @@ class Kid < ApplicationRecord
   has_many :schedules, as: :person, dependent: :destroy
   has_many :substitutions, dependent: :destroy
   has_many :relation_logs, dependent: :nullify
+  has_many :mentor_matchings, dependent: :destroy
 
   accepts_nested_attributes_for :journals, :reviews, :schedules
 
@@ -136,6 +137,11 @@ class Kid < ApplicationRecord
     return '' if parent_country.blank?
     c = ISO3166::Country[self.parent_country]
     return c.translations[I18n.locale.to_s] || c.name
+  end
+
+  def match_available?
+    # preloaded
+    mentor_matchings.to_a.select{|mentor_matching| !mentor_matching.new_record? && mentor_matching.pending?}.count == 0
   end
 
 protected

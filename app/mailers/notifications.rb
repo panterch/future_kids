@@ -62,4 +62,9 @@ class Notifications < ActionMailer::Base
     @assessment = assessment
     mail to: Notifications.default_email
   end
+
+  def mentor_matching_created(mentor_matching)
+    @mentor_matching = mentor_matching
+    mail to: mentor_matching.kid.teacher.email if mentor_matching.kid.teacher
+  end
 end

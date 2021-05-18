@@ -51,6 +51,9 @@ class Ability
                                             secondary_active: true }
       # mentor can not update its state
       cannot [:read, :update], Mentor, :state
+
+      # mentor can create mentor_matching
+      can :create, MentorMatching, mentor_id: user.id
     elsif user.is_a?(Teacher)
       can :manage, Teacher, id: user.id
       can :create, Kid
@@ -82,6 +85,8 @@ class Ability
       end
       # teacher can not update its state
       cannot [:read, :update], Teacher, :state
+
+      can :manage, MentorMatching, kid: { teacher_id: user.id }
     elsif user.is_a?(Principal)
       # own record may be read
       can [:read, :update], Principal, id: user.id

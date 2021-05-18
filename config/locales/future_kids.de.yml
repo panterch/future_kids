@@ -19,6 +19,7 @@ de:
       first_year_assessment: "Auswertungsgespräch"
       termination_assessment: "Abschluss-Feedback"
       available_kids: 'Finde Kinder'
+      mentor_matching: 'Mentor matching'
 
     attributes:
       kid:
