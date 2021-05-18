@@ -5,8 +5,10 @@ describe Ability do
   describe 'A Mentor' do
     let(:admin) { create(:admin) }
     let(:mentor) { create(:mentor) }
+    let(:not_accepted_mentor) { create(:mentor, state: 'declined') }
     let(:other_mentor) { create(:mentor) }
     let(:ability) { Ability.new(mentor) }
+    let(:not_accepted_ability) { Ability.new(not_accepted_mentor) }
     let(:foreign_kid) { create(:kid) }
     let(:kid) { create(:kid, mentor: mentor) }
     let(:male_kid) { create(:kid, sex: 'm') }
@@ -74,6 +76,11 @@ describe Ability do
       it 'can find only men' do
         expect(ability).to be_able_to(:search, male_kid)
         expect(ability).not_to be_able_to(:search, female_kid)
+      end
+      it 'cannot search if not accepted' do
+        expect(not_accepted_ability).not_to be_able_to(:search, kid)
+        expect(not_accepted_ability).not_to be_able_to(:search, male_kid)
+        expect(not_accepted_ability).not_to be_able_to(:search, female_kid)
       end
     end
 
