@@ -10,7 +10,9 @@
 <div class="form-actions">
     <div class="col-sm-offset-3 col-sm-9">
         <%= f.button :submit, "Anmelden" %>
+        <% if Site.load[:public_signups_active] %>
         <%= link_to t(".register"), new_self_registration_path %>
+        <% end %>
         <%= render "devise/shared/links" %>
     </div>
 </div>
