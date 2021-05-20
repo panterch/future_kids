@@ -1,6 +1,7 @@
 class SelfRegistrationsController < ApplicationController
   skip_before_action :authenticate_user!
   before_action :redirect_if_signed_in
+  before_action :redirect_if_disabled
 
   def new
     resource_whitelist = { 'mentor' => Mentor, 'teacher' => Teacher }
@@ -37,5 +38,9 @@ class SelfRegistrationsController < ApplicationController
 
   def redirect_if_signed_in
     redirect_to new_user_session_path if user_signed_in?
+  end
+
+  def redirect_if_disabled
+    redirect_to new_user_session_path unless Site.load[:public_signups_active]
   end
 end
