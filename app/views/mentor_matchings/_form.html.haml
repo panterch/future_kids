@@ -1,0 +1,6 @@
+= simple_form_for [@mentor_matching] do |form|
+  = hidden_field_tag(:kid_id, @mentor_matching.kid_id)
+  = form.input :message
+
+  .col-sm-offset-3.col-sm-9
+    = form.button :submit

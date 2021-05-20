@@ -5,10 +5,8 @@ describe Ability do
   describe 'A Mentor' do
     let(:admin) { create(:admin) }
     let(:mentor) { create(:mentor) }
-    let(:not_accepted_mentor) { create(:mentor, state: 'declined') }
     let(:other_mentor) { create(:mentor) }
     let(:ability) { Ability.new(mentor) }
-    let(:not_accepted_ability) { Ability.new(not_accepted_mentor) }
     let(:foreign_kid) { create(:kid) }
     let(:kid) { create(:kid, mentor: mentor) }
     let(:male_kid) { create(:kid, sex: 'm') }
@@ -24,6 +22,8 @@ describe Ability do
                        mentor: mentor)
     end
     let(:review) { build(:review, kid: kid) }
+    let(:mentor_matching) { create(:mentor_matching, kid: kid, mentor: mentor) }
+    let(:reserved_mentor_matching) { create(:mentor_matching, kid: kid, mentor: mentor, state: 'reserved') }
 
     context 'admin' do
       it 'cannot read foreign admin' do
@@ -72,15 +72,6 @@ describe Ability do
       end
       it 'cannot read & edit its state' do
         expect(ability).not_to be_able_to([:read, :update], mentor, :state)
-      end
-      it 'can find only men' do
-        expect(ability).to be_able_to(:search, male_kid)
-        expect(ability).not_to be_able_to(:search, female_kid)
-      end
-      it 'cannot search if not accepted' do
-        expect(not_accepted_ability).not_to be_able_to(:search, kid)
-        expect(not_accepted_ability).not_to be_able_to(:search, male_kid)
-        expect(not_accepted_ability).not_to be_able_to(:search, female_kid)
       end
     end
 
@@ -211,12 +202,28 @@ describe Ability do
       end
     end
 
+    context 'available kids' do
+      it 'can find only men' do
+        expect(ability).to be_able_to(:search, male_kid)
+        expect(ability).not_to be_able_to(:search, female_kid)
+      end
+    end
+
+    context 'mentor matchings' do
+      it 'cannot read mentor matchings' do
+        expect(ability).not_to be_able_to(:read, mentor_matching)
+      end
+
+      it 'can read reserved mentor matchings' do
+        expect(ability).to be_able_to(:read, reserved_mentor_matching)
+      end
+    end
+
     context 'various' do
       it 'cannot read schools' do
         expect(ability).not_to be_able_to(:read, create(:school))
       end
     end # end of tests for mentors
   end
-
 
 end

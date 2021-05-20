@@ -1,0 +1,6 @@
+<% if @mentor_matching.message.present? %>
+  <%= @mentor_matching.message %>
+<% end %>
+
+Der/die Mentor/in <%= @mentor_matching.mentor.display_name %> hat ein Mentorat für das Kind <%= @mentor_matching.kid.display_name %> angefragt.
+Sehen Sie hier das Profil des/der Mentor/in an und akzeptieren oder lehnen sie es ab: <%= mentor_matching_url(id: @mentor_matching.id) %>

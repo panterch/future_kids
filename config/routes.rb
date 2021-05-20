@@ -46,6 +46,12 @@ Rails.application.routes.draw do
       put 'inactivate'
     end
   end
+  resources :mentor_matchings do
+    member do
+      put :accept
+      put :decline
+    end
+  end
 
   get '/exception_test' => 'exception_test#error'
 end

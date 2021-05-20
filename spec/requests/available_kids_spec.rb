@@ -60,12 +60,12 @@ feature 'AvailableKids as Mentor', js: true do
       visit available_kids_path
     end
 
-    scenario 'mentor can see distance_from him' do
+    scenario 'can see distance_from him' do
       select('Mentor', from: 'distance_from')
       expect(page).to have_content('5.89 km')
     end
 
-    scenario 'mentor can see distance_from Zurich HB' do
+    scenario 'can see distance_from Zurich HB' do
       select('Zürich HB', from: 'distance_from')
       expect(page).to have_content('511.19 km')
     end
@@ -77,7 +77,7 @@ feature 'AvailableKids as Mentor', js: true do
       visit available_kids_path
     end
 
-    scenario 'mentor can see kids ordered by distance' do
+    scenario 'can see kids ordered by distance' do
       select('Entfernung', from: 'order_by')
       expect(page.body.index('0 km') < page.body.index('5.89 km')).to eq true
     end

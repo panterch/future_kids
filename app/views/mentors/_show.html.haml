@@ -1,22 +1,7 @@
 .row
   .col-md-8
     = show_for @mentor do |show|
-      = show.attribute :name
-      = show.attribute :prename
-      = show.attribute(:email) { mail_to @mentor.email }
-      - if can? :read, @mentor, :state
-        = show.attribute :state
-      = show.attribute :sex
-      - if is_viewing_own_data(@mentor)
-        = show.attribute :address
-        = show.attribute :city
-        = show.attribute :dob
-      = show.attribute :phone
-      = show.attribute :school do
-        = can_link_to(@mentor.school)
-      = show.attribute :field_of_study
-      = show.attribute :education
-      = show.attribute :transport
+      = render "details", mentor: @mentor
       = show.association :schools do |k|
         %li
           = can_link_to k

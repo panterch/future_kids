@@ -19,6 +19,8 @@ de:
       first_year_assessment: "Auswertungsgespräch"
       termination_assessment: "Abschluss-Feedback"
       available_kids: 'Finde Kinder'
+      mentor_matching: 'Mentor matching'
+      mentor_matchings: 'Mentor matchings'
 
     attributes:
       kid:
@@ -178,6 +180,15 @@ de:
         schedules_updated_at: "Stundenplan aktualisiert"
         schedules_seen_at: "Stundenplan eingesehen"
         total_duration_last_month: 'Geleistet im letzten Monat'
+      mentor_matching:
+        message: Nachricht
+        state: Zustand
+        states:
+          pending: Anstehend
+          accepted: Zusage
+          declined: Absage
+          reserved: Reserviert
+          confirmed: Bestätigter
       teacher:
         kids: Kinder
         secondary_kids: "Kinder (als 2. Lehrperson)"
@@ -296,6 +307,8 @@ de:
       new_substitution: 'Neue Abwesenheit'
       expand_all: "Alle anzeigen"
       collapse_all: "Alle einklappen"
+      accept: Akzeptieren
+      decline: Ablehnen
 
   title:
     kid_mentor_relation_index:
@@ -334,14 +347,14 @@ de:
     principal: 'SL/QUIMS'
     document: 'Anleitungen & Dokumente'
 
-  teachers: 
+  teachers:
     form:
       resend_password:
         btn_text: Passwort erneut senden
         confirm: Das neue Passwort wird an den Benutzer gesendet. Bist du sicher?
         sent_successfully: Erfolgreich gesendet
 
-  mentors: 
+  mentors:
     form:
       resend_password:
         btn_text: Passwort erneut senden

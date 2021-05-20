@@ -108,4 +108,6 @@ FactoryBot.define do
     association :principal
   end
 
+  factory :mentor_matching do
+  end
 end

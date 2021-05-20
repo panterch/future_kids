@@ -25,6 +25,7 @@
     %th= Kid.human_attribute_name(:sex)
     - unless @site.kids_schedule_hourly
       %th= Kid.human_attribute_name(:available)
+    %th Aktion
 
   - @kids.each do |kid|
     %tr
@@ -35,6 +36,11 @@
       %td= kid.human_sex
       - unless @site.kids_schedule_hourly
         %td= kid.simplified_schedule
+      - if kid.match_available?
+        %td= link_to 'Lehrperson anschreiben', new_mentor_matching_path(kid_id: kid)
+      - else
+        %td= 'Lehrperson angeschrieben'
+
 
 - if @kids.empty?
   Zur Zeit sind Ihnen keine Kinder zugeordnet.
