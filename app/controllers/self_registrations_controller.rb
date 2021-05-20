@@ -9,15 +9,20 @@ class SelfRegistrationsController < ApplicationController
 
   def create
     @resource = User.new(user_params)
-    if @resource.save
+    if params.dig(:terms_of_use, :accepted) == "yes" && @resource.save
       SelfRegistrationsMailer.user_registered(@resource).deliver_now
       redirect_to action: :success
     else
+      @terms_of_use_error = true if params.dig(:terms_of_use,:accepted) != "yes"
       render :new
     end
   end
 
   def success; end
+
+  def terms_of_use
+    @content = Site.load.terms_of_use_content_parsed
+  end
 
   private
 
