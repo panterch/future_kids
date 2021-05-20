@@ -21,7 +21,6 @@ Rails.application.routes.draw do
     resources :reviews
     resources :first_year_assessments
     resources :termination_assessments
-    resources :mentor_matchings
     member do
       get 'edit_schedules'
       get 'show_kid_mentors_schedules'
@@ -42,6 +41,12 @@ Rails.application.routes.draw do
   resources :substitutions do
     member do
       put 'inactivate'
+    end
+  end
+  resources :mentor_matchings do
+    member do
+      put :accept
+      put :decline
     end
   end
 

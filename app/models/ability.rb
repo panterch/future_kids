@@ -18,12 +18,10 @@ class Ability
       # mentor may be associated via two fields to a kid
       can :read, Kid, mentor_id: user.id, inactive: false
       can :read, Kid, secondary_mentor_id: user.id, secondary_active: true, inactive: false
-      if user.accepted?
-        if user.sex == 'f'
-          can :search, Kid, mentor_id: nil
-        else
-          can :search, Kid, mentor_id: nil, sex: 'm'
-        end
+      if user.sex == 'f'
+        can :search, Kid, mentor_id: nil
+      else
+        can :search, Kid, mentor_id: nil, sex: 'm'
       end
 
       # journals can be read indirect via kids or direct if they are associated
@@ -54,6 +52,7 @@ class Ability
 
       # mentor can create mentor_matching
       can :create, MentorMatching, mentor_id: user.id
+      can :read, MentorMatching, mentor_id: user.id, state: 'reserved'
     elsif user.is_a?(Teacher)
       can :manage, Teacher, id: user.id
       can :create, Kid
@@ -86,7 +85,9 @@ class Ability
       # teacher can not update its state
       cannot [:read, :update], Teacher, :state
 
+      # mentor matching permissions
       can :manage, MentorMatching, kid: { teacher_id: user.id }
+      can :read, Mentor, mentor_matchings: { kid: { teacher_id: user.id } }
     elsif user.is_a?(Principal)
       # own record may be read
       can [:read, :update], Principal, id: user.id

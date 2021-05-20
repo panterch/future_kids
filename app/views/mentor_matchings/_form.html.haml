@@ -1,4 +1,5 @@
-= simple_form_for [@kid, @mentor_matching] do |form|
+= simple_form_for [@mentor_matching] do |form|
+  = hidden_field_tag(:kid_id, @mentor_matching.kid_id)
   = form.input :message
 
   .col-sm-offset-3.col-sm-9

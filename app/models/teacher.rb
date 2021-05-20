@@ -6,6 +6,7 @@ class Teacher < User
            foreign_key: 'third_teacher_id'
   has_many :first_year_assessments, dependent: :nullify
   has_many :termination_assessments, dependent: :nullify
+  has_many :mentor_matchings, through: :kids
   belongs_to :school, optional: true
 
   after_save :release_relations, if: :inactive?

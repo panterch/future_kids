@@ -37,7 +37,7 @@
       - unless @site.kids_schedule_hourly
         %td= kid.simplified_schedule
       - if kid.match_available?
-        %td= link_to 'Lehrperson anschreiben', new_kid_mentor_matching_path(kid)
+        %td= link_to 'Lehrperson anschreiben', new_mentor_matching_path(kid_id: kid)
       - else
         %td= 'Lehrperson angeschrieben'
 

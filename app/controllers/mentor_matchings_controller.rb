@@ -1,33 +1,43 @@
 class MentorMatchingsController < ApplicationController
-  load_resource :kid
-  load_and_authorize_resource :mentor_matching, through: :kid
-  before_action :assign_mentor, only: [:new, :create]
+  load_resource :kid, only: [:new, :create]
+  load_and_authorize_resource :mentor_matching
+  before_action :preset_kid_and_mentor, only: [:new, :create]
 
   def index
-    # accessible by teachers and admins only
+    @mentor_matchings = MentorMatching.accessible_by(current_ability, :manage)
   end
 
   def show
-    # accessible by teachers and admins
   end
 
   def new
-    authorize! :search, @kid
+    authorize! :search, @mentor_matching.kid
   end
 
   def create
-    authorize! :search, @kid
-    if @kid.match_available? && @mentor_matching.save      
+    authorize! :search, @mentor_matching.kid
+    if @kid.match_available? && @mentor_matching.save
       redirect_to available_kids_path
     else
       render :new
-    end    
+    end
+  end
+
+  def accept
+    @mentor_matching.reserved! if @mentor_matching.pending?
+    redirect_to @mentor_matching
+  end
+
+  def decline
+    @mentor_matching.declined! if @mentor_matching.pending?
+    redirect_to @mentor_matching
   end
 
   private
 
-  def assign_mentor
+  def preset_kid_and_mentor
     @mentor_matching.mentor = current_user if current_user.is_a?(Mentor)
+    @mentor_matching.kid = @kid
   end
 
   def mentor_matching_params
