@@ -5,6 +5,7 @@ feature 'Self registrations' do
     create(:admin)
     create(:school, name: 'Teacher school', school_kind: :primary_school)
     create(:school, name: 'Mentor school', school_kind: :high_school)
+    Site.load.update(public_signups_active: true)
   end
   scenario 'redirect to admin if already logged in' do
     log_in(create(:admin))
