@@ -18,7 +18,8 @@
 %li= nav_link :document
 -if can? :read, School
   %li= nav_link :school
--if can? :manage, MentorMatching
-  %li= nav_link :mentor_matching
--if can? :search, Kid
-  %li= nav_link :available_kids
+- if Site.load.public_signups_active?
+  -if can? :manage, MentorMatching
+    %li= nav_link :mentor_matching
+  -if can? :search, Kid
+    %li= nav_link :available_kids
