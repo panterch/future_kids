@@ -34,6 +34,8 @@
         = show.attribute :schedules_seen_at
         = show.attribute :schedules_updated_at
         = show.attribute :inactive
+        - if @mentor.inactive?
+          = show.attribute :inactive_at
 
 
   .col-md-4

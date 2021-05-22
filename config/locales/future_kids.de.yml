@@ -154,6 +154,7 @@ de:
         entry_date: Datum des Einstiges
         remember_me: Angemeldet bleiben
         inactive: Inaktiv gesetzt
+        inactive_at: Inaktiviert am
         todo: Pendenzen
         note: Bemerkungen
         state: Zustand
