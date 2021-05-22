@@ -221,6 +221,6 @@ module ApplicationHelper
   end
 
   def human_distance(distance)
-    "#{distance.round(2)} km"
+    "#{distance.round(1)} km"
   end
 end

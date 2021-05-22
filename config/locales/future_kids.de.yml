@@ -18,9 +18,9 @@ de:
       substitution: 'Ersatz'
       first_year_assessment: "Auswertungsgespräch"
       termination_assessment: "Abschluss-Feedback"
-      available_kids: 'Finde Kinder'
-      mentor_matching: 'Mentor matching'
-      mentor_matchings: 'Mentor matchings'
+      available_kids: 'Mentoring finden'
+      mentor_matching: 'Mentoring Anfrage'
+      mentor_matchings: 'Mentoring Anfragen'
 
     attributes:
       kid:
@@ -318,7 +318,7 @@ de:
 
   self_registrations:
     select_resource:
-      title: Als wen möchten Sie sich registrieren?
+      title: Ich möchte mich registrieren als
       teacher: "Lehrer/in"
       mentor: "Mentor/in"
     new_mentor:
