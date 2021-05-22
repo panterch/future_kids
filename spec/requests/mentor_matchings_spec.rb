@@ -3,10 +3,10 @@ require 'requests/acceptance_helper'
 feature 'MentorMatchings As Mentor', js: true do
 
   before do
+    Site.load.update!(kids_schedule_hourly: false, public_signups_active: true)
     create(:kid, name: 'Hodler Rolf', sex: 'm', longitude: 14.1025379, latitude: 50.1478497, grade: '1', teacher: create(:teacher))
     create(:kid, name: 'Maria Rolf', sex: 'f', longitude: 14.1025379, latitude: 50.1478497, grade: '5', teacher: create(:teacher))
     create(:kid, name: 'Olivia Rolf', sex: 'f', longitude: 14.0474263, latitude: 50.1873213, grade: '5', teacher: create(:teacher))
-    Site.load.update!(kids_schedule_hourly: false, public_signups_active: true)
   end
 
   describe 'mentor matching' do
@@ -66,6 +66,7 @@ feature 'MentorMatchings As Teacher', js: true do
 
   describe 'mentor matchings list' do
     before do
+      Site.load.update!(kids_schedule_hourly: false, public_signups_active: true)
       log_in(teacher)
       visit mentor_matchings_path
     end

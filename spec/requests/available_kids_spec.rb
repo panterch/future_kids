@@ -3,10 +3,10 @@ require 'requests/acceptance_helper'
 feature 'AvailableKids as Mentor', js: true do
 
   before do
+    Site.load.update!(kids_schedule_hourly: false, public_signups_active: true)
     create(:kid, name: 'Hodler Rolf', sex: 'm', longitude: 14.1025379, latitude: 50.1478497, grade: '1')
     create(:kid, name: 'Maria Rolf', sex: 'f', longitude: 14.1025379, latitude: 50.1478497, grade: '5')
     create(:kid, name: 'Olivia Rolf', sex: 'f', longitude: 14.0474263, latitude: 50.1873213, grade: '5')
-    Site.load.update!(kids_schedule_hourly: false, public_signups_active: true)
   end
 
   describe 'Available kids for men' do

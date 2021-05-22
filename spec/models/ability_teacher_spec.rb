@@ -5,6 +5,7 @@ describe Ability do
 
   describe 'A Teacher' do
     before(:each) do
+      Site.load.update!(public_signups_active: true)
       @teacher = create(:teacher)
       @ability = Ability.new(@teacher)
     end
@@ -104,11 +105,9 @@ describe Ability do
       expect(@ability).not_to be_able_to([:read, :update], @teacher, :state)
     end
     it 'can read own a mentor matchings' do
-      Site.load.update!(public_signups_active: true)
       expect(@ability).to be_able_to(:read, mentor_matching)
     end
     it 'can read others a mentor matchings' do
-      Site.load.update!(public_signups_active: true)
       expect(@ability).not_to be_able_to(:read, other_mentor_matching)
     end
   end
