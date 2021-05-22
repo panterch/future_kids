@@ -15,7 +15,7 @@ class Mentor < User
   has_many :secondary_reminders, class_name: 'Reminder',
                                  foreign_key: 'secondary_mentor_id'
   has_many :schedules, as: :person
-  
+
   belongs_to :school, optional: true
 
   enum ects: { currently: 1, alumni: 2 }
@@ -24,6 +24,8 @@ class Mentor < User
   # Kids are ordered so distinct was looking at the kids scope in order to
   # produce distinct results. Unscoping order enables distinct to remove duplicates.
   has_many :schools, -> {unscope(:order).distinct}, through: :kids
+
+  has_many :mentor_matchings, dependent: :destroy
 
   accepts_nested_attributes_for :schedules
 

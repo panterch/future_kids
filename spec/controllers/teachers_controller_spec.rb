@@ -39,8 +39,52 @@ describe TeachersController do
         get :edit, params: { id: @teacher.id }
         expect(response).to be_successful
       end
-
     end
+
+    context 'update' do
+      it 'can update state' do
+        @teacher = create(:teacher)
+        patch :update, params: { id: @teacher.id, teacher: { state: :declined } }
+        expect(@teacher.reload.state).to eq 'declined'
+      end
+
+      it 'sends email if state updated to accepted' do
+        @teacher = create(:teacher, state: :selfservice)
+        patch :update, params: { id: @teacher.id, teacher: { state: :accepted } }
+        last_email = ActionMailer::Base.deliveries.last
+        expect(last_email.subject).to eq I18n.translate('self_registrations_mailer.reset_and_send_password.subject')
+      end
+
+      it "doesn't send an email if update other fields than state" do
+        @teacher = create(:teacher)
+        patch :update, params: { id: @teacher.id, mentor: { first_name: 'Karl' } }
+        expect(ActionMailer::Base.deliveries.count).to eq 0
+      end
+
+      it 'resends email with password with resend password button if user is accepted' do
+        @teacher = create(:teacher)
+        patch :update, params: { id: @teacher.id, commit: I18n.translate('teachers.form.resend_password.btn_text') }
+        last_email = ActionMailer::Base.deliveries.last
+        expect(last_email.subject).to eq I18n.translate('self_registrations_mailer.reset_and_send_password.subject')
+      end
+    end
+
+    context 'destroy' do
+      it 'can destroy inactive' do
+        @teacher = create(:teacher, inactive: true)
+        delete :destroy, params: { id: @teacher.id }
+        expect(Teacher.exists?(@teacher.id)).to be_falsey
+      end
+
+      it 'cannot destroy active' do
+        @teacher = create(:teacher)
+        expect do
+          delete :destroy, params: { id: @teacher.id }
+        end.to raise_error(CanCan::AccessDenied)
+        expect(Teacher.exists?(@teacher.id)).to be_truthy
+      end
+    end
+
   end
 
 
@@ -70,12 +114,13 @@ describe TeachersController do
     end
 
     context 'create' do
-      let(:teacher_params) { attributes_for(:teacher)}
+      let(:teacher_params) { attributes_for(:teacher).except(:state) }
       it 'can create teacher in own school' do
         teacher_params[:school_id] = @school.id
         put :create, params: { teacher: teacher_params }
         expect(response).to be_redirect
         expect(Teacher.count).to eq(1)
+        expect(Teacher.first.reload.state).to eq 'accepted'
       end
       it 'fails when creating teacher for foreign schools' do
         teacher_params[:school_id] = create(:school).id
@@ -108,12 +153,14 @@ describe TeachersController do
         expect(@teacher.reload.school).to_not eq(@school)
       end
 
+      it 'cannot update its state' do
+        expect do
+          put :update, params: { id: @teacher.id, teacher: { state: :declined }  }
+        end.to raise_error(SecurityError)
+
+        expect(@teacher.reload.state).to eq 'accepted'
+      end
     end
-
   end
-
-
-
-
 end
 

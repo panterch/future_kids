@@ -86,12 +86,13 @@ module ApplicationHelper
     collection.map { |t| [t.display_name, t.id] }
   end
 
-  def order_by_collection_for_kids(selected)
+  def order_by_collection_for_kids(selected, distance = false)
     options = [%w[Name name],
                %w[Kontrolldatum checked_at],
                %w[Coachingdatum coached_at],
                %w[Erfassungsdatum created_at],
                %w[Kritikalität abnormality_criticality]]
+    options << %w[Entfernung distance] if distance
     options_for_select(options, selected)
   end
 
@@ -109,6 +110,18 @@ module ApplicationHelper
 
   def grade_collection
     (1..6).to_a.reverse
+  end
+
+  def grade_group_collection(selected)
+    options = [%w[Unterstufe 1-3],
+               %w[Mittelstufe 4-6]]
+    options_for_select(options, selected)
+  end
+
+  def distance_from_collection(selected)
+    options = [%w[Mentor mentor],
+               ['Zürich HB', 'zurich']]
+    options_for_select(options, selected)
   end
 
   def criticality_collection
@@ -149,6 +162,10 @@ module ApplicationHelper
 
   def school_kind_collection
     School.school_kinds.keys.map { |s| [School.humanize_enum('school_kind', s), s] }
+  end
+
+  def user_status_collection
+    User.states.transform_keys { |k| User.human_state(k) }
   end
 
   # can be used in view to display private data only to their owners (and
@@ -201,5 +218,9 @@ module ApplicationHelper
   def human_date(date)
     return nil unless date.present?
     I18n.l(date)
+  end
+
+  def human_distance(distance)
+    "#{distance.round(2)} km"
   end
 end

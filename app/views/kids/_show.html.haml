@@ -59,6 +59,8 @@
   = show.attribute :goal_2
   - if @kid.goal_2_updated_at
     = show.attribute :goal_2_updated_at
+  - unless @site.kids_schedule_hourly
+    = show.attribute :simplified_schedule
   = show.attribute :meeting_day
   = show.attribute :meeting_start_at
   = show.attribute :teacher do
@@ -91,7 +93,8 @@
     = show.attribute :abnormality
     = show.attribute :abnormality_criticality
     = show.attribute :todo
-    = show.attribute :schedules_updated_at
+    - if @site.kids_schedule_hourly
+      = show.attribute :schedules_updated_at
     = show.attribute :inactive
     = render 'relation_logs/collection', resource: @kid
 

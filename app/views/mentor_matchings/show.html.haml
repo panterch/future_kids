@@ -1,0 +1,12 @@
+= boot_page_title MentorMatching.model_name.human
+
+- content_for :contextual_links do
+  .list-group
+    - if can?(:manage, @mentor_matching) && @mentor_matching.pending?
+      = contextual_link_to :accept, accept_mentor_matching_path(@mentor_matching), method: :put
+    - if can?(:manage, @mentor_matching) && @mentor_matching.pending?
+      = contextual_link_to :decline, decline_mentor_matching_path(@mentor_matching), method: :put
+    - if can?(:manage, @mentor_matching)
+      = contextual_link_to :index
+
+= render "show"

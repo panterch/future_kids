@@ -1,0 +1,15 @@
+-# contextual links cannot display / undisplay links based on cancan parameters but only based on the models class.
+-# since teachers can only be destroyed when they are inactive this leads to wrong displays if the delete menu
+-# item, so we have to generate the menu explicitly
+- content_for :contextual_links do
+  .list-group
+    - if can?(:edit, @teacher)
+      = contextual_link_to :edit, @teacher
+    - if can?(:destroy, @teacher)
+      = contextual_link_to :destroy, @teacher
+    = contextual_link_to :index
+
+
+= boot_page_title
+
+= render 'show'

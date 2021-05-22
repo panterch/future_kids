@@ -12,15 +12,17 @@ class Kid < ApplicationRecord
   belongs_to :secondary_teacher, class_name: 'Teacher', optional: true
   belongs_to :third_teacher, class_name: 'Teacher', optional: true
   belongs_to :admin, optional: true
-  belongs_to :school, optional: true
+  belongs_to :school, optional: true  
 
-  has_many :journals
-  has_many :reviews
-  has_many :first_year_assessments
-  has_many :termination_assessments
-  has_many :reminders
-  has_many :schedules, as: :person
-  has_many :relation_logs
+  has_many :journals, dependent: :destroy
+  has_many :reviews, dependent: :destroy
+  has_many :first_year_assessments, dependent: :destroy
+  has_many :termination_assessments, dependent: :destroy
+  has_many :reminders, dependent: :destroy
+  has_many :schedules, as: :person, dependent: :destroy
+  has_many :substitutions, dependent: :destroy
+  has_many :relation_logs, dependent: :nullify
+  has_many :mentor_matchings, dependent: :destroy
 
   accepts_nested_attributes_for :journals, :reviews, :schedules
 
@@ -30,9 +32,10 @@ class Kid < ApplicationRecord
                                           greater_than_or_equal_to: 1, less_than_or_equal_to: 5
 
   after_save :track_relations
-
-  after_validation :release_relations, if: :inactive?
   after_validation :track_specific_field_updates
+  after_validation :release_relations, if: :inactive?
+  before_destroy :release_relations
+
 
   # takes the given time argument (or Time.now) and calculates the
   # date and time for that weeks meeting
@@ -136,7 +139,12 @@ class Kid < ApplicationRecord
     return c.translations[I18n.locale.to_s] || c.name
   end
 
-  protected
+  def match_available?
+    # preloaded
+    mentor_matchings.to_a.select{|mentor_matching| !mentor_matching.new_record? && mentor_matching.pending?}.count == 0
+  end
+
+protected
 
   def release_relations
     self.mentor = nil

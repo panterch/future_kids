@@ -31,7 +31,8 @@ class SitesController < ApplicationController
     params.require(:site).permit(
       :footer_address, :footer_email, :logo, :feature_coach,
       :term_collection_start, :term_collection_end,
-      :comment_bcc, :notifications_default_email, :teachers_can_access_reviews
+      :comment_bcc, :notifications_default_email, :teachers_can_access_reviews,
+      :kids_schedule_hourly, :terms_of_use_content, :public_signups_active
     )
   end
 end

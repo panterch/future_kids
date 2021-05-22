@@ -26,6 +26,7 @@ describe KidMentorRelation do
       expect(relation.admin).not_to be_nil
       expect(relation.admin).to eq(coach)
     end
+
   end
 
   context 'kid without mentor' do

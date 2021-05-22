@@ -1,11 +1,11 @@
 source 'https://rubygems.org'
-ruby '3.0.0'
+ruby '3.0.1'
 
 gem 'rails'
 gem 'haml-rails'
 gem 'jquery-rails'
 gem 'jbuilder'
-gem 'rails-i18n', '~> 6.0.0'
+gem 'rails-i18n'
 
 gem 'actionview-encoded_mail_to'
 gem 'cancancan'
@@ -29,7 +29,9 @@ gem 'image_processing'
 gem 'active_storage_validations'
 gem 'google-cloud-storage', '~> 1.11', require: false
 gem 'geocoder'
+gem 'geokit-rails'
 gem 'net-sftp'
+gem 'redcarpet'
 
 # see https://github.com/straydogstudio/axlsx_rails#installation
 gem 'rubyzip', '>= 1.2.1'
@@ -52,4 +54,9 @@ group :development, :test do
   gem 'webdrivers'
   gem 'rails-controller-testing'
   gem 'listen'
+  gem 'byebug'
+end
+
+group :development do
+  gem 'letter_opener'
 end

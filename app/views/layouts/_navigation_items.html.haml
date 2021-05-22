@@ -12,9 +12,14 @@
   %li= nav_link :mentor
   %li= nav_link :principal
   %li= nav_link :kid_mentor_relation
-  %li=  nav_link :substitutions
+  %li= nav_link :substitutions
 -if can? :read, Reminder
   %li= nav_link :reminder
 %li= nav_link :document
 -if can? :read, School
   %li= nav_link :school
+- if Site.load.public_signups_active?
+  -if can? :manage, MentorMatching
+    %li= nav_link :mentor_matching
+  -if can? :search, Kid
+    %li= nav_link :available_kids

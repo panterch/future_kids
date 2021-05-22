@@ -4,9 +4,13 @@ class Teacher < User
            foreign_key: 'secondary_teacher_id'
   has_many :third_kids, class_name: 'Kid',
            foreign_key: 'third_teacher_id'
+  has_many :first_year_assessments, dependent: :nullify
+  has_many :termination_assessments, dependent: :nullify
+  has_many :mentor_matchings, through: :kids
   belongs_to :school, optional: true
 
   after_save :release_relations, if: :inactive?
+  before_destroy :release_relations
 
   def todays_journals(not_before = Time.now - 1.day)
     journals = []
@@ -33,9 +37,10 @@ class Teacher < User
 
   protected
 
-  # inactive mentors should not be connected to other persons
+  # inactive teachers should not be connected to other persons
   def release_relations
     kids.clear
     secondary_kids.clear
+    third_kids.clear
   end
 end

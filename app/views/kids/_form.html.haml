@@ -18,6 +18,8 @@
   %h2#school Allgemeine Informationen
   = form.input :goal_1
   = form.input :goal_2
+  - unless @site.kids_schedule_hourly
+    = form.input :simplified_schedule
   - if current_user.is_a?(Admin)
     = form.input :meeting_day, :collection => wday_collection
     = form.input :meeting_start_at, :as => :string, input_html: { value: @kid.human_meeting_start_at, autocomplete: 'off' }

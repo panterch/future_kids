@@ -25,6 +25,12 @@ describe Kid do
       expect(kid.journals.map(&:held_at)).to eq(
         [recent_record, old_record, very_old_record].map(&:held_at))
     end
+    it 'cleans up journals on deletion' do
+      journal = create(:journal, kid: kid)
+      kid.destroy
+      expect(Journal.exists?(journal.id)).to be_falsey
+      expect(Kid.exists?(kid.id)).to be_falsey
+    end
   end
 
   context 'relation to mentor' do

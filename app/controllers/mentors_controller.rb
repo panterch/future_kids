@@ -64,18 +64,43 @@ class MentorsController < ApplicationController
     respond_with @mentor
   end
 
+  def update
+    # resend password button
+    if params[:commit] == I18n.t('mentors.form.resend_password.btn_text')
+      SelfRegistrationsMailer.reset_and_send_password(@mentor).deliver_now
+      respond_with @mentor, notice: I18n.t('mentors.form.resend_password.sent_successfully')
+      return
+    end
+    # switched to accepted state
+    if mentor_params[:state] == 'accepted' && @mentor.state != mentor_params[:state]
+      SelfRegistrationsMailer.reset_and_send_password(@mentor).deliver_now
+    end
+
+    super
+  end
+
+  def resend_password
+    SelfRegistrationsMailer.reset_and_send_password(@mentor).deliver_now
+  end
+
   private
 
   def mentor_params
     if params[:mentor].present?
-      params.require(:mentor).permit(
-        :name, :prename, :email, :password, :password_confirmation, :address, :sex,
+      p = [:name, :prename, :email, :password, :password_confirmation, :address, :sex,
         :city, :dob, :phone, :school_id, :field_of_study, :education, :transport,
         :personnel_number, :ects, :term, :absence, :note, :todo, :substitute,
         :filter_by_school_id, :filter_by_meeting_day, :filter_by_coach_id,
         :exit_kind, :exit_at,
         :inactive, :photo, schedules_attributes: [:day, :hour, :minute]
-      )
+      ]
+      p << :state if can? :update, Mentor, :state
+
+      if params[:mentor][:state] && !(can? :update, Mentor, :state)
+        fail SecurityError.new("User #{current_user.id} not allowed to change its state")
+      end
+      
+      params.require(:mentor).permit(*p)
     else
       {}
     end

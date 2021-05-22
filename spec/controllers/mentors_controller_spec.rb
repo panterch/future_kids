@@ -40,6 +40,16 @@ describe MentorsController do
         expect(@mentor.reload.schedules.count).to eq(2)
       end
     end
+
+    context 'update' do 
+      it 'cannot update its state' do
+        expect do
+          put :update, params: { id: @mentor.id, mentor: { state: :declined } }
+        end.to raise_error(SecurityError)
+
+        expect(@mentor.reload.state).to eq 'accepted'
+      end
+    end
   end
 
   context 'as an admin' do
@@ -75,5 +85,29 @@ describe MentorsController do
       end
     end
 
+    context 'update' do
+      it 'can update state' do
+        patch :update, params: { id: @mentor.id, mentor: { state: :declined } }
+        expect(@mentor.reload.state).to eq 'declined'
+      end
+
+      it 'sends email if state updated to accepted' do
+        @mentor.update(state: :selfservice)
+        patch :update, params: { id: @mentor.id, mentor: { state: :accepted } }
+        last_email = ActionMailer::Base.deliveries.last
+        expect(last_email.subject).to eq I18n.translate('self_registrations_mailer.reset_and_send_password.subject')
+      end
+
+      it "doesn't send an email if update other fields than state" do
+        patch :update, params: { id: @mentor.id, mentor: { first_name: 'Karl' } }
+        expect(ActionMailer::Base.deliveries.count).to eq 0
+      end
+
+      it 'resends email with password with resend password button if user is accepted' do
+        patch :update, params: { id: @mentor.id, commit: I18n.translate('teachers.form.resend_password.btn_text') }
+        last_email = ActionMailer::Base.deliveries.last
+        expect(last_email.subject).to eq I18n.translate('self_registrations_mailer.reset_and_send_password.subject')
+      end
+    end
   end
 end

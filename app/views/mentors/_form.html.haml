@@ -4,6 +4,10 @@
   = form.input :email
   = form.input :password
   = form.input :password_confirmation
+  - if can? :update, @mentor, :state
+    = form.input :state, :collection => user_status_collection
+    .col-sm-offset-3.col-sm-9
+      = form.submit t(".resend_password.btn_text"), data:{ confirm: t(".resend_password.confirm") }, class: "btn btn-default mb-3"
   = form.input :sex, :collection => sex_collection
   = form.input :address
   = form.input :city

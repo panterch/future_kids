@@ -1,0 +1,18 @@
+.select-resource {
+    &__resource {
+        display: block;
+        background-color: rgb(247, 247, 247);
+        height: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: rgb(95, 95, 95);
+        font-size: 40px;
+        border-radius: 5px;
+        &:hover {
+            text-decoration: none;
+            color:rgb(95, 95, 95);
+            box-shadow: 0px 0px 5px 0px rgba(0, 0, 0, 0.15);
+        }
+    }
+}

@@ -5,8 +5,8 @@ class ApplicationController < ActionController::Base
   respond_to :html
 
   before_action :load_site_configuration
-  before_action :authenticate_user!
   before_action :logout_inactive
+  before_action :authenticate_user!
   before_action :intercept_sensitive_params!
   protect_from_forgery prepend: true, with: :exception
 
@@ -22,8 +22,10 @@ protected
 
   def logout_inactive
     return true if 'sessions' == controller_name
+    return true if controller_name == 'self_registrations'
     return true unless user_signed_in?
-    return true unless current_user.inactive?
+    return true if current_user.state == 'accepted' && !current_user.inactive?
+
     sign_out current_user
     redirect_to root_url, alert: 'Benutzer/in inaktiv'
   end
@@ -51,4 +53,11 @@ protected
     params.split(',').map(&:strip).all? { |param| klass.column_names.include?(param) }
   end
 
+  def valid_distance_from?(distance_from)
+    ['mentor', 'zurich'].include?(distance_from)
+  end
+
+  def valid_grade_group?(grade_group)
+    ['1-3', '4-6'].include?(grade_group)
+  end
 end

@@ -18,6 +18,13 @@ class Ability
       # mentor may be associated via two fields to a kid
       can :read, Kid, mentor_id: user.id, inactive: false
       can :read, Kid, secondary_mentor_id: user.id, secondary_active: true, inactive: false
+      if Site.load.public_signups_active?
+        if user.sex == 'f'
+          can :search, Kid, mentor_id: nil
+        else
+          can :search, Kid, mentor_id: nil, sex: 'm'
+        end
+      end
 
       # journals can be read indirect via kids or direct if they are associated
       # a mentor may read all journal entries with whom he is directly or
@@ -42,6 +49,14 @@ class Ability
                                   secondary_active: true }
       can :read, Teacher, secondary_kids: { secondary_mentor_id: user.id,
                                             secondary_active: true }
+      # mentor can not update its state
+      cannot [:read, :update], Mentor, :state
+
+      # mentor can create mentor_matching
+      if Site.load.public_signups_active?
+        can :create, MentorMatching, mentor_id: user.id
+        can :read, MentorMatching, mentor_id: user.id, state: 'reserved'
+      end
     elsif user.is_a?(Teacher)
       can :manage, Teacher, id: user.id
       can :create, Kid
@@ -71,8 +86,14 @@ class Ability
         can :manage, Review, kid: { secondary_teacher_id: user.id }
         can :manage, Review, kid: { third_teacher_id: user.id }
       end
+      # teacher can not update its state
+      cannot [:read, :update], Teacher, :state
 
-
+      # mentor matching permissions
+      if Site.load.public_signups_active?
+        can :manage, MentorMatching, kid: { teacher_id: user.id }
+        can :read, Mentor, mentor_matchings: { kid: { teacher_id: user.id } }
+      end
     elsif user.is_a?(Principal)
       # own record may be read
       can [:read, :update], Principal, id: user.id
@@ -103,6 +124,8 @@ class Ability
       can :destroy, Review
       can :destroy, FirstYearAssessment
       can :destroy, TerminationAssessment
+      can :destroy, Teacher, inactive: true
+      can :destroy, Kid, inactive: true
     end
 
     # special manage definition for mentors - OVERWRITING even the global

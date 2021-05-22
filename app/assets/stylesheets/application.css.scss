@@ -40,6 +40,10 @@ $sidebar-width: 220px;
 @import 'bootstrap-sprockets';
 @import 'bootstrap';
 @import 'mixins';
+@import 'utility';
+
+/* self_registrations */
+@import 'self_registrations/select_resource';
 
 #header {
   position: fixed;

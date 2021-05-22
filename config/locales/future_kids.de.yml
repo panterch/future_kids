@@ -18,6 +18,9 @@ de:
       substitution: 'Ersatz'
       first_year_assessment: "Auswertungsgespräch"
       termination_assessment: "Abschluss-Feedback"
+      available_kids: 'Mentoring finden'
+      mentor_matching: 'Mentoring Anfrage'
+      mentor_matchings: 'Mentoring Anfragen'
 
     attributes:
       kid:
@@ -27,6 +30,7 @@ de:
         address: "Strasse, Nr."
         city: "PLZ, Ort"
         zip: "PLZ"
+        distance: "Entfernung"
         street_no: "Hausnummer"
         note: "Weitere Bemerkungen"
         sex: "Geschlecht"
@@ -67,6 +71,7 @@ de:
         admin: Coach
         admin_id: Coach
         creator: Ersteller/in
+        simplified_schedule: Verfügbare Zeiten
       journal:
         held_at: Datum
         start_at: Von
@@ -151,6 +156,13 @@ de:
         inactive: Inaktiv gesetzt
         todo: Pendenzen
         note: Bemerkungen
+        state: Zustand
+        states:
+          selfservice: Neu erfasst
+          queued: Warteschleife
+          invited: Zur Schulung eingeladen
+          accepted: Zusage
+          declined: Absage
       mentor:
         available: "Mögliche Termine"
         absence: "Bekannte Absenzen / Verfügbarkeit"
@@ -168,6 +180,15 @@ de:
         schedules_updated_at: "Stundenplan aktualisiert"
         schedules_seen_at: "Stundenplan eingesehen"
         total_duration_last_month: 'Geleistet im letzten Monat'
+      mentor_matching:
+        message: Nachricht
+        state: Zustand
+        states:
+          pending: Anstehend
+          accepted: Zusage
+          declined: Absage
+          reserved: Reserviert
+          confirmed: Bestätigter
       teacher:
         kids: Kinder
         secondary_kids: "Kinder (als 2. Lehrperson)"
@@ -217,6 +238,9 @@ de:
         term_collection_end: Letztes Jahr Semesterauswahl
         comment_bcc: Email Adresse für alle Kommentare (bcc:)
         teachers_can_access_reviews: Lehrpersonen können Gesprächsnotizen einsehen
+        kids_schedule_hourly: Stundenplan aktivieren
+        terms_of_use_content: Nutzungsbedingungen
+        public_signups_active: öffentliche Registrierungen aktiv
       substitution:
         kid: "Kind"
         mentor: "Mentor/in"
@@ -283,15 +307,59 @@ de:
       new_substitution: 'Neue Abwesenheit'
       expand_all: "Alle anzeigen"
       collapse_all: "Alle einklappen"
+      accept: Akzeptieren
+      decline: Ablehnen
 
   title:
     kid_mentor_relation_index:
       one: '%{count} Bewegung'
       other: '%{count} Bewegungen'
 
+
+  self_registrations:
+    select_resource:
+      title: Ich möchte mich registrieren als
+      teacher: "Lehrer/in"
+      mentor: "Mentor/in"
+    new_mentor:
+      title: "Registrieren Sie sich als Mentor/in"
+      terms_of_use: 
+        text: "Ich bestätige hiermit, die %{link} gelesen zu haben und zu akzeptieren"
+        link: "Nutzungsbedingungen"
+    new_teacher:
+      title: "Registrieren Sie sich als Lehrer/in"
+      terms_of_use: 
+        text: "Ich bestätige hiermit, die %{link} gelesen zu haben und zu akzeptieren"
+        link: "Nutzungsbedingungen"
+    success:
+      title: Registrierung erfolgreich
+      text: Vielen Dank für Ihre Anmeldung. Sie erhalten demnächst eine Einladung zum Vorstellungsgespräch.
+
+  self_registrations_mailer:
+    user_registered:
+      subject: Neuer %{user_type} registriert
+      body: "Neuer %{user_type} registriert:"
+    reset_and_send_password:
+      subject: "Future kids: Registrierung wurde bestätigt"
+      body: 'Sie können sich mit dem Passwort "%{new_password}" auf der Seite anmelden:'
+
   nav:
     principal: 'SL/QUIMS'
     document: 'Anleitungen & Dokumente'
+
+  teachers:
+    form:
+      resend_password:
+        btn_text: Passwort erneut senden
+        confirm: Das neue Passwort wird an den Benutzer gesendet. Bist du sicher?
+        sent_successfully: Erfolgreich gesendet
+
+  mentors:
+    form:
+      resend_password:
+        btn_text: Passwort erneut senden
+        confirm: Das neue Passwort wird an den Benutzer gesendet. Bist du sicher?
+        sent_successfully: Erfolgreich gesendet
 
   trinary:
     'yes': Ja

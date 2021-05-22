@@ -1,17 +1,29 @@
 <h2>Anmelden</h2>
 
 <%= boot_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="form-inputs">
+<div class="form-inputs">
     <%= f.input :email, required: false, autofocus: true %>
     <%= f.input :password, required: false %>
-    <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
-  </div>
+    <%= f.input :remember_me, as: :boolean %>
+</div>
 
-  <div class="form-actions">
+<div class="form-actions">
+  <div class="row">
     <div class="col-sm-offset-3 col-sm-9">
-      <%= f.button :submit, "Anmelden" %>
+        <%= f.button :submit, "Anmelden" %>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <div class="col-sm-offset-3 col-sm-9">
       <%= render "devise/shared/links" %>
     </div>
   </div>
+  <% if Site.load[:public_signups_active] %>
+  <div class="row mt-3">
+    <div class="col-sm-offset-3 col-sm-9">
+        <%= link_to t(".register"), new_self_registration_path %>
+    </div>
+  </div>
+  <% end %>
+</div>
 <% end %>
-

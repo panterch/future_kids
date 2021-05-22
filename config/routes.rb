@@ -1,6 +1,13 @@
 Rails.application.routes.draw do
   devise_for :user
 
+  resources :self_registrations, { only: [:create, :new] } do
+    collection do 
+      get 'success'
+      get 'terms_of_use'
+    end
+  end
+
   root to: 'kids#index'
   resources :admins
   resources :documents
@@ -27,6 +34,7 @@ Rails.application.routes.draw do
   resources :kid_mentor_relations do
     delete :destroy_all, on: :collection
   end
+  resources :available_kids
   resources :schedules
   resources :schools
   resources :reminders
@@ -36,6 +44,12 @@ Rails.application.routes.draw do
   resources :substitutions do
     member do
       put 'inactivate'
+    end
+  end
+  resources :mentor_matchings do
+    member do
+      put :accept
+      put :decline
     end
   end
 

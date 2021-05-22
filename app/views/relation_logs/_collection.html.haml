@@ -12,9 +12,18 @@
         %td
           = human_date(relation_log.start_at)
           = human_date(relation_log.end_at)
-        %td= link_to relation_log.user.display_name, relation_log.user
+        %td
+          - if relation_log.user.present?
+            = link_to relation_log.user.display_name, relation_log.user
+          - else
+            Gelöschte/r Benutzer/in
         %td= relation_log.end_at ? 'entfernt' : 'zugeordnet'
         %td
           als
           = Kid.human_attribute_name(relation_log.role)
-        %td= link_to relation_log.kid.display_name, relation_log.kid
+        %td
+          - if relation_log.kid.present?
+            = link_to relation_log.kid.display_name, relation_log.kid
+          - else
+            Gelöschte/r Schüler/in
+
