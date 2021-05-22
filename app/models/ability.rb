@@ -53,8 +53,10 @@ class Ability
       cannot [:read, :update], Mentor, :state
 
       # mentor can create mentor_matching
-      can :create, MentorMatching, mentor_id: user.id
-      can :read, MentorMatching, mentor_id: user.id, state: 'reserved'
+      if Site.load.public_signups_active?
+        can :create, MentorMatching, mentor_id: user.id
+        can :read, MentorMatching, mentor_id: user.id, state: 'reserved'
+      end
     elsif user.is_a?(Teacher)
       can :manage, Teacher, id: user.id
       can :create, Kid
