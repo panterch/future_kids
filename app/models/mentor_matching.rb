@@ -29,7 +29,7 @@ class MentorMatching < ApplicationRecord
         mentor_matching.declined
       end
       kid.mentor = mentor
-      kid.save
+      kid.save!
       confirmed!
     end
   end
