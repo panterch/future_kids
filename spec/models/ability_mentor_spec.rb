@@ -217,6 +217,14 @@ describe Ability do
       it 'can read reserved mentor matchings' do
         expect(ability).to be_able_to(:read, reserved_mentor_matching)
       end
+
+      it 'can confirm' do
+        expect(ability).to be_able_to(:confirm, reserved_mentor_matching)
+      end
+
+      it 'can decline' do
+        expect(ability).to be_able_to(:confirm, reserved_mentor_matching)
+      end
     end
 
     context 'various' do

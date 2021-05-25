@@ -52,7 +52,8 @@ class Ability
 
       # mentor can create mentor_matching
       can :create, MentorMatching, mentor_id: user.id
-      can :read, MentorMatching, mentor_id: user.id, state: 'reserved'
+      can :read, MentorMatching, mentor_id: user.id, state: ['reserved', 'confirmed']
+      can [:confirm, :decline], MentorMatching, mentor_id: user.id, state: 'reserved'
     elsif user.is_a?(Teacher)
       can :manage, Teacher, id: user.id
       can :create, Kid
@@ -87,6 +88,8 @@ class Ability
 
       # mentor matching permissions
       can :manage, MentorMatching, kid: { teacher_id: user.id }
+      cannot [:accept, :decline, :confirm], MentorMatching
+      can [:accept, :decline], MentorMatching, kid: { teacher_id: user.id }, state: 'pending'
       can :read, Mentor, mentor_matchings: { kid: { teacher_id: user.id } }
     elsif user.is_a?(Principal)
       # own record may be read

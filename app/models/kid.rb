@@ -12,7 +12,7 @@ class Kid < ApplicationRecord
   belongs_to :secondary_teacher, class_name: 'Teacher', optional: true
   belongs_to :third_teacher, class_name: 'Teacher', optional: true
   belongs_to :admin, optional: true
-  belongs_to :school, optional: true  
+  belongs_to :school, optional: true
 
   has_many :journals, dependent: :destroy
   has_many :reviews, dependent: :destroy
@@ -139,9 +139,10 @@ class Kid < ApplicationRecord
     return c.translations[I18n.locale.to_s] || c.name
   end
 
-  def match_available?
+  # checks if kid is not already assigned to a mentor
+  def match_available?(mentor)
     # preloaded
-    mentor_matchings.to_a.select{|mentor_matching| !mentor_matching.new_record? && mentor_matching.pending?}.count == 0
+    mentor_matchings.to_a.select{|mentor_matching| !mentor_matching.new_record? && mentor_matching.mentor_id == mentor.id}.count == 0
   end
 
 protected
