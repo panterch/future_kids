@@ -1,6 +1,10 @@
 require 'spec_helper'
 
 describe MentorMatchingsController do
+  before do
+    Site.load.update!(kids_schedule_hourly: false, public_signups_active: true)
+  end
+
   context 'as a mentor' do
     let(:mentor) { create(:mentor) }
     let(:other_mentor) { create(:mentor) }
