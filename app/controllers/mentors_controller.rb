@@ -83,6 +83,11 @@ class MentorsController < ApplicationController
     SelfRegistrationsMailer.reset_and_send_password(@mentor).deliver_now
   end
 
+  def disable_no_kids_reminder
+    @mentor.update_column(:no_kids_reminder, false)
+    redirect_to @mentor
+  end
+
   private
 
   def mentor_params
@@ -91,7 +96,7 @@ class MentorsController < ApplicationController
         :city, :dob, :phone, :school_id, :field_of_study, :education, :transport,
         :personnel_number, :ects, :term, :absence, :note, :todo, :substitute,
         :filter_by_school_id, :filter_by_meeting_day, :filter_by_coach_id,
-        :exit_kind, :exit_at,
+        :exit_kind, :exit_at, :no_kids_reminder,
         :inactive, :photo, schedules_attributes: [:day, :hour, :minute]
       ]
       p << :state if can? :update, Mentor, :state
@@ -99,7 +104,7 @@ class MentorsController < ApplicationController
       if params[:mentor][:state] && !(can? :update, Mentor, :state)
         fail SecurityError.new("User #{current_user.id} not allowed to change its state")
       end
-      
+
       params.require(:mentor).permit(*p)
     else
       {}

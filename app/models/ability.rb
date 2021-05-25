@@ -6,7 +6,7 @@ class Ability
       can :manage, :all
     elsif user.is_a?(Mentor)
       # own record may be read
-      can [:read, :update, :edit_schedules, :update_schedules],
+      can [:read, :update, :edit_schedules, :update_schedules, :disable_no_kids_reminder],
           Mentor, id: user.id
       # mentor can read records of admins associated indirectly via kid
       can :read, Admin, coachings: { mentor_id: user.id }

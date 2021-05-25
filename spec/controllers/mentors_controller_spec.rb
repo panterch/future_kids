@@ -41,13 +41,27 @@ describe MentorsController do
       end
     end
 
-    context 'update' do 
+    context 'update' do
       it 'cannot update its state' do
         expect do
           put :update, params: { id: @mentor.id, mentor: { state: :declined } }
         end.to raise_error(SecurityError)
 
         expect(@mentor.reload.state).to eq 'accepted'
+      end
+    end
+
+    context 'disable_no_kids_reminder' do
+      let!(:other_mentor) { create(:mentor) }
+      it 'disables no_kids_reminder' do
+        get :disable_no_kids_reminder, params: { id: @mentor.id }
+        expect(@mentor.reload.no_kids_reminder).to eq false
+      end
+
+      it 'is not allowed disable reminder for other mentor' do
+        expect {
+          get :disable_no_kids_reminder, params: { id: other_mentor.id }
+        }.to raise_error CanCan::AccessDenied
       end
     end
   end

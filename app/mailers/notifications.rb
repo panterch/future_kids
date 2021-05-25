@@ -77,4 +77,9 @@ class Notifications < ActionMailer::Base
     @mentor_matching = mentor_matching
     mail to: mentor_matching.mentor.email
   end
+
+  def mentor_no_kids_reminder(mentor)
+    @mentor = mentor
+    mail to: mentor.email
+  end
 end
