@@ -148,7 +148,7 @@ describe Mentor do
       @mentor.photo.attach(@file)
       @mentor.save!; @mentor = Mentor.first
       expect(@mentor.photo).to be_present
-      expect(@mentor.photo_medium.filename.to_s).to match(/logo\.png/)
+      expect(@mentor.photo_medium.blob.filename.to_s).to match(/logo\.png/)
     end
   end
 

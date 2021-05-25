@@ -5,6 +5,7 @@ describe Ability do
 
   describe 'A Teacher' do
     before(:each) do
+      Site.load.update!(public_signups_active: true)
       @teacher = create(:teacher)
       @ability = Ability.new(@teacher)
     end

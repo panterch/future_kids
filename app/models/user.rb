@@ -11,6 +11,7 @@ class User < ApplicationRecord
   scope :active, -> { where(inactive: false) }
 
   before_validation :nilify_blank_password
+  before_save :track_inactive
 
   validates_presence_of :name, :prename
 
@@ -59,6 +60,15 @@ class User < ApplicationRecord
   def nilify_blank_password
     if password.blank? && password_confirmation.blank?
       self.password = self.password_confirmation = nil
+    end
+  end
+
+  def track_inactive
+    return unless inactive_changed?
+    if inactive?
+      self.inactive_at = Time.now
+    else
+      self.inactive_at = nil
     end
   end
 end

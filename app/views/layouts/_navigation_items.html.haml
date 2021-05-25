@@ -1,24 +1,24 @@
 -if current_user.is_a?(Admin)
-  %li
-    = nav_link Admin.model_name.human, admins_path
+  = nav_link Admin.model_name.human, admins_path
 -if can? :read, Kid
-  %li= nav_link Kid.model_name.human, kids_path
+  = nav_link Kid.model_name.human, kids_path
 -# FIXME load of teachers for mentors via cancan does not yet
 -#       work correctly, see ability_spec.rb. till this is fixed
 -#       we do not display this option to mentors
 -if current_user.is_a?(Admin) or current_user.is_a?(Principal)
-  %li= nav_link :teacher
+  = nav_link :teacher
 -if current_user.is_a?(Admin)
-  %li= nav_link :mentor
-  %li= nav_link :principal
-  %li= nav_link :kid_mentor_relation
-  %li= nav_link :substitutions
+  = nav_link :mentor
+  = nav_link :principal
+  = nav_link :kid_mentor_relation
+  = nav_link :substitutions
 -if can? :read, Reminder
-  %li= nav_link :reminder
-%li= nav_link :document
+  = nav_link :reminder
+= nav_link :document
 -if can? :read, School
-  %li= nav_link :school
--if can? :manage, MentorMatching
-  %li= nav_link :mentor_matching
--if can? :search, Kid
-  %li= nav_link :available_kids
+  = nav_link :school
+- if Site.load.public_signups_active?
+  -if can? :manage, MentorMatching
+    = nav_link :mentor_matching
+  -if can? :search, Kid
+    = nav_link :available_kids
