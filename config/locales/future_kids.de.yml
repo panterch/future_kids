@@ -310,6 +310,7 @@ de:
       collapse_all: "Alle einklappen"
       accept: Akzeptieren
       decline: Ablehnen
+      confirm: Bestätigen
 
   title:
     kid_mentor_relation_index:
@@ -324,12 +325,12 @@ de:
       mentor: "Mentor/in"
     new_mentor:
       title: "Registrieren Sie sich als Mentor/in"
-      terms_of_use: 
+      terms_of_use:
         text: "Ich bestätige hiermit, die %{link} gelesen zu haben und zu akzeptieren"
         link: "Nutzungsbedingungen"
     new_teacher:
       title: "Registrieren Sie sich als Lehrer/in"
-      terms_of_use: 
+      terms_of_use:
         text: "Ich bestätige hiermit, die %{link} gelesen zu haben und zu akzeptieren"
         link: "Nutzungsbedingungen"
     success:

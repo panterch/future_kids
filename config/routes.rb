@@ -2,7 +2,7 @@ Rails.application.routes.draw do
   devise_for :user
 
   resources :self_registrations, { only: [:create, :new] } do
-    collection do 
+    collection do
       get 'success'
       get 'terms_of_use'
     end
@@ -50,6 +50,7 @@ Rails.application.routes.draw do
     member do
       put :accept
       put :decline
+      put :confirm
     end
   end
 

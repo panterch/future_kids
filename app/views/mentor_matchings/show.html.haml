@@ -2,11 +2,13 @@
 
 - content_for :contextual_links do
   .list-group
-    - if can?(:manage, @mentor_matching) && @mentor_matching.pending?
+    - if can?(:confirm, @mentor_matching)
+      = contextual_link_to :confirm, confirm_mentor_matching_path(@mentor_matching), method: :put
+    - if can?(:accept, @mentor_matching)
       = contextual_link_to :accept, accept_mentor_matching_path(@mentor_matching), method: :put
-    - if can?(:manage, @mentor_matching) && @mentor_matching.pending?
+    - if can?(:decline, @mentor_matching)
       = contextual_link_to :decline, decline_mentor_matching_path(@mentor_matching), method: :put
-    - if can?(:manage, @mentor_matching)
+    - if can?(:read, @mentor_matching)
       = contextual_link_to :index
 
 = render "show"

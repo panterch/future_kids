@@ -16,7 +16,7 @@ class MentorMatchingsController < ApplicationController
 
   def create
     authorize! :search, @mentor_matching.kid
-    if @kid.match_available? && @mentor_matching.save
+    if @kid.match_available?(@mentor_matching.mentor) && @mentor_matching.save
       redirect_to available_kids_path
     else
       render :new
@@ -28,9 +28,26 @@ class MentorMatchingsController < ApplicationController
     redirect_to @mentor_matching
   end
 
+  def confirm
+    @mentor_matching.confirmed
+    if can?(:read, @mentor_matching)
+      redirect_to @mentor_matching
+    else
+      redirect_to available_kids_path
+    end
+  end
+
   def decline
-    @mentor_matching.declined! if @mentor_matching.pending?
-    redirect_to @mentor_matching
+    if current_user.is_a?(Teacher)
+      @mentor_matching.declined(current_user) if @mentor_matching.pending?
+    else
+      @mentor_matching.declined(current_user)
+    end
+    if can?(:read, @mentor_matching)
+      redirect_to @mentor_matching
+    else
+      redirect_to available_kids_path
+    end
   end
 
   private

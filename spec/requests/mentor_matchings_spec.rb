@@ -11,8 +11,10 @@ feature 'MentorMatchings As Mentor', js: true do
 
   describe 'mentor matching' do
     let(:mentor) { create(:mentor, sex: 'm') }
+    let(:other_mentor) { create(:mentor, sex: 'm') }
     let(:kid) { create(:kid, name: 'Hodler Rolf', sex: 'm', teacher: create(:teacher)) }
     let(:mentor_matching) { create(:mentor_matching, mentor: mentor, kid: kid, state: 'reserved') }
+    let(:other_mentor_matching) { create(:mentor_matching, mentor: other_mentor, kid: kid, state: 'pending') }
     before do
       log_in(mentor)
       visit available_kids_path
@@ -28,8 +30,30 @@ feature 'MentorMatchings As Mentor', js: true do
       expect(page).to have_content('Lehrperson angeschrieben')
     end
 
-    scenario 'can see accepted mentor matching' do
+    scenario 'can see reserved mentor matching' do
       visit mentor_matchings_path(mentor_matching)
+    end
+
+    scenario 'can confirm mentor matching' do
+      visit mentor_matching_path(mentor_matching)
+      expect(other_mentor_matching.reload.state).to eq 'pending'
+
+      # one email is to teacher with confirmation info
+      # other email is to other_mentor with declined
+      # last email is sent to admins
+      expect { click_link('Bestätigen') }.to change { change { ActionMailer::Base.deliveries.count }.by(3) }
+      expect(mentor_matching.reload.state).to eq 'confirmed'
+      expect(kid.reload.mentor).to eq mentor_matching.mentor
+      expect(other_mentor_matching.reload.state).to eq 'declined'
+    end
+
+    scenario 'can decline mentor matching' do
+      visit mentor_matching_path(mentor_matching)
+
+      expect { click_link('Ablehnen') }.to change { change { ActionMailer::Base.deliveries.count }.by(1) }
+      expect(mentor_matching.reload.state).to eq 'declined'
+      expect(kid.reload.mentor).to eq nil
+      expect(other_mentor_matching.reload.state).to eq 'pending'
     end
   end
 end
