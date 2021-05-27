@@ -166,9 +166,10 @@ describe Kid do
       @kid = create(:kid, meeting_day: 3,
                           meeting_start_at: Time.zone.parse('18:00'))
     end
-    it 'should return nil when not enough information' do
+    it 'should return saturday evening when not enough information' do
       @kid.meeting_day = nil
-      expect(@kid.calculate_meeting_time).to be_nil
+      meeting = @kid.calculate_meeting_time(thursday)
+      expect(meeting).to eq(Time.zone.parse('2011-01-08 18:00'))
     end
     it 'should calculate the correct meeting time in past' do
       meeting = @kid.calculate_meeting_time(thursday)
@@ -223,14 +224,14 @@ describe Kid do
     it 'uses full address' do
       kid.address = 'Street 1'
       kid.city = 'City'
-      expect(kid.full_address).to eq('Street 1 City')  
+      expect(kid.full_address).to eq('Street 1 City')
     end
 
     it 'stores correct coordinates' do
       kid.address = 'Street 1'
       kid.city = 'City'
       kid.save!
-      expect(kid.full_address).to eq('Street 1 City')  
+      expect(kid.full_address).to eq('Street 1 City')
       expect(kid.latitude).to eq(1.111)
       expect(kid.longitude).to eq(1.234)
     end
@@ -238,7 +239,7 @@ describe Kid do
     it 'retrieve coords based only on city' do
       kid.city = 'City'
       kid.save!
-      expect(kid.full_address).to eq('City')  
+      expect(kid.full_address).to eq('City')
       expect(kid.latitude).to eq(4.321)
       expect(kid.longitude).to eq(1.234)
     end

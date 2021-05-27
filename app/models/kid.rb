@@ -40,7 +40,14 @@ class Kid < ApplicationRecord
   # takes the given time argument (or Time.now) and calculates the
   # date and time for that weeks meeting
   def calculate_meeting_time(time = Time.now)
-    return nil if meeting_day.blank? || meeting_start_at.blank?
+    meeting_day = self.meeting_day
+    meeting_start_at = self.meeting_start_at
+
+    if meeting_day.blank? || meeting_start_at.blank?
+      # saturday evening
+      meeting_day = 6
+      meeting_start_at = Time.zone.parse('18:00')
+    end
     time = time.monday
     time += (meeting_day - 1).days
     time += meeting_start_at.hour.hours
