@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe SelfRegistrationsController do
 
-  context 'enabled' do 
-    before do 
+  context 'enabled' do
+    before do
       Site.load.update(public_signups_active: true)
     end
 
@@ -18,8 +18,8 @@ describe SelfRegistrationsController do
       let!(:admin) { create(:admin) }
       let!(:admin2) { create(:admin) }
       context 'teacher' do
-        let(:params) { { teacher: attributes_for(:teacher).merge(type: 'Teacher'), terms_of_use: { accepted: "yes" } } }
-  
+        let(:params) { { teacher: attributes_for(:teacher).merge(type: 'Teacher', school_id: create(:school).id), terms_of_use: { accepted: "yes" } } }
+
         before do
           post :create, params: params
         end
@@ -29,7 +29,7 @@ describe SelfRegistrationsController do
         end
 
         it 'redirect to success if created' do
-          expect(response).to redirect_to action: :success
+          expect(response).to redirect_to action: :success, type: 'teacher'
         end
 
         it 'created teacher has selfservice status' do
@@ -38,7 +38,7 @@ describe SelfRegistrationsController do
 
         it "can't force state" do
           post :create, params: params.deep_merge({ teacher: { state: :accepted, email: attributes_for(:teacher)[:email] }})
-          expect(response).to redirect_to action: :success
+          expect(response).to redirect_to action: :success, type: 'teacher'
           expect(Teacher.last.state).to eq 'selfservice'
         end
 
@@ -48,7 +48,7 @@ describe SelfRegistrationsController do
         end
       end
       context 'mentor' do
-        let(:params) {{ mentor: attributes_for(:mentor).merge(type: 'Mentor'), terms_of_use: { accepted: "yes" } }}
+        let(:params) {{ mentor: attributes_for(:mentor).merge(type: 'Mentor', school_id: create(:school).id), terms_of_use: { accepted: "yes" } }}
         before do
           post :create, params: params
         end
@@ -58,7 +58,7 @@ describe SelfRegistrationsController do
         end
 
         it 'redirect to success if created' do
-          expect(response).to redirect_to action: :success
+          expect(response).to redirect_to action: :success, type: 'mentor'
         end
 
         it 'created teacher has selfservice status' do
@@ -72,7 +72,7 @@ describe SelfRegistrationsController do
 
         it "can't force state" do
           post :create, params: params.deep_merge({ mentor: { state: :accepted, email: attributes_for(:mentor)[:email] } })
-          expect(response).to redirect_to action: :success
+          expect(response).to redirect_to action: :success, type: 'mentor'
           expect(Mentor.last.state).to eq 'selfservice'
         end
 
@@ -98,7 +98,7 @@ describe SelfRegistrationsController do
     end
   end
 
-  context 'disabled' do 
+  context 'disabled' do
     context 'new' do
       it 'redirect to sign_in' do
         get :new
@@ -107,21 +107,21 @@ describe SelfRegistrationsController do
     end
 
     context 'create' do
-      let(:teacher_params) { attributes_for(:teacher).merge(type: 'Teacher') }
+      let(:teacher_params) { attributes_for(:teacher).merge(type: 'Teacher', school_id: create(:school).id) }
       it 'redirect to sign_in' do
         post :create, params: { teacher: teacher_params }
         expect(response).to redirect_to new_user_session_path
       end
     end
 
-    context 'success' do 
+    context 'success' do
       it 'redirect to sign_in' do
         get :success
         expect(response).to redirect_to new_user_session_path
       end
     end
 
-    context 'terms_of_use' do 
+    context 'terms_of_use' do
       it 'redirect to sign_in' do
         get :terms_of_use
         expect(response).to redirect_to new_user_session_path

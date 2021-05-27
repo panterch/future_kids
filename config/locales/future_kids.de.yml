@@ -167,7 +167,7 @@ de:
       mentor:
         available: "Mögliche Termine"
         absence: "Bekannte Absenzen / Verfügbarkeit"
-        school: Schule
+        school: Hochschule / Gymnasium
         schools: Einsatzort(e)
         primary_kids_meeting_day: "Einsatztag"
         term: "Startzeit"
@@ -344,7 +344,8 @@ de:
         link: "Nutzungsbedingungen"
     success:
       title: Registrierung erfolgreich
-      text: Vielen Dank für Ihre Anmeldung. Sie erhalten demnächst eine Einladung zum Vorstellungsgespräch.
+      text_mentor: Vielen Dank für Ihre Anmeldung. Sie erhalten demnächst eine Einladung zum Vorstellungsgespräch.
+      text_teacher: Vielen Dank für Ihre Anmeldung. Sie werden demnächst benachrichtigt, wenn Ihr Konto aktiviert wurde.
 
   self_registrations_mailer:
     user_registered:

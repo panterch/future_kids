@@ -1,10 +1,10 @@
 %h1= t(".title")
 = simple_form_for @resource, :url => self_registrations_path do |form|
   = form.hidden_field :type
-  = form.input :name
-  = form.input :prename
+  = form.input :name, required: true
+  = form.input :prename, required: true
   = form.input :email, required: true
-  = form.input :phone
+  = form.input :phone, required: true
   = form.association :school, collection: school_collection_by_kind(:teacher), include_blank: false
   %div{class: "form-group #{@terms_of_use_error ? 'has-error' : '' }"}
     .col-sm-3
