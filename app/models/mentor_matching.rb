@@ -3,7 +3,6 @@ class MentorMatching < ApplicationRecord
   belongs_to :kid
 
   enum state: { pending: 'pending',
-                accepted: 'accepted',
                 declined: 'declined',
                 reserved: 'reserved',
                 confirmed: 'confirmed' }

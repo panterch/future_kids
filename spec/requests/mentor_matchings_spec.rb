@@ -113,7 +113,7 @@ feature 'MentorMatchings As Teacher', js: true do
       expect(page).to have_content(own_kid.display_name)
       expect(page).to have_content(own_mentor.display_name)
 
-      expect { click_link('Akzeptieren') }.to change { change { ActionMailer::Base.deliveries.count }.by(1) }
+      expect { click_link('Akzeptieren') }.to change { ActionMailer::Base.deliveries.count }.by(1)
       expect(own_mentor_matching.reload.state).to eq 'reserved'
     end
 
@@ -123,7 +123,7 @@ feature 'MentorMatchings As Teacher', js: true do
       expect(page).to have_content(own_kid.display_name)
       expect(page).to have_content(own_mentor.display_name)
 
-      expect { click_link('Ablehnen') }.to change { change { ActionMailer::Base.deliveries.count }.by(1) }
+      expect { click_link('Ablehnen') }.to change { ActionMailer::Base.deliveries.count }.by(1)
       expect(own_mentor_matching.reload.state).to eq 'declined'
     end
   end

@@ -223,4 +223,28 @@ module ApplicationHelper
   def human_distance(distance)
     "#{distance.round(2)} km"
   end
+
+  def available_kid_actions(kid)
+    mentor_matching = kid.mentor_matching_for(current_user)
+    actions = []
+    if can? :create, MentorMatching
+      if kid.match_available?(current_user)
+        actions << link_to('Lehrperson anschreiben', new_mentor_matching_path(kid_id: kid))
+      else
+        if can? :confirm, mentor_matching
+          actions << link_to(I18n.t(:confirm, scope: 'crud.action'), confirm_mentor_matching_path(mentor_matching), method: :put)
+        end
+        if can? :decline, mentor_matching
+          actions << link_to(I18n.t(:decline, scope: 'crud.action'), decline_mentor_matching_path(mentor_matching), method: :put)
+        end
+        if can? :read, mentor_matching
+          actions << link_to(I18n.t(:show, scope: 'crud.action'), mentor_matching)
+        end
+        if actions.blank?
+          actions << mentor_matching.human_state_name
+        end
+      end
+    end
+    actions.join(' ')
+  end
 end
