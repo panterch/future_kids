@@ -4,12 +4,13 @@ class SelfRegistrationsController < ApplicationController
   before_action :redirect_if_disabled
 
   def new
-    resource_whitelist = { 'mentor' => Mentor, 'teacher' => Teacher }
     @resource = resource_whitelist[params[:type]]&.new
   end
 
   def create
     @resource = User.new(user_params)
+    return render(:new, status: :unauthorized) unless resource_whitelist.values.include? @resource.class
+
     if params.dig(:terms_of_use, :accepted) == "yes" && @resource.save
       SelfRegistrationsMailer.user_registered(@resource).deliver_now
       redirect_to action: :success
@@ -42,5 +43,9 @@ class SelfRegistrationsController < ApplicationController
 
   def redirect_if_disabled
     redirect_to new_user_session_path unless Site.load[:public_signups_active]
+  end
+  
+  def resource_whitelist
+    { 'mentor' => Mentor, 'teacher' => Teacher }
   end
 end
