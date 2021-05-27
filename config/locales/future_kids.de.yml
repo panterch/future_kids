@@ -181,6 +181,7 @@ de:
         schedules_updated_at: "Stundenplan aktualisiert"
         schedules_seen_at: "Stundenplan eingesehen"
         total_duration_last_month: 'Geleistet im letzten Monat'
+        no_kids_reminder: 'Remind me, if I am not associated to any kid'
       mentor_matching:
         message: Nachricht
         state: Zustand
@@ -273,6 +274,14 @@ de:
       subject: "Neues Auswertungsgespräch"
     termination_assessment_created:
       subject: "Neues Abschluss-Feedback"
+    mentor_matching_created:
+      subject: "Mentor matching created"
+    mentor_matching_reserved:
+      subject: "Mentor matching reserved"
+    mentor_matching_declined:
+      subject: "Mentor matching declined"
+    mentor_no_kids_reminder:
+      subject: "No kids assigned reminder"
     default_email: 'Future Kids <futurekids-tech@panter.ch>'
     important_subject: 'Wichtiges Lernjournal - bitte sofort lesen.'
 

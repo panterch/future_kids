@@ -18,6 +18,7 @@
   = form.input :field_of_study
   = form.input :education
   = form.input :transport, collection: transport_collection
+  = form.input :no_kids_reminder
 
   -if current_user.is_a?(Admin)
     %h2#internal Projektinterne Informationen

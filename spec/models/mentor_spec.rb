@@ -226,14 +226,14 @@ describe Mentor do
     it 'uses full address' do
       kid.address = 'Street 1'
       kid.city = 'City'
-      expect(kid.full_address).to eq('Street 1 City')  
+      expect(kid.full_address).to eq('Street 1 City')
     end
 
     it 'stores correct coordinates' do
       kid.address = 'Street 1'
       kid.city = 'City'
       kid.save!
-      expect(kid.full_address).to eq('Street 1 City')  
+      expect(kid.full_address).to eq('Street 1 City')
       expect(kid.latitude).to eq(1.111)
       expect(kid.longitude).to eq(1.234)
     end
@@ -241,7 +241,7 @@ describe Mentor do
     it 'retrieve coords based only on city' do
       kid.city = 'City'
       kid.save!
-      expect(kid.full_address).to eq('City')  
+      expect(kid.full_address).to eq('City')
       expect(kid.latitude).to eq(4.321)
       expect(kid.longitude).to eq(1.234)
     end
@@ -260,6 +260,18 @@ describe Mentor do
       kid.save!
       expect(kid.latitude.blank?).to be_truthy
       expect(kid.longitude.blank?).to be_truthy
+    end
+  end
+
+  context 'conditionally_send_no_kids_reminders' do
+    let!(:mentor1) { create(:mentor, state: 'accepted') }
+    let!(:mentor2) { create(:mentor, state: 'accepted') }
+    let!(:mentor3) { create(:mentor, state: 'declined') }
+    let!(:mentor4) { create(:mentor, state: 'accepted') }
+    let!(:kid) { create(:kid, mentor: mentor2) }
+
+    it 'sends email only accepted mentors without kid' do
+      expect{ Mentor.conditionally_send_no_kids_reminders }.to change { change { ActionMailer::Base.deliveries.count }.by(2) }
     end
   end
 end

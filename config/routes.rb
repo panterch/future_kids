@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     member do
       get 'edit_schedules'
       patch 'update_schedules'
+      get 'disable_no_kids_reminder'
     end
   end
   resources :kids do

@@ -90,4 +90,9 @@ class Notifications < ActionMailer::Base
     recipients << mentor_matching.kid.admin&.email if mentor_matching.kid.admin
     mail to: recipients
   end
+
+  def mentor_no_kids_reminder(mentor)
+    @mentor = mentor
+    mail to: mentor.email
+  end
 end
