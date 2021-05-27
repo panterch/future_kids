@@ -55,7 +55,8 @@ class Ability
       # mentor can create mentor_matching
       if Site.load.public_signups_active?
         can :create, MentorMatching, mentor_id: user.id
-        can :read, MentorMatching, mentor_id: user.id, state: 'reserved'
+        can :read, MentorMatching, mentor_id: user.id, state: ['reserved', 'confirmed']
+        can [:confirm, :decline], MentorMatching, mentor_id: user.id, state: 'reserved'
       end
     elsif user.is_a?(Teacher)
       can :manage, Teacher, id: user.id
@@ -92,6 +93,8 @@ class Ability
       # mentor matching permissions
       if Site.load.public_signups_active?
         can :manage, MentorMatching, kid: { teacher_id: user.id }
+        cannot [:accept, :decline, :confirm], MentorMatching
+        can [:accept, :decline], MentorMatching, kid: { teacher_id: user.id }, state: 'pending'
         can :read, Mentor, mentor_matchings: { kid: { teacher_id: user.id } }
       end
     elsif user.is_a?(Principal)

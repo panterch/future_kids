@@ -319,6 +319,7 @@ de:
       collapse_all: "Alle einklappen"
       accept: Akzeptieren
       decline: Ablehnen
+      confirm: Bestätigen
 
   title:
     kid_mentor_relation_index:
