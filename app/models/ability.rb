@@ -50,8 +50,9 @@ class Ability
                                   secondary_active: true }
       can :read, Teacher, secondary_kids: { secondary_mentor_id: user.id,
                                             secondary_active: true }
-      # mentor can not update its state
+      # mentor can not update its or others state
       cannot [:read, :update], Mentor, :state
+      cannot [:read, :update], Teacher, :state
 
       # mentor can create mentor_matching
       if Site.load.public_signups_active?
@@ -88,8 +89,9 @@ class Ability
         can :manage, Review, kid: { secondary_teacher_id: user.id }
         can :manage, Review, kid: { third_teacher_id: user.id }
       end
-      # teacher can not update its state
+      # teacher can not update its or others state
       cannot [:read, :update], Teacher, :state
+      cannot [:read, :update], Mentor, :state
 
       # mentor matching permissions
       if Site.load.public_signups_active?

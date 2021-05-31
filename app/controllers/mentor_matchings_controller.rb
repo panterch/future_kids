@@ -25,7 +25,7 @@ class MentorMatchingsController < ApplicationController
 
   def accept
     @mentor_matching.reserved! if @mentor_matching.pending?
-    redirect_to @mentor_matching
+    redirect_to mentor_matchings_url
   end
 
   def confirm
@@ -44,7 +44,7 @@ class MentorMatchingsController < ApplicationController
       @mentor_matching.declined(current_user)
     end
     if can?(:read, @mentor_matching)
-      redirect_to @mentor_matching
+      redirect_to mentor_matchings_url
     else
       redirect_to available_kids_path
     end

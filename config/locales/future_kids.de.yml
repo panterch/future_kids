@@ -181,7 +181,7 @@ de:
         schedules_updated_at: "Stundenplan aktualisiert"
         schedules_seen_at: "Stundenplan eingesehen"
         total_duration_last_month: 'Geleistet im letzten Monat'
-        no_kids_reminder: 'Remind me, if I am not associated to any kid'
+        no_kids_reminder: 'Erinnerung zum Mentorenmatching aktiv'
       mentor_matching:
         message: Nachricht
         state: Zustand

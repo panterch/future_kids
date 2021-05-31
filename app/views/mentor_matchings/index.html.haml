@@ -3,15 +3,14 @@
 
 
 = boot_page_title do
-  = @mentor_matchings.count if current_user.is_a?(Admin)
-  Mentor matchings
+  = MentorMatching.model_name.human
 
 - if @mentor_matchings.present?
   %table.table.table-striped.table-condensed.table-hover
     %tr
-      %th= Mentor.human_attribute_name(:name)
+      %th= Mentor.model_name.human
       %th= MentorMatching.human_attribute_name(:state)
-      %th= Kid.human_attribute_name(:name)
+      %th= Kid.model_name.human
       %th Aktion
     %tbody
       - @mentor_matchings.each do |mentor_matching|
