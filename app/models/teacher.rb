@@ -12,6 +12,12 @@ class Teacher < User
   after_save :release_relations, if: :inactive?
   before_destroy :release_relations
 
+  validates_presence_of :name, :prename, :email, :phone, :school, if: :validate_fields?
+
+  def validate_fields?
+    Site.load.public_signups_active?
+  end
+
   def todays_journals(not_before = Time.now - 1.day)
     journals = []
     (kids.active + secondary_kids.active + third_kids.active).each do |kid|

@@ -30,10 +30,25 @@ FactoryBot.define do
 
   factory :mentor, class: 'Mentor', parent: :user do
     sequence(:email) { |n| "mentor_#{n}@example.com" }
+    sequence(:name) { |n| "Mentor name#{n}" }
+    sequence(:prename) { |n| "Mentor prename#{n}" }
+    association :school
+    photo { Rack::Test::UploadedFile.new(File.join('spec','fixtures', 'files', 'logo.png'), 'image/png') }
+    sex { 'm' }
+    address { 'address' }
+    city { 'city' }
+    dob { '1.1.1990' }
+    phone { '123456798' }
+
+    to_create {|instance| instance.save(validate: false) }
   end
 
   factory :teacher, class: 'Teacher', parent: :user do
     sequence(:email) { |n| "teacher_#{n}@example.com" }
+    sequence(:name) { |n| "Mentor name#{n}" }
+    sequence(:prename) { |n| "Mentor prename#{n}" }
+    association :school
+    phone { '123456798' }
   end
 
   factory :principal, class: 'Principal', parent: :user do

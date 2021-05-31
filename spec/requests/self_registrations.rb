@@ -1,7 +1,7 @@
 require 'requests/acceptance_helper'
 
 feature 'Self registrations' do
-  background do 
+  background do
     create(:admin)
     create(:school, name: 'Teacher school', school_kind: :primary_school)
     create(:school, name: 'Mentor school', school_kind: :high_school)
@@ -33,6 +33,7 @@ feature 'Self registrations' do
     click_button 'Lehrperson erstellen'
 
     expect(page).to have_content 'Registrierung erfolgreich'
+    expect(page).to have_content 'Sie werden demnächst benachrichtigt, wenn Ihr Konto aktiviert wurde.'
     expect(Teacher.count).to eq 1
   end
 
@@ -58,10 +59,11 @@ feature 'Self registrations' do
     click_button 'Mentor/in erstellen'
 
     expect(page).to have_content 'Registrierung erfolgreich'
+    expect(page).to have_content 'Sie erhalten demnächst eine Einladung zum Vorstellungsgespräch.'
     expect(Mentor.count).to eq 1
   end
 
-  scenario "terms of conditions" do 
+  scenario "terms of conditions" do
     visit terms_of_use_self_registrations_path
 
     expect(page).to have_content Site.load.terms_of_use_content_parsed

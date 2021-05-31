@@ -2,14 +2,14 @@
 = simple_form_for @resource, :url => self_registrations_path do |form|
   = form.hidden_field :type
   = form.input :email, required: true
-  = form.input :name
-  = form.input :prename
-  = form.input :sex, :collection => sex_collection
-  = form.input :address
-  = form.input :city
-  = form.input :photo
-  = form.input :dob
-  = form.input :phone
+  = form.input :name, required: true
+  = form.input :prename, required: true
+  = form.input :sex, collection: sex_collection, required: true
+  = form.input :address, required: true
+  = form.input :city, required: true
+  = form.input :photo, required: true
+  = form.input :dob, required: true
+  = form.input :phone, required: true
   = form.association :school, collection: school_collection_by_kind(:mentor), include_blank: false
   = form.input :field_of_study
   %div{class: "form-group #{@terms_of_use_error ? 'has-error' : '' }"}
