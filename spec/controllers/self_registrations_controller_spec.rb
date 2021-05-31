@@ -81,6 +81,14 @@ describe SelfRegistrationsController do
           expect(response).to have_http_status :success
         end
       end
+
+      context 'other' do
+        it "returns unauthorized" do
+          params = { mentor: attributes_for(:mentor).merge(type: 'Admin'), terms_of_use: { accepted: "yes" } }
+          post :create, params: params
+          expect(response).to have_http_status :unauthorized
+        end
+      end
     end
 
     context 'success' do
