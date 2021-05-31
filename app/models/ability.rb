@@ -4,6 +4,7 @@ class Ability
   def initialize(user)
     if user.is_a?(Admin)
       can :manage, :all
+      cannot :create, MentorMatching
     elsif user.is_a?(Mentor)
       # own record may be read
       can [:read, :update, :edit_schedules, :update_schedules, :disable_no_kids_reminder],
@@ -93,7 +94,7 @@ class Ability
       # mentor matching permissions
       if Site.load.public_signups_active?
         can :manage, MentorMatching, kid: { teacher_id: user.id }
-        cannot [:accept, :decline, :confirm], MentorMatching
+        cannot [:create, :accept, :decline, :confirm], MentorMatching
         can [:accept, :decline], MentorMatching, kid: { teacher_id: user.id }, state: 'pending'
         can :read, Mentor, mentor_matchings: { kid: { teacher_id: user.id } }
       end

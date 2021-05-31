@@ -145,6 +145,11 @@ class Kid < ApplicationRecord
     mentor_matchings.to_a.select{|mentor_matching| !mentor_matching.new_record? && mentor_matching.mentor_id == mentor.id}.count == 0
   end
 
+  def mentor_matching_for(mentor)
+    # preloaded
+    mentor_matchings.to_a.detect{|mentor_matching| mentor_matching.mentor_id == mentor.id}
+  end
+
 protected
 
   def release_relations

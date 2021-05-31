@@ -186,7 +186,7 @@ de:
         message: Nachricht
         state: Zustand
         states:
-          pending: Anstehend
+          pending: Lehrperson angeschrieben
           accepted: Zusage
           declined: Absage
           reserved: Reserviert
@@ -320,6 +320,7 @@ de:
       accept: Akzeptieren
       decline: Ablehnen
       confirm: Bestätigen
+      show: Detail
 
   title:
     kid_mentor_relation_index:
