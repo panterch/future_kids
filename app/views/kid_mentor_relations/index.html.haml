@@ -82,6 +82,6 @@
             = link_to relation.school.display_name, relation.school
         %td
           - if relation.inactivatable?
-            =button_to "Inaktiv setzen", kid_mentor_relation_path(id: relation.kid_id), method: :delete, class: 'btn btn-xs btn-default'
+            =button_to "Inaktiv setzen", kid_mentor_relation_path(id: relation.kid_id), method: :delete, class: 'btn btn-xs btn-danger'
 -else
   %p Kein Eintrag vorhanden

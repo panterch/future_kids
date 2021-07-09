@@ -56,7 +56,7 @@
         - else
           %td
             - if substitution.end_at < DateTime.now
-              = button_to "Abwesenheit schliessen", { :action => "inactivate", :id => substitution.id }, { :method => :put, :class => 'btn btn-default btn-xs' }
+              = button_to "Abwesenheit schliessen", { :action => "inactivate", :id => substitution.id }, { :method => :put, :class => 'btn btn-danger btn-xs' }
             - else
               = button_to "Bearbeiten", edit_substitution_path(substitution), { :method => :get, :class => 'btn btn-default btn-xs' }
 

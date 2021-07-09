@@ -229,16 +229,16 @@ module ApplicationHelper
     actions = []
     if can? :create, MentorMatching
       if kid.match_available?(current_user)
-        actions << link_to('Lehrperson anschreiben', new_mentor_matching_path(kid_id: kid))
+        actions << link_to('Lehrperson anschreiben', new_mentor_matching_path(kid_id: kid), class: 'btn btn-default btn-xs')
       else
         if can? :confirm, mentor_matching
-          actions << link_to(I18n.t(:confirm, scope: 'crud.action'), confirm_mentor_matching_path(mentor_matching), method: :put)
+          actions << link_to(I18n.t(:confirm, scope: 'crud.action'), confirm_mentor_matching_path(mentor_matching), method: :put, class: 'btn btn-success btn-xs')
         end
         if can? :decline, mentor_matching
-          actions << link_to(I18n.t(:decline, scope: 'crud.action'), decline_mentor_matching_path(mentor_matching), method: :put)
+          actions << link_to(I18n.t(:decline, scope: 'crud.action'), decline_mentor_matching_path(mentor_matching), method: :put, class: 'btn btn-danger btn-xs')
         end
         if can? :read, mentor_matching
-          actions << link_to(I18n.t(:show, scope: 'crud.action'), mentor_matching)
+          actions << link_to(I18n.t(:show, scope: 'crud.action'), mentor_matching, class: 'btn btn-default btn-xs')
         end
         if actions.blank?
           actions << mentor_matching.human_state_name
