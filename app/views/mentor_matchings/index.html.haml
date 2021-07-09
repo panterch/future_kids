@@ -5,6 +5,10 @@
 = boot_page_title do
   = MentorMatching.model_name.human
 
+%p
+  = t '.description'
+%p &nbsp;
+
 - if @mentor_matchings.present?
   %table.table.table-striped.table-condensed.table-hover
     %tr

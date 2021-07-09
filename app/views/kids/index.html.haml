@@ -53,6 +53,10 @@
   = @kids.count if current_user.is_a?(Admin) || current_user.is_a?(Principal)
   Sch&uuml;ler/innen
 
+%p
+  = t '.description'
+%p &nbsp;
+
 %table.table.table-striped.table-condensed.table-hover
   %tr
     %th Name
