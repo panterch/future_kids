@@ -10,6 +10,23 @@ class ApplicationController < ActionController::Base
   before_action :intercept_sensitive_params!
   protect_from_forgery prepend: true, with: :exception
 
+  def after_sign_in_path_for(resource)
+    if Site.load.public_signups_active?
+      # we are redirecitng user to specific pages based on step in which they are
+      if current_user.is_a?(Mentor) && current_user.kids.empty?
+        # if a menotr has no kids yet assigned, go to available kids
+        available_kids_path
+      elsif current_user.is_a?(Teacher) && current_user.mentor_matchings.pluck(:state).include?('pending')
+        # if teacher has some pending requests from mentors
+        mentor_matchings_path
+      else
+        root_path
+      end
+    else
+      root_path
+    end
+  end
+
 protected
 
   def admin?
