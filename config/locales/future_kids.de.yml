@@ -286,6 +286,8 @@ de:
     important_subject: 'Wichtiges Lernjournal - bitte sofort lesen.'
 
   kids:
+    index:
+      description: Schuler/innen das Sie sind verantwortlich vor
     criticality:
       '1': Hoch
       '2': Mittel
@@ -326,6 +328,14 @@ de:
     kid_mentor_relation_index:
       one: '%{count} Bewegung'
       other: '%{count} Bewegungen'
+
+  mentor_matchings:
+    index:
+      description: Mentoren, die interesse haben für ein Schuler/innen
+
+  available_kids:
+    index:
+      description: Schuler/innen wer suchen für ein Mentor
 
 
   self_registrations:

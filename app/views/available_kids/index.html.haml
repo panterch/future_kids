@@ -16,6 +16,10 @@
 = boot_page_title do
   Finde Kinder
 
+%p
+  = t '.description'
+%p &nbsp;
+
 %table.table.table-striped.table-condensed.table-hover
   %tr
     %th= Kid.human_attribute_name(:name)
