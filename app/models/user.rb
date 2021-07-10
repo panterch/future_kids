@@ -71,4 +71,9 @@ class User < ApplicationRecord
       self.inactive_at = nil
     end
   end
+
+  # on instances with public signup configured stronger validations are applied
+  def validate_public_signup_fields?
+    Site.load.public_signups_active?
+  end
 end

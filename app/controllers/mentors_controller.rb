@@ -3,8 +3,6 @@ class MentorsController < ApplicationController
   include CrudActions
   include ManageSchedules # edit_schedules & update_schedules
 
-  before_action :load_schools, except: [:index]
-
   def index
     # a prototyped mentor is submitted with each index query. if the prototype
     # is not present, it is built here with default values
@@ -111,8 +109,4 @@ class MentorsController < ApplicationController
     end
   end
 
-  def load_schools
-    @schools = School.by_kind(:mentor)
-    @schools_include_blank = true
-  end
 end

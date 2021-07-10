@@ -59,6 +59,14 @@ FactoryBot.define do
   factory :kid do
     sequence(:name) { |n| "Kid #{n}" }
     prename { 'Prename' }
+    grade { 3 }
+    language { 'Kroatisch'}
+    address { 'Blumenweg 12' }
+    city { '8005 Zürich' }
+    phone { '123456789' }
+    goal_1 { 'Ein fachliches Lernziel' }
+    goal_2 { 'Ein überfachliches Lernziel' }
+    simplified_schedule { 'immer nachmittags' }
   end
 
   factory :journal do

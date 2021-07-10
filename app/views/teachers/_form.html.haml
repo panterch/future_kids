@@ -11,7 +11,7 @@
   - if can? :update, @teacher, :state
     = form.input :state, :collection => user_status_collection
   -if current_user.is_a?(Admin) || current_user.is_a?(Principal)
-    = form.association :school, collection: @schools, include_blank: false
+    = form.association :school, collection: @schools, include_blank: true
   = form.input :phone
   = form.input :receive_journals
   -if current_user.is_a?(Admin)

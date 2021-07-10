@@ -237,6 +237,7 @@ describe Kid do
     end
 
     it 'retrieve coords based only on city' do
+      kid.address = ''
       kid.city = 'City'
       kid.save!
       expect(kid.full_address).to eq('City')

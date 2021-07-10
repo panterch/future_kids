@@ -5,7 +5,7 @@
   = form.input :prename, required: true
   = form.input :email, required: true
   = form.input :phone, required: true
-  = form.association :school, collection: school_collection_by_kind(:teacher), include_blank: false
+  = form.association :school, collection: school_collection_by_kind(:teacher), include_blank: true
   %div{class: "form-group #{@terms_of_use_error ? 'has-error' : '' }"}
     .col-sm-3
     .col-sm-9

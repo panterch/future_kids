@@ -349,7 +349,7 @@ de:
         text: "Ich bestätige hiermit, die %{link} gelesen zu haben und zu akzeptieren"
         link: "Nutzungsbedingungen"
     new_teacher:
-      title: "Registrieren Sie sich als Lehrer/in"
+      title: "Registrieren Sie sich als Lehrperson"
       terms_of_use:
         text: "Ich bestätige hiermit, die %{link} gelesen zu haben und zu akzeptieren"
         link: "Nutzungsbedingungen"

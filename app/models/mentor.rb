@@ -31,12 +31,9 @@ class Mentor < User
 
   after_save :release_relations, if: :inactive?
 
-  validates_presence_of :name, :prename, :email, :sex, :address,
-            :city, :photo, :dob, :phone, :school, if: :validate_fields?
+  validates_presence_of :sex, :address,
+            :city, :photo, :dob, :phone, :school, if: :validate_public_signup_fields?
 
-  def validate_fields?
-    Site.load.public_signups_active?
-  end
 
   def self.mentors_grouped_by_assigned_kids
     groups = { both: [], only_primary: [], only_secondary: [],

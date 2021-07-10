@@ -28,6 +28,10 @@ class Kid < ApplicationRecord
 
   validates_presence_of :name, :prename
 
+  validates_presence_of :grade, :language,
+                        :address, :city, :phone, :goal_1, :goal_2,
+                        :simplified_schedule, if: :validate_public_signup_fields?
+
   validates_numericality_of :meeting_day, only_integer: true, allow_blank: true,
                                           greater_than_or_equal_to: 1, less_than_or_equal_to: 5
 
@@ -200,5 +204,10 @@ protected
   def track_specific_field_updates
     self.goal_1_updated_at = Time.now if goal_1_changed?
     self.goal_2_updated_at = Time.now if goal_2_changed?
+  end
+
+  # on instances with public signup configured stronger validations are applied
+  def validate_public_signup_fields?
+    Site.load.public_signups_active?
   end
 end
