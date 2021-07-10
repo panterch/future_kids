@@ -219,6 +219,9 @@ describe Kid do
   end
 
   context 'geocoding' do
+
+    # see config/initializers/geocoder.rb
+
     let(:kid) { create(:kid) }
 
     it 'uses full address' do
@@ -259,6 +262,13 @@ describe Kid do
       kid.save!
       expect(kid.latitude.blank?).to be_truthy
       expect(kid.longitude.blank?).to be_truthy
+    end
+
+    it 'overwrites longitude latitude in test when explicitly set' do
+      k = create(:kid, name: 'Hodler Rolf')
+      k.update!(longitude: 3.14, latitude: 1.41)
+      expect(k.latitude).to eq(1.41)
+      expect(k.longitude).to eq(3.14)
     end
   end
 end

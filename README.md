@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/panterch/future_kids.svg?branch=master)](http://travis-ci.org/panterch/future_kids)
+[![Build Status](https://travis-ci.com/panterch/future_kids.svg?branch=master)](https://travis-ci.com/github/panterch/future_kids)
 
 # Future Kids
 
