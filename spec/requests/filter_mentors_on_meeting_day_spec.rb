@@ -21,12 +21,12 @@ feature 'Mentor index' do
     select('Montag', from: 'mentor_filter_by_meeting_day')
     click_button('Filter anwenden')
     expect(page).to have_text ('1 Mentor/innen')
-    expect(page).to have_css('a', text: 'first mentor')
+    expect(page).to have_css('a', text: 'first, mentor')
     select('Dienstag', from: 'mentor_filter_by_meeting_day')
     click_button('Filter anwenden')
     expect(page).to have_text ('2 Mentor/innen')
-    expect(page).to have_css('a', text: 'first mentor')
-    expect(page).to have_css('a', text: 'second mentor')
+    expect(page).to have_css('a', text: 'first, mentor')
+    expect(page).to have_css('a', text: 'second, mentor')
   end
 
   scenario 'filtering on meeting day should not affect other filters' do
@@ -48,22 +48,22 @@ feature 'Mentor index' do
     select('Montag', from: 'mentor_filter_by_meeting_day')
     click_button('Filter anwenden')
     expect(page).to have_text ('1 Mentor/innen')
-    expect(page).to have_css('a', text: 'first mentor')
+    expect(page).to have_css('a', text: 'first, mentor')
     select('Halbtax', from: 'mentor_transport')
     click_button('Filter anwenden')
     expect(page).to have_text ('1 Mentor/innen')
-    expect(page).to have_css('a', text: 'first mentor')
+    expect(page).to have_css('a', text: 'first, mentor')
   end
 
   scenario 'filtering on meeting day should interact with other filters (other chosen last, with modification)' do
     select('Dienstag', from: 'mentor_filter_by_meeting_day')
     click_button('Filter anwenden')
     expect(page).to have_text ('2 Mentor/innen')
-    expect(page).to have_css('a', text: 'first mentor')
-    expect(page).to have_css('a', text: 'second mentor')
+    expect(page).to have_css('a', text: 'first, mentor')
+    expect(page).to have_css('a', text: 'second, mentor')
     select('GA', from: 'mentor_transport')
     click_button('Filter anwenden')
     expect(page).to have_text ('1 Mentor/innen')
-    expect(page).to have_css('a', text: 'second mentor')
+    expect(page).to have_css('a', text: 'second, mentor')
   end
 end

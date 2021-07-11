@@ -1,4 +1,7 @@
-= boot_page_title MentorMatching.model_name.human
+= boot_page_title do
+  = MentorMatching.model_name.human
+  für
+  = @mentor_matching.kid.display_name
 
 - content_for :contextual_links do
   .list-group

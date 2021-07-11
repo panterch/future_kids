@@ -442,7 +442,7 @@ feature 'Kid Mentor planning', js: true do
             expect(page).to have_content '15:00'
           end
           within('.kid_mentor') do
-            expect(page).to have_content 'Haller Frederik'
+            expect(page).to have_content 'Haller, Frederik'
           end
           within('.kid_secondary_mentor') do
             expect(page).to have_content ''
@@ -469,10 +469,10 @@ feature 'Kid Mentor planning', js: true do
 
 
           within('.kid_mentor') do
-            expect(page).to have_content 'Haller Frederik'
+            expect(page).to have_content 'Haller, Frederik'
           end
           within('.kid_secondary_mentor') do
-            expect(page).to have_content 'Steiner Max'
+            expect(page).to have_content 'Steiner, Max'
           end
         end
 

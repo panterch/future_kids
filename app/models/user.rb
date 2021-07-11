@@ -24,7 +24,7 @@ class User < ApplicationRecord
                 declined: 'declined' }
 
   def display_name
-    [name, prename].reject(&:blank?).join(' ')
+    [name, prename].reject(&:blank?).join(', ')
   end
 
   def human_absence

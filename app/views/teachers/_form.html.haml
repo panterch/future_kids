@@ -8,8 +8,6 @@
     - if can? :update, @teacher, :state
       .col-sm-offset-3.col-sm-9
         = form.submit t(".resend_password.btn_text"), data:{ confirm: t(".resend_password.confirm") }, class: "btn btn-default mb-3"
-  - if can? :update, @teacher, :state
-    = form.input :state, :collection => user_status_collection
   -if current_user.is_a?(Admin) || current_user.is_a?(Principal)
     = form.association :school, collection: @schools, include_blank: true
   = form.input :phone
@@ -18,6 +16,7 @@
     %a(name='todo')
     = form.input :todo
     = form.input :note
+    = form.input :state, :collection => user_status_collection
     = form.input :inactive
 
   .col-sm-offset-3.col-sm-9

@@ -5,16 +5,18 @@
   = show.attribute :school do
     = can_link_to(@teacher.school)
   = show.attribute :phone
-  - if can? :read, @mentor, :state
-    = show.attribute :state
   = show.association :kids do |k|
     %li= can_link_to(k)
   = show.association :secondary_kids do |k|
     %li= can_link_to(k)
   = show.attribute :receive_journals
-  -if current_user.is_a?(Admin)
+
+
+-if current_user.is_a?(Admin)
+  = show_for @teacher do |show|
     = show.attribute :todo
     = show.attribute :note
+    = show.attribute :state
     = show.attribute :inactive
 
-    = render 'relation_logs/collection', resource: @teacher
+  = render 'relation_logs/collection', resource: @teacher

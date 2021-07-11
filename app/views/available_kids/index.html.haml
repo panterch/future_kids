@@ -4,17 +4,14 @@
 - content_for :sidebar do
   = form_for :kid, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
     .form-group
-      %label= Kid.human_attribute_name(:distance)
+      %label= t '.distance_from'
       = select_tag 'distance_from', distance_from_collection(params[:distance_from]), class: 'form-control'
     .form-group
       %label= Kid.human_attribute_name(:grade)
       = select_tag 'grade_group', grade_group_collection(params[:grade_group]), include_blank: true, class: 'form-control'
-    .form-group
-      %label Ordnen nach
-      = select_tag 'order_by', order_by_collection_for_kids(params[:order_by], true), class: 'form-control'
 
 = boot_page_title do
-  Finde Kinder
+  = t '.title'
 
 %p
   = t '.description'
@@ -22,7 +19,6 @@
 
 %table.table.table-striped.table-condensed.table-hover
   %tr
-    %th= Kid.human_attribute_name(:name)
     %th= Kid.human_attribute_name(:city)
     %th= Kid.human_attribute_name(:distance)
     %th= Kid.human_attribute_name(:grade)
@@ -33,8 +29,7 @@
 
   - @kids.each do |kid|
     %tr
-      %td= kid.display_name
-      %td= kid.city
+      %td Wohnort
       %td= human_distance(kid.distance)
       %td= kid.grade
       %td= kid.human_sex
@@ -44,4 +39,4 @@
 
 
 - if @kids.empty?
-  Zur Zeit sind Ihnen keine Kinder zugeordnet.
+  Zur Zeit sind aller Schüler/innen in Mentorings.

@@ -2,8 +2,6 @@
   = show.attribute :name
   = show.attribute :prename
   = show.attribute(:email) { mail_to mentor.email }
-  - if can? :read, mentor, :state
-    = show.attribute :state
   = show.attribute :sex
   - if is_viewing_own_data(mentor)
     = show.attribute :address
@@ -15,4 +13,3 @@
   = show.attribute :field_of_study
   = show.attribute :education
   = show.attribute :transport
-  = show.attribute :no_kids_reminder

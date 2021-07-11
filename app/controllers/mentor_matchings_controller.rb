@@ -12,6 +12,7 @@ class MentorMatchingsController < ApplicationController
 
   def new
     authorize! :search, @mentor_matching.kid
+    @mentor_matching.message ||= I18n.t('mentor_matchings.new.default')
   end
 
   def create

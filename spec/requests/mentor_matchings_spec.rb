@@ -1,6 +1,6 @@
 require 'requests/acceptance_helper'
 
-feature 'MentorMatchings As Mentor', js: true do
+feature 'MentorMatchings As Mentor' do
 
   before do
     Site.load.update!(kids_schedule_hourly: false, public_signups_active: true)
@@ -21,7 +21,7 @@ feature 'MentorMatchings As Mentor', js: true do
     end
 
     scenario 'can create matching' do
-      click_link('Lehrperson anschreiben', text: 'Lehrperson anschreiben')
+      click_link('Mentoringanfrage senden')
       fill_in 'Nachricht', with: 'I want to mentor the kid'
       click_button('Mentoring Anfrage erstellen')
       expect(mentor.mentor_matchings.to_a.present?).to eq true
@@ -59,7 +59,7 @@ feature 'MentorMatchings As Mentor', js: true do
 end
 
 
-feature 'MentorMatchings As Admin', js: true do
+feature 'MentorMatchings As Admin' do
   let(:kid) { create(:kid, name: 'Hodler Rolf', sex: 'm', longitude: 14.1025379, latitude: 50.1478497, grade: '1', teacher: create(:teacher)) }
   let(:admin) { create(:admin) }
   let(:mentor) { create(:mentor) }
@@ -79,7 +79,7 @@ feature 'MentorMatchings As Admin', js: true do
   end
 end
 
-feature 'MentorMatchings As Teacher', js: true do
+feature 'MentorMatchings As Teacher' do
   let(:teacher) { create(:teacher) }
   let(:kid) { create(:kid, name: 'Hodler Rolf', sex: 'm', longitude: 14.1025379, latitude: 50.1478497, grade: '1', teacher: create(:teacher)) }
   let(:own_kid) { create(:kid, name: 'Hindler Bolf', sex: 'm', longitude: 14.1025379, latitude: 50.1478497, grade: '1', teacher: teacher) }

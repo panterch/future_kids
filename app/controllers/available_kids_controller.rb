@@ -11,8 +11,6 @@ class AvailableKidsController < ApplicationController
       distance_from_object = current_user
     end
     @kids = @kids.select("*, #{Kid.distance_sql(distance_from_object)} as distance")
-    if (order_by = params['order_by']) && (order_by == 'distance' || valid_order_by?(Kid, params['order_by']))
-      @kids = @kids.reorder(params['order_by'])
-    end
+    @kids = @kids.reorder('distance ASC')
   end
 end

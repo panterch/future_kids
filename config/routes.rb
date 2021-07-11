@@ -56,4 +56,5 @@ Rails.application.routes.draw do
   end
 
   get '/exception_test' => 'exception_test#error'
+  get '/register' => 'self_registrations#new'
 end

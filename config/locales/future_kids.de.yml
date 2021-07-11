@@ -157,7 +157,7 @@ de:
         inactive_at: Inaktiviert am
         todo: Pendenzen
         note: Bemerkungen
-        state: Zustand
+        state: Prozess Rekrutierung
         states:
           selfservice: Neu erfasst
           queued: Warteschleife
@@ -184,13 +184,13 @@ de:
         no_kids_reminder: 'Erinnerung zum Mentorenmatching aktiv'
       mentor_matching:
         message: Nachricht
-        state: Zustand
+        state: Status
         states:
           pending: Lehrperson angeschrieben
           accepted: Zusage
           declined: Absage
           reserved: Reserviert
-          confirmed: Bestätigter
+          confirmed: Bestätigt
       teacher:
         kids: Kinder
         secondary_kids: "Kinder (als 2. Lehrperson)"
@@ -287,7 +287,7 @@ de:
 
   kids:
     index:
-      description: Schuler/innen das Sie sind verantwortlich vor
+      description: "Schüler/innen in Ihrem Mentoring"
     criticality:
       '1': Hoch
       '2': Mittel
@@ -332,16 +332,20 @@ de:
   mentor_matchings:
     index:
       description: Mentoren, die interesse haben für ein Schuler/innen
+    new:
+      default: "Liebe Lehrerin, lieber Lehrer\n\nIch Interessiere mich dafür, dieses Mentoring zu übernehmen. Ich freue mich über eine Zusage oder stehe für Rückfragen zur Verfügung.\n\nFreundliche Grüsse"
 
   available_kids:
     index:
-      description: Schuler/innen wer suchen für ein Mentor
+      title: Kinder ohne Mentor/in
+      distance_from: Entfernung von
+      description: "Die Tabelle zeigt alle Schüler/innen welche zur Zeit ohne Mentoring sind. Sie können entweder die Entfernung zu Ihrem Wohnort oder zum Hauptbahnhof anzeigen lassen. Über den Button 'Mentoringanfrage senden' können Sie mit der Lehrperson in Kontakt treten."
 
 
   self_registrations:
     select_resource:
       title: Ich möchte mich registrieren als
-      teacher: "Lehrer/in"
+      teacher: "Lehrerperson"
       mentor: "Mentor/in"
     new_mentor:
       title: "Registrieren Sie sich als Mentor/in"
@@ -355,8 +359,8 @@ de:
         link: "Nutzungsbedingungen"
     success:
       title: Registrierung erfolgreich
-      text_mentor: Vielen Dank für Ihre Anmeldung. Sie erhalten demnächst eine Einladung zum Vorstellungsgespräch.
-      text_teacher: Vielen Dank für Ihre Anmeldung. Sie werden demnächst benachrichtigt, wenn Ihr Konto aktiviert wurde.
+      text_mentor: "Vielen Dank für Ihre Registrierung. Sie erhalten demnächst eine Einladung zum Vorstellungsgespräch."
+      text_teacher: "Vielen Dank für Ihre Registrierung. Sie werden benachrichtigt, sobald unser Team Ihre Eingabe überprüft und Ihr Konto aktiviert hat."
 
   self_registrations_mailer:
     user_registered:

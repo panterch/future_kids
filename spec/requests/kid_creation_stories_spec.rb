@@ -28,7 +28,7 @@ feature 'TEACHER::CREATE:KID', '
     fill_in 'kid_prename', with: 'First Name'
     click_button 'Schüler/in erstellen'
     expect(page.status_code).to eq(200)
-    expect(page).to have_css('h1', text: 'Last Name First Name')
+    expect(page).to have_css('h1', text: 'Last Name, First Name')
   end
     
   scenario 'should create a new kid with parent country' do
@@ -40,7 +40,7 @@ feature 'TEACHER::CREATE:KID', '
     select('Syrien, Arabische Republik', from: 'kid_parent_country')
     click_button 'Schüler/in erstellen'
     expect(page.status_code).to eq(200)
-    expect(page).to have_css('h1', text: 'Last Name First Name')
+    expect(page).to have_css('h1', text: 'Last Name, First Name')
   end
 end
 
@@ -72,7 +72,7 @@ feature 'ADMIN::CREATE:KID', '
     fill_in 'kid_prename', with: 'First Name'
     click_button 'Schüler/in erstellen'
     expect(page.status_code).to eq(200)
-    expect(page).to have_css('h1', text: 'Last Name First Name')
+    expect(page).to have_css('h1', text: 'Last Name, First Name')
   end
     
   scenario 'should create a new kid with parent country' do
@@ -84,6 +84,6 @@ feature 'ADMIN::CREATE:KID', '
     select('Syrien, Arabische Republik', from: 'kid_parent_country')
     click_button 'Schüler/in erstellen'
     expect(page.status_code).to eq(200)
-    expect(page).to have_css('h1', text: 'Last Name First Name')
+    expect(page).to have_css('h1', text: 'Last Name, First Name')
   end
 end

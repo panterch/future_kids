@@ -2,6 +2,7 @@
   .col-md-8
     = show_for @mentor do |show|
       = render "details", mentor: @mentor
+      = show.attribute :no_kids_reminder
       = show.association :schools do |k|
         %li
           = can_link_to k
@@ -33,6 +34,7 @@
           = show.attribute :exit_at
         = show.attribute :schedules_seen_at
         = show.attribute :schedules_updated_at
+        = show.attribute :state
         = show.attribute :inactive
         - if @mentor.inactive?
           = show.attribute :inactive_at

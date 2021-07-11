@@ -119,7 +119,7 @@ module ApplicationHelper
   end
 
   def distance_from_collection(selected)
-    options = [%w[Mentor mentor],
+    options = [['meinem Wohnort', 'mentor'],
                ['Zürich HB', 'zurich']]
     options_for_select(options, selected)
   end
@@ -229,7 +229,7 @@ module ApplicationHelper
     actions = []
     if can? :create, MentorMatching
       if kid.match_available?(current_user)
-        actions << link_to('Lehrperson anschreiben', new_mentor_matching_path(kid_id: kid), class: 'btn btn-default btn-xs')
+        actions << link_to('Mentoringanfrage senden', new_mentor_matching_path(kid_id: kid), class: 'btn btn-default btn-xs')
       else
         if can? :confirm, mentor_matching
           actions << link_to(I18n.t(:confirm, scope: 'crud.action'), confirm_mentor_matching_path(mentor_matching), method: :put, class: 'btn btn-success btn-xs')

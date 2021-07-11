@@ -93,7 +93,7 @@ class Kid < ApplicationRecord
 
   def display_name
     return 'Neuer Eintrag' if new_record?
-    [name, prename].reject(&:blank?).join(' ')
+    [name, prename].reject(&:blank?).join(', ')
   end
 
   def human_goal

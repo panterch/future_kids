@@ -22,10 +22,10 @@ describe 'AvailableKids' do
       end
 
       scenario 'mentor can see one kid' do
-        expect(page).to have_content('Hodler Rolf')
-        expect(page).not_to have_content('Maria Rolf')
+        expect(page).to have_content('♂')
+        expect(page).not_to have_content('♀')
         expect(page).to have_content('5.89 km')
-        expect(page).to have_content('Lehrperson anschreiben')
+        expect(page).to have_content('Mentoringanfrage senden')
       end
     end
 
@@ -36,8 +36,8 @@ describe 'AvailableKids' do
       end
 
       scenario 'mentor can see two kids' do
-        expect(page).to have_content('Hodler Rolf')
-        expect(page).to have_content('Maria Rolf')
+        expect(page).to have_content('♂')
+        expect(page).to have_content('♀')
         expect(page).to have_content('5.89 km')
       end
     end
@@ -46,7 +46,7 @@ describe 'AvailableKids' do
       before do
         @mentor.update!(sex: 'm')
         visit available_kids_path
-        click_link('Lehrperson anschreiben')
+        click_link('Mentoringanfrage senden')
         fill_in 'Nachricht', with: 'I want to mentor the kid'
         click_button('Mentoring Anfrage erstellen')
         visit available_kids_path
@@ -103,14 +103,14 @@ describe 'AvailableKids' do
 
       scenario 'mentor can see one kid with grade 1' do
         select('Unterstufe', from: 'grade_group')
-        expect(page).to have_content('Hodler Rolf')
-        expect(page).not_to have_content('Maria Rolf')
+        expect(page).to have_content('♂')
+        expect(page).not_to have_content('♀')
       end
 
       scenario 'mentor can see one kid with grade 5' do
         select('Mittelstufe', from: 'grade_group')
-        expect(page).not_to have_content('Hodler Rolf')
-        expect(page).to have_content('Maria Rolf')
+        expect(page).not_to have_content('♂')
+        expect(page).to have_content('♀')
       end
     end
 
@@ -121,7 +121,7 @@ describe 'AvailableKids' do
       end
 
       scenario 'can see distance_from him' do
-        select('Mentor', from: 'distance_from')
+        select('meinem Wohnort', from: 'distance_from')
         expect(page).to have_content('5.89 km')
       end
 
@@ -131,17 +131,6 @@ describe 'AvailableKids' do
       end
     end
 
-    describe 'Available kids with order_by', js: true do
-      before do
-        @mentor.update(sex: 'f')
-        visit available_kids_path
-      end
-
-      scenario 'can see kids ordered by distance' do
-        select('Entfernung', from: 'order_by')
-        expect(page.body.index('0 km') < page.body.index('5.89 km')).to eq true
-      end
-    end
   end
 
   context 'as Admin' do
@@ -153,8 +142,8 @@ describe 'AvailableKids' do
       end
 
       scenario 'admin cannot create mentor matching' do
-        expect(page).to have_content('Hodler Rolf')
-        expect(page).not_to have_content('Lehrperson anschreiben')
+        expect(page).to have_content('♂')
+        expect(find('table')).not_to have_content('Mentoringanfrage senden')
       end
     end
   end
@@ -168,7 +157,7 @@ describe 'AvailableKids' do
       end
 
       scenario 'teacher cannot create mentor matching' do
-        expect(page).not_to have_content('Lehrperson anschreiben')
+        expect(find('table')).not_to have_content('Lehrperson anschreiben')
       end
     end
   end

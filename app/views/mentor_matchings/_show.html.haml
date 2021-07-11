@@ -1,16 +1,12 @@
-%h2= Mentor.model_name.human + ' ' + @mentor_matching.mentor.display_name
-
-.row
-  .col-md-8
-    - if @mentor_matching.message.present?
+- if @mentor_matching.message.present?
+  %h2 Anfrage
+  .row
+    .col-md-8
       = show_for @mentor_matching do |show|
         %strong= show.attribute :message
+
+%h2= 'Von ' + @mentor_matching.mentor.display_name
+.row
+  .col-md-8
     = render "mentors/details", mentor: @mentor_matching.mentor
 
-    %h2= Kid.model_name.human + ' ' + @mentor_matching.kid.display_name
-    = show_for @mentor_matching.kid do |show|
-      = show.attribute :name
-      = show.attribute :prename
-      = show.attribute :sex
-      = show.attribute :dob
-      = show.attribute :grade
