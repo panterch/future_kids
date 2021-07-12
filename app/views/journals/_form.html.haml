@@ -1,7 +1,7 @@
 = simple_form_for [@journal.kid, @journal] do |form|
   - if current_user.is_a?(Admin)
     = form.association :mentor, collection: @mentors
-  = form.input :held_at
+  = form.input :held_at, as: :date, html5: true
   = form.input :meeting_type, collection: meeting_type_collection
   = form.input :cancelled
   = form.input :important

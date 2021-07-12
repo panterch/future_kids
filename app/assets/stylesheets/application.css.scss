@@ -118,6 +118,11 @@ textarea {
   }
 }
 
+// Fix alignement of html5 datepicker
+input.date[type=date] {
+  line-height: 1.4;
+}
+
 
 form.schedule {
   input[type=checkbox], select {

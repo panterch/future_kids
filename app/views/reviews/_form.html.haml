@@ -1,5 +1,5 @@
 = simple_form_for [@review.kid, @review] do |form|
-  = form.input :held_at
+  = form.input :held_at, as: :date, html5: true
   = form.input :attendee
   = form.input :reason, :collection => reason_collection
   = form.input :kind, :collection => kind_collection

@@ -19,11 +19,6 @@ $(function () {
 // registers jquery ui datepickers on given fields when applicable
 function register_datepickers() {
 
-  var date_settings = {
-    usa: false,
-    separator: '.'
-  };
-
   var time_settings = {
     isoTime: true,
     separator: '.',
@@ -32,7 +27,6 @@ function register_datepickers() {
     timeInterval: 30
   };
 
-  $('input.calendricalDate').calendricalDate(date_settings);
   $('#kid_meeting_start_at').calendricalTime(time_settings);
 
   // journal entries may take longer than official meeting hours

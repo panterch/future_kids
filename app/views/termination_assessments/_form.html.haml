@@ -6,7 +6,7 @@
     .col-sm-9
       %p Reflektion und Resümee der vergangenen zwei Future Kids-Jahren.
       %p Ist das Kind erst kürzlich bei der beurteilenden Lehrperson im Unterricht, bitten wir die Lehrperson, die fehlenden Informationen bei der vorherigen Lehrperson einzuholen.
-  = form.input :held_at
+  = form.input :held_at, as: :date, html5: true
   = form.association :teacher, collection: teacher_collection(@kid)
   = form.input :development
   = form.input :goals

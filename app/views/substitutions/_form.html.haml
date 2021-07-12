@@ -4,8 +4,8 @@
     = form.association :mentor
   = form.association :kid, collection: Kid.with_mentor
   = form.association :secondary_mentor
-  = form.input :start_at
-  = form.input :end_at
+  = form.input :start_at, as: :date, html5: true
+  = form.input :end_at, as: :date, html5: true
   = form.input :comments
 
   .col-sm-offset-3.col-sm-9

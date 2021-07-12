@@ -12,7 +12,7 @@
   = form.input :address
   = form.input :city
   = form.input :photo
-  = form.input :dob
+  = form.input :dob, as: :date, html5: true
   = form.input :phone
   = form.association :school, collection: school_collection_by_kind(:mentor), include_blank: true
   = form.input :field_of_study
@@ -31,7 +31,7 @@
     = form.input :todo
     = form.input :substitute
     = form.input :exit_kind, collection: exit_kind_collection
-    = form.input :exit_at
+    = form.input :exit_at, as: :date, html5: true
     = form.input :state, :collection => user_status_collection
     = form.input :inactive
 

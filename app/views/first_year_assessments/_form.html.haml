@@ -7,7 +7,7 @@
       %p Reflektion des vergangenen ersten Future Kids-Jahres. Zielsetzung für das kommende zweite Future Kids-Jahr.
       %p Teilnahmedauer bei Future Kids ist regulär zwei Jahre. Ein Abbruch nach einem Jahr ist in begründeten Ausnahmefällen möglich, die definitive Entscheidung darüber liegt beim Future Kids-Büro.
       %p Ist das Kind erst kürzlich bei der beurteilenden Lehrperson im Unterricht, bitten wir die Lehrperson, die fehlenden Informationen bei der vorherigen Lehrperson einzuholen.
-  = form.input :held_at
+  = form.input :held_at, as: :date, html5: true
   = form.association :teacher, collection: teacher_collection(@kid)
   = form.association :mentor, collection: mentor_collection(@kid)
   %label.string.col-sm-3.control-label

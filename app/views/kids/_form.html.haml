@@ -2,7 +2,7 @@
   = form.input :name
   = form.input :prename
   = form.input :sex, :collection => sex_collection
-  = form.input :dob
+  = form.input :dob, as: :date, html5: true
   = form.input :grade, :collection => grade_collection
   = form.input :language
   = form.input :parent_country, priority: ["AL", "TR", "LK", "XK", "ES", "PT"], :include_blank => true, locale: 'de'
@@ -42,10 +42,10 @@
     = form.input :exit, :collection => term_collection
     = form.input :exit_reason, :collection => exit_reason_collection
     = form.input :exit_kind, :collection => exit_kind_collection
-    = form.input :exit_at
-    = form.input :checked_at
+    = form.input :exit_at, as: :date, html5: true
+    = form.input :checked_at, as: :date, html5: true
     - if @site.feature_coach?
-      = form.input :coached_at
+      = form.input :coached_at, as: :date, html5: true
     = form.input :abnormality
     = form.input :abnormality_criticality, :collection => criticality_collection
     = form.input :todo

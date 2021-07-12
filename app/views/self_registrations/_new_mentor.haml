@@ -8,9 +8,9 @@
   = form.input :address, required: true
   = form.input :city, required: true
   = form.input :photo, required: true
-  = form.input :dob, required: true
+  = form.input :dob, as: :date, html5: true
   = form.input :phone, required: true
-  = form.association :school, collection: school_collection_by_kind(:mentor), include_blank: true
+  = form.association :school, collection: school_collection_by_kind(:mentor), include_blank: true, required: true
   = form.input :field_of_study
   %div{class: "form-group #{@terms_of_use_error ? 'has-error' : '' }"}
     .col-sm-3
