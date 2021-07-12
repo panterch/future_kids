@@ -55,6 +55,8 @@ Rails.application.routes.draw do
     end
   end
 
+  get '/lehrpersonen', to: redirect('/self_registrations/new?type=teacher')
+  get '/mentoren', to: redirect('/self_registrations/new?type=mentor')
+
   get '/exception_test' => 'exception_test#error'
-  get '/register' => 'self_registrations#new'
 end

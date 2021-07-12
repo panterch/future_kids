@@ -356,7 +356,7 @@ de:
   self_registrations:
     select_resource:
       title: Ich möchte mich registrieren als
-      teacher: "Lehrerperson"
+      teacher: "Lehrperson"
       mentor: "Mentor/in"
     new_mentor:
       title: "Registrieren Sie sich als Mentor/in"
