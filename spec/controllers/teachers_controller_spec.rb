@@ -52,7 +52,7 @@ describe TeachersController do
         @teacher = create(:teacher, state: :selfservice)
         patch :update, params: { id: @teacher.id, teacher: { state: :accepted } }
         last_email = ActionMailer::Base.deliveries.last
-        expect(last_email.subject).to eq I18n.translate('self_registrations_mailer.reset_and_send_password.subject')
+        expect(last_email.subject).to eq I18n.translate('notifications.reset_and_send_password.subject')
       end
 
       it "doesn't send an email if update other fields than state" do
@@ -65,7 +65,7 @@ describe TeachersController do
         @teacher = create(:teacher)
         patch :update, params: { id: @teacher.id, commit: I18n.translate('teachers.form.resend_password.btn_text') }
         last_email = ActionMailer::Base.deliveries.last
-        expect(last_email.subject).to eq I18n.translate('self_registrations_mailer.reset_and_send_password.subject')
+        expect(last_email.subject).to eq I18n.translate('notifications.reset_and_send_password.subject')
       end
     end
 

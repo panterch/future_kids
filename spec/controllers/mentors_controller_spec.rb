@@ -109,7 +109,7 @@ describe MentorsController do
         @mentor.update(state: :selfservice)
         patch :update, params: { id: @mentor.id, mentor: { state: :accepted } }
         last_email = ActionMailer::Base.deliveries.last
-        expect(last_email.subject).to eq I18n.translate('self_registrations_mailer.reset_and_send_password.subject')
+        expect(last_email.subject).to eq I18n.translate('notifications.reset_and_send_password.subject')
       end
 
       it "doesn't send an email if update other fields than state" do
@@ -120,7 +120,7 @@ describe MentorsController do
       it 'resends email with password with resend password button if user is accepted' do
         patch :update, params: { id: @mentor.id, commit: I18n.translate('teachers.form.resend_password.btn_text') }
         last_email = ActionMailer::Base.deliveries.last
-        expect(last_email.subject).to eq I18n.translate('self_registrations_mailer.reset_and_send_password.subject')
+        expect(last_email.subject).to eq I18n.translate('notifications.reset_and_send_password.subject')
       end
     end
   end

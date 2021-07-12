@@ -95,4 +95,20 @@ class Notifications < ActionMailer::Base
     @mentor = mentor
     mail to: mentor.email
   end
+
+  def user_registered(user)
+    @user = user
+    @user_type = @user.type
+    @user_link = @user_type == 'Teacher' ? edit_teacher_url(@user) : edit_mentor_url(@user.id)
+    mail(to: Admin.all.collect(&:email).join(','),
+         subject: I18n.t('notifications.user_registered.subject', user_type: @user_type))
+  end
+
+  def reset_and_send_password(user)
+    @user = user
+    @new_password = Devise.friendly_token.first(10)
+    @user.update(password: @new_password, password_confirmation: @new_password)
+    mail(to: @user.email, subject: I18n.t('notifications.reset_and_send_password.subject', password: @new_password))
+  end
+
 end
