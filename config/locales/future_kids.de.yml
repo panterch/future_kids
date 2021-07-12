@@ -339,6 +339,12 @@ de:
       description: Mentoren, die interesse haben für ein Schuler/innen
     new:
       default: "Liebe Lehrerin, lieber Lehrer\n\nIch Interessiere mich dafür, dieses Mentoring zu übernehmen. Ich freue mich über eine Zusage oder stehe für Rückfragen zur Verfügung.\n\nFreundliche Grüsse"
+    create:
+      notice: "Die Lehrperson wurde benachrichtigt."
+    accept:
+      notice: "Der/die Mentor/in wurde benachrichtigt."
+    confirm:
+      notice: "Herzlichen Glückwunsch - Das Mentoring ist bestätigt."
 
   available_kids:
     index:

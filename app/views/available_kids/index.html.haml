@@ -29,12 +29,12 @@
 
   - @kids.each do |kid|
     %tr
-      %td Wohnort
+      %td= kid.city
       %td= human_distance(kid.distance)
       %td= kid.grade
       %td= kid.human_sex
       - unless @site.kids_schedule_hourly
-        %td= kid.simplified_schedule
+        %td= kid.human_simplified_schedule
       %td!= available_kid_actions(kid)
 
 

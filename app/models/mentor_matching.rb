@@ -20,6 +20,10 @@ class MentorMatching < ApplicationRecord
     I18n.t(state, scope: 'activerecord.attributes.mentor_matching.states')
   end
 
+  def human_message
+    text_format(message)
+  end
+
   def confirmed
     ActiveRecord::Base.transaction do
       kid.mentor_matchings.each do |mentor_matching|

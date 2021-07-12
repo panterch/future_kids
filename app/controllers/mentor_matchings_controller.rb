@@ -18,7 +18,7 @@ class MentorMatchingsController < ApplicationController
   def create
     authorize! :search, @mentor_matching.kid
     if @kid.match_available?(@mentor_matching.mentor) && @mentor_matching.save
-      redirect_to available_kids_path
+      redirect_to available_kids_path, notice: I18n.t('mentor_matchings.create.notice')
     else
       render :new
     end
@@ -26,16 +26,12 @@ class MentorMatchingsController < ApplicationController
 
   def accept
     @mentor_matching.reserved! if @mentor_matching.pending?
-    redirect_to mentor_matchings_url
+    redirect_to mentor_matchings_url, notice: I18n.t('mentor_matchings.accept.notice')
   end
 
   def confirm
     @mentor_matching.confirmed
-    if can?(:read, @mentor_matching)
-      redirect_to @mentor_matching
-    else
-      redirect_to available_kids_path
-    end
+    redirect_to kid_url(@mentor_matching.kid), notice: I18n.t('mentor_matchings.confirm.notice')
   end
 
   def decline

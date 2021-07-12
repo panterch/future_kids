@@ -3,7 +3,7 @@
   .row
     .col-md-8
       = show_for @mentor_matching do |show|
-        %strong= show.attribute :message
+        = show.attribute :message
 
 %h2= 'Von ' + @mentor_matching.mentor.display_name
 .row

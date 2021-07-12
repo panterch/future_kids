@@ -108,6 +108,10 @@ class Kid < ApplicationRecord
     text_format(goal_2)
   end
 
+  def human_simplified_schedule
+    text_format(simplified_schedule)
+  end
+
   def human_note
     text_format(note)
   end
