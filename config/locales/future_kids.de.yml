@@ -275,18 +275,18 @@ de:
     termination_assessment_created:
       subject: "Neues Abschluss-Feedback"
     mentor_matching_created:
-      subject: "Mentor matching created"
+      subject: "Neue Mentoring Anfrage"
     mentor_matching_reserved:
-      subject: "Mentor matching reserved"
+      subject: "Mentoring reserviert"
     mentor_matching_declined:
-      subject: "Mentor matching declined"
+      subject: "Mentoring abgelehnt"
     mentor_no_kids_reminder:
-      subject: "No kids assigned reminder"
+      subject: "Erinnerung an Mentoring"
     user_registered:
       subject: Neuer %{user_type} registriert
       body: "Neuer %{user_type} registriert:"
     reset_and_send_password:
-      subject: "Future kids: Registrierung wurde bestätigt"
+      subject: "Future Kids: Registrierung wurde bestätigt"
     default_email: 'Future Kids <futurekids-tech@panter.ch>'
     important_subject: 'Wichtiges Lernjournal - bitte sofort lesen.'
 
