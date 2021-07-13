@@ -35,10 +35,6 @@ class Notifications < ActionMailer::Base
     mail to: @comment.recipients, bcc: @site.comment_bcc
   end
 
-  def test(to)
-    mail subject: 'future kids test mail', to: to
-  end
-
   def journals_created(to, journals)
     @journals = journals
     mail to: to.email
@@ -109,6 +105,12 @@ class Notifications < ActionMailer::Base
     @new_password = Devise.friendly_token.first(10)
     @user.update(password: @new_password, password_confirmation: @new_password)
     mail(to: @user.email, subject: I18n.t('notifications.reset_and_send_password.subject', password: @new_password))
+  end
+
+  # sends out a simple test email
+  # Notifications.test('futurekids@example.com').deliver_now
+  def test(to)
+    mail subject: 'future kids test mail', to: to
   end
 
 end
