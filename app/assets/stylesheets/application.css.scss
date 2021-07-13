@@ -123,6 +123,13 @@ input.date[type=date] {
   line-height: 1.4;
 }
 
+// pages that contain no actions
+body.available_kids.index,
+body.mentor_matchings.index {
+  & .contextual_links_panel {
+    display: none;
+  }
+}
 
 form.schedule {
   input[type=checkbox], select {
