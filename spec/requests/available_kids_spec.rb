@@ -48,7 +48,7 @@ describe 'AvailableKids' do
         visit available_kids_path
         click_link('Mentoringanfrage senden')
         fill_in 'Nachricht', with: 'I want to mentor the kid'
-        click_button('Mentoring Anfrage erstellen')
+        click_button('Mentoringanfrage absenden')
         visit available_kids_path
       end
 

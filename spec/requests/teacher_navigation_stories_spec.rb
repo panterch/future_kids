@@ -15,7 +15,7 @@ feature 'TEACHER::NAVIGATION:KID', "
   scenario 'should show message when no sudents' do
     click_link 'Schüler/in'
     expect(page.status_code).to eq(200)
-    expect(page).to have_text('Zur Zeit sind Ihnen keine Kinder zugeordnet.')
+    expect(page).to have_text('Keine Kinder')
   end
 
   scenario 'should show a list with last and first name of the students' do

@@ -7,7 +7,6 @@ FactoryBot.define do
     held_at { Date.parse('2018-10-01') }
   end
 
-
   factory :substitution do
     mentor
     kid
@@ -33,14 +32,14 @@ FactoryBot.define do
     sequence(:name) { |n| "Mentor name#{n}" }
     sequence(:prename) { |n| "Mentor prename#{n}" }
     association :school
-    photo { Rack::Test::UploadedFile.new(File.join('spec','fixtures', 'files', 'logo.png'), 'image/png') }
+    photo { Rack::Test::UploadedFile.new(File.join('spec', 'fixtures', 'files', 'logo.png'), 'image/png') }
     sex { 'm' }
     address { 'address' }
     city { 'city' }
     dob { '1.1.1990' }
     phone { '123456798' }
 
-    to_create {|instance| instance.save(validate: false) }
+    to_create { |instance| instance.save(validate: false) }
   end
 
   factory :teacher, class: 'Teacher', parent: :user do
@@ -53,14 +52,16 @@ FactoryBot.define do
 
   factory :principal, class: 'Principal', parent: :user do
     sequence(:email) { |n| "principal_#{n}@example.com" }
-    schools {[FactoryBot.create(:school)]}
+    schools { [FactoryBot.create(:school)] }
   end
 
   factory :kid do
     sequence(:name) { |n| "Kid #{n}" }
     prename { 'Prename' }
     grade { 3 }
-    language { 'Kroatisch'}
+    sex { 'm' }
+    language { 'Kroatisch' }
+    parent { 'Nico' }
     address { 'Blumenweg 12' }
     city { '8005 Zürich' }
     phone { '123456789' }

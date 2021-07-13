@@ -67,7 +67,7 @@ describe SelfRegistrationsController do
 
         it 'sends email to all admins' do
           last_email = ActionMailer::Base.deliveries.last
-          expect(last_email.to).to eq [admin.email, admin2.email]
+          expect(last_email.to).to eq ["futurekids-tech@panter.ch"]
         end
 
         it "can't force state" do

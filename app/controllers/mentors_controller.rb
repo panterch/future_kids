@@ -65,20 +65,16 @@ class MentorsController < ApplicationController
   def update
     # resend password button
     if params[:commit] == I18n.t('mentors.form.resend_password.btn_text')
-      Notifications.reset_and_send_password(@mentor).deliver_now
+      Notifications.reset_and_send_mentor_password(@mentor).deliver_now
       respond_with @mentor, notice: I18n.t('mentors.form.resend_password.sent_successfully')
       return
     end
     # switched to accepted state
     if mentor_params[:state] == 'accepted' && @mentor.state != mentor_params[:state]
-      Notifications.reset_and_send_password(@mentor).deliver_now
+      Notifications.reset_and_send_mentor_password(@mentor).deliver_now
     end
 
     super
-  end
-
-  def resend_password
-    Notifications.reset_and_send_password(@mentor).deliver_now
   end
 
   def disable_no_kids_reminder

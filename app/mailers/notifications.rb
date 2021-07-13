@@ -82,9 +82,8 @@ class Notifications < ActionMailer::Base
   def mentor_matching_confirmed(mentor_matching)
     @mentor_matching = mentor_matching
     recipients = []
-    recipients << Notifications.default_email
-    recipients << mentor_matching.kid.admin&.email if mentor_matching.kid.admin
-    mail to: recipients
+    recipients << mentor_matching.kid.teacher&.email if mentor_matching.kid.teacher
+    mail to: recipients, bcc: Notifications.default_email
   end
 
   def mentor_no_kids_reminder(mentor)
@@ -94,16 +93,21 @@ class Notifications < ActionMailer::Base
 
   def user_registered(user)
     @user = user
-    @user_type = @user.type
-    @user_link = @user_type == 'Teacher' ? edit_teacher_url(@user) : edit_mentor_url(@user.id)
-    mail(to: Admin.all.collect(&:email).join(','),
+    @user_type = @user.class.model_name.human
+    @user_link = @user.is_a?(Teacher) ? edit_teacher_url(@user) : edit_mentor_url(@user.id)
+    mail(to: Notifications.default_email,
          subject: I18n.t('notifications.user_registered.subject', user_type: @user_type))
   end
 
-  def reset_and_send_password(user)
+  def reset_and_send_mentor_password(user)
     @user = user
-    @new_password = Devise.friendly_token.first(10)
-    @user.update(password: @new_password, password_confirmation: @new_password)
+    @new_password = User.reset_password!(@user)
+    mail(to: @user.email, subject: I18n.t('notifications.reset_and_send_password.subject', password: @new_password))
+  end
+
+  def reset_and_send_teacher_password(user)
+    @user = user
+    @new_password = User.reset_password!(@user)
     mail(to: @user.email, subject: I18n.t('notifications.reset_and_send_password.subject', password: @new_password))
   end
 
@@ -112,5 +116,6 @@ class Notifications < ActionMailer::Base
   def test(to)
     mail subject: 'future kids test mail', to: to
   end
+
 
 end

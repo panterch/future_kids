@@ -1,25 +1,34 @@
 = simple_form_for @kid do |form|
-  = form.input :name
-  = form.input :prename
-  = form.input :sex, :collection => sex_collection
+  = form.input :name, required: true
+  = form.input :prename, required: true
+  = form.input :sex, :collection => sex_collection, required: true
   = form.input :dob, as: :date, html5: true
-  = form.input :grade, :collection => grade_collection
-  = form.input :language
+  = form.input :grade, :collection => grade_collection, required: true
+  = form.input :language, required: true
   = form.input :parent_country, priority: ["AL", "TR", "LK", "XK", "ES", "PT"], :include_blank => true, locale: 'de'
 
-  = form.input :parent
-  = form.input :address
-  = form.input :city
-  = form.input :phone
+  = form.input :parent, required: true
+  = form.input :address, required: true
+  = form.input :city, required: true
+  = form.input :phone, required: true
   = form.input :translator
   = form.input :note
   = form.association :school, collection: @schools, include_blank: @schools_include_blank
 
   %h2#school Allgemeine Informationen
-  = form.input :goal_1
-  = form.input :goal_2
+  %label.string.col-sm-3.control-label
+  .col-sm-9
+    %p Auf welche Fächer und Themenbereiche soll im Mentoring fokussiert werden?
+  = form.input :goal_1, required: true
+  %label.string.col-sm-3.control-label
+  .col-sm-9
+    %p Welche Kompetenzen (personale, soziale, methodische) sollen im Mentoring gestärkt werden?
+  = form.input :goal_2, required: true
   - unless @site.kids_schedule_hourly
-    = form.input :simplified_schedule
+    %label.string.col-sm-3.control-label
+    .col-sm-9
+      %p Bitte mehrere Zeitfenster angeben, in denen das Kind Zeit für das Mentoring hat.
+    = form.input :simplified_schedule, required: true
   - if current_user.is_a?(Admin)
     = form.input :meeting_day, :collection => wday_collection
     = form.input :meeting_start_at, :as => :string, input_html: { value: @kid.human_meeting_start_at, autocomplete: 'off' }

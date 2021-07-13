@@ -279,20 +279,31 @@ de:
     mentor_matching_reserved:
       subject: "Mentoring reserviert"
     mentor_matching_declined:
-      subject: "Mentoring abgelehnt"
+      subject: "Mentoring Anfrage zurückgezogen"
+    mentor_matching_declined_by_mentor:
+      subject: "Mentoring Anfrage zurückgezogen"
+    mentor_matching_confirmed:
+      subject: "Future Kids Mentoring bestätigt"
     mentor_no_kids_reminder:
       subject: "Erinnerung an Mentoring"
     user_registered:
-      subject: Neuer %{user_type} registriert
-      body: "Neuer %{user_type} registriert:"
+      subject: "%{user_type} registriert"
+      body: "%{user_type} registriert:"
     reset_and_send_password:
-      subject: "Future Kids: Registrierung wurde bestätigt"
+      subject: "Future Kids Account aktiviert"
     default_email: 'Future Kids <futurekids-tech@panter.ch>'
     important_subject: 'Wichtiges Lernjournal - bitte sofort lesen.'
 
+  page_description:
+    kids:
+      index:
+        teacher: 'Um neue Schüler/innen für die Teilnahme anzumelden, klicken Sie links auf „Erfassen“.'
+        mentor: "Schüler/innen in Ihrem Mentoring"
+    mentor_matchings:
+      index:
+        teacher: "Hier sehen Sie die Übersicht aller Mentor/innen, die ein Kind aus Ihrer Klasse begleiten möchten. Unter „Details“ finden Sie die Kontaktdaten des/der Mentor/in und können die Anfrage annehmen oder ablehnen. Das Mentoring ist verbindlich, sobald der/die Mentor/in es nochmals rückbestätigt hat."
+
   kids:
-    index:
-      description: "Schüler/innen in Ihrem Mentoring"
     criticality:
       '1': Hoch
       '2': Mittel
@@ -327,7 +338,7 @@ de:
       accept: Akzeptieren
       decline: Ablehnen
       confirm: Bestätigen
-      show: Detail
+      show: Details
 
   title:
     kid_mentor_relation_index:
@@ -335,8 +346,6 @@ de:
       other: '%{count} Bewegungen'
 
   mentor_matchings:
-    index:
-      description: Mentoren, die interesse haben für ein Schuler/innen
     new:
       default: "Liebe Lehrerin, lieber Lehrer\n\nIch Interessiere mich dafür, dieses Mentoring zu übernehmen. Ich freue mich über eine Zusage oder stehe für Rückfragen zur Verfügung.\n\nFreundliche Grüsse"
     create:
@@ -363,11 +372,13 @@ de:
       terms_of_use:
         text: "Ich bestätige hiermit, die %{link} gelesen zu haben und zu akzeptieren"
         link: "Nutzungsbedingungen"
+      submit: "Registrierung abschliessen"
     new_teacher:
       title: "Registrieren Sie sich als Lehrperson"
       terms_of_use:
         text: "Ich bestätige hiermit, die %{link} gelesen zu haben und zu akzeptieren"
         link: "Nutzungsbedingungen"
+      submit: "Registrierung abschliessen"
     success:
       title: Registrierung erfolgreich
       text_mentor: "Vielen Dank für Ihre Registrierung. Sie erhalten demnächst eine Einladung zum Vorstellungsgespräch."

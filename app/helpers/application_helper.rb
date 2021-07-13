@@ -224,6 +224,20 @@ module ApplicationHelper
     "#{distance.round(2)} km"
   end
 
+  # returns the page description translation key of the format
+  #
+  # page_description.controller.action.user_type
+  #
+  # user_type is optional
+  def page_description
+    d = I18n.t("page_description.#{controller_name}.#{action_name}")
+    if d.is_a? Hash
+      return d[current_user.type.downcase.to_sym]
+    else
+      return d
+    end
+  end
+
   def available_kid_actions(kid)
     mentor_matching = kid.mentor_matching_for(current_user)
     actions = []

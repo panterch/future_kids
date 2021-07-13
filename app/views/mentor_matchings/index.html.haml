@@ -6,22 +6,22 @@
   = MentorMatching.model_name.human
 
 %p
-  = t '.description'
+  = page_description
 %p &nbsp;
 
 - if @mentor_matchings.present?
   %table.table.table-striped.table-condensed.table-hover
     %tr
       %th= Mentor.model_name.human
-      %th= MentorMatching.human_attribute_name(:state)
       %th= Kid.model_name.human
+      %th= MentorMatching.human_attribute_name(:state)
       %th Aktion
     %tbody
       - @mentor_matchings.each do |mentor_matching|
         %tr
-          %td= link_to mentor_matching.mentor.display_name, mentor_matching.mentor
-          %td= mentor_matching.human_state_name
+          %td= mentor_matching.mentor.display_name
           %td= link_to mentor_matching.kid.display_name, mentor_matching.kid
+          %td= mentor_matching.human_state_name
           %td= link_to I18n.t(:show, scope: 'crud.action'), mentor_matching, class: 'btn btn-default btn-xs'
 - else
   %p Kein Eintrag vorhanden

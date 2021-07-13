@@ -28,8 +28,8 @@ class Kid < ApplicationRecord
 
   validates_presence_of :name, :prename
 
-  validates_presence_of :grade, :language,
-                        :address, :city, :phone, :goal_1, :goal_2,
+  validates_presence_of :sex, :grade, :language,
+                        :address, :city, :parent, :phone, :goal_1, :goal_2,
                         :simplified_schedule, if: :validate_public_signup_fields?
 
   validates_numericality_of :meeting_day, only_integer: true, allow_blank: true,

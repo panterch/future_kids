@@ -55,6 +55,12 @@ class User < ApplicationRecord
     I18n.t("activerecord.attributes.user.states.#{state}")
   end
 
+  def self.reset_password!(user)
+    @new_password = Devise.friendly_token.first(10)
+    user.update!(password: @new_password, password_confirmation: @new_password)
+    return @new_password
+  end
+
   protected
 
   def nilify_blank_password

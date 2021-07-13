@@ -8,7 +8,7 @@
   = form.input :address, required: true
   = form.input :city, required: true
   = form.input :photo, required: true
-  = form.input :dob, as: :date, html5: true
+  = form.input :dob, as: :date, html5: true, required: true
   = form.input :phone, required: true
   = form.association :school, collection: school_collection_by_kind(:mentor), include_blank: true, required: true
   = form.input :field_of_study
@@ -22,4 +22,4 @@
       %span.help-block=t("errors.messages.required") if @terms_of_use_error
 
   .col-sm-offset-3.col-sm-9
-    = form.button :submit
+    = form.button :submit, t('.submit')

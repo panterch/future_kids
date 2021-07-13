@@ -23,7 +23,7 @@ feature 'MentorMatchings As Mentor' do
     scenario 'can create matching' do
       click_link('Mentoringanfrage senden')
       fill_in 'Nachricht', with: 'I want to mentor the kid'
-      click_button('Mentoring Anfrage erstellen')
+      click_button('Mentoringanfrage absenden')
       expect(mentor.mentor_matchings.to_a.present?).to eq true
       expect(ActionMailer::Base.deliveries.length).to eq(1)
       visit available_kids_path
