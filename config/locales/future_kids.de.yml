@@ -279,7 +279,7 @@ de:
     mentor_matching_reserved:
       subject: "Mentoring reserviert"
     mentor_matching_declined:
-      subject: "Mentoring Anfrage zurückgezogen"
+      subject: "Mentoring Anfrage abgelehnt"
     mentor_matching_declined_by_mentor:
       subject: "Mentoring Anfrage zurückgezogen"
     mentor_matching_confirmed:
