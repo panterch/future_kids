@@ -287,7 +287,7 @@ de:
     mentor_no_kids_reminder:
       subject: "Erinnerung an Mentoring"
     user_registered:
-      subject: "%{user_type} registriert"
+      subject: "Neuer Future Kids Account registriert"
       body: "%{user_type} registriert:"
     reset_and_send_password:
       subject: "Future Kids Account aktiviert"
