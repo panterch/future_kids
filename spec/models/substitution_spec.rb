@@ -15,9 +15,9 @@ describe Substitution do
   	substitution = build(:substitution, end_at: nil)
   	expect(substitution).not_to be_valid
 	end
-  it { should belong_to(:mentor) }
+  it { should belong_to(:mentor).required }
   it { should belong_to(:secondary_mentor).optional  }
-  it { should belong_to(:kid) }
+  it { should belong_to(:kid).required }
 
   it "is destroyed when kid is destroyed" do
     substitution = create(:substitution)
