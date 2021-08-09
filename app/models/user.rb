@@ -44,13 +44,7 @@ class User < ApplicationRecord
   end
 
   def photo_medium
-    url = ""
-    begin
-      url = photo.variant(resize: '300x300>').processed
-    rescue Exception => exc
-      logger.error("Message for the log file #{exc.message}")
-    end
-    return url
+    return photo.variant(resize: '300x300>')
   end
 
   def human_state
