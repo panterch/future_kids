@@ -12,7 +12,7 @@ class SelfRegistrationsController < ApplicationController
     return render(:new, status: :unauthorized) unless resource_whitelist.values.include? @resource.class
 
     if params.dig(:terms_of_use, :accepted) == "yes" && @resource.save
-      Notifications.user_registered(@resource).deliver_now
+      Notifications.user_registered(@resource).deliver_later
       redirect_to action: :success, type: @resource.type.downcase
     else
       @terms_of_use_error = true if params.dig(:terms_of_use,:accepted) != "yes"

@@ -67,6 +67,6 @@ class Comment < ApplicationRecord
   protected
 
   def send_notification
-    Notifications.comment_created(self).deliver_now
+    Notifications.comment_created(self).deliver_later
   end
 end

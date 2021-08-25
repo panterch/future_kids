@@ -86,6 +86,6 @@ class FirstYearAssessment < ApplicationRecord
   protected
 
   def send_notification
-    Notifications.first_year_assessment_created(self).deliver_now
+    Notifications.first_year_assessment_created(self).deliver_later
   end
 end

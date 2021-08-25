@@ -12,7 +12,7 @@ class Reminder < ApplicationRecord
   # sends the reminder to the appropriate recipient
   def deliver_mail
     mail = Notifications.remind(self)
-    mail.deliver_now
+    mail.deliver_later
     update!(sent_at: Time.now)
   end
 
@@ -61,7 +61,7 @@ class Reminder < ApplicationRecord
 
     # send out admin notification when reminders were created
     if reminders_created_count > 0
-      Notifications.reminders_created(reminders_created_count).deliver_now
+      Notifications.reminders_created(reminders_created_count).deliver_later
     end
 
     logger.info(

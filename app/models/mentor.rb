@@ -86,7 +86,7 @@ class Mentor < User
   def self.conditionally_send_no_kids_reminders
     Mentor.accepted.where(no_kids_reminder: true).find_each do |mentor|
       logger.info "[#{mentor.id}] #{mentor.display_name}: sending no kids reminder"
-      Notifications.mentor_no_kids_reminder(mentor).deliver_now
+      Notifications.mentor_no_kids_reminder(mentor).deliver_later
     end
   end
 

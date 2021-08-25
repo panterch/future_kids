@@ -112,7 +112,7 @@ class Notifications < ActionMailer::Base
   end
 
   # sends out a simple test email
-  # Notifications.test('futurekids@example.com').deliver_now
+  # Notifications.test('futurekids@example.com').deliver_later
   def test(to)
     mail subject: 'future kids test mail', to: to
   end

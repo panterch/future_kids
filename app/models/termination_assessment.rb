@@ -50,6 +50,6 @@ class TerminationAssessment < ApplicationRecord
   protected
 
   def send_notification
-    Notifications.termination_assessment_created(self).deliver_now
+    Notifications.termination_assessment_created(self).deliver_later
   end
 end

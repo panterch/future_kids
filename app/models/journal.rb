@@ -97,6 +97,6 @@ class Journal < ApplicationRecord
   end
 
   def send_notification
-    Notifications.important_journal_created(self).deliver_now
+    Notifications.important_journal_created(self).deliver_later
   end
 end

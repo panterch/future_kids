@@ -31,13 +31,13 @@ class TeachersController < ApplicationController
   def update
     # resend password button
     if params[:commit] == I18n.t('teachers.form.resend_password.btn_text')
-      Notifications.reset_and_send_teacher_password(@teacher).deliver_now
+      Notifications.reset_and_send_teacher_password(@teacher).deliver_later
       respond_with @teacher, notice: I18n.t('teachers.form.resend_password.sent_successfully')
       return
     end
     # switched to accepted state
     if teacher_params[:state] == 'accepted' && @teacher.state != teacher_params[:state]
-      Notifications.reset_and_send_teacher_password(@teacher).deliver_now
+      Notifications.reset_and_send_teacher_password(@teacher).deliver_later
     end
 
     super

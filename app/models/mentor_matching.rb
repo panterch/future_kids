@@ -45,22 +45,22 @@ class MentorMatching < ApplicationRecord
   private
 
   def send_teacher_notification
-    Notifications.mentor_matching_created(self).deliver_now
+    Notifications.mentor_matching_created(self).deliver_later
   end
 
   def send_mentor_notification
     if saved_change_to_attribute?(:state)
       case state
       when 'reserved'
-        Notifications.mentor_matching_reserved(self).deliver_now
+        Notifications.mentor_matching_reserved(self).deliver_later
       when 'confirmed'
-        Notifications.mentor_matching_confirmed(self).deliver_now
+        Notifications.mentor_matching_confirmed(self).deliver_later
       when 'declined'
         # declined by mentor
         if declined_by && declined_by.id == self.mentor_id
-          Notifications.mentor_matching_declined_by_mentor(self).deliver_now
+          Notifications.mentor_matching_declined_by_mentor(self).deliver_later
         else
-          Notifications.mentor_matching_declined(self).deliver_now
+          Notifications.mentor_matching_declined(self).deliver_later
         end
       end
     end

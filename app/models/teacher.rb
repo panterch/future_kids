@@ -33,7 +33,7 @@ class Teacher < User
         next
       end
       logger.info "[#{teacher.id}] #{teacher.display_name}: sending #{journals.size} journals"
-      Notifications.journals_created(teacher, journals).deliver_now
+      Notifications.journals_created(teacher, journals).deliver_later
     end
   end
 

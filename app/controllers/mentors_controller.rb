@@ -65,13 +65,13 @@ class MentorsController < ApplicationController
   def update
     # resend password button
     if params[:commit] == I18n.t('mentors.form.resend_password.btn_text')
-      Notifications.reset_and_send_mentor_password(@mentor).deliver_now
+      Notifications.reset_and_send_mentor_password(@mentor).deliver_later
       respond_with @mentor, notice: I18n.t('mentors.form.resend_password.sent_successfully')
       return
     end
     # switched to accepted state
     if mentor_params[:state] == 'accepted' && @mentor.state != mentor_params[:state]
-      Notifications.reset_and_send_mentor_password(@mentor).deliver_now
+      Notifications.reset_and_send_mentor_password(@mentor).deliver_later
     end
 
     super
