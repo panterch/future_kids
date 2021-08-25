@@ -272,7 +272,10 @@ describe Mentor do
     let!(:kid) { create(:kid, mentor: mentor2) }
 
     it 'sends email only accepted mentors without kid' do
-      expect{ Mentor.conditionally_send_no_kids_reminders }.to change { change { ActionMailer::Base.deliveries.count }.by(2) }
+      expect{
+        Mentor.conditionally_send_no_kids_reminders
+      }.to change { change { ActiveJob::Base.queue_adapter.enqueued_jobs.count }.by(2) }
+
     end
   end
 end

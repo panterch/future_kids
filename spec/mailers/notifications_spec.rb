@@ -7,10 +7,6 @@ describe Notifications do
       @mail = Notifications.remind(@reminder)
     end
 
-    it 'no deliveries at the start of the test' do
-      expect(ActionMailer::Base.deliveries).to be_empty
-    end
-
     it 'renders the headers' do
       expect(@mail.subject).to match('Erinnerung')
       expect(@mail.to).to eq([@reminder.mentor.email])
@@ -76,11 +72,6 @@ describe Notifications do
       @mail1    = Notifications.important_journal_created(@journal1)
       @mail2    = Notifications.important_journal_created(@journal2)
       @mail3    = Notifications.important_journal_created(@journal3)
-    end
-
-    it 'delivers the emails that should be sent at the start of the test' do
-      expect(ActionMailer::Base.deliveries).not_to be_empty
-      expect(ActionMailer::Base.deliveries.length).to eq(2)
     end
 
     it 'renders the headers' do

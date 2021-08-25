@@ -6,7 +6,6 @@ describe CommentsController do
     @coach = create(:admin)
     @kid = create(:kid, mentor: @mentor, admin: @coach)
     @journal =  create(:journal, kid: @kid, mentor: @mentor)
-    ActionMailer::Base.deliveries.clear
   end
 
   context 'as a mentor' do
@@ -36,9 +35,9 @@ describe CommentsController do
     end
 
     it 'should send a mail on comment creation' do
-      post :create, params: { kid_id: @kid.id, journal_id: @journal.id,
+      expect { post :create, params: { kid_id: @kid.id, journal_id: @journal.id,
                     comment: attributes_for(:comment) }
-      expect(ActionMailer::Base.deliveries.size).to eq 1
+      }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
     end
   end
 end

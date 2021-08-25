@@ -23,10 +23,11 @@ feature 'MENTOR::CREATE:FIRST_YEAR_ASSESSMENT', '
 
   scenario 'should create a new assessment with required values' do
     click_link 'Neues Auswertungsgespräch'
-    click_button 'Auswertungsgespräch erstellen'
+    expect {
+      click_button 'Auswertungsgespräch erstellen'
+    }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
     expect(page.status_code).to eq(200)
     expect(page).to have_css('h4', text: 'Auswertungsgespräch vom ')
-    expect(ActionMailer::Base.deliveries.length).to eq(1)
   end
 
 

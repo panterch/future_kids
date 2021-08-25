@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Teacher do
-  after(:each) { ActionMailer::Base.deliveries.clear }
 
   it 'has a valid factory' do
     teacher = build(:teacher)
@@ -32,21 +31,24 @@ describe Teacher do
     it 'delivers journals email when journals available' do
       create(:journal, kid: kid)
       create(:journal, kid: secondary_kid)
-      Teacher.conditionally_send_journals
-      expect(ActionMailer::Base.deliveries.size).to eq(1)
+      expect {
+        Teacher.conditionally_send_journals
+      }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
     end
 
     it 'does not deliver journals when no available' do
-      Teacher.conditionally_send_journals
-      expect(ActionMailer::Base.deliveries).to be_empty
+      expect {
+        Teacher.conditionally_send_journals
+      }.not_to have_enqueued_job(ActionMailer::MailDeliveryJob)
     end
 
     it 'does not deliver journals when opted out' do
       create(:journal, kid: kid)
       teacher.update(receive_journals: false)
       create(:journal)
-      Teacher.conditionally_send_journals
-      expect(ActionMailer::Base.deliveries).to be_empty
+      expect {
+        Teacher.conditionally_send_journals
+      }.not_to have_enqueued_job(ActionMailer::MailDeliveryJob)
     end
   end
 end

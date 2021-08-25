@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Reminder do
-  after(:each) { ActionMailer::Base.deliveries.clear }
 
   context 'creation' do
     before(:each) do
@@ -79,21 +78,24 @@ describe Reminder do
 
     it 'does not send admin mail when no reminders created' do
       Kid.destroy_all
-      Reminder.conditionally_create_reminders(tuesday)
-      expect(ActionMailer::Base.deliveries).to be_empty
+      expect {
+        Reminder.conditionally_create_reminders(tuesday)
+      }.not_to have_enqueued_job(ActionMailer::MailDeliveryJob)
     end
 
     it 'does not send admin mail when reminder are created' do
-      Reminder.conditionally_create_reminders(tuesday)
-      expect(ActionMailer::Base.deliveries).not_to be_empty
+      expect {
+        Reminder.conditionally_create_reminders(tuesday)
+      }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
     end
   end
 
   it 'delivers reminders' do
     @reminder = create(:reminder)
-    @reminder.deliver_mail
+    expect {
+      @reminder.deliver_mail
+    }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
     expect(@reminder.sent_at).not_to be_nil
-    expect(ActionMailer::Base.deliveries).not_to be_empty
   end
 
   context 'reminder scopes' do

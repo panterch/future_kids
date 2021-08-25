@@ -26,10 +26,6 @@ RSpec.configure do |config|
   config.use_transactional_examples = true
   config.expose_current_running_example_as :example
 
-
-  # Clear ActionMailer deliveries after each spec.
-  config.after(:each) { ActionMailer::Base.deliveries.clear }
-
   Shoulda::Matchers.configure do |config|
     config.integrate do |with|
       with.test_framework :rspec

@@ -23,9 +23,10 @@ feature 'MentorMatchings As Mentor' do
     scenario 'can create matching' do
       click_link('Mentoringanfrage senden')
       fill_in 'Nachricht', with: 'I want to mentor the kid'
-      click_button('Mentoringanfrage absenden')
+      expect {
+        click_button('Mentoringanfrage absenden')
+      }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
       expect(mentor.mentor_matchings.to_a.present?).to eq true
-      expect(ActionMailer::Base.deliveries.length).to eq(1)
       visit available_kids_path
       expect(page).to have_content('Lehrperson angeschrieben')
     end
@@ -41,7 +42,7 @@ feature 'MentorMatchings As Mentor' do
       # one email is to teacher with confirmation info
       # other email is to other_mentor with declined
       # last email is sent to admins
-      expect { click_link('Bestätigen') }.to change { change { ActionMailer::Base.deliveries.count }.by(3) }
+      expect { click_link('Bestätigen') }.to change { change { ActiveJob::Base.queue_adapter.enqueued_jobs.count }.by(3) }
       expect(mentor_matching.reload.state).to eq 'confirmed'
       expect(kid.reload.mentor).to eq mentor_matching.mentor
       expect(other_mentor_matching.reload.state).to eq 'declined'
@@ -49,8 +50,7 @@ feature 'MentorMatchings As Mentor' do
 
     scenario 'can decline mentor matching' do
       visit mentor_matching_path(mentor_matching)
-
-      expect { click_link('Ablehnen') }.to change { change { ActionMailer::Base.deliveries.count }.by(1) }
+      expect { click_link('Ablehnen') }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
       expect(mentor_matching.reload.state).to eq 'declined'
       expect(kid.reload.mentor).to eq nil
       expect(other_mentor_matching.reload.state).to eq 'pending'
@@ -113,7 +113,7 @@ feature 'MentorMatchings As Teacher' do
       expect(page).to have_content(own_kid.display_name)
       expect(page).to have_content(own_mentor.display_name)
 
-      expect { click_link('Akzeptieren') }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { click_link('Akzeptieren') }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
       expect(own_mentor_matching.reload.state).to eq 'reserved'
     end
 
@@ -123,7 +123,7 @@ feature 'MentorMatchings As Teacher' do
       expect(page).to have_content(own_kid.display_name)
       expect(page).to have_content(own_mentor.display_name)
 
-      expect { click_link('Ablehnen') }.to change { ActionMailer::Base.deliveries.count }.by(1)
+      expect { click_link('Ablehnen') }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
       expect(own_mentor_matching.reload.state).to eq 'declined'
     end
   end

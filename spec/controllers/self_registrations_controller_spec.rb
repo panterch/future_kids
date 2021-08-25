@@ -1,6 +1,7 @@
 require 'spec_helper'
 
 describe SelfRegistrationsController do
+  include ActiveJob::TestHelper
 
   context 'enabled' do
     before do
@@ -63,11 +64,6 @@ describe SelfRegistrationsController do
 
         it 'created teacher has selfservice status' do
           expect(Mentor.first.state).to eq 'selfservice'
-        end
-
-        it 'sends email to all admins' do
-          last_email = ActionMailer::Base.deliveries.last
-          expect(last_email.to).to eq ["futurekids-tech@panter.ch"]
         end
 
         it "can't force state" do
