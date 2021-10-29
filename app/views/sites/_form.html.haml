@@ -3,6 +3,7 @@
     = contextual_link_to :xlsx, site_path(format: 'xlsx')
 
 = simple_form_for @site do |form|
+  = form.input :title
   = form.input :footer_address
   = form.input :footer_email
   = form.input :term_collection_start
@@ -15,6 +16,7 @@
     .col-sm-9
       = form.text_area :terms_of_use_content, class: 'form-control'
   = form.input :logo
+  = form.input :css
   = form.input :teachers_can_access_reviews
   = form.input :kids_schedule_hourly
   = form.input :public_signups_active
