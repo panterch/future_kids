@@ -88,7 +88,7 @@ describe Mentor do
     before do
       @mentor = create(:mentor)
       create(:journal, mentor: @mentor,
-             held_at: Date.parse('1970-05-30'),
+             held_at: Date.parse('2001-05-30'),
              start_at: Time.parse('13:00'),
              end_at: Time.parse('14:30'))
       create(:journal, mentor: @mentor,

@@ -34,6 +34,9 @@ class Mentor < User
   validates_presence_of :sex, :address,
             :city, :photo, :dob, :phone, :school, if: :validate_public_signup_fields?
 
+  # the html5 date submit allows two letter dates (e.g. '21') and translates them to wrong years (like '0021')
+  validates_date :exit_at, after: '2001-01-01', allow_blank: true
+  validates_date :dob, after: '1900-01-01', allow_blank: true
 
   def self.mentors_grouped_by_assigned_kids
     groups = { both: [], only_primary: [], only_secondary: [],

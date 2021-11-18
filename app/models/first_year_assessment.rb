@@ -10,6 +10,9 @@ class FirstYearAssessment < ApplicationRecord
 
   validates_presence_of :kid, :teacher, :mentor, :held_at, :created_by
 
+  # the html5 date submit allows two letter dates (e.g. '21') and translates them to wrong years (like '0021')
+  validates_date :held_at, after: '2001-01-01'
+
   after_create :send_notification
 
   def display_name

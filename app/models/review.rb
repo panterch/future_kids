@@ -6,6 +6,7 @@ class Review < ApplicationRecord
   belongs_to :kid
 
   validates_presence_of :kid, :held_at
+  validates_date :held_at, after: '2001-01-01'
 
   after_save :sync_fields_with_kid
 

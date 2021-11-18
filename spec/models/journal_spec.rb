@@ -26,4 +26,12 @@ describe Journal do
     j = Journal.coaching_entry(mentor, '2', '2009')
     expect(j.held_at).to eq(Date.parse('2009-02-28'))
   end
+
+  context 'dates' do
+    subject { build(:journal) }
+
+    it { should allow_values(Date.parse('2021-11-18')).for(:held_at) }
+    it { should_not allow_values(Date.parse('0021-11-18')).for(:held_at) }
+  end
+
 end

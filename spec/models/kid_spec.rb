@@ -5,6 +5,20 @@ describe Kid do
   let(:thursday) { Time.zone.parse('2011-01-06 22:00') }
   let(:friday) { Time.zone.parse('2011-01-07 22:00') }
 
+  context 'dates' do
+    subject { build(:kid) }
+
+    it { should allow_values(Date.parse('2021-11-18')).for(:dob) }
+    it { should_not allow_values(Date.parse('0021-11-18')).for(:dob) }
+    it { should allow_values(Date.parse('2021-11-18')).for(:exit_at) }
+    it { should_not allow_values(Date.parse('0021-11-18')).for(:exit_at) }
+    it { should allow_values(Date.parse('2021-11-18')).for(:checked_at) }
+    it { should_not allow_values(Date.parse('0021-11-18')).for(:checked_at) }
+    it { should allow_values(Date.parse('2021-11-18')).for(:coached_at) }
+    it { should_not allow_values(Date.parse('0021-11-18')).for(:coached_at) }
+
+  end
+
   context 'embedded journals' do
     let(:kid) { create(:kid) }
     let(:mentor) { create(:mentor) }
@@ -21,7 +35,7 @@ describe Kid do
     it 'does sort journal correctly' do
       old_record =      create(:journal, held_at: Date.parse('2010-01-01'), kid: kid)
       recent_record =   create(:journal, held_at: Date.parse('2020-01-01'), kid: kid)
-      very_old_record = create(:journal, held_at: Date.parse('2000-01-01'), kid: kid)
+      very_old_record = create(:journal, held_at: Date.parse('2002-01-01'), kid: kid)
       expect(kid.journals.map(&:held_at)).to eq(
         [recent_record, old_record, very_old_record].map(&:held_at))
     end

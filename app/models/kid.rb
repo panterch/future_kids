@@ -35,6 +35,9 @@ class Kid < ApplicationRecord
   validates_numericality_of :meeting_day, only_integer: true, allow_blank: true,
                                           greater_than_or_equal_to: 1, less_than_or_equal_to: 5
 
+  # the html5 date submit allows two letter dates (e.g. '21') and translates them to wrong years (like '0021')
+  validates_date :dob, :exit_at, :checked_at, :coached_at, after: '2001-01-01', allow_blank: true
+
   after_save :track_relations
   after_validation :track_specific_field_updates
   after_validation :release_relations, if: :inactive?
@@ -214,4 +217,5 @@ protected
   def validate_public_signup_fields?
     Site.load.public_signups_active?
   end
+
 end

@@ -386,6 +386,7 @@ GEM
     temple (0.8.2)
     thor (1.1.0)
     tilt (2.0.10)
+    timeliness (0.4.4)
     trailblazer-option (0.1.2)
     tzinfo (2.0.4)
       concurrent-ruby (~> 1.0)
@@ -393,6 +394,8 @@ GEM
     uglifier (4.2.0)
       execjs (>= 0.3.0, < 3)
     unicode_utils (1.4.0)
+    validates_timeliness (6.0.0.alpha1)
+      timeliness (>= 0.3.10, < 1)
     warden (1.2.9)
       rack (>= 2.0.9)
     webdrivers (5.0.0)
@@ -456,6 +459,7 @@ DEPENDENCIES
   show_for
   simple_form
   uglifier
+  validates_timeliness (~> 6.0.0.alpha1)
   webdrivers
   whenever
 

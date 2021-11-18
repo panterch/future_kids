@@ -8,6 +8,7 @@ class TerminationAssessment < ApplicationRecord
   belongs_to :created_by, class_name: 'User'
 
   validates_presence_of :kid, :teacher, :held_at, :created_by
+  validates_date :held_at, after: '2001-01-01'
 
   after_create :send_notification
 

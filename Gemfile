@@ -31,6 +31,7 @@ gem 'geocoder'
 gem 'geokit-rails'
 gem 'net-sftp'
 gem 'redcarpet'
+gem 'validates_timeliness', '~> 6.0.0.alpha1'
 
 # see https://github.com/straydogstudio/axlsx_rails#installation
 gem 'rubyzip', '>= 1.2.1'
