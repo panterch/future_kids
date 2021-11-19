@@ -3,8 +3,21 @@ class MentorMatchingsController < ApplicationController
   load_and_authorize_resource :mentor_matching
   before_action :preset_kid_and_mentor, only: [:new, :create]
 
+  FILTER_PARAMS = %w(mentor_id kid_id).freeze
+
   def index
+
     @mentor_matchings = MentorMatching.accessible_by(current_ability, :manage)
+
+    # scan for and provide prototype object used for filtering
+    if params[:mentor_matching]
+      filter = params[:mentor_matching].permit(:kid_id, :mentor_id, :state)
+      filter = filter.delete_if{ |_key, val| val.blank? }
+      @mentor_matching = MentorMatching.new(filter)
+      @mentor_matching.state = nil unless filter.has_key?('state')
+      @mentor_matchings = @mentor_matchings.where(filter)
+    end
+
   end
 
   def show
@@ -59,4 +72,5 @@ class MentorMatchingsController < ApplicationController
         :message
     )
   end
+
 end

@@ -86,6 +86,11 @@ module ApplicationHelper
     collection.map { |t| [t.display_name, t.id] }
   end
 
+  def kid_collection
+    collection = Kid.active
+    collection.map { |k| [k.display_name, k.id] }
+  end
+
   def order_by_collection_for_kids(selected, distance = false)
     options = [%w[Name name],
                %w[Kontrolldatum checked_at],
@@ -166,6 +171,10 @@ module ApplicationHelper
 
   def user_status_collection
     User.states.transform_keys { |k| User.human_state(k) }
+  end
+
+  def mentor_matching_state_collection
+    MentorMatching.states.transform_keys { |s| MentorMatching.human_state_name(s) }
   end
 
   # can be used in view to display private data only to their owners (and
