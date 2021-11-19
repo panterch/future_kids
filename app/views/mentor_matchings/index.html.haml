@@ -4,14 +4,15 @@
 - content_for :sidebar do
   = form_for :mentor_matching, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
     .form-group
-      %label= Mentor.model_name.human
-      = f.select :mentor_id, mentor_collection, { :include_blank => true }, class: 'form-control'
-    .form-group
-      %label= Kid.model_name.human
-      = f.select :kid_id, kid_collection, { :include_blank => true }, class: 'form-control'
-    .form-group
       %label=MentorMatching.human_attribute_name(:state)
       = f.select :state, mentor_matching_state_collection, { :include_blank => true }, class: 'form-control'
+    -if current_user.is_a?(Admin)
+      .form-group
+        %label= Mentor.model_name.human
+        = f.select :mentor_id, mentor_collection, { :include_blank => true }, class: 'form-control'
+      .form-group
+        %label= Kid.model_name.human
+        = f.select :kid_id, kid_collection, { :include_blank => true }, class: 'form-control'
     .form-group
       = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
       = link_to 'Filter aufheben', mentor_matchings_path, class: 'btn btn-xs'
