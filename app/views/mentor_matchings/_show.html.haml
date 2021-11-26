@@ -4,6 +4,9 @@
     .col-md-8
       = show_for @mentor_matching do |show|
         = show.attribute :message
+        = show.attribute :created_at
+        - unless @mentor_matching.created_at == @mentor_matching.updated_at
+          = show.attribute :updated_at
 
 %h2= 'Von ' + @mentor_matching.mentor.display_name
 .row

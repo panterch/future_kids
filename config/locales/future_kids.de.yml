@@ -185,6 +185,8 @@ de:
       mentor_matching:
         message: Nachricht
         state: Status
+        created_at: Erstellt
+        updated_at: Zuletzt geändert
         states:
           pending: Lehrperson angeschrieben
           accepted: Zusage
