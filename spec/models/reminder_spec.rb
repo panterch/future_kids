@@ -78,15 +78,13 @@ describe Reminder do
 
     it 'does not send admin mail when no reminders created' do
       Kid.destroy_all
-      expect {
-        Reminder.conditionally_create_reminders(tuesday)
-      }.not_to have_enqueued_job(ActionMailer::MailDeliveryJob)
+      Reminder.conditionally_create_reminders(tuesday)
+      expect(ActionMailer::Base.deliveries).to be_empty
     end
 
     it 'does not send admin mail when reminder are created' do
-      expect {
-        Reminder.conditionally_create_reminders(tuesday)
-      }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
+      Reminder.conditionally_create_reminders(tuesday)
+      expect(ActionMailer::Base.deliveries.size).to eq(1)
     end
   end
 
