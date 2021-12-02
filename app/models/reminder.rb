@@ -61,7 +61,8 @@ class Reminder < ApplicationRecord
 
     # send out admin notification when reminders were created
     if reminders_created_count > 0
-      Notifications.reminders_created(reminders_created_count).deliver_later
+      # since this is run async from cron delivery can run instantly
+      Notifications.reminders_created(reminders_created_count).deliver_now
     end
 
     logger.info(
