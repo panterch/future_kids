@@ -16,6 +16,6 @@ namespace :schedule do
 
   desc 'Send a test email to check functionality of cron emails'
   task send_test_email: :environment do
-    Notifications.test.deliver_later
+    Notifications.test.deliver_now
   end
 end
