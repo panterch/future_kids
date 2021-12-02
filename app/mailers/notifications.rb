@@ -113,7 +113,8 @@ class Notifications < ActionMailer::Base
 
   # sends out a simple test email
   # Notifications.test('futurekids@example.com').deliver_later
-  def test(to)
+  def test(to = ENV['TEST_EMAIL_TO'])
+    Rails.logger.info "Sending test email from #{Notifications.default_email} to #{to}"
     mail subject: 'future kids test mail', to: to
   end
 
