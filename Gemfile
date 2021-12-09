@@ -31,10 +31,7 @@ gem 'geocoder'
 gem 'geokit-rails'
 gem 'net-sftp'
 gem 'redcarpet'
-# Pin this gem till bugfix of breaking change is available
-# https://github.com/adzap/validates_timeliness/issues/204
-# gem 'validates_timeliness', '~> 6.0.0.alpha1'
-gem 'validates_timeliness', '= 6.0.0.alpha1'
+gem 'validates_timeliness', '~> 6.0.0.beta2' 
 
 # see https://github.com/straydogstudio/axlsx_rails#installation
 gem 'rubyzip', '>= 1.2.1'
