@@ -228,7 +228,7 @@ GEM
       simple_po_parser (~> 1.1)
     i18n_rails_helpers (2.0.2)
       rails (> 4.0.0)
-    image_processing (1.12.1)
+    image_processing (1.12.2)
       mini_magick (>= 4.9.5, < 5)
       ruby-vips (>= 2.0.17, < 3)
     jbuilder (2.11.5)
