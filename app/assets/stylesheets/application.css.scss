@@ -221,6 +221,16 @@ form.schedule {
   margin: 10px;
 }
 
+.term-of-use {
+  margin-top: $header-height + 10px;
+  margin-bottom: $footer-height;
+  padding: 10px;
+}
+
+.term-of-use-button {
+  margin: 10px;
+  float:right;
+}
 
 .kid-mentor-schedules {
   .header {
