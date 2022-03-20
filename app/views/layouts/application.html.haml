@@ -50,10 +50,10 @@
     - if (user_signed_in? && current_user.terms_of_use_accepted == false)
       .container
         .term-of-use
+          %h1
+            = t('activerecord.attributes.site.terms_of_use_accept.terms_of_use_headline')
           = @content&.html_safe
           = button_to t('activerecord.attributes.site.terms_of_use_accept.button_accept'), { action: "edit_terms", :controller=>"users", :method => :get }, { class: 'btn btn-xs btn-success term-of-use-button' }
-          .btn.btn-xs.btn-default.term-of-use-button
-            = link_to t('activerecord.attributes.site.terms_of_use_accept.button_decline'), destroy_user_session_path, method: :delete
 
     -else
       #sidebar-wrapper
