@@ -6,8 +6,8 @@ feature 'TEACHER::CREATE:TERMINATION_ASSESSMENT', '
   So that I can create a new kid
 ' do
   background do
-    @teacher = create(:teacher, terms_of_use_accepted: true)
-    @admin = create(:admin, terms_of_use_accepted: true)
+    @teacher = create(:teacher)
+    @admin = create(:admin)
     @kid = create(:kid, teacher: @teacher, admin: @admin)
     log_in(@teacher)
     visit kid_path(@kid)

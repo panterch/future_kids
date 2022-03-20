@@ -4,7 +4,7 @@ feature 'Mentor show' do
 
   background do
     @pw      = 'welcome'
-    @admin   = create(:admin, name: 'first', prename: 'admin', password: @pw, password_confirmation: @pw, terms_of_use_accepted: true)
+    @admin   = create(:admin, name: 'first', prename: 'admin', password: @pw, password_confirmation: @pw)
     @school1 = create(:school, name: 'School 1')
     @school2 = create(:school, name: 'School 2')
     @mentor  = create(:mentor, name: 'first', prename: 'mentor')

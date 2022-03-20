@@ -4,8 +4,8 @@ describe KidMentorRelationsController do
 
   context 'as a admin' do
     before(:each) do
-      @admin = create(:admin, terms_of_use_accepted: true)
-      @mentor = create(:mentor, terms_of_use_accepted: true)
+      @admin = create(:admin)
+      @mentor = create(:mentor)
       create(:kid, mentor: @mentor)
       sign_in @admin
     end

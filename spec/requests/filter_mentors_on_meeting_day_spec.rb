@@ -4,9 +4,9 @@ feature 'Mentor index' do
 
   background do
     @pw = 'welcome'
-    @admin1  = create(:admin, name: 'first', prename: 'admin', password: @pw, password_confirmation: @pw, terms_of_use_accepted: true)
-    @mentor1 = create(:mentor, name: 'first', prename: 'mentor', transport: 'Halbtax', terms_of_use_accepted: true)
-    @mentor2 = create(:mentor, name: 'second', prename: 'mentor', transport: 'GA', terms_of_use_accepted: true)
+    @admin1  = create(:admin, name: 'first', prename: 'admin', password: @pw, password_confirmation: @pw)
+    @mentor1 = create(:mentor, name: 'first', prename: 'mentor', transport: 'Halbtax')
+    @mentor2 = create(:mentor, name: 'second', prename: 'mentor', transport: 'GA')
     @kid1    = create(:kid, mentor: @mentor1, meeting_day: '1')
     @kid2    = create(:kid, mentor: @mentor1, meeting_day: '2')
     @kid3    = create(:kid, mentor: @mentor1, meeting_day: '1')

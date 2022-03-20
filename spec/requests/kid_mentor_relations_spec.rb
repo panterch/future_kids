@@ -1,11 +1,11 @@
 require 'requests/acceptance_helper'
 
 feature 'KidMentorRelations as Admin' do
-  let(:mentor_no_exit) { create(:mentor, name: 'Mentor No', terms_of_use_accepted: true) }
-  let(:mentor_exit) { create(:mentor, exit_kind: 'exit', name: 'Mentor Later', terms_of_use_accepted: true) }
+  let(:mentor_no_exit) { create(:mentor, name: 'Mentor No') }
+  let(:mentor_exit) { create(:mentor, exit_kind: 'exit', name: 'Mentor Later') }
 
   before(:each) do
-    log_in(create(:admin, terms_of_use_accepted: true))
+    log_in(create(:admin))
 
     # create many combinations of kids and mentors exiting and not exiting
     # recognizable by their name
@@ -74,7 +74,7 @@ end
 
 feature 'KidMentorRelations as Mentor' do
   scenario 'does not allow non admin access' do
-    log_in(create(:mentor, terms_of_use_accepted: true))
+    log_in(create(:mentor))
     expect { visit kid_mentor_relations_path }.to raise_error(SecurityError)
   end
 end

@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe JournalsController do
-  let(:admin) { create(:admin, terms_of_use_accepted: true) }
-  let(:mentor) { create(:mentor, terms_of_use_accepted: true) }
+  let(:admin) { create(:admin) }
+  let(:mentor) { create(:mentor) }
   let(:kid) { create(:kid, mentor: mentor) }
   let(:journal) { create(:journal, kid: kid, mentor: mentor) }
   let(:secondary_kid) do
@@ -22,7 +22,7 @@ describe JournalsController do
     end
 
     it 'should render assign only selectable mentors' do
-      foreign_mentor = create(:mentor, terms_of_use_accepted: true)
+      foreign_mentor = create(:mentor)
       get :new, params: { kid_id: kid.id }
       expect(assigns(:mentors)).to eq([mentor])
     end
@@ -128,7 +128,7 @@ describe JournalsController do
 
     it 'should not be able to create entries for other mentors' do
       attrs = valid_attributes
-      attrs[:journal][:mentor_id] = create(:mentor, terms_of_use_accepted: true).id
+      attrs[:journal][:mentor_id] = create(:mentor).id
       post :create, params: attrs
       expect(assigns(:journal).mentor).to eq(mentor)
     end

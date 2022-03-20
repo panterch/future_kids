@@ -2,7 +2,7 @@ require 'requests/acceptance_helper'
 
 feature 'Principals as Admin' do
   background do
-    log_in(create(:admin, terms_of_use_accepted: true))
+    log_in(create(:admin))
   end
 
   scenario 'should be able to create a principal' do

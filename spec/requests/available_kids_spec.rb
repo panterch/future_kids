@@ -10,7 +10,7 @@ describe 'AvailableKids' do
 
   context 'AvailableKids as Mentor' do
     before do
-      @mentor = create(:mentor, terms_of_use_accepted: true)
+      @mentor = create(:mentor)
       @mentor.update!(longitude: 14.0474263, latitude: 50.1873213)
       log_in(@mentor)
     end
@@ -137,7 +137,7 @@ describe 'AvailableKids' do
 
     describe 'Available kids' do
       before do
-        log_in(create(:admin, terms_of_use_accepted: true))
+        log_in(create(:admin))
         visit available_kids_path
       end
 
@@ -152,7 +152,7 @@ describe 'AvailableKids' do
 
     describe 'Available kids' do
       before do
-        log_in(create(:teacher, terms_of_use_accepted: true))
+        log_in(create(:teacher))
         visit available_kids_path
       end
 

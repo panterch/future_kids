@@ -3,7 +3,7 @@ require 'spec_helper'
 describe RemindersController do
   context 'as admin' do
     before(:each) do
-      @admin = create(:admin, terms_of_use_accepted: true)
+      @admin = create(:admin)
       @reminder = create(:reminder)
       sign_in @admin
     end
@@ -40,12 +40,12 @@ describe RemindersController do
   end
 
   it 'does not allow access to mentors' do
-    sign_in create(:mentor, terms_of_use_accepted: true)
+    sign_in create(:mentor)
     expect { get :index }.to raise_error(CanCan::AccessDenied)
   end
 
   it 'does not allow access to teachers' do
-    sign_in create(:teacher, terms_of_use_accepted: true)
+    sign_in create(:teacher)
     expect { get :index }.to raise_error(CanCan::AccessDenied)
   end
 end

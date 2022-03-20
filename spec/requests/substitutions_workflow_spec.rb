@@ -7,9 +7,9 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
 
 ' do
 
-  let!(:admin) { create(:admin, terms_of_use_accepted: true) }
+  let!(:admin) { create(:admin) }
   let!(:mentor_frederik) {
-    create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'm', terms_of_use_accepted: true)
+    create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'm')
   }
   let!(:kid) { create(:kid, mentor: mentor_frederik)}
 
@@ -58,12 +58,12 @@ feature 'ADMIN::UPDATE:SUBSTITUTION', '
 
 ' do
 
-  let!(:admin) { create(:admin, terms_of_use_accepted: true) }
+  let!(:admin) { create(:admin) }
   let!(:mentor_frederik) {
-    create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'm', terms_of_use_accepted: true)
+    create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'm')
   }
   let!(:mentor_melanie) {
-    create(:mentor, ects: :currently, prename: 'Melanie', name:'Rohner', sex: 'f', terms_of_use_accepted: true)
+    create(:mentor, ects: :currently, prename: 'Melanie', name:'Rohner', sex: 'f')
   }
   let!(:kid) { create(:kid, mentor: mentor_frederik) }
 
@@ -101,7 +101,7 @@ feature 'MENTOR::SHOW:SUBSTITUTION', '
 ' do
 
   let!(:mentor) {
-    create(:mentor, prename: 'Mentor', name: 'Mentor', sex: 'm', terms_of_use_accepted: true)
+    create(:mentor, prename: 'Mentor', name: 'Mentor', sex: 'm')
   }
 
   background do

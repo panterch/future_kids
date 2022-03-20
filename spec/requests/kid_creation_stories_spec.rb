@@ -8,7 +8,7 @@ feature 'TEACHER::CREATE:KID', '
 ' do
   background do
     @pw = 'welcome'
-    @teacher = create(:teacher, password: @pw, password_confirmation: @pw, terms_of_use_accepted: true)
+    @teacher = create(:teacher, password: @pw, password_confirmation: @pw)
     log_in(@teacher)
   end
 
@@ -52,7 +52,7 @@ feature 'ADMIN::CREATE:KID', '
 ' do
   background do
     @pw = 'welcome'
-    @admin = create(:admin, password: @pw, password_confirmation: @pw, terms_of_use_accepted: true)
+    @admin = create(:admin, password: @pw, password_confirmation: @pw)
     log_in(@admin)
   end
 

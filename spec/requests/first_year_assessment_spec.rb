@@ -6,9 +6,9 @@ feature 'MENTOR::CREATE:FIRST_YEAR_ASSESSMENT', '
   So that I can create a new kid
 ' do
   background do
-    @mentor = create(:mentor, terms_of_use_accepted: true)
-    @teacher = create(:teacher, terms_of_use_accepted: true)
-    @admin = create(:admin, terms_of_use_accepted: true)
+    @mentor = create(:mentor)
+    @teacher = create(:teacher)
+    @admin = create(:admin)
     @kid = create(:kid, mentor: @mentor, teacher: @teacher, admin: @admin)
     log_in(@mentor)
     visit kid_path(@kid)

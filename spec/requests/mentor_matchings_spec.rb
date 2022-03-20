@@ -10,8 +10,8 @@ feature 'MentorMatchings As Mentor' do
   end
 
   describe 'mentor matching' do
-    let(:mentor) { create(:mentor, sex: 'm', terms_of_use_accepted: true) }
-    let(:other_mentor) { create(:mentor, sex: 'm', terms_of_use_accepted: true) }
+    let(:mentor) { create(:mentor, sex: 'm') }
+    let(:other_mentor) { create(:mentor, sex: 'm') }
     let(:kid) { create(:kid, name: 'Hodler Rolf', sex: 'm', teacher: create(:teacher)) }
     let(:mentor_matching) { create(:mentor_matching, mentor: mentor, kid: kid, state: 'reserved') }
     let(:other_mentor_matching) { create(:mentor_matching, mentor: other_mentor, kid: kid, state: 'pending') }
@@ -61,8 +61,8 @@ end
 
 feature 'MentorMatchings As Admin' do
   let(:kid) { create(:kid, name: 'Hodler Rolf', sex: 'm', longitude: 14.1025379, latitude: 50.1478497, grade: '1', teacher: create(:teacher)) }
-  let(:admin) { create(:admin, terms_of_use_accepted: true) }
-  let(:mentor) { create(:mentor, terms_of_use_accepted: true) }
+  let(:admin) { create(:admin) }
+  let(:mentor) { create(:mentor) }
   let!(:mentor_matching) { create(:mentor_matching, mentor: mentor, kid: kid) }
 
   describe 'mentor matchings list' do
@@ -80,11 +80,11 @@ feature 'MentorMatchings As Admin' do
 end
 
 feature 'MentorMatchings As Teacher' do
-  let(:teacher) { create(:teacher, terms_of_use_accepted: true) }
+  let(:teacher) { create(:teacher) }
   let(:kid) { create(:kid, name: 'Hodler Rolf', sex: 'm', longitude: 14.1025379, latitude: 50.1478497, grade: '1', teacher: create(:teacher)) }
   let(:own_kid) { create(:kid, name: 'Hindler Bolf', sex: 'm', longitude: 14.1025379, latitude: 50.1478497, grade: '1', teacher: teacher) }
-  let(:mentor) { create(:mentor, terms_of_use_accepted: true) }
-  let(:own_mentor) { create(:mentor, terms_of_use_accepted: true) }
+  let(:mentor) { create(:mentor) }
+  let(:own_mentor) { create(:mentor) }
   let!(:mentor_matching) { create(:mentor_matching, mentor: mentor, kid: kid) }
   let!(:own_mentor_matching) { create(:mentor_matching, mentor: own_mentor, kid: own_kid) }
 

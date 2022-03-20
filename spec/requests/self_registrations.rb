@@ -2,13 +2,13 @@ require 'requests/acceptance_helper'
 
 feature 'Self registrations' do
   background do
-    create(:admin, terms_of_use_accepted: true)
+    create(:admin)
     create(:school, name: 'Teacher school', school_kind: :primary_school)
     create(:school, name: 'Mentor school', school_kind: :high_school)
     Site.load.update(public_signups_active: true)
   end
   scenario 'redirect to admin if already logged in' do
-    log_in(create(:admin, terms_of_use_accepted: true))
+    log_in(create(:admin))
     visit new_self_registration_path
     expect(current_path).to eq root_path
   end

@@ -6,8 +6,8 @@ describe MentorMatchingsController do
   end
 
   context 'as a mentor' do
-    let(:mentor) { create(:mentor, terms_of_use_accepted: true) }
-    let(:other_mentor) { create(:mentor, terms_of_use_accepted: true) }
+    let(:mentor) { create(:mentor) }
+    let(:other_mentor) { create(:mentor) }
     let(:kid) { create(:kid, sex: 'm') }
     let(:kid_with_mentor) { create(:kid, mentor: other_mentor, sex: 'm') }
     let(:pending_mentor_matching) { create(:mentor_matching, mentor: mentor, kid: kid, state: 'pending') }

@@ -2,15 +2,15 @@ require 'spec_helper'
 
 describe ApplicationController do
 
-  let!(:mentor) { create(:mentor, sex: 'f', terms_of_use_accepted: true) }
+  let!(:mentor) { create(:mentor, sex: 'f') }
   let!(:kid) { create(:kid, sex: 'f') }
   let!(:kid2) { create(:kid, sex: 'f') }
-  let!(:mentor_with_kids) { create(:mentor, sex: 'f', kids: [kid], terms_of_use_accepted: true) }
+  let!(:mentor_with_kids) { create(:mentor, sex: 'f', kids: [kid]) }
 
   let!(:pending_mentor_matching) { create(:mentor_matching, mentor: mentor, kid: kid, state: 'pending') }
   let!(:reserved_mentor_matching) { create(:mentor_matching, mentor: mentor, kid: kid2, state: 'reserved') }
-  let!(:teacher_with_pending_matchings) { create(:teacher, kids: [kid], terms_of_use_accepted: true) }
-  let!(:teacher_without_pending_matchings) { create(:teacher, kids: [kid2], terms_of_use_accepted: true) }
+  let!(:teacher_with_pending_matchings) { create(:teacher, kids: [kid]) }
+  let!(:teacher_without_pending_matchings) { create(:teacher, kids: [kid2]) }
 
   context 'public signups enabled' do
     before do

@@ -35,9 +35,9 @@ feature 'Kid Mentor planning', js: true do
     kid.schedules.create(day: 3, hour: 18, minute: 0)
     kid
   }
-  let!(:admin) { create(:admin, terms_of_use_accepted: true) }
+  let!(:admin) { create(:admin) }
   let!(:mentor_frederik) {
-    mentor = create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'm', terms_of_use_accepted: true)
+    mentor = create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'm')
     mentor.schedules.create(day: 1, hour: 14, minute: 0)
     mentor.schedules.create(day: 1, hour: 14, minute: 30)
     mentor.schedules.create(day: 1, hour: 15, minute: 0)
@@ -53,7 +53,7 @@ feature 'Kid Mentor planning', js: true do
     mentor
   }
   let!(:mentor_melanie) {
-    mentor = create(:mentor, prename: 'Melanie', name:'Rohner', sex: 'f', terms_of_use_accepted: true)
+    mentor = create(:mentor, prename: 'Melanie', name:'Rohner', sex: 'f')
     mentor.schedules.create(day: 3, hour: 14, minute: 0)
     mentor.schedules.create(day: 3, hour: 14, minute: 30)
     mentor.schedules.create(day: 3, hour: 15, minute: 0)
@@ -69,7 +69,7 @@ feature 'Kid Mentor planning', js: true do
     mentor
   }
   let!(:mentor_max) {
-    mentor =create(:mentor, prename: 'Max', name: 'Steiner', sex: 'm', terms_of_use_accepted: true)
+    mentor =create(:mentor, prename: 'Max', name: 'Steiner', sex: 'm')
     mentor.schedules.create(day: 1, hour: 17, minute: 0)
     mentor.schedules.create(day: 1, hour: 17, minute: 30)
     mentor.schedules.create(day: 1, hour: 18, minute: 0)
@@ -86,7 +86,7 @@ feature 'Kid Mentor planning', js: true do
   }
 
   let!(:mentor_sarah) {
-    mentor =create(:mentor, prename: 'Sarah', name: 'Koller', sex: 'f', terms_of_use_accepted: true)
+    mentor =create(:mentor, prename: 'Sarah', name: 'Koller', sex: 'f')
     mentor.schedules.create(day: 1, hour: 17, minute: 0)
     mentor.schedules.create(day: 1, hour: 17, minute: 30)
     mentor.schedules.create(day: 1, hour: 18, minute: 0)
@@ -101,15 +101,15 @@ feature 'Kid Mentor planning', js: true do
     mentor.schedules.create(day: 2, hour: 17, minute: 30)
     mentor
   }
-  let!(:mentor_5) {create(:mentor, prename: 'Mentor 5', name: 'Other', terms_of_use_accepted: true)}
-  let!(:mentor_6) {create(:mentor, prename: 'Mentor 6', name: 'Other', terms_of_use_accepted: true)}
-  let!(:mentor_7) {create(:mentor, prename: 'Mentor 7', name: 'Other', terms_of_use_accepted: true)}
-  let!(:mentor_8) {create(:mentor, prename: 'Mentor 8', name: 'Other', terms_of_use_accepted: true)}
-  let!(:mentor_9) {create(:mentor, prename: 'Mentor 9', name: 'Other', terms_of_use_accepted: true)}
-  let!(:mentor_10) {create(:mentor, prename: 'Mentor 10', name: 'Other', terms_of_use_accepted: true)}
-  let!(:mentor_11) {create(:mentor, prename: 'Mentor 11', name: 'Other', terms_of_use_accepted: true)}
-  let!(:mentor_12) {create(:mentor, prename: 'Mentor 12', name: 'Other', terms_of_use_accepted: true)}
-  let!(:mentor_13) {create(:mentor, prename: 'Mentor 13', name: 'Other', terms_of_use_accepted: true)}
+  let!(:mentor_5) {create(:mentor, prename: 'Mentor 5', name: 'Other')}
+  let!(:mentor_6) {create(:mentor, prename: 'Mentor 6', name: 'Other')}
+  let!(:mentor_7) {create(:mentor, prename: 'Mentor 7', name: 'Other')}
+  let!(:mentor_8) {create(:mentor, prename: 'Mentor 8', name: 'Other')}
+  let!(:mentor_9) {create(:mentor, prename: 'Mentor 9', name: 'Other')}
+  let!(:mentor_10) {create(:mentor, prename: 'Mentor 10', name: 'Other')}
+  let!(:mentor_11) {create(:mentor, prename: 'Mentor 11', name: 'Other')}
+  let!(:mentor_12) {create(:mentor, prename: 'Mentor 12', name: 'Other')}
+  let!(:mentor_13) {create(:mentor, prename: 'Mentor 13', name: 'Other')}
 
 
   background do
