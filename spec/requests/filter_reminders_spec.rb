@@ -2,7 +2,7 @@ require 'requests/acceptance_helper'
 
 feature 'reminders index' do
   background do
-    @admin  = create(:admin, prename: 'admin')
+    @admin  = create(:admin, prename: 'admin', terms_of_use_accepted: true)
     @school1 = create(:school, name: 'school1')
     @school2 = create(:school, name: 'school2')
     @kid1 = create(:kid, school: @school1, name: 'reminder1 kid')

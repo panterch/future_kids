@@ -3,23 +3,23 @@ require 'spec_helper'
 describe TeachersController do
   context 'as an admin' do
     before(:each) do
-      @admin = create(:admin)
+      @admin = create(:admin, terms_of_use_accepted: true)
       sign_in @admin
     end
 
     context 'index' do
       it 'assigns two teachers in the index' do
-        2.times { create(:teacher) }
+        2.times { create(:teacher, terms_of_use_accepted: true) }
         get :index
         expect(assigns(:teachers).size).to eq(2)
       end
       it 'excludes inactive teachers by default' do
-        create(:teacher, inactive: true)
+        create(:teacher, inactive: true, terms_of_use_accepted: true)
         get :index
         expect(assigns(:teachers).size).to eq(0)
       end
       it 'filters for inactive teacher' do
-        create(:teacher, inactive: true)
+        create(:teacher, inactive: true, terms_of_use_accepted: true)
         get :index, params: { inactive: '1' }
         expect(assigns(:teachers).size).to eq(0)
       end
@@ -27,7 +27,7 @@ describe TeachersController do
 
     context 'show' do
       it 'renders' do
-        @teacher = create(:teacher)
+        @teacher = create(:teacher, terms_of_use_accepted: true)
         get :show, params: { id: @teacher.id }
         expect(response).to be_successful
       end
@@ -35,7 +35,7 @@ describe TeachersController do
 
     context 'edit' do
       it 'renders' do
-        @teacher = create(:teacher)
+        @teacher = create(:teacher, terms_of_use_accepted: true)
         get :edit, params: { id: @teacher.id }
         expect(response).to be_successful
       end
@@ -43,27 +43,27 @@ describe TeachersController do
 
     context 'update' do
       it 'can update state' do
-        @teacher = create(:teacher)
+        @teacher = create(:teacher, terms_of_use_accepted: true)
         patch :update, params: { id: @teacher.id, teacher: { state: :declined } }
         expect(@teacher.reload.state).to eq 'declined'
       end
 
       it 'sends email if state updated to accepted' do
-        @teacher = create(:teacher, state: :selfservice)
+        @teacher = create(:teacher, state: :selfservice, terms_of_use_accepted: true)
         expect {
           patch :update, params: { id: @teacher.id, teacher: { state: :accepted } }
         }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
       end
 
       it "doesn't send an email if update other fields than state" do
-        @teacher = create(:teacher)
+        @teacher = create(:teacher, terms_of_use_accepted: true)
         expect {
           patch :update, params: { id: @teacher.id, mentor: { first_name: 'Karl' } }
         }.not_to have_enqueued_job(ActionMailer::MailDeliveryJob)
       end
 
       it 'resends email with password with resend password button if user is accepted' do
-        @teacher = create(:teacher)
+        @teacher = create(:teacher, terms_of_use_accepted: true)
         expect {
           patch :update, params: { id: @teacher.id, commit: I18n.translate('teachers.form.resend_password.btn_text') }
         }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
@@ -72,13 +72,13 @@ describe TeachersController do
 
     context 'destroy' do
       it 'can destroy inactive' do
-        @teacher = create(:teacher, inactive: true)
+        @teacher = create(:teacher, inactive: true, terms_of_use_accepted: true)
         delete :destroy, params: { id: @teacher.id }
         expect(Teacher.exists?(@teacher.id)).to be_falsey
       end
 
       it 'cannot destroy active' do
-        @teacher = create(:teacher)
+        @teacher = create(:teacher, terms_of_use_accepted: true)
         expect do
           delete :destroy, params: { id: @teacher.id }
         end.to raise_error(CanCan::AccessDenied)
@@ -99,7 +99,7 @@ describe TeachersController do
 
     context 'index' do
       before(:each) do
-        @teacher = create(:teacher, school: @school)
+        @teacher = create(:teacher, school: @school, terms_of_use_accepted: true)
       end
       it 'renders' do
         get :index
@@ -133,7 +133,7 @@ describe TeachersController do
     context 'as a teacher' do
       before(:each) do
         @school = create(:school)
-        @teacher = create(:teacher, school: @school)
+        @teacher = create(:teacher, school: @school, terms_of_use_accepted: true)
         sign_in @teacher
       end
 

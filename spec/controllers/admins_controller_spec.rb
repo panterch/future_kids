@@ -3,20 +3,20 @@ require 'spec_helper'
 describe AdminsController do
   context 'as an admin' do
     before(:each) do
-      @admin = create(:admin)
+      @admin = create(:admin, terms_of_use_accepted: true)
       sign_in @admin
     end
 
     context 'index' do
       it 'assigns two admins in the index' do
-        2.times { create(:admin) }
+        2.times { create(:admin, terms_of_use_accepted: true) }
         get :index
         expect(assigns(:admins).size).to eq(3) # 3 including the signed in admin
         expect(response).to be_successful
       end
 
       it 'excludes inactive admins' do
-        create(:admin, inactive: true)
+        create(:admin, inactive: true, terms_of_use_accepted: true)
         get :index
         expect(assigns(:admins).size).to eq(1)
       end
@@ -41,8 +41,8 @@ describe AdminsController do
 
   context 'as a mentor' do
     before(:each) do
-      @admin = create(:admin)
-      @mentor = create(:mentor)
+      @admin = create(:admin, terms_of_use_accepted: true)
+      @mentor = create(:mentor, terms_of_use_accepted: true)
       sign_in @mentor
     end
 

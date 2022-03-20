@@ -48,7 +48,7 @@ describe PrincipalsController do
 
   describe 'as an admin' do
     before(:each) do
-      @admin = create(:admin)
+      @admin = create(:admin, terms_of_use_accepted: true)
       @principal = create(:principal)
       sign_in @admin
     end

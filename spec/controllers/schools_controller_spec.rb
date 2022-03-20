@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe SchoolsController do
   before(:each) do
-    sign_in @admin = create(:admin)
+    sign_in @admin = create(:admin, terms_of_use_accepted: true)
   end
 
   context 'new' do

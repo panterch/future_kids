@@ -3,7 +3,7 @@ require 'spec_helper'
 describe MentorsController do
   context 'as a mentor' do
     before(:each) do
-      @mentor = create(:mentor)
+      @mentor = create(:mentor, terms_of_use_accepted: true)
       sign_in @mentor
     end
 
@@ -52,7 +52,7 @@ describe MentorsController do
     end
 
     context 'disable_no_kids_reminder' do
-      let!(:other_mentor) { create(:mentor) }
+      let!(:other_mentor) { create(:mentor, terms_of_use_accepted: true) }
       it 'disables no_kids_reminder' do
         get :disable_no_kids_reminder, params: { id: @mentor.id }
         expect(@mentor.reload.no_kids_reminder).to eq false
@@ -68,20 +68,20 @@ describe MentorsController do
 
   context 'as an admin' do
     before(:each) do
-      @admin = create(:admin)
+      @admin = create(:admin, terms_of_use_accepted: true)
       sign_in @admin
-      @mentor = create(:mentor)
+      @mentor = create(:mentor, terms_of_use_accepted: true)
     end
 
     context 'index' do
       it 'assigns two mentors in the index' do
-        create(:mentor)
+        create(:mentor, terms_of_use_accepted: true)
         get :index
         expect(assigns(:mentors).size).to eq(2)
       end
 
       it 'excludes inactive mentors' do
-        create(:mentor, inactive: true)
+        create(:mentor, inactive: true, terms_of_use_accepted: true)
         get :index
         expect(assigns(:mentors).size).to eq(1)
       end

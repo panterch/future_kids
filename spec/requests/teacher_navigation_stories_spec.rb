@@ -8,7 +8,7 @@ feature 'TEACHER::NAVIGATION:KID', "
 " do
   background do
     @pw = 'welcome'
-    @teacher = create(:teacher, password: @pw, password_confirmation: @pw)
+    @teacher = create(:teacher, password: @pw, password_confirmation: @pw, terms_of_use_accepted: true)
     log_in(@teacher)
   end
 

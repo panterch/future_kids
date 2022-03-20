@@ -8,7 +8,7 @@ feature 'SESSION::LOGIN', '
 ' do
   background do
     @pw = 'spec12378'
-    @mentor = create(:mentor, password: @pw, password_confirmation: @pw)
+    @mentor = create(:mentor, password: @pw, password_confirmation: @pw, terms_of_use_accepted: true)
   end
 
   scenario 'should login the user w/ valid credentials' do

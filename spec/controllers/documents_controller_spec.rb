@@ -6,7 +6,7 @@ describe DocumentsController do
 
   context 'as a mentor' do
     before(:each) do
-      sign_in create(:mentor)
+      sign_in create(:mentor, terms_of_use_accepted: true)
       build(:document, title: 'a1', category0: 'a').attachment.attach(file).record.save!
       build(:document, title: 'ax1', category0: 'a', category1: 'x').attachment.attach(file).record.save!
     end
@@ -27,7 +27,7 @@ describe DocumentsController do
 
   context 'as an admin' do
     before(:each) do
-      sign_in create(:admin)
+      sign_in create(:admin, terms_of_use_accepted: true)
     end
 
     it 'creates a new document' do

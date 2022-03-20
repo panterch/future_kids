@@ -2,8 +2,8 @@ require 'spec_helper'
 
 describe CommentsController do
   before(:each) do
-    @mentor = create(:mentor)
-    @coach = create(:admin)
+    @mentor = create(:mentor, terms_of_use_accepted: true)
+    @coach = create(:admin, terms_of_use_accepted: true)
     @kid = create(:kid, mentor: @mentor, admin: @coach)
     @journal =  create(:journal, kid: @kid, mentor: @mentor)
   end

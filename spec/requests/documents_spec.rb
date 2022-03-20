@@ -2,7 +2,7 @@ require 'requests/acceptance_helper'
 
 feature 'Document Tree', js: true do
 
-  let!(:admin) { create(:admin) }
+  let!(:admin) { create(:admin, terms_of_use_accepted: true) }
 
   include ActionDispatch::TestProcess::FixtureFile
   let(:file) { fixture_file_upload('gespraechsdoku.pdf', 'application/pdf') }

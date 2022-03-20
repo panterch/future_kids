@@ -5,7 +5,7 @@ describe SitesController do
 
   context 'as a admin' do
     before(:each) do
-      @admin = create(:admin)
+      @admin = create(:admin, terms_of_use_accepted: true)
       @kid = create(:kid)
       sign_in @admin
     end

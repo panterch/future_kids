@@ -16,8 +16,8 @@ describe SelfRegistrationsController do
     end
 
     context 'create' do
-      let!(:admin) { create(:admin) }
-      let!(:admin2) { create(:admin) }
+      let!(:admin) { create(:admin, terms_of_use_accepted: true) }
+      let!(:admin2) { create(:admin, terms_of_use_accepted: true) }
       context 'teacher' do
         let(:params) { { teacher: attributes_for(:teacher).merge(type: 'Teacher', school_id: create(:school).id), terms_of_use: { accepted: "yes" } } }
 

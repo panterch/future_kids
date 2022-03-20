@@ -2,7 +2,7 @@ require 'requests/acceptance_helper'
 
 feature 'Site' do
   scenario 'should be able to edit address in page footer' do
-    log_in(create(:admin))
+    log_in(create(:admin, terms_of_use_accepted: true))
     visit edit_site_url
     fill_in 'Adressangaben in Fusszeile', with: 'Adresse im Footer'
     click_button 'Seitenweite Konfiguration aktualisieren'
@@ -11,13 +11,13 @@ feature 'Site' do
   end
 
   scenario 'should not allow mentors to edit configuration' do
-    log_in(create(:mentor))
+    log_in(create(:mentor, terms_of_use_accepted: true))
     expect { visit edit_site_url }.to raise_error(CanCan::AccessDenied)
   end
 
   scenario 'should show teachers reviews when site configuration allows it' do
     Site.load.update!(teachers_can_access_reviews: true)
-    @teacher = create(:teacher)
+    @teacher = create(:teacher, terms_of_use_accepted: true)
     create(:kid, name: 'last1', prename: 'first1', teacher: @teacher)
     log_in(@teacher)
     click_link 'Schüler/in'

@@ -2,7 +2,7 @@ require 'requests/acceptance_helper'
 
 feature 'Kids as Admin' do
   background do
-    log_in(create(:admin))
+    log_in(create(:admin, terms_of_use_accepted: true))
   end
 
   before do

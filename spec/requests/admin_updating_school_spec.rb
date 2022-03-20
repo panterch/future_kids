@@ -5,7 +5,7 @@ feature 'ADMIN::UPDATE:SCHOOL', '
     I want to modify an existing school
   'do
   background do
-    log_in(create(:admin))
+    log_in(create(:admin, terms_of_use_accepted: true))
     create(:school, name: 'SSIG')
   end
 

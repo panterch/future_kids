@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe ReviewsController do
   before(:each) do
-    @mentor = create(:mentor)
+    @mentor = create(:mentor, terms_of_use_accepted: true)
     @kid = create(:kid, mentor: @mentor)
   end
 
@@ -54,7 +54,7 @@ describe ReviewsController do
 
   context 'as an admin' do
     before(:each) do
-      sign_in create(:admin)
+      sign_in create(:admin, terms_of_use_accepted: true)
     end
 
     it 'should record phone coaching' do

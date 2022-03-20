@@ -3,7 +3,7 @@ require 'spec_helper'
 describe KidsController do
   context 'as a mentor' do
     before(:each) do
-      @mentor = create(:mentor)
+      @mentor = create(:mentor, terms_of_use_accepted: true)
       @kid = create(:kid, mentor: @mentor)
       sign_in @mentor
     end
@@ -29,7 +29,7 @@ describe KidsController do
 
   context 'as a admin' do
     before(:each) do
-      @admin = create(:admin)
+      @admin = create(:admin, terms_of_use_accepted: true)
       @kid = create(:kid)
       sign_in @admin
     end
@@ -105,7 +105,7 @@ describe KidsController do
   context 'as a teacher' do
     before(:each) do
       @school = create(:school)
-      @teacher = create(:teacher, school: @school)
+      @teacher = create(:teacher, school: @school, terms_of_use_accepted: true)
       sign_in @teacher
     end
 
@@ -120,7 +120,7 @@ describe KidsController do
       end
 
       it 'should assign itself as teacher even when secondary teacher set' do
-        @secondary = create(:teacher)
+        @secondary = create(:teacher, terms_of_use_accepted: true)
         post :create, params: { kid: attributes_for(:kid, secondary_teacher_id: @secondary.id, school_id: @school.id) }
         kid = Kid.find(assigns(:kid).id)
         expect(kid.teacher).to eq(@teacher)
