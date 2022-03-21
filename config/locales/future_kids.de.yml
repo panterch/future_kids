@@ -248,8 +248,8 @@ de:
         title: Titel des Browsertabs
         css: Seitenspezifisches CSS
         terms_of_use_accept:
-          terms_of_use_headline: "Bitte akzeptieren sie die geändertern Nutzungsbedingungen"
-          button_accept: "Nutzungsbedingungen Akzeptieren"
+          terms_of_use_headline: Bitte akzeptieren sie die geändertern Nutzungsbedingungen
+          button_accept: Nutzungsbedingungen Akzeptieren
       substitution:
         kid: "Kind"
         mentor: "Mentor/in"

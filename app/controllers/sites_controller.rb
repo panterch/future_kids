@@ -19,9 +19,9 @@ class SitesController < ApplicationController
 
   def update
     @site.attributes = site_params
-    if(@site.terms_of_use_content_changed?)
+    if @site.terms_of_use_content_changed?
       id = current_user.id
-      users = User.where("id != ?", id)
+      users = User.where.not(id: id)
       users.update_all(terms_of_use_accepted: false)
     end
 

@@ -53,4 +53,15 @@ feature 'Site' do
     click_button 'Nutzungsbedingungen Akzeptieren'
     expect(page).to have_content('Erfolgreich angemeldet')
   end
+
+  scenario "Check terms of use accepted after change term of use" do
+    @teacher = create(:teacher)
+    log_in(create(:admin))
+    visit edit_site_url
+    fill_in 'Nutzungsbedingungen', with: 'Terms of use'
+    click_button 'Seitenweite Konfiguration aktualisieren'
+
+    @teacher.reload
+    expect(@teacher.terms_of_use_accepted).to eq false
+  end
 end

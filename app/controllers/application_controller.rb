@@ -6,7 +6,6 @@ class ApplicationController < ActionController::Base
 
   before_action :load_site_configuration
   before_action :logout_inactive
-  before_action :terms_of_use
   before_action :authenticate_user!
   before_action :intercept_sensitive_params!
   protect_from_forgery prepend: true, with: :exception
@@ -36,10 +35,6 @@ protected
 
   def load_site_configuration
     @site = Site.load
-  end
-
-  def terms_of_use
-    @content = Site.load.terms_of_use_content_parsed
   end
 
   def logout_inactive
