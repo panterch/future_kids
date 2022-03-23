@@ -54,7 +54,15 @@
             = t('activerecord.attributes.site.terms_of_use_accept.terms_of_use_headline')
           = @site.terms_of_use_content_parsed&.html_safe
           = button_to t('activerecord.attributes.site.terms_of_use_accept.button_accept'), { action: "edit_terms", :controller=>"users", :method => :get }, { class: 'btn btn-xs btn-success term-of-use-button' }
-
+      #main
+        .container
+        - if @site.footer_address.present? || @site.footer_email.present?
+          #footer
+            .container
+              .col-md12
+                = @site.footer_address
+                - if @site.footer_email.present?
+                  = mail_to @site.footer_email, nil, :encode => "hex"
     - else
       #sidebar-wrapper
         .container
