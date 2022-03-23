@@ -2,7 +2,7 @@ class UsersController < ApplicationController
 
   def edit_terms
     if !current_user.nil?
-      current_user.update(terms_of_use_accepted: true)
+      current_user.update(terms_of_use_accepted: true, terms_of_use_accepted_date: DateTime.now)
     end
 
     if current_user.is_a?(Mentor) && current_user.kids.empty?
