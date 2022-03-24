@@ -43,7 +43,7 @@ feature 'Site' do
   end
 
   scenario 'User after login must accept terms of use' do
-    @teacher = create(:teacher, terms_of_use_accepted: false)
+    @teacher = create(:teacher, terms_of_use_accepted_at: DateTime.yesterday)
 
     visit new_user_session_path
     fill_in 'user_email', with: @teacher.email

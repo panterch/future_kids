@@ -20,8 +20,7 @@ class SitesController < ApplicationController
   def update
     @site.attributes = site_params
     if @site.terms_of_use_content_changed?
-      User.update_all(terms_of_use_accepted: false)
-      @site.terms_of_use_changed_date = DateTime.now
+      @site.terms_of_use_content_changed_at = DateTime.now
     end
 
     if @site.save

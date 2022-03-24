@@ -25,7 +25,7 @@ FactoryBot.define do
 
   factory :admin, class: 'Admin', parent: :user do
     sequence(:email) { |n| "admin_#{n}@example.com" }
-    terms_of_use_accepted { true }
+    terms_of_use_accepted_at { DateTime.now }
   end
 
   factory :mentor, class: 'Mentor', parent: :user do
@@ -39,7 +39,7 @@ FactoryBot.define do
     city { 'city' }
     dob { '1.1.1990' }
     phone { '123456798' }
-    terms_of_use_accepted { true }
+    terms_of_use_accepted_at { DateTime.now }
 
     to_create { |instance| instance.save(validate: false) }
   end
@@ -50,7 +50,7 @@ FactoryBot.define do
     sequence(:prename) { |n| "Mentor prename#{n}" }
     association :school
     phone { '123456798' }
-    terms_of_use_accepted { true }
+    terms_of_use_accepted_at { DateTime.now }
   end
 
   factory :principal, class: 'Principal', parent: :user do

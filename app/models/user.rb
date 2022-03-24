@@ -27,6 +27,10 @@ class User < ApplicationRecord
     [name, prename].reject(&:blank?).join(', ')
   end
 
+  def terms_of_use_accepted
+    terms_of_use_accepted_at > Site.load.terms_of_use_content_changed_at
+  end
+
   def human_absence
     text_format(absence)
   end
