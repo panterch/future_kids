@@ -144,7 +144,7 @@ GEM
     faraday (2.3.0)
       faraday-net_http (~> 2.0)
       ruby2_keywords (>= 0.0.4)
-    faraday-net_http (2.0.2)
+    faraday-net_http (2.0.3)
     ffi (1.15.5)
     geocoder (1.7.5)
     geokit (1.13.1)
@@ -299,7 +299,7 @@ GEM
     rb-fsevent (0.11.1)
     rb-inotify (0.10.1)
       ffi (~> 1.0)
-    react-rails (2.6.2)
+    react-rails (2.6.1)
       babel-transpiler (>= 0.7.0)
       connection_pool
       execjs
@@ -444,7 +444,7 @@ DEPENDENCIES
   rails
   rails-controller-testing
   rails-i18n
-  react-rails
+  react-rails (= 2.6.1)
   redcarpet
   responders
   rspec-rails

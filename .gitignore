@@ -26,3 +26,5 @@ config/newrelic.yml
 storage/
 .generators
 .byebug_history
+
+/config/master.key

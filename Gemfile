@@ -18,7 +18,8 @@ gem 'show_for'
 gem 'whenever', require: false
 gem 'bootstrap-sass'
 gem 'i18n_rails_helpers'
-gem 'react-rails'
+# pin react rails till https://github.com/reactjs/react-rails/issues/1176 is resolved
+gem 'react-rails', '=2.6.1'
 gem 'sassc-rails'
 gem 'coffee-rails'
 gem 'uglifier'
