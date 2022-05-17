@@ -1,5 +1,5 @@
 source 'https://rubygems.org'
-ruby '3.0.2'
+ruby '3.1.2'
 
 gem 'rails'
 gem 'haml-rails'
@@ -54,6 +54,7 @@ group :development, :test do
   gem 'webdrivers'
   gem 'rails-controller-testing'
   gem 'listen'
+  gem 'net-smtp'
 end
 
 group :development do
