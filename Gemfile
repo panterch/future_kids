@@ -32,6 +32,7 @@ gem 'geocoder'
 gem 'geokit-rails'
 gem 'net-sftp'
 gem 'net-smtp'
+gem 'net-pop'
 gem 'redcarpet'
 gem 'validates_timeliness', '~> 6.0.0.beta2' 
 
