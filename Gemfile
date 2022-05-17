@@ -30,6 +30,7 @@ gem 'google-cloud-storage', '~> 1.11', require: false
 gem 'geocoder'
 gem 'geokit-rails'
 gem 'net-sftp'
+gem 'net-smtp'
 gem 'redcarpet'
 gem 'validates_timeliness', '~> 6.0.0.beta2' 
 
@@ -54,7 +55,6 @@ group :development, :test do
   gem 'webdrivers'
   gem 'rails-controller-testing'
   gem 'listen'
-  gem 'net-smtp'
 end
 
 group :development do
