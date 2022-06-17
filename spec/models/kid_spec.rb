@@ -129,12 +129,19 @@ describe Kid do
     end
 
     it 'does nilify mentors when set inactive' do
-      mentor = kid.mentor = create(:mentor)
-      secondary_mentor = kid.secondary_mentor = create(:mentor)
-      kid.inactive = true
+      kid.mentor = create(:mentor)
+      kid.secondary_mentor = create(:mentor)
+      kid.admin = create(:admin)
       kid.save!
-      expect(kid.mentor).to be_nil
-      expect(kid.secondary_mentor).to be_nil
+
+      k = Kid.find(kid.id)
+      k.inactive = true
+      k.save!
+
+      k = Kid.find(k.id)
+      expect(k.mentor).to be_nil
+      expect(k.secondary_mentor).to be_nil
+      expect(k.admin).to be_nil
     end
   end
 

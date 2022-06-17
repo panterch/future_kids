@@ -27,7 +27,7 @@ gem 'countries'
 gem 'country_select'
 gem 'image_processing'
 gem 'active_storage_validations'
-gem 'google-cloud-storage', '~> 1.11', require: false
+gem 'google-cloud-storage', require: false
 gem 'geocoder'
 gem 'geokit-rails'
 gem 'net-sftp'
@@ -37,8 +37,6 @@ gem 'net-imap'
 gem 'redcarpet'
 gem 'validates_timeliness', '~> 6.0.0.beta2' 
 
-# see https://github.com/straydogstudio/axlsx_rails#installation
-gem 'rubyzip', '>= 1.2.1'
 gem 'caxlsx'
 gem 'caxlsx_rails'
 
