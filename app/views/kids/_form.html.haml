@@ -15,15 +15,62 @@
   = form.input :note
   = form.association :school, collection: @schools, include_blank: @schools_include_blank
 
-  %h2#school Allgemeine Informationen
-  %label.string.col-sm-3.control-label
-  .col-sm-9
-    %p Auf welche Fächer und Themenbereiche soll im Mentoring fokussiert werden?
-  = form.input :goal_1, required: true
-  %label.string.col-sm-3.control-label
-  .col-sm-9
-    %p Welche Kompetenzen (personale, soziale, methodische) sollen im Mentoring gestärkt werden?
-  = form.input :goal_2, required: true
+  %h2 Fachliche Lernziele
+  %h3 Deutsch
+  =form_subtitle("Hören")
+  = form.input :goal_3
+  = form.input :goal_4
+  = form.input :goal_5
+  =form_subtitle("Lesen")
+  = form.input :goal_6
+  = form.input :goal_7
+  = form.input :goal_8
+  =form_subtitle("Sprechen")
+  = form.input :goal_9
+  = form.input :goal_10
+  =form_subtitle("Schreiben")
+  = form.input :goal_11
+  = form.input :goal_12
+  = form.input :goal_13
+  =form_subtitle("Sprache im Fokus (Grammatik und Rechtschreibung)")
+  = form.input :goal_14
+  = form.input :goal_15
+
+  %h3 Mathematik
+  = form.input :goal_16
+  =form_subtitle("Zahl und Variable")
+  = form.input :goal_17
+  = form.input :goal_18
+  = form.input :goal_19
+  = form.input :goal_20
+  =form_subtitle("Form und Raum")
+  = form.input :goal_21
+  = form.input :goal_22
+  =form_subtitle("Grössen")
+  = form.input :goal_23
+  = form.input :goal_24
+  =form_subtitle("Weitere fachliche Lernziele")
+  = form.input :goal_1
+
+  %h2 Überfachliche Lernziele
+  =form_subtitle("Personale Ziele")
+  = form.input :goal_25
+  = form.input :goal_26
+  = form.input :goal_27
+  = form.input :goal_28
+  = form.input :goal_29
+  = form.input :goal_30
+  = form.input :goal_31
+  =form_subtitle("Methodische Ziele")
+  = form.input :goal_32
+  = form.input :goal_33
+  = form.input :goal_34
+  = form.input :goal_35
+  =form_subtitle("Weitere überfachliche Lernziele")
+  = form.input :goal_2
+
+
+  %h2 Allgemeine Informationen
   - unless @site.kids_schedule_hourly
     %label.string.col-sm-3.control-label
     .col-sm-9

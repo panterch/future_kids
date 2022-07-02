@@ -39,7 +39,6 @@ class Kid < ApplicationRecord
   validates_date :dob, :exit_at, :checked_at, :coached_at, after: '2001-01-01', allow_blank: true
 
   after_save :track_relations
-  after_validation :track_specific_field_updates
   after_validation :release_relations, if: :inactive?
   before_destroy :release_relations
 
@@ -203,14 +202,6 @@ protected
                             role: field,
                             start_at: Time.now)
     end
-  end
-
-  # some fields are tracked specifically for updates
-  # contract is to track field changes in a field
-  # named the same with a suffix updated_at
-  def track_specific_field_updates
-    self.goal_1_updated_at = Time.now if goal_1_changed?
-    self.goal_2_updated_at = Time.now if goal_2_changed?
   end
 
   # on instances with public signup configured stronger validations are applied

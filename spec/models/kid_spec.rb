@@ -158,22 +158,6 @@ describe Kid do
   context 'specific updated_at fields' do
     let(:kid) { create(:kid) }
     let!(:time) { Time.now }
-    it 'should track changing goals' do
-      kid.goal_1 = kid.goal_2 = 'goal'
-      kid.save!
-      expect(kid.goal_1_updated_at).to be > time
-      expect(kid.goal_2_updated_at).to be > time
-    end
-
-    it 'should track changing goals independently' do
-      kid.goal_1 = kid.goal_2 = 'goal'
-      kid.save!
-      time = Time.now
-      kid.goal_2 = 'updated'
-      kid.save!
-      expect(kid.goal_1_updated_at).to be < time
-      expect(kid.goal_2_updated_at).to be > time
-    end
 
     it 'tracks schedulue updates' do
       expect(kid.schedules_updated_at).to be_nil

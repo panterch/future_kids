@@ -52,13 +52,60 @@
     = can_link_to(@kid.school)
 
 = show_for @kid do |show|
-  %h2#school Allgemeine Informationen
-  = show.attribute :goal_1
-  - if @kid.goal_1_updated_at
-    = show.attribute :goal_1_updated_at
-  = show.attribute :goal_2
-  - if @kid.goal_2_updated_at
-    = show.attribute :goal_2_updated_at
+  %h2 Fachliche Lernziele
+  .wrapper
+    %label.col-sm-3.col-xs-6.text-right Deutsch
+    = conditionally_show_for(@kid, :goal_3)
+    = conditionally_show_for(@kid, :goal_4)
+    = conditionally_show_for(@kid, :goal_5)
+    = conditionally_show_for(@kid, :goal_6)
+    = conditionally_show_for(@kid, :goal_7)
+    = conditionally_show_for(@kid, :goal_8)
+    = conditionally_show_for(@kid, :goal_9)
+    = conditionally_show_for(@kid, :goal_10)
+    = conditionally_show_for(@kid, :goal_11)
+    = conditionally_show_for(@kid, :goal_12)
+    = conditionally_show_for(@kid, :goal_13)
+    = conditionally_show_for(@kid, :goal_14)
+    = conditionally_show_for(@kid, :goal_15)
+  .wrapper
+    %label.col-sm-3.col-xs-6.text-right Mathematik
+    = conditionally_show_for(@kid, :goal_16)
+    = conditionally_show_for(@kid, :goal_17)
+    = conditionally_show_for(@kid, :goal_18)
+    = conditionally_show_for(@kid, :goal_19)
+    = conditionally_show_for(@kid, :goal_20)
+    = conditionally_show_for(@kid, :goal_21)
+    = conditionally_show_for(@kid, :goal_22)
+    = conditionally_show_for(@kid, :goal_23)
+    = conditionally_show_for(@kid, :goal_24)
+  .wrapper
+    %label.col-sm-3.col-xs-6.text-right Weitere fachliche Lernziele
+    .col-sm-offset-3.col-xs-offset-3= @kid.human_goal_1
+
+= show_for @kid do |show|
+  %h2 Überfachliche Lernziele
+  .wrapper
+    %label.col-sm-3.col-xs-6.text-right Personale Ziele
+    = conditionally_show_for(@kid, :goal_25)
+    = conditionally_show_for(@kid, :goal_26)
+    = conditionally_show_for(@kid, :goal_27)
+    = conditionally_show_for(@kid, :goal_28)
+    = conditionally_show_for(@kid, :goal_29)
+    = conditionally_show_for(@kid, :goal_30)
+    = conditionally_show_for(@kid, :goal_31)
+  .wrapper
+    %label.col-sm-3.col-xs-6.text-right Methodische Ziele
+    = conditionally_show_for(@kid, :goal_32)
+    = conditionally_show_for(@kid, :goal_33)
+    = conditionally_show_for(@kid, :goal_34)
+    = conditionally_show_for(@kid, :goal_35)
+  .wrapper
+    %label.col-sm-3.col-xs-6.text-right Weitere überfachliche Lernziele
+    .col-sm-offset-3.col-xs-offset-3= @kid.human_goal_2
+
+= show_for @kid do |show|
+  %h2 Allgemeine Informationen
   - unless @site.kids_schedule_hourly
     = show.attribute :simplified_schedule
   = show.attribute :meeting_day

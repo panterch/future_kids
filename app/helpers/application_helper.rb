@@ -224,6 +224,27 @@ module ApplicationHelper
     end
   end
 
+  # renders a title inside the form, aligned with form fields
+  def form_subtitle(text)
+
+    html = tag.label class: %w(string col-sm-3 control-label)
+
+    html += tag.div class: %w( col-sm-9 ) do
+      tag.p tag.strong text
+    end
+
+    html
+  end
+
+  # renders the label of a boolean field when it is set fitting into
+  # a show_for context
+  def conditionally_show_for(obj, field)
+    return unless obj[field]
+    tag.div class: %w( col-sm-offset-3 col-xs-offset-3 ) do
+      I18n.t("activerecord.attributes.#{obj.model_name.to_s.downcase}.#{field}")
+    end
+  end
+
   def human_date(date)
     return nil unless date.present?
     I18n.l(date)
