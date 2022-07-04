@@ -79,9 +79,7 @@
     = conditionally_show_for(@kid, :goal_22)
     = conditionally_show_for(@kid, :goal_23)
     = conditionally_show_for(@kid, :goal_24)
-  .wrapper
-    %label.col-sm-3.col-xs-6.text-right Weitere fachliche Lernziele
-    .col-sm-offset-3.col-xs-offset-3= @kid.human_goal_1
+    = show.attribute :goal_1
 
 = show_for @kid do |show|
   %h2 Überfachliche Lernziele
@@ -100,9 +98,7 @@
     = conditionally_show_for(@kid, :goal_33)
     = conditionally_show_for(@kid, :goal_34)
     = conditionally_show_for(@kid, :goal_35)
-  .wrapper
-    %label.col-sm-3.col-xs-6.text-right Weitere überfachliche Lernziele
-    .col-sm-offset-3.col-xs-offset-3= @kid.human_goal_2
+    = show.attribute :goal_2
 
 = show_for @kid do |show|
   %h2 Allgemeine Informationen
