@@ -49,6 +49,26 @@ describe Kid do
 
   context 'relation to mentor' do
     let(:kid) { build(:kid) }
+    it 'validates on factory values' do
+      expect(kid).to be_valid
+    end
+    it 'does invalidate without goals' do
+      kid.goal_1 = ""
+      kid.goal_2 = ""
+      expect(kid).to_not be_valid
+    end
+    it 'does validate by checking one goal per group' do
+      kid.goal_1 = ""
+      kid.goal_2 = ""
+      kid.goal_3 = true
+      kid.goal_35 = true
+      expect(kid).to be_valid
+    end
+  end
+
+
+      context 'relation to mentor' do
+    let(:kid) { build(:kid) }
     it 'does associate a mentor' do
       kid.mentor = create(:mentor)
       kid.save! && kid.reload
