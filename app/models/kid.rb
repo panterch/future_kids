@@ -59,6 +59,7 @@ class Kid < ApplicationRecord
 
   after_save :track_relations
   after_validation :release_relations, if: :inactive?
+  after_validation :track_goal_updates
   before_destroy :release_relations
 
 
@@ -228,4 +229,11 @@ protected
     Site.load.public_signups_active?
   end
 
+  # track all changes of the goal freetext and checkbox fields
+  # in one field
+  def track_goal_updates
+    if self.changed.any? { |k| k.start_with?('goal_') }
+      self.goals_updated_at = Time.now
+    end
+  end
 end

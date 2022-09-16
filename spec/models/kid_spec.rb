@@ -47,7 +47,7 @@ describe Kid do
     end
   end
 
-  context 'relation to mentor' do
+  context 'goals' do
     let(:kid) { build(:kid) }
     it 'validates on factory values' do
       expect(kid).to be_valid
@@ -64,10 +64,26 @@ describe Kid do
       kid.goal_35 = true
       expect(kid).to be_valid
     end
+    it 'tracks changes in goals' do
+      last_updated = Time.now
+      kid.goal_1 = "test"
+      kid.save!
+      expect(kid.goals_updated_at).to be > last_updated
+
+      last_updated_at = kid.goals_updated_at
+      kid.goal_4 = true
+      kid.save!
+      expect(kid.goals_updated_at).to be > last_updated
+
+      last_updated_at = kid.goals_updated_at
+      kid.name = "changed"
+      kid.save!
+      expect(kid.goals_updated_at.to_s).to eq last_updated.to_s
+    end
   end
 
 
-      context 'relation to mentor' do
+  context 'relation to mentor' do
     let(:kid) { build(:kid) }
     it 'does associate a mentor' do
       kid.mentor = create(:mentor)

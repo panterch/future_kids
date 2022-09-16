@@ -58,9 +58,7 @@ de:
         translator: 'Eltern brauchen bei Gesprächen unbedingt einen Dolmetscher'
         school: Schule
         goal_1: 'Ergänzungen'
-        goal_1_updated_at: 'FL aktualisiert'
         goal_2: 'Ergänzungen'
-        goal_2_updated_at: 'ÜL aktualisiert'
         goal_3: 'Das Kind kann seinen Wortschatz aktivieren, um das Gehörte angemessen schnell zu verstehen.'
         goal_4: 'Das Kind kann wichtige Informationen aus Hörtexten entnehmen.'
         goal_5: 'Das Kind kann Gesprächen folgen und seine Aufmerksamkeit zeigen.'
@@ -94,7 +92,8 @@ de:
         goal_33: 'Das Kind kann die gesammelten Informationen strukturieren, zusammenfassen und dabei Wesentliches von Nebensächlichem unterscheiden.'
         goal_34: 'Das Kind kennt fachspezifische Lernstrategien und kann sie nutzen.'
         goal_35: 'Das Kind verfügt über allgemeine Strategien, um wiederkehrende Aufgaben und Probleme zu lösen.'
-        schedules_updated_at: "Stundenplan aktualisiert"
+        goals_updated_at: 'Lernziele aktualisiert'
+        schedules_updated_at: 'Stundenplan aktualisiert'
         inactive: Inaktiv gesetzt
         todo: Pendenzen
         checked_at: 'Letztes Kontrolldatum'
