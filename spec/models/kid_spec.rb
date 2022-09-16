@@ -78,7 +78,7 @@ describe Kid do
       last_updated_at = kid.goals_updated_at
       kid.name = "changed"
       kid.save!
-      expect(kid.goals_updated_at.to_s).to eq last_updated.to_s
+      expect(kid.goals_updated_at.utc.to_s).to eq last_updated.utc.to_s
     end
   end
 
