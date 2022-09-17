@@ -17,6 +17,9 @@
   = form.association :school, collection: @schools, include_blank: @schools_include_blank
 
   %h2 Fachliche Lernziele
+  - if @kid.errors[:goal_1].any?
+    %h3.has-error
+      %span.help-block= @kid.errors[:goal_1].try(:first)
   %h3 Deutsch
   =form_subtitle("Hören")
   = form.input :goal_3
@@ -53,6 +56,9 @@
   = form.input :goal_1
 
   %h2 Überfachliche Lernziele
+  - if @kid.errors[:goal_2].any?
+    %h3.has-error
+      %span.help-block= @kid.errors[:goal_2].try(:first)
   =form_subtitle("Personale Ziele")
   = form.input :goal_25
   = form.input :goal_26

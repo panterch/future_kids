@@ -46,14 +46,14 @@ class Kid < ApplicationRecord
                  goal_22 goal_23 goal_24]
     if kid[:goal_1].blank? && goals_1.none? { |g| kid[g].present?}
       goals_1.each { |g| errors.add g, :invalid, message: '' }
-      errors.add :goal_1, :invalid, message: "Bitte geben Sie ein fachliches Lernziel an"
+      errors.add :goal_1, :invalid, message: "Bitte geben Sie mindestens ein Fachliches Lernziel an"
     end
 
     goals_2 = %i[goal_25 goal_26 goal_27 goal_28 goal_29 goal_30 goal_31
                  goal_32 goal_33 goal_34 goal_35]
     if kid[:goal_2].blank? && goals_2.none? { |g| kid[g].present?}
       goals_2.each { |g| errors.add g, :invalid, message: '' }
-      errors.add :goal_2, :invalid, message: "Bitte geben Sie ein überfachliches Lernziel an"
+      errors.add :goal_2, :invalid, message: "Bitte geben Sie mindestens ein Überfachliches Lernziel an"
     end
   end
 
