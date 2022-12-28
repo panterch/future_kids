@@ -60,8 +60,9 @@
 %table.table.table-striped.table-condensed.table-hover
   %tr
     %th Name
-    - if current_user.is_a?(Admin)
+    - if current_user.is_a?(Admin) or current_user.is_a?(Principal)
       %th Eintritt
+    - if current_user.is_a?(Admin)
       %th Letztes Kontrolldatum
       - if @site.feature_coach?
         %th Letztes Coaching
@@ -72,9 +73,10 @@
   - @kids.each do |kid|
     %tr
       %td= link_to kid.display_name, kid
-      -if current_user.is_a?(Admin)
+      -if current_user.is_a?(Admin) or current_user.is_a?(Principal)
         %td
           = kid.created_at ? I18n.l(kid.created_at.to_date) : '-'
+      -if current_user.is_a?(Admin)
         %td
           = kid.checked_at ? I18n.l(kid.checked_at.to_date) : '-'
         - if @site.feature_coach?

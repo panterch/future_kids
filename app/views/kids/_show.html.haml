@@ -121,26 +121,28 @@
     = show.attribute :admin do
       = can_link_to(@kid.admin)
 
-- if current_user.is_a?(Admin)
+- if current_user.is_a?(Admin) or current_user.is_a?(Principal)
   = show_for @kid do |show|
     %h2#internal Projektinterne Informationen
-    = show.attribute :term
-    = show.attribute :exit
-    = show.attribute :exit_reason
-    = show.attribute :exit_kind
-    - if 'later' == @kid.exit_kind
-      = show.attribute :exit_at
-    = show.attribute :checked_at
-    - if @site.feature_coach?
-      = show.attribute :coached_at
-    = show.attribute :goals_updated_at
-    = show.attribute :abnormality
-    = show.attribute :abnormality_criticality
-    = show.attribute :todo
-    - if @site.kids_schedule_hourly
-      = show.attribute :schedules_updated_at
-    = show.attribute :inactive
-    = render 'relation_logs/collection', resource: @kid
+    = show.attribute :term # shown to admins and principals
+    -# from below here only shown to admins
+    - if current_user.is_a?(Admin)
+      = show.attribute :exit
+      = show.attribute :exit_reason
+      = show.attribute :exit_kind
+      - if 'later' == @kid.exit_kind
+        = show.attribute :exit_at
+      = show.attribute :checked_at
+      - if @site.feature_coach?
+        = show.attribute :coached_at
+      = show.attribute :goals_updated_at
+      = show.attribute :abnormality
+      = show.attribute :abnormality_criticality
+      = show.attribute :todo
+      - if @site.kids_schedule_hourly
+        = show.attribute :schedules_updated_at
+      = show.attribute :inactive
+      = render 'relation_logs/collection', resource: @kid
 
 %h2#journals
   Lernjournale
