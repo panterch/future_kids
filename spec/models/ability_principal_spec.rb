@@ -26,9 +26,8 @@ describe Ability do
     it 'can read own schools kids' do
       expect(@ability).to be_able_to(:read, create(:kid, school: @school))
     end
-    it 'cannot read own schools inactive kids' do
-      expect(@ability).not_to be_able_to(:read, create(:kid, school: @school,
-                                                             inactive: true))
+    it 'can read own schools inactive kids' do
+      expect(@ability).to be_able_to(:read, create(:kid, school: @school, inactive: true))
     end
     it 'cannot edit own schools kids' do
       expect(@ability).to be_able_to(:edit, create(:kid, school: @school))

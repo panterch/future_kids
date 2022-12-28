@@ -124,6 +124,8 @@
 - if current_user.is_a?(Admin) or current_user.is_a?(Principal)
   = show_for @kid do |show|
     %h2#internal Projektinterne Informationen
+    - if @kid.inactive?
+      = show.attribute :inactive
     = show.attribute :term # shown to admins and principals
     -# from below here only shown to admins
     - if current_user.is_a?(Admin)
@@ -141,7 +143,6 @@
       = show.attribute :todo
       - if @site.kids_schedule_hourly
         = show.attribute :schedules_updated_at
-      = show.attribute :inactive
       = render 'relation_logs/collection', resource: @kid
 
 %h2#journals
