@@ -9,3 +9,6 @@
   = show.attribute :phone
   -if current_user.is_a?(Admin)
     = show.attribute :inactive
+    - if @principal.inactive?
+      = show.attribute :inactive_at
+

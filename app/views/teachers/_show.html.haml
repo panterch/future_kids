@@ -18,5 +18,8 @@
     = show.attribute :note
     = show.attribute :state
     = show.attribute :inactive
+    - if @teacher.inactive?
+      = show.attribute :inactive_at
+
 
   = render 'relation_logs/collection', resource: @teacher

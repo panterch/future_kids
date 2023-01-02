@@ -17,5 +17,7 @@
           = "- #{Mentor.model_name.human}:"
           = can_link_to k.mentor if k.mentor.present?
     = show.attribute :inactive
+    - if @admin.inactive?
+      = show.attribute :inactive_at
 
     = render 'relation_logs/collection', resource: @admin
