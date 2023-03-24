@@ -10,7 +10,13 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 
 Capybara.register_driver :selenium do |app|
-  Capybara::Selenium::Driver.new(app, browser: :chrome)
+  options = Selenium::WebDriver::Chrome::Options.new
+  # some tests do not run well if the responsive css
+  # hides the left navigation
+  options.add_argument("--window-size=1400,800")
+  Capybara::Selenium::Driver.new(app, browser: :chrome,
+                                 options: options
+  )
 end
 
 
