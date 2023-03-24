@@ -5,6 +5,8 @@ class Mentor < User
   attr_accessor :filter_by_meeting_day
   # Filters mentors by their kids school. Used only in the mentor index form.
   attr_accessor :filter_by_school_id
+  # Filters mentors by their kids school. Used only in the mentor index form.
+  attr_accessor :filter_by_ects
 
   has_many :kids
   has_many :admins, through: :kids

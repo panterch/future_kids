@@ -13,6 +13,7 @@ class MentorsController < ApplicationController
     last_selected_coach = params[:mentor][:filter_by_coach_id]
     last_selected_meeting_day = params[:mentor][:filter_by_meeting_day]
     last_selected_school = params[:mentor][:filter_by_school_id]
+    last_selected_ects = params[:mentor][:filter_by_ects]
     unless params[:mentor][:filter_by_coach_id].blank?
       @mentors = @mentors.joins(:admins).where('kids.admin_id = ?', params[:mentor][:filter_by_coach_id].to_i).distinct
       params[:mentor][:filter_by_coach_id] = nil
@@ -25,11 +26,25 @@ class MentorsController < ApplicationController
       @mentors = @mentors.joins(:schools).where('kids.school_id = ?', params[:mentor][:filter_by_school_id].to_i).distinct
       params[:mentor][:filter_by_school_id] = nil
     end
+    # custom ects filter: 'regular' is not a set value but means to show all
+    # mentor w/o having active ects subscription
+    unless params[:mentor][:filter_by_ects].blank?
+      if 'regular' == params[:mentor][:filter_by_ects]
+        @mentors = @mentors.where.not(ects: 'currently').or(Mentor.where(ects: nil))
+      else
+        @mentors = @mentors.where(ects: params[:mentor][:filter_by_ects])
+      end
+      params[:mentor][:filter_by_ects] = nil
+    end
+
+    # generic query building
     @mentors = @mentors.where(mentor_params.to_h.delete_if { |_key, val| val.blank? })
+
+    # add backuped custom parameters again for filter consistency
     params[:mentor][:filter_by_coach_id] = last_selected_coach
     params[:mentor][:filter_by_meeting_day] = last_selected_meeting_day
     params[:mentor][:filter_by_school_id] = last_selected_school
-
+    params[:mentor][:filter_by_ects] = last_selected_ects
     # provide a prototype for the filter form
     @mentor = Mentor.new(mentor_params)
 
@@ -89,7 +104,7 @@ class MentorsController < ApplicationController
       p = [:name, :prename, :email, :password, :password_confirmation, :address, :sex,
         :city, :dob, :phone, :school_id, :field_of_study, :education, :transport,
         :personnel_number, :ects, :term, :absence, :note, :todo, :substitute,
-        :filter_by_school_id, :filter_by_meeting_day, :filter_by_coach_id,
+        :filter_by_school_id, :filter_by_meeting_day, :filter_by_coach_id, :filter_by_ects,
         :exit_kind, :exit_at, :no_kids_reminder,
         :inactive, :photo, schedules_attributes: [:day, :hour, :minute]
       ]
