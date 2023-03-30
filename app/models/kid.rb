@@ -24,6 +24,16 @@ class Kid < ApplicationRecord
   has_many :relation_logs, dependent: :nullify
   has_many :mentor_matchings, dependent: :destroy
 
+  GOALS_1 = %i[goal_3 goal_4 goal_5 goal_6 goal_7
+                 goal_8 goal_9 goal_10 goal_11 goal_12 goal_13 goal_14
+                 goal_15 goal_16 goal_17 goal_18 goal_19 goal_20 goal_21
+                 goal_22 goal_23 goal_24].freeze
+  GOALS_1_MAX = 4
+
+  GOALS_2 = %i[goal_25 goal_26 goal_27 goal_28 goal_29 goal_30 goal_31
+                 goal_32 goal_33 goal_34 goal_35].freeze
+  GOALS_2_MAX = 2
+
   accepts_nested_attributes_for :journals, :reviews, :schedules
 
   validates_presence_of :name, :prename
@@ -38,23 +48,26 @@ class Kid < ApplicationRecord
   # the html5 date submit allows two letter dates (e.g. '21') and translates them to wrong years (like '0021')
   validates_date :dob, :exit_at, :checked_at, :coached_at, after: '2001-01-01', allow_blank: true
 
-  # validate that at least one goal was given in each group
+  # validate that enough goals were given in each group
   validate do |kid|
-    goals_1 = %i[goal_3 goal_4 goal_5 goal_6 goal_7
-                 goal_8 goal_9 goal_10 goal_11 goal_12 goal_13 goal_14
-                 goal_15 goal_16 goal_17 goal_18 goal_19 goal_20 goal_21
-                 goal_22 goal_23 goal_24]
-    if kid[:goal_1].blank? && goals_1.none? { |g| kid[g].present?}
-      goals_1.each { |g| errors.add g, :invalid, message: '' }
+    goals_1_count = GOALS_1.count { |g| kid[g].present?}
+    if kid[:goal_1].blank? && 0 == goals_1_count
+      GOALS_1.each { |g| errors.add g, :invalid, message: '' }
       errors.add :goal_1, :invalid, message: "Bitte geben Sie mindestens ein Fachliches Lernziel an"
+    elsif GOALS_1_MAX < goals_1_count
+      GOALS_1.each { |g| errors.add g, :invalid, message: '' }
+      errors.add :goal_1, :invalid, message: "Bitte geben Sie maximal #{GOALS_1_MAX}  Fachliche Lernziele an"
     end
 
-    goals_2 = %i[goal_25 goal_26 goal_27 goal_28 goal_29 goal_30 goal_31
-                 goal_32 goal_33 goal_34 goal_35]
-    if kid[:goal_2].blank? && goals_2.none? { |g| kid[g].present?}
-      goals_2.each { |g| errors.add g, :invalid, message: '' }
+    goals_2_count = GOALS_2.count { |g| kid[g].present?}
+    if kid[:goal_2].blank? && 0 == goals_2_count
+      GOALS_2.each { |g| errors.add g, :invalid, message: '' }
       errors.add :goal_2, :invalid, message: "Bitte geben Sie mindestens ein Überfachliches Lernziel an"
+    elsif GOALS_2_MAX < goals_2_count
+      GOALS_2.each { |g| errors.add g, :invalid, message: '' }
+      errors.add :goal_2, :invalid, message: "Bitte geben Sie maximal #{GOALS_2_MAX} Überfachliche Lernziele an"
     end
+
   end
 
   after_save :track_relations

@@ -16,7 +16,7 @@
   = form.input :note
   = form.association :school, collection: @schools, include_blank: @schools_include_blank
 
-  %h2 Fachliche Lernziele
+  %h2="Fachliche Lernziele (mindestens eines, maximal #{Kid::GOALS_1_MAX})"
   - if @kid.errors[:goal_1].any?
     %h3.has-error
       %span.help-block= @kid.errors[:goal_1].try(:first)
@@ -55,7 +55,7 @@
   = form.input :goal_24
   = form.input :goal_1
 
-  %h2 Überfachliche Lernziele
+  %h2="Überfachliche Lernziele (mindestens eines, maximal #{Kid::GOALS_2_MAX})"
   - if @kid.errors[:goal_2].any?
     %h3.has-error
       %span.help-block= @kid.errors[:goal_2].try(:first)
