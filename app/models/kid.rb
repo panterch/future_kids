@@ -54,18 +54,20 @@ class Kid < ApplicationRecord
     if kid[:goal_1].blank? && 0 == goals_1_count
       GOALS_1.each { |g| errors.add g, :invalid, message: '' }
       errors.add :goal_1, :invalid, message: "Bitte geben Sie mindestens ein Fachliches Lernziel an"
-    elsif GOALS_1_MAX < goals_1_count
-      GOALS_1.each { |g| errors.add g, :invalid, message: '' }
-      errors.add :goal_1, :invalid, message: "Bitte geben Sie maximal #{GOALS_1_MAX}  Fachliche Lernziele an"
+      # this code would hard constrain goals to maximum. at the moment it is only a soft constraint
+      # elsif GOALS_1_MAX < goals_1_count
+      # GOALS_1.each { |g| errors.add g, :invalid, message: '' }
+      # errors.add :goal_1, :invalid, message: "Bitte geben Sie maximal #{GOALS_1_MAX}  Fachliche Lernziele an"
     end
 
     goals_2_count = GOALS_2.count { |g| kid[g].present?}
     if kid[:goal_2].blank? && 0 == goals_2_count
       GOALS_2.each { |g| errors.add g, :invalid, message: '' }
       errors.add :goal_2, :invalid, message: "Bitte geben Sie mindestens ein Überfachliches Lernziel an"
-    elsif GOALS_2_MAX < goals_2_count
-      GOALS_2.each { |g| errors.add g, :invalid, message: '' }
-      errors.add :goal_2, :invalid, message: "Bitte geben Sie maximal #{GOALS_2_MAX} Überfachliche Lernziele an"
+      # this code would hard constrain goals to maximum. at the moment it is only a soft constraint
+      # elsif GOALS_2_MAX < goals_2_count
+      # GOALS_2.each { |g| errors.add g, :invalid, message: '' }
+      # errors.add :goal_2, :invalid, message: "Bitte geben Sie maximal #{GOALS_2_MAX} Überfachliche Lernziele an"
     end
 
   end
