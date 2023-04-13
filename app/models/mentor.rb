@@ -5,8 +5,6 @@ class Mentor < User
   attr_accessor :filter_by_meeting_day
   # Filters mentors by their kids school. Used only in the mentor index form.
   attr_accessor :filter_by_school_id
-  # Filters mentors by their kids school. Used only in the mentor index form.
-  attr_accessor :filter_by_ects
 
   has_many :kids
   has_many :admins, through: :kids
@@ -20,7 +18,7 @@ class Mentor < User
 
   belongs_to :school, optional: true
 
-  enum ects: { currently: 1, alumni: 2 }
+  enum ects: { currently: 1, alumni: 2, employed: 3 }
 
   # Unscope is needed because the association is done through kids.
   # Kids are ordered so distinct was looking at the kids scope in order to

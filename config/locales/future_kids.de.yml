@@ -182,7 +182,7 @@ de:
         education: Ausbildungsstufe
         school: Schule
         schools: Schule(n)
-        ects: ECTS
+        ects: Einsatz
         entry_date: Datum des Einstiges
         remember_me: Angemeldet bleiben
         inactive: Inaktiv gesetzt
@@ -352,8 +352,9 @@ de:
     continue: "macht 1 Jahr weiter"
 
   ects:
-    currently: "Aktiv"
+    currently: "ECTS"
     alumni: "Alumni"
+    employed: "Angestellt"
 
   crud:
     action:

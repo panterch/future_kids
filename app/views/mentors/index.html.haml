@@ -27,7 +27,7 @@
         = f.select :transport, transport_collection, { :include_blank => true }, class: 'form-control'
       .form-group
         %label=Mentor.human_attribute_name('ects')
-        = f.select :filter_by_ects, ects_collection<<["Regulär", "regular"], { include_blank: true }, class: 'form-control'
+        = f.select :ects, ects_collection, { include_blank: true }, class: 'form-control'
       .form-group
         %label=t("activerecord.attributes.user.state")
         = f.select :state, user_status_collection, { include_blank: true }, class: 'form-control'
