@@ -46,7 +46,7 @@ class FirstYearAssessmentsController < ApplicationController
       :development_teacher, :development_mentor,
       :goals_teacher, :goals_mentor, :relation_mentor, :motivation, :collaboration,
       :breaking_off, :breaking_reason, :goal_1, :goal_2, :goal_3, :improvements,
-      :mentor_stays, :note
+      :note
 
     )
   end

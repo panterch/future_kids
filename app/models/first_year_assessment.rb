@@ -25,7 +25,6 @@ class FirstYearAssessment < ApplicationRecord
     self.kid_id = kid.id
     self.teacher_id = kid.teacher_id
     self.mentor_id = kid.mentor_id
-    self.mentor_stays = true
     self.breaking_off = false
   end
 
