@@ -17,6 +17,6 @@ before_script:
   - cp config/database.travis.yml config/database.yml
 script:
   - psql -c 'create database futurekids_test;' -U postgres
-  - bundle exec rake db:migrate
+  - bundle exec bin/rails db:test:prepare
   - bundle exec rspec
 
