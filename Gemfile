@@ -1,7 +1,7 @@
 source 'https://rubygems.org'
 ruby '3.1.2'
 
-gem 'rails'
+gem 'rails', '~>6.1'
 gem 'haml-rails'
 gem 'jquery-rails'
 gem 'jbuilder'
@@ -35,7 +35,7 @@ gem 'net-smtp'
 gem 'net-pop'
 gem 'net-imap'
 gem 'redcarpet'
-gem 'validates_timeliness', '~> 6.0.0.beta2' 
+gem 'validates_timeliness'
 
 gem 'caxlsx'
 gem 'caxlsx_rails'

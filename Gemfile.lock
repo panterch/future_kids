@@ -434,7 +434,7 @@ DEPENDENCIES
   net-smtp
   pg
   puma
-  rails
+  rails (~> 6.1)
   rails-controller-testing
   rails-i18n
   react-rails (= 2.6.1)
@@ -447,7 +447,7 @@ DEPENDENCIES
   show_for
   simple_form
   uglifier
-  validates_timeliness (~> 6.0.0.beta2)
+  validates_timeliness
   whenever
 
 RUBY VERSION
