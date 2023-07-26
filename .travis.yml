@@ -14,8 +14,6 @@ env:
 before_script:
   - sudo sed -i -e '/local.*peer/s/postgres/all/' -e 's/peer\|md5/trust/g' /etc/postgresql/*/main/pg_hba.conf
   - sudo service postgresql restart
-  - sleep 1
-  - postgres --version
   - cp config/database.travis.yml config/database.yml
 script:
   - psql -c 'create database futurekids_test;' -U postgres
