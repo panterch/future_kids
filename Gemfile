@@ -53,7 +53,6 @@ group :development, :test do
   gem 'factory_bot_rails'
   gem 'factory_bot'
   gem 'selenium-webdriver'
-  gem 'webdrivers'
   gem 'rails-controller-testing'
   gem 'listen'
 end
