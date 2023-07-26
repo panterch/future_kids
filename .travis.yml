@@ -6,10 +6,6 @@ services:
   - xvfb
 addons:
   chrome: stable
-  postgresql: '12'
-  apt:
-    packages:
-      - postgresql-12
 env:
   global:
     - PGUSER=postgres
