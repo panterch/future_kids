@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+
 ruby '3.2.2'
 
 gem 'rails', '~>6.1'
@@ -18,11 +19,10 @@ gem 'show_for'
 gem 'whenever', require: false
 gem 'bootstrap-sass'
 gem 'i18n_rails_helpers'
-# pin react rails till https://github.com/reactjs/react-rails/issues/1176 is resolved
-gem 'react-rails', '=2.6.1'
+gem 'react-rails'
 gem 'sassc-rails'
 gem 'coffee-rails'
-gem 'uglifier'
+gem 'terser'
 gem 'countries'
 gem 'country_select'
 gem 'image_processing'
