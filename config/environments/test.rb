@@ -51,8 +51,6 @@ Rails.application.configure do
 
   config.active_storage.service = :test
 
-  config.i18n.available_locales = :de
-
   # enable have_enqueued_job matcher in rspec
   config.active_job.queue_adapter = :test
 end

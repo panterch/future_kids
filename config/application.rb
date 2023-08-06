@@ -28,7 +28,10 @@ module FutureKids
 
     # The default locale is :en and all translations from config/locales/*.rb,yml are auto loaded.
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
+
     config.i18n.default_locale = :de
+    config.i18n.available_locales = :de
+    config.i18n.fallbacks = [:de]
 
     # support sql views in tests
     config.active_record.schema_format = :sql
@@ -44,6 +47,5 @@ module FutureKids
     ISO3166.configure do |config|
       config.locales = [ :de ]
     end
-
   end
 end

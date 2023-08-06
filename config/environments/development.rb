@@ -68,7 +68,4 @@ Rails.application.configure do
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
   config.active_storage.service = :local
-
-  config.i18n.available_locales = :de
-
 end
