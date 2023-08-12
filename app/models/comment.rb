@@ -32,6 +32,7 @@ class Comment < ApplicationRecord
   # tries to find the last comment on the same journal
   def previous_comment
     return nil unless journal
+    journal.reload
     journal.comments.last
   end
 

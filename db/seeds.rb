@@ -39,7 +39,7 @@ unless Teacher.count > 0
 end
 
 unless Kid.count > 0
-  Kid.create!(name: 'Meier', prename: 'Max', sex: 'm')
-  Kid.create!(name: 'Hodler', prename: 'Rolf', sex: 'm')
-  Kid.create!(name: 'Schwarz', prename: 'Sandra', sex: 'f')
+  Kid.create!(name: 'Meier', prename: 'Max', sex: 'm', goal_3: true, goal_25: true)
+  Kid.create!(name: 'Hodler', prename: 'Rolf', sex: 'm', goal_3: true, goal_25: true)
+  Kid.create!(name: 'Schwarz', prename: 'Sandra', sex: 'f', goal_3: true, goal_25: true)
 end
