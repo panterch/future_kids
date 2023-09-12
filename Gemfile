@@ -31,10 +31,6 @@ gem 'active_storage_validations'
 gem 'google-cloud-storage', require: false
 gem 'geocoder'
 gem 'geokit-rails'
-gem 'net-sftp'
-gem 'net-smtp'
-gem 'net-pop'
-gem 'net-imap'
 gem 'redcarpet'
 gem 'validates_timeliness', '~> 7.0.0.beta1'
 
