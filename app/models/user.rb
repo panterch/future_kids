@@ -44,7 +44,7 @@ class User < ApplicationRecord
   end
 
   def photo_medium
-    return photo.variant(resize: '300x300>')
+    return photo.variant(resize_to_fill: [300, 300])
   end
 
   def human_state
