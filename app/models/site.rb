@@ -9,7 +9,7 @@ class Site < ApplicationRecord
   end
 
   def logo_medium
-    logo.variant(resize: '440>').processed
+    logo.variant(resize_to_fill: [440, nil]).processed
   end
 
   private 
