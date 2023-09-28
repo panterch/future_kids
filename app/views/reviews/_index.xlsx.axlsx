@@ -1,0 +1,26 @@
+wb.add_worksheet(name: "Gesprächsdokumentation") do |sheet|
+
+  sheet.add_row [
+    Review.human_attribute_name(:id) + ' ' + Review.model_name.human,
+    Kid.human_attribute_name(:id) + ' ' + Kid.model_name.human,
+    Kid.human_attribute_name(:name) + ' ' + Kid.model_name.human,
+    Review.human_attribute_name('attendee'),
+    Review.human_attribute_name('reason'),
+    Review.human_attribute_name('kind'),
+    Review.human_attribute_name('content'),
+    Review.human_attribute_name('outcome')
+  ]
+
+  @reviews.each do |r|
+    sheet.add_row [
+      r.id,
+      r.kid&.id,
+      r.kid&.display_name,
+      r.attendee,
+      r.reason,
+      r.kind,
+      r.content,
+      r.outcome
+    ]
+  end
+end
