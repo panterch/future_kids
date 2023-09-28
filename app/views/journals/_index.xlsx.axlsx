@@ -1,0 +1,40 @@
+wb.add_worksheet(name: "Lernjournale") do |sheet|
+
+  sheet.add_row [
+    Journal.human_attribute_name(:id) + ' ' + Journal.model_name.human,
+    Kid.human_attribute_name(:id) + ' ' + Kid.model_name.human,
+    Kid.human_attribute_name(:name) + ' ' + Kid.model_name.human,
+    Mentor.human_attribute_name('id') + ' ' + Mentor.model_name.human,
+    Mentor.human_attribute_name('name') + ' ' + Mentor.model_name.human,
+    Journal.human_attribute_name('held_at'),
+    Journal.human_attribute_name('meeting_type'),
+    Journal.human_attribute_name('cancelled'),
+    Journal.human_attribute_name('important'),
+    Journal.human_attribute_name('duration'),
+    Journal.human_attribute_name('goal'),
+    Journal.human_attribute_name('subject'),
+    Journal.human_attribute_name('method'),
+    Journal.human_attribute_name('outcome'),
+    Journal.human_attribute_name('note')
+  ]
+
+  @journals.each do |j|
+    sheet.add_row [
+      j.id,
+      j.kid&.id,
+      j.kid&.display_name,
+      j.mentor&.id,
+      j.mentor&.display_name,
+      j.held_at,
+      j.human_meeting_type,
+      j.cancelled,
+      j.important,
+      j.duration,
+      j.goal,
+      j.subject,
+      j.method,
+      j.outcome,
+      j.note
+    ]
+  end
+end

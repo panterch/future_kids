@@ -2,5 +2,7 @@ wb = xlsx_package.workbook
 render :partial => 'kids/index', :locals => {:wb => wb}
 render :partial => 'mentors/index', :locals => {:wb => wb}
 render :partial => 'kid_mentor_relations/index', :locals => {:wb => wb}
+render :partial => 'journals/index', :locals => {:wb => wb}
+
 
 

@@ -10,6 +10,7 @@ class SitesController < ApplicationController
       @kids = Kid.all
       @mentors = Mentor.all
       @kid_mentor_relations = KidMentorRelation.all
+      @journals = Journal.all
       return render xlsx: 'show'
     # normal call redirects to the site wide features
     else
