@@ -1,0 +1,54 @@
+wb.add_worksheet(name: "Auswertungsgespräche") do |sheet|
+
+  sheet.add_row [
+    FirstYearAssessment.human_attribute_name(:id) + ' ' + FirstYearAssessment.model_name.human,
+    Kid.human_attribute_name(:id) + ' ' + Kid.model_name.human,
+    Kid.human_attribute_name(:name) + ' ' + Kid.model_name.human,
+    Mentor.human_attribute_name('id') + ' ' + Mentor.model_name.human,
+    Mentor.human_attribute_name('name') + ' ' + Mentor.model_name.human,
+    Teacher.human_attribute_name('id') + ' ' + Teacher.model_name.human,
+    Teacher.human_attribute_name('name') + ' ' + Teacher.model_name.human,
+    FirstYearAssessment.human_attribute_name('held_at'),
+    FirstYearAssessment.human_attribute_name('development_teacher'),
+    FirstYearAssessment.human_attribute_name('development_mentor'),
+    FirstYearAssessment.human_attribute_name('goals_teacher'),
+    FirstYearAssessment.human_attribute_name('goals_mentor'),
+    FirstYearAssessment.human_attribute_name('relation_mentor'),
+    FirstYearAssessment.human_attribute_name('motivation'),
+    FirstYearAssessment.human_attribute_name('collaboration'),
+    FirstYearAssessment.human_attribute_name('breaking_off'),
+    FirstYearAssessment.human_attribute_name('breaking_reason'),
+    FirstYearAssessment.human_attribute_name('goal_1'),
+    FirstYearAssessment.human_attribute_name('goal_2'),
+    FirstYearAssessment.human_attribute_name('goal_3'),
+    FirstYearAssessment.human_attribute_name('improvements'),
+    FirstYearAssessment.human_attribute_name('note')
+  ]
+
+  @assessments.each do |a|
+    sheet.add_row [
+      a.id,
+      a.kid&.id,
+      a.kid&.display_name,
+      a.mentor&.id,
+      a.mentor&.display_name,
+      a.teacher&.id,
+      a.teacher&.display_name,
+      a.held_at,
+      a.development_teacher,
+      a.development_mentor,
+      a.goals_teacher,
+      a.goals_mentor,
+      a.relation_mentor,
+      a.motivation,
+      a.collaboration,
+      a.breaking_off,
+      a.breaking_reason,
+      a.goal_1,
+      a.goal_2,
+      a.goal_3,
+      a.improvements,
+      a.note
+    ]
+  end
+end
