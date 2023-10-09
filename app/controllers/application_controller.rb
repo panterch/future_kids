@@ -8,7 +8,6 @@ class ApplicationController < ActionController::Base
   before_action :logout_inactive
   before_action :authenticate_user!
   before_action :intercept_sensitive_params!
-  protect_from_forgery prepend: true, with: :exception
 
   def after_sign_in_path_for(resource)
     if Site.load.public_signups_active?
