@@ -2,7 +2,7 @@ source 'https://rubygems.org'
 
 ruby '3.2.2'
 
-gem 'rails', '~>7.0'
+gem 'rails', '~>7.0.0' # don't upgrade to 7.1 because of https://github.com/haml/haml/issues/1153
 gem 'haml-rails'
 gem 'sprockets-rails'
 gem 'jquery-rails'
