@@ -12,11 +12,6 @@ module ManageSchedules
     @week = Schedule.build_week
     # decouple schedules so include? works
     @schedules = @resource.schedules.to_a
-    # mentors looking at their own schedule are tracked, this gives admins
-    # control who reviewed their schedule when
-    if @resource.is_a?(Mentor) && @resource == current_user
-      current_user.touch(:schedules_seen_at)
-    end
   end
 
   def update_schedules
