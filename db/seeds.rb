@@ -15,25 +15,25 @@ unless School.count > 0
 end
 
 unless Mentor.count > 0
-  Mentor.create!(name: 'Haller', prename: 'Frederik', state: 'accepted',
+  Mentor.create!(name: 'Haller', prename: 'Frederik',
                  email: 'mentor@example.com', password: 'welcome',
                  password_confirmation: 'welcome', sex: 'm', school_id: schools[2])
-  Mentor.create!(name: 'Rohner', prename: 'Melanie', state: 'accepted',
+  Mentor.create!(name: 'Rohner', prename: 'Melanie',
                  email: 'mentor2@example.com', password: 'welcome',
                  password_confirmation: 'welcome', sex: 'f', school_id: schools[2])
-  Mentor.create!(name: 'Steiner', prename: 'Max', state: 'accepted',
+  Mentor.create!(name: 'Steiner', prename: 'Max',
                  email: 'mentor3@example.com', password: 'welcome',
                  password_confirmation: 'welcome', sex:'m', school_id: schools[3])
 end
 
 unless Admin.count > 0
-  Admin.create!(name: 'AOZ', prename: 'Admin', state: 'accepted',
+  Admin.create!(name: 'AOZ', prename: 'Admin',
                 email: 'admin@example.com', password: 'welcome',
                 password_confirmation: 'welcome')
 end
 
 unless Teacher.count > 0
-  Teacher.create!(name: 'Meckler', prename: 'Janine', state: 'accepted',
+  Teacher.create!(name: 'Meckler', prename: 'Janine',
                   email: 'teacher@example.com', password: 'welcome',
                   password_confirmation: 'welcome', sex: 'f', school_id: schools[0])
 end

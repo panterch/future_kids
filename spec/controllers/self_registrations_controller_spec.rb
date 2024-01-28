@@ -33,16 +33,6 @@ describe SelfRegistrationsController do
           expect(response).to redirect_to action: :success, type: 'teacher'
         end
 
-        it 'created teacher has selfservice status' do
-          expect(Teacher.first.state).to eq 'selfservice'
-        end
-
-        it "can't force state" do
-          post :create, params: params.deep_merge({ teacher: { state: :accepted, email: attributes_for(:teacher)[:email] }})
-          expect(response).to redirect_to action: :success, type: 'teacher'
-          expect(Teacher.last.state).to eq 'selfservice'
-        end
-
         it "can't be created if not accepted terms of conditions" do
           post :create, params: params.deep_merge({ teacher: { email: attributes_for(:teacher)[:email] }}).except(:terms_of_use)
           expect(response).to have_http_status :success

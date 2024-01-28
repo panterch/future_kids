@@ -42,26 +42,6 @@ describe TeachersController do
     end
 
     context 'update' do
-      it 'can update state' do
-        @teacher = create(:teacher)
-        patch :update, params: { id: @teacher.id, teacher: { state: :declined } }
-        expect(@teacher.reload.state).to eq 'declined'
-      end
-
-      it 'sends email if state updated to accepted' do
-        @teacher = create(:teacher, state: :selfservice)
-        expect {
-          patch :update, params: { id: @teacher.id, teacher: { state: :accepted } }
-        }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
-      end
-
-      it "doesn't send an email if update other fields than state" do
-        @teacher = create(:teacher)
-        expect {
-          patch :update, params: { id: @teacher.id, mentor: { first_name: 'Karl' } }
-        }.not_to have_enqueued_job(ActionMailer::MailDeliveryJob)
-      end
-
       it 'resends email with password with resend password button if user is accepted' do
         @teacher = create(:teacher)
         expect {
@@ -115,13 +95,12 @@ describe TeachersController do
     end
 
     context 'create' do
-      let(:teacher_params) { attributes_for(:teacher).except(:state) }
+      let(:teacher_params) { attributes_for(:teacher) }
       it 'can create teacher in own school' do
         teacher_params[:school_id] = @school.id
         put :create, params: { teacher: teacher_params }
         expect(response).to be_redirect
         expect(Teacher.count).to eq(1)
-        expect(Teacher.first.reload.state).to eq 'accepted'
       end
       it 'fails when creating teacher for foreign schools' do
         teacher_params[:school_id] = create(:school).id
@@ -153,14 +132,7 @@ describe TeachersController do
         end.to raise_error(SecurityError)
         expect(@teacher.reload.school).to_not eq(@school)
       end
-
-      it 'cannot update its state' do
-        expect do
-          put :update, params: { id: @teacher.id, teacher: { state: :declined }  }
-        end.to raise_error(SecurityError)
-
-        expect(@teacher.reload.state).to eq 'accepted'
-      end
+      
     end
   end
 end

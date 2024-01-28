@@ -1486,6 +1486,7 @@ ALTER TABLE ONLY public.mentor_matchings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240128181032'),
 ('20240127154844'),
 ('20230806083333'),
 ('20230413143047'),

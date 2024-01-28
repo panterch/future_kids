@@ -34,16 +34,6 @@ describe MentorsController do
       end
     end
 
-    context 'update' do
-      it 'cannot update its state' do
-        expect do
-          put :update, params: { id: @mentor.id, mentor: { state: :declined } }
-        end.to raise_error(SecurityError)
-
-        expect(@mentor.reload.state).to eq 'accepted'
-      end
-    end
-
     context 'disable_no_kids_reminder' do
       let!(:other_mentor) { create(:mentor) }
       it 'disables no_kids_reminder' do
@@ -85,30 +75,5 @@ describe MentorsController do
       end
     end
 
-    context 'update' do
-      it 'can update state' do
-        patch :update, params: { id: @mentor.id, mentor: { state: :declined } }
-        expect(@mentor.reload.state).to eq 'declined'
-      end
-
-      it 'sends email if state updated to accepted' do
-        @mentor.update(state: :selfservice)
-        expect {
-          patch :update, params: { id: @mentor.id, mentor: { state: :accepted } }
-        }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
-      end
-
-      it "doesn't send an email if update other fields than state" do
-        expect {
-          patch :update, params: { id: @mentor.id, mentor: { first_name: 'Karl' } }
-        }.not_to have_enqueued_job(ActionMailer::MailDeliveryJob)
-      end
-
-      it 'resends email with password with resend password button if user is accepted' do
-        expect {
-          patch :update, params: { id: @mentor.id, commit: I18n.translate('teachers.form.resend_password.btn_text') }
-        }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
-      end
-    end
   end
 end

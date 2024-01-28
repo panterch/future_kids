@@ -70,9 +70,6 @@ describe Ability do
       it 'cannot edit foreign mentors schedules' do
         expect(ability).not_to be_able_to(:edit_schedules, other_mentor)
       end
-      it 'cannot read & edit its state' do
-        expect(ability).not_to be_able_to([:read, :update], mentor, :state)
-      end
     end
 
     context 'kids' do

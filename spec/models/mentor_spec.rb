@@ -264,18 +264,4 @@ describe Mentor do
     end
   end
 
-  context 'conditionally_send_no_kids_reminders' do
-    let!(:mentor1) { create(:mentor, state: 'accepted') }
-    let!(:mentor2) { create(:mentor, state: 'accepted') }
-    let!(:mentor3) { create(:mentor, state: 'declined') }
-    let!(:mentor4) { create(:mentor, state: 'accepted') }
-    let!(:kid) { create(:kid, mentor: mentor2) }
-
-    it 'sends email only accepted mentors without kid' do
-      expect{
-        Mentor.conditionally_send_no_kids_reminders
-      }.to change { change { ActiveJob::Base.queue_adapter.enqueued_jobs.count }.by(2) }
-
-    end
-  end
 end

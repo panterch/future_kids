@@ -34,7 +34,6 @@
         - if 'later' == @mentor.exit_kind
           = show.attribute :exit_at
         = show.attribute :schedules_updated_at
-        = show.attribute :state
         = show.attribute :inactive
         - if @mentor.inactive?
           = show.attribute :inactive_at

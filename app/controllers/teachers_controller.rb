@@ -35,11 +35,6 @@ class TeachersController < ApplicationController
       respond_with @teacher, notice: I18n.t('teachers.form.resend_password.sent_successfully')
       return
     end
-    # switched to accepted state
-    if teacher_params[:state] == 'accepted' && @teacher.state != teacher_params[:state]
-      Notifications.reset_and_send_teacher_password(@teacher).deliver_later
-    end
-
     super
   end
 
@@ -69,10 +64,6 @@ class TeachersController < ApplicationController
       keys = [ :name, :prename, :email, :password, :password_confirmation, :school_id,
           :phone, :receive_journals, :todo, :note]
       keys << :inactive if current_user.is_a?(Admin)
-      keys << :state if can? :update, Mentor, :state
-      if params[:teacher][:state] && !(can? :update, Mentor, :state)
-        fail SecurityError.new("User #{current_user.id} not allowed to change its state")
-      end
       params.require(:teacher).permit(keys)
     else
       {}

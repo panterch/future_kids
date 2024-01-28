@@ -169,10 +169,6 @@ module ApplicationHelper
     School.school_kinds.keys.map { |s| [School.humanize_enum('school_kind', s), s] }
   end
 
-  def user_status_collection
-    User.states.transform_keys { |k| User.human_state(k) }
-  end
-
   def mentor_matching_state_collection
     MentorMatching.states.transform_keys { |s| MentorMatching.human_state_name(s) }
   end

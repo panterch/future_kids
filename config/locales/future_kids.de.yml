@@ -188,13 +188,6 @@ de:
         inactive_at: Inaktiviert am
         todo: Pendenzen
         note: Bemerkungen
-        state: Prozess Rekrutierung
-        states:
-          selfservice: Neu erfasst
-          queued: Warteschleife
-          invited: Zur Schulung eingeladen
-          accepted: Zusage
-          declined: Absage
       mentor:
         available: "Mögliche Termine"
         absence: "Bekannte Absenzen / Verfügbarkeit"

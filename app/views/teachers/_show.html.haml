@@ -16,7 +16,6 @@
   = show_for @teacher do |show|
     = show.attribute :todo
     = show.attribute :note
-    = show.attribute :state
     = show.attribute :inactive
     - if @teacher.inactive?
       = show.attribute :inactive_at

@@ -20,7 +20,6 @@ FactoryBot.define do
     sequence(:email) { |n| "email_#{n}@example.com" }
     password { 'welcome' }
     password_confirmation { 'welcome' }
-    state { 'accepted' }
   end
 
   factory :admin, class: 'Admin', parent: :user do

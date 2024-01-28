@@ -86,13 +86,6 @@ class Mentor < User
     Schedule.schedules_updated_at(self)
   end
 
-  def self.conditionally_send_no_kids_reminders
-    Mentor.accepted.where(no_kids_reminder: true).find_each do |mentor|
-      logger.info "[#{mentor.id}] #{mentor.display_name}: sending no kids reminder"
-      # since this is run async from cron delivery can run instantly
-      Notifications.mentor_no_kids_reminder(mentor).deliver_now
-    end
-  end
 
   protected
 

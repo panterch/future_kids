@@ -17,12 +17,6 @@ class User < ApplicationRecord
 
   has_many :relation_logs, -> { order('created_at DESC') }, dependent: :nullify
 
-  enum state: { selfservice: 'selfservice',
-                queued: 'queued',
-                invited: 'invited',
-                accepted: 'accepted',
-                declined: 'declined' }
-
   def display_name
     [name, prename].reject(&:blank?).join(', ')
   end
@@ -45,14 +39,6 @@ class User < ApplicationRecord
 
   def photo_medium
     return photo.variant(resize_to_fit: [300, 300])
-  end
-
-  def human_state
-    I18n.t("activerecord.attributes.user.states.#{state}")
-  end
-
-  def self.human_state(state)
-    I18n.t("activerecord.attributes.user.states.#{state}")
   end
 
   def self.reset_password!(user)

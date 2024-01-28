@@ -72,11 +72,6 @@ class MentorsController < ApplicationController
       respond_with @mentor, notice: I18n.t('mentors.form.resend_password.sent_successfully')
       return
     end
-    # switched to accepted state
-    if mentor_params[:state] == 'accepted' && @mentor.state != mentor_params[:state]
-      Notifications.reset_and_send_mentor_password(@mentor).deliver_later
-    end
-
     super
   end
 
@@ -96,12 +91,6 @@ class MentorsController < ApplicationController
         :exit_kind, :exit_at, :no_kids_reminder,
         :inactive, :photo, schedules_attributes: [:day, :hour, :minute]
       ]
-      p << :state if can? :update, Mentor, :state
-
-      if params[:mentor][:state] && !(can? :update, Mentor, :state)
-        fail SecurityError.new("User #{current_user.id} not allowed to change its state")
-      end
-
       params.require(:mentor).permit(*p)
     else
       {}

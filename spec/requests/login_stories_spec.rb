@@ -36,24 +36,4 @@ feature 'SESSION::LOGIN', '
     expect(page).to have_content('Anmelden')
   end
 
-  scenario 'should login only accepted users' do
-    invalid_states = [:selfservice, :queued, :invited, :declined]
-
-    invalid_states.each do |invalid_state|
-      @mentor.update_attribute(:state, invalid_state)
-      visit new_user_session_path
-      fill_in 'user_email',    with: @mentor.email
-      fill_in 'user_password', with: @pw
-      click_button 'Anmelden'
-      expect(page).to have_content('Anmelden')
-    end
-
-    @mentor.update_attribute(:state, :accepted)
-    visit new_user_session_path
-    fill_in 'user_email',    with: @mentor.email
-    fill_in 'user_password', with: @pw
-    click_button 'Anmelden'
-    expect(page).to have_content('Schüler/innen')
-    
-  end
 end
