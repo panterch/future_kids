@@ -22,13 +22,14 @@
     = form.input :personnel_number
     = form.input :ects, collection: ects_collection
     = form.input :term, collection: term_collection
+    = form.input :exit, collection: term_collection
+    = form.input :exit_kind, collection: exit_kind_collection
+    = form.input :exit_at, as: :date, html5: true
     = form.input :absence
     = form.input :note
     %a(name='todo')
     = form.input :todo
     = form.input :substitute
-    = form.input :exit_kind, collection: exit_kind_collection
-    = form.input :exit_at, as: :date, html5: true
     = form.input :inactive
 
   .col-sm-offset-3.col-sm-9

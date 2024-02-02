@@ -78,7 +78,7 @@ class MentorsController < ApplicationController
         :city, :dob, :phone, :school_id, :field_of_study, :education, :transport,
         :personnel_number, :ects, :term, :absence, :note, :todo, :substitute,
         :filter_by_school_id, :filter_by_meeting_day, :filter_by_coach_id,
-        :exit_kind, :exit_at, :no_kids_reminder,
+        :exit, :exit_kind, :exit_at, :no_kids_reminder,
         :inactive, :photo, schedules_attributes: [:day, :hour, :minute]
       ]
       params.require(:mentor).permit(*p)

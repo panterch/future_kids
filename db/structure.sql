@@ -458,7 +458,8 @@ CREATE TABLE public.users (
     ects integer,
     state character varying DEFAULT 'accepted'::character varying,
     inactive_at timestamp without time zone,
-    no_kids_reminder boolean DEFAULT true
+    no_kids_reminder boolean DEFAULT true,
+    exit character varying
 );
 
 
@@ -1486,6 +1487,7 @@ ALTER TABLE ONLY public.mentor_matchings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20240202180408'),
 ('20240128181032'),
 ('20240127154844'),
 ('20230806083333'),

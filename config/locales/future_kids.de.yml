@@ -195,6 +195,7 @@ de:
         schools: Einsatzort(e)
         primary_kids_meeting_day: "Einsatztag"
         term: "Startzeit"
+        exit: "Austritt"
         kids: Kinder
         secondary_kids: "Kinder (Vertretung)"
         journals: "Lernjournal Einträge"
