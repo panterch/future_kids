@@ -29,6 +29,7 @@ class Mentor < User
 
   accepts_nested_attributes_for :schedules
 
+  after_validation :track_exit_kind_updates
   after_save :release_relations, if: :inactive?
 
   validates_presence_of :sex, :address,
@@ -94,4 +95,11 @@ class Mentor < User
     kids.clear
     secondary_kids.clear
   end
+
+  def track_exit_kind_updates
+    if self.exit_kind_changed?
+      self.exit_kind_updated_at = Time.now
+    end
+  end
+
 end
