@@ -41,15 +41,6 @@ describe TeachersController do
       end
     end
 
-    context 'update' do
-      it 'resends email with password with resend password button if user is accepted' do
-        @teacher = create(:teacher)
-        expect {
-          patch :update, params: { id: @teacher.id, commit: I18n.translate('teachers.form.resend_password.btn_text') }
-        }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
-      end
-    end
-
     context 'destroy' do
       it 'can destroy inactive' do
         @teacher = create(:teacher, inactive: true)

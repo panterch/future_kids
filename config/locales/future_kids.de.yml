@@ -416,20 +416,6 @@ de:
     principal: 'SL/QUIMS'
     document: 'Anleitungen & Dokumente'
 
-  teachers:
-    form:
-      resend_password:
-        btn_text: Passwort erneut senden
-        confirm: Das neue Passwort wird an den Benutzer gesendet. Bist du sicher?
-        sent_successfully: Erfolgreich gesendet
-
-  mentors:
-    form:
-      resend_password:
-        btn_text: Passwort erneut senden
-        confirm: Das neue Passwort wird an den Benutzer gesendet. Bist du sicher?
-        sent_successfully: Erfolgreich gesendet
-
   trinary:
     'yes': Ja
     'no': Nein

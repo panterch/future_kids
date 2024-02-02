@@ -99,18 +99,6 @@ class Notifications < ActionMailer::Base
          subject: I18n.t('notifications.user_registered.subject', user_type: @user_type))
   end
 
-  def reset_and_send_mentor_password(user)
-    @user = user
-    @new_password = User.reset_password!(@user)
-    mail(to: @user.email, subject: I18n.t('notifications.reset_and_send_password.subject', password: @new_password))
-  end
-
-  def reset_and_send_teacher_password(user)
-    @user = user
-    @new_password = User.reset_password!(@user)
-    mail(to: @user.email, subject: I18n.t('notifications.reset_and_send_password.subject', password: @new_password))
-  end
-
   # sends out a simple test email
   # Notifications.test('futurekids@example.com').deliver_later
   def test(to = ENV['TEST_EMAIL_TO'])

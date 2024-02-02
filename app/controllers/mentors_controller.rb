@@ -65,16 +65,6 @@ class MentorsController < ApplicationController
     respond_with @mentor
   end
 
-  def update
-    # resend password button
-    if params[:commit] == I18n.t('mentors.form.resend_password.btn_text')
-      Notifications.reset_and_send_mentor_password(@mentor).deliver_later
-      respond_with @mentor, notice: I18n.t('mentors.form.resend_password.sent_successfully')
-      return
-    end
-    super
-  end
-
   def disable_no_kids_reminder
     @mentor.update_column(:no_kids_reminder, false)
     redirect_to @mentor
