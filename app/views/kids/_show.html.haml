@@ -180,8 +180,12 @@
     .list-group
       - journal.comments.each do |comment|
         .list-group-item
+          - if can?(:update, comment)
+            .btn-group.pull-right
+              = link_to 'Bearbeiten', edit_kid_journal_comment_path(@kid, journal, comment), class: 'btn btn-default'
           %label.col-sm-3.text-right= comment.display_name
-          .col-sm-offset-3= comment.human_body
+          .col-sm-offset-3
+            = comment.human_body
 
 - if can?(:read, @cancan_review)
   %h2#reviews

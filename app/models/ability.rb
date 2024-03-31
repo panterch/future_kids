@@ -103,9 +103,12 @@ class Ability
       can [:read, :update], Teacher, school_id: user.school_ids, inactive: false
     end
 
-    # comments can be created by any users (reading is only possible
-    # via the kids show action which is protected)
-    can :create, Comment
+    # comments can be created by any users that can access the journal
+    # this is protected via the controller
+    # reading is only possible via the kids show action which is protected
+    # and updating is only possible for the user that created the comment
+    can :create, Comment, created_by_id: user.id
+    can :update, Comment, created_by_id: user.id
 
     # documents can be read by any users
     can :read, Document

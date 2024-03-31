@@ -21,6 +21,8 @@ describe Ability do
       create(:journal, kid: foreign_kid,
                        mentor: mentor)
     end
+    let(:comment) { create(:comment, journal: journal, created_by: mentor) }
+    let(:foreign_comment) { create(:comment, journal: journal, created_by: admin) }
     let(:review) { build(:review, kid: kid) }
     let(:mentor_matching) { create(:mentor_matching, kid: kid, mentor: mentor) }
     let(:reserved_mentor_matching) { create(:mentor_matching, kid: kid, mentor: mentor, state: 'reserved') }
@@ -152,6 +154,15 @@ describe Ability do
         expect(journals).to include(journal)
         expect(journals).to include(direct_associated_journal)
         expect(journals).not_to include(foreign_journal)
+      end
+    end
+
+    context 'comments' do
+      it 'can update own journal comments' do
+        expect(ability).to be_able_to(:update, comment)
+      end
+      it 'cannot update admins journal comments' do
+        expect(ability).not_to be_able_to(:update, foreign_comment)
       end
     end
 

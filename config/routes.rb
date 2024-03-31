@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   end
   resources :kids do
     resources :journals do
-      resources :comments, only: %w(new create update)
+      resources :comments, only: %w(new create edit update)
     end
     resources :reviews
     resources :first_year_assessments

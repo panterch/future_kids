@@ -5,7 +5,7 @@ describe CommentsController do
     @mentor = create(:mentor)
     @coach = create(:admin)
     @kid = create(:kid, mentor: @mentor, admin: @coach)
-    @journal =  create(:journal, kid: @kid, mentor: @mentor)
+    @journal = create(:journal, kid: @kid, mentor: @mentor)
   end
 
   context 'as a mentor' do
@@ -28,10 +28,18 @@ describe CommentsController do
       expect(response).to be_successful
     end
 
-    it 'should create a journal entry' do
+    it 'should create a journal comment entry' do
       post :create, params: { kid_id: @kid.id, journal_id: @journal.id,
-                    comment: attributes_for(:comment) }
+                              comment: attributes_for(:comment) }
       expect(response).to be_redirect
+    end
+
+    it 'should not be able to update other comments' do
+      @comment = create(:comment, journal: @journal, created_by: @coach )
+      expect {
+        put :update, params: { kid_id: @kid.id, journal_id: @journal.id,
+                               id: @comment.id }
+      }.to raise_error CanCan::AccessDenied
     end
 
     it 'should send a mail on comment creation' do

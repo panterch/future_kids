@@ -2,6 +2,7 @@ class Comment < ApplicationRecord
   include ActionView::Helpers::TextHelper
 
   after_create :send_notification
+  after_update :send_notification
 
   belongs_to :journal
   belongs_to :created_by, class_name: 'User'
@@ -10,6 +11,7 @@ class Comment < ApplicationRecord
   validates_presence_of :body, :by, :journal
 
   def initialize_default_values(current_user)
+    self.created_by = current_user
     self.by ||= current_user.display_name
     if (previous = previous_comment)
       self.to_teacher = previous.to_teacher
@@ -26,7 +28,11 @@ class Comment < ApplicationRecord
 
   def display_name
     return 'Neuer Kommentar' if new_record?
-    "Kommentar von #{by} am #{I18n.l(created_at.to_date)} "
+    if updated_at == created_at
+      "Kommentar von #{by} am #{I18n.l(created_at.to_date)} "
+    else
+      "Kommentar von #{by} zuletzt geändert am #{I18n.l(updated_at.to_date)} "
+    end
   end
 
   # tries to find the last comment on the same journal
