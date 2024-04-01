@@ -34,7 +34,7 @@ class User < ApplicationRecord
   end
 
   def human_sex
-    { 'm' => '♂', 'f' => '♀' }[sex]
+    { 'm' => '♂', 'f' => '♀', 'd' => "divers"  }[sex]
   end
 
   def photo_medium
