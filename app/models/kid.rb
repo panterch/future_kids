@@ -167,7 +167,7 @@ class Kid < ApplicationRecord
   end
 
   def human_sex
-    { 'm' => '♂', 'f' => '♀', 'd' => "divers"  }[sex]
+    { 'm' => 'männlich', 'f' => 'weiblich', 'd' => "divers"  }[sex]
   end
 
   def human_meeting_day

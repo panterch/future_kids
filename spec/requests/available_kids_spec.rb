@@ -22,8 +22,8 @@ describe 'AvailableKids' do
       end
 
       scenario 'mentor can see one kid' do
-        expect(page).to have_content('♂')
-        expect(page).not_to have_content('♀')
+        expect(page).to have_content('männlich')
+        expect(page).not_to have_content('weiblich')
         expect(page).to have_content('5.89 km')
         expect(page).to have_content('Mentoringanfrage senden')
       end
@@ -36,8 +36,8 @@ describe 'AvailableKids' do
       end
 
       scenario 'mentor can see two kids' do
-        expect(page).to have_content('♂')
-        expect(page).to have_content('♀')
+        expect(page).to have_content('männlich')
+        expect(page).to have_content('weiblich')
         expect(page).to have_content('5.89 km')
       end
     end
@@ -103,14 +103,14 @@ describe 'AvailableKids' do
 
       scenario 'mentor can see one kid with grade 1' do
         select('Unterstufe', from: 'grade_group')
-        expect(page).to have_content('♂')
-        expect(page).not_to have_content('♀')
+        expect(page).to have_content('männlich')
+        expect(page).not_to have_content('weiblich')
       end
 
       scenario 'mentor can see one kid with grade 5' do
         select('Mittelstufe', from: 'grade_group')
-        expect(page).not_to have_content('♂')
-        expect(page).to have_content('♀')
+        expect(page).not_to have_content('männlich')
+        expect(page).to have_content('weiblich')
       end
     end
 
@@ -142,7 +142,7 @@ describe 'AvailableKids' do
       end
 
       scenario 'admin cannot create mentor matching' do
-        expect(page).to have_content('♂')
+        expect(page).to have_content('männlich')
         expect(find('table')).not_to have_content('Mentoringanfrage senden')
       end
     end

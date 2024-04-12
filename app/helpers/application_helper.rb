@@ -20,7 +20,7 @@ module ApplicationHelper
 
   # values for the collection select 'sex'
   def sex_collection
-    { '♀' => 'f', '♂' => 'm', 'divers' => 'd' }
+    { 'weiblich' => 'f', 'männlich' => 'm', 'divers' => 'd' }
   end
 
   def transport_collection

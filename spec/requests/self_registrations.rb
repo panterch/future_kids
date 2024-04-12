@@ -46,7 +46,7 @@ feature 'Self registrations' do
     fill_in 'Vorname', with: 'Fibbioli'
     fill_in 'E-Mail', with: 'raffael@example.com'
     fill_in 'Telefon', with: '123123123'
-    page.select '♀', from: 'Geschlecht'
+    page.select 'weiblich', from: 'Geschlecht'
     fill_in 'Strasse, Nr.', with: 'example strasse'
     fill_in 'PLZ, Ort', with: '12345'
     check 'terms_of_use_accepted'
