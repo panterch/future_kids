@@ -45,6 +45,7 @@ gem 'barnes'
 # and rake tasks are available in development mode:
 group :development, :test do
   gem 'rspec-rails'
+  gem 'rubocop', require: false
   gem 'shoulda-matchers'
   gem 'capybara'
   gem 'factory_bot_rails'
