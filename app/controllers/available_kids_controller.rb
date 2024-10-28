@@ -1,3 +1,4 @@
+require 'ostruct'
 class AvailableKidsController < ApplicationController
   def index
     @kids = Kid.accessible_by(current_ability, :search).preload(:mentor_matchings)

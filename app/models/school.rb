@@ -9,7 +9,7 @@ class School < ApplicationRecord
   has_many :kids
   has_many :mentors, through: :kids
 
-  enum school_kind: { high_school: 'high_school', gymnasium: 'gymnasium', secondary_school: 'secondary_school', primary_school: 'primary_school' }
+  enum :school_kind, { high_school: 'high_school', gymnasium: 'gymnasium', secondary_school: 'secondary_school', primary_school: 'primary_school' }
 
   def active_teachers
     self.teachers.active

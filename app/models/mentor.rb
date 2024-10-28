@@ -18,7 +18,7 @@ class Mentor < User
 
   belongs_to :school, optional: true
 
-  enum ects: { currently: 1, alumni: 2, employed: 3 }
+  enum :ects, { currently: 1, alumni: 2, employed: 3 }
 
   # Unscope is needed because the association is done through kids.
   # Kids are ordered so distinct was looking at the kids scope in order to

@@ -2,7 +2,7 @@ class MentorMatching < ApplicationRecord
   belongs_to :mentor
   belongs_to :kid
 
-  enum state: { pending: 'pending',
+  enum :state, { pending: 'pending',
                 declined: 'declined',
                 reserved: 'reserved',
                 confirmed: 'confirmed' }

@@ -7,7 +7,7 @@ class Journal < ApplicationRecord
   belongs_to :mentor
   has_many :comments, -> { order('created_at ASC') }, dependent: :destroy
 
-  enum meeting_type: { physical:0 , virtual: 1 }
+  enum :meeting_type, { physical:0 , virtual: 1 }
 
   validates_presence_of :kid, :mentor, :held_at, :meeting_type
   validates_presence_of :start_at, :end_at, unless: :cancelled
