@@ -32,7 +32,7 @@ gem 'google-cloud-storage', require: false
 gem 'geocoder'
 gem 'geokit-rails'
 gem 'redcarpet'
-gem 'validates_timeliness', '~> 7.0.0.beta1'
+gem 'validates_timeliness', '~> 7.0.0.beta2'
 
 gem 'caxlsx'
 gem 'caxlsx_rails'

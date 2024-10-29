@@ -278,7 +278,7 @@ GEM
       timeout
     net-smtp (0.5.0)
       net-protocol
-    nio4r (2.7.3)
+    nio4r (2.7.4)
     nokogiri (1.16.7)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
@@ -328,7 +328,7 @@ GEM
     rails-html-sanitizer (1.6.0)
       loofah (~> 2.21)
       nokogiri (~> 1.14)
-    rails-i18n (7.0.9)
+    rails-i18n (7.0.10)
       i18n (>= 0.7, < 2)
       railties (>= 6.0.0, < 8)
     railties (7.2.1.2)
@@ -513,7 +513,7 @@ DEPENDENCIES
   simple_form
   sprockets-rails
   terser
-  validates_timeliness (~> 7.0.0.beta1)
+  validates_timeliness (~> 7.0.0.beta2)
   whenever
 
 RUBY VERSION
