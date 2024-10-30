@@ -32,7 +32,7 @@ de:
         zip: "PLZ"
         distance: "Entfernung"
         street_no: "Hausnummer"
-        note: "Weitere Bemerkungen"
+        note: "Wichtig zu wissen"
         sex: "Geschlecht"
         grade: "Klassenstufe"
         available: "Mögliche Termine"
@@ -58,7 +58,7 @@ de:
         translator: 'Eltern brauchen bei Gesprächen unbedingt einen Dolmetscher'
         school: Schule
         goal_1: 'Ergänzungen (optional)'
-        goal_2: 'Ergänzungen (optional) '
+        goal_2: 'Ergänzungen (erwünscht) '
         goal_3: 'Das Kind kann seinen Wortschatz aktivieren, um das Gehörte angemessen schnell zu verstehen.'
         goal_4: 'Das Kind kann wichtige Informationen aus Hörtexten entnehmen.'
         goal_5: 'Das Kind kann Gesprächen folgen und seine Aufmerksamkeit zeigen.'
