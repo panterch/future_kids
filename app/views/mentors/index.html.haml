@@ -10,6 +10,9 @@
         %label Startzeit
         = f.select :term, term_collection, { :include_blank => true }, class: 'form-control'
       .form-group
+        %label Austritt
+        = f.select :exit, term_collection, { :include_blank => true }, class: 'form-control'
+      .form-group
         %label Einsatzort
         = f.select :filter_by_school_id, school_collection_by_kind(:kid), { :include_blank => true }, class: 'form-control'
       .form-group
