@@ -19,7 +19,7 @@
       = f.select :simple_term, %w(Frühling Herbst), { :include_blank => true }, class: 'form-control'
     - if @site.feature_coach?
       .form-group
-        %label Coach
+        %label Pädagogischer Coach
         = f.select :admin_id, admin_collection, { :include_blank => true }, class: 'form-control'
     .form-group
       %label= Kid.human_attribute_name(:school)

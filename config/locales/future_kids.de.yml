@@ -100,8 +100,8 @@ de:
         coached_at: 'Letztes Telefoncoaching'
         abnormality: 'Auffälligkeiten'
         abnormality_criticality: 'Kritikalität der Auffälligkeiten'
-        admin: Coach
-        admin_id: Coach
+        admin: Pädagogischer Coach
+        admin_id: Pädagogischer Coach
         creator: Ersteller/in
         simplified_schedule: Verfügbare Zeiten
       journal:
