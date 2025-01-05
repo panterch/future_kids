@@ -12,7 +12,7 @@
   %h2 Erinnerungen
 
 - if @reminders.present?
-  %table.table.table-striped.table-condensed.table-hover.no-sidebar-actions
+  %table#reminders_table.table.table-striped.table-condensed.table-hover.no-sidebar-actions
     %thead
       %tr
         %th Meeting vom
@@ -42,8 +42,8 @@
           - if reminder.sent_at
             = human_date(reminder.sent_at.to_date)
           - else
-            = button_to "Zustellen", { :action => "update", :id => reminder.id }, { :method => :put, :class => 'btn btn-default btn-xs' }
+            = button_to "Zustellen", { action: "update", id: reminder.id }, method: :put, remote: true,  data: { disable_with: "In Arbeit..." }, class: 'btn btn-default btn-xs'
         %td
-          = button_to "Quittieren", { :action => "destroy", :id => reminder.id }, { :method => :delete, :class => 'btn btn-default btn-xs' }
+          = button_to "Quittieren", { action: "destroy", id: reminder.id }, method: :delete, remote: true,  data: { disable_with: "In Arbeit..." }, class: 'btn btn-default btn-xs'
 - else
   %p Kein Eintrag vorhanden

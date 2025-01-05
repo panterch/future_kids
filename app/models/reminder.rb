@@ -1,5 +1,6 @@
 class Reminder < ApplicationRecord
   attr_accessor :filter_by_school_id
+
   default_scope { order('held_at DESC, id') }
   scope :active, -> { where('reminders.acknowledged_at IS NULL') }
 
@@ -49,7 +50,7 @@ class Reminder < ApplicationRecord
   # - have mentors assigned to kids
   # - kids have meeting days (best at start of week) and meeting time set
   # - not all journal entries or reminders are there
-  # - you pass a parameter time that is a few days after the kids meeting das
+  # - you pass a parameter time that is a few days after the kids meeting day
   def self.conditionally_create_reminders(time = Time.now)
     logger.info("Beginning reminder run, reference Date #{time}")
     logger.flush
