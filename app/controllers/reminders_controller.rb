@@ -5,12 +5,21 @@ class RemindersController < ApplicationController
   def index
     params[:reminder] ||= {}
     @reminders = @reminders.active
+
     last_selected_school = params[:reminder][:filter_by_school_id]
     if last_selected_school.present?
       @reminders = @reminders.joins(kid: [:school])
                              .where({ kids: { school_id: last_selected_school.to_i } })
     end
     params[:reminder][:filter_by_school_id] = last_selected_school
+
+    last_selected_ects = params[:reminder][:filter_by_ects]
+    if last_selected_ects.present?
+      @reminders = @reminders.joins(:mentor)
+                             .where({ mentor: { ects: last_selected_ects } })
+    end
+    params[:reminder][:filter_by_ects] = last_selected_ects
+
     @reminder = Reminder.new(reminder_params)
     respond_with @reminders
   end
@@ -45,7 +54,7 @@ class RemindersController < ApplicationController
 
   def reminder_params
     if params[:reminder].present?
-      params.require(:reminder).permit(:filter_by_school_id)
+      params.require(:reminder).permit(:filter_by_school_id, :filter_by_ects)
     else
       {}
     end

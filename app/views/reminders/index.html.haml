@@ -5,6 +5,9 @@
         %label= Kid.human_attribute_name(:school)
         = f.select :filter_by_school_id, school_collection, { include_blank: true }, class: 'form-control'
       .form-group
+        %label=Mentor.human_attribute_name('ects')
+        = f.select :filter_by_ects, ects_collection, { include_blank: true }, class: 'form-control'
+      .form-group
         = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
         = link_to 'Filter aufheben', reminders_path, class: 'btn btn-xs'
 

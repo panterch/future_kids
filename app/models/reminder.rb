@@ -1,5 +1,8 @@
 class Reminder < ApplicationRecord
+
+  # virtual attributes to support filter parameters
   attr_accessor :filter_by_school_id
+  attr_accessor :filter_by_ects
 
   default_scope { order('held_at DESC, id') }
   scope :active, -> { where('reminders.acknowledged_at IS NULL') }
