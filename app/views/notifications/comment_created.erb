@@ -1,0 +1,26 @@
+<p>
+  Liebe/r Future Kids Teilnehmer/in
+</p>
+<p>
+  Sie haben eine Nachricht auf der Onlineplattform bekommen:
+  <%= link_to "Kommentar", kid_url(@kid, anchor: "journal_#{@journal.id}") %>
+</p>
+<table>
+  <tr>
+    <th>Journal:</th>
+    <td><%= @journal.display_name %></td>
+  </tr>
+  <tr>
+    <th>
+      Verfasser/in:
+    </th>
+    <td><%= @comment.by %></td>
+  </tr>
+  <tr>
+    <th>
+      Kommentar:
+    </th>
+    <td><%= simple_format(@comment.body) %></td>
+  </tr>
+</table>
+

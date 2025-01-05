@@ -146,6 +146,10 @@ module ApplicationHelper
     %w(yes no partially).map { |s| [I18n.t(s, scope: 'trinary'), s] }
   end
 
+  def quaternary_collection
+    %w(yes mostly partially no).map { |s| [I18n.t(s, scope: 'quaternary'), s] }
+  end
+
   def kind_collection
     ['bei Familie zu Hause',
      'in der Schule',

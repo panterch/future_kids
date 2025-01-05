@@ -145,7 +145,7 @@ de:
         relation_mentor: "Wie nimmt Mentor/in die persönliche Beziehung zum Kind wahr?"
         motivation: "Wie beurteilt Mentor/in die Arbeitshaltung des Kindes?"
         collaboration: "Wie beurteilt er/sie Zusammenarbeit mit Familie (Erreichbarkeit, Zuverlässigkeit)?"
-        breaking_off: "Wird ein vorzeitiger Abbruch empfohlen?"
+        breaking_off: "Wird empfohlen, dass das Kind nach Beenden des laufenden Future Kids Semesters aussteigt?"
         breaking_reason: "Wenn ja: Von wem und weshalb?"
         goal_1: "Fachliche Lernziele für das kommende Jahr"
         goal_2: "Überfachliche Lernziele für das kommende Jahr"
@@ -422,6 +422,12 @@ de:
     'yes': Ja
     'no': Nein
     partially: Teilweise
+
+  quaternary:
+    'yes': Ja
+    'no': Nein
+    partially: Teilweise
+    mostly: Mehrheitlich
 
   time:
     formats:

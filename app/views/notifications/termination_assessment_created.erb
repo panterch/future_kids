@@ -26,26 +26,27 @@ Es wurde ein neues Abschluss-Feedback auf der Future Kids-Onlineplattform angele
   Datum:
   <%= I18n.l(@assessment.held_at) if @assessment.held_at %>
 </p>
-
+<p>
 <%= I18n.t('activerecord.attributes.termination_assessment.development') %>
 <%= @assessment.human_development %>
-
-
+</p>
+<p>
 <%= I18n.t('activerecord.attributes.termination_assessment.goals') %>
 <%= @assessment.human_goals %>
-
-
+</p>
+<p>
 <%= I18n.t('activerecord.attributes.termination_assessment.goals_reached') %>
 <%= @assessment.human_goals_reached %>
-
-
+</p>
+<p>
 <%= I18n.t('activerecord.attributes.termination_assessment.note') %>
 <%= @assessment.human_note %>
-
-
+</p>
+<p>
 <%= I18n.t('activerecord.attributes.termination_assessment.collaboration') %>
 <%= @assessment.human_collaboration %>
-
-
+</p>
+<p>
 <%= I18n.t('activerecord.attributes.termination_assessment.improvements') %>
 <%= @assessment.human_improvements %>
+</p>

@@ -45,7 +45,7 @@ class TerminationAssessment < ApplicationRecord
 
   def human_goals_reached
     return '' if goals_reached.empty?
-    I18n.t(goals_reached, scope: 'trinary')
+    I18n.t(goals_reached, scope: 'quaternary')
   end
 
   protected
