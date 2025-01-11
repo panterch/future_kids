@@ -15,6 +15,11 @@
         = Mentor.model_name.human
       = f.select :mentor_exit_kind, exit_kind_collection, { :include_blank => true }, class: 'form-control'
     .form-group
+      %label
+        = Mentor.human_attribute_name('ects')
+        = Mentor.model_name.human
+      = f.select :mentor_ects, ects_collection(true), { include_blank: true }, class: 'form-control'
+    .form-group
       %label Einstieg
       = f.select :simple_term, %w(Frühling Herbst), { :include_blank => true }, class: 'form-control'
     - if @site.feature_coach?

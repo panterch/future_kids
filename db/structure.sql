@@ -478,6 +478,7 @@ CREATE VIEW public.kid_mentor_relations AS
     mentors.exit_kind AS mentor_exit_kind,
     mentors.exit_at AS mentor_exit_at,
     mentors.name AS mentor_name,
+    mentors.ects AS mentor_ects,
     admins.id AS admin_id,
     "substring"((kids.term)::text, 6) AS simple_term
    FROM ((public.kids
@@ -1488,6 +1489,7 @@ ALTER TABLE ONLY public.mentor_matchings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250105000000'),
 ('20240202182155'),
 ('20240202180408'),
 ('20240128181032'),

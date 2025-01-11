@@ -36,8 +36,14 @@ module ApplicationHelper
       .reduce([]) { |ar, year| ar << "#{year} Frühling" << "#{year} Herbst" }
   end
 
-  def ects_collection
-    Mentor.ects.keys.map { |key| [ I18n.t(key, scope: :ects), key] }
+  def ects_collection(explicit_mapping = false)
+    # ects is an enum and mapped in the db to integers. since it is used in an sql view
+    # we need the explicit db values in some context
+    if explicit_mapping
+      Mentor.ects.keys.map { |key| [ I18n.t(key, scope: :ects), Mentor.ects[key] ]}
+    else
+      Mentor.ects.keys.map { |key| [ I18n.t(key, scope: :ects), key] }
+    end
   end
 
   def exit_reason_collection
