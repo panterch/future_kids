@@ -5,6 +5,14 @@
   = form.input :sex, :collection => sex_collection, required: true
   = form.input :dob, as: :date, html5: true
   = form.input :grade, :collection => grade_collection, required: true
+  .form-group.select.required.kid_grade
+    %label.col-sm-3.control-label.select.required
+      = Kid.human_attribute_name(:grade)
+      %br
+      %em (ab Einstieg Future Kids)
+    .col-sm-9
+      = form.select :grade, grade_collection, { include_blank: true }, { class: 'form-control select required' }
+
   = form.input :language, required: true
   = form.input :parent_country, priority: ["AL", "TR", "LK", "XK", "ES", "PT"], :include_blank => true, locale: 'de'
 

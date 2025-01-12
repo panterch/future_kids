@@ -86,7 +86,9 @@ $sidebar-width: 220px;
   text-align: center;
 }
 
-h2 em {
+// red text to emphasize parts of certain labels
+h2 em,
+label em {
   color: #a94442;
   font-style: normal;
 }

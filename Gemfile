@@ -12,7 +12,6 @@ gem 'rails-i18n'
 gem 'actionview-encoded_mail_to'
 gem 'cancancan'
 gem 'devise'
-gem 'exception_notification'
 gem 'simple_form'
 gem 'pg'
 gem 'responders'
@@ -57,4 +56,8 @@ end
 
 group :development do
   gem 'letter_opener'
+end
+
+group :production do
+  gem 'exception_notification'
 end

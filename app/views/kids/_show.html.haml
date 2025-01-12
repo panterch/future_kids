@@ -39,7 +39,13 @@
   = show.attribute :prename
   = show.attribute :sex
   = show.attribute :dob
-  = show.attribute :grade
+  .wrapper.kid_grade
+    %label.col-sm-3.text-right
+      = Kid.human_attribute_name(:grade)
+      %br
+      (ab Einstieg Future Kids)
+    .col-sm-offset-3
+      = @kid.grade
   = show.attribute :language
   = show.attribute :parent_country_name
   = show.attribute :parent
