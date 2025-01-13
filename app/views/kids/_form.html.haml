@@ -9,7 +9,7 @@
     %label.col-sm-3.control-label.select.required
       = Kid.human_attribute_name(:grade)
       %br
-      %em (ab Einstieg Future Kids)
+      %em (bei Einstieg Future Kids)
     .col-sm-9
       = form.select :grade, grade_collection, { include_blank: true }, { class: 'form-control select required' }
 
