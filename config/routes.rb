@@ -42,6 +42,11 @@ Rails.application.routes.draw do
   resources :teachers
   resources :principals
   resource :site
+  resource :user do
+    member do
+      post 'edit_terms'
+    end
+  end
   resources :substitutions do
     member do
       put 'inactivate'
