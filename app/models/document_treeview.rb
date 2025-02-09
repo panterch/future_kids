@@ -5,7 +5,7 @@ class DocumentTreeview
   # them into a tree structure
   def categories_tree
     tree = {}
-    category_keys = Document.order(:category0).pluck(:category0, :category1, :category2, :category3)
+    category_keys = Document.order(:category0).pluck(:category0, :category1, :category2, :category3, :category4, :category5, :category6)
     category_keys.each do |keys|
       next if keys.first.blank?
       tree = a_to_h(keys, tree)
@@ -31,7 +31,7 @@ class DocumentTreeview
   def document_js_nodes
     js_nodes = category_js_nodes
     Document.all.each do |d|
-      categories = [ d.category0, d.category1, d.category2, d.category3 ].compact
+      categories = [ d.category0, d.category1, d.category2, d.category3, d.category4, d.category5, d.category6 ].compact
       nodes = js_nodes
       categories.each do |category|
         nodes.each do |node|

@@ -16,7 +16,6 @@ class DocumentsController < ApplicationController
     end
   end
 
-
   def update
     @document.update(document_params)
     if @document.valid?
@@ -30,7 +29,7 @@ class DocumentsController < ApplicationController
 
   def document_params
     params.require(:document).permit(
-      :category0, :category1, :category2, :category3, :subcategory, :title, :attachment
+      :category0, :category1, :category2, :category3, :category4, :category5, :category6, :title, :attachment
     )
   end
 end

@@ -191,7 +191,10 @@ CREATE TABLE public.documents (
     category0 character varying,
     category1 character varying,
     category2 character varying,
-    category3 character varying
+    category3 character varying,
+    category4 character varying,
+    category5 character varying,
+    category6 character varying
 );
 
 
@@ -1489,6 +1492,7 @@ ALTER TABLE ONLY public.mentor_matchings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20250209132950'),
 ('20250105000000'),
 ('20240202182155'),
 ('20240202180408'),
