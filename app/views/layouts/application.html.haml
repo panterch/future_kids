@@ -10,6 +10,7 @@
     - if @site.css.present?
       %style=raw(@site.css)
     = javascript_include_tag 'application'
+    = favicon_link_tag 'favicon.svg', :rel => 'icon', :type => 'image/svg+xml'
     = csrf_meta_tag
 
   %body(class="#{controller_name} #{action_name}")
