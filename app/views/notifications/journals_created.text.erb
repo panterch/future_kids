@@ -1,117 +1,34 @@
-<p>
-  Liebe Lehrperson
-</p>
+Liebe Lehrperson,
 
-<p>
-  Es wurden neue Lernjournale auf der Future Kids-Onlineplattform angelegt:
-</p>
+Es wurden neue Lernjournale auf der Future Kids-Onlineplattform angelegt:
 
-<%- @journals.each do |journal| %>
-  <table>
-    <tr>
-      <th>
-        Schüler/in:
-      </th>
-      <td>
-        <%= journal.kid.display_name %>
-      </td>
-    </tr>
-    <tr>
-      <th>
-        Journal:
-      </th>
-      <td>
-        <%= journal.display_name %>
-      </td>
-    </tr>
-    <tr>
-      <th>
-        Link:
-      </th>
-      <td>
-        <%= kid_url(journal.kid) + "#journal_#{journal.id}" %>
-      </td>
-    </tr>
-    <tr>
-      <th>
-        Datum:
-      </th>
-      <td>
-        <%= I18n.l(journal.held_at) if journal.held_at %>
-      </td>
-    </tr>
+<% @journals.each do |journal| %>
+Schüler/in: <%= journal.kid.display_name %>
+Journal: <%= journal.display_name %>
+Link: <%= kid_url(journal.kid) + "#journal_#{journal.id}" %>
+Datum: <%= I18n.l(journal.held_at) if journal.held_at %>
 
-    <%- unless journal.cancelled? %>
-      <tr>
-        <th>
-          Von:
-        </th>
-        <td>
-          <%= journal.human_start_at %>
-        </td>
-      </tr>
-      <tr>
-        <th>
-          Bis:
-        </th>
-        <td>
-          <%= journal.human_end_at %>
-        </td>
-      </tr>
+  <% unless journal.cancelled? %>
+Von: <%= journal.human_start_at %>
+Bis: <%= journal.human_end_at %>
+Lernziel:
+<%= journal.goal %>
 
-      <tr>
-        <th>
-          Lernziel:
-        </th>
-        <td>
-          <%= simple_format(journal.goal) %>
-        </td>
-      </tr>
+Fach / Thema:
+<%= journal.subject %>
 
-      <tr>
-        <th>
-          Fach / Thema:
-        </th>
-        <td>
-          <%= simple_format(journal.subject) %>
-        </td>
-      </tr>
+Beobachtungen und Vorgehensweise:
+<%= journal.method %>
 
-      <tr>
-        <th>
-          Beobachtungen und Vorgehensweise:
-        </th>
-        <td>
-          <%= simple_format(journal.method) %>
-        </td>
-      </tr>
+Erfolge / Schwierigkeiten und Interpretation:
+<%= journal.outcome %>
 
-      <tr>
-        <th>
-          Erfolge / Schwierigkeiten und Interpretation:
-        </th>
-        <td>
-          <%= simple_format(journal.outcome) %>
-        </td>
-      </tr>
+Bemerkungen:
+<%= journal.note %>
+  <% end %>
 
-      <tr>
-        <th>
-          Bemerkungen:
-        </th>
-        <td>
-          <%= simple_format(journal.note) %>
-        </td>
-      </tr>
-    <%- end %>
-  </table>
+  <% if journal.cancelled? %>
+Treffen ausgefallen
+  <% end %>
 
-
-  <%- if journal.cancelled? %>
-    <p>
-      <b>Treffen ausgefallen</b>
-    </p>
-  <%- end %>
-
-<%- end %>
-
+<% end %>
