@@ -58,7 +58,7 @@
     = can_link_to(@kid.school)
 
 = show_for @kid do |show|
-  %h2 Fachliche Lernziele
+  %h2 Fachliche Förderbereiche
   .wrapper
     %label.col-sm-3.col-xs-6.text-right Deutsch
     = conditionally_show_for(@kid, :goal_3)
@@ -88,9 +88,9 @@
     = show.attribute :goal_1
 
 = show_for @kid do |show|
-  %h2 Überfachliche Lernziele
+  %h2 Überfachliche Förderbereiche
   .wrapper
-    %label.col-sm-3.col-xs-6.text-right Personale Ziele
+    %label.col-sm-3.col-xs-6.text-right Personale Förderbereiche
     = conditionally_show_for(@kid, :goal_25)
     = conditionally_show_for(@kid, :goal_26)
     = conditionally_show_for(@kid, :goal_27)
@@ -99,7 +99,7 @@
     = conditionally_show_for(@kid, :goal_30)
     = conditionally_show_for(@kid, :goal_31)
   .wrapper
-    %label.col-sm-3.col-xs-6.text-right Methodische Ziele
+    %label.col-sm-3.col-xs-6.text-right Methodische Förderbereiche
     = conditionally_show_for(@kid, :goal_32)
     = conditionally_show_for(@kid, :goal_33)
     = conditionally_show_for(@kid, :goal_34)

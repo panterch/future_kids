@@ -24,7 +24,7 @@
   = form.association :school, collection: @schools, include_blank: @schools_include_blank
 
   %h2
-    Fachliche Lernziele
+    Fachliche Förderbereiche
     %em="- mindestens eines, maximal #{Kid::GOALS_1_MAX}"
   - if @kid.errors[:goal_1].any?
     %h3.has-error
@@ -65,12 +65,12 @@
   = form.input :goal_1
 
   %h2
-    Überfachliche Lernziele
+    Überfachliche Förderbereiche
     %em="- mindestens eines, maximal #{Kid::GOALS_2_MAX}"
   - if @kid.errors[:goal_2].any?
     %h3.has-error
       %span.help-block= @kid.errors[:goal_2].try(:first)
-  =form_subtitle("Personale Ziele")
+  =form_subtitle("Personale Förderbereiche")
   = form.input :goal_25
   = form.input :goal_26
   = form.input :goal_27
@@ -78,7 +78,7 @@
   = form.input :goal_29
   = form.input :goal_30
   = form.input :goal_31
-  =form_subtitle("Methodische Ziele")
+  =form_subtitle("Methodische Förderbereiche")
   = form.input :goal_32
   = form.input :goal_33
   = form.input :goal_34

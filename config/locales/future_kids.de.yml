@@ -92,7 +92,7 @@ de:
         goal_33: 'Das Kind kann die gesammelten Informationen strukturieren, zusammenfassen und dabei Wesentliches von Nebensächlichem unterscheiden.'
         goal_34: 'Das Kind kennt fachspezifische Lernstrategien und kann sie nutzen.'
         goal_35: 'Das Kind verfügt über allgemeine Strategien, um wiederkehrende Aufgaben und Probleme zu lösen.'
-        goals_updated_at: 'Lernziele aktualisiert'
+        goals_updated_at: 'Förderbereiche aktualisiert'
         schedules_updated_at: 'Stundenplan aktualisiert'
         inactive: Inaktiv gesetzt
         todo: Pendenzen
@@ -136,10 +136,10 @@ de:
         teacher: "Lehrperson"
         mentor: "Mentor/in"
         duration: "Dauer des Gesprächs"
-        development: "Schulische Entwicklung des Kindes, insbesondere im Hinblick auf die fachlichen Lernziele"
+        development: "Schulische Entwicklung des Kindes, insbesondere im Hinblick auf die fachlichen Förderbereiche"
         development_teacher: "Sicht Lehrperson"
         development_mentor: " Sicht Mentor/in"
-        goals: "Persönliche Entwicklung des Kindes, insbesondere im Hinblick auf die überfachlichen Lernziele"
+        goals: "Persönliche Entwicklung des Kindes, insbesondere im Hinblick auf die überfachlichen Förderbereiche"
         goals_teacher: "Sicht Lehrperson"
         goals_mentor: " Sicht Mentor/in"
         relation_mentor: "Wie nimmt Mentor/in die persönliche Beziehung zum Kind wahr?"
@@ -147,8 +147,8 @@ de:
         collaboration: "Wie beurteilt er/sie Zusammenarbeit mit Familie (Erreichbarkeit, Zuverlässigkeit)?"
         breaking_off: "Wird empfohlen, dass das Kind nach Beenden des laufenden Future Kids Semesters aussteigt?"
         breaking_reason: "Wenn ja: Von wem und weshalb?"
-        goal_1: "Fachliche Lernziele für das kommende Jahr"
-        goal_2: "Überfachliche Lernziele für das kommende Jahr"
+        goal_1: "Fachliche Förderbereiche für das kommende Jahr"
+        goal_2: "Überfachliche Förderbereiche für das kommende Jahr"
         goal_3: "Wichtig zu beachten im kommenden Jahr"
         improvements: "Verbesserungs- möglichkeiten in der Zusammenarbeit zwischen LP und Mentor/in?"
         note: "Weitere Bemerkungen"
@@ -156,9 +156,9 @@ de:
         held_at: "Datum"
         kid: "Kind"
         teacher: "Lehrperson"
-        development: "Wie ist die schulische Entwicklung des Kindes seit Beginn von Future Kids, insbesondere im Hinblick auf die gesetzten fachlichen Lernziele?"
-        goals: "Wie ist die persönliche Entwicklung des Kindes seit Beginn von Future Kids, insbesondere im Hinblick auf die gesetzten überfachlichen Lernziele?"
-        goals_reached: "Konnte das Kind in den zwei Jahren die gesetzten Lernziele erreichen?"
+        development: "Wie ist die schulische Entwicklung des Kindes seit Beginn von Future Kids, insbesondere im Hinblick auf die gesetzten fachlichen Förderbereiche?"
+        goals: "Wie ist die persönliche Entwicklung des Kindes seit Beginn von Future Kids, insbesondere im Hinblick auf die gesetzten überfachlichen Förderbereiche?"
+        goals_reached: "Konnte das Kind in den zwei Jahren die gesetzten Förderbereiche erreichen?"
         collaboration: "Wie beurteilen Sie die Zusammenarbeit mit der Mentor/in?"
         improvements: "Was ist in der verbleibenden Future Kids-Zeit wichtig zu beachten? Auf welche Themen sollte eingegangen werden?"
         note: "Weitere Bemerkungen"
