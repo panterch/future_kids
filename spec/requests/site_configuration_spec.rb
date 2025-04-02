@@ -25,4 +25,43 @@ feature 'Site' do
     expect(page).to have_css('h1', text: 'last1, first1')
     expect(page).to have_css('h2', text: 'Gesprächsdokumentationen')
   end
+
+  scenario 'After edit terms of use other users must accept it after login' do
+    @teacher = create(:teacher)
+    log_in(create(:admin))
+    visit edit_site_url
+    fill_in 'Nutzungsbedingungen', with: 'Terms of use'
+    click_button 'Seitenweite Konfiguration aktualisieren'
+    click_link 'Abmelden'
+
+    visit new_user_session_path
+    fill_in 'user_email', with: @teacher.email
+    fill_in 'user_password', with: @teacher.password
+    click_button 'Anmelden'
+
+    expect(page).to have_button('Nutzungsbedingungen Akzeptieren')
+  end
+
+  scenario 'User after login must accept terms of use' do
+    @teacher = create(:teacher, terms_of_use_accepted_at: DateTime.yesterday)
+
+    visit new_user_session_path
+    fill_in 'user_email', with: @teacher.email
+    fill_in 'user_password', with: @teacher.password
+    click_button 'Anmelden'
+
+    click_button 'Nutzungsbedingungen Akzeptieren'
+    expect(page).to have_content('Erfolgreich angemeldet')
+  end
+
+  scenario "Check terms of use accepted after change term of use" do
+    @teacher = create(:teacher)
+    log_in(create(:admin))
+    visit edit_site_url
+    fill_in 'Nutzungsbedingungen', with: 'Terms of use'
+    click_button 'Seitenweite Konfiguration aktualisieren'
+
+    @teacher.reload
+    expect(@teacher.terms_of_use_accepted).to eq false
+  end
 end
