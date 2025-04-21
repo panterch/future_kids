@@ -8,7 +8,7 @@ class DocumentTreeview
   # them into a tree structure
   def categories_tree
     tree = {}
-    category_keys = Document.order(:category0).pluck(:category0, :category1, :category2, :category3, :category4, :category5, :category6)
+    category_keys = retrieve_documents.order(:category0).pluck(:category0, :category1, :category2, :category3, :category4, :category5, :category6)
     category_keys.each do |keys|
       next if keys.first.blank?
       tree = a_to_h(keys, tree)
@@ -33,7 +33,7 @@ class DocumentTreeview
   # add all documents / links to the document efficient to the js formatted category
   def document_js_nodes
     js_nodes = category_js_nodes
-    documents = @user_class == Admin ? Document.all : Document.where(admin_only: false)
+    documents = retrieve_documents
     documents.each do |d|
       categories = [ d.category0, d.category1, d.category2, d.category3, d.category4, d.category5, d.category6 ].compact
       nodes = js_nodes
@@ -60,6 +60,10 @@ class DocumentTreeview
     js_nodes
   end
 
+  def retrieve_documents
+    @user_class == Admin ? Document.all : Document.where(admin_only: false)
+  end
+
   # helper method to transform category arrays to an array
   def a_to_h(arr, hash)
     return {} if arr.empty? || arr.first.blank?
@@ -69,6 +73,5 @@ class DocumentTreeview
     a_to_h(arr, cur_hash)
     return hash
   end
-
 
 end
