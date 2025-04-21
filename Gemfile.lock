@@ -499,7 +499,7 @@ GEM
     unicode-emoji (4.0.4)
     uri (1.0.3)
     useragent (0.16.11)
-    validates_timeliness (7.0.0)
+    validates_timeliness (7.1.0)
       activemodel (>= 7.0.0, < 8)
       timeliness (>= 0.3.10, < 1)
     warden (1.2.9)
@@ -556,7 +556,7 @@ DEPENDENCIES
   listen
   pg
   puma
-  rails
+  rails (~> 7)
   rails-controller-testing
   rails-i18n
   react-rails
@@ -571,7 +571,7 @@ DEPENDENCIES
   simple_form
   sprockets-rails
   terser
-  validates_timeliness (~> 7.0.0.beta2)
+  validates_timeliness
   whenever
 
 RUBY VERSION
