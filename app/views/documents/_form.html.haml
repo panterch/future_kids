@@ -10,6 +10,7 @@
         = form.text_field "category#{i}", class: 'string optional form-control'
   = form.input :title
   = form.input :attachment
+  = form.input :admin_only, as: :boolean, label: Document.human_attribute_name(:admin_only)
 
   .col-sm-offset-3.col-sm-9
     = form.button :submit

@@ -1,6 +1,7 @@
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -194,7 +195,8 @@ CREATE TABLE public.documents (
     category3 character varying,
     category4 character varying,
     category5 character varying,
-    category6 character varying
+    category6 character varying,
+    admin_only boolean DEFAULT false NOT NULL
 );
 
 
@@ -1494,6 +1496,7 @@ SET search_path TO "$user", public;
 INSERT INTO "schema_migrations" (version) VALUES
 ('20250209132950'),
 ('20250105000000'),
+('20240321000000'),
 ('20240202182155'),
 ('20240202180408'),
 ('20240128181032'),

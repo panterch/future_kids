@@ -4,7 +4,7 @@ describe DocumentTreeview do
 
   include ActionDispatch::TestProcess::FixtureFile
   let(:file) { fixture_file_upload('gespraechsdoku.pdf', 'application/pdf') }
-  let(:dtv) { DocumentTreeview.new }
+  let(:dtv) { DocumentTreeview.new(Mentor) }
 
   it 'deliver categories tree' do
     build(:document, category0: 'a').attachment.attach(file).record.save!
@@ -81,5 +81,28 @@ describe DocumentTreeview do
     h = dtv.a_to_h(%w(a b d), h)
     expect(h['a']['b'].keys.sort).to eq(['c','d'])
 
+  end
+
+  describe 'admin-only documents' do
+    it 'shows all documents to admin users' do
+      build(:document, title: 'public doc', admin_only: false).attachment.attach(file).record.save!
+      build(:document, title: 'admin doc', admin_only: true).attachment.attach(file).record.save!
+
+      dtv = DocumentTreeview.new(Admin)
+      js_nodes = dtv.document_js_nodes
+      titles = js_nodes.map { |node| node[:text] }
+      expect(titles).to include('public doc', 'admin doc')
+    end
+
+    it 'only shows non-admin documents to non-admin users' do
+      build(:document, title: 'public doc', admin_only: false).attachment.attach(file).record.save!
+      build(:document, title: 'admin doc', admin_only: true).attachment.attach(file).record.save!
+
+      dtv = DocumentTreeview.new(Mentor)
+      js_nodes = dtv.document_js_nodes
+      titles = js_nodes.map { |node| node[:text] }
+      expect(titles).to include('public doc')
+      expect(titles).not_to include('admin doc')
+    end
   end
 end

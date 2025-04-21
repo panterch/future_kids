@@ -230,6 +230,7 @@ de:
         subcategory: Unterkategorie
         description: Beschreibung
         attachment: Datei
+        admin_only: "Nur für Admins und Coaches einsehbar"
       comment:
         by: 'Verfasser/in'
         body: Kommentar

@@ -1,5 +1,8 @@
 # helps building the json format that is used by the treeview plugin
 class DocumentTreeview
+  def initialize(user_class)
+    @user_class = user_class
+  end
 
   # access the database to identify all the (flat) stored categories and bring
   # them into a tree structure
@@ -30,7 +33,8 @@ class DocumentTreeview
   # add all documents / links to the document efficient to the js formatted category
   def document_js_nodes
     js_nodes = category_js_nodes
-    Document.all.each do |d|
+    documents = @user_class == Admin ? Document.all : Document.where(admin_only: false)
+    documents.each do |d|
       categories = [ d.category0, d.category1, d.category2, d.category3, d.category4, d.category5, d.category6 ].compact
       nodes = js_nodes
       categories.each do |category|

@@ -3,7 +3,7 @@ class DocumentsController < ApplicationController
   include CrudActions
 
   def index
-    @documents_json = DocumentTreeview.new.document_js_nodes
+    @documents_json = DocumentTreeview.new(current_user.class).document_js_nodes
     respond_with @documents
   end
 
@@ -29,7 +29,7 @@ class DocumentsController < ApplicationController
 
   def document_params
     params.require(:document).permit(
-      :category0, :category1, :category2, :category3, :category4, :category5, :category6, :title, :attachment
+      :category0, :category1, :category2, :category3, :category4, :category5, :category6, :title, :attachment, :admin_only
     )
   end
 end

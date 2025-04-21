@@ -110,8 +110,12 @@ class Ability
     can :create, Comment, created_by_id: user.id
     can :update, Comment, created_by_id: user.id
 
-    # documents can be read by any users
-    can :read, Document
+    # some documents are admin only
+    if user.is_a?(Admin)
+      can :read, Document
+    else
+      can :read, Document, admin_only: false
+    end
 
     # destruction of records is generally not allowed
     cannot :destroy, :all
