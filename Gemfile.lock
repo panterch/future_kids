@@ -167,6 +167,16 @@ GEM
     faraday-net_http (3.4.0)
       net-http (>= 0.5.0)
     ffi (1.17.2)
+    ffi (1.17.2-aarch64-linux-gnu)
+    ffi (1.17.2-aarch64-linux-musl)
+    ffi (1.17.2-arm-linux-gnu)
+    ffi (1.17.2-arm-linux-musl)
+    ffi (1.17.2-arm64-darwin)
+    ffi (1.17.2-x86-linux-gnu)
+    ffi (1.17.2-x86-linux-musl)
+    ffi (1.17.2-x86_64-darwin)
+    ffi (1.17.2-x86_64-linux-gnu)
+    ffi (1.17.2-x86_64-linux-musl)
     geocoder (1.8.5)
       base64 (>= 0.1.0)
       csv (>= 3.0.0)
@@ -293,6 +303,22 @@ GEM
     nio4r (2.7.4)
     nokogiri (1.18.7)
       mini_portile2 (~> 2.8.2)
+      racc (~> 1.4)
+    nokogiri (1.18.7-aarch64-linux-gnu)
+      racc (~> 1.4)
+    nokogiri (1.18.7-aarch64-linux-musl)
+      racc (~> 1.4)
+    nokogiri (1.18.7-arm-linux-gnu)
+      racc (~> 1.4)
+    nokogiri (1.18.7-arm-linux-musl)
+      racc (~> 1.4)
+    nokogiri (1.18.7-arm64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.18.7-x86_64-darwin)
+      racc (~> 1.4)
+    nokogiri (1.18.7-x86_64-linux-gnu)
+      racc (~> 1.4)
+    nokogiri (1.18.7-x86_64-linux-musl)
       racc (~> 1.4)
     orm_adapter (0.5.0)
     os (1.1.4)
@@ -490,7 +516,17 @@ GEM
     zeitwerk (2.7.2)
 
 PLATFORMS
+  aarch64-linux-gnu
+  aarch64-linux-musl
+  arm-linux-gnu
+  arm-linux-musl
+  arm64-darwin
   ruby
+  x86-linux-gnu
+  x86-linux-musl
+  x86_64-darwin
+  x86_64-linux-gnu
+  x86_64-linux-musl
 
 DEPENDENCIES
   actionview-encoded_mail_to
@@ -539,7 +575,7 @@ DEPENDENCIES
   whenever
 
 RUBY VERSION
-   ruby 3.3.5p100
+   ruby 3.3.8p144
 
 BUNDLED WITH
-   2.4.17
+   2.6.8
