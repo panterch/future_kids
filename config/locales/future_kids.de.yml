@@ -151,7 +151,7 @@ de:
         goal_2: "Überfachliche Förderbereiche für das kommende Jahr"
         goal_3: "Wichtig zu beachten im kommenden Jahr"
         improvements: "Verbesserungs- möglichkeiten in der Zusammenarbeit zwischen LP und Mentor/in?"
-        note: "Weitere Bemerkungen"
+        note: "Weitere Bemerkungen"  
       termination_assessment:
         held_at: "Datum"
         kid: "Kind"
@@ -433,3 +433,7 @@ de:
   time:
     formats:
       time: "%H:%M"
+  
+  schedules:
+    alert_message: "Bitte beachte! Von diesen Verfügbarkeiten gehen wir für die Zuteilung deines Mentees aus. Bis zum Ersttreffen mit deinem Mentee sind alle angegebenen Zeitfenster freizuhalten. Besten Dank."
+ 
