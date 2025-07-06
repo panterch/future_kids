@@ -11,7 +11,7 @@ Datum: <%= I18n.l(journal.held_at) if journal.held_at %>
   <% unless journal.cancelled? %>
 Von: <%= journal.human_start_at %>
 Bis: <%= journal.human_end_at %>
-Lernziel:
+Förderbereich:
 <%= journal.goal %>
 
 Fach / Thema:
