@@ -29,6 +29,7 @@ Please follow the below process to share your contribution via PR.
     ```
     bundle install
     bundle exec rake db:create 
+    bundle exec rake db:schema:load
     bundle exec rake db:migrate 
     bundle exec rake db:seed
     bundle exec rails server
