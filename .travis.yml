@@ -6,6 +6,9 @@ services:
   - xvfb
 addons:
   chrome: stable
+  apt:
+    packages:
+      - libpq-dev
 env:
   global:
     - PGUSER=postgres
