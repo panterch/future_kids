@@ -13,6 +13,7 @@ Capybara.register_driver :selenium do |app|
   # some tests do not run well if the responsive css
   # hides the left navigation
   options.add_argument("--window-size=1400,800")
+  options.add_argument("--user-data-dir=#{Dir.mktmpdir}")
   Capybara::Selenium::Driver.new(app, browser: :chrome,
                                  options: options
   )
