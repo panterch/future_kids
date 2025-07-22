@@ -32,6 +32,8 @@ gem 'geocoder'
 gem 'geokit-rails'
 gem 'redcarpet'
 gem 'validates_timeliness'
+gem 'ostruct'
+
 
 gem 'caxlsx'
 gem 'caxlsx_rails'
