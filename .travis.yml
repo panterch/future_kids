@@ -22,5 +22,5 @@ before_script:
 script:
   - psql -c 'create database futurekids_test;' -U postgres
   - bundle exec bin/rails db:test:prepare
-  - bundle exec rspec
+  - bundle exec rspec --fail-fast
 
