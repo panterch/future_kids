@@ -11,7 +11,10 @@ Dir[Rails.root.join('spec/support/**/*.rb')].each { |f| require f }
 
 Capybara.javascript_driver = :cuprite
 Capybara.register_driver(:cuprite) do |app|
-  Capybara::Cuprite::Driver.new(app, window_size: [1400, 800])
+  browser_options = {}.tap do |opts|
+    opts['no-sandbox'] = nil if ENV['CI']
+  end
+  Capybara::Cuprite::Driver.new(app, window_size: [1400, 800], browser_options: browser_options)
 end
 
 
