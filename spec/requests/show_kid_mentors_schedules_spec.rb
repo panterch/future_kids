@@ -145,10 +145,7 @@ feature 'Kid Mentor planning', js: true do
           expect(val).to eq('no-kid')
         end
         scenario 'select only mentors with no kid' do
-          within('.filters [name="number-of-kids"]') do
-            find('option[value="no-kid"]').click
-          end
-
+          select 'keinem Schüler zugewiesen', from: 'number-of-kids'
           within('.kid-mentor-schedules') do
             expect(page).to have_content 'Haller Frederik'
             expect(page).not_to have_content 'Rohner Melanie'
@@ -157,9 +154,7 @@ feature 'Kid Mentor planning', js: true do
           end
         end
         scenario 'select only mentors with 1 primary kid assigned' do
-          within('.filters [name="number-of-kids"]') do
-            find('option[value="primary-only"]').click
-          end
+          select 'nur primärem Schüler zugewiesen', from: 'number-of-kids'
           within('.kid-mentor-schedules') do
             expect(page).not_to have_content 'Haller Frederik'
             expect(page).to have_content 'Rohner Melanie'
@@ -168,9 +163,7 @@ feature 'Kid Mentor planning', js: true do
           end
         end
         scenario 'select mentors with only one secondary kid assigned' do
-          within('.filters [name="number-of-kids"]') do
-            find('option[value="secondary-only"]').click
-          end
+          select 'nur sekundärem Schüler', from: 'number-of-kids'
           within('.kid-mentor-schedules') do
             expect(page).not_to have_content 'Haller Frederik'
             expect(page).not_to have_content 'Rohner Melanie'
@@ -179,9 +172,7 @@ feature 'Kid Mentor planning', js: true do
           end
         end
         scenario 'show mentors with primary and secondary kid assigned' do
-          within('.filters [name="number-of-kids"]') do
-            find('option[value="primary-and-secondary"]').click
-          end
+          select 'primärem und sekundärem Schüler', from: 'number-of-kids'
           within('.kid-mentor-schedules') do
             expect(page).not_to have_content 'Haller Frederik'
             expect(page).not_to have_content 'Steiner Max'
@@ -197,9 +188,7 @@ feature 'Kid Mentor planning', js: true do
           expect(val).to eq('')
         end
         scenario 'select only male mentors' do
-          within('.filters [name="sex"]') do
-            find('option[value="m"]').click
-          end
+          select 'Männlich', from: 'sex'
           within('.kid-mentor-schedules') do
             expect(page).to have_content 'Haller Frederik'
             expect(page).to_not have_content 'Rohner Melanie'
@@ -208,9 +197,7 @@ feature 'Kid Mentor planning', js: true do
           end
         end
         scenario 'select only female mentors' do
-          within('.filters [name="sex"]') do
-            find('option[value="f"]').click
-          end
+          select 'Weiblich', from: 'sex'
           within('.kid-mentor-schedules') do
             expect(page).to_not have_content 'Haller Frederik'
             expect(page).to have_content 'Rohner Melanie'
@@ -278,9 +265,7 @@ feature 'Kid Mentor planning', js: true do
         }
         background do
           # we need to select the filter with mentors with primary kids
-          within('.filters [name="number-of-kids"]') do
-            find('option[value="primary-only"]').click
-          end
+          select 'nur primärem Schüler zugewiesen', from: 'number-of-kids'
         end
         # sarah has no kid in this spec
 
@@ -306,9 +291,7 @@ feature 'Kid Mentor planning', js: true do
             expect(page).to_not have_content 'Steiner Max'
             expect(page).to_not have_content 'Koller Sarah'
           end
-          within('.filters [name="sex"]') do
-            find('option[value="f"]').click
-          end
+          select 'Weiblich', from: 'sex'
           within('.kid-mentor-schedules') do
             expect(page).to_not have_content 'Haller Frederik'
             expect(page).to have_content 'Rohner Melanie'
@@ -318,9 +301,7 @@ feature 'Kid Mentor planning', js: true do
 
         end
         scenario 'select only mentors from the primary school' do
-          within('.filters [name="sex"]') do
-            find('option[value="m"]').click
-          end
+          select 'Männlich', from: 'sex'
           within('.kid-mentor-schedules') do
             expect(page).to have_content 'Haller Frederik'
             expect(page).to_not have_content 'Rohner Melanie'
@@ -334,9 +315,7 @@ feature 'Kid Mentor planning', js: true do
             expect(page).to_not have_content 'Steiner Max'
             expect(page).to_not have_content 'Koller Sarah'
           end
-          within('.filters [name="sex"]') do
-            find('option[value="f"]').click
-          end
+          select 'Weiblich', from: 'sex'
           within('.kid-mentor-schedules') do
             expect(page).to_not have_content 'Haller Frederik'
             expect(page).to have_content 'Rohner Melanie'
@@ -391,9 +370,7 @@ feature 'Kid Mentor planning', js: true do
       end
 
       scenario 'select female mentors' do
-        within('.filters [name="sex"]') do
-          find('option[value="f"]').click
-        end
+        select 'Weiblich', from: 'sex'
         within('.timetable') do
           expect(page).to have_selector('.cell-mentor', count: 24)
         end
@@ -485,9 +462,7 @@ feature 'Kid Mentor planning', js: true do
 
 
           scenario 'the selected mentor is primary mentor for another kid', modal: true do
-            within('.filters [name="number-of-kids"]') do
-              find('option[value="primary-only"]').click
-            end
+            select 'nur primärem Schüler zugewiesen', from: 'number-of-kids'
 
             within('.timetable') do
               message = accept_alert do
@@ -510,9 +485,7 @@ feature 'Kid Mentor planning', js: true do
             end
             find('a', :text => 'Mentor finden').click
 
-            within('.filters [name="number-of-kids"]') do
-              find('option[value="secondary-only"]').click
-            end
+            select 'nur sekundärem Schüler', from: 'number-of-kids'
 
             within('.timetable') do
               message = accept_alert do

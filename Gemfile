@@ -51,9 +51,9 @@ group :development, :test do
   gem 'capybara'
   gem 'factory_bot_rails'
   gem 'factory_bot'
-  gem 'selenium-webdriver'
   gem 'rails-controller-testing'
   gem 'listen'
+  gem 'cuprite'
 end
 
 group :development do

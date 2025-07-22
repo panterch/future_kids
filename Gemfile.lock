@@ -138,6 +138,9 @@ GEM
       countries (> 6.0, < 9.0)
     crass (1.0.6)
     csv (3.3.5)
+    cuprite (0.17)
+      capybara (~> 3.0)
+      ferrum (~> 0.17.0)
     date (3.4.1)
     declarative (0.0.20)
     devise (4.9.4)
@@ -167,6 +170,12 @@ GEM
       logger
     faraday-net_http (3.4.1)
       net-http (>= 0.5.0)
+    ferrum (0.17.1)
+      addressable (~> 2.5)
+      base64 (~> 0.2)
+      concurrent-ruby (~> 1.1)
+      webrick (~> 1.7)
+      websocket-driver (~> 0.7)
     ffi (1.17.2)
     ffi (1.17.2-aarch64-linux-gnu)
     ffi (1.17.2-aarch64-linux-musl)
@@ -409,7 +418,6 @@ GEM
       actionpack (>= 5.2)
       railties (>= 5.2)
     retriable (3.1.2)
-    rexml (3.4.1)
     rspec-core (3.13.5)
       rspec-support (~> 3.13.0)
     rspec-expectations (3.13.5)
@@ -455,12 +463,6 @@ GEM
       sprockets-rails
       tilt
     securerandom (0.4.1)
-    selenium-webdriver (4.34.0)
-      base64 (~> 0.2)
-      logger (~> 1.4)
-      rexml (~> 3.2, >= 3.2.5)
-      rubyzip (>= 1.2.2, < 3.0)
-      websocket (~> 1.0)
     shoulda-matchers (6.5.0)
       activesupport (>= 5.2.0)
     show_for (0.8.1)
@@ -506,7 +508,7 @@ GEM
       timeliness (>= 0.3.10, < 1)
     warden (1.2.9)
       rack (>= 2.0.9)
-    websocket (1.2.11)
+    webrick (1.9.1)
     websocket-driver (0.8.0)
       base64
       websocket-extensions (>= 0.1.0)
@@ -542,6 +544,7 @@ DEPENDENCIES
   coffee-rails
   countries
   country_select
+  cuprite
   devise
   exception_notification
   factory_bot
@@ -568,7 +571,6 @@ DEPENDENCIES
   rspec-rails
   rubocop
   sassc-rails
-  selenium-webdriver
   shoulda-matchers
   show_for
   simple_form
