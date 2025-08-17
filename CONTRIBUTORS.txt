@@ -1,4 +1,4 @@
-Copyright 2011-2015 Beat Seeliger
+Copyright 2011-2025 Beat Seeliger
 Licensed under AGPL license. The license text is included in LICENSE.txt.
 
 Thanks to Simon Hürlimann (https://github.com/huerlisi) for support.
