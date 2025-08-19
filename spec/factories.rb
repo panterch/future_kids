@@ -36,7 +36,7 @@ FactoryBot.define do
     address { 'address' }
     city { 'city' }
     dob { '1.1.1990' }
-    phone { '123456798' }
+    phone { '+41 44 123 45 67' }
 
     to_create { |instance| instance.save(validate: false) }
   end
@@ -46,7 +46,7 @@ FactoryBot.define do
     sequence(:name) { |n| "Mentor name#{n}" }
     sequence(:prename) { |n| "Mentor prename#{n}" }
     association :school
-    phone { '123456798' }
+    phone { '+41 44 123 45 67' }
   end
 
   factory :principal, class: 'Principal', parent: :user do
@@ -63,7 +63,7 @@ FactoryBot.define do
     parent { 'Nico' }
     address { 'Blumenweg 12' }
     city { '8005 Zürich' }
-    phone { '123456789' }
+    phone { '+41 44 123 45 67' }
     goal_1 { 'Ein fachliches Lernziel' }
     goal_2 { 'Ein überfachliches Lernziel' }
     simplified_schedule { 'immer nachmittags' }
