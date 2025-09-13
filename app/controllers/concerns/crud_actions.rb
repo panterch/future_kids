@@ -18,8 +18,7 @@ module CrudActions
     respond_with @resource
   end
 
-  def edit
-  end
+  def edit; end
 
   def create
     if @resource.save

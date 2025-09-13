@@ -1,7 +1,7 @@
 require 'spec_helper'
 
 describe SchoolsController do
-  before(:each) do
+  before do
     sign_in @admin = create(:admin)
   end
 
@@ -18,6 +18,7 @@ describe SchoolsController do
       expect(School.count).to eq(1)
       expect(response).to be_redirect
     end
+
     it 'renders again on failure' do
       post :create, params: { school: { name: '' } }
       expect(School.count).to eq(0)
@@ -26,7 +27,7 @@ describe SchoolsController do
   end
 
   context 'index' do
-    before(:each) do
+    before do
       @school = create(:school)
     end
 
@@ -38,7 +39,7 @@ describe SchoolsController do
   end
 
   context 'edit' do
-    before(:each) do
+    before do
       @school = create(:school)
     end
 
@@ -50,7 +51,7 @@ describe SchoolsController do
   end
 
   context 'update' do
-    before(:each) do
+    before do
       @school = create(:school)
     end
 

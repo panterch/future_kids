@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe ApplicationController do
-
   let!(:mentor) { create(:mentor, sex: 'f') }
   let!(:kid) { create(:kid, sex: 'f') }
   let!(:kid2) { create(:kid, sex: 'f') }

@@ -22,9 +22,7 @@ module ManageSchedules
     schedule_attributes =
       resource_params && # guard against none attributes submitted
       resource_params[:schedules_attributes]
-    if schedule_attributes.present?
-      @resource.update(schedules_attributes: schedule_attributes)
-    end
+    @resource.update(schedules_attributes: schedule_attributes) if schedule_attributes.present?
     redirect_to action: :show
   end
 end

@@ -7,7 +7,7 @@ class Ability
       cannot :create, MentorMatching
     elsif user.is_a?(Mentor)
       # own record may be read
-      can [:read, :update, :edit_schedules, :update_schedules, :disable_no_kids_reminder],
+      can %i[read update edit_schedules update_schedules disable_no_kids_reminder],
           Mentor, id: user.id
       # mentor can read records of admins associated indirectly via kid
       can :read, Admin, coachings: { mentor_id: user.id }
@@ -54,15 +54,15 @@ class Ability
       # mentor can create mentor_matching
       if Site.load.public_signups_active?
         can :create, MentorMatching, mentor_id: user.id
-        can :read, MentorMatching, mentor_id: user.id, state: ['reserved', 'confirmed']
-        can [:confirm, :decline], MentorMatching, mentor_id: user.id, state: 'reserved'
+        can :read, MentorMatching, mentor_id: user.id, state: %w[reserved confirmed]
+        can %i[confirm decline], MentorMatching, mentor_id: user.id, state: 'reserved'
       end
     elsif user.is_a?(Teacher)
       can :manage, Teacher, id: user.id
       can :create, Kid
-      can [:read, :update], Kid, teacher_id: user.id, inactive: false
-      can [:read, :update], Kid, secondary_teacher_id: user.id, inactive: false
-      can [:read, :update], Kid, third_teacher_id: user.id, inactive: false
+      can %i[read update], Kid, teacher_id: user.id, inactive: false
+      can %i[read update], Kid, secondary_teacher_id: user.id, inactive: false
+      can %i[read update], Kid, third_teacher_id: user.id, inactive: false
       can :read, Mentor, kids: { teacher_id: user.id }
       can :read, Mentor, kids: { secondary_teacher_id: user.id }
       can :read, Mentor, kids: { third_teacher_id: user.id }
@@ -90,17 +90,17 @@ class Ability
       # mentor matching permissions
       if Site.load.public_signups_active?
         can :manage, MentorMatching, kid: { teacher_id: user.id }
-        cannot [:create, :accept, :decline, :confirm], MentorMatching
-        can [:accept, :decline], MentorMatching, kid: { teacher_id: user.id }, state: 'pending'
+        cannot %i[create accept decline confirm], MentorMatching
+        can %i[accept decline], MentorMatching, kid: { teacher_id: user.id }, state: 'pending'
         can :read, Mentor, mentor_matchings: { kid: { teacher_id: user.id } }
       end
     elsif user.is_a?(Principal)
       # own record may be read
-      can [:read, :update], Principal, id: user.id
+      can %i[read update], Principal, id: user.id
       can :create, Kid
-      can [:read, :update], Kid, school_id: user.school_ids
+      can %i[read update], Kid, school_id: user.school_ids
       can :create, Teacher
-      can [:read, :update], Teacher, school_id: user.school_ids, inactive: false
+      can %i[read update], Teacher, school_id: user.school_ids, inactive: false
     end
 
     # comments can be created by any users that can access the journal
@@ -137,15 +137,15 @@ class Ability
 
     # special manage definition for mentors - OVERWRITING even the global
     # destroy protection
-    if user.is_a?(Mentor)
-      # to change a journal there have to be more criterias fulfilled: the mentor
-      # himself must be set on the journal entry and must be associated with
-      # the kid
-      can :manage, Journal, mentor_id: user.id,
-                            kid: { mentor_id: user.id }
-      can :manage, Journal, mentor_id: user.id,
-                            kid: { secondary_mentor_id: user.id,
-                                   secondary_active: true }
-    end
+    return unless user.is_a?(Mentor)
+
+    # to change a journal there have to be more criterias fulfilled: the mentor
+    # himself must be set on the journal entry and must be associated with
+    # the kid
+    can :manage, Journal, mentor_id: user.id,
+                          kid: { mentor_id: user.id }
+    can :manage, Journal, mentor_id: user.id,
+                          kid: { secondary_mentor_id: user.id,
+                                 secondary_active: true }
   end
 end

@@ -6,12 +6,11 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
   So that I can create a new substitution
 
 ' do
-
   let!(:admin) { create(:admin) }
-  let!(:mentor_frederik) {
+  let!(:mentor_frederik) do
     create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'm')
-  }
-  let!(:kid) { create(:kid, mentor: mentor_frederik)}
+  end
+  let!(:kid) { create(:kid, mentor: mentor_frederik) }
 
   background do
     expect(User.first.valid_password?(admin.password)).to eq(true)
@@ -42,7 +41,7 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
   describe 'mentor should have a quicklink for substitution and mentor and kid should be preset' do
     scenario 'contextual_link to add substitution' do
       visit mentor_path(id: mentor_frederik.id)
-      find('.contextual_links_panel').click_link("Neue Abwesenheit")
+      find('.contextual_links_panel').click_link('Neue Abwesenheit')
       expect(page.status_code).to eq(200)
       expect(page).to have_content('Ersatz erfassen')
       expect(page).to have_content(mentor_frederik.display_name)
@@ -51,25 +50,23 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
   end
 end
 
-
 feature 'ADMIN::UPDATE:SUBSTITUTION', '
   As a admin
   I want to find a substitution for a mentor
 
 ' do
-
   let!(:admin) { create(:admin) }
-  let!(:mentor_frederik) {
+  let!(:mentor_frederik) do
     create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'm')
-  }
-  let!(:mentor_melanie) {
-    create(:mentor, ects: :currently, prename: 'Melanie', name:'Rohner', sex: 'f')
-  }
+  end
+  let!(:mentor_melanie) do
+    create(:mentor, ects: :currently, prename: 'Melanie', name: 'Rohner', sex: 'f')
+  end
   let!(:kid) { create(:kid, mentor: mentor_frederik) }
 
-  let!(:substitution) {
+  let!(:substitution) do
     create(:substitution, mentor: mentor_frederik, kid: kid, start_at: (Date.today - 1), end_at: (Date.today + 10))
-  }
+  end
 
   background do
     expect(User.first.valid_password?(admin.password)).to eq(true)
@@ -89,20 +86,16 @@ feature 'ADMIN::UPDATE:SUBSTITUTION', '
     expect(page).to have_content('Ersatzmentor für Abwesenheit')
     expect(page).to have_content(mentor_frederik.display_name)
   end
-
 end
-
-
 
 feature 'MENTOR::SHOW:SUBSTITUTION', '
   As a mentor
   I want not be able to show/modify substitutions
 
 ' do
-
-  let!(:mentor) {
+  let!(:mentor) do
     create(:mentor, prename: 'Mentor', name: 'Mentor', sex: 'm')
-  }
+  end
 
   background do
     expect(User.first.valid_password?(mentor.password)).to eq(true)
@@ -110,11 +103,10 @@ feature 'MENTOR::SHOW:SUBSTITUTION', '
   end
 
   scenario 'mentor should not be able to show substitution' do
-    expect{visit substitutions_path}.to raise_error(CanCan::AccessDenied)
+    expect { visit substitutions_path }.to raise_error(CanCan::AccessDenied)
   end
 
   scenario 'mentor should not be able to see substitution-header-link' do
-    expect(page).to_not have_content('Ersatz')
+    expect(page).to have_no_content('Ersatz')
   end
-
 end

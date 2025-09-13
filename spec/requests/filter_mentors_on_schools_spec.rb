@@ -1,7 +1,6 @@
 require 'requests/acceptance_helper'
 
 feature 'Mentor index' do
-
   background do
     @pw = 'welcome'
     @admin1  = create(:admin, name: 'first', prename: 'admin', password: @pw, password_confirmation: @pw)
@@ -23,11 +22,11 @@ feature 'Mentor index' do
   scenario 'should filter mentors on schools without repetitions' do
     select('school1', from: 'mentor_filter_by_school_id')
     click_button('Filter anwenden')
-    expect(page).to have_text ('1 Mentor/innen')
+    expect(page).to have_text('1 Mentor/innen')
     expect(page).to have_css('a', text: 'first, mentor')
     select('school2', from: 'mentor_filter_by_school_id')
     click_button('Filter anwenden')
-    expect(page).to have_text ('2 Mentor/innen')
+    expect(page).to have_text('2 Mentor/innen')
     expect(page).to have_css('a', text: 'first, mentor')
     expect(page).to have_css('a', text: 'second, mentor')
   end
@@ -35,36 +34,36 @@ feature 'Mentor index' do
   scenario 'filtering on schools should interact with other filters (other chosen first)' do
     select('GA', from: 'mentor_transport')
     click_button('Filter anwenden')
-    expect(page).to have_text ('1 Mentor/innen')
+    expect(page).to have_text('1 Mentor/innen')
     expect(page).to have_css('a', text: 'second, mentor')
     select('school1', from: 'mentor_filter_by_school_id')
     click_button('Filter anwenden')
-    expect(page).to have_text ('0 Mentor/innen')
+    expect(page).to have_text('0 Mentor/innen')
     select('school2', from: 'mentor_filter_by_school_id')
     click_button('Filter anwenden')
-    expect(page).to have_text ('1 Mentor/innen')
+    expect(page).to have_text('1 Mentor/innen')
     expect(page).to have_css('a', text: 'second, mentor')
   end
 
   scenario 'filtering on schools should interact with other filters (other chosen last, no modification)' do
     select('school1', from: 'mentor_filter_by_school_id')
     click_button('Filter anwenden')
-    expect(page).to have_text ('1 Mentor/innen')
+    expect(page).to have_text('1 Mentor/innen')
     expect(page).to have_css('a', text: 'first, mentor')
     select('Halbtax', from: 'mentor_transport')
     click_button('Filter anwenden')
-    expect(page).to have_text ('1 Mentor/innen')
+    expect(page).to have_text('1 Mentor/innen')
     expect(page).to have_css('a', text: 'first, mentor')
   end
 
   scenario 'filtering on schools should interact with other filters (other chosen last, with modification)' do
     select('school2', from: 'mentor_filter_by_school_id')
     click_button('Filter anwenden')
-    expect(page).to have_text ('2 Mentor/innen')
+    expect(page).to have_text('2 Mentor/innen')
     expect(page).to have_css('a', text: 'first, mentor')
     expect(page).to have_css('a', text: 'second, mentor')
     select('first, admin', from: 'mentor_filter_by_coach_id')
     click_button('Filter anwenden')
-    expect(page).to have_text ('0 Mentor/innen')
+    expect(page).to have_text('0 Mentor/innen')
   end
 end

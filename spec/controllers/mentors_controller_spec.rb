@@ -2,13 +2,13 @@ require 'spec_helper'
 
 describe MentorsController do
   context 'as a mentor' do
-    before(:each) do
+    before do
       @mentor = create(:mentor)
       sign_in @mentor
     end
 
     context 'show' do
-      before(:each) do
+      before do
         @journal = create(:journal, mentor: @mentor, held_at: '2011-01-01')
       end
 
@@ -29,28 +29,30 @@ describe MentorsController do
           schedules_attributes: [
             { day: 1, hour: 15, minute: 0 },
             { day: 2, hour: 16, minute: 30 }
-          ] } }
+          ]
+        } }
         expect(@mentor.reload.schedules.count).to eq(2)
       end
     end
 
     context 'disable_no_kids_reminder' do
       let!(:other_mentor) { create(:mentor) }
+
       it 'disables no_kids_reminder' do
         get :disable_no_kids_reminder, params: { id: @mentor.id }
         expect(@mentor.reload.no_kids_reminder).to eq false
       end
 
       it 'is not allowed disable reminder for other mentor' do
-        expect {
+        expect do
           get :disable_no_kids_reminder, params: { id: other_mentor.id }
-        }.to raise_error CanCan::AccessDenied
+        end.to raise_error CanCan::AccessDenied
       end
     end
   end
 
   context 'as an admin' do
-    before(:each) do
+    before do
       @admin = create(:admin)
       sign_in @admin
       @mentor = create(:mentor)
@@ -74,6 +76,5 @@ describe MentorsController do
         expect(response).to be_successful
       end
     end
-
   end
 end

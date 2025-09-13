@@ -13,14 +13,16 @@ class SubstitutionsController < ApplicationController
     respond_with @substitutions
   end
 
+  def show
+    redirect_to substitutions_url
+  end
+
   def new
     @substitution = Substitution.new(kid_id: params[:kid_id])
   end
 
   def create
-    unless @substitution.kid.nil?
-      @substitution.mentor = @substitution.kid.mentor
-    end
+    @substitution.mentor = @substitution.kid.mentor unless @substitution.kid.nil?
     if @substitution.save
       respond_with @substitution
     else
@@ -39,11 +41,7 @@ class SubstitutionsController < ApplicationController
     redirect_to action: :index
   end
 
-  def show
-    redirect_to substitutions_url
-  end
-
-protected
+  protected
 
   def substitution_params
     params.require(:substitution).permit(

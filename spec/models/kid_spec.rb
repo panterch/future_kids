@@ -8,37 +8,41 @@ describe Kid do
   context 'dates' do
     subject { build(:kid) }
 
-    it { should allow_values(Date.parse('2021-11-18')).for(:dob) }
-    it { should_not allow_values(Date.parse('0021-11-18')).for(:dob) }
-    it { should allow_values(Date.parse('2021-11-18')).for(:exit_at) }
-    it { should_not allow_values(Date.parse('0021-11-18')).for(:exit_at) }
-    it { should allow_values(Date.parse('2021-11-18')).for(:checked_at) }
-    it { should_not allow_values(Date.parse('0021-11-18')).for(:checked_at) }
-    it { should allow_values(Date.parse('2021-11-18')).for(:coached_at) }
-    it { should_not allow_values(Date.parse('0021-11-18')).for(:coached_at) }
-
+    it { is_expected.to allow_values(Date.parse('2021-11-18')).for(:dob) }
+    it { is_expected.not_to allow_values(Date.parse('0021-11-18')).for(:dob) }
+    it { is_expected.to allow_values(Date.parse('2021-11-18')).for(:exit_at) }
+    it { is_expected.not_to allow_values(Date.parse('0021-11-18')).for(:exit_at) }
+    it { is_expected.to allow_values(Date.parse('2021-11-18')).for(:checked_at) }
+    it { is_expected.not_to allow_values(Date.parse('0021-11-18')).for(:checked_at) }
+    it { is_expected.to allow_values(Date.parse('2021-11-18')).for(:coached_at) }
+    it { is_expected.not_to allow_values(Date.parse('0021-11-18')).for(:coached_at) }
   end
 
   context 'embedded journals' do
     let(:kid) { create(:kid) }
     let(:mentor) { create(:mentor) }
+
     it 'can associate a journal' do
       attrs = attributes_for(:journal)
       attrs[:mentor_id] = mentor.id
       kid.journals.create!(attrs)
       expect(Kid.find(kid.id).journals.size).to eq(1)
     end
+
     it 'can populate journal via nested attributes' do
-      kid.update(journals_attributes:[{ 'mentor_id' => mentor.id }])
+      kid.update(journals_attributes: [{ 'mentor_id' => mentor.id }])
       expect(kid.journals.size).to eq(1)
     end
+
     it 'does sort journal correctly' do
       old_record =      create(:journal, held_at: Date.parse('2010-01-01'), kid: kid)
       recent_record =   create(:journal, held_at: Date.parse('2020-01-01'), kid: kid)
       very_old_record = create(:journal, held_at: Date.parse('2002-01-01'), kid: kid)
       expect(kid.journals.map(&:held_at)).to eq(
-        [recent_record, old_record, very_old_record].map(&:held_at))
+        [recent_record, old_record, very_old_record].map(&:held_at)
+      )
     end
+
     it 'cleans up journals on deletion' do
       journal = create(:journal, kid: kid)
       kid.destroy
@@ -49,42 +53,46 @@ describe Kid do
 
   context 'goals' do
     let(:kid) { build(:kid) }
+
     it 'validates on factory values' do
       expect(kid).to be_valid
     end
+
     it 'does invalidate without goals' do
-      kid.goal_1 = ""
-      kid.goal_2 = ""
-      expect(kid).to_not be_valid
+      kid.goal_1 = ''
+      kid.goal_2 = ''
+      expect(kid).not_to be_valid
     end
+
     it 'does validate by checking one goal per group' do
-      kid.goal_1 = ""
-      kid.goal_2 = ""
+      kid.goal_1 = ''
+      kid.goal_2 = ''
       kid.goal_3 = true
       kid.goal_35 = true
       expect(kid).to be_valid
     end
+
     it 'tracks changes in goals' do
       last_updated = Time.now
-      kid.goal_1 = "test"
+      kid.goal_1 = 'test'
       kid.save!
       expect(kid.goals_updated_at).to be > last_updated
 
-      last_updated_at = kid.goals_updated_at
+      kid.goals_updated_at
       kid.goal_4 = true
       kid.save!
       expect(kid.goals_updated_at).to be > last_updated
 
-      last_updated_at = kid.goals_updated_at
-      kid.name = "changed"
+      kid.goals_updated_at
+      kid.name = 'changed'
       kid.save!
       expect(kid.goals_updated_at.utc.to_s).to eq last_updated.utc.to_s
     end
   end
 
-
   context 'relation to mentor' do
     let(:kid) { build(:kid) }
+
     it 'does associate a mentor' do
       kid.mentor = create(:mentor)
       kid.save! && kid.reload
@@ -112,7 +120,7 @@ describe Kid do
       expect(kid.mentor).not_to eql(kid.secondary_mentor)
     end
 
-    it 'can be called via secondary_kid accessor'  do
+    it 'can be called via secondary_kid accessor' do
       kid.secondary_mentor = mentor = create(:mentor)
       kid.save! && kid.reload && mentor.reload
       expect(mentor.secondary_kids.first).to eq(kid)
@@ -183,6 +191,7 @@ describe Kid do
 
   context 'relation to admin' do
     let(:kid) { build(:kid) }
+
     it 'does associate a mentor' do
       admin = kid.admin = create(:admin)
       kid.save! && kid.reload
@@ -203,42 +212,50 @@ describe Kid do
   end
 
   context 'meeting time calculation' do
-    before(:each) do
+    before do
       @kid = create(:kid, meeting_day: 3,
                           meeting_start_at: Time.zone.parse('18:00'))
     end
-    it 'should return saturday evening when not enough information' do
+
+    it 'returns saturday evening when not enough information' do
       @kid.meeting_day = nil
       meeting = @kid.calculate_meeting_time(thursday)
       expect(meeting).to eq(Time.zone.parse('2011-01-08 18:00'))
     end
-    it 'should calculate the correct meeting time in past' do
+
+    it 'calculates the correct meeting time in past' do
       meeting = @kid.calculate_meeting_time(thursday)
       expect(meeting).to eq(Time.zone.parse('2011-01-05 18:00'))
     end
-    it 'should calculate the correct meeting time in future' do
+
+    it 'calculates the correct meeting time in future' do
       meeting = @kid.calculate_meeting_time(monday)
       expect(meeting).to eq(Time.zone.parse('2011-01-05 18:00'))
     end
+
     it 'has no journal entry due at monday' do
       expect(@kid.journal_entry_due?(monday)).to be_falsey
     end
+
     it 'has journal entry due at friday' do
       expect(@kid.journal_entry_due?(friday)).to be_truthy
     end
   end
 
   context 'journal entry for week' do
-    before(:each) do
+    before do
       @kid = create(:kid, meeting_day: 2, meeting_start_at: '13:00')
       @journal = create(:journal, kid: @kid, held_at: thursday)
     end
+
     it 'finds journal entry in future' do
       expect(@kid.journal_entry_for_week(monday)).to eq(@journal)
     end
+
     it 'finds journal entry in past' do
       expect(@kid.journal_entry_for_week(friday)).to eq(@journal)
     end
+
     it 'detects missing journal entries' do
       @journal.destroy
       expect(@kid.journal_entry_for_week(friday)).to be_nil
@@ -247,20 +264,19 @@ describe Kid do
 
   context 'association with admin, mentor and school' do
     it 'has admin' do
-      should belong_to(:admin).optional
+      expect(subject).to belong_to(:admin).optional
     end
 
     it 'has mentor' do
-      should belong_to(:mentor).optional
+      expect(subject).to belong_to(:mentor).optional
     end
 
     it 'has school' do
-      should belong_to(:school).optional
+      expect(subject).to belong_to(:school).optional
     end
   end
 
   context 'geocoding' do
-
     # see config/initializers/geocoder.rb
 
     let(:kid) { create(:kid) }

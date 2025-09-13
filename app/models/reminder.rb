@@ -1,5 +1,4 @@
 class Reminder < ApplicationRecord
-
   # virtual attributes to support filter parameters
   attr_accessor :filter_by_school_id
   attr_accessor :filter_by_ects
@@ -11,7 +10,7 @@ class Reminder < ApplicationRecord
   belongs_to :secondary_mentor, class_name: 'Mentor', optional: true
   belongs_to :kid
 
-  validates_presence_of :kid
+  validates :kid, presence: true
 
   # sends the reminder to the appropriate recipient
   def deliver_mail
@@ -36,11 +35,11 @@ class Reminder < ApplicationRecord
       r.week = r.held_at.strftime('%U')
       r.year = r.held_at.year
       # the recipient of the reminder should be the active mentor
-      if kid.secondary_active? && kid.secondary_mentor
-        r.recipient = kid.secondary_mentor.email
-      else
-        r.recipient = kid.mentor&.email
-      end
+      r.recipient = if kid.secondary_active? && kid.secondary_mentor
+                      kid.secondary_mentor.email
+                    else
+                      kid.mentor&.email
+                    end
     end
   end
 
@@ -60,7 +59,7 @@ class Reminder < ApplicationRecord
 
     reminders_created_count =
       Kid.all.find_each.count do |kid|
-        self.conditionally_create_reminder_for_kid(time, kid)
+        conditionally_create_reminder_for_kid(time, kid)
       end
 
     # send out admin notification when reminders were created
@@ -74,8 +73,8 @@ class Reminder < ApplicationRecord
     )
     logger.flush
 
-    return reminders_created_count
-  rescue => e
+    reminders_created_count
+  rescue StandardError => e
     logger.error 'Exception during reminder run'
     logger.error e.message
     logger.error e.backtrace.join("\n")
@@ -85,15 +84,17 @@ class Reminder < ApplicationRecord
   def self.conditionally_create_reminder_for_kid(time, kid)
     log_preamble = "[#{kid.id}] #{kid.display_name}: "
 
-    logger.info(log_preamble + " checking journal entries")
+    logger.info(log_preamble + ' checking journal entries')
     logger.flush
 
     log_message =
-      case
-      when !kid.journal_entry_due?(time) then 'no entry due'
-      when kid.journal_entry_for_week(time) then 'journal entry present'
-      when kid.reminder_entry_for_week(time) then 'reminder entry present'
-      when kid.mentor.nil? && kid.secondary_mentor.nil?
+      if !kid.journal_entry_due?(time)
+        'no entry due'
+      elsif kid.journal_entry_for_week(time)
+        'journal entry present'
+      elsif kid.reminder_entry_for_week(time)
+        'reminder entry present'
+      elsif kid.mentor.nil? && kid.secondary_mentor.nil?
         'no mentors set'
       else
         reminder = Reminder.create_for(kid, time)

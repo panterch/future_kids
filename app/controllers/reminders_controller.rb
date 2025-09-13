@@ -32,9 +32,10 @@ class RemindersController < ApplicationController
 
     respond_to do |format|
       format.js
-      format.html { redirect_back fallback_location: reminders_url, notice: "Erinnerung wird zugestellt an #{@reminder.recipient}" }
+      format.html do
+        redirect_back fallback_location: reminders_url, notice: "Erinnerung wird zugestellt an #{@reminder.recipient}"
+      end
     end
-
   end
 
   # destroy is used to acknowledge reminders

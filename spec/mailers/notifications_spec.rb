@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Notifications do
   describe 'remind' do
-    before(:each) do
+    before do
       @reminder = create(:reminder)
       @mail = Notifications.remind(@reminder)
     end
@@ -25,7 +25,7 @@ describe Notifications do
   end
 
   describe 'reminders created' do
-    before(:each) do
+    before do
       @mail = Notifications.reminders_created(10)
     end
 
@@ -35,7 +35,7 @@ describe Notifications do
   end
 
   describe 'comment created' do
-    before(:each) do
+    before do
       @comment = create(:comment)
       @mail = Notifications.comment_created(@comment)
     end
@@ -46,7 +46,7 @@ describe Notifications do
   end
 
   describe 'comment created with site wide bcc feature' do
-    before(:each) do
+    before do
       Site.load.update_attribute(:comment_bcc, 'bcc@example.com')
       @comment = create(:comment)
       @mail = Notifications.comment_created(@comment)
@@ -58,17 +58,17 @@ describe Notifications do
   end
 
   describe 'journal' do
-    before(:each) do
+    before do
       @admin    = create(:admin, email: 'admin@example.com')
       @mentor   = create(:mentor)
       @kid1     = create(:kid, mentor: @mentor, admin: @admin)
       @kid2     = create(:kid, mentor: @mentor)
       @journal1 = create(:journal, kid: @kid1, mentor: @mentor, held_at: '2017-01-19',
-                         important: true, start_at: '13:30', end_at: '14:00')
+                                   important: true, start_at: '13:30', end_at: '14:00')
       @journal2 = create(:journal, kid: @kid2, mentor: @mentor, held_at: '2017-01-19',
-                         important: true, start_at: '13:30', end_at: '14:00')
+                                   important: true, start_at: '13:30', end_at: '14:00')
       @journal3 = create(:journal, kid: @kid1, mentor: @mentor, held_at: '2017-01-18',
-                         important: false, start_at: '13:30', end_at: '14:00')
+                                   important: false, start_at: '13:30', end_at: '14:00')
       @mail1    = Notifications.important_journal_created(@journal1)
       @mail2    = Notifications.important_journal_created(@journal2)
       @mail3    = Notifications.important_journal_created(@journal3)
@@ -92,7 +92,7 @@ describe Notifications do
   end
 
   describe 'first_year_assessment created' do
-    before(:each) do
+    before do
       @first_year_assessment = create(:first_year_assessment)
       @mail = Notifications.first_year_assessment_created(@first_year_assessment)
     end

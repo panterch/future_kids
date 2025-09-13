@@ -13,16 +13,18 @@ class MentorsController < ApplicationController
     last_selected_coach = params[:mentor][:filter_by_coach_id]
     last_selected_meeting_day = params[:mentor][:filter_by_meeting_day]
     last_selected_school = params[:mentor][:filter_by_school_id]
-    unless params[:mentor][:filter_by_coach_id].blank?
+    if params[:mentor][:filter_by_coach_id].present?
       @mentors = @mentors.joins(:admins).where('kids.admin_id = ?', params[:mentor][:filter_by_coach_id].to_i).distinct
       params[:mentor][:filter_by_coach_id] = nil
     end
-    unless params[:mentor][:filter_by_meeting_day].blank?
-      @mentors = @mentors.joins(:kids).where('kids.meeting_day = ?', params[:mentor][:filter_by_meeting_day].to_i).distinct
+    if params[:mentor][:filter_by_meeting_day].present?
+      @mentors = @mentors.joins(:kids).where('kids.meeting_day = ?',
+                                             params[:mentor][:filter_by_meeting_day].to_i).distinct
       params[:mentor][:filter_by_meeting_day] = nil
     end
-    unless params[:mentor][:filter_by_school_id].blank?
-      @mentors = @mentors.joins(:schools).where('kids.school_id = ?', params[:mentor][:filter_by_school_id].to_i).distinct
+    if params[:mentor][:filter_by_school_id].present?
+      @mentors = @mentors.joins(:schools).where('kids.school_id = ?',
+                                                params[:mentor][:filter_by_school_id].to_i).distinct
       params[:mentor][:filter_by_school_id] = nil
     end
 
@@ -36,9 +38,8 @@ class MentorsController < ApplicationController
     # provide a prototype for the filter form
     @mentor = Mentor.new(mentor_params)
 
-
     if current_user.is_a?(Admin) && 'xlsx' == params[:format]
-      return render xlsx: 'index'
+      render xlsx: 'index'
     # when only one record is present, show it immediately. this is not for
     # admins, since they could have no chance to alter their filter settings in
     # some cases
@@ -75,16 +76,14 @@ class MentorsController < ApplicationController
   def mentor_params
     if params[:mentor].present?
       p = [:name, :prename, :email, :password, :password_confirmation, :address, :sex,
-        :city, :dob, :phone, :school_id, :field_of_study, :education, :transport,
-        :personnel_number, :ects, :term, :absence, :note, :todo, :substitute,
-        :filter_by_school_id, :filter_by_meeting_day, :filter_by_coach_id,
-        :exit, :exit_kind, :exit_at, :no_kids_reminder,
-        :inactive, :photo, schedules_attributes: [:day, :hour, :minute]
-      ]
+           :city, :dob, :phone, :school_id, :field_of_study, :education, :transport,
+           :personnel_number, :ects, :term, :absence, :note, :todo, :substitute,
+           :filter_by_school_id, :filter_by_meeting_day, :filter_by_coach_id,
+           :exit, :exit_kind, :exit_at, :no_kids_reminder,
+           :inactive, :photo, { schedules_attributes: %i[day hour minute] }]
       params.require(:mentor).permit(*p)
     else
       {}
     end
   end
-
 end

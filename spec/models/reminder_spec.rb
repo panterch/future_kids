@@ -1,9 +1,8 @@
 require 'spec_helper'
 
 describe Reminder do
-
   context 'creation' do
-    before(:each) do
+    before do
       @mentor = create(:mentor)
       @kid = create(:kid, mentor: @mentor,
                           meeting_day: 1,
@@ -90,9 +89,9 @@ describe Reminder do
 
   it 'delivers reminders' do
     @reminder = create(:reminder)
-    expect {
+    expect do
       @reminder.deliver_mail
-    }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
+    end.to have_enqueued_job(ActionMailer::MailDeliveryJob)
     expect(@reminder.sent_at).not_to be_nil
   end
 
@@ -103,7 +102,7 @@ describe Reminder do
     end
 
     it 'finds ignores acknologed reminders' do
-      reminder = create(:reminder, acknowledged_at: Time.now)
+      create(:reminder, acknowledged_at: Time.now)
       expect(Reminder.active).to be_empty
     end
   end

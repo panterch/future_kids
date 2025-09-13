@@ -1,16 +1,16 @@
 class Schedule < ApplicationRecord
   belongs_to :person, polymorphic: true
 
-  validates_numericality_of :day, only_integer: true,
-                                  greater_than_or_equal_to: 1, less_than_or_equal_to: 5
-  validates_numericality_of :hour, only_integer: true,
-                                   greater_than_or_equal_to: 0, less_than_or_equal_to: 23
-  validates_numericality_of :minute, only_integer: true,
-                                     greater_than_or_equal_to: 0, less_than_or_equal_to: 59
+  validates :day, numericality: { only_integer: true,
+                                  greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }
+  validates :hour, numericality: { only_integer: true,
+                                   greater_than_or_equal_to: 0, less_than_or_equal_to: 23 }
+  validates :minute, numericality: { only_integer: true,
+                                     greater_than_or_equal_to: 0, less_than_or_equal_to: 59 }
 
-  validates_uniqueness_of :person_id, scope: [:person_type, :day, :hour, :minute]
+  validates :person_id, uniqueness: { scope: %i[person_type day hour minute] }
 
-  validates_presence_of :person
+  validates :person, presence: true
 
   MIN_HOUR = 13
   MAX_HOUR = 18
@@ -39,22 +39,26 @@ class Schedule < ApplicationRecord
 
   def human_day
     return nil if day.nil?
+
     I18n.t('date.day_names')[day]
   end
 
   def human_hour
     return nil if hour.nil?
+
     '%02d' % hour
   end
 
   def human_minute
     return nil if minute.nil?
+
     '%02d' % minute
   end
 
   def is_last_meeting?
-    return false if LAST_MEETING_HOUR != self.hour
-    return LAST_MEETING_MIN == self.minute
+    return false if LAST_MEETING_HOUR != hour
+
+    LAST_MEETING_MIN == minute
   end
 
   # shows when last schedules entry was edited for relation

@@ -1,13 +1,24 @@
 class JournalsController < ApplicationController
   # this filter has to run before cancan resource loading
-  before_action :preset_mentor, only: [:create, :update]
+  before_action :preset_mentor, only: %i[create update]
 
   load_and_authorize_resource :kid
   load_and_authorize_resource :journal, through: :kid
   include CrudActions
 
   # these filters have to run after the resource is initialized
-  before_action :prepare_mentor_selection, except: [:index, :show], if: :admin?
+  before_action :prepare_mentor_selection, except: %i[index show], if: :admin?
+
+  def index # not supported action
+    redirect_to kid_url(@kid)
+  end
+
+  # when a users re-loads the url after and unsuccesul edit, the url
+  # points to show. show does not exist in our applications context, but
+  # we want to avoid error messages sent to those users
+  def show # not supported action
+    redirect_to edit_kid_journal_url(@journal.kid, @journal)
+  end
 
   def create
     if @journal.save
@@ -23,17 +34,6 @@ class JournalsController < ApplicationController
     else
       render :edit
     end
-  end
-
-  # when a users re-loads the url after and unsuccesul edit, the url
-  # points to show. show does not exist in our applications context, but
-  # we want to avoid error messages sent to those users
-  def show # not supported action
-    redirect_to edit_kid_journal_url(@journal.kid, @journal)
-  end
-
-  def index # not supported action
-    redirect_to kid_url(@kid)
   end
 
   def destroy
@@ -57,6 +57,7 @@ class JournalsController < ApplicationController
   def prepare_mentor_selection
     @mentors = [@journal.kid.mentor, @journal.kid.secondary_mentor].compact
     return unless @mentors.empty?
+
     redirect_to kid_url(@journal.kid), alert: 'Bitte vorher einen Mentor zuordnen.'
   end
 

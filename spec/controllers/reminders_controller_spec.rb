@@ -2,19 +2,19 @@ require 'spec_helper'
 
 describe RemindersController do
   context 'as admin' do
-    before(:each) do
+    before do
       @admin = create(:admin)
       @reminder = create(:reminder)
       sign_in @admin
     end
 
     context 'index' do
-      it 'should index' do
+      it 'indexes' do
         get :index
         expect(response).to be_successful
       end
 
-      it 'should not display acknowledged reminders' do
+      it 'does not display acknowledged reminders' do
         create(:reminder, acknowledged_at: Time.now)
         get :index
         expect(assigns(:reminders)).to eq([@reminder])

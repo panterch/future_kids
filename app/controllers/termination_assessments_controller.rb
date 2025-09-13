@@ -3,6 +3,14 @@ class TerminationAssessmentsController < ApplicationController
   load_and_authorize_resource :termination_assessment, through: :kid
   include CrudActions
 
+  def index # not supported action
+    redirect_to kid_url(@kid)
+  end
+
+  def show # not supported action
+    redirect_to edit_kid_termination_assessment_url(@termination_assessment.kid, @termination_assessment)
+  end
+
   def new
     @termination_assessment.initialize_default_values(@kid)
     render :new
@@ -23,14 +31,6 @@ class TerminationAssessmentsController < ApplicationController
     else
       render :edit
     end
-  end
-
-  def show # not supported action
-    redirect_to edit_kid_termination_assessment_url(@termination_assessment.kid, @termination_assessment)
-  end
-
-  def index # not supported action
-    redirect_to kid_url(@kid)
   end
 
   def destroy

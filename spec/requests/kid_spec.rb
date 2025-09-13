@@ -17,9 +17,9 @@ feature 'Kids as Admin' do
     end
 
     scenario 'Should see correct items' do
-      expect(page).not_to have_content('Stundenplan bearbeiten')
-      expect(page).not_to have_content('Mentor finden')
-      expect(page).not_to have_content('Stundenplan aktualisiert')
+      expect(page).to have_no_content('Stundenplan bearbeiten')
+      expect(page).to have_no_content('Mentor finden')
+      expect(page).to have_no_content('Stundenplan aktualisiert')
       expect(page).to have_content('Verfügbare Zeiten')
     end
 
@@ -34,9 +34,9 @@ feature 'Kids as Admin' do
       Site.load.update!(kids_schedule_hourly: true)
       refresh
 
-      expect(page).not_to have_content('Verfügbare Zeiten')
+      expect(page).to have_no_content('Verfügbare Zeiten')
       click_link 'Bearbeiten'
-      expect(page).not_to have_content('Verfügbare Zeiten')
+      expect(page).to have_no_content('Verfügbare Zeiten')
     end
   end
 end

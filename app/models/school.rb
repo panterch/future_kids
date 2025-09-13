@@ -1,5 +1,5 @@
 class School < ApplicationRecord
-  validates_presence_of :name
+  validates :name, presence: true
 
   default_scope { order(:name) }
 
@@ -9,14 +9,16 @@ class School < ApplicationRecord
   has_many :kids
   has_many :mentors, through: :kids
 
-  enum :school_kind, { high_school: 'high_school', gymnasium: 'gymnasium', secondary_school: 'secondary_school', primary_school: 'primary_school' }
+  enum :school_kind,
+       { high_school: 'high_school', gymnasium: 'gymnasium', secondary_school: 'secondary_school',
+         primary_school: 'primary_school' }
 
   def active_teachers
-    self.teachers.active
+    teachers.active
   end
 
   def active_principals
-    self.principals.active
+    principals.active
   end
 
   def display_name
@@ -25,17 +27,18 @@ class School < ApplicationRecord
 
   def human_school_kind
     return nil unless school_kind
+
     School.humanize_enum('school_kind', school_kind)
   end
 
   def self.by_kind(role)
     case role
-      when :mentor
-        self.high_school + self.gymnasium
-      when :teacher
-        self.primary_school + self.secondary_school
-      when :kid
-        self.primary_school + self.secondary_school
+    when :mentor
+      high_school + gymnasium
+    when :teacher
+      primary_school + secondary_school
+    when :kid
+      primary_school + secondary_school
     end
   end
 end

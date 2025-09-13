@@ -2,11 +2,10 @@ class TeachersController < ApplicationController
   load_and_authorize_resource
   include CrudActions
 
-  before_action :load_and_constrain_schools, except: [:index, :show]
+  before_action :load_and_constrain_schools, except: %i[index show]
   # principals are allowed to change teachers schools, so we cannot
   # use the too aggressive global parameter filtering
   skip_before_action :intercept_sensitive_params!
-
 
   def index
     # a prototyped teacher is submitted with each index query. if the prototype
@@ -35,24 +34,24 @@ class TeachersController < ApplicationController
   # user - else it would be possible for a user to assign a teacher to
   # another school
   def load_and_constrain_schools
-    case current_user
-      when Admin
-        @schools = School.by_kind(:teacher)
-      when Principal
-        @schools = current_user.schools
-      else
-        @schools = []
-    end
+    @schools = case current_user
+               when Admin
+                 School.by_kind(:teacher)
+               when Principal
+                 current_user.schools
+               else
+                 []
+               end
     return unless params[:teacher].present? && params[:teacher][:school_id].present?
-    unless @schools.map(&:id).include?(params[:teacher][:school_id].to_i)
-      fail SecurityError.new("User #{current_user.id} not allowed to change school_id to #{params[:teacher][:school_id]}")
-    end
+    return if @schools.map(&:id).include?(params[:teacher][:school_id].to_i)
+
+    raise SecurityError.new("User #{current_user.id} not allowed to change school_id to #{params[:teacher][:school_id]}")
   end
 
   def teacher_params
     if params[:teacher].present?
-      keys = [ :name, :prename, :email, :password, :password_confirmation, :school_id,
-          :phone, :receive_journals, :todo, :note]
+      keys = %i[name prename email password password_confirmation school_id
+                phone receive_journals todo note]
       keys << :inactive if current_user.is_a?(Admin)
       params.require(:teacher).permit(keys)
     else

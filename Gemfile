@@ -2,58 +2,57 @@ source 'https://rubygems.org'
 
 ruby '3.4.4'
 
-gem 'rails', '~> 7'
 gem 'haml-rails'
-gem 'sprockets-rails'
-gem 'jquery-rails'
 gem 'jbuilder'
+gem 'jquery-rails'
+gem 'rails', '~> 7'
 gem 'rails-i18n'
+gem 'sprockets-rails'
 
 gem 'actionview-encoded_mail_to'
-gem 'cancancan'
-gem 'devise'
-gem 'simple_form'
-gem 'pg'
-gem 'responders'
-gem 'show_for'
-gem 'whenever', require: false
+gem 'active_storage_validations'
 gem 'bootstrap-sass'
-gem 'i18n_rails_helpers'
-gem 'react-rails'
-gem 'sassc-rails'
+gem 'cancancan'
 gem 'coffee-rails'
-gem 'terser'
 gem 'countries'
 gem 'country_select'
-gem 'image_processing'
-gem 'active_storage_validations'
-gem 'google-cloud-storage', require: false
+gem 'devise'
 gem 'geocoder'
 gem 'geokit-rails'
-gem 'redcarpet'
-gem 'validates_timeliness'
+gem 'google-cloud-storage', require: false
+gem 'i18n_rails_helpers'
+gem 'image_processing'
 gem 'ostruct'
-
+gem 'pg'
+gem 'react-rails'
+gem 'redcarpet'
+gem 'responders'
+gem 'sassc-rails'
+gem 'show_for'
+gem 'simple_form'
+gem 'terser'
+gem 'validates_timeliness'
+gem 'whenever', require: false
 
 gem 'caxlsx'
 gem 'caxlsx_rails'
 
-gem 'puma'
 gem 'barnes'
+gem 'puma'
 
 # Bundle gems for the local environment. Make sure to
 # put test-only gems in this group so their generators
 # and rake tasks are available in development mode:
 group :development, :test do
+  gem 'capybara'
+  gem 'cuprite'
+  gem 'factory_bot'
+  gem 'factory_bot_rails'
+  gem 'listen'
+  gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'rubocop', require: false
   gem 'shoulda-matchers'
-  gem 'capybara'
-  gem 'factory_bot_rails'
-  gem 'factory_bot'
-  gem 'rails-controller-testing'
-  gem 'listen'
-  gem 'cuprite'
 end
 
 group :development do

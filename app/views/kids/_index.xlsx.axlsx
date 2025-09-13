@@ -1,4 +1,4 @@
-wb.add_worksheet(name: "Schüler") do |sheet|
+wb.add_worksheet(name: 'Schüler') do |sheet|
   sheet.add_row [
     Kid.human_attribute_name('id'),
     Kid.human_attribute_name('name'),
@@ -7,7 +7,7 @@ wb.add_worksheet(name: "Schüler") do |sheet|
     Kid.human_attribute_name('dob'),
     Kid.human_attribute_name('grade'),
     Kid.human_attribute_name('language'),
-    Kid.human_attribute_name('parent_country')+' ISO',
+    Kid.human_attribute_name('parent_country') + ' ISO',
     Kid.human_attribute_name('parent_country'),
     Kid.human_attribute_name('parent'),
     Kid.human_attribute_name('address'),

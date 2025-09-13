@@ -8,7 +8,7 @@ class FirstYearAssessment < ApplicationRecord
   belongs_to :mentor
   belongs_to :created_by, class_name: 'User'
 
-  validates_presence_of :kid, :teacher, :mentor, :held_at, :created_by
+  validates :kid, :teacher, :mentor, :held_at, :created_by, presence: true
 
   # the html5 date submit allows two letter dates (e.g. '21') and translates them to wrong years (like '0021')
   validates_date :held_at, after: '2001-01-01'
@@ -17,7 +17,8 @@ class FirstYearAssessment < ApplicationRecord
 
   def display_name
     return 'Neues Auswertungsgespräch' if new_record?
-    return "Auswertungsgespräch vom #{I18n.l(held_at.to_date)}" if held_at
+
+    "Auswertungsgespräch vom #{I18n.l(held_at.to_date)}" if held_at
   end
 
   def initialize_default_values(kid)
@@ -29,7 +30,8 @@ class FirstYearAssessment < ApplicationRecord
   end
 
   def human_duration
-    return "" if duration.nil?
+    return '' if duration.nil?
+
     "#{duration} Minuten"
   end
 

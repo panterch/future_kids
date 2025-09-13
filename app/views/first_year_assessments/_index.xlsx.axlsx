@@ -1,5 +1,4 @@
-wb.add_worksheet(name: "Auswertungsgespräche") do |sheet|
-
+wb.add_worksheet(name: 'Auswertungsgespräche') do |sheet|
   sheet.add_row [
     FirstYearAssessment.human_attribute_name(:id) + ' ' + FirstYearAssessment.model_name.human,
     Kid.human_attribute_name(:id) + ' ' + Kid.model_name.human,

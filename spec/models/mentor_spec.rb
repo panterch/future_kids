@@ -1,7 +1,6 @@
 require 'spec_helper'
 
 describe Mentor do
-
   include ActionDispatch::TestProcess::FixtureFile
 
   it 'has a valid factory' do
@@ -11,19 +10,23 @@ describe Mentor do
 
   context 'validations' do
     let(:mentor) { create(:mentor) }
+
     it 'does not require password again' do
       expect(mentor).to be_valid
     end
+
     it 'does ignore password overwrite with nil' do
       mentor.password = mentor.password_confirmation = nil
       expect(mentor).to be_valid
     end
+
     # devise triggers an error when empty passwords are entered. but this
     # is the default when submitting a form
     it 'does trigger an error on blank password' do
       mentor.password = mentor.password_confirmation = ''
       expect(mentor).to be_valid
     end
+
     it 'does not allow nil password on unsaved mentor' do
       new_mentor = build(:mentor)
       new_mentor.password = new_mentor.password_confirmation = nil
@@ -32,12 +35,12 @@ describe Mentor do
   end
 
   context 'schedules association' do
-    it 'should create associated schedules' do
+    it 'creates associated schedules' do
       @mentor = create(:mentor)
       @mentor.update(schedules_attributes: [
-        { day: 1, hour: 15, minute: 0 },
-        { day: 2, hour: 16, minute: 30 }
-      ])
+                       { day: 1, hour: 15, minute: 0 },
+                       { day: 2, hour: 16, minute: 30 }
+                     ])
       expect(@mentor.reload.schedules.count).to eq(2)
     end
   end
@@ -64,7 +67,7 @@ describe Mentor do
   end
 
   context 'inactive setting' do
-    it 'should release kids when set inactive' do
+    it 'releases kids when set inactive' do
       @mentor = create(:mentor)
       create(:kid, mentor: @mentor)
       create(:kid, secondary_mentor: @mentor)
@@ -75,7 +78,7 @@ describe Mentor do
   end
 
   context 'total minutes' do
-    it 'should count journals' do
+    it 'counts journals' do
       @mentor = create(:mentor)
       @journal = create(:journal, mentor: @mentor,
                                   start_at: Time.parse('13:00'),
@@ -88,26 +91,27 @@ describe Mentor do
     before do
       @mentor = create(:mentor)
       create(:journal, mentor: @mentor,
-             held_at: Date.parse('2001-05-30'),
-             start_at: Time.parse('13:00'),
-             end_at: Time.parse('14:30'))
+                       held_at: Date.parse('2001-05-30'),
+                       start_at: Time.parse('13:00'),
+                       end_at: Time.parse('14:30'))
       create(:journal, mentor: @mentor,
-             held_at: Date.today() - 1.month,
-             start_at: Time.parse('13:00'),
-             end_at: Time.parse('13:30'))
+                       held_at: Date.today - 1.month,
+                       start_at: Time.parse('13:00'),
+                       end_at: Time.parse('13:30'))
       create(:journal, mentor: @mentor,
-             held_at: Date.today() - 1.month,
-             start_at: Time.parse('13:00'),
-             end_at: Time.parse('14:30'))
+                       held_at: Date.today - 1.month,
+                       start_at: Time.parse('13:00'),
+                       end_at: Time.parse('14:30'))
     end
+
     it 'sums up duration' do
       expect(@mentor.total_duration).to eq(210)
     end
+
     it 'sums up last months duration' do
       # sum of journal entries + coaching
       expect(@mentor.total_duration_last_month_with_coaching).to eq(180)
     end
-
   end
 
   context 'month_count' do
@@ -144,9 +148,11 @@ describe Mentor do
       @file = fixture_file_upload('logo.png')
       @mentor = build(:mentor)
     end
+
     it 'attaches a photo' do
       @mentor.photo.attach(@file)
-      @mentor.save!; @mentor = Mentor.first
+      @mentor.save!
+      @mentor = Mentor.first
       expect(@mentor.photo).to be_present
       expect(@mentor.photo_medium.blob.filename.to_s).to match(/logo\.png/)
     end
@@ -168,22 +174,22 @@ describe Mentor do
     end
 
     it 'has many kids' do
-      should have_many(:kids)
+      expect(subject).to have_many(:kids)
     end
 
     it 'has many admins through kids' do
-      should have_many(:admins).through(:kids)
+      expect(subject).to have_many(:admins).through(:kids)
     end
 
     it 'has many schools through kids' do
-      should have_many(:schools).through(:kids)
+      expect(subject).to have_many(:schools).through(:kids)
     end
 
     it 'has his own school' do
-      should belong_to(:school).optional
+      expect(subject).to belong_to(:school).optional
     end
 
-    it 'should filter mentors by admins' do
+    it 'filters mentors by admins' do
       expect(@mentor1.kids.size).to eq(3)
       expect(@mentor2.kids.size).to eq(2)
       @mentors_by_admin1 = Mentor.joins(:admins).where('kids.admin_id = ?', @admin1.id).distinct!
@@ -193,10 +199,10 @@ describe Mentor do
       @mentors_by_admin2 = Mentor.joins(:admins).where('kids.admin_id = ?', @admin2.id).distinct!
       expect(@mentors_by_admin2.size).to eq(1)
       expect(@mentors_by_admin2).to include(@mentor1)
-      expect(@mentors_by_admin2).to_not include(@mentor2)
+      expect(@mentors_by_admin2).not_to include(@mentor2)
     end
 
-    it 'should filter mentors by meeting day' do
+    it 'filters mentors by meeting day' do
       @mentors_by_meeting_day1 = Mentor.joins(:kids).where('kids.meeting_day = ?', '1').distinct!
       expect(@mentors_by_meeting_day1.size).to eq(2)
       expect(@mentors_by_meeting_day1).to include(@mentor1)
@@ -204,10 +210,10 @@ describe Mentor do
       @mentors_by_meeting_day2 = Mentor.joins(:kids).where('kids.meeting_day = ?', '2').distinct!
       expect(@mentors_by_meeting_day2.size).to eq(1)
       expect(@mentors_by_meeting_day2).to include(@mentor1)
-      expect(@mentors_by_meeting_day2).to_not include(@mentor2)
+      expect(@mentors_by_meeting_day2).not_to include(@mentor2)
     end
 
-    it 'should filter mentors by schools' do
+    it 'filters mentors by schools' do
       @mentors_by_school1 = Mentor.joins(:schools).where('kids.school_id = ?', @school1.id).distinct!
       expect(@mentors_by_school1.size).to eq(2)
       expect(@mentors_by_school1.size).to eq(2)
@@ -216,7 +222,7 @@ describe Mentor do
       @mentors_by_school2 = Mentor.joins(:schools).where('kids.school_id = ?', @school2.id).distinct!
       expect(@mentors_by_school2.size).to eq(1)
       expect(@mentors_by_school2).to include(@mentor1)
-      expect(@mentors_by_school2).to_not include(@mentor2)
+      expect(@mentors_by_school2).not_to include(@mentor2)
     end
   end
 
@@ -263,5 +269,4 @@ describe Mentor do
       expect(kid.longitude.blank?).to be_truthy
     end
   end
-
 end

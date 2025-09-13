@@ -1,9 +1,6 @@
 class SitesController < ApplicationController
   authorize_resource
 
-  def edit
-  end
-
   def show
     # in xlsx format show is a full dump of the site
     if 'xlsx' == params[:format]
@@ -13,12 +10,14 @@ class SitesController < ApplicationController
       @journals = Journal.all
       @reviews = Review.all
       @assessments = FirstYearAssessment.all
-      return render xlsx: 'show'
+      render xlsx: 'show'
     # normal call redirects to the site wide features
     else
       redirect_to edit_site_url
     end
   end
+
+  def edit; end
 
   def update
     if @site.update(site_params)

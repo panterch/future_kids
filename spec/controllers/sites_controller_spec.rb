@@ -1,10 +1,8 @@
 require 'spec_helper'
 
 describe SitesController do
-
-
   context 'as a admin' do
-    before(:each) do
+    before do
       @admin = create(:admin)
       @kid = create(:kid)
       sign_in @admin
@@ -14,7 +12,5 @@ describe SitesController do
       get :show, format: 'xlsx'
       expect(response).to be_successful
     end
-
   end
-
 end

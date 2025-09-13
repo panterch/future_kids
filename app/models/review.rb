@@ -5,7 +5,7 @@ class Review < ApplicationRecord
 
   belongs_to :kid
 
-  validates_presence_of :kid, :held_at
+  validates :kid, :held_at, presence: true
   validates_date :held_at, after: '2001-01-01'
 
   after_save :sync_fields_with_kid
@@ -13,6 +13,7 @@ class Review < ApplicationRecord
   def display_name
     return 'Neue Gesprächsdoku' if new_record?
     return "Gespräch vom #{I18n.l(held_at.to_date)}" if held_at
+
     'Gespräch'
   end
 
@@ -38,10 +39,11 @@ class Review < ApplicationRecord
 
   # coaching via phone can be recorded as check / coaching
   def sync_fields_with_kid
-    if reason == 'Telefoncoaching'
-      kid.update(
-          checked_at: held_at,
-          coached_at: held_at)
-    end
+    return unless reason == 'Telefoncoaching'
+
+    kid.update(
+      checked_at: held_at,
+      coached_at: held_at
+    )
   end
 end

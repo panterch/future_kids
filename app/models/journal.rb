@@ -7,10 +7,10 @@ class Journal < ApplicationRecord
   belongs_to :mentor
   has_many :comments, -> { order('created_at ASC') }, dependent: :destroy
 
-  enum :meeting_type, { physical:0 , virtual: 1 }
+  enum :meeting_type, { physical: 0, virtual: 1 }
 
-  validates_presence_of :kid, :mentor, :held_at, :meeting_type
-  validates_presence_of :start_at, :end_at, unless: :cancelled
+  validates :kid, :mentor, :held_at, :meeting_type, presence: true
+  validates :start_at, :end_at, presence: { unless: :cancelled }
   # the html5 date submit allows two letter dates (e.g. '21') and translates them to wrong years (like '0021')
   validates_date :held_at, after: '2001-01-01', allow_blank: true
 
@@ -28,6 +28,7 @@ class Journal < ApplicationRecord
     # temporarily be nil (edit with invalid data), this has to
     # be guarded
     return "Journal vom #{I18n.l(held_at.to_date)}" if held_at
+
     'Journal'
   end
 
@@ -53,16 +54,19 @@ class Journal < ApplicationRecord
 
   def human_start_at
     return nil unless start_at
+
     I18n.l(start_at, format: :time)
   end
 
   def human_end_at
     return nil unless end_at
+
     I18n.l(end_at, format: :time)
   end
 
   def human_meeting_type
     return nil unless meeting_type
+
     Journal.humanize_enum('meeting_type', meeting_type)
   end
 

@@ -23,7 +23,7 @@ class Mentor < User
   # Unscope is needed because the association is done through kids.
   # Kids are ordered so distinct was looking at the kids scope in order to
   # produce distinct results. Unscoping order enables distinct to remove duplicates.
-  has_many :schools, -> {unscope(:order).distinct}, through: :kids
+  has_many :schools, -> { unscope(:order).distinct }, through: :kids
 
   has_many :mentor_matchings, dependent: :destroy
 
@@ -32,8 +32,8 @@ class Mentor < User
   after_validation :track_exit_kind_updates
   after_save :release_relations, if: :inactive?
 
-  validates_presence_of :sex, :address,
-            :city, :photo, :dob, :phone, :school, if: :validate_public_signup_fields?
+  validates :sex, :address,
+            :city, :photo, :dob, :phone, :school, presence: { if: :validate_public_signup_fields? }
 
   # the html5 date submit allows two letter dates (e.g. '21') and translates them to wrong years (like '0021')
   validates_date :exit_at, after: '2001-01-01', allow_blank: true
@@ -62,7 +62,7 @@ class Mentor < User
   end
 
   def total_duration_last_month_with_coaching
-    last_month = Date.today() - 1.month
+    last_month = Date.today - 1.month
     journals = self.journals.where(year: last_month.year, month: last_month.month).to_a
     journals << Journal.coaching_entry(self, last_month.month, last_month.year)
     journals.sum(&:duration)
@@ -74,11 +74,13 @@ class Mentor < User
 
   def human_exit_kind
     return '' if exit_kind.blank?
+
     I18n.t(exit_kind, scope: 'exit_kind')
   end
 
   def human_ects
     return '' if ects.blank?
+
     I18n.t(ects, scope: 'ects')
   end
 
@@ -86,7 +88,6 @@ class Mentor < User
   def schedules_updated_at
     Schedule.schedules_updated_at(self)
   end
-
 
   protected
 
@@ -97,9 +98,8 @@ class Mentor < User
   end
 
   def track_exit_kind_updates
-    if self.exit_kind_changed?
-      self.exit_kind_updated_at = Time.now
-    end
-  end
+    return unless exit_kind_changed?
 
+    self.exit_kind_updated_at = Time.now
+  end
 end

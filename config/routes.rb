@@ -1,7 +1,7 @@
 Rails.application.routes.draw do
   devise_for :user
 
-  resources :self_registrations, { only: [:create, :new] } do
+  resources :self_registrations, { only: %i[create new] } do
     collection do
       get 'success'
       get 'terms_of_use'
@@ -20,7 +20,7 @@ Rails.application.routes.draw do
   end
   resources :kids do
     resources :journals do
-      resources :comments, only: %w(new create edit update)
+      resources :comments, only: %w[new create edit update]
     end
     resources :reviews
     resources :first_year_assessments

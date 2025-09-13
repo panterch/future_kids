@@ -1,12 +1,14 @@
 require 'requests/acceptance_helper'
 
 feature 'MentorMatchings As Mentor' do
-
   before do
     Site.load.update!(kids_schedule_hourly: false, public_signups_active: true)
-    create(:kid, name: 'Hodler Rolf', sex: 'm', longitude: 14.1025379, latitude: 50.1478497, grade: '1', teacher: create(:teacher))
-    create(:kid, name: 'Maria Rolf', sex: 'f', longitude: 14.1025379, latitude: 50.1478497, grade: '5', teacher: create(:teacher))
-    create(:kid, name: 'Olivia Rolf', sex: 'f', longitude: 14.0474263, latitude: 50.1873213, grade: '5', teacher: create(:teacher))
+    create(:kid, name: 'Hodler Rolf', sex: 'm', longitude: 14.1025379, latitude: 50.1478497, grade: '1',
+                 teacher: create(:teacher))
+    create(:kid, name: 'Maria Rolf', sex: 'f', longitude: 14.1025379, latitude: 50.1478497, grade: '5',
+                 teacher: create(:teacher))
+    create(:kid, name: 'Olivia Rolf', sex: 'f', longitude: 14.0474263, latitude: 50.1873213, grade: '5',
+                 teacher: create(:teacher))
   end
 
   describe 'mentor matching' do
@@ -15,6 +17,7 @@ feature 'MentorMatchings As Mentor' do
     let(:kid) { create(:kid, name: 'Hodler Rolf', sex: 'm', teacher: create(:teacher)) }
     let(:mentor_matching) { create(:mentor_matching, mentor: mentor, kid: kid, state: 'reserved') }
     let(:other_mentor_matching) { create(:mentor_matching, mentor: other_mentor, kid: kid, state: 'pending') }
+
     before do
       log_in(mentor)
       visit available_kids_path
@@ -23,9 +26,9 @@ feature 'MentorMatchings As Mentor' do
     scenario 'can create matching' do
       click_link('Mentoringanfrage senden')
       fill_in 'Nachricht', with: 'I want to mentor the kid'
-      expect {
+      expect do
         click_button('Mentoringanfrage absenden')
-      }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
+      end.to have_enqueued_job(ActionMailer::MailDeliveryJob)
       expect(mentor.mentor_matchings.to_a.present?).to eq true
       visit available_kids_path
       expect(page).to have_content('Lehrperson angeschrieben')
@@ -42,7 +45,11 @@ feature 'MentorMatchings As Mentor' do
       # one email is to teacher with confirmation info
       # other email is to other_mentor with declined
       # last email is sent to admins
-      expect { click_link('Bestätigen') }.to change { change { ActiveJob::Base.queue_adapter.enqueued_jobs.count }.by(3) }
+      expect { click_link('Bestätigen') }.to(change do
+        change do
+          ActiveJob::Base.queue_adapter.enqueued_jobs.count
+        end.by(3)
+      end)
       expect(mentor_matching.reload.state).to eq 'confirmed'
       expect(kid.reload.mentor).to eq mentor_matching.mentor
       expect(other_mentor_matching.reload.state).to eq 'declined'
@@ -58,9 +65,11 @@ feature 'MentorMatchings As Mentor' do
   end
 end
 
-
 feature 'MentorMatchings As Admin' do
-  let(:kid) { create(:kid, name: 'Hodler Rolf', sex: 'm', longitude: 14.1025379, latitude: 50.1478497, grade: '1', teacher: create(:teacher)) }
+  let(:kid) do
+    create(:kid, name: 'Hodler Rolf', sex: 'm', longitude: 14.1025379, latitude: 50.1478497, grade: '1',
+                 teacher: create(:teacher))
+  end
   let(:admin) { create(:admin) }
   let(:mentor) { create(:mentor) }
   let!(:mentor_matching) { create(:mentor_matching, mentor: mentor, kid: kid) }
@@ -81,8 +90,14 @@ end
 
 feature 'MentorMatchings As Teacher' do
   let(:teacher) { create(:teacher) }
-  let(:kid) { create(:kid, name: 'Hodler Rolf', sex: 'm', longitude: 14.1025379, latitude: 50.1478497, grade: '1', teacher: create(:teacher)) }
-  let(:own_kid) { create(:kid, name: 'Hindler Bolf', sex: 'm', longitude: 14.1025379, latitude: 50.1478497, grade: '1', teacher: teacher) }
+  let(:kid) do
+    create(:kid, name: 'Hodler Rolf', sex: 'm', longitude: 14.1025379, latitude: 50.1478497, grade: '1',
+                 teacher: create(:teacher))
+  end
+  let(:own_kid) do
+    create(:kid, name: 'Hindler Bolf', sex: 'm', longitude: 14.1025379, latitude: 50.1478497, grade: '1',
+                 teacher: teacher)
+  end
   let(:mentor) { create(:mentor) }
   let(:own_mentor) { create(:mentor) }
   let!(:mentor_matching) { create(:mentor_matching, mentor: mentor, kid: kid) }
@@ -102,8 +117,8 @@ feature 'MentorMatchings As Teacher' do
     end
 
     scenario 'cannot see other mentor matchings' do
-      expect(page).not_to have_content(mentor.display_name)
-      expect(page).not_to have_content(kid.display_name)
+      expect(page).to have_no_content(mentor.display_name)
+      expect(page).to have_no_content(kid.display_name)
       expect(page).to have_content(mentor_matching.human_state_name)
     end
 

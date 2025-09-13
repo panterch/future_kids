@@ -1,4 +1,4 @@
-wb.add_worksheet(name: "Beziehungen") do |sheet|
+wb.add_worksheet(name: 'Beziehungen') do |sheet|
   sheet.add_row [
     Kid.human_attribute_name(:id) + ' ' + Kid.model_name.human,
     Kid.human_attribute_name(:name) + ' ' + Kid.model_name.human,

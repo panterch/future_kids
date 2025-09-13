@@ -7,14 +7,15 @@ class TerminationAssessment < ApplicationRecord
   belongs_to :teacher
   belongs_to :created_by, class_name: 'User'
 
-  validates_presence_of :kid, :teacher, :held_at, :created_by
+  validates :kid, :teacher, :held_at, :created_by, presence: true
   validates_date :held_at, after: '2001-01-01'
 
   after_create :send_notification
 
   def display_name
     return 'Neues Abschluss-Feedback' if new_record?
-    return "Abschluss-Feedback vom #{I18n.l(held_at.to_date)}" if held_at
+
+    "Abschluss-Feedback vom #{I18n.l(held_at.to_date)}" if held_at
   end
 
   def initialize_default_values(kid)
@@ -45,6 +46,7 @@ class TerminationAssessment < ApplicationRecord
 
   def human_goals_reached
     return '' if goals_reached.empty?
+
     I18n.t(goals_reached, scope: 'quaternary')
   end
 

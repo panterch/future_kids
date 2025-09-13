@@ -16,8 +16,8 @@ if Rails.env.production?
 
     # Email notifier sends notifications by email.
     config.add_notifier :email, email_prefix: '[FutureKids] ',
-                        sender_address: %("notifier" <futurekids-tech@panter.ch>),
-                        exception_recipients: %w(futurekids-tech@panter.ch)
+                                sender_address: %("notifier" <futurekids-tech@panter.ch>),
+                                exception_recipients: %w[futurekids-tech@panter.ch]
 
     # Campfire notifier sends notifications to your Campfire room. Requires 'tinder' gem.
     # config.add_notifier :campfire, {

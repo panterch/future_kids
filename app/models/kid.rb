@@ -1,5 +1,6 @@
 class Kid < ApplicationRecord
-  include ActionView::Helpers::TextHelper, HasCoordinates
+  include HasCoordinates
+  include ActionView::Helpers::TextHelper
 
   default_scope { order(:name, :prename) }
 
@@ -25,58 +26,56 @@ class Kid < ApplicationRecord
   has_many :mentor_matchings, dependent: :destroy
 
   GOALS_1 = %i[goal_3 goal_4 goal_5 goal_6 goal_7
-                 goal_8 goal_9 goal_10 goal_11 goal_12 goal_13 goal_14
-                 goal_15 goal_16 goal_17 goal_18 goal_19 goal_20 goal_21
-                 goal_22 goal_23 goal_24].freeze
+               goal_8 goal_9 goal_10 goal_11 goal_12 goal_13 goal_14
+               goal_15 goal_16 goal_17 goal_18 goal_19 goal_20 goal_21
+               goal_22 goal_23 goal_24].freeze
   GOALS_1_MAX = 4
 
   GOALS_2 = %i[goal_25 goal_26 goal_27 goal_28 goal_29 goal_30 goal_31
-                 goal_32 goal_33 goal_34 goal_35].freeze
+               goal_32 goal_33 goal_34 goal_35].freeze
   GOALS_2_MAX = 2
 
   accepts_nested_attributes_for :journals, :reviews, :schedules
 
-  validates_presence_of :name, :prename
+  validates :name, :prename, presence: true
 
-  validates_presence_of :sex, :grade, :language,
-                        :address, :city, :parent, :phone,
-                        :simplified_schedule, if: :validate_public_signup_fields?
+  validates :sex, :grade, :language,
+            :address, :city, :parent, :phone,
+            :simplified_schedule, presence: { if: :validate_public_signup_fields? }
 
-  validates_numericality_of :meeting_day, only_integer: true, allow_blank: true,
-                                          greater_than_or_equal_to: 1, less_than_or_equal_to: 5
+  validates :meeting_day, numericality: { only_integer: true, allow_blank: true,
+                                          greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }
 
   # the html5 date submit allows two letter dates (e.g. '21') and translates them to wrong years (like '0021')
   validates_date :dob, :exit_at, :checked_at, :coached_at, after: '2001-01-01', allow_blank: true
 
   # validate that enough goals were given in each group
   validate do |kid|
-    goals_1_count = GOALS_1.count { |g| kid[g].present?}
+    goals_1_count = GOALS_1.count { |g| kid[g].present? }
     if kid[:goal_1].blank? && 0 == goals_1_count
       GOALS_1.each { |g| errors.add g, :invalid, message: '' }
-      errors.add :goal_1, :invalid, message: "Bitte geben Sie mindestens einen fachlichen Förderbereich an"
+      errors.add :goal_1, :invalid, message: 'Bitte geben Sie mindestens einen fachlichen Förderbereich an'
       # this code would hard constrain goals to maximum. at the moment it is only a soft constraint
       # elsif GOALS_1_MAX < goals_1_count
       # GOALS_1.each { |g| errors.add g, :invalid, message: '' }
       # errors.add :goal_1, :invalid, message: "Bitte geben Sie maximal #{GOALS_1_MAX}  Fachliche Förderbereiche an"
     end
 
-    goals_2_count = GOALS_2.count { |g| kid[g].present?}
+    goals_2_count = GOALS_2.count { |g| kid[g].present? }
     if kid[:goal_2].blank? && 0 == goals_2_count
       GOALS_2.each { |g| errors.add g, :invalid, message: '' }
-      errors.add :goal_2, :invalid, message: "Bitte geben Sie mindestens einen überfachlichen Förderbereich an"
+      errors.add :goal_2, :invalid, message: 'Bitte geben Sie mindestens einen überfachlichen Förderbereich an'
       # this code would hard constrain goals to maximum. at the moment it is only a soft constraint
       # elsif GOALS_2_MAX < goals_2_count
       # GOALS_2.each { |g| errors.add g, :invalid, message: '' }
       # errors.add :goal_2, :invalid, message: "Bitte geben Sie maximal #{GOALS_2_MAX} Überfachliche Förderbereich an"
     end
-
   end
 
-  after_save :track_relations
   after_validation :release_relations, if: :inactive?
   after_validation :track_goal_updates
   before_destroy :release_relations
-
+  after_save :track_relations
 
   # takes the given time argument (or Time.now) and calculates the
   # date and time for that weeks meeting
@@ -100,6 +99,7 @@ class Kid < ApplicationRecord
   def journal_entry_for_week(time = Time.now)
     time = calculate_meeting_time(time)
     return nil if time.nil?
+
     journals.find_by(week: time.strftime('%U').to_i, year: time.year)
   end
 
@@ -107,6 +107,7 @@ class Kid < ApplicationRecord
   def reminder_entry_for_week(time = Time.now)
     time = calculate_meeting_time(time)
     return nil if time.nil?
+
     reminders.find_by(week: time.strftime('%U').to_i, year: time.year)
   end
 
@@ -114,6 +115,7 @@ class Kid < ApplicationRecord
   def journal_entry_due?(time = Time.now)
     meeting_time = calculate_meeting_time(time)
     return false if meeting_time.nil?
+
     (meeting_time + 1.day) < time
   end
 
@@ -130,6 +132,7 @@ class Kid < ApplicationRecord
 
   def display_name
     return 'Neuer Eintrag' if new_record?
+
     [name, prename].reject(&:blank?).join(', ')
   end
 
@@ -163,46 +166,53 @@ class Kid < ApplicationRecord
 
   def human_abnormality_criticality
     return '' unless abnormality_criticality
+
     I18n.t(abnormality_criticality, scope: 'kids.criticality')
   end
 
   def human_sex
-    { 'm' => 'männlich', 'f' => 'weiblich', 'd' => "divers"  }[sex]
+    { 'm' => 'männlich', 'f' => 'weiblich', 'd' => 'divers' }[sex]
   end
 
   def human_meeting_day
     return nil if meeting_day.nil?
+
     I18n.t('date.day_names')[meeting_day]
   end
 
   def human_meeting_start_at
     return nil if meeting_start_at.nil?
+
     I18n.l(meeting_start_at, format: :time)
   end
 
   def human_exit_kind
     return '' if exit_kind.blank?
+
     I18n.t(exit_kind, scope: 'exit_kind')
   end
 
   def parent_country_name
     return '' if parent_country.blank?
-    c = ISO3166::Country[self.parent_country]
-    return c.translations[I18n.locale.to_s] || c.name
+
+    c = ISO3166::Country[parent_country]
+    c.translations[I18n.locale.to_s] || c.name
   end
 
   # checks if kid is not already assigned to a mentor
   def match_available?(mentor)
     # preloaded
-    mentor_matchings.to_a.select{|mentor_matching| !mentor_matching.new_record? && mentor_matching.mentor_id == mentor.id}.count == 0
+    mentor_matchings.to_a.select do |mentor_matching|
+      !mentor_matching.new_record? && mentor_matching.mentor_id == mentor.id
+    end.count == 0
   end
 
   def mentor_matching_for(mentor)
     # preloaded
-    mentor_matchings.to_a.detect{|mentor_matching| mentor_matching.mentor_id == mentor.id}
+    mentor_matchings.to_a.detect { |mentor_matching| mentor_matching.mentor_id == mentor.id }
   end
 
-protected
+  protected
 
   def release_relations
     self.mentor = nil
@@ -232,11 +242,11 @@ protected
                             role: field,
                             end_at: Time.now)
     end
-    if changed && current_id
-      relation_logs.create!(user_id: send("#{field}_id"),
-                            role: field,
-                            start_at: Time.now)
-    end
+    return unless changed && current_id
+
+    relation_logs.create!(user_id: send("#{field}_id"),
+                          role: field,
+                          start_at: Time.now)
   end
 
   # on instances with public signup configured stronger validations are applied
@@ -247,8 +257,8 @@ protected
   # track all changes of the goal freetext and checkbox fields
   # in one field
   def track_goal_updates
-    if self.changed.any? { |k| k.start_with?('goal_') }
-      self.goals_updated_at = Time.now
-    end
+    return unless changed.any? { |k| k.start_with?('goal_') }
+
+    self.goals_updated_at = Time.now
   end
 end

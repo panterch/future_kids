@@ -1,16 +1,16 @@
-require_relative "boot"
+require_relative 'boot'
 
-require "rails"
+require 'rails'
 # Pick the frameworks you want:
-require "active_model/railtie"
-require "active_job/railtie"
-require "active_record/railtie"
-require "active_storage/engine"
-require "action_controller/railtie"
-require "action_mailer/railtie"
+require 'active_model/railtie'
+require 'active_job/railtie'
+require 'active_record/railtie'
+require 'active_storage/engine'
+require 'action_controller/railtie'
+require 'action_mailer/railtie'
 # require "action_mailbox/engine"
 # require "action_text/engine"
-require "action_view/railtie"
+require 'action_view/railtie'
 # require "action_cable/engine"
 # require "rails/test_unit/railtie"
 
@@ -43,12 +43,12 @@ module FutureKids
     # the escaping has to be the same as when
     config.active_support.escape_html_entities_in_json = false
 
-    config.active_record.time_zone_aware_types = [:datetime, :time]
+    config.active_record.time_zone_aware_types = %i[datetime time]
 
-    # optimize country select only to available locales (this does not to work automatically with
+    # OPTIMIZE: country select only to available locales (this does not to work automatically with
     # i18n active_record)
     ISO3166.configure do |config|
-      config.locales = [ :de ]
+      config.locales = [:de]
     end
 
     # Don't generate system test files.

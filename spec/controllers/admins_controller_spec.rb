@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe AdminsController do
   context 'as an admin' do
-    before(:each) do
+    before do
       @admin = create(:admin)
       sign_in @admin
     end
@@ -27,7 +27,7 @@ describe AdminsController do
         @kid = create(:kid, admin: @admin)
         get :show, params: { id: @admin.id }
         expect(response).to be_successful
-        expect(response.body).to match /#{@kid.name}/
+        expect(response.body).to match(/#{@kid.name}/)
       end
     end
 
@@ -40,7 +40,7 @@ describe AdminsController do
   end
 
   context 'as a mentor' do
-    before(:each) do
+    before do
       @admin = create(:admin)
       @mentor = create(:mentor)
       sign_in @mentor
@@ -48,21 +48,18 @@ describe AdminsController do
 
     context 'show' do
       it 'is not allowed to display random mentors' do
-        expect {
+        expect do
           get :show, params: { id: @admin.id }
-        }.to raise_error CanCan::AccessDenied
+        end.to raise_error CanCan::AccessDenied
       end
 
       it 'displays only basic information on coaches' do
         create(:kid, mentor: @mentor, admin: @admin)
         get :show, params: { id: @admin.id }
         expect(response).to be_successful
-        expect(response.body).to match /#{@admin.name}/
-        expect(response.body).not_to match /Pendenzen/
+        expect(response.body).to match(/#{@admin.name}/)
+        expect(response.body).not_to match(/Pendenzen/)
       end
     end
-
   end
-
-
 end

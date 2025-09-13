@@ -4,7 +4,7 @@ feature 'KidMentorRelations as Admin' do
   let(:mentor_no_exit) { create(:mentor, name: 'Mentor No') }
   let(:mentor_exit) { create(:mentor, exit_kind: 'exit', name: 'Mentor Later') }
 
-  before(:each) do
+  before do
     log_in(create(:admin))
 
     # create many combinations of kids and mentors exiting and not exiting

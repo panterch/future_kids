@@ -11,6 +11,7 @@ describe ApplicationHelper do
     it 'formats dates' do
       expect(helper.human_date(Date.parse('1980-01-30'))).to eq('30.01.1980')
     end
+
     it 'guards nil' do
       expect(helper.human_date(nil)).to be_nil
     end
@@ -21,10 +22,12 @@ describe ApplicationHelper do
       markup = nav_link('text', '/link')
       expect(markup).to eq('<li class=""><a href="/link">text</a></li>')
     end
+
     it 'renders on convenience link entry' do
       markup = nav_link(:principal)
       expect(markup).to eq('<li class=""><a href="/principals">SL/QUIMS</a></li>')
     end
+
     it 'fallbacks on model name translation if no nav translation set' do
       markup = nav_link(:teacher)
       expect(markup).to eq('<li class=""><a href="/teachers">Lehrperson</a></li>')

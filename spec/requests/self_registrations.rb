@@ -10,7 +10,7 @@ feature 'Self registrations' do
   scenario 'redirect to admin if already logged in' do
     log_in(create(:admin))
     visit new_self_registration_path
-    expect(current_path).to eq root_path
+    expect(page).to have_current_path root_path, ignore_query: true
   end
 
   scenario 'self register teacher' do
@@ -23,7 +23,6 @@ feature 'Self registrations' do
     fill_in 'E-Mail', with: 'raffael@example.com'
     fill_in 'Telefon', with: '123123123'
     check 'terms_of_use_accepted'
-
 
     expect(page).to have_link('Nutzungsbedingungen', href: terms_of_use_self_registrations_path)
     expect(find_link('Nutzungsbedingungen')[:target]).to eq('__blank')
@@ -63,7 +62,7 @@ feature 'Self registrations' do
     expect(Mentor.count).to eq 1
   end
 
-  scenario "terms of conditions" do
+  scenario 'terms of conditions' do
     visit terms_of_use_self_registrations_path
 
     expect(page).to have_content Site.load.terms_of_use_content_parsed

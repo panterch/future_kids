@@ -133,6 +133,7 @@ describe RelationLog do
     expect(kid.relation_logs.count).to eq(3)
 
     expect(kid.relation_logs.map(&:user).sort).to eq(
-      [other_mentor, mentor, mentor].sort)
+      [other_mentor, mentor, mentor].sort
+    )
   end
 end

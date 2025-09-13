@@ -3,6 +3,14 @@ class FirstYearAssessmentsController < ApplicationController
   load_and_authorize_resource :first_year_assessment, through: :kid
   include CrudActions
 
+  def index # not supported action
+    redirect_to kid_url(@kid)
+  end
+
+  def show # not supported action
+    redirect_to edit_kid_first_year_assessment_url(@first_year_assessment.kid, @first_year_assessment)
+  end
+
   def new
     @first_year_assessment.initialize_default_values(@kid)
     render :new
@@ -25,14 +33,6 @@ class FirstYearAssessmentsController < ApplicationController
     end
   end
 
-  def show # not supported action
-    redirect_to edit_kid_first_year_assessment_url(@first_year_assessment.kid, @first_year_assessment)
-  end
-
-  def index # not supported action
-    redirect_to kid_url(@kid)
-  end
-
   def destroy
     @first_year_assessment.destroy
     respond_with @first_year_assessment.kid
@@ -47,7 +47,6 @@ class FirstYearAssessmentsController < ApplicationController
       :goals_teacher, :goals_mentor, :relation_mentor, :motivation, :collaboration,
       :breaking_off, :breaking_reason, :goal_1, :goal_2, :goal_3, :improvements,
       :note
-
     )
   end
 end

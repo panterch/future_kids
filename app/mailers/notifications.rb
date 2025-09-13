@@ -1,16 +1,11 @@
 class Notifications < ActionMailer::Base
-
   def self.default_email
     email = Site.first_or_create.try(:notifications_default_email)
-    if email.blank?
-      email = I18n.t('notifications.default_email')
-    end
-    return email
+    email = I18n.t('notifications.default_email') if email.blank?
+    email
   end
 
-
   default from: Notifications.default_email
-
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
@@ -101,10 +96,8 @@ class Notifications < ActionMailer::Base
 
   # sends out a simple test email
   # Notifications.test('futurekids@example.com').deliver_later
-  def test(to = ENV['TEST_EMAIL_TO'])
+  def test(to = ENV.fetch('TEST_EMAIL_TO', nil))
     Rails.logger.info "Sending test email from #{Notifications.default_email} to #{to}"
     mail subject: 'future kids test mail', to: to
   end
-
-
 end

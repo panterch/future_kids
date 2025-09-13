@@ -1,8 +1,8 @@
 require 'spec_helper'
 
 describe DocumentTreeview do
-
   include ActionDispatch::TestProcess::FixtureFile
+
   let(:file) { fixture_file_upload('gespraechsdoku.pdf', 'application/pdf') }
   let(:dtv) { DocumentTreeview.new(Mentor) }
 
@@ -14,17 +14,19 @@ describe DocumentTreeview do
     build(:document, category0: 'a', category1: 'b', category2: 'c2').attachment.attach(file).record.save!
     build(:document, category0: 'x', category1: 'y').attachment.attach(file).record.save!
 
-    tree =  dtv.categories_tree
+    tree = dtv.categories_tree
 
     expect(tree['x'].keys).to eq(['y'])
-    expect(tree['a']['b'].keys).to eq(['c1', 'c2'])
+    expect(tree['a']['b'].keys).to eq(%w[c1 c2])
   end
 
   it 'transforms nodes to js' do
     build(:document, title: 'a', category0: 'a').attachment.attach(file).record.save!
     build(:document, title: 'a b', category0: 'a', category1: 'b').attachment.attach(file).record.save!
-    build(:document, title: 'a b c1', category0: 'a', category1: 'b', category2: 'c1').attachment.attach(file).record.save!
-    build(:document, title: 'a b c2', category0: 'a', category1: 'b', category2: 'c2').attachment.attach(file).record.save!
+    build(:document, title: 'a b c1', category0: 'a', category1: 'b',
+                     category2: 'c1').attachment.attach(file).record.save!
+    build(:document, title: 'a b c2', category0: 'a', category1: 'b',
+                     category2: 'c2').attachment.attach(file).record.save!
     build(:document, title: 'x y', category0: 'x', category1: 'y').attachment.attach(file).record.save!
 
     js_nodes = dtv.category_js_nodes
@@ -35,8 +37,10 @@ describe DocumentTreeview do
   it 'transform appends documents to nodes js' do
     build(:document, title: 'doc a', category0: 'a').attachment.attach(file).record.save!
     build(:document, title: 'doc a b', category0: 'a', category1: 'b').attachment.attach(file).record.save!
-    build(:document, title: 'doc a b c1', category0: 'a', category1: 'b', category2: 'c1').attachment.attach(file).record.save!
-    build(:document, title: 'doc a b c2', category0: 'a', category1: 'b', category2: 'c2').attachment.attach(file).record.save!
+    build(:document, title: 'doc a b c1', category0: 'a', category1: 'b',
+                     category2: 'c1').attachment.attach(file).record.save!
+    build(:document, title: 'doc a b c2', category0: 'a', category1: 'b',
+                     category2: 'c2').attachment.attach(file).record.save!
     build(:document, title: 'doc x y', category0: 'x', category1: 'y').attachment.attach(file).record.save!
 
     js_nodes = dtv.document_js_nodes
@@ -72,15 +76,13 @@ describe DocumentTreeview do
     expect(js_nodes[0][:nodes][3][:text]).to eq('x')
   end
 
-
   it 'converts arrays to hashes' do
-    h = dtv.a_to_h(%w(a b c), {})
+    h = dtv.a_to_h(%w[a b c], {})
     expect(h.keys).to eq(['a'])
     expect(h['a']['b']['c']).to eq({})
 
-    h = dtv.a_to_h(%w(a b d), h)
-    expect(h['a']['b'].keys.sort).to eq(['c','d'])
-
+    h = dtv.a_to_h(%w[a b d], h)
+    expect(h['a']['b'].keys.sort).to eq(%w[c d])
   end
 
   describe 'admin-only documents' do

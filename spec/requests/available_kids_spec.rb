@@ -23,7 +23,7 @@ describe 'AvailableKids' do
 
       scenario 'mentor can see one kid' do
         expect(page).to have_content('männlich')
-        expect(page).not_to have_content('weiblich')
+        expect(page).to have_no_content('weiblich')
         expect(page).to have_content('5.89 km')
         expect(page).to have_content('Mentoringanfrage senden')
       end
@@ -65,8 +65,8 @@ describe 'AvailableKids' do
         visit available_kids_path
         # only show action
         expect(page).to have_content(I18n.t(:show, scope: 'crud.action'))
-        expect(page).not_to have_content(I18n.t(:confirm, scope: 'crud.action'))
-        expect(page).not_to have_content(I18n.t(:decline, scope: 'crud.action'))
+        expect(page).to have_no_content(I18n.t(:confirm, scope: 'crud.action'))
+        expect(page).to have_no_content(I18n.t(:decline, scope: 'crud.action'))
       end
 
       scenario 'mentor can show matching' do
@@ -80,22 +80,22 @@ describe 'AvailableKids' do
         mentor_matching = @mentor.mentor_matchings.last
         mentor_matching.reserved!
         visit available_kids_path
-        expect {
+        expect do
           click_link(I18n.t(:confirm, scope: 'crud.action'))
-        }.to change { mentor_matching.reload.state }.from('reserved').to('confirmed')
+        end.to change { mentor_matching.reload.state }.from('reserved').to('confirmed')
       end
 
       scenario 'mentor can decline matching' do
         mentor_matching = @mentor.mentor_matchings.last
         mentor_matching.reserved!
         visit available_kids_path
-        expect {
+        expect do
           click_link(I18n.t(:decline, scope: 'crud.action'))
-        }.to change { mentor_matching.reload.state }.from('reserved').to('declined')
+        end.to change { mentor_matching.reload.state }.from('reserved').to('declined')
       end
     end
 
-    describe 'Available kids for filter grade_group', js: true do
+    describe 'Available kids for filter grade_group', :js do
       before do
         @mentor.update!(sex: 'f')
         visit available_kids_path
@@ -104,17 +104,17 @@ describe 'AvailableKids' do
       scenario 'mentor can see one kid with grade 1' do
         select('Unterstufe', from: 'grade_group')
         expect(page).to have_content('männlich')
-        expect(page).not_to have_content('weiblich')
+        expect(page).to have_no_content('weiblich')
       end
 
       scenario 'mentor can see one kid with grade 5' do
         select('Mittelstufe', from: 'grade_group')
-        expect(page).not_to have_content('männlich')
+        expect(page).to have_no_content('männlich')
         expect(page).to have_content('weiblich')
       end
     end
 
-    describe 'Available kids for filter distance_from', js: true do
+    describe 'Available kids for filter distance_from', :js do
       before do
         @mentor.update(sex: 'f')
         visit available_kids_path
@@ -130,11 +130,9 @@ describe 'AvailableKids' do
         expect(page).to have_content('511.19 km')
       end
     end
-
   end
 
   context 'as Admin' do
-
     describe 'Available kids' do
       before do
         log_in(create(:admin))
@@ -143,13 +141,12 @@ describe 'AvailableKids' do
 
       scenario 'admin cannot create mentor matching' do
         expect(page).to have_content('männlich')
-        expect(find('table')).not_to have_content('Mentoringanfrage senden')
+        expect(find('table')).to have_no_content('Mentoringanfrage senden')
       end
     end
   end
 
   context 'as Teacher' do
-
     describe 'Available kids' do
       before do
         log_in(create(:teacher))
@@ -157,7 +154,7 @@ describe 'AvailableKids' do
       end
 
       scenario 'teacher cannot create mentor matching' do
-        expect(find('table')).not_to have_content('Lehrperson anschreiben')
+        expect(find('table')).to have_no_content('Lehrperson anschreiben')
       end
     end
   end

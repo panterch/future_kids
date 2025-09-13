@@ -1,0 +1,28 @@
+plugins:
+  - rubocop-rails
+  - rubocop-rspec
+  - rubocop-rspec_rails
+  - rubocop-factory_bot
+  - rubocop-capybara
+
+AllCops:
+  TargetRubyVersion: 3.0
+  NewCops: enable
+  Exclude:
+    - 'db/schema.rb'
+    - 'db/migrate/*.rb'
+    - 'bin/*'
+    - 'vendor/**/*'
+    - 'node_modules/**/*'
+
+Rails:
+  Enabled: true
+
+RSpec:
+  Enabled: true
+
+FactoryBot:
+  Enabled: true
+
+Capybara:
+  Enabled: true

@@ -21,12 +21,10 @@ feature 'TEACHER::CREATE:TERMINATION_ASSESSMENT', '
 
   scenario 'should create a new assessment with required values' do
     click_link 'Neues Abschluss-Feedback'
-    expect {
+    expect do
       click_button 'Abschluss-Feedback erstellen'
-    }.to have_enqueued_job(ActionMailer::MailDeliveryJob)
+    end.to have_enqueued_job(ActionMailer::MailDeliveryJob)
     expect(page.status_code).to eq(200)
     expect(page).to have_css('h4', text: 'Abschluss-Feedback vom ')
   end
-
-
 end

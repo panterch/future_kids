@@ -2,14 +2,14 @@ require 'spec_helper'
 
 describe KidsController do
   context 'as a mentor' do
-    before(:each) do
+    before do
       @mentor = create(:mentor)
       @kid = create(:kid, mentor: @mentor)
       sign_in @mentor
     end
 
     context 'index' do
-      it 'should render' do
+      it 'renders' do
         get :index
         expect(response).to be_successful
         expect(assigns(:kids).length).to eq(1)
@@ -17,32 +17,32 @@ describe KidsController do
     end
 
     context 'schedules' do
-      it 'should not allow displaying the kids schedule' do
-        expect { get :edit_schedules, params: { id: @kid }}.to raise_error(CanCan::AccessDenied)
+      it 'does not allow displaying the kids schedule' do
+        expect { get :edit_schedules, params: { id: @kid } }.to raise_error(CanCan::AccessDenied)
       end
 
-      it 'should not allow updating the kids schedule' do
-        expect { post :update_schedules, params: { id: @kid }}.to raise_error(CanCan::AccessDenied)
+      it 'does not allow updating the kids schedule' do
+        expect { post :update_schedules, params: { id: @kid } }.to raise_error(CanCan::AccessDenied)
       end
     end
   end # end of as a mentor
 
   context 'as a admin' do
-    before(:each) do
+    before do
       @admin = create(:admin)
       @kid = create(:kid)
       sign_in @admin
     end
 
     context 'index' do
-      it 'should filter kids when criteria given' do
+      it 'filters kids when criteria given' do
         create(:kid, translator: true)
         create(:kid, translator: true)
-        get :index, params: { kid: { translator: '1' }}
+        get :index, params: { kid: { translator: '1' } }
         expect(assigns(:kids).length).to eq(2)
       end
 
-      it 'should order kids by criticality' do
+      it 'orders kids by criticality' do
         @low  = create(:kid, abnormality_criticality: 3)
         @high = create(:kid, abnormality_criticality: 1)
         get :index, params: { order_by: 'abnormality_criticality' }
@@ -51,12 +51,12 @@ describe KidsController do
         expect(assigns(:kids).last).to eq(@kid)
       end
 
-      it 'should create a criteria instance for search' do
+      it 'creates a criteria instance for search' do
         get :index, params: { kid: { translator: '1' } }
         expect(assigns(:kid).translator).to eq(true)
       end
 
-      it 'should exclude inactive kids' do
+      it 'excludes inactive kids' do
         create(:kid, inactive: true)
         get :index
         expect(response).to be_successful
@@ -70,15 +70,14 @@ describe KidsController do
     end
 
     context 'edit_schedules' do
-      it 'should display the kids schedule' do
+      it 'displays the kids schedule' do
         get :edit_schedules, params: { id: @kid }
         expect(response).to be_successful
       end
-
     end
 
     context 'update_schedules' do
-      it 'should create a new schedule' do
+      it 'creates a new schedule' do
         post :update_schedules, params: { id: @kid, kid: { schedules_attributes: [attributes_for(:schedule)] } }
         expect(response).to be_redirect
         expect(@kid.schedules.count).to eq(1)
@@ -99,18 +98,17 @@ describe KidsController do
         expect(Kid.exists?(@kid.id)).to be_truthy
       end
     end
-    
   end # end of as an admin
 
   context 'as a teacher' do
-    before(:each) do
+    before do
       @school = create(:school)
       @teacher = create(:teacher, school: @school)
       sign_in @teacher
     end
 
     context 'create' do
-      it 'should assign itself as teacher' do
+      it 'assigns itself as teacher' do
         post :create, params: { kid: attributes_for(:kid, school_id: @school.id) }
         kid = Kid.find(assigns(:kid).id)
         expect(kid.teacher).to eq(@teacher)
@@ -119,7 +117,7 @@ describe KidsController do
         expect(response).to be_redirect
       end
 
-      it 'should assign itself as teacher even when secondary teacher set' do
+      it 'assigns itself as teacher even when secondary teacher set' do
         @secondary = create(:teacher)
         post :create, params: { kid: attributes_for(:kid, secondary_teacher_id: @secondary.id, school_id: @school.id) }
         kid = Kid.find(assigns(:kid).id)
@@ -139,9 +137,9 @@ describe KidsController do
       end
 
       it 'cannot assign a foreign school' do
-        expect {
-          post :create, params: { kid: attributes_for(:kid, school_id: "non-existant") }
-        }.to raise_error SecurityError
+        expect do
+          post :create, params: { kid: attributes_for(:kid, school_id: 'non-existant') }
+        end.to raise_error SecurityError
       end
 
       it 'tracks creation as relationlog' do
@@ -160,28 +158,26 @@ describe KidsController do
     end
   end
 
-
   context 'as a principal' do
-    before(:each) do
+    before do
       @school = create(:school)
-      @principal = create(:principal, schools: [ @school ])
+      @principal = create(:principal, schools: [@school])
       sign_in @principal
     end
 
     context 'create' do
-      it 'should be able to create' do
+      it 'is able to create' do
         post :create, params: { kid: attributes_for(:kid, school_id: @school.id) }
         kid = Kid.find(assigns(:kid).id)
         expect(kid.school).to eq(@school)
         expect(response).to be_redirect
       end
     end
+
     it 'cannot assign a foreign school' do
-      expect {
-        post :create, params: { kid: attributes_for(:kid, school_id: "non-existant") }
-      }.to raise_error SecurityError
+      expect do
+        post :create, params: { kid: attributes_for(:kid, school_id: 'non-existant') }
+      end.to raise_error SecurityError
     end
   end
-
-
 end

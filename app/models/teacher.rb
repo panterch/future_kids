@@ -1,18 +1,18 @@
 class Teacher < User
   has_many :kids
   has_many :secondary_kids, class_name: 'Kid',
-           foreign_key: 'secondary_teacher_id'
+                            foreign_key: 'secondary_teacher_id'
   has_many :third_kids, class_name: 'Kid',
-           foreign_key: 'third_teacher_id'
+                        foreign_key: 'third_teacher_id'
   has_many :first_year_assessments, dependent: :nullify
   has_many :termination_assessments, dependent: :nullify
   has_many :mentor_matchings, through: :kids
   belongs_to :school, optional: true
 
-  after_save :release_relations, if: :inactive?
   before_destroy :release_relations
+  after_save :release_relations, if: :inactive?
 
-  validates_presence_of :phone, :school, if: :validate_public_signup_fields?
+  validates :phone, :school, presence: { if: :validate_public_signup_fields? }
 
   def todays_journals(not_before = Time.now - 1.day)
     journals = []

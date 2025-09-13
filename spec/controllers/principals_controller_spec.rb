@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe PrincipalsController do
   describe 'as a principal' do
-    before(:each) do
+    before do
       @principal = create(:principal)
       sign_in @principal
     end
@@ -26,10 +26,10 @@ describe PrincipalsController do
     end
 
     context 'edit' do
-
       it 'can update its own record' do
         put :update, params: { id: @principal.id, principal: {
-          name: 'changed' } }
+          name: 'changed'
+        } }
         expect(response).to be_redirect
         expect(@principal.reload.name).to eq('changed')
       end
@@ -39,15 +39,16 @@ describe PrincipalsController do
         @school = create(:school)
         expect do
           put :update, params: { id: @principal.id, principal: {
-            school_ids: [@school.id, @original_school.id]  } }
+            school_ids: [@school.id, @original_school.id]
+          } }
         end.to raise_error(SecurityError)
-        expect(@principal.reload.schools).to_not include(@school)
+        expect(@principal.reload.schools).not_to include(@school)
       end
     end
   end
 
   describe 'as an admin' do
-    before(:each) do
+    before do
       @admin = create(:admin)
       @principal = create(:principal)
       sign_in @admin
@@ -77,7 +78,8 @@ describe PrincipalsController do
     it 'can update the principals school' do
       @school = create(:school)
       put :update, params: { id: @principal.id, principal: {
-        school_ids: [@school.id]  } }
+        school_ids: [@school.id]
+      } }
       expect(response).to be_redirect
       expect(@principal.reload.schools).to include(@school)
     end

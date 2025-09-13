@@ -3,6 +3,14 @@ class ReviewsController < ApplicationController
   load_and_authorize_resource :review, through: :kid
   include CrudActions
 
+  def index # not supported action
+    redirect_to kid_url(@kid)
+  end
+
+  def show # not supported action
+    redirect_to edit_kid_review_url(@review.kid, @review)
+  end
+
   def create
     if @review.save
       respond_with @review.kid
@@ -17,14 +25,6 @@ class ReviewsController < ApplicationController
     else
       render :edit
     end
-  end
-
-  def show # not supported action
-    redirect_to edit_kid_review_url(@review.kid, @review)
-  end
-
-  def index # not supported action
-    redirect_to kid_url(@kid)
   end
 
   def destroy

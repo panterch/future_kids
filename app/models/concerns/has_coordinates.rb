@@ -6,10 +6,10 @@ module HasCoordinates
     after_validation :geocode, if: :full_address_changed?
 
     acts_as_mappable default_units: :kms,
-      default_formula: :sphere,
-      distance_field_name: :distance,
-      lat_column_name: :latitude,
-      lng_column_name: :longitude
+                     default_formula: :sphere,
+                     distance_field_name: :distance,
+                     lat_column_name: :latitude,
+                     lng_column_name: :longitude
   end
 
   def full_address

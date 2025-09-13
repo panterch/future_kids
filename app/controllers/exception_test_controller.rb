@@ -3,6 +3,6 @@ class ExceptionTestController < ApplicationController
   # * login
   # * call /exception_test
   def error
-    fail 'hit a tree'
+    raise 'hit a tree'
   end
 end

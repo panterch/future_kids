@@ -30,6 +30,7 @@ class KidMentorRelation < ApplicationRecord
   def inactivatable?
     return false unless 'exit' == kid.exit_kind
     return false unless 'exit' == kid.mentor.try(:exit_kind)
+
     true
   end
 

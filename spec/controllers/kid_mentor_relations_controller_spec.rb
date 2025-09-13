@@ -1,9 +1,8 @@
 require 'spec_helper'
 
 describe KidMentorRelationsController do
-
   context 'as a admin' do
-    before(:each) do
+    before do
       @admin = create(:admin)
       @mentor = create(:mentor)
       create(:kid, mentor: @mentor)
@@ -17,7 +16,7 @@ describe KidMentorRelationsController do
         expect(assigns(:kid_mentor_relations).length).to eq(2)
       end
 
-      it 'should filter kids when criteria given' do
+      it 'filters kids when criteria given' do
         create(:kid, exit_kind: 'exit', mentor: @mentor)
         get :index, params: { kid_mentor_relation: { kid_exit_kind: 'exit' } }
         expect(assigns(:kid_mentor_relations).length).to eq(1)
@@ -30,23 +29,18 @@ describe KidMentorRelationsController do
         expect(response).to be_successful
       end
     end
-
   end # end of as an admin
 
-
   context 'as a mentor' do
-    before(:each) do
+    before do
       @mentor = create(:mentor)
       sign_in @mentor
     end
 
     context 'index' do
-      it 'should deny access' do
+      it 'denies access' do
         expect { get :index }.to raise_error(SecurityError)
       end
     end
-
   end # end of as a mentor
-
-
 end

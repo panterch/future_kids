@@ -1,15 +1,16 @@
 namespace :active_storage do
-  desc "ActiveStorage actions"
+  desc 'ActiveStorage actions'
   task move_paperclip_files: :environment do
     ActiveStorage::Attachment.find_each do |attachment|
       name = attachment.name
       filename = attachment.blob.filename
 
-      source = "#{Rails.root}/public/system/#{ActiveSupport::Inflector.pluralize(name)}/#{attachment.record_id}/original/#{filename}"
+      source = "#{Rails.root.join("public/system/#{ActiveSupport::Inflector.pluralize(name)}/#{attachment.record_id}/original/#{filename}")}"
       dest_dir = File.join(
-        "storage",
+        'storage',
         attachment.blob.key.first(2),
-        attachment.blob.key.first(4).last(2))
+        attachment.blob.key.first(4).last(2)
+      )
       dest = File.join(dest_dir, attachment.blob.key)
 
       FileUtils.mkdir_p(dest_dir)
@@ -19,7 +20,7 @@ namespace :active_storage do
   end
 
   def migrate(from, to)
-    config_file = Pathname.new(Rails.root.join("config/storage.yml"))
+    config_file = Pathname.new(Rails.root.join('config/storage.yml'))
     configs = YAML.load(ERB.new(config_file.read).result) || {}
 
     from_service = ActiveStorage::Service.configure from, configs

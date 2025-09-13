@@ -1,6 +1,6 @@
 ENV['RAILS_ENV'] ||= 'test'
 
-require File.expand_path('../../config/environment', __FILE__)
+require File.expand_path('../config/environment', __dir__)
 require 'rspec/rails'
 require 'capybara/rspec'
 require 'capybara/cuprite'
@@ -16,7 +16,6 @@ Capybara.register_driver(:cuprite) do |app|
   end
   Capybara::Cuprite::Driver.new(app, window_size: [1400, 800], browser_options: browser_options)
 end
-
 
 RSpec.configure do |config|
   config.include FactoryBot::Syntax::Methods

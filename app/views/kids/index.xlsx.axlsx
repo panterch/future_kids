@@ -1,2 +1,2 @@
 wb = xlsx_package.workbook
-render :partial => 'kids/index', :locals => {:wb => wb}
+render partial: 'kids/index', locals: { wb: wb }

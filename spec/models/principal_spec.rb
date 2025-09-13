@@ -15,5 +15,4 @@ describe Principal do
     expect(principal.schools.count).to eq(2)
     expect(principal.schools).to include(new_school, old_school)
   end
-
 end

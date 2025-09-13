@@ -1,11 +1,10 @@
 require 'requests/acceptance_helper'
 
-feature 'Document Tree', js: true do
-
+feature 'Document Tree', :js do
   let!(:admin) { create(:admin) }
+  let(:file) { fixture_file_upload('gespraechsdoku.pdf', 'application/pdf') }
 
   include ActionDispatch::TestProcess::FixtureFile
-  let(:file) { fixture_file_upload('gespraechsdoku.pdf', 'application/pdf') }
 
   background do
     log_in(admin)
@@ -28,5 +27,4 @@ feature 'Document Tree', js: true do
     visit edit_document_path(doc.id)
     expect(page).to have_field('Titel', with: 'Document Title')
   end
-
 end

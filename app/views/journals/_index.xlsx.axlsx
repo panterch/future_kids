@@ -1,5 +1,4 @@
-wb.add_worksheet(name: "Lernjournale") do |sheet|
-
+wb.add_worksheet(name: 'Lernjournale') do |sheet|
   sheet.add_row [
     Journal.human_attribute_name(:id) + ' ' + Journal.model_name.human,
     Kid.human_attribute_name(:id) + ' ' + Kid.model_name.human,

@@ -1,21 +1,21 @@
 require 'spec_helper'
 
 describe DocumentsController do
-
   let(:file) { fixture_file_upload('gespraechsdoku.pdf', 'application/pdf') }
 
   context 'as a mentor' do
-    before(:each) do
+    before do
       sign_in create(:mentor)
       build(:document, title: 'a1', category0: 'a', admin_only: false).attachment.attach(file).record.save!
-      build(:document, title: 'ax1', category0: 'a', category1: 'x', admin_only: true).attachment.attach(file).record.save!
+      build(:document, title: 'ax1', category0: 'a', category1: 'x',
+                       admin_only: true).attachment.attach(file).record.save!
     end
 
     it 'can browse non-admin documents' do
       get :index
       expect(response).to have_http_status(:ok)
-      expect(response.body).to match /a1/
-      expect(response.body).not_to match /ax1/
+      expect(response.body).to match(/a1/)
+      expect(response.body).not_to match(/ax1/)
     end
 
     it 'cannot destroy a document' do
@@ -26,17 +26,18 @@ describe DocumentsController do
   end
 
   context 'as an admin' do
-    before(:each) do
+    before do
       sign_in create(:admin)
       build(:document, title: 'a1', category0: 'a', admin_only: false).attachment.attach(file).record.save!
-      build(:document, title: 'ax1', category0: 'a', category1: 'x', admin_only: true).attachment.attach(file).record.save!
+      build(:document, title: 'ax1', category0: 'a', category1: 'x',
+                       admin_only: true).attachment.attach(file).record.save!
     end
 
     it 'can browse all documents including admin-only ones' do
       get :index
       expect(response).to have_http_status(:ok)
-      expect(response.body).to match /a1/
-      expect(response.body).to match /ax1/
+      expect(response.body).to match(/a1/)
+      expect(response.body).to match(/ax1/)
     end
 
     it 'creates a new document' do

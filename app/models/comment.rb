@@ -8,7 +8,7 @@ class Comment < ApplicationRecord
   belongs_to :created_by, class_name: 'User'
 
   default_scope { order('id') }
-  validates_presence_of :body, :by, :journal
+  validates :body, :by, :journal, presence: true
 
   def initialize_default_values(current_user)
     self.created_by = current_user
@@ -18,16 +18,17 @@ class Comment < ApplicationRecord
       self.to_secondary_teacher = previous.to_secondary_teacher
       self.to_third_teacher = previous.to_third_teacher
     end
-    if current_user.is_a?(Teacher)
-      kid = journal.kid
-      self.to_teacher ||= (kid.teacher == current_user)
-      self.to_secondary_teacher ||= (kid.secondary_teacher == current_user)
-      self.to_third_teacher ||= (kid.third_teacher == current_user)
-    end
+    return unless current_user.is_a?(Teacher)
+
+    kid = journal.kid
+    self.to_teacher ||= (kid.teacher == current_user)
+    self.to_secondary_teacher ||= (kid.secondary_teacher == current_user)
+    self.to_third_teacher ||= (kid.third_teacher == current_user)
   end
 
   def display_name
     return 'Neuer Kommentar' if new_record?
+
     if updated_at == created_at
       "Kommentar von #{by} am #{I18n.l(created_at.to_date)} "
     else
@@ -38,6 +39,7 @@ class Comment < ApplicationRecord
   # tries to find the last comment on the same journal
   def previous_comment
     return nil unless journal
+
     journal.reload
     journal.comments.last
   end
@@ -47,12 +49,12 @@ class Comment < ApplicationRecord
     to << journal.mentor.email
     kid = journal.kid
     to << kid.admin&.email
-    to << kid.teacher&.email if self.to_teacher?
-    to << kid.secondary_teacher&.email if self.to_secondary_teacher?
-    to << kid.third_teacher&.email if self.to_third_teacher?
+    to << kid.teacher&.email if to_teacher?
+    to << kid.secondary_teacher&.email if to_secondary_teacher?
+    to << kid.third_teacher&.email if to_third_teacher?
 
     # do not send emails out to the original creator
-    to.delete(self.created_by.try(:email))
+    to.delete(created_by.try(:email))
 
     to.compact!
 

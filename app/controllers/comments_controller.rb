@@ -7,6 +7,11 @@ class CommentsController < ApplicationController
     authorize! :create, @comment
   end
 
+  def edit
+    @comment = @journal.comments.find(params[:id])
+    authorize! :update, @comment
+  end
+
   def create
     @comment = @journal.comments.build(comment_params)
     @comment.created_by = current_user
@@ -16,11 +21,6 @@ class CommentsController < ApplicationController
     else
       render :new
     end
-  end
-
-  def edit
-    @comment = @journal.comments.find(params[:id])
-    authorize! :update, @comment
   end
 
   def update

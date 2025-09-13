@@ -1,4 +1,4 @@
-require "active_support/core_ext/integer/time"
+require 'active_support/core_ext/integer/time'
 
 Rails.application.configure do
   # Settings specified here will take precedence over those in config/application.rb.
@@ -49,7 +49,7 @@ Rails.application.configure do
   config.log_level = :debug
 
   # Prepend all log lines with the following tags.
-  config.log_tags = [ :request_id ]
+  config.log_tags = [:request_id]
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
@@ -64,12 +64,12 @@ Rails.application.configure do
   # Set this to true and configure the email server for immediate delivery to raise delivery errors.
   # config.action_mailer.raise_delivery_errors = false
 
-  if ENV['MAILGUN_SMTP_LOGIN'] && ENV['MAILGUN_SMTP_PASSWORD'] && ENV['APP_DOMAIN']
+  if ENV.fetch('MAILGUN_SMTP_LOGIN', nil) && ENV.fetch('MAILGUN_SMTP_PASSWORD', nil) && ENV['APP_DOMAIN']
     ActionMailer::Base.smtp_settings = {
-      port: ENV['MAILGUN_SMTP_PORT'],
-      address: ENV['MAILGUN_SMTP_SERVER'],
-      user_name: ENV['MAILGUN_SMTP_LOGIN'],
-      password: ENV['MAILGUN_SMTP_PASSWORD'],
+      port: ENV.fetch('MAILGUN_SMTP_PORT', nil),
+      address: ENV.fetch('MAILGUN_SMTP_SERVER', nil),
+      user_name: ENV.fetch('MAILGUN_SMTP_LOGIN', nil),
+      password: ENV.fetch('MAILGUN_SMTP_PASSWORD', nil),
       domain: ENV['APP_DOMAIN'],
       authentication: :plain
     }
@@ -92,7 +92,7 @@ Rails.application.configure do
   config.active_support.report_deprecations = false
 
   # Use default logging formatter so that PID and timestamp are not suppressed.
-  config.log_formatter = ::Logger::Formatter.new
+  config.log_formatter = Logger::Formatter.new
 
   # Use a different logger for distributed setups.
   # require "syslog/logger"
@@ -107,9 +107,9 @@ Rails.application.configure do
   # Do not dump schema after migrations.
   config.active_record.dump_schema_after_migration = false
 
-  if ENV.fetch('GOOGLE_PROJECT_ID', '').present?
-    config.active_storage.service = :google
-  else
-    config.active_storage.service = :local
-  end
+  config.active_storage.service = if ENV.fetch('GOOGLE_PROJECT_ID', '').present?
+                                    :google
+                                  else
+                                    :local
+                                  end
 end

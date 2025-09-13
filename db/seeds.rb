@@ -23,7 +23,7 @@ unless Mentor.count > 0
                  password_confirmation: 'welcome', sex: 'f', school_id: schools[2])
   Mentor.create!(name: 'Steiner', prename: 'Max',
                  email: 'mentor3@example.com', password: 'welcome',
-                 password_confirmation: 'welcome', sex:'m', school_id: schools[3])
+                 password_confirmation: 'welcome', sex: 'm', school_id: schools[3])
 end
 
 unless Admin.count > 0

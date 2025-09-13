@@ -11,21 +11,21 @@ class SelfRegistrationsController < ApplicationController
     @resource = User.new(user_params)
     return render(:new, status: :unauthorized) unless resource_whitelist.values.include? @resource.class
 
-    if params.dig(:terms_of_use, :accepted) == "yes" && @resource.save
+    if params.dig(:terms_of_use, :accepted) == 'yes' && @resource.save
       Notifications.user_registered(@resource).deliver_later
       redirect_to action: :success, type: @resource.type.downcase
     else
-      @terms_of_use_error = true if params.dig(:terms_of_use,:accepted) != "yes"
+      @terms_of_use_error = true if params.dig(:terms_of_use, :accepted) != 'yes'
       render :new
     end
   end
 
   def success
-    if (type = params[:type]) && ['teacher', 'mentor'].include?(type)
-      @type = type
-    else
-      @type = 'teacher'
-    end
+    @type = if (type = params[:type]) && %w[teacher mentor].include?(type)
+              type
+            else
+              'teacher'
+            end
   end
 
   def terms_of_use
@@ -60,7 +60,7 @@ class SelfRegistrationsController < ApplicationController
   def redirect_if_disabled
     redirect_to new_user_session_path unless Site.load[:public_signups_active]
   end
-  
+
   def resource_whitelist
     { 'mentor' => Mentor, 'teacher' => Teacher }
   end

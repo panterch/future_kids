@@ -1,7 +1,6 @@
 require 'requests/acceptance_helper'
 
 feature 'Mentor show' do
-
   background do
     @pw      = 'welcome'
     @admin   = create(:admin, name: 'first', prename: 'admin', password: @pw, password_confirmation: @pw)

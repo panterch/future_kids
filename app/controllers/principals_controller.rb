@@ -19,7 +19,7 @@ class PrincipalsController < ApplicationController
 
   def principal_params
     if params[:principal].present?
-      keys = [:name, :prename, :email, :password, :password_confirmation, :phone ]
+      keys = %i[name prename email password password_confirmation phone]
       if current_user.is_a?(Admin)
         keys << { school_ids: [] }
         keys << :inactive

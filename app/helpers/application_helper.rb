@@ -3,6 +3,7 @@ module ApplicationHelper
   def can_link_to(resource)
     return '' if resource.blank?
     return resource.display_name if cannot?(:read, resource)
+
     link_to resource.display_name, resource
   end
 
@@ -24,7 +25,7 @@ module ApplicationHelper
   end
 
   def transport_collection
-    %w(Halbtax GA Zone\ 10\ mit\ Halbtax Zone\ 10\ ohne\ Halbtax ZVV\ Netzpass Regenbogen\ Kanton)
+    ['Halbtax', 'GA', 'Zone 10 mit Halbtax', 'Zone 10 ohne Halbtax', 'ZVV Netzpass', 'Regenbogen Kanton']
   end
 
   def boolean_collection
@@ -40,9 +41,9 @@ module ApplicationHelper
     # ects is an enum and mapped in the db to integers. since it is used in an sql view
     # we need the explicit db values in some context
     if explicit_mapping
-      Mentor.ects.keys.map { |key| [ I18n.t(key, scope: :ects), Mentor.ects[key] ]}
+      Mentor.ects.keys.map { |key| [I18n.t(key, scope: :ects), Mentor.ects[key]] }
     else
-      Mentor.ects.keys.map { |key| [ I18n.t(key, scope: :ects), key] }
+      Mentor.ects.keys.map { |key| [I18n.t(key, scope: :ects), key] }
     end
   end
 
@@ -55,7 +56,7 @@ module ApplicationHelper
   end
 
   def exit_kind_collection
-    %w(exit later continue_term continue).map { |i| [I18n.t(i, scope: 'exit_kind'), i] }
+    %w[exit later continue_term continue].map { |i| [I18n.t(i, scope: 'exit_kind'), i] }
   end
 
   def school_collection
@@ -65,6 +66,7 @@ module ApplicationHelper
   def school_collection_by_kind(role)
     schools = School.by_kind(role)
     return [] unless schools
+
     schools.map { |s| [s.display_name, s.id] }
   end
 
@@ -75,20 +77,20 @@ module ApplicationHelper
   # collection suitable for select form fields
   # returns all active teachers or if kid is given teachers of the kid itself
   def mentor_collection(kid = nil)
-    if kid
-      collection = [ kid.mentor, kid.secondary_mentor].compact
-    else
-      collection = Mentor.active
-    end
+    collection = if kid
+                   [kid.mentor, kid.secondary_mentor].compact
+                 else
+                   Mentor.active
+                 end
     collection.map { |m| [m.display_name, m.id] }
   end
 
   def teacher_collection(kid = nil)
-    if kid
-      collection = [ kid.teacher, kid.secondary_teacher, kid.third_teacher].compact
-    else
-      collection = Teacher.active
-    end
+    collection = if kid
+                   [kid.teacher, kid.secondary_teacher, kid.third_teacher].compact
+                 else
+                   Teacher.active
+                 end
     collection.map { |t| [t.display_name, t.id] }
   end
 
@@ -141,19 +143,19 @@ module ApplicationHelper
 
   def duration_collection
     [
-        ['30 Minuten', 30],
-        ['1 Stunde', 60],
-        ['1½ Stunden', 90],
-        ['2 Stunden', 120]
+      ['30 Minuten', 30],
+      ['1 Stunde', 60],
+      ['1½ Stunden', 90],
+      ['2 Stunden', 120]
     ]
   end
 
   def trinary_collection
-    %w(yes no partially).map { |s| [I18n.t(s, scope: 'trinary'), s] }
+    %w[yes no partially].map { |s| [I18n.t(s, scope: 'trinary'), s] }
   end
 
   def quaternary_collection
-    %w(yes mostly partially no).map { |s| [I18n.t(s, scope: 'quaternary'), s] }
+    %w[yes mostly partially no].map { |s| [I18n.t(s, scope: 'quaternary'), s] }
   end
 
   def kind_collection
@@ -164,11 +166,11 @@ module ApplicationHelper
   end
 
   def reason_collection
-    ['Ersttreffen',
-     'Schulbesuch',
-     'Telefoncoaching',
-     'Auswertungsgespräch',
-     'Weiteres']
+    %w[Ersttreffen
+       Schulbesuch
+       Telefoncoaching
+       Auswertungsgespräch
+       Weiteres]
   end
 
   def meeting_type_collection
@@ -196,9 +198,11 @@ module ApplicationHelper
 
   def schedule_tags(schedule)
     return [] unless @mentor_schedules
+
     tags = []
     @mentor_schedules.each do |tag, schedules|
       next unless schedules.include?(schedule)
+
       tags << tag
     end
     tags
@@ -215,7 +219,7 @@ module ApplicationHelper
         # model name as fallback
         link_text = I18n.translate!(model_name, scope: :nav)
       rescue I18n::MissingTranslationData
-        link_text = I18n.translate(model_name, scope: 'activerecord.models')
+        link_text = I18n.t(model_name, scope: 'activerecord.models')
       end
       link_path = url_for(controller: model_name.pluralize, action: :index,
                           only_path: true)
@@ -232,10 +236,9 @@ module ApplicationHelper
 
   # renders a title inside the form, aligned with form fields
   def form_subtitle(text)
+    html = tag.label class: %w[string col-sm-3 control-label]
 
-    html = tag.label class: %w(string col-sm-3 control-label)
-
-    html += tag.div class: %w( col-sm-9 ) do
+    html += tag.div class: %w[col-sm-9] do
       tag.p tag.strong text
     end
 
@@ -246,13 +249,15 @@ module ApplicationHelper
   # a show_for context
   def conditionally_show_for(obj, field)
     return unless obj[field]
-    tag.div class: %w( col-sm-offset-3 col-xs-offset-3 ) do
+
+    tag.div class: %w[col-sm-offset-3 col-xs-offset-3] do
       I18n.t("activerecord.attributes.#{obj.model_name.to_s.downcase}.#{field}")
     end
   end
 
   def human_date(date)
     return nil unless date.present?
+
     I18n.l(date)
   end
 
@@ -267,11 +272,9 @@ module ApplicationHelper
   # user_type is optional
   def page_description
     d = I18n.t("page_description.#{controller_name}.#{action_name}")
-    if d.is_a? Hash
-      return d[current_user.type.downcase.to_sym]
-    else
-      return d
-    end
+    return d[current_user.type.downcase.to_sym] if d.is_a? Hash
+
+    d
   end
 
   def available_kid_actions(kid)
@@ -279,20 +282,21 @@ module ApplicationHelper
     actions = []
     if can? :create, MentorMatching
       if kid.match_available?(current_user)
-        actions << link_to('Mentoringanfrage senden', new_mentor_matching_path(kid_id: kid), class: 'btn btn-default btn-xs')
+        actions << link_to('Mentoringanfrage senden', new_mentor_matching_path(kid_id: kid),
+                           class: 'btn btn-default btn-xs')
       else
         if can? :confirm, mentor_matching
-          actions << link_to(I18n.t(:confirm, scope: 'crud.action'), confirm_mentor_matching_path(mentor_matching), method: :put, class: 'btn btn-success btn-xs')
+          actions << link_to(I18n.t(:confirm, scope: 'crud.action'), confirm_mentor_matching_path(mentor_matching),
+                             method: :put, class: 'btn btn-success btn-xs')
         end
         if can? :decline, mentor_matching
-          actions << link_to(I18n.t(:decline, scope: 'crud.action'), decline_mentor_matching_path(mentor_matching), method: :put, class: 'btn btn-danger btn-xs')
+          actions << link_to(I18n.t(:decline, scope: 'crud.action'), decline_mentor_matching_path(mentor_matching),
+                             method: :put, class: 'btn btn-danger btn-xs')
         end
         if can? :read, mentor_matching
           actions << link_to(I18n.t(:show, scope: 'crud.action'), mentor_matching, class: 'btn btn-default btn-xs')
         end
-        if actions.blank?
-          actions << mentor_matching.human_state_name
-        end
+        actions << mentor_matching.human_state_name if actions.blank?
       end
     end
     actions.join(' ')

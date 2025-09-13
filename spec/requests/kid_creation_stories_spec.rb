@@ -32,7 +32,7 @@ feature 'TEACHER::CREATE:KID', '
     expect(page.status_code).to eq(200)
     expect(page).to have_css('h1', text: 'Last Name, First Name')
   end
-    
+
   scenario 'should create a new kid with parent country' do
     click_link 'Schüler/in'
     click_link 'Erfassen'
@@ -40,7 +40,8 @@ feature 'TEACHER::CREATE:KID', '
     fill_in 'kid_prename', with: 'First Name'
     check 'kid_goal_3'
     check 'kid_goal_33'
-    expect(page).to have_select('kid_parent_country', :with_options => ['Albanien', 'Türkei', 'Sri Lanka', 'Kosovo', 'Spanien', 'Portugal'])
+    expect(page).to have_select('kid_parent_country',
+                                with_options: ['Albanien', 'Türkei', 'Sri Lanka', 'Kosovo', 'Spanien', 'Portugal'])
     select('Syrien, Arabische Republik', from: 'kid_parent_country')
     click_button 'Schüler/in erstellen'
     expect(page.status_code).to eq(200)
@@ -80,7 +81,7 @@ feature 'ADMIN::CREATE:KID', '
     expect(page.status_code).to eq(200)
     expect(page).to have_css('h1', text: 'Last Name, First Name')
   end
-    
+
   scenario 'should create a new kid with parent country' do
     click_link 'Schüler/in'
     click_link 'Erfassen'
@@ -88,7 +89,8 @@ feature 'ADMIN::CREATE:KID', '
     fill_in 'kid_prename', with: 'First Name'
     fill_in 'kid_goal_1', with: 'Fachliches Lernziel'
     fill_in 'kid_goal_2', with: 'Ueberfachliches Lernziel'
-    expect(page).to have_select('kid_parent_country', :with_options => ['Albanien', 'Türkei', 'Sri Lanka', 'Kosovo', 'Spanien', 'Portugal'])
+    expect(page).to have_select('kid_parent_country',
+                                with_options: ['Albanien', 'Türkei', 'Sri Lanka', 'Kosovo', 'Spanien', 'Portugal'])
     select('Syrien, Arabische Republik', from: 'kid_parent_country')
     click_button 'Schüler/in erstellen'
     expect(page.status_code).to eq(200)

@@ -35,5 +35,4 @@ feature 'SESSION::LOGIN', '
     click_button 'Anmelden'
     expect(page).to have_content('Anmelden')
   end
-
 end

@@ -3,7 +3,7 @@ require 'requests/acceptance_helper'
 feature 'ADMIN::UPDATE:SCHOOL', '
     As an admin
     I want to modify an existing school
-  'do
+  ' do
   background do
     log_in(create(:admin))
     create(:school, name: 'SSIG')
