@@ -5,10 +5,8 @@ services:
   - postgresql
 addons:
   chrome: stable
-  postgresql: "16"
   apt:
     packages:
-      - postgresql-16
       - libpq-dev
 env:
   global:
