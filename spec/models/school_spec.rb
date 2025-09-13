@@ -15,14 +15,14 @@ describe School do
     end
 
     it 'has many kids' do
-      should have_many(:kids)
+      is_expected.to have_many(:kids)
     end
 
     it 'has many mentors through kids' do
-      should have_many(:mentors).through(:kids)
+      is_expected.to have_many(:mentors).through(:kids)
     end
 
-    it 'should return one\'s mentors' do
+    it 'returns one\'s mentors' do
       @school  = create(:school)
       @mentor1 = create(:mentor)
       @mentor2 = create(:mentor)
@@ -55,15 +55,15 @@ describe School do
       create(:school, school_kind: :primary_school)
     end
 
-    it 'should be only of high schools or gymnasiums for mentors' do
+    it 'is only of high schools or gymnasiums for mentors' do
       expect(School.by_kind(:mentor).length).to eq(5)
     end
 
-    it 'should be only of primary and secondary schools for kids' do
+    it 'is only of primary and secondary schools for kids' do
       expect(School.by_kind(:kid).length).to eq(2)
     end
 
-    it 'should be only of primary and secondary schools for teachers' do
+    it 'is only of primary and secondary schools for teachers' do
       expect(School.by_kind(:teacher).length).to eq(2)
     end
   end

@@ -13,20 +13,20 @@ describe Admin do
     expect(admin.coachings.count).to eq 2
     admin.inactive = true
     admin.save!
-    expect(admin.coachings.count). to eq 0
+    expect(admin.coachings.count).to eq 0
     expect(Kid.where(admin_id: admin.id).count).to eq 0
   end
 
   context 'association with kids and mentors' do
     it 'has many kids' do
-      should have_many(:coachings)
+      is_expected.to have_many(:coachings)
     end
 
     it 'has many mentors through kids' do
-      should have_many(:mentors).through(:coachings)
+      is_expected.to have_many(:mentors).through(:coachings)
     end
 
-    it 'should return one\'s mentors' do
+    it 'returns one\'s mentors' do
       @admin   = create(:admin)
       @mentor1 = create(:mentor)
       @mentor2 = create(:mentor)
