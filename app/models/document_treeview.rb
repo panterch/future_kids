@@ -9,7 +9,7 @@ class DocumentTreeview
   def categories_tree
     tree = {}
     category_keys = retrieve_documents.order(:category0).pluck(:category0, :category1, :category2, :category3,
-                                                               :category4, :category5, :category6)
+                                                               :category4, :category5, :category6, :category7)
     category_keys.each do |keys|
       next if keys.first.blank?
 
@@ -35,7 +35,7 @@ class DocumentTreeview
     js_nodes = category_js_nodes
     documents = retrieve_documents
     documents.each do |d|
-      categories = [d.category0, d.category1, d.category2, d.category3, d.category4, d.category5, d.category6].compact
+      categories = [d.category0, d.category1, d.category2, d.category3, d.category4, d.category5, d.category6, d.category7].compact
       nodes = js_nodes
       categories.each do |category|
         nodes.each do |node|

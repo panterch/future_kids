@@ -12,6 +12,8 @@ describe DocumentTreeview do
     build(:document, category0: 'a', category1: 'b', category2: 'c1').attachment.attach(file).record.save!
 
     build(:document, category0: 'a', category1: 'b', category2: 'c2').attachment.attach(file).record.save!
+    build(:document, category0: 'a', category1: 'b', category2: 'c1', category3: 'd',
+                     category4: 'e', category5: 'f', category6: 'g', category7: 'h').attachment.attach(file).record.save!
     build(:document, category0: 'x', category1: 'y').attachment.attach(file).record.save!
 
     tree = dtv.categories_tree

@@ -29,7 +29,7 @@ class DocumentsController < ApplicationController
 
   def document_params
     params.require(:document).permit(
-      :category0, :category1, :category2, :category3, :category4, :category5, :category6, :title, :attachment, :admin_only
+      :category0, :category1, :category2, :category3, :category4, :category5, :category6, :category7, :title, :attachment, :admin_only
     )
   end
 end

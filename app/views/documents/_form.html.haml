@@ -1,6 +1,6 @@
 = simple_form_for @document do |form|
   -# allow user to select category or enter it via freetext
-  - (0..6).each do |i|
+  - (0..7).each do |i|
     .form-group.string.optional.document_category
       %label.string.optional.col-sm-3.control-label(for="document_category#{i}")
         = Document.human_attribute_name("category#{i}")
