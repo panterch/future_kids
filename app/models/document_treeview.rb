@@ -35,7 +35,8 @@ class DocumentTreeview
     js_nodes = category_js_nodes
     documents = retrieve_documents
     documents.each do |d|
-      categories = [d.category0, d.category1, d.category2, d.category3, d.category4, d.category5, d.category6, d.category7].compact
+      categories = [d.category0, d.category1, d.category2, d.category3, d.category4, d.category5, d.category6,
+                    d.category7].compact
       nodes = js_nodes
       categories.each do |category|
         nodes.each do |node|

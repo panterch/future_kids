@@ -15,11 +15,11 @@ describe School do
     end
 
     it 'has many kids' do
-      is_expected.to have_many(:kids)
+      expect(subject).to have_many(:kids)
     end
 
     it 'has many mentors through kids' do
-      is_expected.to have_many(:mentors).through(:kids)
+      expect(subject).to have_many(:mentors).through(:kids)
     end
 
     it 'returns one\'s mentors' do

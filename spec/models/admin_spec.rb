@@ -19,11 +19,11 @@ describe Admin do
 
   context 'association with kids and mentors' do
     it 'has many kids' do
-      is_expected.to have_many(:coachings)
+      expect(subject).to have_many(:coachings)
     end
 
     it 'has many mentors through kids' do
-      is_expected.to have_many(:mentors).through(:coachings)
+      expect(subject).to have_many(:mentors).through(:coachings)
     end
 
     it 'returns one\'s mentors' do
