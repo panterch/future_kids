@@ -48,9 +48,6 @@ class Kid < ApplicationRecord
   # the html5 date submit allows two letter dates (e.g. '21') and translates them to wrong years (like '0021')
   validates_date :dob, :exit_at, :checked_at, :coached_at, after: '2001-01-01', allow_blank: true
 
-  # phone must be a valid Swiss number
-  validate :phone_must_be_swiss_number, if: -> { phone.present? }
-
   # validate that enough goals were given in each group
   validate do |kid|
     goals_1_count = GOALS_1.count { |g| kid[g].present?}
@@ -206,22 +203,6 @@ class Kid < ApplicationRecord
   end
 
 protected
-
-  # Accepts the following Swiss formats (with or without separators):
-  # - +41XXXXXXXXX (E.164)
-  # - 0041XXXXXXXXX (international prefix)
-  def phone_must_be_swiss_number
-    raw = phone.to_s.strip
-    normalized = raw.gsub(/[^\d\+]/, '')
-
-    valid =
-      normalized.match?(/\A\+41[1-9]\d{8}\z/) ||
-      normalized.match?(/\A0041[1-9]\d{8}\z/)
-
-    unless valid
-      errors.add(:phone, I18n.t('errors.messages.invalid', default: 'ist keine gültige Schweizer Telefonnummer'))
-    end
-  end
 
   def release_relations
     self.mentor = nil
