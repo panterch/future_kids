@@ -13,6 +13,7 @@ $(function () {
   register_exit_at_toggler();
   register_freetext_toggler();
   register_treeview();
+  register_document_search();
   setTimeout(remove_alerts, 3000);
 });
 
@@ -213,4 +214,103 @@ function register_treeview() {
         var href = $(this).attr("href");
         if ('#' != href) { window.open(href); }
     });
+}
+
+/* controls the document search functionality */
+function register_document_search() {
+    var originalTreeData = $('#tree').data('tree');
+    var $searchInput = $('#document_search');
+    var $clearButton = $('#document_search_clear');
+
+    if (!$searchInput.length || !originalTreeData) return;
+
+    // Clear button functionality
+    $clearButton.on('click', function() {
+        $searchInput.val('').trigger('input');
+    });
+
+    $searchInput.on('input', function() {
+      var searchTerm = $(this).val().toLowerCase().trim();
+
+        // Show/hide clear button based on whether there's a search term
+        if (searchTerm === '') {
+            $clearButton.hide();
+        } else {
+            $clearButton.show();
+        }
+
+        if (searchTerm === '') {
+            // Reset to original tree
+            $('#search_no_results').hide();
+            $('#tree').show().treeview('remove');
+            $('#tree').treeview({
+                data: originalTreeData,
+                enableLinks: true,
+                levels: 1
+            });
+        } else {
+            // Filter tree data
+            var filteredData = filterTreeData(originalTreeData, searchTerm);
+            $('#tree').treeview('remove');
+
+            if (filteredData.length === 0) {
+                // Show no results message
+                $('#tree').hide();
+                $('#search_no_results').show();
+            } else {
+                // Show filtered results
+                $('#search_no_results').hide();
+                $('#tree').show().treeview({
+                    data: filteredData,
+                    enableLinks: true,
+                    levels: 10 // Expand all levels for search results
+                });
+            }
+        }
+    });
+}
+
+function filterTreeData(nodes, searchTerm) {
+    var filtered = [];
+
+    nodes.forEach(function(node) {
+        var hasMatchingChildren = false;
+        var filteredChildren = [];
+
+        // Check if this is a document (has documentId) or a category folder
+        var isDocument = node.documentId !== undefined;
+
+        // Only match document titles, not folder names
+        var matchesTitle = isDocument && node.text && node.text.toLowerCase().includes(searchTerm);
+
+        // If node has children, filter them recursively
+        if (node.nodes && node.nodes.length > 0) {
+            filteredChildren = filterTreeData(node.nodes, searchTerm);
+            hasMatchingChildren = filteredChildren.length > 0;
+        }
+
+        // Include node if it's a matching document OR if it has matching children (for folders)
+        if (matchesTitle || hasMatchingChildren) {
+            var newNode = {
+                text: node.text,
+                selectable: node.selectable,
+                icon: node.icon
+            };
+
+            // Copy document properties if it's a document
+            if (isDocument) {
+                newNode.href = node.href;
+                newNode.documentId = node.documentId;
+            }
+
+            // Add filtered children if any
+            if (filteredChildren.length > 0) {
+                newNode.nodes = filteredChildren;
+            }
+
+            filtered.push(newNode);
+        }
+    });
+
+    return filtered;
 }
