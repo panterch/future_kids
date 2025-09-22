@@ -20,7 +20,12 @@ class SitesController < ApplicationController
   def edit; end
 
   def update
-    if @site.update(site_params)
+    @site.attributes = site_params
+    if @site.terms_of_use_content_changed?
+      @site.terms_of_use_content_changed_at = DateTime.now
+    end
+
+    if @site.save
       redirect_to edit_site_url, notice: I18n.t('crud.action.update_success')
     else
       render action: :edit
