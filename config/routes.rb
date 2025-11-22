@@ -1,5 +1,5 @@
 Rails.application.routes.draw do
-  devise_for :user
+  devise_for :user, controllers: { sessions: 'users/sessions' }
 
   resources :self_registrations, { only: %i[create new] } do
     collection do
