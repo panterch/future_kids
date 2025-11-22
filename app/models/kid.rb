@@ -72,9 +72,9 @@ class Kid < ApplicationRecord
     end
   end
 
-  after_validation :release_relations, if: :inactive?
   after_validation :track_goal_updates
   before_destroy :release_relations
+  after_save :release_relations, if: :inactive?
   after_save :track_relations
 
   # takes the given time argument (or Time.now) and calculates the
@@ -215,12 +215,16 @@ class Kid < ApplicationRecord
   protected
 
   def release_relations
-    self.mentor = nil
-    self.secondary_mentor = nil
-    self.teacher = nil
-    self.secondary_teacher = nil
-    self.third_teacher = nil
-    self.admin = nil
+    # Use update_columns to bypass callbacks and directly update the database
+    # This prevents infinite loops since we're in an after_save callback
+    update_columns(
+      mentor_id: nil,
+      secondary_mentor_id: nil,
+      teacher_id: nil,
+      secondary_teacher_id: nil,
+      third_teacher_id: nil,
+      admin_id: nil
+    )
   end
 
   def track_relations
