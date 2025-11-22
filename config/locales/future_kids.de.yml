@@ -97,7 +97,7 @@ de:
         inactive: Inaktiv gesetzt
         todo: Pendenzen
         checked_at: 'Letztes Kontrolldatum'
-        coached_at: 'Letztes Telefoncoaching'
+        coached_at: 'Letztes Coaching'
         abnormality: 'Auffälligkeiten'
         abnormality_criticality: 'Kritikalität der Auffälligkeiten'
         admin: Pädagogischer Coach
