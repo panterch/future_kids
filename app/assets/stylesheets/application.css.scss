@@ -7,26 +7,26 @@
  * = require bootstrap-treeview
 */
 
-$font-size-base:             12px;
-$line-height-base:           1.4;
-$grid-gutter-width:          20px;
-$navbar-height:              40px;
+$font-size-base: 12px;
+$line-height-base: 1.4;
+$grid-gutter-width: 20px;
+$navbar-height: 40px;
 
-$screen-xs:                  576px;
-$screen-xs-min:              $screen-xs;
-$screen-phone:               $screen-xs-min;
+$screen-xs: 576px;
+$screen-xs-min: $screen-xs;
+$screen-phone: $screen-xs-min;
 
-$screen-sm:                  720px;
-$screen-sm-min:              $screen-sm;
-$screen-tablet:              $screen-sm-min;
+$screen-sm: 720px;
+$screen-sm-min: $screen-sm;
+$screen-tablet: $screen-sm-min;
 
-$screen-md:                  992px;
-$screen-md-min:              $screen-md;
-$screen-desktop:             $screen-md-min;
+$screen-md: 992px;
+$screen-md-min: $screen-md;
+$screen-desktop: $screen-md-min;
 
-$screen-lg:                  1200px;
-$screen-lg-min:              $screen-lg;
-$screen-lg-desktop:          $screen-lg-min;
+$screen-lg: 1200px;
+$screen-lg-min: $screen-lg;
+$screen-lg-desktop: $screen-lg-min;
 
 $navbar-default-border: #fff;
 $navbar-default-bg: #fff;
@@ -70,7 +70,7 @@ $sidebar-width: 220px;
     margin: 0;
   }
 
-  > .container {
+  >.container {
     padding-top: 15px;
   }
 
@@ -138,7 +138,9 @@ body.mentor_matchings.index {
 }
 
 form.schedule {
-  input[type=checkbox], select {
+
+  input[type=checkbox],
+  select {
     display: block;
     width: 100%;
   }
@@ -146,6 +148,12 @@ form.schedule {
   select {
     min-height: 400px;
   }
+
+  th,
+  td {
+    text-align: center;
+  }
+
 }
 
 #mentor_selection_tab {
@@ -153,7 +161,8 @@ form.schedule {
     margin-top: 20px;
   }
 
-  th, td {
+  th,
+  td {
     width: 20%;
     vertical-align: top;
     border-left: 1px solid #CCC;
@@ -209,6 +218,7 @@ form.schedule {
 
     .logo {
       margin-bottom: 20px;
+
       img {
         max-width: 220px;
       }
@@ -231,10 +241,12 @@ form.schedule {
 .kid-mentor-schedules {
   .header {
     padding: 10px 15px;
+
     .row {
       margin-bottom: 5px;
     }
-     .title {
+
+    .title {
       margin-top: 4px;
       font-size: 12px;
       font-weight: bold;
@@ -248,22 +260,28 @@ form.schedule {
       font-size: 14px;
       margin-right: 20px;
     }
+
     .form-group {
       margin-right: 20px;
     }
+
     label {
       margin-right: 5px;
     }
   }
+
   .mentors-display-filter .Select-control {
     min-height: 62px;
   }
+
   .timetable {
     width: 100%;
+
     td {
       height: $kidMentorSchedulesRowHeight;
       border-bottom: 1px solid #ccc;
     }
+
     .time-cell {
       border-right: 1px solid black;
       width: 20%;
@@ -271,21 +289,19 @@ form.schedule {
       padding-right: 10px;
       position: relative;
     }
+
     .cell-kid.kid-booked {
-      background: repeating-linear-gradient(
-        45deg,
-        transparent,
-        transparent 10px,
-        #ccc 10px,
-        #ccc 20px
-      ),
-      /* on "bottom" */
-      linear-gradient(
-        to bottom,
-        #eee,
-        #999
-      );
+      background: repeating-linear-gradient(45deg,
+          transparent,
+          transparent 10px,
+          #ccc 10px,
+          #ccc 20px),
+        /* on "bottom" */
+        linear-gradient(to bottom,
+          #eee,
+          #999);
     }
+
     .cell-kid {
       color: #aaa;
       position: absolute;
@@ -295,22 +311,27 @@ form.schedule {
       bottom: 0px;
 
       box-sizing: content-box;
+
       &.time-available {
         background-color: #eee;
       }
     }
-    .cell-kid, .cell-mentor {
+
+    .cell-kid,
+    .cell-mentor {
       &.time-available {
         border-left-style: solid;
         border-left-width: 1px;
         border-right-style: solid;
         border-right-width: 1px;
+
         &.time-first {
           border-top-left-radius: 5px;
           border-top-right-radius: 5px;
           border-top-style: solid;
           border-top-width: 1px;
         }
+
         &.time-last {
           border-bottom-left-radius: 5px;
           border-bottom-right-radius: 5px;
@@ -319,15 +340,19 @@ form.schedule {
         }
       }
     }
-    .spacer, .cell-mentor {
+
+    .spacer,
+    .cell-mentor {
       display: block;
       box-sizing: border-box;
       float: left;
       height: 100%;
     }
+
     .kid-available .cell-mentor {
       opacity: 1;
     }
+
     .cell-mentor {
       opacity: 0.3;
 
@@ -338,7 +363,7 @@ form.schedule {
 
 
 
-      .btn-set-date{
+      .btn-set-date {
         position: absolute;
         left: 0px;
         right: 0px;
@@ -346,6 +371,7 @@ form.schedule {
         bottom: 0px;
         display: block;
         color: inherit;
+
         .icon {
           margin-top: 10px;
           display: none;
@@ -353,11 +379,14 @@ form.schedule {
 
           font-size: 16px;
         }
-        &:hover, &:focus {
+
+        &:hover,
+        &:focus {
           outline-offset: 4px;
           outline-style: dashed;
           outline-width: 2px;
           z-index: 10;
+
           .icon {
             display: block;
           }
@@ -367,9 +396,10 @@ form.schedule {
 
       .name-label {
         display: none;
-        pointer-events:none;
+        pointer-events: none;
         white-space: nowrap;
       }
+
       &.time-last {
         .name-label {
           display: block;
