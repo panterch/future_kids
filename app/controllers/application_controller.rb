@@ -4,10 +4,14 @@ class ApplicationController < ActionController::Base
   self.responder = ApplicationResponder
   respond_to :html
 
+  # Handle CSRF token validation failures gracefully
+  rescue_from ActionController::InvalidAuthenticityToken, with: :handle_invalid_token
+
   before_action :load_site_configuration
   before_action :logout_inactive
   before_action :authenticate_user!
   before_action :intercept_sensitive_params!
+  before_action :detect_empty_session
 
   def after_sign_in_path_for(_resource)
     if Site.load.public_signups_active?
@@ -27,6 +31,45 @@ class ApplicationController < ActionController::Base
   end
 
   protected
+
+  def handle_invalid_token
+    # Log detailed information for monitoring
+    was_authenticated = user_signed_in?
+    Rails.logger.error(
+      'CSRF token validation failed: ' \
+      "controller=#{controller_name}, " \
+      "action=#{action_name}, " \
+      "IP=#{request.remote_ip}, " \
+      "User-Agent=#{request.user_agent}, " \
+      "authenticated=#{was_authenticated}, " \
+      "session_empty=#{session.to_hash.empty?}, " \
+      "has_remember_token=#{cookies[:remember_user_token].present?}"
+    )
+
+    # Clear the session and redirect back to login with a helpful message
+    reset_session
+    flash[:alert] = 'Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.'
+    redirect_to new_user_session_path
+  end
+
+  def detect_empty_session
+    # Skip for non-authenticated actions
+    return true unless user_signed_in?
+    # Skip for sessions controller to avoid noise
+    return true if controller_name == 'sessions'
+
+    # Log warning if session is empty for authenticated user
+    return unless session.to_hash.empty? || session.to_hash.keys == ['session_id']
+
+    Rails.logger.warn(
+      'Empty session detected for authenticated user: ' \
+      "controller=#{controller_name}, " \
+      "action=#{action_name}, " \
+      "IP=#{request.remote_ip}, " \
+      "User-Agent=#{request.user_agent}, " \
+      "has_remember_token=#{cookies[:remember_user_token].present?}"
+    )
+  end
 
   def admin?
     user_signed_in? && current_user.is_a?(Admin)
