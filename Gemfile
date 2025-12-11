@@ -14,6 +14,7 @@ gem 'active_storage_validations'
 gem 'bootstrap-sass'
 gem 'cancancan'
 gem 'coffee-rails'
+gem 'connection_pool', '~> 2.4' # Pin to 2.x for react-rails compatibility
 gem 'countries'
 gem 'country_select'
 gem 'devise'

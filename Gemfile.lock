@@ -134,7 +134,7 @@ GEM
       execjs
     coffee-script-source (1.12.2)
     concurrent-ruby (1.3.5)
-    connection_pool (3.0.2)
+    connection_pool (2.5.5)
     countries (8.0.4)
       unaccent (~> 0.3)
     country_select (11.0.0)
@@ -574,6 +574,7 @@ DEPENDENCIES
   caxlsx
   caxlsx_rails
   coffee-rails
+  connection_pool (~> 2.4)
   countries
   country_select
   cuprite
