@@ -169,7 +169,6 @@ module ApplicationHelper
     %w[Ersttreffen
        Schulbesuch
        Telefoncoaching
-       Auswertungsgespräch
        Weiteres]
   end
 
