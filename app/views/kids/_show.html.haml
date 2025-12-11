@@ -24,7 +24,7 @@
   .panel.panel-default
     .panel-heading
       %h4.panel-title(data-toggle="collapse" data-target="#collapseFirstYearAssessments")
-        Jahresrückblick
+        Auswertung/Abschluss
         %span.badge.pull-right=@kid.first_year_assessments.size+@kid.termination_assessments.size
     #collapseFirstYearAssessments.collapse.list-group.kidanchors
       - @kid.first_year_assessments.each do |assessment|
@@ -218,7 +218,7 @@
 
 
 %h2#assessments
-  Jahresrückblick
+  Auswertung/Abschluss
 
 - @kid.first_year_assessments.each do |assessment|
   .panel.panel-default[assessment]
