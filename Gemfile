@@ -5,7 +5,7 @@ ruby '3.4.4'
 gem 'haml-rails'
 gem 'jbuilder'
 gem 'jquery-rails'
-gem 'rails', '~> 7'
+gem 'rails'
 gem 'rails-i18n'
 gem 'sprockets-rails'
 
@@ -14,7 +14,7 @@ gem 'active_storage_validations'
 gem 'bootstrap-sass'
 gem 'cancancan'
 gem 'coffee-rails'
-gem 'connection_pool', '~> 2.4' # Pin to 2.x for react-rails compatibility
+gem 'connection_pool', '~> 2.4' # Pin to 2.x - Rails 8 compatibility issue
 gem 'countries'
 gem 'country_select'
 gem 'devise'

@@ -4,7 +4,7 @@ describe AdminsController do
   context 'as an admin' do
     before do
       @admin = create(:admin)
-      sign_in @admin
+      sign_in @admin, scope: :user
     end
 
     context 'index' do
@@ -43,7 +43,7 @@ describe AdminsController do
     before do
       @admin = create(:admin)
       @mentor = create(:mentor)
-      sign_in @mentor
+      sign_in @mentor, scope: :user
     end
 
     context 'show' do
