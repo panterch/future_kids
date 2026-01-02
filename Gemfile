@@ -14,7 +14,7 @@ gem 'active_storage_validations'
 gem 'bootstrap-sass'
 gem 'cancancan'
 gem 'coffee-rails'
-gem 'connection_pool', '~> 2.4' # Pin to 2.x - Rails 8 compatibility issue
+gem 'connection_pool', '~> 2.4' # Pin to 2.x - react_rails compatibility issue
 gem 'countries'
 gem 'country_select'
 gem 'devise'
