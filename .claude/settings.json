@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(bin/rails *)",
+      "Bash(bin/rspec *)",
+      "Bash(bundle exec rspec *)",
+      "Bash(bundle exec rubocop *)",
+      "Bash(bundle install)",
+      "Bash(git status)",
+      "Bash(git diff *)",
+      "Bash(git log *)",
+      "Bash(git branch *)"
+    ]
+  }
+}

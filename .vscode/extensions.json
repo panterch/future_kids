@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "Shopify.ruby-lsp",
+    "vayan.haml",
+    "misogi.ruby-rubocop",
+    "karunamurti.rspec-snippets",
+    "streetsidesoftware.code-spell-checker",
+    "eamodio.gitlens"
+  ]
+}
