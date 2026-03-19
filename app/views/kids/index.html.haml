@@ -51,7 +51,7 @@
 
 = boot_page_title do
   = @kids.count if current_user.is_a?(Admin) or current_user.is_a?(Principal)
-  Sch&uuml;ler/innen
+  Sch&uuml;ler*innen
 
 %p
   = page_description
@@ -67,7 +67,7 @@
       - if @site.feature_coach?
         %th Letztes pädagogisches Coaching
       %th Pendenzen
-    %th Mentor/in
+    %th Mentor*in
     - if @site.feature_coach?
       %th Pädagogischer Coach
   - @kids.each do |kid|

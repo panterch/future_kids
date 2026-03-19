@@ -13,28 +13,28 @@ feature 'TEACHER::CREATE:KID', '
   end
 
   scenario 'should not create a new kid without the required values' do
-    click_link 'Schüler/in'
+    click_link 'Schüler*in'
     click_link 'Erfassen'
-    click_button 'Schüler/in erstellen'
+    click_button 'Schüler*in erstellen'
     expect(page.status_code).to eq(200)
-    expect(page).to have_content('Schüler/in erfassen')
+    expect(page).to have_content('Schüler*in erfassen')
     expect(page).to have_content('muss ausgefüllt werden')
   end
 
   scenario 'should create a new kid with required values' do
-    click_link 'Schüler/in'
+    click_link 'Schüler*in'
     click_link 'Erfassen'
     fill_in 'kid_name', with: 'Last Name'
     fill_in 'kid_prename', with: 'First Name'
     check 'kid_goal_3'
     check 'kid_goal_33'
-    click_button 'Schüler/in erstellen'
+    click_button 'Schüler*in erstellen'
     expect(page.status_code).to eq(200)
     expect(page).to have_css('h1', text: 'Last Name, First Name')
   end
 
   scenario 'should create a new kid with parent country' do
-    click_link 'Schüler/in'
+    click_link 'Schüler*in'
     click_link 'Erfassen'
     fill_in 'kid_name', with: 'Last Name'
     fill_in 'kid_prename', with: 'First Name'
@@ -43,7 +43,7 @@ feature 'TEACHER::CREATE:KID', '
     expect(page).to have_select('kid_parent_country',
                                 with_options: ['Albanien', 'Türkei', 'Sri Lanka', 'Kosovo', 'Spanien', 'Portugal'])
     select('Syrien, Arabische Republik', from: 'kid_parent_country')
-    click_button 'Schüler/in erstellen'
+    click_button 'Schüler*in erstellen'
     expect(page.status_code).to eq(200)
     expect(page).to have_css('h1', text: 'Last Name, First Name')
   end
@@ -62,28 +62,28 @@ feature 'ADMIN::CREATE:KID', '
   end
 
   scenario 'should not create a new kid without the required values' do
-    click_link 'Schüler/in'
+    click_link 'Schüler*in'
     click_link 'Erfassen'
-    click_button 'Schüler/in erstellen'
+    click_button 'Schüler*in erstellen'
     expect(page.status_code).to eq(200)
-    expect(page).to have_content('Schüler/in erfassen')
+    expect(page).to have_content('Schüler*in erfassen')
     expect(page).to have_content('muss ausgefüllt werden')
   end
 
   scenario 'should create a new kid with required values' do
-    click_link 'Schüler/in'
+    click_link 'Schüler*in'
     click_link 'Erfassen'
     fill_in 'kid_name', with: 'Last Name'
     fill_in 'kid_prename', with: 'First Name'
     check 'kid_goal_3'
     check 'kid_goal_33'
-    click_button 'Schüler/in erstellen'
+    click_button 'Schüler*in erstellen'
     expect(page.status_code).to eq(200)
     expect(page).to have_css('h1', text: 'Last Name, First Name')
   end
 
   scenario 'should create a new kid with parent country' do
-    click_link 'Schüler/in'
+    click_link 'Schüler*in'
     click_link 'Erfassen'
     fill_in 'kid_name', with: 'Last Name'
     fill_in 'kid_prename', with: 'First Name'
@@ -92,7 +92,7 @@ feature 'ADMIN::CREATE:KID', '
     expect(page).to have_select('kid_parent_country',
                                 with_options: ['Albanien', 'Türkei', 'Sri Lanka', 'Kosovo', 'Spanien', 'Portugal'])
     select('Syrien, Arabische Republik', from: 'kid_parent_country')
-    click_button 'Schüler/in erstellen'
+    click_button 'Schüler*in erstellen'
     expect(page.status_code).to eq(200)
     expect(page).to have_css('h1', text: 'Last Name, First Name')
   end

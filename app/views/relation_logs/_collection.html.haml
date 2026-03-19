@@ -16,7 +16,7 @@
           - if relation_log.user.present?
             = link_to relation_log.user.display_name, relation_log.user
           - else
-            Gelöschte/r Benutzer/in
+            Gelöschte*r Benutzer*in
         %td= relation_log.end_at ? 'entfernt' : 'zugeordnet'
         %td
           als
@@ -25,5 +25,5 @@
           - if relation_log.kid.present?
             = link_to relation_log.kid.display_name, relation_log.kid
           - else
-            Gelöschte/r Schüler/in
+            Gelöschte*r Schüler*in
 

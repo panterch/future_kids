@@ -20,7 +20,7 @@ feature 'Site' do
     @teacher = create(:teacher)
     create(:kid, name: 'last1', prename: 'first1', teacher: @teacher)
     log_in(@teacher)
-    click_link 'Schüler/in'
+    click_link 'Schüler*in'
     click_link 'last1, first1'
     expect(page).to have_css('h1', text: 'last1, first1')
     expect(page).to have_css('h2', text: 'Gesprächsdokumentationen')

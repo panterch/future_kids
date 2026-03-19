@@ -86,7 +86,7 @@ class ApplicationController < ActionController::Base
     return true unless current_user.inactive?
 
     sign_out current_user
-    redirect_to root_url, alert: 'Benutzer/in inaktiv'
+    redirect_to root_url, alert: 'Benutzer*in inaktiv'
   end
 
   # some parameters should only be set by admins.

@@ -17,7 +17,7 @@ feature 'Principals as Admin' do
     fill_in 'Passwort', with: '123456'
     fill_in 'Passwort Bestätigung', with: '123456'
     find('#principal_school_ids option:first-child').select_option
-    click_button 'SL/QUIMS-Verantwortliche/r'
+    click_button 'SL/QUIMS-Verantwortliche*r'
 
     expect(page).to have_content('principal@email.com')
   end
@@ -38,7 +38,7 @@ feature 'Principals as Admin' do
       option.select_option
     end
 
-    click_button 'SL/QUIMS-Verantwortliche/r aktualisieren'
+    click_button 'SL/QUIMS-Verantwortliche*r aktualisieren'
 
     expect(page).to have_content('extra-school-one')
     expect(page).to have_content('extra-school-two')

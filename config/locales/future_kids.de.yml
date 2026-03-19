@@ -1,16 +1,16 @@
 de:
   activerecord:
     models:
-      admin: "Administrator/in"
-      kid: "Schüler/in"
-      mentor: "Mentor/in"
+      admin: "Administrator*in"
+      kid: "Schüler*in"
+      mentor: "Mentor*in"
       journal: "Lernjournal"
       teacher: "Lehrperson"
       reminder: "Erinnerung"
       document: "Dokument"
       comment: Kommentar
       school: Schule
-      principal: "SL/QUIMS-Verantwortliche/r"
+      principal: "SL/QUIMS-Verantwortliche*r"
       review: "Gesprächsdokumentation"
       kid_mentor_relation: 'Bewegungen'
       site: 'Seitenweite Konfiguration'
@@ -44,8 +44,8 @@ de:
         exit_at: "Ausstiegsdatum"
         meeting_day: "Treffen Wochentag"
         meeting_start_at: "Treffen beginnt um"
-        mentor: "Mentor/in"
-        secondary_mentor: "Ersatz Mentor/in"
+        mentor: "Mentor*in"
+        secondary_mentor: "Ersatz Mentor*in"
         secondary_active: "Stellvertretung aktiv"
         teacher: "Lehrperson"
         secondary_teacher: "Zweite Lehrperson"
@@ -102,7 +102,7 @@ de:
         abnormality_criticality: 'Kritikalität der Auffälligkeiten'
         admin: Pädagogischer Coach
         admin_id: Pädagogischer Coach
-        creator: Ersteller/in
+        creator: Ersteller*in
         simplified_schedule: Verfügbare Zeiten
       journal:
         held_at: Datum
@@ -118,7 +118,7 @@ de:
         method: "Beobachtungen und Vorgehensweise"
         outcome: "Erfolge / Schwierigkeiten und Interpretation"
         note: Bemerkungen
-        mentor: "Mentor/in"
+        mentor: "Mentor*in"
         kid: Kind
       review:
         kid: Kind
@@ -129,28 +129,28 @@ de:
         content: "Inhalt"
         outcome: "Abmachungen"
         note: "Beobachtungen / Anmerkungen"
-        attendee: "Teilnehmer"
+        attendee: "Teilnehmende"
       first_year_assessment:
         held_at: "Datum"
         kid: "Kind"
         teacher: "Lehrperson"
-        mentor: "Mentor/in"
+        mentor: "Mentor*in"
         duration: "Dauer des Gesprächs"
         development: "Schulische Entwicklung des Kindes, insbesondere im Hinblick auf die fachlichen Förderbereiche"
         development_teacher: "Sicht Lehrperson"
-        development_mentor: " Sicht Mentor/in"
+        development_mentor: "Sicht Mentor*in"
         goals: "Persönliche Entwicklung des Kindes, insbesondere im Hinblick auf die überfachlichen Förderbereiche"
         goals_teacher: "Sicht Lehrperson"
-        goals_mentor: " Sicht Mentor/in"
-        relation_mentor: "Wie nimmt Mentor/in die persönliche Beziehung zum Kind wahr?"
-        motivation: "Wie beurteilt Mentor/in die Arbeitshaltung des Kindes?"
-        collaboration: "Wie beurteilt er/sie Zusammenarbeit mit Familie (Erreichbarkeit, Zuverlässigkeit)?"
+        goals_mentor: "Sicht Mentor*in"
+        relation_mentor: "Wie nimmt Mentor*in die persönliche Beziehung zum Kind wahr?"
+        motivation: "Wie beurteilt Mentor*in die Arbeitshaltung des Kindes?"
+        collaboration: "Wie beurteilt Mentor*in die Zusammenarbeit mit der Familie (Erreichbarkeit, Zuverlässigkeit)?"
         breaking_off: "Wird empfohlen, dass das Kind nach Beenden des laufenden Future Kids Semesters aussteigt?"
         breaking_reason: "Wenn ja: Von wem und weshalb?"
         goal_1: "Fachliche Förderbereiche für das kommende Jahr"
         goal_2: "Überfachliche Förderbereiche für das kommende Jahr"
         goal_3: "Wichtig zu beachten im kommenden Jahr"
-        improvements: "Verbesserungsmöglichkeiten in der Zusammenarbeit zwischen LP und Mentor/in?"
+        improvements: "Verbesserungsmöglichkeiten in der Zusammenarbeit zwischen LP und Mentor*in?"
         note: "Weitere Bemerkungen"  
       termination_assessment:
         held_at: "Datum"
@@ -159,7 +159,7 @@ de:
         development: "Wie ist die schulische Entwicklung des Kindes seit Beginn von Future Kids, insbesondere im Hinblick auf die fachlichen Förderbereiche?"
         goals: "Wie ist die persönliche Entwicklung des Kindes seit Beginn von Future Kids, insbesondere im Hinblick auf die überfachlichen Förderbereiche?"
         goals_reached: "Konnte das Kind in den zwei Jahren Fortschritte in den definierten Förderbereichen erzielen?"
-        collaboration: "Wie beurteilen Sie die Zusammenarbeit mit der Mentor/in?"
+        collaboration: "Wie beurteilen Sie die Zusammenarbeit mit Mentor*in?"
         improvements: "Was ist in der verbleibenden Future Kids-Zeit wichtig zu beachten? Auf welche Themen sollte eingegangen werden?"
         note: "Weitere Bemerkungen"
       user:
@@ -199,7 +199,7 @@ de:
         kids: Kinder
         secondary_kids: "Kinder (Vertretung)"
         journals: "Lernjournal Einträge"
-        substitute: "Ersatzmentor"
+        substitute: "Ersatzmentor*in"
         college: 'Hochschule'
         exit_kind: "Aktueller Stand"
         exit_kind_updated_at: "Aktueller Stand aktualisiert"
@@ -232,7 +232,7 @@ de:
         attachment: Datei
         admin_only: "Nur für Admins und Coaches einsehbar"
       comment:
-        by: 'Verfasser/in'
+        by: 'Verfasser*in'
         body: Kommentar
         to_teacher: Lehrperson
         to_secondary_teacher: "Zweite Lehrperson"
@@ -244,17 +244,17 @@ de:
         city: "PLZ, Ort"
         phone: Telefon Teamzimmer
         homepage: Homepage
-        principals: SL/QUIMS-Verantwortliche/r
-        active_principals: SL/QUIMS-Verantwortliche/r
-        teachers: Lehrer
-        active_teachers: Lehrer
-        social: Schulsozialarbeiter/in
+        principals: SL/QUIMS-Verantwortliche*r
+        active_principals: SL/QUIMS-Verantwortliche*r
+        teachers: Lehrpersonen
+        active_teachers: Lehrpersonen
+        social: Schulsozialarbeiter*in
         district: Schulgemeinde
         note: Bemerkungen
         term: Startzeit
         school_kind: Schultyp
       relation_log:
-        kid: "Schüler/in"
+        kid: "Schüler*in"
         user: Person
         start_at: Zugewiesen am
         end_at: Entfernt am
@@ -275,8 +275,8 @@ de:
         css: Seitenspezifisches CSS
       substitution:
         kid: "Kind"
-        mentor: "Mentor/in"
-        secondary_mentor: "Ersatz Mentor/in"
+        mentor: "Mentor*in"
+        secondary_mentor: "Ersatz Mentor*in"
         start_at: "Beginn"
         end_at: "Ende"
         comments: Bemerkungen
@@ -327,11 +327,11 @@ de:
   page_description:
     kids:
       index:
-        teacher: 'Um neue Schüler/innen für die Teilnahme anzumelden, klicken Sie links auf „Erfassen“.'
-        mentor: "Schüler/innen in Ihrem Mentoring"
+        teacher: 'Um neue Schüler*innen für die Teilnahme anzumelden, klicken Sie links auf „Erfassen”.'
+        mentor: “Schüler*innen in Ihrem Mentoring”
     mentor_matchings:
       index:
-        teacher: "Hier sehen Sie die Übersicht aller Mentor/innen, die ein Kind aus Ihrer Klasse begleiten möchten. Unter „Details“ finden Sie die Kontaktdaten des/der Mentor/in und können die Anfrage annehmen oder ablehnen. Das Mentoring ist verbindlich, sobald der/die Mentor/in es nochmals rückbestätigt hat."
+        teacher: “Hier sehen Sie die Übersicht aller Mentor*innen, die ein Kind aus Ihrer Klasse begleiten möchten. Unter „Details” finden Sie die Kontaktdaten der Mentor*in und können die Anfrage annehmen oder ablehnen. Das Mentoring ist verbindlich, sobald Mentor*in es nochmals rückbestätigt hat.”
 
   kids:
     criticality:
@@ -378,28 +378,29 @@ de:
 
   mentor_matchings:
     new:
-      default: "Liebe Lehrerin, lieber Lehrer\n\nIch Interessiere mich dafür, dieses Mentoring zu übernehmen. Ich freue mich über eine Zusage oder stehe für Rückfragen zur Verfügung.\n\nFreundliche Grüsse"
+      default: "Liebe Lehrperson\n\nIch interessiere mich dafür, dieses Mentoring zu übernehmen. Ich freue mich über eine Zusage oder stehe für Rückfragen zur Verfügung.\n\nFreundliche Grüsse"
     create:
       notice: "Die Lehrperson wurde benachrichtigt."
     accept:
-      notice: "Der/die Mentor/in wurde benachrichtigt."
+      notice: "Mentor*in wurde benachrichtigt."
     confirm:
       notice: "Herzlichen Glückwunsch - Das Mentoring ist bestätigt."
 
   available_kids:
     index:
-      title: Kinder ohne Mentor/in
+      title: Kinder ohne Mentor*in
       distance_from: Entfernung von
-      description: "Die Tabelle zeigt alle Schüler/innen welche zur Zeit ohne Mentoring sind. Sie können entweder die Entfernung zu Ihrem Wohnort oder zum Hauptbahnhof anzeigen lassen. Über den Button 'Mentoringanfrage senden' können Sie mit der Lehrperson in Kontakt treten."
+      description: "Die Tabelle zeigt alle Schüler*innen welche zur Zeit ohne Mentoring sind. Sie können entweder die Entfernung zu Ihrem Wohnort oder zum Hauptbahnhof anzeigen lassen. Über den Button 'Mentoringanfrage senden' können Sie mit der Lehrperson in Kontakt treten."
+      empty_state: Zur Zeit sind alle Schüler*innen in Mentorings.
 
 
   self_registrations:
     select_resource:
       title: Ich möchte mich registrieren als
       teacher: "Lehrperson"
-      mentor: "Mentor/in"
+      mentor: "Mentor*in"
     new_mentor:
-      title: "Registrieren Sie sich als Mentor/in"
+      title: "Registrieren Sie sich als Mentor*in"
       terms_of_use:
         text: "Ich bestätige hiermit, die %{link} gelesen zu haben und zu akzeptieren"
         link: "Nutzungsbedingungen"

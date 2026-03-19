@@ -14,7 +14,7 @@ describe Notifications do
     end
 
     it 'renders the body' do
-      expect(@mail.body.encoded).to match('Lieber')
+      expect(@mail.body.encoded).to include('Liebe*r')
       expect(@mail.body.encoded).to match(@reminder.kid.name)
     end
 
@@ -41,7 +41,7 @@ describe Notifications do
     end
 
     it 'renders the body' do
-      expect(@mail.body.encoded).to match('Liebe')
+      expect(@mail.body.encoded).to include('Liebe*r')
     end
   end
 

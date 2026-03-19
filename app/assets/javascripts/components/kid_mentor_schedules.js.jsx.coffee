@@ -87,10 +87,10 @@ MAX_MENTORS_TO_DISPLAY = 10
           if mentor.secondary_kids?.length > 0
             # this mentor has already a primary kid
             message = getConfirmMessage alertMentorHasKid
-              mentorLabel: "Ersatzmentor"
+              mentorLabel: "Ersatzmentor*in"
               otherKidLabel: displayName mentor.secondary_kids[0]
           else
-            message = getConfirmMessage assigmentText "Ersatzmentor"
+            message = getConfirmMessage assigmentText "Ersatzmentor*in"
           mentorKey = "secondary_mentor_id"
 
       if confirm message
@@ -106,7 +106,7 @@ MAX_MENTORS_TO_DISPLAY = 10
     else if not hasSecondaryMentor @props.kid
       promptAndSave "secondary"
     else
-      alert "Diesem Kind sind bereits Mentor und Ersatzmentor zugewiesen"
+      alert "Diesem Kind sind bereits Mentor*in und Ersatzmentor*in zugewiesen"
 
   getKidsMentor: -> @props.mentors[@props.kid.mentor_id]
   getKidsSecondaryMentor: -> @props.mentors[@props.kid.secondary_mentor_id]
