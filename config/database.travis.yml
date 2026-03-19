@@ -1,7 +1,0 @@
-test:
-  adapter: postgresql
-  database: futurekids_test
-  encoding: UTF8
-  username: postgres
-  password: 
-  host: 

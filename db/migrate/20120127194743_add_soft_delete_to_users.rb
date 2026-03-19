@@ -1,8 +1,0 @@
-class AddSoftDeleteToUsers < ActiveRecord::Migration[4.2]
-  def change
-    add_column :users, :inactive, :boolean, default: false
-    add_index :users, :inactive
-    add_column :kids, :inactive, :boolean, default: false
-    add_index :kids, :inactive
-  end
-end
