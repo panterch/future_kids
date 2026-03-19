@@ -24,7 +24,7 @@ reviews:
     - "!Gemfile.lock"
     - "!spec/fixtures/**"
     - "!certs/**"
-
+    - "!config/locales/**"
 
   path_instructions:
     - path: "app/models/ability.rb"
