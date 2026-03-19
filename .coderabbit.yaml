@@ -1,0 +1,51 @@
+language: en
+
+reviews:
+  profile: chill
+  request_changes_workflow: false
+  high_level_summary: true
+  poem: false
+  review_status: true
+  collapse_walkthrough: false
+  auto_review:
+    enabled: true
+    drafts: false
+    ignored_titles: []
+
+  path_filters:
+    - "!db/migrate/**"
+    - "!db/structure.sql"
+    - "!vendor/**"
+    - "!bin/**"
+    - "!public/**"
+    - "!log/**"
+    - "!Gemfile.lock"
+    - "!spec/fixtures/**"
+    - "!certs/**"
+    - "!config/locales/**"
+
+  path_instructions:
+    - path: "app/models/ability.rb"
+      instructions: "Review CanCanCan ability definitions carefully for authorization gaps, privilege escalation, and missing role checks. User roles are: Admin, Mentor, Teacher, Principal."
+
+    - path: "app/models/**/*.rb"
+      instructions: "Check ActiveRecord validations, callbacks, and associations. Watch for N+1 queries, missing indexes, and soft-deletion patterns (inactive flags, not hard deletes). Swiss phone number formats are expected."
+
+    - path: "app/controllers/**/*.rb"
+      instructions: "Verify CanCanCan authorization is applied (load_and_authorize_resource or explicit authorize!). Check for mass assignment vulnerabilities in strong parameters."
+
+    - path: "spec/**/*.rb"
+      instructions: "Ensure FactoryBot factories are used correctly. Check for missing edge case coverage, especially around authorization and mentor-kid matching logic."
+
+    - path: "db/migrate/**/*.rb"
+      instructions: "Check for irreversible migrations, missing indexes on foreign keys, and data migrations that should be separate from schema changes."
+
+    - path: "config/routes.rb"
+      instructions: "Verify nested resources don't go more than 2 levels deep. Check that routes align with controller actions."
+
+  finishing_touches:
+    docstrings:
+      enabled: false
+
+chat:
+  auto_reply: true
