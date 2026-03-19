@@ -16,7 +16,7 @@ feature 'Self registrations' do
   scenario 'self register teacher' do
     visit new_self_registration_path
 
-    click_link 'Lehrer/in'
+    click_link 'Lehrperson'
 
     fill_in 'Name', with: 'Raffael'
     fill_in 'Vorname', with: 'Fibbioli'
@@ -39,7 +39,7 @@ feature 'Self registrations' do
   scenario 'self register mentor' do
     visit new_self_registration_path
 
-    click_link 'Mentor/in'
+    click_link 'Mentor*in'
 
     fill_in 'Name', with: 'Raffael'
     fill_in 'Vorname', with: 'Fibbioli'
@@ -55,7 +55,7 @@ feature 'Self registrations' do
 
     expect(page).to have_select('Schule', options: ['Mentor school'])
 
-    click_button 'Mentor/in erstellen'
+    click_button 'Mentor*in erstellen'
 
     expect(page).to have_content 'Registrierung erfolgreich'
     expect(page).to have_content 'Sie erhalten demnächst eine Einladung zum Vorstellungsgespräch.'

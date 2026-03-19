@@ -83,7 +83,7 @@ feature 'ADMIN::UPDATE:SUBSTITUTION', '
     click_link 'Ersatz'
     click_button 'Ersatz finden'
     expect(page.status_code).to eq(200)
-    expect(page).to have_content('Ersatzmentor für Abwesenheit')
+    expect(page).to have_content('Ersatzmentor*in für Abwesenheit')
     expect(page).to have_content(mentor_frederik.display_name)
   end
 end

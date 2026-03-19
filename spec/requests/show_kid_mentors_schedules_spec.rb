@@ -448,7 +448,7 @@ feature 'Kid Mentor planning', :js do
             message = accept_alert do
               first('.kid-available .cell-mentor .btn-set-date').click
             end
-            expect(message).to include('Ersatzmentor')
+            expect(message).to include('Ersatzmentor*in')
           end
 
           within('.kid_mentor') do
@@ -495,7 +495,7 @@ feature 'Kid Mentor planning', :js do
               message = accept_alert do
                 first('.kid-available .cell-mentor .btn-set-date').click
               end
-              expect(message).to include('Ersatzmentor')
+              expect(message).to include('Ersatzmentor*in')
               expect(message).to include('Tolkien Pippin')
             end
           end

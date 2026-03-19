@@ -3,7 +3,7 @@ Liebe Lehrperson,
 Es wurden neue Lernjournale auf der Future Kids-Onlineplattform angelegt:
 
 <% @journals.each do |journal| %>
-Schüler/in: <%= journal.kid.display_name %>
+Schüler*in: <%= journal.kid.display_name %>
 Journal: <%= journal.display_name %>
 Link: <%= kid_url(journal.kid) + "#journal_#{journal.id}" %>
 Datum: <%= I18n.l(journal.held_at) if journal.held_at %>
