@@ -391,6 +391,7 @@ de:
       title: Kinder ohne Mentor*in
       distance_from: Entfernung von
       description: "Die Tabelle zeigt alle Schüler*innen welche zur Zeit ohne Mentoring sind. Sie können entweder die Entfernung zu Ihrem Wohnort oder zum Hauptbahnhof anzeigen lassen. Über den Button 'Mentoringanfrage senden' können Sie mit der Lehrperson in Kontakt treten."
+      empty_state: Zur Zeit sind alle Schüler*innen in Mentorings.
 
 
   self_registrations:
