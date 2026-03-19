@@ -10,10 +10,9 @@ reviews:
   auto_review:
     enabled: true
     drafts: false
-    ignored_titles: []
+    ignore_title_keywords: []
 
   path_filters:
-    - "!db/migrate/**"
     - "!db/structure.sql"
     - "!vendor/**"
     - "!bin/**"

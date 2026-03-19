@@ -1,7 +1,15 @@
 {
   "permissions": {
     "allow": [
-      "Bash(bin/rails *)",
+      "Bash(bin/rails server)",
+      "Bash(bin/rails console)",
+      "Bash(bin/rails routes)",
+      "Bash(bin/rails db:migrate)",
+      "Bash(bin/rails db:migrate:status)",
+      "Bash(bin/rails db:seed)",
+      "Bash(bin/rails stats)",
+      "Bash(bin/rails -T)",
+      "Bash(bin/rails assets:precompile)",
       "Bash(bin/rspec *)",
       "Bash(bundle exec rspec *)",
       "Bash(bundle exec rubocop *)",
