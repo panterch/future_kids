@@ -11,6 +11,9 @@ reviews:
     enabled: true
     drafts: false
     ignore_title_keywords: []
+    base_branches:
+      - develop
+      - master
 
   path_filters:
     - "!db/structure.sql"
@@ -21,7 +24,7 @@ reviews:
     - "!Gemfile.lock"
     - "!spec/fixtures/**"
     - "!certs/**"
-    - "!config/locales/**"
+
 
   path_instructions:
     - path: "app/models/ability.rb"
