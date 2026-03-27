@@ -1,3 +1,4 @@
+
 !!!
 %html{lang: "de"}
   %head
@@ -47,39 +48,55 @@
                       %li.divider
                       %li= link_to 'Abmelden', destroy_user_session_path, method: :delete
 
-
-    #sidebar-wrapper
+    - if user_signed_in? && !current_user.terms_of_use_accepted
       .container
-        #sidebar.hidden-xs.hidden-sm
-          %h1.logo
-            - if @site.logo.present?
-              %img{:src => rails_representation_url(@site.logo_medium)}
-
-          - if user_signed_in?
-            .contextual_links_panel.panel.panel-default.hidden-xs.hidden-sm
-              = render 'layouts/actions'
-            = yield :sidebar
-
-    #main
-      .container
-        .row
-          #content.col-md-offset-3.col-md-9
-            - flash.each do |name, msg|
-              = boot_alert(msg, name) unless msg.blank?
-            = yield
-
-      .container
-        .row.visible-xs.visible-sm.hidden-md.hidden-lg
-          - if user_signed_in?
-            .contextual_links_panel.mobile-actions.panel.panel-default
-              = render 'layouts/actions'
-
-    - if @site.footer_address.present? || @site.footer_email.present?
-      #footer
+        .term-of-use
+          %h1
+            = t('activerecord.attributes.site.terms_of_use_accept.terms_of_use_headline')
+          = @site.terms_of_use_content_parsed&.html_safe
+          = button_to t('activerecord.attributes.site.terms_of_use_accept.button_accept'), { action: "edit_terms", :controller=>"users", :method => :get }, { class: 'btn btn-xs btn-success term-of-use-button' }
+      #main
         .container
-          .col-md12
-            = @site.footer_address
-            - if @site.footer_email.present?
-              = mail_to @site.footer_email, nil, :encode => "hex"
+        - if @site.footer_address.present? || @site.footer_email.present?
+          #footer
+            .container
+              .col-md12
+                = @site.footer_address
+                - if @site.footer_email.present?
+                  = mail_to @site.footer_email, nil, :encode => "hex"
+    - else
+      #sidebar-wrapper
+        .container
+          #sidebar.hidden-xs.hidden-sm
+            %h1.logo
+              - if @site.logo.present?
+                %img{:src => rails_representation_url(@site.logo_medium)}
+
+            - if user_signed_in?
+              .contextual_links_panel.panel.panel-default.hidden-xs.hidden-sm
+                = render 'layouts/actions'
+              = yield :sidebar
+
+      #main
+        .container
+          .row
+            #content.col-md-offset-3.col-md-9
+              - flash.each do |name, msg|
+                = boot_alert(msg, name) unless msg.blank?
+              = yield
+
+        .container
+          .row.visible-xs.visible-sm.hidden-md.hidden-lg
+            - if user_signed_in?
+              .contextual_links_panel.mobile-actions.panel.panel-default
+                = render 'layouts/actions'
+
+      - if @site.footer_address.present? || @site.footer_email.present?
+        #footer
+          .container
+            .col-md12
+              = @site.footer_address
+              - if @site.footer_email.present?
+                = mail_to @site.footer_email, nil, :encode => "hex"
 
 -
