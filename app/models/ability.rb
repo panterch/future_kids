@@ -2,8 +2,6 @@ class Ability
   include CanCan::Ability
 
   def initialize(user)
-    alias_action :download, to: :read
-
     if user.is_a?(Admin)
       can :manage, :all
       cannot :create, MentorMatching
