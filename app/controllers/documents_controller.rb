@@ -16,6 +16,11 @@ class DocumentsController < ApplicationController
     end
   end
 
+  def show
+    @document.increment!(:download_count)
+    redirect_to rails_blob_path(@document.attachment.blob, only_path: true), allow_other_host: false
+  end
+
   def update
     @document.update(document_params)
     if @document.valid?

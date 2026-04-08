@@ -11,6 +11,11 @@
   = form.input :title
   = form.input :attachment
   = form.input :admin_only, as: :boolean, label: Document.human_attribute_name(:admin_only)
+  - if @document.persisted?
+    .form-group
+      %label.col-sm-3.control-label= Document.human_attribute_name(:download_count)
+      .col-sm-9
+        %p.form-control-static= @document.download_count
 
   .col-sm-offset-3.col-sm-9
     = form.button :submit

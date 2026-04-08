@@ -11,6 +11,21 @@ describe DocumentsController do
                        admin_only: true).attachment.attach(file).record.save!
     end
 
+    it 'increments download_count and redirects to blob on show' do
+      document = Document.find_by(title: 'a1')
+      expect do
+        get :show, params: { id: document.id }
+      end.to change { document.reload.download_count }.by(1)
+      expect(response).to redirect_to(rails_blob_path(document.attachment.blob, only_path: true))
+    end
+
+    it 'cannot show admin-only documents' do
+      document = Document.find_by(title: 'ax1')
+      expect do
+        get :show, params: { id: document.id }
+      end.to raise_error(CanCan::AccessDenied)
+    end
+
     it 'can browse non-admin documents' do
       get :index
       expect(response).to have_http_status(:ok)

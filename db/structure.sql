@@ -1,8 +1,3 @@
-\restrict oFaQT2A6nnnmAakh9NTx82MalY0sBm9S6Zeqbl4SEmyTvPcI47O5LdGnlIFLgwx
-
--- Dumped from database version 16.10 (Homebrew)
--- Dumped by pg_dump version 16.10 (Homebrew)
-
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
@@ -201,7 +196,8 @@ CREATE TABLE public.documents (
     category5 character varying,
     category6 character varying,
     admin_only boolean DEFAULT false NOT NULL,
-    category7 character varying
+    category7 character varying,
+    download_count integer DEFAULT 0 NOT NULL
 );
 
 
@@ -1496,11 +1492,10 @@ ALTER TABLE ONLY public.mentor_matchings
 -- PostgreSQL database dump complete
 --
 
-\unrestrict oFaQT2A6nnnmAakh9NTx82MalY0sBm9S6Zeqbl4SEmyTvPcI47O5LdGnlIFLgwx
-
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260408182213'),
 ('20250913213902'),
 ('20250209132950'),
 ('20250105000000'),
