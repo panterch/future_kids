@@ -320,8 +320,6 @@ de:
     user_registered:
       subject: "Neuer Future Kids Account registriert"
       body: "%{user_type} registriert:"
-    reset_and_send_password:
-      subject: "Future Kids Account aktiviert"
     default_email: 'Future Kids <futurekids-tech@panter.ch>'
     important_subject: 'Wichtiges Lernjournal - bitte sofort lesen.'
 
@@ -438,4 +436,4 @@ de:
   
   schedules:
     alert_message: "Bitte beachte! Von diesen Verfügbarkeiten gehen wir für die Zuteilung deines Mentees aus. Bis zum Ersttreffen mit deinem Mentee sind alle angegebenen Zeitfenster freizuhalten. Besten Dank."
- 
+
