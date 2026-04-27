@@ -87,11 +87,11 @@ function register_mentor_journal_date_selectors() {
 
 function register_schedule_checkboxes() {
   document.querySelectorAll('form.schedule table input[type=checkbox]').forEach(function(checkbox) {
+    var siblings = [...checkbox.parentElement.querySelectorAll('input')].filter(el => el !== checkbox);
     checkbox.addEventListener('change', function() {
-      // toggleEnabled is from jquery.disable plugin, jQuery required here
-      $(this).siblings('input').toggleEnabled(this.checked);
+      siblings.forEach(el => el.disabled = !this.checked);
     });
-    $(checkbox).siblings('input').toggleEnabled(checkbox.checked);
+    siblings.forEach(el => el.disabled = !checkbox.checked);
   });
 }
 
