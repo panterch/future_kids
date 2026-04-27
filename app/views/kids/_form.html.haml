@@ -94,7 +94,11 @@
     = form.input :simplified_schedule, required: true
   - if current_user.is_a?(Admin)
     = form.input :meeting_day, :collection => wday_collection
-    = form.input :meeting_start_at, :as => :string, input_html: { value: @kid.human_meeting_start_at, autocomplete: 'off' }
+    - kid_time_options = meeting_time_collection
+    .form-group
+      %label.col-sm-3.control-label= Kid.human_attribute_name(:meeting_start_at)
+      .col-sm-9
+        = form.select :meeting_start_at, options_for_select(kid_time_options, @kid.human_meeting_start_at), { include_blank: true }, { class: 'form-control' }
   -# this form is accessible by admins and teachers. teachers can only set the
   -# the secondary_mentor and ara automatically assigned as first mentor for any kid
   -# they are working on

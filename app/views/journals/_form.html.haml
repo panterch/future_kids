@@ -5,8 +5,19 @@
   = form.input :meeting_type, collection: meeting_type_collection
   = form.input :cancelled
   = form.input :important
-  = form.input :start_at, as: :string, required: true, input_html: { value: @journal.human_start_at, autocomplete: 'off' }
-  = form.input :end_at, as: :string, required: true, input_html: { value: @journal.human_end_at, autocomplete: 'off' }
+  - journal_time_options = (0..24).map { |i| t = 780 + i * 15; "%02d:%02d" % [t / 60, t % 60] }
+  .form-group
+    %label.col-sm-3.control-label
+      = Journal.human_attribute_name(:start_at)
+      %abbr{title: 'required'} *
+    .col-sm-9
+      = form.select :start_at, options_for_select(journal_time_options, @journal.human_start_at), { include_blank: true }, { class: 'form-control', required: true }
+  .form-group
+    %label.col-sm-3.control-label
+      = Journal.human_attribute_name(:end_at)
+      %abbr{title: 'required'} *
+    .col-sm-9
+      = form.select :end_at, options_for_select(journal_time_options, @journal.human_end_at), { include_blank: true }, { class: 'form-control', required: true }
   = form.input :goal
   = form.input :subject
   = form.input :method

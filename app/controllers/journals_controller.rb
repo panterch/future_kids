@@ -8,6 +8,7 @@ class JournalsController < ApplicationController
 
   # these filters have to run after the resource is initialized
   before_action :prepare_mentor_selection, except: %i[index show], if: :admin?
+  before_action :preset_start_time, only: :new
 
   def index # not supported action
     redirect_to kid_url(@kid)
@@ -46,6 +47,10 @@ class JournalsController < ApplicationController
   # before giving cancan the control over the resource loading we influence
   # the created / built resource by adding some parameters to the params
   # hash
+  def preset_start_time
+    @journal.start_at = @kid.meeting_start_at if @kid.meeting_start_at.present?
+  end
+
   def preset_mentor
     # for mentors we overwrite the mentor_id paramenter to assure that they
     # do not create entries for other mentors
