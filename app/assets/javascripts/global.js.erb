@@ -1,6 +1,6 @@
 "use strict";
 
-$(function () {
+document.addEventListener('DOMContentLoaded', function() {
   register_datepickers();
   register_journal_controls();
   register_mentor_journal_date_selectors();
@@ -17,9 +17,7 @@ $(function () {
   setTimeout(remove_alerts, 3000);
 });
 
-// registers jquery ui datepickers on given fields when applicable
 function register_datepickers() {
-
   var time_settings = {
     isoTime: true,
     separator: '.',
@@ -30,63 +28,75 @@ function register_datepickers() {
 
   $('#kid_meeting_start_at').calendricalTime(time_settings);
 
-  // journal entries may take longer than official meeting hours
-  var start_settings = $.extend(true, {}, time_settings);
-  var end_settings = $.extend(true, {}, time_settings);
+  var start_settings = structuredClone(time_settings);
+  var end_settings = structuredClone(time_settings);
   start_settings.maxTime.hour = 19;
   start_settings.timeInterval = 15;
   end_settings.maxTime.hour = 19;
   end_settings.timeInterval = 15;
 
-  $(function(){
-    $('#journal_start_at').on('blur', function() {
-      var journal_start_at_time = document.getElementById('journal_start_at').value.split(':');
-      var journal_start_at_hour = Number(journal_start_at_time[0]);
-      var journal_start_at_min = Number(journal_start_at_time[1]);
-      end_settings.maxTime.hour = Math.min(journal_start_at_hour + 2, 19);
-      if (end_settings.maxTime.hour - journal_start_at_hour < 2) {
+  var journalStartAt = document.getElementById('journal_start_at');
+  if (journalStartAt) {
+    journalStartAt.addEventListener('blur', function() {
+      var parts = journalStartAt.value.split(':');
+      var hour = Number(parts[0]);
+      var min = Number(parts[1]);
+      end_settings.maxTime.hour = Math.min(hour + 2, 19);
+      if (end_settings.maxTime.hour - hour < 2) {
         end_settings.maxTime.minute = 45;
       } else {
-        end_settings.maxTime.minute = journal_start_at_min;
+        end_settings.maxTime.minute = min;
       }
-      if (end_settings.maxTime.hour == 19 && end_settings.maxTime.minute == 45) {
+      if (end_settings.maxTime.hour === 19 && end_settings.maxTime.minute === 45) {
         end_settings.maxTime.minute = 30;
       }
-
     });
-  });
+  }
+
   $('#journal_end_at').calendricalTime(end_settings);
   $('#journal_start_at').calendricalTime(start_settings);
 }
 
-// register active features on the journal entry form
 function register_journal_controls() {
-  $('#journal_cancelled').change(function() {
-    var show_times = !($(this).is(':checked'));
-    $('#journal_start_at_input, #journal_end_at_input').toggle(show_times);
+  var cancelled = document.getElementById('journal_cancelled');
+  if (!cancelled) return;
+  cancelled.addEventListener('change', function() {
+    var show_times = !this.checked;
+    ['journal_start_at', 'journal_end_at'].forEach(function(id) {
+      var input = document.getElementById(id);
+      if (input) {
+        var wrapper = input.closest('.form-group');
+        if (wrapper) wrapper.style.display = show_times ? '' : 'none';
+      }
+    });
   });
-  $('#journal_cancelled').change();
+  cancelled.dispatchEvent(new Event('change'));
 }
 
-// on the mentors page, two selectors allow choosing a filter data for journal
 function register_mentor_journal_date_selectors() {
-  $('select.select_mentor_journal_date').change(function() {
-    var href =  window.location.pathname;
-    href += '?month='+$('#date_month').val();
-    href += '&year='+$('#date_year').val();
-    href += '#mentor_journal_date';
-    window.location = href;
+  document.querySelectorAll('select.select_mentor_journal_date').forEach(function(select) {
+    select.addEventListener('change', function() {
+      var href = window.location.pathname;
+      href += '?month=' + document.getElementById('date_month').value;
+      href += '&year=' + document.getElementById('date_year').value;
+      href += '#mentor_journal_date';
+      window.location = href;
+    });
   });
 }
 
 function register_schedule_checkboxes() {
-  $('form.schedule table input[type=checkbox]').change(function(){
-    $(this).siblings('input').toggleEnabled(this.checked); });
-  $('form.schedule table input[type=checkbox]').each(function(){
-    $(this).siblings('input').toggleEnabled(this.checked); });
+  document.querySelectorAll('form.schedule table input[type=checkbox]').forEach(function(checkbox) {
+    checkbox.addEventListener('change', function() {
+      // toggleEnabled is from jquery.disable plugin, jQuery required here
+      $(this).siblings('input').toggleEnabled(this.checked);
+    });
+    $(checkbox).siblings('input').toggleEnabled(checkbox.checked);
+  });
 }
 
 function register_todotogglers() {
+  // popover is a Bootstrap 3 jQuery plugin
   $('a.todotoggle').popover({
     placement: 'left',
     trigger: 'hover',
@@ -95,222 +105,239 @@ function register_todotogglers() {
 }
 
 function register_kidsfilter() {
-  $('form.filter select, form.filter input').change(function() {
-    $('form.filter').submit();
+  document.querySelectorAll('form.filter select, form.filter input').forEach(function(el) {
+    el.addEventListener('change', function() {
+      document.querySelector('form.filter').submit();
+    });
   });
 }
 
 function register_kidanchors() {
-  $('#sidebar .kidanchors a').click(function(event) {
-    event.preventDefault();
-
-    var target = this.hash,
-    $target = $(target);
-
-    $('html, body').stop().animate({
-      'scrollTop': $target.offset().top - $('#header').height() - 3
-    }, 500, 'swing');
+  document.querySelectorAll('#sidebar .kidanchors a').forEach(function(link) {
+    link.addEventListener('click', function(event) {
+      event.preventDefault();
+      var target = document.querySelector(this.hash);
+      if (!target) return;
+      var header = document.getElementById('header');
+      var headerHeight = header ? header.offsetHeight : 0;
+      var top = target.getBoundingClientRect().top + window.scrollY - headerHeight - 3;
+      window.scrollTo({top: top, behavior: 'smooth'});
+    });
   });
 }
 
 function register_submit_action_in_sidebar() {
-  $('#main form input[type=submit]').each(function() {
-    var $original = $(this);
-    if ($original.parents('.no-sidebar-actions').length) { return; }
-    var $clone = $('<a href="#" class="list-group-item list-group-item-success">');
-    $clone.text($original.val());
-    $clone.click(function(event) {
+  document.querySelectorAll('#main form input[type=submit]').forEach(function(submit) {
+    if (submit.closest('.no-sidebar-actions')) return;
+    var clone = document.createElement('a');
+    clone.href = '#';
+    clone.className = 'list-group-item list-group-item-success';
+    clone.textContent = submit.value;
+    clone.addEventListener('click', function(event) {
       event.preventDefault();
-      $original.click();
+      submit.click();
     });
-    $clone.prependTo($('.contextual_links_panel .list-group'));
+    var panel = document.querySelector('.contextual_links_panel .list-group');
+    if (panel) panel.prepend(clone);
   });
 }
 
 function register_back_to_top_link() {
-  if ($("body").height() < $(window).height()) { return; }
-  var $toTop = $('<a href="#" class="list-group-item">');
-  $toTop.text('Seitenanfang');
-  $toTop.click(function(event) {
+  if (document.body.scrollHeight <= window.innerHeight) return;
+  var link = document.createElement('a');
+  link.href = '#';
+  link.className = 'list-group-item';
+  link.textContent = 'Seitenanfang';
+  link.addEventListener('click', function(event) {
     event.preventDefault();
-    $('html, body').stop().animate({ 'scrollTop': 0 }, 500, 'swing');
+    window.scrollTo({top: 0, behavior: 'smooth'});
   });
-  $toTop.appendTo($('.contextual_links_panel .list-group'));
+  var panel = document.querySelector('.contextual_links_panel .list-group');
+  if (panel) panel.append(link);
 }
 
 function register_exit_at_toggler() {
-  $('#kid_exit_kind, #mentor_exit_kind').change(function() {
-    $('.form-group.kid_exit_at, .form-group.mentor_exit_at').toggle('later' == $(this).val());
+  var selects = document.querySelectorAll('#kid_exit_kind, #mentor_exit_kind');
+  selects.forEach(function(select) {
+    select.addEventListener('change', function() {
+      var show = this.value === 'later';
+      document.querySelectorAll('.form-group.kid_exit_at, .form-group.mentor_exit_at').forEach(function(el) {
+        el.style.display = show ? '' : 'none';
+      });
+    });
   });
-  $('#kid_exit_kind, #mentor_exit_kind').change();
+  selects.forEach(function(select) {
+    select.dispatchEvent(new Event('change'));
+  });
 }
 
 function remove_alerts() {
-  $('.alert').fadeOut();
-}
-
-// document view allows users to change input from select field to freetext input
-// markup is prepared by rendering both field types, this listener toggles between
-// both
-function register_freetext_toggler() {
-  $('a.freetext').click(function() {
-    $(this).parents('.form-group').find(':input').each(function() {
-      var $input = $(this);
-      $input.toggle();
-      // assure that only the visible field has the name attribute
-      // set to avoid double submits
-      if ($input.is(':visible')) {
-        $input.attr('name', $input.data('name'));
-      } else {
-        $input.data('name', $input.attr('name'));
-        $input.removeAttr('name');
-      };
-    });
+  document.querySelectorAll('.alert').forEach(function(el) {
+    el.style.transition = 'opacity 0.4s';
+    el.style.opacity = '0';
+    setTimeout(function() { el.style.display = 'none'; }, 400);
   });
-  $('a.freetext').click();
 }
 
-/* controls the treeview plugin to display the documents tree */
+function register_freetext_toggler() {
+  document.querySelectorAll('a.freetext').forEach(function(link) {
+    link.addEventListener('click', function() {
+      this.closest('.form-group').querySelectorAll('input, textarea, select, button').forEach(function(input) {
+        var isHidden = input.style.display === 'none';
+        input.style.display = isHidden ? '' : 'none';
+        if (isHidden) {
+          if (input.dataset.savedName !== undefined) {
+            input.setAttribute('name', input.dataset.savedName);
+          }
+        } else {
+          var currentName = input.getAttribute('name');
+          if (currentName) input.dataset.savedName = currentName;
+          input.removeAttribute('name');
+        }
+      });
+    });
+    link.click();
+  });
+}
+
 function register_treeview() {
-    $('#tree').treeview({
-        data: $('#tree').data('tree'),
-        enableLinks: true,
-        levels: 1
+  var treeEl = document.getElementById('tree');
+  if (!treeEl) return;
+
+  // treeview, expandAll, collapseAll, getSelected are bootstrap-treeview jQuery plugin calls
+  $('#tree').treeview({
+    data: $('#tree').data('tree'),
+    enableLinks: true,
+    levels: 1
+  });
+
+  var expandAll = document.getElementById('tree_expand_all');
+  if (expandAll) {
+    expandAll.addEventListener('click', function() {
+      $('#tree').treeview('expandAll');
     });
-    $('#tree_expand_all').click(function() {
-        $('#tree').treeview('expandAll');
+  }
+
+  var collapseAll = document.getElementById('tree_collapse_all');
+  if (collapseAll) {
+    collapseAll.addEventListener('click', function() {
+      $('#tree').treeview('collapseAll');
     });
-    $('#tree_collapse_all').click(function() {
-        $('#tree').treeview('collapseAll');
+  }
+
+  var deleteNode = document.getElementById('tree_delete_node');
+  if (deleteNode) {
+    deleteNode.addEventListener('click', function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      var nodes = $('#tree').treeview('getSelected');
+      if (nodes.length < 1) {
+        alert('Bitte wählen Sie ein Dokument zum löschen.');
+        return;
+      }
+      if (!window.confirm("Wirklich löschen?")) return;
+      var href = this.getAttribute('href') + '/' + nodes[0].documentId;
+      fetch(href, {method: 'DELETE'}).then(function() { location.reload(); });
     });
-    $('#tree_delete_node').click(function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        var nodes = $('#tree').treeview('getSelected');
-        if (1 > nodes.length) {
-            alert('Bitte wählen Sie ein Dokument zum löschen.')
-            return;
-        }
-        if (!window.confirm("Wirklich löschen?")) {
-            return;
-        }
-        var href = $(this).attr("href") + '/' + nodes[0].documentId;
-        $.ajax(href, {method: "DELETE", async: false})
-        location.reload();
+  }
+
+  var editNode = document.getElementById('tree_edit_node');
+  if (editNode) {
+    editNode.addEventListener('click', function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      var nodes = $('#tree').treeview('getSelected');
+      if (nodes.length < 1) {
+        alert('Bitte wählen Sie ein Dokument zum bearbeiten.');
+        return;
+      }
+      window.location = this.getAttribute('href') + '/' + nodes[0].documentId + '/edit';
     });
-    $('#tree_edit_node').click(function(event) {
-        event.preventDefault();
-        event.stopPropagation();
-        var nodes = $('#tree').treeview('getSelected');
-        if (1 > nodes.length) {
-            alert('Bitte wählen Sie ein Dokument zum bearbeiten.')
-            return;
-        }
-        var href = $(this).attr("href") + '/' + nodes[0].documentId+ '/edit';
-        window.location = href;
-    });
-    $( "#tree" ).on( "click", "a", function(event) {
-        event.preventDefault();
-        var href = $(this).attr("href");
-        if ('#' != href) { window.open(href); }
-    });
+  }
+
+  treeEl.addEventListener('click', function(event) {
+    var link = event.target.closest('a');
+    if (!link) return;
+    event.preventDefault();
+    var href = link.getAttribute('href');
+    if (href !== '#') window.open(href);
+  });
 }
 
-/* controls the document search functionality */
 function register_document_search() {
-    var originalTreeData = $('#tree').data('tree');
-    var $searchInput = $('#document_search');
-    var $clearButton = $('#document_search_clear');
+  var treeEl = document.getElementById('tree');
+  var searchInput = document.getElementById('document_search');
+  var clearButton = document.getElementById('document_search_clear');
 
-    if (!$searchInput.length || !originalTreeData) return;
+  if (!searchInput || !treeEl) return;
 
-    // Clear button functionality
-    $clearButton.on('click', function() {
-        $searchInput.val('').trigger('input');
-    });
+  // $('#tree').data('tree') reads the data-tree attribute via the treeview jQuery plugin
+  var originalTreeData = $('#tree').data('tree');
+  if (!originalTreeData) return;
 
-    $searchInput.on('input', function() {
-      var searchTerm = $(this).val().toLowerCase().trim();
+  clearButton.addEventListener('click', function() {
+    searchInput.value = '';
+    searchInput.dispatchEvent(new Event('input'));
+  });
 
-        // Show/hide clear button based on whether there's a search term
-        if (searchTerm === '') {
-            $clearButton.hide();
-        } else {
-            $clearButton.show();
-        }
+  searchInput.addEventListener('input', function() {
+    var searchTerm = this.value.toLowerCase().trim();
+    var noResults = document.getElementById('search_no_results');
 
-        if (searchTerm === '') {
-            // Reset to original tree
-            $('#search_no_results').hide();
-            $('#tree').show().treeview('remove');
-            $('#tree').treeview({
-                data: originalTreeData,
-                enableLinks: true,
-                levels: 1
-            });
-        } else {
-            // Filter tree data
-            var filteredData = filterTreeData(originalTreeData, searchTerm);
-            $('#tree').treeview('remove');
+    clearButton.style.display = searchTerm === '' ? 'none' : '';
 
-            if (filteredData.length === 0) {
-                // Show no results message
-                $('#tree').hide();
-                $('#search_no_results').show();
-            } else {
-                // Show filtered results
-                $('#search_no_results').hide();
-                $('#tree').show().treeview({
-                    data: filteredData,
-                    enableLinks: true,
-                    levels: 10 // Expand all levels for search results
-                });
-            }
-        }
-    });
+    if (searchTerm === '') {
+      noResults.style.display = 'none';
+      treeEl.style.display = '';
+      $('#tree').treeview('remove');
+      $('#tree').treeview({data: originalTreeData, enableLinks: true, levels: 1});
+    } else {
+      var filteredData = filterTreeData(originalTreeData, searchTerm);
+      $('#tree').treeview('remove');
+
+      if (filteredData.length === 0) {
+        treeEl.style.display = 'none';
+        noResults.style.display = '';
+      } else {
+        noResults.style.display = 'none';
+        treeEl.style.display = '';
+        $('#tree').treeview({data: filteredData, enableLinks: true, levels: 10});
+      }
+    }
+  });
 }
 
 function filterTreeData(nodes, searchTerm) {
-    var filtered = [];
+  var filtered = [];
 
-    nodes.forEach(function(node) {
-        var hasMatchingChildren = false;
-        var filteredChildren = [];
+  nodes.forEach(function(node) {
+    var isDocument = node.documentId !== undefined;
+    var matchesTitle = isDocument && node.text && node.text.toLowerCase().includes(searchTerm);
+    var filteredChildren = [];
 
-        // Check if this is a document (has documentId) or a category folder
-        var isDocument = node.documentId !== undefined;
+    if (node.nodes && node.nodes.length > 0) {
+      filteredChildren = filterTreeData(node.nodes, searchTerm);
+    }
 
-        // Only match document titles, not folder names
-        var matchesTitle = isDocument && node.text && node.text.toLowerCase().includes(searchTerm);
+    if (matchesTitle || filteredChildren.length > 0) {
+      var newNode = {
+        text: node.text,
+        selectable: node.selectable,
+        icon: node.icon
+      };
 
-        // If node has children, filter them recursively
-        if (node.nodes && node.nodes.length > 0) {
-            filteredChildren = filterTreeData(node.nodes, searchTerm);
-            hasMatchingChildren = filteredChildren.length > 0;
-        }
+      if (isDocument) {
+        newNode.href = node.href;
+        newNode.documentId = node.documentId;
+      }
 
-        // Include node if it's a matching document OR if it has matching children (for folders)
-        if (matchesTitle || hasMatchingChildren) {
-            var newNode = {
-                text: node.text,
-                selectable: node.selectable,
-                icon: node.icon
-            };
+      if (filteredChildren.length > 0) {
+        newNode.nodes = filteredChildren;
+      }
 
-            // Copy document properties if it's a document
-            if (isDocument) {
-                newNode.href = node.href;
-                newNode.documentId = node.documentId;
-            }
+      filtered.push(newNode);
+    }
+  });
 
-            // Add filtered children if any
-            if (filteredChildren.length > 0) {
-                newNode.nodes = filteredChildren;
-            }
-
-            filtered.push(newNode);
-        }
-    });
-
-    return filtered;
+  return filtered;
 }
