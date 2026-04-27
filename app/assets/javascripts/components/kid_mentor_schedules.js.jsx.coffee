@@ -3,7 +3,6 @@
 #= require react-input-autosize
 #= require react-select
 #= require underscore
-#= require moment
 
 STYLE_DAY_PLACEHOLDER_WIDTH = 4
 MAX_MENTORS_TO_DISPLAY = 10
@@ -272,20 +271,11 @@ TimeTable = createReactClass
     }
 
   createTimeArray: ->
-    startMoment = moment()
-    startMoment.set "hours", 13
-    startMoment.set "minutes", 0
-    endMoment = moment startMoment
-    endMoment.set "hours", 19
-    endMoment.set "minutes", 0
-
-    timeMoment = moment startMoment
-
-    while endMoment.diff(timeMoment) >=0
-      label = timeMoment.format "HH:mm"
-      key = label
-      timeMoment.add 30, "minutes"
-      {key, label}
+    for minutes in [0..360] by 30
+      hour = 13 + Math.floor(minutes / 60)
+      minute = minutes % 60
+      label = "#{String(hour).padStart(2, '0')}:#{String(minute).padStart(2, '0')}"
+      {key: label, label: label}
 
   clickHandler_Day: (key) ->
     return (event) =>
