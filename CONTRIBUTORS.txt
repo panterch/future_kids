@@ -1,4 +1,4 @@
-Copyright 2011-2025 Beat Seeliger
+Copyright 2011-2026 Beat Seeliger
 Licensed under AGPL license. The license text is included in LICENSE.txt.
 
 Thanks to Simon Hürlimann (https://github.com/huerlisi) for support.
@@ -26,3 +26,17 @@ Thanks to Philipe Fatio (https://github.com/fphilipe) for support.
 Thanks to Kaspar Vollenweider (https://github.com/casaper) for support.
 
 Thanks to Chrysanthi Lagodimou  (https://github.com/chrysalag) for support.
+
+Thanks to Ales Rosina (https://github.com/alesrosina) for support.
+
+Thanks to ArtOfCode (https://github.com/ArtOfCode-) for support.
+
+Thanks to Jakub Motycka (https://github.com/jakubonty) for support.
+
+Thanks to Jan Hric (https://github.com/h4nz2) for support.
+
+Thanks to Lukáš Březina (https://github.com/LukBrezina) for support.
+
+Thanks to Markus Koller (https://github.com/toupeira) for support.
+
+Thanks to Martin Smid (https://github.com/msmid) for support.
