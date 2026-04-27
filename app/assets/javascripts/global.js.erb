@@ -275,19 +275,21 @@ function register_document_search() {
   var originalTreeData = $('#tree').data('tree');
   if (!originalTreeData) return;
 
-  clearButton.addEventListener('click', function() {
-    searchInput.value = '';
-    searchInput.dispatchEvent(new Event('input'));
-  });
+  if (clearButton) {
+    clearButton.addEventListener('click', function() {
+      searchInput.value = '';
+      searchInput.dispatchEvent(new Event('input'));
+    });
+  }
 
   searchInput.addEventListener('input', function() {
     var searchTerm = this.value.toLowerCase().trim();
     var noResults = document.getElementById('search_no_results');
 
-    clearButton.style.display = searchTerm === '' ? 'none' : '';
+    if (clearButton) clearButton.style.display = searchTerm === '' ? 'none' : '';
 
     if (searchTerm === '') {
-      noResults.style.display = 'none';
+      if (noResults) noResults.style.display = 'none';
       treeEl.style.display = '';
       $('#tree').treeview('remove');
       $('#tree').treeview({data: originalTreeData, enableLinks: true, levels: 1});
@@ -297,9 +299,9 @@ function register_document_search() {
 
       if (filteredData.length === 0) {
         treeEl.style.display = 'none';
-        noResults.style.display = '';
+        if (noResults) noResults.style.display = '';
       } else {
-        noResults.style.display = 'none';
+        if (noResults) noResults.style.display = 'none';
         treeEl.style.display = '';
         $('#tree').treeview({data: filteredData, enableLinks: true, levels: 10});
       }
