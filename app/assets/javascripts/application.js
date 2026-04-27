@@ -7,7 +7,6 @@
 //= require jquery
 //= require rails-ujs
 //= require bootstrap
-//= require jquery.disable
 //= require bootstrap-treeview
 //= require react
 //= require react_ujs

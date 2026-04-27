@@ -38,7 +38,7 @@ Please include:
 - The affected component(s) and any relevant request/response details
 - Your suggested severity (Critical / High / Medium / Low)
 
-We will acknowledge your report within 5 business days and aim to provide a fix or mitigation
+We will acknowledge your report and aim to provide a fix or mitigation
 plan as quickly as the severity warrants. We will keep you informed of progress and credit you in
 the release notes unless you prefer to remain anonymous.
 
