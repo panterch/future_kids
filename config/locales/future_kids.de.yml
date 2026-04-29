@@ -359,6 +359,4 @@ de:
     formats:
       time: "%H:%M"
   
-  schedules:
-    alert_message: "Bitte beachte! Von diesen Verfügbarkeiten gehen wir für die Zuteilung deines Mentees aus. Bis zum Ersttreffen mit deinem Mentee sind alle angegebenen Zeitfenster freizuhalten. Besten Dank."
 

@@ -34,5 +34,4 @@
     * Letztmöglicher Beginn Mentoring:
     = "#{Schedule::LAST_MEETING_HOUR}:#{Schedule::LAST_MEETING_MIN}"
 
-  - alert_script = current_user.is_a?(Mentor) ? "if (!confirm('#{I18n.t('schedules.alert_message')}')) { return false; }" : ''
-  = form.submit 'Stundenplandaten speichern', class: 'btn btn-default', onclick: alert_script
+  = form.submit 'Stundenplandaten speichern', class: 'btn btn-default'
