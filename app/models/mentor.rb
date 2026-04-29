@@ -25,15 +25,10 @@ class Mentor < User
   # produce distinct results. Unscoping order enables distinct to remove duplicates.
   has_many :schools, -> { unscope(:order).distinct }, through: :kids
 
-  has_many :mentor_matchings, dependent: :destroy
-
   accepts_nested_attributes_for :schedules
 
   after_validation :track_exit_kind_updates
   after_save :release_relations, if: :inactive?
-
-  validates :sex, :address,
-            :city, :photo, :dob, :phone, :school, presence: { if: :validate_public_signup_fields? }
 
   # the html5 date submit allows two letter dates (e.g. '21') and translates them to wrong years (like '0021')
   validates_date :exit_at, after: '2001-01-01', allow_blank: true

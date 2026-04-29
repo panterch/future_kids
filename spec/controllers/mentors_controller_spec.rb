@@ -35,20 +35,6 @@ describe MentorsController do
       end
     end
 
-    context 'disable_no_kids_reminder' do
-      let!(:other_mentor) { create(:mentor) }
-
-      it 'disables no_kids_reminder' do
-        get :disable_no_kids_reminder, params: { id: @mentor.id }
-        expect(@mentor.reload.no_kids_reminder).to eq false
-      end
-
-      it 'is not allowed disable reminder for other mentor' do
-        expect do
-          get :disable_no_kids_reminder, params: { id: other_mentor.id }
-        end.to raise_error CanCan::AccessDenied
-      end
-    end
   end
 
   context 'as an admin' do

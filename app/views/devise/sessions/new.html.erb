@@ -18,12 +18,6 @@
       <%= render "devise/shared/links" %>
     </div>
   </div>
-  <% if Site.load[:public_signups_active] %>
-  <div class="row mt-3">
-    <div class="col-sm-offset-3 col-sm-9">
-        <%= link_to t(".register"), new_self_registration_path %>
-    </div>
-  </div>
-  <% end %>
+
 </div>
 <% end %>

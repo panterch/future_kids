@@ -2,8 +2,6 @@
   .col-md-8
     = show_for @mentor do |show|
       = render "details", mentor: @mentor
-      - if Site.load.public_signups_active?
-        = show.attribute :no_kids_reminder
       = show.association :schools do |k|
         %li
           = can_link_to k

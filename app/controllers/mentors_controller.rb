@@ -66,11 +66,6 @@ class MentorsController < ApplicationController
     respond_with @mentor
   end
 
-  def disable_no_kids_reminder
-    @mentor.update_column(:no_kids_reminder, false)
-    redirect_to @mentor
-  end
-
   private
 
   def mentor_params
@@ -79,7 +74,7 @@ class MentorsController < ApplicationController
            :city, :dob, :phone, :school_id, :field_of_study, :education, :transport,
            :personnel_number, :ects, :term, :absence, :note, :todo, :substitute,
            :filter_by_school_id, :filter_by_meeting_day, :filter_by_coach_id,
-           :exit, :exit_kind, :exit_at, :no_kids_reminder,
+           :exit, :exit_kind, :exit_at,
            :inactive, :photo, { schedules_attributes: %i[day hour minute] }]
       params.require(:mentor).permit(*p)
     else
