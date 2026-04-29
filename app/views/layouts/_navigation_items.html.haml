@@ -17,8 +17,3 @@
 = nav_link :document
 -if can? :read, School
   = nav_link :school
-- if Site.load.public_signups_active?
-  -if can? :manage, MentorMatching
-    = nav_link :mentor_matching
-  -if can? :search, Kid
-    = nav_link :available_kids

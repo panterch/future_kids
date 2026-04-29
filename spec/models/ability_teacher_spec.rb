@@ -4,7 +4,6 @@ require 'cancan/matchers'
 describe Ability do
   describe 'A Teacher' do
     before do
-      Site.load.update!(public_signups_active: true)
       @teacher = create(:teacher)
       @ability = Ability.new(@teacher)
     end
@@ -16,13 +15,6 @@ describe Ability do
     let(:journal) { create(:journal, kid: kid) }
     let(:foreign_journal) { create(:journal, kid: foreign_kid) }
     let(:review) { create(:review, kid: kid) }
-    let(:mentor_matching) do
-      create(:mentor_matching, kid: create(:kid, teacher: @teacher), mentor: create(:mentor))
-    end
-    let(:other_mentor_matching) do
-      create(:mentor_matching, kid: create(:kid), mentor: create(:mentor))
-    end
-
     it 'cannot access teachers in general' do
       expect(@ability).not_to be_able_to(:read, foreign_teacher)
     end
@@ -122,12 +114,5 @@ describe Ability do
       expect(@ability).not_to be_able_to(:read, review)
     end
 
-    it 'can read own a mentor matchings' do
-      expect(@ability).to be_able_to(:read, mentor_matching)
-    end
-
-    it 'can read others a mentor matchings' do
-      expect(@ability).not_to be_able_to(:read, other_mentor_matching)
-    end
   end
 end

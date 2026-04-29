@@ -62,8 +62,4 @@ class User < ApplicationRecord
     self.inactive_at = (Time.now if inactive?)
   end
 
-  # on instances with public signup configured stronger validations are applied
-  def validate_public_signup_fields?
-    Site.load.public_signups_active?
-  end
 end

@@ -4,10 +4,9 @@ class Ability
   def initialize(user)
     if user.is_a?(Admin)
       can :manage, :all
-      cannot :create, MentorMatching
     elsif user.is_a?(Mentor)
       # own record may be read
-      can %i[read update edit_schedules update_schedules disable_no_kids_reminder],
+      can %i[read update edit_schedules update_schedules],
           Mentor, id: user.id
       # mentor can read records of admins associated indirectly via kid
       can :read, Admin, coachings: { mentor_id: user.id }
@@ -19,14 +18,6 @@ class Ability
       # mentor may be associated via two fields to a kid
       can :read, Kid, mentor_id: user.id, inactive: false
       can :read, Kid, secondary_mentor_id: user.id, secondary_active: true, inactive: false
-      if Site.load.public_signups_active?
-        if user.sex == 'f'
-          can :search, Kid, mentor_id: nil
-        else
-          can :search, Kid, mentor_id: nil, sex: 'm'
-        end
-      end
-
       # journals can be read indirect via kids or direct if they are associated
       # a mentor may read all journal entries with whom he is directly or
       # indirectly (via the kid) associated
@@ -51,12 +42,6 @@ class Ability
       can :read, Teacher, secondary_kids: { secondary_mentor_id: user.id,
                                             secondary_active: true }
 
-      # mentor can create mentor_matching
-      if Site.load.public_signups_active?
-        can :create, MentorMatching, mentor_id: user.id
-        can :read, MentorMatching, mentor_id: user.id, state: %w[reserved confirmed]
-        can %i[confirm decline], MentorMatching, mentor_id: user.id, state: 'reserved'
-      end
     elsif user.is_a?(Teacher)
       can :manage, Teacher, id: user.id
       can :create, Kid
@@ -87,13 +72,6 @@ class Ability
         can :manage, Review, kid: { third_teacher_id: user.id }
       end
 
-      # mentor matching permissions
-      if Site.load.public_signups_active?
-        can :manage, MentorMatching, kid: { teacher_id: user.id }
-        cannot %i[create accept decline confirm], MentorMatching
-        can %i[accept decline], MentorMatching, kid: { teacher_id: user.id }, state: 'pending'
-        can :read, Mentor, mentor_matchings: { kid: { teacher_id: user.id } }
-      end
     elsif user.is_a?(Principal)
       # own record may be read
       can %i[read update], Principal, id: user.id

@@ -24,9 +24,6 @@ describe Ability do
     let(:comment) { create(:comment, journal: journal, created_by: mentor) }
     let(:foreign_comment) { create(:comment, journal: journal, created_by: admin) }
     let(:review) { build(:review, kid: kid) }
-    let(:mentor_matching) { create(:mentor_matching, kid: kid, mentor: mentor) }
-    let(:reserved_mentor_matching) { create(:mentor_matching, kid: kid, mentor: mentor, state: 'reserved') }
-
     context 'admin' do
       it 'cannot read foreign admin' do
         expect(ability).not_to be_able_to(:read, admin)
@@ -240,39 +237,6 @@ describe Ability do
       it 'does retrieve teachers that can be read' do
         teacher = create(:teacher, kids: [kid])
         expect(Teacher.accessible_by(ability, :read)).to eq([teacher])
-      end
-    end
-
-    context 'available kids' do
-      before do
-        Site.load.update!(public_signups_active: true)
-      end
-
-      it 'can find only men' do
-        expect(ability).to be_able_to(:search, male_kid)
-        expect(ability).not_to be_able_to(:search, female_kid)
-      end
-    end
-
-    context 'mentor matchings' do
-      before do
-        Site.load.update!(public_signups_active: true)
-      end
-
-      it 'cannot read mentor matchings' do
-        expect(ability).not_to be_able_to(:read, mentor_matching)
-      end
-
-      it 'can read reserved mentor matchings' do
-        expect(ability).to be_able_to(:read, reserved_mentor_matching)
-      end
-
-      it 'can confirm' do
-        expect(ability).to be_able_to(:confirm, reserved_mentor_matching)
-      end
-
-      it 'can decline' do
-        expect(ability).to be_able_to(:confirm, reserved_mentor_matching)
       end
     end
 

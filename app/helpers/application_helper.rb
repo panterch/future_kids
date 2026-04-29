@@ -190,10 +190,6 @@ module ApplicationHelper
     School.school_kinds.keys.map { |s| [School.humanize_enum('school_kind', s), s] }
   end
 
-  def mentor_matching_state_collection
-    MentorMatching.states.transform_keys { |s| MentorMatching.human_state_name(s) }
-  end
-
   # can be used in view to display private data only to their owners (and
   # admins)
   def is_viewing_own_data(resource)
@@ -286,28 +282,4 @@ module ApplicationHelper
     d
   end
 
-  def available_kid_actions(kid)
-    mentor_matching = kid.mentor_matching_for(current_user)
-    actions = []
-    if can? :create, MentorMatching
-      if kid.match_available?(current_user)
-        actions << link_to('Mentoringanfrage senden', new_mentor_matching_path(kid_id: kid),
-                           class: 'btn btn-default btn-xs')
-      else
-        if can? :confirm, mentor_matching
-          actions << link_to(I18n.t(:confirm, scope: 'crud.action'), confirm_mentor_matching_path(mentor_matching),
-                             method: :put, class: 'btn btn-success btn-xs')
-        end
-        if can? :decline, mentor_matching
-          actions << link_to(I18n.t(:decline, scope: 'crud.action'), decline_mentor_matching_path(mentor_matching),
-                             method: :put, class: 'btn btn-danger btn-xs')
-        end
-        if can? :read, mentor_matching
-          actions << link_to(I18n.t(:show, scope: 'crud.action'), mentor_matching, class: 'btn btn-default btn-xs')
-        end
-        actions << mentor_matching.human_state_name if actions.blank?
-      end
-    end
-    actions.join(' ')
-  end
 end

@@ -23,8 +23,6 @@ class Kid < ApplicationRecord
   has_many :schedules, as: :person, dependent: :destroy
   has_many :substitutions, dependent: :destroy
   has_many :relation_logs, dependent: :nullify
-  has_many :mentor_matchings, dependent: :destroy
-
   GOALS_1 = %i[goal_3 goal_4 goal_5 goal_6 goal_7
                goal_8 goal_9 goal_10 goal_11 goal_12 goal_13 goal_14
                goal_15 goal_16 goal_17 goal_18 goal_19 goal_20 goal_21
@@ -38,10 +36,6 @@ class Kid < ApplicationRecord
   accepts_nested_attributes_for :journals, :reviews, :schedules
 
   validates :name, :prename, presence: true
-
-  validates :sex, :grade, :language,
-            :address, :city, :parent, :phone,
-            :simplified_schedule, presence: { if: :validate_public_signup_fields? }
 
   validates :meeting_day, numericality: { only_integer: true, allow_blank: true,
                                           greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }
@@ -199,19 +193,6 @@ class Kid < ApplicationRecord
     c.translations[I18n.locale.to_s] || c.name
   end
 
-  # checks if kid is not already assigned to a mentor
-  def match_available?(mentor)
-    # preloaded
-    mentor_matchings.to_a.select do |mentor_matching|
-      !mentor_matching.new_record? && mentor_matching.mentor_id == mentor.id
-    end.count == 0
-  end
-
-  def mentor_matching_for(mentor)
-    # preloaded
-    mentor_matchings.to_a.detect { |mentor_matching| mentor_matching.mentor_id == mentor.id }
-  end
-
   protected
 
   def release_relations
@@ -251,11 +232,6 @@ class Kid < ApplicationRecord
     relation_logs.create!(user_id: send("#{field}_id"),
                           role: field,
                           start_at: Time.now)
-  end
-
-  # on instances with public signup configured stronger validations are applied
-  def validate_public_signup_fields?
-    Site.load.public_signups_active?
   end
 
   # track all changes of the goal freetext and checkbox fields

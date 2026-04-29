@@ -18,9 +18,6 @@ de:
       substitution: 'Ersatz'
       first_year_assessment: "Auswertungsgespräch"
       termination_assessment: "Abschluss-Feedback"
-      available_kids: 'Mentoring finden'
-      mentor_matching: 'Mentoring Anfrage'
-      mentor_matchings: 'Mentoring Anfragen'
 
     attributes:
       kid:
@@ -206,18 +203,6 @@ de:
         exit_at: "Ausstiegsdatum"
         schedules_updated_at: "Stundenplan aktualisiert"
         total_duration_last_month: 'Geleistet im letzten Monat'
-        no_kids_reminder: 'Erinnerung zum Mentorenmatching aktiv'
-      mentor_matching:
-        message: Nachricht
-        state: Status
-        created_at: Erstellt
-        updated_at: Zuletzt geändert
-        states:
-          pending: Lehrperson angeschrieben
-          accepted: Zusage
-          declined: Absage
-          reserved: Reserviert
-          confirmed: Bestätigt
       teacher:
         kids: Kinder
         secondary_kids: "Kinder (als 2. Lehrperson)"
@@ -271,7 +256,6 @@ de:
         teachers_can_access_reviews: Lehrpersonen können Gesprächsnotizen einsehen
         kids_schedule_hourly: Stundenplan aktivieren
         terms_of_use_content: Nutzungsbedingungen
-        public_signups_active: öffentliche Registrierungen aktiv
         title: Titel des Browsertabs
         css: Seitenspezifisches CSS
       substitution:
@@ -305,21 +289,6 @@ de:
       subject: "Neues Auswertungsgespräch"
     termination_assessment_created:
       subject: "Neues Abschluss-Feedback"
-    mentor_matching_created:
-      subject: "Neue Mentoring Anfrage"
-    mentor_matching_reserved:
-      subject: "Mentoring reserviert"
-    mentor_matching_declined:
-      subject: "Mentoring Anfrage abgelehnt"
-    mentor_matching_declined_by_mentor:
-      subject: "Mentoring Anfrage zurückgezogen"
-    mentor_matching_confirmed:
-      subject: "Future Kids Mentoring bestätigt"
-    mentor_no_kids_reminder:
-      subject: "Erinnerung an Mentoring"
-    user_registered:
-      subject: "Neuer Future Kids Account registriert"
-      body: "%{user_type} registriert:"
     default_email: 'Future Kids <futurekids-tech@panter.ch>'
     important_subject: 'Wichtiges Lernjournal - bitte sofort lesen.'
 
@@ -328,10 +297,6 @@ de:
       index:
         teacher: 'Um neue Schüler*innen für die Teilnahme anzumelden, klicken Sie links auf „Erfassen”.'
         mentor: “Schüler*innen in Ihrem Mentoring”
-    mentor_matchings:
-      index:
-        teacher: “Hier sehen Sie die Übersicht aller Mentor*innen, die ein Kind aus Ihrer Klasse begleiten möchten. Unter „Details” finden Sie die Kontaktdaten der Mentor*in und können die Anfrage annehmen oder ablehnen. Das Mentoring ist verbindlich, sobald Mentor*in es nochmals rückbestätigt hat.”
-
   kids:
     criticality:
       '1': Hoch
@@ -374,46 +339,6 @@ de:
     kid_mentor_relation_index:
       one: '%{count} Bewegung'
       other: '%{count} Bewegungen'
-
-  mentor_matchings:
-    new:
-      default: "Liebe Lehrperson\n\nIch interessiere mich dafür, dieses Mentoring zu übernehmen. Ich freue mich über eine Zusage oder stehe für Rückfragen zur Verfügung.\n\nFreundliche Grüsse"
-    create:
-      notice: "Die Lehrperson wurde benachrichtigt."
-    accept:
-      notice: "Mentor*in wurde benachrichtigt."
-    confirm:
-      notice: "Herzlichen Glückwunsch - Das Mentoring ist bestätigt."
-
-  available_kids:
-    index:
-      title: Kinder ohne Mentor*in
-      distance_from: Entfernung von
-      description: "Die Tabelle zeigt alle Schüler*innen welche zur Zeit ohne Mentoring sind. Sie können entweder die Entfernung zu Ihrem Wohnort oder zum Hauptbahnhof anzeigen lassen. Über den Button 'Mentoringanfrage senden' können Sie mit der Lehrperson in Kontakt treten."
-      empty_state: Zur Zeit sind alle Schüler*innen in Mentorings.
-
-
-  self_registrations:
-    select_resource:
-      title: Ich möchte mich registrieren als
-      teacher: "Lehrperson"
-      mentor: "Mentor*in"
-    new_mentor:
-      title: "Registrieren Sie sich als Mentor*in"
-      terms_of_use:
-        text: "Ich bestätige hiermit, die %{link} gelesen zu haben und zu akzeptieren"
-        link: "Nutzungsbedingungen"
-      submit: "Registrierung abschliessen"
-    new_teacher:
-      title: "Registrieren Sie sich als Lehrperson"
-      terms_of_use:
-        text: "Ich bestätige hiermit, die %{link} gelesen zu haben und zu akzeptieren"
-        link: "Nutzungsbedingungen"
-      submit: "Registrierung abschliessen"
-    success:
-      title: Registrierung erfolgreich
-      text_mentor: "Vielen Dank für Ihre Registrierung. Sie erhalten demnächst eine Einladung zum Vorstellungsgespräch."
-      text_teacher: "Vielen Dank für Ihre Registrierung. Sie werden benachrichtigt, sobald unser Team Ihre Eingabe überprüft und Ihr Konto aktiviert hat."
 
   nav:
     principal: 'SL/QUIMS'
