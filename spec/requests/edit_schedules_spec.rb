@@ -37,12 +37,12 @@ shared_examples 'schedule editing' do |label, path_helper, person_factory|
     end
 
     scenario 'JS disables hidden inputs for unchecked slots on page load' do
-      # All slots unchecked — JS should disable the sibling hidden inputs
-      # so they are not submitted. This verifies register_schedule_checkboxes
-      # ran on page load. Use have_no_selector (with built-in wait) to ensure
-      # we don't race with JS execution.
-      expect(page).to have_no_selector('form.schedule table input[type=hidden]:not([disabled])',
-                                       visible: :all)
+      # Scope to one unchecked checkbox cell so a pre-checked slot elsewhere
+      # doesn't cause a false failure. Verifies register_schedule_checkboxes ran.
+      unchecked_checkbox = find('form.schedule table input[type=checkbox]:not(:checked)', match: :first)
+      within(unchecked_checkbox.find(:xpath, '..')) do
+        expect(page).to have_no_selector('input[type=hidden]:not([disabled])', visible: :all)
+      end
     end
   end
 end

@@ -4,6 +4,10 @@ cache: bundler
 services:
   - postgresql
 addons:
+  apt:
+    packages:
+      # Required for ActiveStorage image variant processing (mentor photo on show page).
+      - libvips-dev
   chrome: stable
 
 env:
