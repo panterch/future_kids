@@ -99,13 +99,12 @@ module ApplicationHelper
     collection.map { |k| [k.display_name, k.id] }
   end
 
-  def order_by_collection_for_kids(selected, distance = false)
+  def order_by_collection_for_kids(selected)
     options = [%w[Name name],
                %w[Kontrolldatum checked_at],
                %w[Coachingdatum coached_at],
                %w[Erfassungsdatum created_at],
                %w[Kritikalität abnormality_criticality]]
-    options << %w[Entfernung distance] if distance
     options_for_select(options, selected)
   end
 
@@ -128,12 +127,6 @@ module ApplicationHelper
   def grade_group_collection(selected)
     options = [%w[Unterstufe 1-3],
                %w[Mittelstufe 4-6]]
-    options_for_select(options, selected)
-  end
-
-  def distance_from_collection(selected)
-    options = [['meinem Wohnort', 'mentor'],
-               ['Zürich HB', 'zurich']]
     options_for_select(options, selected)
   end
 
@@ -264,10 +257,6 @@ module ApplicationHelper
     return nil unless date.present?
 
     I18n.l(date)
-  end
-
-  def human_distance(distance)
-    "#{distance.round(2)} km"
   end
 
   # returns the page description translation key of the format

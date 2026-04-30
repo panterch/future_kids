@@ -94,10 +94,6 @@ class ApplicationController < ActionController::Base
     params.split(',').map(&:strip).all? { |param| klass.column_names.include?(param) }
   end
 
-  def valid_distance_from?(distance_from)
-    %w[mentor zurich].include?(distance_from)
-  end
-
   def valid_grade_group?(grade_group)
     %w[1-3 4-6].include?(grade_group)
   end

@@ -1,5 +1,4 @@
 class User < ApplicationRecord
-  include HasCoordinates
   include ActionView::Helpers::TextHelper
 
   devise :database_authenticatable,

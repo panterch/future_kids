@@ -226,47 +226,4 @@ describe Mentor do
     end
   end
 
-  context 'geocoding' do
-    let(:kid) { create(:kid) }
-
-    it 'uses full address' do
-      kid.address = 'Street 1'
-      kid.city = 'City'
-      expect(kid.full_address).to eq('Street 1 City')
-    end
-
-    it 'stores correct coordinates' do
-      kid.address = 'Street 1'
-      kid.city = 'City'
-      kid.save!
-      expect(kid.full_address).to eq('Street 1 City')
-      expect(kid.latitude).to eq(1.111)
-      expect(kid.longitude).to eq(1.234)
-    end
-
-    it 'retrieve coords based only on city' do
-      kid.address = ''
-      kid.city = 'City'
-      kid.save!
-      expect(kid.full_address).to eq('City')
-      expect(kid.latitude).to eq(4.321)
-      expect(kid.longitude).to eq(1.234)
-    end
-
-    it 'sets coords nil if address is not found' do
-      kid.address = 'Street 404'
-      kid.city = 'Notfoundtown'
-      kid.save!
-      expect(kid.latitude.blank?).to be_truthy
-      expect(kid.longitude.blank?).to be_truthy
-    end
-
-    it 'resets coordinates if address becomes blank' do
-      kid.address = ''
-      kid.city = ''
-      kid.save!
-      expect(kid.latitude.blank?).to be_truthy
-      expect(kid.longitude.blank?).to be_truthy
-    end
-  end
 end

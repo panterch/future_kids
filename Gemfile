@@ -18,8 +18,6 @@ gem 'connection_pool', '~> 2.4' # Pin to 2.x - react_rails compatibility issue
 gem 'countries'
 gem 'country_select'
 gem 'devise'
-gem 'geocoder'
-gem 'geokit-rails'
 gem 'google-cloud-storage', require: false
 gem 'i18n_rails_helpers'
 gem 'image_processing'
