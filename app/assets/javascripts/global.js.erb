@@ -203,7 +203,11 @@ function register_treeview() {
       Rails.ajax({
         type: 'DELETE',
         url: href,
-        success: function() { location.reload(); }
+        success: function() { location.reload(); },
+        error: function(xhr) {
+          console.error('Dokument konnte nicht gelöscht werden:', xhr.status, xhr.statusText);
+          alert('Fehler beim Löschen des Dokuments (' + xhr.status + ').');
+        }
       });
     });
   }
