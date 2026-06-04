@@ -21,6 +21,7 @@ gem 'devise'
 gem 'google-cloud-storage', require: false
 gem 'i18n_rails_helpers'
 gem 'image_processing'
+gem 'ruby-vips', '~> 2.0'
 gem 'ostruct'
 gem 'pg'
 gem 'react-rails'
