@@ -196,8 +196,13 @@ function register_treeview() {
         return;
       }
       if (!window.confirm("Wirklich löschen?")) return;
-      var href = this.getAttribute('href') + '/' + nodes[0].documentId;
-      fetch(href, {method: 'DELETE'}).then(function() { location.reload(); });
+      var nodeToRemove = nodes[0];
+      var href = this.getAttribute('href') + '/' + nodeToRemove.documentId;
+      Rails.ajax({
+        type: 'DELETE',
+        url: href,
+        success: function() { location.reload(); }
+      });
     });
   }
 

@@ -27,4 +27,14 @@ feature 'Document Tree', :js do
     visit edit_document_path(doc.id)
     expect(page).to have_field('Titel', with: 'Document Title')
   end
+
+  scenario 'deletes a document via the tree' do
+    doc = create(:document, category0: 'Cat', title: 'To Delete', attachment: file)
+    visit documents_path
+    find('.list-group-item', text: 'Cat').click
+    find('.list-group-item', text: 'To Delete').click
+    accept_confirm { find('#tree_delete_node').click }
+    expect(page).to have_current_path(documents_path)
+    expect(Document.exists?(doc.id)).to be false
+  end
 end

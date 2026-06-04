@@ -30,6 +30,15 @@ class DocumentsController < ApplicationController
     end
   end
 
+  def destroy
+    @document.destroy
+    if request.xhr?
+      head :no_content
+    else
+      redirect_to action: :index
+    end
+  end
+
   private
 
   def document_params

@@ -72,11 +72,19 @@ describe DocumentsController do
       expect(d.attachment).to be_present
     end
 
-    it 'destroys documents' do
+    it 'destroys documents and redirects for HTML requests' do
       document = create(:document, title: 'a1', category0: 'a', attachment: file)
       document_id = document.id
       delete :destroy, params: { id: document_id }
       expect(response).to redirect_to(action: 'index')
+      expect(Document.exists?(document_id)).to be false
+    end
+
+    it 'destroys documents and returns no_content for XHR requests' do
+      document = create(:document, title: 'a1', category0: 'a', attachment: file)
+      document_id = document.id
+      delete :destroy, params: { id: document_id }, xhr: true
+      expect(response).to have_http_status(:no_content)
       expect(Document.exists?(document_id)).to be false
     end
   end
