@@ -187,6 +187,8 @@ function register_treeview() {
 
   var deleteNode = document.getElementById('tree_delete_node');
   if (deleteNode) {
+    deleteNode.removeAttribute('data-method');
+    deleteNode.removeAttribute('data-confirm');
     deleteNode.addEventListener('click', function(event) {
       event.preventDefault();
       event.stopPropagation();

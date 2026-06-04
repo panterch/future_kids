@@ -5,8 +5,7 @@
 
     - if current_user.is_a?(Admin)
       = contextual_link_to :edit, documents_path, id: 'tree_edit_node'
-      = link_to documents_path, id: 'tree_delete_node', class: 'list-group-item' do
-        = boot_icon('trash') + ' ' + t('action.delete')
+      = contextual_link_to :delete, documents_path, id: 'tree_delete_node'
 
 - content_for :sidebar do
   .form-group
