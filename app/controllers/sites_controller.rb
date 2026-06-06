@@ -10,7 +10,7 @@ class SitesController < ApplicationController
       @journals = Journal.all
       @reviews = Review.all
       @assessments = FirstYearAssessment.all
-      render xlsx: 'show'
+      render xlsx: 'show', filename: "futurekids-#{Time.current.strftime('%Y-%m-%d-%H-%M')}.xlsx"
     # normal call redirects to the site wide features
     else
       redirect_to edit_site_url
