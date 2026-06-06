@@ -20,17 +20,6 @@ class ApplicationRecord < ActiveRecord::Base
     end
   end
 
-  def self.human_enum_attributes(mapping)
-    mapping.each do |attr, scope|
-      define_method(:"human_#{attr}") do
-        value = send(attr)
-        return '' if value.blank?
-
-        I18n.t(value, scope: scope)
-      end
-    end
-  end
-
   def self.human_rails_enum_attributes(*attrs)
     attrs.each do |attr|
       define_method(:"human_#{attr}") do
