@@ -3,14 +3,14 @@ class SitesController < ApplicationController
 
   def show
     # in xlsx format show is a full dump of the site
-    if 'xlsx' == params[:format]
-      @kids = Kid.all
-      @mentors = Mentor.all
-      @kid_mentor_relations = KidMentorRelation.all
-      @journals = Journal.all
-      @reviews = Review.all
-      @assessments = FirstYearAssessment.all
-      render xlsx: 'show'
+    if params[:format] == 'xlsx'
+      @kids = Kid.includes(:school, :teacher, :mentor, :secondary_mentor, :admin)
+      @mentors = Mentor.includes(:school, :schools, :kids, :secondary_kids)
+      @kid_mentor_relations = KidMentorRelation.includes(:kid, :mentor, :school)
+      @journals = Journal.includes(:kid, :mentor)
+      @reviews = Review.includes(:kid)
+      @assessments = FirstYearAssessment.includes(:kid, :mentor, :teacher)
+      render xlsx: 'show', filename: "futurekids-#{Time.current.strftime('%Y-%m-%d-%H-%M')}.xlsx"
     # normal call redirects to the site wide features
     else
       redirect_to edit_site_url

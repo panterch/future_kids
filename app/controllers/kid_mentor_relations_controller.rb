@@ -17,7 +17,9 @@ class KidMentorRelationsController < ApplicationController
                               @kid_mentor_relations.reorder('kid_name')
                             end
 
-    return render xlsx: 'index' if 'xlsx' == params[:format]
+    if params[:format] == 'xlsx'
+      return render xlsx: 'index', filename: "kid-mentor-relations-#{Time.current.strftime('%Y-%m-%d-%H-%M')}.xlsx"
+    end
 
     respond_with @kid_mentor_relations
   end

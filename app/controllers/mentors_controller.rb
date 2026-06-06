@@ -39,7 +39,7 @@ class MentorsController < ApplicationController
     @mentor = Mentor.new(mentor_params)
 
     if current_user.is_a?(Admin) && 'xlsx' == params[:format]
-      render xlsx: 'index'
+      render xlsx: 'index', filename: "mentors-#{Time.current.strftime('%Y-%m-%d-%H-%M')}.xlsx"
     # when only one record is present, show it immediately. this is not for
     # admins, since they could have no chance to alter their filter settings in
     # some cases

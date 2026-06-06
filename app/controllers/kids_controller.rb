@@ -31,7 +31,9 @@ class KidsController < ApplicationController
       @kid = Kid.new(kid_params)
     end
 
-    return render xlsx: 'index' if current_user.is_a?(Admin) && 'xlsx' == params[:format]
+    if current_user.is_a?(Admin) && params[:format] == 'xlsx'
+      return render xlsx: 'index', filename: "kids-#{Time.current.strftime('%Y-%m-%d-%H-%M')}.xlsx"
+    end
 
     respond_with @kids
   end

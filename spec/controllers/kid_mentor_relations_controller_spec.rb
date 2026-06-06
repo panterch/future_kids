@@ -27,6 +27,7 @@ describe KidMentorRelationsController do
         create(:kid, exit_kind: 'exit', mentor: @mentor)
         get :index, format: 'xlsx'
         expect(response).to be_successful
+        expect(response.headers['Content-Disposition']).to match(/filename="kid-mentor-relations-\d{4}-\d{2}-\d{2}-\d{2}-\d{2}\.xlsx"/)
       end
     end
   end # end of as an admin
