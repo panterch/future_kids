@@ -1,6 +1,4 @@
 class Journal < ApplicationRecord
-  include ActionView::Helpers::TextHelper
-
   default_scope { order('held_at DESC', :id).joins(:kid) }
 
   belongs_to :kid
@@ -32,43 +30,9 @@ class Journal < ApplicationRecord
     'Journal'
   end
 
-  def human_goal
-    text_format(goal)
-  end
-
-  def human_subject
-    text_format(subject)
-  end
-
-  def human_method
-    text_format(method)
-  end
-
-  def human_outcome
-    text_format(outcome)
-  end
-
-  def human_note
-    text_format(note)
-  end
-
-  def human_start_at
-    return nil unless start_at
-
-    I18n.l(start_at, format: :time)
-  end
-
-  def human_end_at
-    return nil unless end_at
-
-    I18n.l(end_at, format: :time)
-  end
-
-  def human_meeting_type
-    return nil unless meeting_type
-
-    Journal.humanize_enum('meeting_type', meeting_type)
-  end
+  human_text_attributes :goal, :subject, :method, :outcome, :note
+  human_time_attributes :start_at, :end_at
+  human_rails_enum_attributes :meeting_type
 
   # there is a default entry per month which represents the administrative
   # costs.

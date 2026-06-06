@@ -37,7 +37,7 @@ feature 'Kid Mentor planning', :js do
   end
   let!(:admin) { create(:admin) }
   let!(:mentor_frederik) do
-    mentor = create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'm')
+    mentor = create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'male')
     mentor.schedules.create(day: 1, hour: 14, minute: 0)
     mentor.schedules.create(day: 1, hour: 14, minute: 30)
     mentor.schedules.create(day: 1, hour: 15, minute: 0)
@@ -53,7 +53,7 @@ feature 'Kid Mentor planning', :js do
     mentor
   end
   let!(:mentor_melanie) do
-    mentor = create(:mentor, prename: 'Melanie', name: 'Rohner', sex: 'f')
+    mentor = create(:mentor, prename: 'Melanie', name: 'Rohner', sex: 'female')
     mentor.schedules.create(day: 3, hour: 14, minute: 0)
     mentor.schedules.create(day: 3, hour: 14, minute: 30)
     mentor.schedules.create(day: 3, hour: 15, minute: 0)
@@ -69,7 +69,7 @@ feature 'Kid Mentor planning', :js do
     mentor
   end
   let!(:mentor_max) do
-    mentor = create(:mentor, prename: 'Max', name: 'Steiner', sex: 'm')
+    mentor = create(:mentor, prename: 'Max', name: 'Steiner', sex: 'male')
     mentor.schedules.create(day: 1, hour: 17, minute: 0)
     mentor.schedules.create(day: 1, hour: 17, minute: 30)
     mentor.schedules.create(day: 1, hour: 18, minute: 0)
@@ -86,7 +86,7 @@ feature 'Kid Mentor planning', :js do
   end
 
   let!(:mentor_sarah) do
-    mentor = create(:mentor, prename: 'Sarah', name: 'Koller', sex: 'f')
+    mentor = create(:mentor, prename: 'Sarah', name: 'Koller', sex: 'female')
     mentor.schedules.create(day: 1, hour: 17, minute: 0)
     mentor.schedules.create(day: 1, hour: 17, minute: 30)
     mentor.schedules.create(day: 1, hour: 18, minute: 0)

@@ -26,7 +26,7 @@
         = show.attribute :term
         = show.attribute :exit
         = show.attribute :exit_kind
-        - if 'later' == @mentor.exit_kind
+        - if @mentor.later?
           = show.attribute :exit_at
         = show.attribute :exit_kind_updated_at
         = show.attribute :absence

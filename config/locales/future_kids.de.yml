@@ -275,6 +275,28 @@ de:
       meeting_types:
         physical: "Physisch"
         virtual: "Virtuell"
+      ects:
+        currently: "ECTS"
+        alumni: "Alumni"
+        employed: "Angestellt"
+      exit_kinds:
+        exit: "Steigt aus"
+        later: "Alternatives Ausstiegsdatum"
+        continue_term: "macht ½ Jahr weiter"
+        continue: "macht 1 Jahr weiter"
+      goals_reacheds:
+        'yes': "Ja"
+        mostly: "Mehrheitlich"
+        partially: "Teilweise"
+        'no': "Nein"
+      sexes:
+        male: "männlich"
+        female: "weiblich"
+        diverse: "divers"
+      abnormality_criticalities:
+        high: "Hoch"
+        medium: "Mittel"
+        low: "Tief"
 
   notifications:
     remind:
@@ -297,23 +319,6 @@ de:
       index:
         teacher: 'Um neue Schüler*innen für die Teilnahme anzumelden, klicken Sie links auf „Erfassen”.'
         mentor: “Schüler*innen in Ihrem Mentoring”
-  kids:
-    criticality:
-      '1': Hoch
-      '2': Mittel
-      '3': Tief
-
-  exit_kind:
-    exit: "Steigt aus"
-    later: "Alternatives Ausstiegsdatum"
-    continue_term: "macht ½ Jahr weiter"
-    continue: "macht 1 Jahr weiter"
-
-  ects:
-    currently: "ECTS"
-    alumni: "Alumni"
-    employed: "Angestellt"
-
   crud:
     action:
       edit_schedules: Stundenplan bearbeiten
@@ -343,17 +348,6 @@ de:
   nav:
     principal: 'SL/QUIMS'
     document: 'Anleitungen & Dokumente'
-
-  trinary:
-    'yes': Ja
-    'no': Nein
-    partially: Teilweise
-
-  quaternary:
-    'yes': Ja
-    'no': Nein
-    partially: Teilweise
-    mostly: Mehrheitlich
 
   time:
     formats:

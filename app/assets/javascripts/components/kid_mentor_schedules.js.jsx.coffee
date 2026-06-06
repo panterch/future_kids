@@ -222,7 +222,7 @@ MentorsForDisplayingFilter = createReactClass
 
 Filters = createReactClass
   onChangeSex: (event) ->
-    sanitize = (value) -> if value is 'm' or value is 'f' or value is 'd' then value else null
+    sanitize = (value) -> if value is 'male' or value is 'female' or value is 'diverse' then value else null
     @props.onChange? "sex", sanitize event.target.value
 
   onChangeSchool: (event) ->
@@ -245,9 +245,9 @@ Filters = createReactClass
         React.createElement("label", {"htmlFor": "sex"}, "Geschlecht "),
         React.createElement("select", {"name": "sex", "className": "form-control", "value": @props.initialFilters.sex or "", "onChange": @onChangeSex},
           React.createElement("option", null),
-          React.createElement("option", {"value": "m"}, "Männlich"),
-          React.createElement("option", {"value": "f"}, "Weiblich")
-          React.createElement("option", {"value": "d"}, "Divers")
+          React.createElement("option", {"value": "male"}, "Männlich"),
+          React.createElement("option", {"value": "female"}, "Weiblich")
+          React.createElement("option", {"value": "diverse"}, "Divers")
         )
       ),
       React.createElement("div", {"className": "form-group"},
