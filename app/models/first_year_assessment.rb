@@ -1,6 +1,4 @@
 class FirstYearAssessment < ApplicationRecord
-  include ActionView::Helpers::TextHelper
-
   default_scope { order('held_at DESC') }
 
   belongs_to :kid
@@ -35,57 +33,9 @@ class FirstYearAssessment < ApplicationRecord
     "#{duration} Minuten"
   end
 
-  def human_development_teacher
-    text_format(development_teacher)
-  end
-
-  def human_development_mentor
-    text_format(development_mentor)
-  end
-
-  def human_goals_teacher
-    text_format(goals_teacher)
-  end
-
-  def human_goals_mentor
-    text_format(goals_mentor)
-  end
-
-  def human_relation_mentor
-    text_format(relation_mentor)
-  end
-
-  def human_motivation
-    text_format(motivation)
-  end
-
-  def human_collaboration
-    text_format(collaboration)
-  end
-
-  def human_breaking_reason
-    text_format(breaking_reason)
-  end
-
-  def human_goal_1
-    text_format(goal_1)
-  end
-
-  def human_goal_2
-    text_format(goal_2)
-  end
-
-  def human_goal_3
-    text_format(goal_3)
-  end
-
-  def human_improvements
-    text_format(improvements)
-  end
-
-  def human_note
-    text_format(note)
-  end
+  human_text_attributes :development_teacher, :development_mentor, :goals_teacher, :goals_mentor,
+                        :relation_mentor, :motivation, :collaboration, :breaking_reason,
+                        :goal_1, :goal_2, :goal_3, :improvements, :note
 
   protected
 

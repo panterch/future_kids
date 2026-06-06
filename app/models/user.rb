@@ -1,6 +1,4 @@
 class User < ApplicationRecord
-  include ActionView::Helpers::TextHelper
-
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
 
@@ -21,21 +19,11 @@ class User < ApplicationRecord
     [name, prename].reject(&:blank?).join(', ')
   end
 
-  def human_absence
-    text_format(absence)
-  end
+  enum :exit_kind, { exit: 'exit', later: 'later', continue_term: 'continue_term', continue: 'continue' }
+  enum :sex, { male: 'm', female: 'f', diverse: 'd' }
 
-  def human_available
-    text_format(available)
-  end
-
-  def human_todo
-    text_format(todo)
-  end
-
-  def human_sex
-    { 'm' => 'männlich', 'f' => 'weiblich', 'd' => 'divers' }[sex]
-  end
+  human_text_attributes :absence, :available, :todo
+  human_rails_enum_attributes :exit_kind, :sex
 
   def photo_medium
     photo.variant(resize_to_fit: [300, 300])

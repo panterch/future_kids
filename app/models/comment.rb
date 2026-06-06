@@ -1,6 +1,4 @@
 class Comment < ApplicationRecord
-  include ActionView::Helpers::TextHelper
-
   after_create :send_notification
   after_update :send_notification
 
@@ -69,9 +67,7 @@ class Comment < ApplicationRecord
     to
   end
 
-  def human_body
-    text_format(body)
-  end
+  human_text_attributes :body
 
   protected
 

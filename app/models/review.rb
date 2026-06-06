@@ -1,6 +1,4 @@
 class Review < ApplicationRecord
-  include ActionView::Helpers::TextHelper
-
   default_scope { order('held_at DESC') }
 
   belongs_to :kid
@@ -17,25 +15,7 @@ class Review < ApplicationRecord
     'Gespräch'
   end
 
-  def human_content
-    text_format(content)
-  end
-
-  def human_reason
-    text_format(reason)
-  end
-
-  def human_outcome
-    text_format(outcome)
-  end
-
-  def human_note
-    text_format(note)
-  end
-
-  def human_attendee
-    text_format(attendee)
-  end
+  human_text_attributes :content, :outcome, :note, :attendee
 
   # coaching via phone can be recorded as check / coaching
   def sync_fields_with_kid

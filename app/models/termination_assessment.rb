@@ -1,6 +1,4 @@
 class TerminationAssessment < ApplicationRecord
-  include ActionView::Helpers::TextHelper
-
   default_scope { order('held_at DESC') }
 
   belongs_to :kid
@@ -24,31 +22,10 @@ class TerminationAssessment < ApplicationRecord
     self.teacher_id = kid.teacher_id
   end
 
-  def human_development
-    text_format(development)
-  end
+  enum :goals_reached, { yes: 'yes', mostly: 'mostly', partially: 'partially', no: 'no' }
 
-  def human_goals
-    text_format(goals)
-  end
-
-  def human_collaboration
-    text_format(collaboration)
-  end
-
-  def human_improvements
-    text_format(improvements)
-  end
-
-  def human_note
-    text_format(note)
-  end
-
-  def human_goals_reached
-    return '' if goals_reached.empty?
-
-    I18n.t(goals_reached, scope: 'quaternary')
-  end
+  human_text_attributes :development, :goals, :collaboration, :improvements, :note
+  human_rails_enum_attributes :goals_reached
 
   protected
 

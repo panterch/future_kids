@@ -19,9 +19,8 @@ module ApplicationHelper
     end
   end
 
-  # values for the collection select 'sex'
   def sex_collection
-    { 'weiblich' => 'f', 'männlich' => 'm', 'divers' => 'd' }
+    Kid.sexes.keys.map { |k| [Kid.humanize_enum('sex', k), k] }
   end
 
   def transport_collection
@@ -38,12 +37,12 @@ module ApplicationHelper
   end
 
   def ects_collection(explicit_mapping = false)
-    # ects is an enum and mapped in the db to integers. since it is used in an sql view
+    # ects is an integer enum. since it is used in an sql view
     # we need the explicit db values in some context
     if explicit_mapping
-      Mentor.ects.keys.map { |key| [I18n.t(key, scope: :ects), Mentor.ects[key]] }
+      Mentor.ects.keys.map { |key| [Mentor.humanize_enum('ects', key), Mentor.ects[key]] }
     else
-      Mentor.ects.keys.map { |key| [I18n.t(key, scope: :ects), key] }
+      Mentor.ects.keys.map { |key| [Mentor.humanize_enum('ects', key), key] }
     end
   end
 
@@ -56,7 +55,7 @@ module ApplicationHelper
   end
 
   def exit_kind_collection
-    %w[exit later continue_term continue].map { |i| [I18n.t(i, scope: 'exit_kind'), i] }
+    Kid.exit_kinds.keys.map { |k| [Kid.humanize_enum('exit_kind', k), k] }
   end
 
   def school_collection
@@ -131,7 +130,7 @@ module ApplicationHelper
   end
 
   def criticality_collection
-    (1..3).map { |i| [I18n.t(i, scope: 'kids.criticality'), i] }
+    Kid.abnormality_criticalities.keys.map { |k| [Kid.humanize_enum('abnormality_criticality', k), k] }
   end
 
   def duration_collection
@@ -143,12 +142,8 @@ module ApplicationHelper
     ]
   end
 
-  def trinary_collection
-    %w[yes no partially].map { |s| [I18n.t(s, scope: 'trinary'), s] }
-  end
-
-  def quaternary_collection
-    %w[yes mostly partially no].map { |s| [I18n.t(s, scope: 'quaternary'), s] }
+  def goals_reached_collection
+    TerminationAssessment.goals_reacheds.keys.map { |k| [TerminationAssessment.humanize_enum('goals_reached', k), k] }
   end
 
   def kind_collection

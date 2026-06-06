@@ -25,11 +25,7 @@ class School < ApplicationRecord
     name
   end
 
-  def human_school_kind
-    return nil unless school_kind
-
-    School.humanize_enum('school_kind', school_kind)
-  end
+  human_rails_enum_attributes :school_kind
 
   def self.by_kind(role)
     case role

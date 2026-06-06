@@ -1,6 +1,4 @@
 class Kid < ApplicationRecord
-  include ActionView::Helpers::TextHelper
-
   default_scope { order(:name, :prename) }
 
   scope :active, -> { where(inactive: false) }
@@ -129,60 +127,18 @@ class Kid < ApplicationRecord
     [name, prename].reject(&:blank?).join(', ')
   end
 
-  def human_goal
-    text_format(goal)
-  end
+  enum :exit_kind, { exit: 'exit', later: 'later', continue_term: 'continue_term', continue: 'continue' }
+  enum :sex, { male: 'm', female: 'f', diverse: 'd' }
+  enum :abnormality_criticality, { high: 1, medium: 2, low: 3 }
 
-  def human_goal_1
-    text_format(goal_1)
-  end
-
-  def human_goal_2
-    text_format(goal_2)
-  end
-
-  def human_simplified_schedule
-    text_format(simplified_schedule)
-  end
-
-  def human_note
-    text_format(note)
-  end
-
-  def human_todo
-    text_format(todo)
-  end
-
-  def human_abnormality
-    text_format(abnormality)
-  end
-
-  def human_abnormality_criticality
-    return '' unless abnormality_criticality
-
-    I18n.t(abnormality_criticality, scope: 'kids.criticality')
-  end
-
-  def human_sex
-    { 'm' => 'männlich', 'f' => 'weiblich', 'd' => 'divers' }[sex]
-  end
+  human_text_attributes :goal, :goal_1, :goal_2, :simplified_schedule, :note, :todo, :abnormality
+  human_time_attributes :meeting_start_at
+  human_rails_enum_attributes :exit_kind, :sex, :abnormality_criticality
 
   def human_meeting_day
     return nil if meeting_day.nil?
 
     I18n.t('date.day_names')[meeting_day]
-  end
-
-  def human_meeting_start_at
-    return nil if meeting_start_at.nil?
-
-    I18n.l(meeting_start_at, format: :time)
-  end
-
-  def human_exit_kind
-    return '' if exit_kind.blank?
-
-    I18n.t(exit_kind, scope: 'exit_kind')
   end
 
   def parent_country_name

@@ -32,7 +32,7 @@ FactoryBot.define do
     sequence(:prename) { |n| "Mentor prename#{n}" }
     association :school
     photo { Rack::Test::UploadedFile.new(File.join('spec', 'fixtures', 'files', 'logo.png'), 'image/png') }
-    sex { 'm' }
+    sex { 'male' }
     address { 'address' }
     city { 'city' }
     dob { '1.1.1990' }
@@ -58,7 +58,7 @@ FactoryBot.define do
     sequence(:name) { |n| "Kid #{n}" }
     prename { 'Prename' }
     grade { 3 }
-    sex { 'm' }
+    sex { 'male' }
     language { 'Kroatisch' }
     parent { 'Nico' }
     address { 'Blumenweg 12' }
