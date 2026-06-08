@@ -167,31 +167,8 @@
           = link_to 'Kommentieren', new_kid_journal_comment_path(@kid, journal), class: 'btn btn-default'
       %h4= journal.display_name
     .panel-body
-      = show_for journal do |journal_show|
-        = journal_show.attribute :mentor do
-          = can_link_to(journal.mentor)
-        = journal_show.attribute :held_at
-        = journal_show.attribute :meeting_type
-        - if journal.cancelled?
-          = journal_show.attribute :cancelled
-        - else
-          = journal_show.attribute :start_at
-          = journal_show.attribute :end_at
-        = journal_show.attribute :goal
-        = journal_show.attribute :subject
-        = journal_show.attribute :method
-        = journal_show.attribute :outcome
-        = journal_show.attribute :note
-
-    .list-group
-      - journal.comments.each do |comment|
-        .list-group-item
-          - if can?(:update, comment)
-            .btn-group.pull-right
-              = link_to 'Bearbeiten', edit_kid_journal_comment_path(@kid, journal, comment), class: 'btn btn-default'
-          %label.col-sm-3.text-right= comment.display_name
-          .col-sm-offset-3
-            = comment.human_body
+      = render 'journals/body', journal: journal
+    = render 'comments/list', journal: journal, kid: @kid, show_actions: true
 
 - if can?(:read, @cancan_review)
   %h2#reviews
