@@ -40,7 +40,7 @@ jobs:
 
       - name: Set up database
         run: |
-          cp config/database.travis.yml config/database.yml
+          cp config/database.ci.yml config/database.yml
           psql -c 'create database futurekids_test;' -U postgres
           bundle exec bin/rails db:test:prepare
 
