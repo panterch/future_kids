@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.4.9'
+ruby '3.4.4'
 
 gem 'haml-rails'
 gem 'jbuilder'
