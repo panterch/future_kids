@@ -2,7 +2,7 @@ module ResourceHelpers
   private
 
   def collection_name
-    params[:controller]
+    controller_name
   end
 
   def resource_name

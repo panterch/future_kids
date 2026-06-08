@@ -44,7 +44,7 @@ module CrudActions
   private
 
   def collection_name
-    params[:controller]
+    controller_name
   end
 
   def resource_name
