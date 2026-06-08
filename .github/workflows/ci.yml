@@ -26,6 +26,7 @@ jobs:
       PGUSER: postgres
       PGHOST: localhost
       PGPORT: 5432
+      RAILS_ENV: test
 
     steps:
       - uses: actions/checkout@v4
