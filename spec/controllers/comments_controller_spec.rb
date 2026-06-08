@@ -34,12 +34,32 @@ describe CommentsController do
       expect(response).to be_redirect
     end
 
+    it 'renders the edit template' do
+      @comment = create(:comment, journal: @journal, created_by: @mentor)
+      get :edit, params: { kid_id: @kid.id, journal_id: @journal.id, id: @comment.id }
+      expect(response).to be_successful
+    end
+
     it 'is not able to update other comments' do
       @comment = create(:comment, journal: @journal, created_by: @coach)
       expect do
         put :update, params: { kid_id: @kid.id, journal_id: @journal.id,
                                id: @comment.id }
       end.to raise_error CanCan::AccessDenied
+    end
+
+    it 'updates a comment and redirects to the journal anchor' do
+      @comment = create(:comment, journal: @journal, created_by: @mentor)
+      put :update, params: { kid_id: @kid.id, journal_id: @journal.id,
+                             id: @comment.id, comment: { body: 'Updated body' } }
+      expect(response).to redirect_to(kid_url(@kid, anchor: "journal_#{@journal.id}"))
+    end
+
+    it 'does not update a comment with invalid params' do
+      @comment = create(:comment, journal: @journal, created_by: @mentor)
+      put :update, params: { kid_id: @kid.id, journal_id: @journal.id,
+                             id: @comment.id, comment: { body: '' } }
+      expect(response).to be_successful
     end
 
     it 'sends a mail on comment creation' do

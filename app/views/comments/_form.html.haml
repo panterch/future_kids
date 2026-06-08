@@ -25,3 +25,12 @@
     = form.input :to_third_teacher
   .col-sm-offset-3.col-sm-9
     = form.button :submit
+
+.clearfix
+
+.panel.panel-default.mt-4
+  .panel-heading
+    %h4= @journal.display_name
+  .panel-body
+    = render 'journals/body', journal: @journal
+  = render 'comments/list', journal: @journal, kid: @journal.kid, show_actions: false
