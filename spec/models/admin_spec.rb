@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Admin do
@@ -19,11 +21,11 @@ describe Admin do
 
   context 'association with kids and mentors' do
     it 'has many kids' do
-      expect(subject).to have_many(:coachings)
+      is_expected.to have_many(:coachings)
     end
 
     it 'has many mentors through kids' do
-      expect(subject).to have_many(:mentors).through(:coachings)
+      is_expected.to have_many(:mentors).through(:coachings)
     end
 
     it 'returns one\'s mentors' do

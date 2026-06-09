@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 module ApplicationHelper
   # link to the given resource if at least read access is given
   def can_link_to(resource)
@@ -11,7 +13,7 @@ module ApplicationHelper
   # of the current user
   def can_select(form, field, clazz)
     if can? :manage, clazz
-      form.collection_select(field, clazz.accessible_by(@current_ability),
+      form.collection_select(field, clazz.accessible_by(current_ability),
                              :id, :display_name, include_blank: true)
     else
       field = field[0...-3] # remove _id from field
@@ -36,7 +38,7 @@ module ApplicationHelper
       .reduce([]) { |ar, year| ar << "#{year} Frühling" << "#{year} Herbst" }
   end
 
-  def ects_collection(explicit_mapping = false)
+  def ects_collection(explicit_mapping: false)
     # ects is an integer enum. since it is used in an sql view
     # we need the explicit db values in some context
     if explicit_mapping
@@ -180,13 +182,13 @@ module ApplicationHelper
 
   # can be used in view to display private data only to their owners (and
   # admins)
-  def is_viewing_own_data(resource)
+  def viewing_own_data?(resource)
     current_user == resource || current_user.is_a?(Admin)
   end
 
   # determines style class of scheduler cells
   def schedule_class(schedule)
-    schedule.is_last_meeting? ? 'info' : ''
+    schedule.last_meeting? ? 'info' : ''
   end
 
   def schedule_tags(schedule)
@@ -249,7 +251,7 @@ module ApplicationHelper
   end
 
   def human_date(date)
-    return nil unless date.present?
+    return nil if date.blank?
 
     I18n.l(date)
   end
@@ -265,5 +267,4 @@ module ApplicationHelper
 
     d
   end
-
 end

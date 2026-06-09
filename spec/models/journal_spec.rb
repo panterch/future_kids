@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Journal do
@@ -23,7 +25,7 @@ describe Journal do
 
   it 'creates a coaching entry at the end of the month' do
     mentor = build(:mentor)
-    j = Journal.coaching_entry(mentor, '2', '2009')
+    j = described_class.coaching_entry(mentor, '2', '2009')
     expect(j.held_at).to eq(Date.parse('2009-02-28'))
   end
 

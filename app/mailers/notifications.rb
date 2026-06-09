@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Notifications < ActionMailer::Base
   def self.default_email
     email = Site.first_or_create.try(:notifications_default_email)

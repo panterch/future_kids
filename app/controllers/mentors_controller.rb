@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class MentorsController < ApplicationController
   load_and_authorize_resource
   include CrudActions
@@ -14,22 +16,20 @@ class MentorsController < ApplicationController
     last_selected_meeting_day = params[:mentor][:filter_by_meeting_day]
     last_selected_school = params[:mentor][:filter_by_school_id]
     if params[:mentor][:filter_by_coach_id].present?
-      @mentors = @mentors.joins(:admins).where('kids.admin_id = ?', params[:mentor][:filter_by_coach_id].to_i).distinct
+      @mentors = @mentors.joins(:admins).where(kids: { admin_id: params[:mentor][:filter_by_coach_id].to_i }).distinct
       params[:mentor][:filter_by_coach_id] = nil
     end
     if params[:mentor][:filter_by_meeting_day].present?
-      @mentors = @mentors.joins(:kids).where('kids.meeting_day = ?',
-                                             params[:mentor][:filter_by_meeting_day].to_i).distinct
+      @mentors = @mentors.joins(:kids).where(kids: { meeting_day: params[:mentor][:filter_by_meeting_day].to_i }).distinct
       params[:mentor][:filter_by_meeting_day] = nil
     end
     if params[:mentor][:filter_by_school_id].present?
-      @mentors = @mentors.joins(:schools).where('kids.school_id = ?',
-                                                params[:mentor][:filter_by_school_id].to_i).distinct
+      @mentors = @mentors.joins(:schools).where(kids: { school_id: params[:mentor][:filter_by_school_id].to_i }).distinct
       params[:mentor][:filter_by_school_id] = nil
     end
 
     # generic query building
-    @mentors = @mentors.where(mentor_params.to_h.delete_if { |_key, val| val.blank? })
+    @mentors = @mentors.where(mentor_params.to_h.compact_blank!)
 
     # add backuped custom parameters again for filter consistency
     params[:mentor][:filter_by_coach_id] = last_selected_coach
@@ -38,12 +38,12 @@ class MentorsController < ApplicationController
     # provide a prototype for the filter form
     @mentor = Mentor.new(mentor_params)
 
-    if current_user.is_a?(Admin) && 'xlsx' == params[:format]
+    if current_user.is_a?(Admin) && params[:format] == 'xlsx'
       render xlsx: 'index', filename: "mentors-#{Time.current.strftime('%Y-%m-%d-%H-%M')}.xlsx"
     # when only one record is present, show it immediately. this is not for
     # admins, since they could have no chance to alter their filter settings in
     # some cases
-    elsif !current_user.is_a?(Admin) && (1 == @mentors.count)
+    elsif !current_user.is_a?(Admin) && @mentors.one?
       redirect_to @mentors.first
     else
       respond_with @mentors
@@ -53,8 +53,8 @@ class MentorsController < ApplicationController
   def show
     # together with the mentor, a list of journal entries is shown for the
     # given year / month
-    @year =  (params[:year] || Date.today.year).to_i
-    @month = (params[:month] || Date.today.month).to_i
+    @year =  (params[:year] || Time.zone.today.year).to_i
+    @month = (params[:month] || Time.zone.today.month).to_i
     @journals = @mentor.journals.where(month: @month, year: @year)
 
     # decouple journals from database to allow adding the virtual record

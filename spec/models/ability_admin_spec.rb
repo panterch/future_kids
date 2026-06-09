@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'cancan/matchers'
 
@@ -5,7 +7,7 @@ describe Ability do
   describe 'An admin' do
     before do
       @admin = create(:admin)
-      @ability = Ability.new(@admin)
+      @ability = described_class.new(@admin)
     end
 
     context 'kid' do
@@ -28,6 +30,5 @@ describe Ability do
       it('can read a school') { expect(@ability).to be_able_to(:read, school) }
       it('can create a school') { expect(@ability).to be_able_to(:create, School) }
     end
-
-  end # end of tests for admin role
+  end
 end

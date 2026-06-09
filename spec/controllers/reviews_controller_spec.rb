@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe ReviewsController do
@@ -49,7 +51,7 @@ describe ReviewsController do
       get :index, params: { kid_id: @kid.id }
       expect(response).to be_redirect
     end
-  end # end of as a mentor
+  end
 
   context 'as an admin' do
     before do

@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 wb.add_worksheet(name: 'Gesprächsdokumentation') do |sheet|
   sheet.add_row [
-    Review.human_attribute_name(:id) + ' ' + Review.model_name.human,
-    Kid.human_attribute_name(:id) + ' ' + Kid.model_name.human,
-    Kid.human_attribute_name(:name) + ' ' + Kid.model_name.human,
+    "#{Review.human_attribute_name(:id)} #{Review.model_name.human}",
+    "#{Kid.human_attribute_name(:id)} #{Kid.model_name.human}",
+    "#{Kid.human_attribute_name(:name)} #{Kid.model_name.human}",
     Review.human_attribute_name('attendee'),
     Review.human_attribute_name('held_at'),
     Review.human_attribute_name('reason'),

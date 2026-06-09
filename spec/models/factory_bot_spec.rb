@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe 'FactoryBot' do
@@ -68,11 +70,7 @@ describe 'FactoryBot' do
   describe 'a persisted mentor by factory' do
     before { create(:mentor) }
 
-    it 'creates exactly one user' do
-      expect(Mentor.count).to eq(1)
-    end
-
-    it 'and cleanup the database before each test' do
+    it 'creates exactly one user and cleans up the database before each test' do
       expect(Mentor.count).to eq(1)
     end
   end

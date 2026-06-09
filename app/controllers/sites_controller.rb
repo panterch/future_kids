@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SitesController < ApplicationController
   authorize_resource
 

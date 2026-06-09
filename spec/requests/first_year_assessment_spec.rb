@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'requests/acceptance_helper'
 
 feature 'MENTOR::CREATE:FIRST_YEAR_ASSESSMENT', '

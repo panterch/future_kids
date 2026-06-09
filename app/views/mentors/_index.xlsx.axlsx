@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 wb.add_worksheet(name: 'Mentor') do |sheet|
   sheet.add_row [
     Mentor.human_attribute_name('id'),
@@ -10,7 +12,7 @@ wb.add_worksheet(name: 'Mentor') do |sheet|
     Mentor.human_attribute_name('phone'),
     Mentor.human_attribute_name('field_of_study'),
     Mentor.human_attribute_name('education'),
-    Mentor.human_attribute_name('school') + ' ID',
+    "#{Mentor.human_attribute_name('school')} ID",
     Mentor.human_attribute_name('school'),
     Mentor.human_attribute_name('transport'),
     Mentor.human_attribute_name('schools'),

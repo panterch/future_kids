@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class KidsController < ApplicationController
   respond_to :html, :json
 
@@ -23,7 +25,7 @@ class KidsController < ApplicationController
       # build a where condition out of all parameters supplied for kid
       params[:kid] ||= {}
       params[:kid][:inactive] = '0' if params[:kid][:inactive].nil?
-      @kids = @kids.where(kid_params.to_h.delete_if { |key, val| !Kid.column_names.include?(key.to_s) || val.blank? })
+      @kids = @kids.where(kid_params.to_h.delete_if { |key, val| Kid.column_names.exclude?(key.to_s) || val.blank? })
       # reorder the kids according to the supplied parameter
 
       @kids = @kids.reorder(params['order_by']) if params['order_by'] && valid_order_by?(Kid, params['order_by'])
@@ -79,8 +81,8 @@ class KidsController < ApplicationController
         json.prename @kid.prename
         json.name @kid.name
         json.mentor_id @kid.mentor_id
-        json.meeting_start_at get_meeting_start_time
-        json.meeting_day get_meeting_day
+        json.meeting_start_at meeting_start_time
+        json.meeting_day meeting_day
         json.secondary_mentor_id @kid.secondary_mentor_id
         json.schedules create_schedules_nested_set @kid.schedules
       end
@@ -90,13 +92,13 @@ class KidsController < ApplicationController
 
   protected
 
-  def get_meeting_start_time
+  def meeting_start_time
     return nil if @kid.meeting_start_at.blank?
 
     @kid.meeting_start_at.strftime('%H:%M')
   end
 
-  def get_meeting_day
+  def meeting_day
     return nil if @kid.meeting_day.blank?
 
     @kid.meeting_day
@@ -118,7 +120,7 @@ class KidsController < ApplicationController
 
     @kid.relation_logs.create(user_id: current_user.id,
                               role: 'creator',
-                              start_at: Time.now)
+                              start_at: Time.zone.now)
   end
 
   # prototypes to check abilities in menu
@@ -159,10 +161,10 @@ class KidsController < ApplicationController
   # time occurs in the array. Otherwise this key does not exist.
   def create_schedules_nested_set(schedules_array)
     schedules_set = Hash.new { |h, k| h[k] = Hash.new { |h, k| h[k] = {} } }
-    schedules_by_day = schedules_array.group_by { |s| s.day }
+    schedules_by_day = schedules_array.group_by(&:day)
     schedules_by_day.each do |day, times|
       times.each do |time|
-        key = time.hour.to_s.rjust(2, '0') + ':' + time.minute.to_s.rjust(2, '0')
+        key = "#{time.hour.to_s.rjust(2, '0')}:#{time.minute.to_s.rjust(2, '0')}"
         schedules_set[day][key] = true
       end
     end
@@ -172,7 +174,7 @@ class KidsController < ApplicationController
   # this form may be reached from substitutions, this is indicated
   # by a parameter substitution_id
   def prepare_substitution
-    return unless params[:substitution_id].present?
+    return if params[:substitution_id].blank?
 
     @substitution = Substitution.find(params[:substitution_id])
   end
@@ -189,7 +191,7 @@ class KidsController < ApplicationController
       @schools = School.by_kind(:kid)
       @schools_include_blank = true
     else
-      raise SecurityError.new("User #{current_user.id}")
+      raise SecurityError, "User #{current_user.id}"
     end
   end
 
@@ -199,7 +201,7 @@ class KidsController < ApplicationController
     return if current_user.is_a?(Admin)
 
     school_id = params[:kid] && params[:kid][:school_id]
-    return unless school_id.present?
+    return if school_id.blank?
 
     valid_school_ids = []
     if current_user.is_a?(Principal)
@@ -209,6 +211,6 @@ class KidsController < ApplicationController
     end
     return if valid_school_ids.map(&:to_s).include?(school_id)
 
-    raise SecurityError.new("User #{current_user.id} not allowed to change school_id to #{school_id}")
+    raise SecurityError, "User #{current_user.id} not allowed to change school_id to #{school_id}"
   end
 end

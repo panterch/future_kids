@@ -1,5 +1,7 @@
+# frozen_string_literal: true
+
 class Substitution < ApplicationRecord
-  validates :start_at, :end_at, :mentor, :kid, presence: true
+  validates :start_at, :end_at, presence: true
   validates_date :start_at, :end_at, after: '2001-01-01'
 
   belongs_to :mentor

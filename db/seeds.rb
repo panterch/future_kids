@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
@@ -7,14 +9,14 @@
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 
 schools = []
-unless School.count > 0
+unless School.any?
   schools << School.create!(name: 'Primary school', school_kind: 'primary_school').id
   schools << School.create!(name: 'Secondary school', school_kind: 'secondary_school').id
   schools << School.create!(name: 'Gymnasium', school_kind: 'gymnasium').id
   schools << School.create!(name: 'High school', school_kind: 'high_school').id
 end
 
-unless Mentor.count > 0
+unless Mentor.any?
   Mentor.create!(name: 'Haller', prename: 'Frederik',
                  email: 'mentor@example.com', password: 'welcome',
                  password_confirmation: 'welcome', sex: 'm', school_id: schools[2])
@@ -26,19 +28,19 @@ unless Mentor.count > 0
                  password_confirmation: 'welcome', sex: 'm', school_id: schools[3])
 end
 
-unless Admin.count > 0
+unless Admin.any?
   Admin.create!(name: 'AOZ', prename: 'Admin',
                 email: 'admin@example.com', password: 'welcome',
                 password_confirmation: 'welcome')
 end
 
-unless Teacher.count > 0
+unless Teacher.any?
   Teacher.create!(name: 'Meckler', prename: 'Janine',
                   email: 'teacher@example.com', password: 'welcome',
                   password_confirmation: 'welcome', sex: 'f', school_id: schools[0])
 end
 
-unless Kid.count > 0
+unless Kid.any?
   Kid.create!(name: 'Meier', prename: 'Max', sex: 'm', goal_3: true, goal_25: true)
   Kid.create!(name: 'Hodler', prename: 'Rolf', sex: 'm', goal_3: true, goal_25: true)
   Kid.create!(name: 'Schwarz', prename: 'Sandra', sex: 'f', goal_3: true, goal_25: true)

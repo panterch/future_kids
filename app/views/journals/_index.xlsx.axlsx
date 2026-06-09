@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 wb.add_worksheet(name: 'Lernjournale') do |sheet|
   sheet.add_row [
-    Journal.human_attribute_name(:id) + ' ' + Journal.model_name.human,
-    Kid.human_attribute_name(:id) + ' ' + Kid.model_name.human,
-    Kid.human_attribute_name(:name) + ' ' + Kid.model_name.human,
-    Mentor.human_attribute_name('id') + ' ' + Mentor.model_name.human,
-    Mentor.human_attribute_name('name') + ' ' + Mentor.model_name.human,
+    "#{Journal.human_attribute_name(:id)} #{Journal.model_name.human}",
+    "#{Kid.human_attribute_name(:id)} #{Kid.model_name.human}",
+    "#{Kid.human_attribute_name(:name)} #{Kid.model_name.human}",
+    "#{Mentor.human_attribute_name('id')} #{Mentor.model_name.human}",
+    "#{Mentor.human_attribute_name('name')} #{Mentor.model_name.human}",
     Journal.human_attribute_name('held_at'),
     Journal.human_attribute_name('meeting_type'),
     Journal.human_attribute_name('cancelled'),

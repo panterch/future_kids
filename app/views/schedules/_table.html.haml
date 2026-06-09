@@ -14,7 +14,7 @@
           - start_time = Time.new(2000, 1, 1, row.first.hour, row.first.minute)
           - end_time = start_time + 30.minutes
           = "#{start_time.strftime('%H:%M')} - #{end_time.strftime('%H:%M')}"
-          = "*" if row.first.is_last_meeting?
+          = "*" if row.first.last_meeting?
         - row.each do |schedule|
           - active = @schedules.include?(schedule)
           %td

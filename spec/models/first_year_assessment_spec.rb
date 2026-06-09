@@ -1,4 +1,3 @@
-require 'spec_helper'
+# frozen_string_literal: true
 
-describe FirstYearAssessment do
-end
+require 'spec_helper'

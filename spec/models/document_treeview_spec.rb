@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe DocumentTreeview do
   include ActionDispatch::TestProcess::FixtureFile
 
   let(:file) { fixture_file_upload('gespraechsdoku.pdf', 'application/pdf') }
-  let(:dtv) { DocumentTreeview.new(Mentor) }
+  let(:dtv) { described_class.new(Mentor) }
 
   it 'deliver categories tree' do
     build(:document, category0: 'a').attachment.attach(file).record.save!
@@ -92,9 +94,9 @@ describe DocumentTreeview do
       build(:document, title: 'public doc', admin_only: false).attachment.attach(file).record.save!
       build(:document, title: 'admin doc', admin_only: true).attachment.attach(file).record.save!
 
-      dtv = DocumentTreeview.new(Admin)
+      dtv = described_class.new(Admin)
       js_nodes = dtv.document_js_nodes
-      titles = js_nodes.map { |node| node[:text] }
+      titles = js_nodes.pluck(:text)
       expect(titles).to include('public doc', 'admin doc')
     end
 
@@ -102,9 +104,9 @@ describe DocumentTreeview do
       build(:document, title: 'public doc', admin_only: false).attachment.attach(file).record.save!
       build(:document, title: 'admin doc', admin_only: true).attachment.attach(file).record.save!
 
-      dtv = DocumentTreeview.new(Mentor)
+      dtv = described_class.new(Mentor)
       js_nodes = dtv.document_js_nodes
-      titles = js_nodes.map { |node| node[:text] }
+      titles = js_nodes.pluck(:text)
       expect(titles).to include('public doc')
       expect(titles).not_to include('admin doc')
     end

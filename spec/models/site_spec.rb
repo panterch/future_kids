@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Site do
   before do
-    @site = Site.load
+    @site = described_class.load
   end
 
   describe 'terms of conditions markdown' do

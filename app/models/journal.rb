@@ -1,13 +1,15 @@
+# frozen_string_literal: true
+
 class Journal < ApplicationRecord
   default_scope { order('held_at DESC', :id).joins(:kid) }
 
   belongs_to :kid
   belongs_to :mentor
-  has_many :comments, -> { order('created_at ASC') }, dependent: :destroy
+  has_many :comments, -> { order(:created_at) }, dependent: :destroy, inverse_of: :journal
 
   enum :meeting_type, { physical: 0, virtual: 1 }
 
-  validates :kid, :mentor, :held_at, :meeting_type, presence: true
+  validates :held_at, :meeting_type, presence: true
   validates :start_at, :end_at, presence: { unless: :cancelled }
   # the html5 date submit allows two letter dates (e.g. '21') and translates them to wrong years (like '0021')
   validates_date :held_at, after: '2001-01-01', allow_blank: true

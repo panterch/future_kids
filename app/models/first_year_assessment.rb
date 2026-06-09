@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 class FirstYearAssessment < ApplicationRecord
-  default_scope { order('held_at DESC') }
+  default_scope { order(held_at: :desc) }
 
   belongs_to :kid
   belongs_to :teacher
   belongs_to :mentor
   belongs_to :created_by, class_name: 'User'
 
-  validates :kid, :teacher, :mentor, :held_at, :created_by, presence: true
+  validates :held_at, :teacher, :mentor, presence: true
 
   # the html5 date submit allows two letter dates (e.g. '21') and translates them to wrong years (like '0021')
   validates_date :held_at, after: '2001-01-01'
@@ -20,7 +22,7 @@ class FirstYearAssessment < ApplicationRecord
   end
 
   def initialize_default_values(kid)
-    self.held_at = Date.today
+    self.held_at = Time.zone.today
     self.kid_id = kid.id
     self.teacher_id = kid.teacher_id
     self.mentor_id = kid.mentor_id

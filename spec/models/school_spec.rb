@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe School do
@@ -15,11 +17,11 @@ describe School do
     end
 
     it 'has many kids' do
-      expect(subject).to have_many(:kids)
+      is_expected.to have_many(:kids)
     end
 
     it 'has many mentors through kids' do
-      expect(subject).to have_many(:mentors).through(:kids)
+      is_expected.to have_many(:mentors).through(:kids)
     end
 
     it 'returns one\'s mentors' do
@@ -56,15 +58,15 @@ describe School do
     end
 
     it 'is only of high schools or gymnasiums for mentors' do
-      expect(School.by_kind(:mentor).length).to eq(5)
+      expect(described_class.by_kind(:mentor).length).to eq(5)
     end
 
     it 'is only of primary and secondary schools for kids' do
-      expect(School.by_kind(:kid).length).to eq(2)
+      expect(described_class.by_kind(:kid).length).to eq(2)
     end
 
     it 'is only of primary and secondary schools for teachers' do
-      expect(School.by_kind(:teacher).length).to eq(2)
+      expect(described_class.by_kind(:teacher).length).to eq(2)
     end
   end
 end

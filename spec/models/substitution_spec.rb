@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Substitution do
@@ -25,6 +27,6 @@ describe Substitution do
   it 'is destroyed when kid is destroyed' do
     substitution = create(:substitution)
     substitution.kid.destroy
-    expect(Substitution.exists?(substitution.id)).to be_falsey
+    expect(described_class).not_to exist(substitution.id)
   end
 end

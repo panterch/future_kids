@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class TeachersController < ApplicationController
   load_and_authorize_resource
   include CrudActions
@@ -13,14 +15,14 @@ class TeachersController < ApplicationController
     params[:teacher] ||= {}
     params[:teacher][:inactive] = '0' if params[:teacher][:inactive].nil?
 
-    @teachers = @teachers.where(teacher_params.to_h.delete_if { |_key, val| val.blank? })
+    @teachers = @teachers.where(teacher_params.to_h.compact_blank!)
 
     @teacher = Teacher.new(teacher_params)
 
     # when only one record is present, show it immediatelly. this is not for
     # admins, since they could have no chance to alter their filter settings in
     # some cases
-    if !(current_user.is_a?(Admin) || current_user.is_a?(Principal)) && (1 == @teachers.count)
+    if !(current_user.is_a?(Admin) || current_user.is_a?(Principal)) && @teachers.one?
       redirect_to @teachers.first
     else
       respond_with @teachers
@@ -45,7 +47,7 @@ class TeachersController < ApplicationController
     return unless params[:teacher].present? && params[:teacher][:school_id].present?
     return if @schools.map(&:id).include?(params[:teacher][:school_id].to_i)
 
-    raise SecurityError.new("User #{current_user.id} not allowed to change school_id to #{params[:teacher][:school_id]}")
+    raise SecurityError, "User #{current_user.id} not allowed to change school_id to #{params[:teacher][:school_id]}"
   end
 
   def teacher_params

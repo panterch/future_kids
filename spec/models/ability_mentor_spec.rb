@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'cancan/matchers'
 
@@ -6,7 +8,7 @@ describe Ability do
     let(:admin) { create(:admin) }
     let(:mentor) { create(:mentor) }
     let(:other_mentor) { create(:mentor) }
-    let(:ability) { Ability.new(mentor) }
+    let(:ability) { described_class.new(mentor) }
     let(:foreign_kid) { create(:kid) }
     let(:kid) { create(:kid, mentor: mentor) }
     let(:male_kid) { create(:kid, sex: 'm') }
@@ -24,6 +26,7 @@ describe Ability do
     let(:comment) { create(:comment, journal: journal, created_by: mentor) }
     let(:foreign_comment) { create(:comment, journal: journal, created_by: admin) }
     let(:review) { build(:review, kid: kid) }
+
     context 'admin' do
       it 'cannot read foreign admin' do
         expect(ability).not_to be_able_to(:read, admin)
@@ -244,6 +247,6 @@ describe Ability do
       it 'cannot read schools' do
         expect(ability).not_to be_able_to(:read, create(:school))
       end
-    end # end of tests for mentors
+    end
   end
 end

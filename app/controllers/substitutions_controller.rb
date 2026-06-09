@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class SubstitutionsController < ApplicationController
   load_and_authorize_resource
   include CrudActions
@@ -6,7 +8,7 @@ class SubstitutionsController < ApplicationController
     params[:substitution] ||= {}
     params[:substitution][:inactive] = '0' if params[:substitution][:inactive].nil?
 
-    @substitutions = @substitutions.where(substitution_params.to_h.delete_if { |_key, val| val.blank? })
+    @substitutions = @substitutions.where(substitution_params.to_h.compact_blank!)
 
     # provide a prototype for the filter form
     @substitution = Substitution.new(substitution_params)

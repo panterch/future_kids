@@ -1,22 +1,22 @@
+# frozen_string_literal: true
+
 class Reminder < ApplicationRecord
   # virtual attributes to support filter parameters
   attr_accessor :filter_by_school_id
   attr_accessor :filter_by_ects
 
-  default_scope { order('held_at DESC, id') }
-  scope :active, -> { where('reminders.acknowledged_at IS NULL') }
+  default_scope { order(held_at: :desc, id: :asc) }
+  scope :active, -> { where(reminders: { acknowledged_at: nil }) }
 
   belongs_to :mentor
   belongs_to :secondary_mentor, class_name: 'Mentor', optional: true
   belongs_to :kid
 
-  validates :kid, presence: true
-
   # sends the reminder to the appropriate recipient
   def deliver_mail
     mail = Notifications.remind(self)
     mail.deliver_later
-    update!(sent_at: Time.now)
+    update!(sent_at: Time.zone.now)
   end
 
   # create a reminder for the given kid and the given time
@@ -53,17 +53,17 @@ class Reminder < ApplicationRecord
   # - kids have meeting days (best at start of week) and meeting time set
   # - not all journal entries or reminders are there
   # - you pass a parameter time that is a few days after the kids meeting day
-  def self.conditionally_create_reminders(time = Time.now)
+  def self.conditionally_create_reminders(time = Time.zone.now)
     logger.info("Beginning reminder run, reference Date #{time}")
     logger.flush
 
     reminders_created_count =
-      Kid.all.find_each.count do |kid|
+      Kid.find_each.count do |kid|
         conditionally_create_reminder_for_kid(time, kid)
       end
 
     # send out admin notification when reminders were created
-    if reminders_created_count > 0
+    if reminders_created_count.positive?
       # since this is run async from cron delivery can run instantly
       Notifications.reminders_created(reminders_created_count).deliver_now
     end
@@ -84,7 +84,7 @@ class Reminder < ApplicationRecord
   def self.conditionally_create_reminder_for_kid(time, kid)
     log_preamble = "[#{kid.id}] #{kid.display_name}: "
 
-    logger.info(log_preamble + ' checking journal entries')
+    logger.info("#{log_preamble} checking journal entries")
     logger.flush
 
     log_message =

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'application_responder'
 
 class ApplicationController < ActionController::Base
@@ -63,7 +65,7 @@ class ApplicationController < ActionController::Base
   end
 
   def logout_inactive
-    return true if 'sessions' == controller_name
+    return true if controller_name == 'sessions'
     return true unless user_signed_in?
     return true unless current_user.inactive?
 
@@ -76,18 +78,16 @@ class ApplicationController < ActionController::Base
   def intercept_sensitive_params!
     return true unless %w[update create].include?(action_name)
     return true if current_user.is_a?(Admin)
-    return true if params.nil? || params.empty?
+    return true if params.blank?
     # inactive is a sensitive param that is only manageable by admins
-    if params.inspect =~ /inactive/
-      raise SecurityError.new("User #{current_user.id} not allowed to change inactive flag")
-    end
+    raise SecurityError, "User #{current_user.id} not allowed to change inactive flag" if params.inspect =~ /inactive/
     # school_id may allow users for principals and teachers access to kids outside their school
     # this has to be protected (unless for kids controller, there it is
     # managed by its own method #intercept_school_id)
     # for mentors controller it is unproblematic, since it has no influence on access rights
     return unless %w[principals teachers].include?(controller_name) && params.inspect =~ /school_id/
 
-    raise SecurityError.new("User #{current_user.id} not allowed to change school_id")
+    raise SecurityError, "User #{current_user.id} not allowed to change school_id"
   end
 
   def valid_order_by?(klass, params)

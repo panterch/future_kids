@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # *readonly*:
 # model represents an sql *view* to filters on kid and mentors relations
 #

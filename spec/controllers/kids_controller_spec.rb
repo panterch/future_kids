@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe KidsController do
@@ -25,7 +27,7 @@ describe KidsController do
         expect { post :update_schedules, params: { id: @kid } }.to raise_error(CanCan::AccessDenied)
       end
     end
-  end # end of as a mentor
+  end
 
   context 'as a admin' do
     before do
@@ -53,7 +55,7 @@ describe KidsController do
 
       it 'creates a criteria instance for search' do
         get :index, params: { kid: { translator: '1' } }
-        expect(assigns(:kid).translator).to eq(true)
+        expect(assigns(:kid).translator).to be(true)
       end
 
       it 'excludes inactive kids' do
@@ -89,17 +91,17 @@ describe KidsController do
       it 'can destroy inactive' do
         @kid.update(inactive: true)
         delete :destroy, params: { id: @kid.id }
-        expect(Kid.exists?(@kid.id)).to be_falsey
+        expect(Kid).not_to exist(@kid.id)
       end
 
       it 'cannot destroy active' do
         expect do
           delete :destroy, params: { id: @kid.id }
         end.to raise_error(CanCan::AccessDenied)
-        expect(Kid.exists?(@kid.id)).to be_truthy
+        expect(Kid).to exist(@kid.id)
       end
     end
-  end # end of as an admin
+  end
 
   context 'as a teacher' do
     before do
@@ -144,7 +146,7 @@ describe KidsController do
       end
 
       it 'tracks creation as relationlog' do
-        post :create, params: { kid: FactoryBot.attributes_for(:kid) }
+        post :create, params: { kid: attributes_for(:kid) }
         expect(RelationLog.where(role: 'creator').count).to eq(1)
         rl = RelationLog.where(role: 'creator').first
         expect(rl.user).to eq(@teacher)

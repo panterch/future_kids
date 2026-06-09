@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class NotificationsPreview < ActionMailer::Preview
   def test
     Notifications.test('test@example.com')

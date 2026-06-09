@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Document < ApplicationRecord
   has_one_attached :attachment
   validates :attachment, attached: true,
@@ -9,6 +11,6 @@ class Document < ApplicationRecord
   validates :title, presence: true
 
   def self.categories(level = 0)
-    Document.pluck('category' + level.to_i.to_s).compact.uniq.sort
+    Document.pluck("category#{level.to_i}").compact.uniq.sort
   end
 end

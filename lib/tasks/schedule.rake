@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :schedule do
   desc 'Run conditionally_create_reminders as schedulable task'
   task create_reminders: :environment do

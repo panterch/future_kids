@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'requests/acceptance_helper'
 
 feature 'Document Tree', :js do
@@ -14,12 +16,12 @@ feature 'Document Tree', :js do
   scenario 'renders the tree' do
     create(:document, category0: 'Cat', category1: 'Sub', title: 'Tit', attachment: file)
     visit documents_path
-    expect(page).to have_content('Cat')
+    expect(page).to have_text('Cat')
   end
 
   scenario 'renders new' do
     visit new_document_path
-    expect(page).to have_content('Dokument erfassen')
+    expect(page).to have_text('Dokument erfassen')
   end
 
   scenario 'renders edit' do
@@ -33,7 +35,7 @@ feature 'Document Tree', :js do
     visit documents_path
     find('.list-group-item', text: 'Cat').click
     find('.list-group-item', text: 'To Delete').click
-    accept_confirm { find('#tree_delete_node').click }
+    accept_confirm { find_by_id('tree_delete_node').click }
     expect(page).to have_current_path(documents_path)
     expect(Document.exists?(doc.id)).to be false
   end

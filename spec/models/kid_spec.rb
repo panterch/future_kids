@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Kid do
@@ -26,7 +28,7 @@ describe Kid do
       attrs = attributes_for(:journal)
       attrs[:mentor_id] = mentor.id
       kid.journals.create!(attrs)
-      expect(Kid.find(kid.id).journals.size).to eq(1)
+      expect(described_class.find(kid.id).journals.size).to eq(1)
     end
 
     it 'can populate journal via nested attributes' do
@@ -46,8 +48,8 @@ describe Kid do
     it 'cleans up journals on deletion' do
       journal = create(:journal, kid: kid)
       kid.destroy
-      expect(Journal.exists?(journal.id)).to be_falsey
-      expect(Kid.exists?(kid.id)).to be_falsey
+      expect(Journal).not_to exist(journal.id)
+      expect(described_class).not_to exist(kid.id)
     end
   end
 
@@ -73,7 +75,7 @@ describe Kid do
     end
 
     it 'tracks changes in goals' do
-      last_updated = Time.now
+      last_updated = Time.zone.now
       kid.goal_1 = 'test'
       kid.save!
       expect(kid.goals_updated_at).to be > last_updated
@@ -178,11 +180,11 @@ describe Kid do
       kid.admin = create(:admin)
       kid.save!
 
-      k = Kid.find(kid.id)
+      k = described_class.find(kid.id)
       k.inactive = true
       k.save!
 
-      k = Kid.find(k.id)
+      k = described_class.find(k.id)
       expect(k.mentor).to be_nil
       expect(k.secondary_mentor).to be_nil
       expect(k.admin).to be_nil
@@ -202,7 +204,7 @@ describe Kid do
 
   context 'specific updated_at fields' do
     let(:kid) { create(:kid) }
-    let!(:time) { Time.now }
+    let!(:time) { Time.zone.now }
 
     it 'tracks schedulue updates' do
       expect(kid.schedules_updated_at).to be_nil
@@ -234,11 +236,11 @@ describe Kid do
     end
 
     it 'has no journal entry due at monday' do
-      expect(@kid.journal_entry_due?(monday)).to be_falsey
+      expect(@kid).not_to be_journal_entry_due(monday)
     end
 
     it 'has journal entry due at friday' do
-      expect(@kid.journal_entry_due?(friday)).to be_truthy
+      expect(@kid).to be_journal_entry_due(friday)
     end
   end
 
@@ -264,15 +266,15 @@ describe Kid do
 
   context 'association with admin, mentor and school' do
     it 'has admin' do
-      expect(subject).to belong_to(:admin).optional
+      is_expected.to belong_to(:admin).optional
     end
 
     it 'has mentor' do
-      expect(subject).to belong_to(:mentor).optional
+      is_expected.to belong_to(:mentor).optional
     end
 
     it 'has school' do
-      expect(subject).to belong_to(:school).optional
+      is_expected.to belong_to(:school).optional
     end
   end
 end

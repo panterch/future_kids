@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Kid < ApplicationRecord
   default_scope { order(:name, :prename) }
 
@@ -43,7 +45,7 @@ class Kid < ApplicationRecord
   # validate that enough goals were given in each group
   validate do |kid|
     goals_1_count = GOALS_1.count { |g| kid[g].present? }
-    if kid[:goal_1].blank? && 0 == goals_1_count
+    if kid[:goal_1].blank? && goals_1_count.zero?
       GOALS_1.each { |g| errors.add g, :invalid, message: '' }
       errors.add :goal_1, :invalid, message: 'Bitte geben Sie mindestens einen fachlichen Förderbereich an'
       # this code would hard constrain goals to maximum. at the moment it is only a soft constraint
@@ -53,7 +55,7 @@ class Kid < ApplicationRecord
     end
 
     goals_2_count = GOALS_2.count { |g| kid[g].present? }
-    if kid[:goal_2].blank? && 0 == goals_2_count
+    if kid[:goal_2].blank? && goals_2_count.zero?
       GOALS_2.each { |g| errors.add g, :invalid, message: '' }
       errors.add :goal_2, :invalid, message: 'Bitte geben Sie mindestens einen überfachlichen Förderbereich an'
       # this code would hard constrain goals to maximum. at the moment it is only a soft constraint
@@ -70,7 +72,7 @@ class Kid < ApplicationRecord
 
   # takes the given time argument (or Time.now) and calculates the
   # date and time for that weeks meeting
-  def calculate_meeting_time(time = Time.now)
+  def calculate_meeting_time(time = Time.zone.now)
     meeting_day = self.meeting_day
     meeting_start_at = self.meeting_start_at
 
@@ -87,7 +89,7 @@ class Kid < ApplicationRecord
   end
 
   # tries to retrieve the journal entry for the week given by time
-  def journal_entry_for_week(time = Time.now)
+  def journal_entry_for_week(time = Time.zone.now)
     time = calculate_meeting_time(time)
     return nil if time.nil?
 
@@ -95,7 +97,7 @@ class Kid < ApplicationRecord
   end
 
   # tries to retrieve the reminder for the week given by time
-  def reminder_entry_for_week(time = Time.now)
+  def reminder_entry_for_week(time = Time.zone.now)
     time = calculate_meeting_time(time)
     return nil if time.nil?
 
@@ -103,7 +105,7 @@ class Kid < ApplicationRecord
   end
 
   # checks wether a journal entry is already due for the week given by time
-  def journal_entry_due?(time = Time.now)
+  def journal_entry_due?(time = Time.zone.now)
     meeting_time = calculate_meeting_time(time)
     return false if meeting_time.nil?
 
@@ -113,7 +115,7 @@ class Kid < ApplicationRecord
   # when controlling reminders it is useful to know the date of the most recent
   # journal entry made for the associated kid
   def last_journal_entry
-    journals.order('held_at DESC').first
+    journals.order(held_at: :desc).first
   end
 
   # shows when last schedule relation entry was edited
@@ -124,7 +126,7 @@ class Kid < ApplicationRecord
   def display_name
     return 'Neuer Eintrag' if new_record?
 
-    [name, prename].reject(&:blank?).join(', ')
+    [name, prename].compact_blank.join(', ')
   end
 
   enum :exit_kind, { exit: 'exit', later: 'later', continue_term: 'continue_term', continue: 'continue' }
@@ -180,13 +182,13 @@ class Kid < ApplicationRecord
     if changed && previous_id
       relation_logs.create!(user_id: previous_id,
                             role: field,
-                            end_at: Time.now)
+                            end_at: Time.zone.now)
     end
     return unless changed && current_id
 
     relation_logs.create!(user_id: send("#{field}_id"),
                           role: field,
-                          start_at: Time.now)
+                          start_at: Time.zone.now)
   end
 
   # track all changes of the goal freetext and checkbox fields
@@ -194,6 +196,6 @@ class Kid < ApplicationRecord
   def track_goal_updates
     return unless changed.any? { |k| k.start_with?('goal_') }
 
-    self.goals_updated_at = Time.now
+    self.goals_updated_at = Time.zone.now
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'requests/acceptance_helper'
 
 feature 'Site' do
@@ -7,7 +9,7 @@ feature 'Site' do
     fill_in 'Adressangaben in Fusszeile', with: 'Adresse im Footer'
     click_button 'Seitenweite Konfiguration aktualisieren'
     visit root_url
-    expect(page).to have_content('Adresse im Footer')
+    expect(page).to have_text('Adresse im Footer')
   end
 
   scenario 'should not allow mentors to edit configuration' do

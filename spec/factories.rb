@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 FactoryBot.define do
   factory :first_year_assessment do
-    association :kid
-    association :teacher
-    association :mentor
-    created_by { |a| a.mentor }
+    kid
+    teacher
+    mentor
+    created_by(&:mentor)
     held_at { Date.parse('2018-10-01') }
   end
 
@@ -30,7 +32,7 @@ FactoryBot.define do
     sequence(:email) { |n| "mentor_#{n}@example.com" }
     sequence(:name) { |n| "Mentor name#{n}" }
     sequence(:prename) { |n| "Mentor prename#{n}" }
-    association :school
+    school
     photo { Rack::Test::UploadedFile.new(File.join('spec', 'fixtures', 'files', 'logo.png'), 'image/png') }
     sex { 'male' }
     address { 'address' }
@@ -45,7 +47,7 @@ FactoryBot.define do
     sequence(:email) { |n| "teacher_#{n}@example.com" }
     sequence(:name) { |n| "Mentor name#{n}" }
     sequence(:prename) { |n| "Mentor prename#{n}" }
-    association :school
+    school
     phone { '123456798' }
   end
 
@@ -70,11 +72,11 @@ FactoryBot.define do
   end
 
   factory :journal do
-    association :kid
-    association :mentor
+    kid
+    mentor
     held_at { Date.parse('2011-05-30') }
-    start_at { Time.parse('13:00') }
-    end_at { Time.parse('14:00') }
+    start_at { Time.zone.parse('13:00') }
+    end_at { Time.zone.parse('14:00') }
     meeting_type { :physical }
   end
 
@@ -86,13 +88,13 @@ FactoryBot.define do
   end
 
   factory :review do
-    association :kid
+    kid
     held_at { Date.parse('2011-05-30') }
   end
 
   factory :reminder do
-    association :kid
-    association :mentor
+    kid
+    mentor
     recipient { |r| r.mentor.email }
     held_at { Date.parse('2011-05-30') }
     week { |r| r.held_at.strftime('%U') }
@@ -111,8 +113,8 @@ FactoryBot.define do
   end
 
   factory :comment do
-    association :journal
-    association :created_by, factory: :user
+    journal
+    created_by factory: %i[user]
     body { 'A comment' }
     by { 'Commentator' }
   end
@@ -122,13 +124,12 @@ FactoryBot.define do
   end
 
   factory :relation_log do
-    association :kid
+    kid
     user { |p| p.association(:mentor) }
   end
 
   factory :principal_school_relation do
-    association :school
-    association :principal
+    school
+    principal
   end
-
 end

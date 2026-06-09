@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 class School < ApplicationRecord
   validates :name, presence: true
 
   default_scope { order(:name) }
 
-  has_many :principal_school_relations
+  has_many :principal_school_relations, dependent: :destroy
   has_many :principals, through: :principal_school_relations
-  has_many :teachers
-  has_many :kids
+  has_many :teachers, dependent: :nullify
+  has_many :kids, dependent: :nullify
   has_many :mentors, through: :kids
 
   enum :school_kind,
@@ -31,9 +33,7 @@ class School < ApplicationRecord
     case role
     when :mentor
       high_school + gymnasium
-    when :teacher
-      primary_school + secondary_school
-    when :kid
+    when :teacher, :kid
       primary_school + secondary_school
     end
   end

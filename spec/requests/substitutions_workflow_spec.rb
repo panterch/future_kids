@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'requests/acceptance_helper'
 
 feature 'ADMIN::CREATE:SUBSTITUTION', '
@@ -13,7 +15,7 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
   let!(:kid) { create(:kid, mentor: mentor_frederik) }
 
   background do
-    expect(User.first.valid_password?(admin.password)).to eq(true)
+    expect(User.first.valid_password?(admin.password)).to be(true)
     log_in(admin)
   end
 
@@ -22,20 +24,20 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
     click_link 'Erfassen'
     click_button 'Ersatz erstellen'
     expect(page.status_code).to eq(200)
-    expect(page).to have_content('Ersatz erfassen')
-    expect(page).to have_content('muss ausgefüllt werden')
+    expect(page).to have_text('Ersatz erfassen')
+    expect(page).to have_text('muss ausgefüllt werden')
   end
 
   scenario 'should create a substitution with required values' do
     click_link 'Ersatz'
     click_link 'Erfassen'
     select kid.display_name, from: 'substitution[kid_id]'
-    fill_in 'substitution_start_at', with: (Date.today - 10)
-    fill_in 'substitution_end_at', with: (Date.today - 2)
+    fill_in 'substitution_start_at', with: (Time.zone.today - 10)
+    fill_in 'substitution_end_at', with: (Time.zone.today - 2)
     click_button 'Ersatz erstellen'
     expect(page.status_code).to eq(200)
-    expect(page).to have_content(mentor_frederik.display_name)
-    expect(page).to have_content(kid.display_name)
+    expect(page).to have_text(mentor_frederik.display_name)
+    expect(page).to have_text(kid.display_name)
   end
 
   describe 'mentor should have a quicklink for substitution and mentor and kid should be preset' do
@@ -43,9 +45,9 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
       visit mentor_path(id: mentor_frederik.id)
       find('.contextual_links_panel').click_link('Neue Abwesenheit')
       expect(page.status_code).to eq(200)
-      expect(page).to have_content('Ersatz erfassen')
-      expect(page).to have_content(mentor_frederik.display_name)
-      expect(page).to have_content(kid.display_name)
+      expect(page).to have_text('Ersatz erfassen')
+      expect(page).to have_text(mentor_frederik.display_name)
+      expect(page).to have_text(kid.display_name)
     end
   end
 end
@@ -59,17 +61,16 @@ feature 'ADMIN::UPDATE:SUBSTITUTION', '
   let!(:mentor_frederik) do
     create(:mentor, prename: 'Frederik', name: 'Haller', sex: 'm')
   end
-  let!(:mentor_melanie) do
-    create(:mentor, ects: :currently, prename: 'Melanie', name: 'Rohner', sex: 'f')
-  end
   let!(:kid) { create(:kid, mentor: mentor_frederik) }
 
-  let!(:substitution) do
-    create(:substitution, mentor: mentor_frederik, kid: kid, start_at: (Date.today - 1), end_at: (Date.today + 10))
+  before do
+    create(:mentor, ects: :currently, prename: 'Melanie', name: 'Rohner', sex: 'f')
+    create(:substitution, mentor: mentor_frederik, kid: kid, start_at: (Time.zone.today - 1),
+                          end_at: (Time.zone.today + 10))
   end
 
   background do
-    expect(User.first.valid_password?(admin.password)).to eq(true)
+    expect(User.first.valid_password?(admin.password)).to be(true)
     log_in(admin)
   end
 
@@ -83,8 +84,8 @@ feature 'ADMIN::UPDATE:SUBSTITUTION', '
     click_link 'Ersatz'
     click_button 'Ersatz finden'
     expect(page.status_code).to eq(200)
-    expect(page).to have_content('Ersatzmentor*in für Abwesenheit')
-    expect(page).to have_content(mentor_frederik.display_name)
+    expect(page).to have_text('Ersatzmentor*in für Abwesenheit')
+    expect(page).to have_text(mentor_frederik.display_name)
   end
 end
 
@@ -98,7 +99,7 @@ feature 'MENTOR::SHOW:SUBSTITUTION', '
   end
 
   background do
-    expect(User.first.valid_password?(mentor.password)).to eq(true)
+    expect(User.first.valid_password?(mentor.password)).to be(true)
     log_in(mentor)
   end
 
@@ -107,6 +108,6 @@ feature 'MENTOR::SHOW:SUBSTITUTION', '
   end
 
   scenario 'mentor should not be able to see substitution-header-link' do
-    expect(page).to have_no_content('Ersatz')
+    expect(page).to have_no_text('Ersatz')
   end
 end

@@ -47,7 +47,7 @@
     = render 'relation_logs/collection', resource: @mentor
 
 -# times are only visible to the mentor himself or an admin
-- if is_viewing_own_data(@mentor)
+- if viewing_own_data?(@mentor)
   #mentor_journal_date.pull-right
     = select_month(@month, {}, :class => 'select_mentor_journal_date')
     = select_year(@year, {}, :class => 'select_mentor_journal_date')

@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 wb.add_worksheet(name: 'Auswertungsgespräche') do |sheet|
   sheet.add_row [
-    FirstYearAssessment.human_attribute_name(:id) + ' ' + FirstYearAssessment.model_name.human,
-    Kid.human_attribute_name(:id) + ' ' + Kid.model_name.human,
-    Kid.human_attribute_name(:name) + ' ' + Kid.model_name.human,
-    Mentor.human_attribute_name('id') + ' ' + Mentor.model_name.human,
-    Mentor.human_attribute_name('name') + ' ' + Mentor.model_name.human,
-    Teacher.human_attribute_name('id') + ' ' + Teacher.model_name.human,
-    Teacher.human_attribute_name('name') + ' ' + Teacher.model_name.human,
+    "#{FirstYearAssessment.human_attribute_name(:id)} #{FirstYearAssessment.model_name.human}",
+    "#{Kid.human_attribute_name(:id)} #{Kid.model_name.human}",
+    "#{Kid.human_attribute_name(:name)} #{Kid.model_name.human}",
+    "#{Mentor.human_attribute_name('id')} #{Mentor.model_name.human}",
+    "#{Mentor.human_attribute_name('name')} #{Mentor.model_name.human}",
+    "#{Teacher.human_attribute_name('id')} #{Teacher.model_name.human}",
+    "#{Teacher.human_attribute_name('name')} #{Teacher.model_name.human}",
     FirstYearAssessment.human_attribute_name('held_at'),
     FirstYearAssessment.human_attribute_name('development_teacher'),
     FirstYearAssessment.human_attribute_name('development_mentor'),

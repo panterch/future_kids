@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe RemindersController do
@@ -15,7 +17,7 @@ describe RemindersController do
       end
 
       it 'does not display acknowledged reminders' do
-        create(:reminder, acknowledged_at: Time.now)
+        create(:reminder, acknowledged_at: Time.zone.now)
         get :index
         expect(assigns(:reminders)).to eq([@reminder])
       end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # shared code between kids and mentors controller to manage nested schedules
 # records
 module ManageSchedules

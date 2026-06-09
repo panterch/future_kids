@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'cancan/matchers'
 
@@ -6,7 +8,7 @@ describe Ability do
     before do
       @principal = create(:principal)
       @school = @principal.schools.first
-      @ability = Ability.new(@principal)
+      @ability = described_class.new(@principal)
     end
 
     it 'can read his own data' do

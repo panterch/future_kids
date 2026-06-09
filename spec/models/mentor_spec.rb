@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Mentor do
@@ -57,7 +59,7 @@ describe Mentor do
       @substitute = create(:mentor, substitute: true)
       @none = create(:mentor)
 
-      res = Mentor.mentors_grouped_by_assigned_kids
+      res = described_class.mentors_grouped_by_assigned_kids
       expect(res[:both]).to eq [@both]
       expect(res[:only_primary]).to eq [@only_primary]
       expect(res[:only_secondary]).to eq [@only_secondary]
@@ -81,8 +83,8 @@ describe Mentor do
     it 'counts journals' do
       @mentor = create(:mentor)
       @journal = create(:journal, mentor: @mentor,
-                                  start_at: Time.parse('13:00'),
-                                  end_at: Time.parse('14:30'))
+                                  start_at: Time.zone.parse('13:00'),
+                                  end_at: Time.zone.parse('14:30'))
       expect(@mentor.total_duration).to eq(90)
     end
   end
@@ -92,16 +94,16 @@ describe Mentor do
       @mentor = create(:mentor)
       create(:journal, mentor: @mentor,
                        held_at: Date.parse('2001-05-30'),
-                       start_at: Time.parse('13:00'),
-                       end_at: Time.parse('14:30'))
+                       start_at: Time.zone.parse('13:00'),
+                       end_at: Time.zone.parse('14:30'))
       create(:journal, mentor: @mentor,
-                       held_at: Date.today - 1.month,
-                       start_at: Time.parse('13:00'),
-                       end_at: Time.parse('13:30'))
+                       held_at: Time.zone.today - 1.month,
+                       start_at: Time.zone.parse('13:00'),
+                       end_at: Time.zone.parse('13:30'))
       create(:journal, mentor: @mentor,
-                       held_at: Date.today - 1.month,
-                       start_at: Time.parse('13:00'),
-                       end_at: Time.parse('14:30'))
+                       held_at: Time.zone.today - 1.month,
+                       start_at: Time.zone.parse('13:00'),
+                       end_at: Time.zone.parse('14:30'))
     end
 
     it 'sums up duration' do
@@ -152,9 +154,9 @@ describe Mentor do
     it 'attaches a photo' do
       @mentor.photo.attach(@file)
       @mentor.save!
-      @mentor = Mentor.first
+      @mentor = described_class.first
       expect(@mentor.photo).to be_present
-      expect(@mentor.photo_medium.blob.filename.to_s).to match(/logo\.png/)
+      expect(@mentor.photo_medium.blob.filename.to_s).to include('logo.png')
     end
   end
 
@@ -174,56 +176,55 @@ describe Mentor do
     end
 
     it 'has many kids' do
-      expect(subject).to have_many(:kids)
+      is_expected.to have_many(:kids)
     end
 
     it 'has many admins through kids' do
-      expect(subject).to have_many(:admins).through(:kids)
+      is_expected.to have_many(:admins).through(:kids)
     end
 
     it 'has many schools through kids' do
-      expect(subject).to have_many(:schools).through(:kids)
+      is_expected.to have_many(:schools).through(:kids)
     end
 
     it 'has his own school' do
-      expect(subject).to belong_to(:school).optional
+      is_expected.to belong_to(:school).optional
     end
 
     it 'filters mentors by admins' do
       expect(@mentor1.kids.size).to eq(3)
       expect(@mentor2.kids.size).to eq(2)
-      @mentors_by_admin1 = Mentor.joins(:admins).where('kids.admin_id = ?', @admin1.id).distinct!
+      @mentors_by_admin1 = described_class.joins(:admins).where(kids: { admin_id: @admin1.id }).distinct!
       expect(@mentors_by_admin1.size).to eq(2)
       expect(@mentors_by_admin1).to include(@mentor1)
       expect(@mentors_by_admin1).to include(@mentor2)
-      @mentors_by_admin2 = Mentor.joins(:admins).where('kids.admin_id = ?', @admin2.id).distinct!
+      @mentors_by_admin2 = described_class.joins(:admins).where(kids: { admin_id: @admin2.id }).distinct!
       expect(@mentors_by_admin2.size).to eq(1)
       expect(@mentors_by_admin2).to include(@mentor1)
       expect(@mentors_by_admin2).not_to include(@mentor2)
     end
 
     it 'filters mentors by meeting day' do
-      @mentors_by_meeting_day1 = Mentor.joins(:kids).where('kids.meeting_day = ?', '1').distinct!
+      @mentors_by_meeting_day1 = described_class.joins(:kids).where(kids: { meeting_day: '1' }).distinct!
       expect(@mentors_by_meeting_day1.size).to eq(2)
       expect(@mentors_by_meeting_day1).to include(@mentor1)
       expect(@mentors_by_meeting_day1).to include(@mentor2)
-      @mentors_by_meeting_day2 = Mentor.joins(:kids).where('kids.meeting_day = ?', '2').distinct!
+      @mentors_by_meeting_day2 = described_class.joins(:kids).where(kids: { meeting_day: '2' }).distinct!
       expect(@mentors_by_meeting_day2.size).to eq(1)
       expect(@mentors_by_meeting_day2).to include(@mentor1)
       expect(@mentors_by_meeting_day2).not_to include(@mentor2)
     end
 
     it 'filters mentors by schools' do
-      @mentors_by_school1 = Mentor.joins(:schools).where('kids.school_id = ?', @school1.id).distinct!
+      @mentors_by_school1 = described_class.joins(:schools).where(kids: { school_id: @school1.id }).distinct!
       expect(@mentors_by_school1.size).to eq(2)
       expect(@mentors_by_school1.size).to eq(2)
       expect(@mentors_by_school1).to include(@mentor1)
       expect(@mentors_by_school1).to include(@mentor2)
-      @mentors_by_school2 = Mentor.joins(:schools).where('kids.school_id = ?', @school2.id).distinct!
+      @mentors_by_school2 = described_class.joins(:schools).where(kids: { school_id: @school2.id }).distinct!
       expect(@mentors_by_school2.size).to eq(1)
       expect(@mentors_by_school2).to include(@mentor1)
       expect(@mentors_by_school2).not_to include(@mentor2)
     end
   end
-
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class ExceptionTestController < ApplicationController
   # this creates an exception - use this to test the exception notification
   # * login

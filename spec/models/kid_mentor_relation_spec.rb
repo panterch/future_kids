@@ -1,8 +1,10 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe KidMentorRelation do
   context 'kid connected to mentor and coach' do
-    subject(:relation) { KidMentorRelation.first }
+    subject(:relation) { described_class.first }
 
     let!(:kid) { create(:kid, mentor: mentor, admin: coach) }
     let!(:mentor) { create(:mentor) }
@@ -29,19 +31,20 @@ describe KidMentorRelation do
   end
 
   context 'kid without mentor' do
-    let!(:kid) { create(:kid) }
+    before { create(:kid) }
 
     it 'is found' do
-      expect(KidMentorRelation.count).to eq(1)
+      expect(described_class.count).to eq(1)
     end
   end
 
   context 'inactive kid' do
-    let!(:kid) { create(:kid, mentor: mentor, inactive: true) }
     let!(:mentor) { create(:mentor) }
 
+    before { create(:kid, mentor: mentor, inactive: true) }
+
     it 'is ignored' do
-      expect(KidMentorRelation.count).to be_zero
+      expect(described_class.count).to be_zero
     end
   end
 end

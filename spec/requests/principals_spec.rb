@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'requests/acceptance_helper'
 
 feature 'Principals as Admin' do
@@ -19,7 +21,7 @@ feature 'Principals as Admin' do
     find('#principal_school_ids option:first-child').select_option
     click_button 'SL/QUIMS-Verantwortliche*r'
 
-    expect(page).to have_content('principal@email.com')
+    expect(page).to have_text('principal@email.com')
   end
 
   scenario 'should be able assign principal to multiple schools' do
@@ -28,19 +30,18 @@ feature 'Principals as Admin' do
     create(:school, name: 'extra-school-two')
 
     visit principal_path(principal)
+    expect(page).to have_current_path(principal_path(principal))
 
-    expect(page).to have_no_content('extra-school-one')
-    expect(page).to have_no_content('extra-school-two')
+    expect(page).to have_no_text('extra-school-one')
+    expect(page).to have_no_text('extra-school-two')
 
     click_on 'Bearbeiten'
 
-    page.all(:css, '#principal_school_ids option').each do |option|
-      option.select_option
-    end
+    page.all(:css, '#principal_school_ids option').each(&:select_option)
 
     click_button 'SL/QUIMS-Verantwortliche*r aktualisieren'
 
-    expect(page).to have_content('extra-school-one')
-    expect(page).to have_content('extra-school-two')
+    expect(page).to have_text('extra-school-one')
+    expect(page).to have_text('extra-school-two')
   end
 end

@@ -1,10 +1,12 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Notifications do
   describe 'remind' do
     before do
       @reminder = create(:reminder)
-      @mail = Notifications.remind(@reminder)
+      @mail = described_class.remind(@reminder)
     end
 
     it 'renders the headers' do
@@ -26,7 +28,7 @@ describe Notifications do
 
   describe 'reminders created' do
     before do
-      @mail = Notifications.reminders_created(10)
+      @mail = described_class.reminders_created(10)
     end
 
     it 'renders the body' do
@@ -37,7 +39,7 @@ describe Notifications do
   describe 'comment created' do
     before do
       @comment = create(:comment)
-      @mail = Notifications.comment_created(@comment)
+      @mail = described_class.comment_created(@comment)
     end
 
     it 'renders the body' do
@@ -49,7 +51,7 @@ describe Notifications do
     before do
       Site.load.update_attribute(:comment_bcc, 'bcc@example.com')
       @comment = create(:comment)
-      @mail = Notifications.comment_created(@comment)
+      @mail = described_class.comment_created(@comment)
     end
 
     it 'renders the body' do
@@ -69,9 +71,9 @@ describe Notifications do
                                    important: true, start_at: '13:30', end_at: '14:00')
       @journal3 = create(:journal, kid: @kid1, mentor: @mentor, held_at: '2017-01-18',
                                    important: false, start_at: '13:30', end_at: '14:00')
-      @mail1    = Notifications.important_journal_created(@journal1)
-      @mail2    = Notifications.important_journal_created(@journal2)
-      @mail3    = Notifications.important_journal_created(@journal3)
+      @mail1    = described_class.important_journal_created(@journal1)
+      @mail2    = described_class.important_journal_created(@journal2)
+      @mail3    = described_class.important_journal_created(@journal3)
     end
 
     it 'renders the headers' do
@@ -94,7 +96,7 @@ describe Notifications do
   describe 'first_year_assessment created' do
     before do
       @first_year_assessment = create(:first_year_assessment)
-      @mail = Notifications.first_year_assessment_created(@first_year_assessment)
+      @mail = described_class.first_year_assessment_created(@first_year_assessment)
     end
 
     it 'renders the body' do

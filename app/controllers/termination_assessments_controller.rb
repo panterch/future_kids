@@ -1,13 +1,17 @@
+# frozen_string_literal: true
+
 class TerminationAssessmentsController < ApplicationController
   load_and_authorize_resource :kid
   load_and_authorize_resource :termination_assessment, through: :kid
   include CrudActions
 
-  def index # not supported action
+  # not supported action
+  def index
     redirect_to kid_url(@kid)
   end
 
-  def show # not supported action
+  # not supported action
+  def show
     redirect_to edit_kid_termination_assessment_url(@termination_assessment.kid, @termination_assessment)
   end
 

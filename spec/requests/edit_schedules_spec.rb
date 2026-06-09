@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'requests/acceptance_helper'
 
 shared_examples 'schedule editing' do |label, path_helper, person_factory|
@@ -27,7 +29,7 @@ shared_examples 'schedule editing' do |label, path_helper, person_factory|
       visit send(path_helper, person)
 
       # Use the full "14:00 - 14:30" text to avoid matching the "13:30 - 14:00" row
-      within find('tr', text: '14:00 - 14:30') do
+      within 'tr', text: '14:00 - 14:30' do
         first('input[type=checkbox]').uncheck
       end
 
@@ -39,7 +41,7 @@ shared_examples 'schedule editing' do |label, path_helper, person_factory|
     scenario 'JS disables hidden inputs for unchecked slots on page load' do
       # Scope to one unchecked checkbox cell so a pre-checked slot elsewhere
       # doesn't cause a false failure. Verifies register_schedule_checkboxes ran.
-      unchecked_checkbox = find('form.schedule table input[type=checkbox]:not(:checked)', match: :first)
+      unchecked_checkbox = first('form.schedule table input[type=checkbox]:not(:checked)')
       within(unchecked_checkbox.find(:xpath, '..')) do
         expect(page).to have_no_selector('input[type=hidden]:not([disabled])', visible: :all)
       end
@@ -47,7 +49,7 @@ shared_examples 'schedule editing' do |label, path_helper, person_factory|
   end
 end
 
-feature 'Edit schedules as Admin', js: true do
+feature 'Edit schedules as Admin', :js do
   it_behaves_like 'schedule editing', 'kid',    :edit_schedules_kid_path,    :kid
   it_behaves_like 'schedule editing', 'mentor', :edit_schedules_mentor_path, :mentor
 end
