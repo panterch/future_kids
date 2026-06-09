@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'requests/acceptance_helper'
 
 feature 'SESSION::LOGIN', '
@@ -16,7 +18,7 @@ feature 'SESSION::LOGIN', '
     fill_in 'user_email',    with: @mentor.email
     fill_in 'user_password', with: @pw
     click_button 'Anmelden'
-    expect(page).to have_content('Erfolgreich angemeldet.')
+    expect(page).to have_text('Erfolgreich angemeldet.')
   end
 
   scenario 'should not login the user w/ invalid credentials' do
@@ -24,7 +26,7 @@ feature 'SESSION::LOGIN', '
     fill_in 'user_email',    with: @mentor.email
     fill_in 'user_password', with: 'invalid'
     click_button 'Anmelden'
-    expect(page).to have_content('Ungültige Anmeldedaten')
+    expect(page).to have_text('Ungültige Anmeldedaten')
   end
 
   scenario 'should not login inactive users' do
@@ -33,6 +35,6 @@ feature 'SESSION::LOGIN', '
     fill_in 'user_email',    with: @mentor.email
     fill_in 'user_password', with: @pw
     click_button 'Anmelden'
-    expect(page).to have_content('Anmelden')
+    expect(page).to have_text('Anmelden')
   end
 end

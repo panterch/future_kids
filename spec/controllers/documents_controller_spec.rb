@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe DocumentsController do
@@ -29,8 +31,8 @@ describe DocumentsController do
     it 'can browse non-admin documents' do
       get :index
       expect(response).to have_http_status(:ok)
-      expect(response.body).to match(/a1/)
-      expect(response.body).not_to match(/ax1/)
+      expect(response.body).to include('a1')
+      expect(response.body).not_to include('ax1')
     end
 
     it 'cannot destroy a document' do
@@ -59,8 +61,8 @@ describe DocumentsController do
     it 'can browse all documents including admin-only ones' do
       get :index
       expect(response).to have_http_status(:ok)
-      expect(response.body).to match(/a1/)
-      expect(response.body).to match(/ax1/)
+      expect(response.body).to include('a1')
+      expect(response.body).to include('ax1')
     end
 
     it 'creates a new document' do
@@ -68,7 +70,7 @@ describe DocumentsController do
       expect(response).to redirect_to(action: 'index')
       d = Document.find_by(title: 't')
       expect(d.category0).to eq('c')
-      expect(d.admin_only).to eq(true)
+      expect(d.admin_only).to be(true)
       expect(d.attachment).to be_present
     end
 

@@ -1,9 +1,11 @@
+# frozen_string_literal: true
+
 class Review < ApplicationRecord
-  default_scope { order('held_at DESC') }
+  default_scope { order(held_at: :desc) }
 
   belongs_to :kid
 
-  validates :kid, :held_at, presence: true
+  validates :held_at, presence: true
   validates_date :held_at, after: '2001-01-01'
 
   after_save :sync_fields_with_kid

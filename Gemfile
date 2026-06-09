@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 source 'https://rubygems.org'
 
 ruby '3.4.9'
@@ -19,15 +21,15 @@ gem 'countries'
 gem 'country_select'
 gem 'devise'
 gem 'google-cloud-storage', require: false
-gem 'multi_json' # workaround for googleauth 1.17.0 bug — remove once googleapis/google-auth-library-ruby#575 is properly fixed
 gem 'i18n_rails_helpers'
 gem 'image_processing'
-gem 'ruby-vips', '~> 2.0'
+gem 'multi_json' # workaround for googleauth 1.17.0 bug — remove once googleapis/google-auth-library-ruby#575 is properly fixed
 gem 'ostruct'
 gem 'pg'
 gem 'react-rails'
 gem 'redcarpet'
 gem 'responders'
+gem 'ruby-vips', '~> 2.0'
 gem 'sassc-rails'
 gem 'show_for'
 gem 'simple_form'

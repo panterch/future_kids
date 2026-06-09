@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PrincipalsController < ApplicationController
   load_and_authorize_resource
   include CrudActions
@@ -7,7 +9,7 @@ class PrincipalsController < ApplicationController
     # prototype is not present, it is built here with default values
     params[:principal] ||= {}
     params[:principal][:inactive] = '0' if params[:principal][:inactive].nil?
-    @principals = @principals.where(principal_params.to_h.delete_if { |_key, val| val.blank? })
+    @principals = @principals.where(principal_params.to_h.compact_blank!)
 
     # provide a prototype principal for the filter form
     @principal = Principal.new(principal_params)

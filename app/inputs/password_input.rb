@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class PasswordInput < SimpleForm::Inputs::PasswordInput
   def input(wrapper_options = nil)
     input_html_options[:autocomplete] ||= 'off'

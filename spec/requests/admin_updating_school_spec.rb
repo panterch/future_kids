@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'requests/acceptance_helper'
 
 feature 'ADMIN::UPDATE:SCHOOL', '
@@ -18,6 +20,6 @@ feature 'ADMIN::UPDATE:SCHOOL', '
     fill_in 'Strasse, Nr.', with: 'Zentralstrasse'
     click_button 'Schule aktualisieren'
 
-    expect(page).to have_content('Colab Zurich')
+    expect(page).to have_text('Colab Zurich')
   end
 end

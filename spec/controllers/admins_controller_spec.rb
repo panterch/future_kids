@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe AdminsController do
@@ -9,7 +11,7 @@ describe AdminsController do
 
     context 'index' do
       it 'assigns two admins in the index' do
-        2.times { create(:admin) }
+        create_list(:admin, 2)
         get :index
         expect(assigns(:admins).size).to eq(3) # 3 including the signed in admin
         expect(response).to be_successful
@@ -58,7 +60,7 @@ describe AdminsController do
         get :show, params: { id: @admin.id }
         expect(response).to be_successful
         expect(response.body).to match(/#{@admin.name}/)
-        expect(response.body).not_to match(/Pendenzen/)
+        expect(response.body).not_to include('Pendenzen')
       end
     end
   end

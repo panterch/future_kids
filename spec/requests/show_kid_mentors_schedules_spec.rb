@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'requests/acceptance_helper'
 
 feature 'Kid Mentor planning', :js do
@@ -101,15 +103,8 @@ feature 'Kid Mentor planning', :js do
     mentor.schedules.create(day: 2, hour: 17, minute: 30)
     mentor
   end
-  let!(:mentor_5) { create(:mentor, prename: 'Mentor 5', name: 'Other') }
-  let!(:mentor_6) { create(:mentor, prename: 'Mentor 6', name: 'Other') }
-  let!(:mentor_7) { create(:mentor, prename: 'Mentor 7', name: 'Other') }
-  let!(:mentor_8) { create(:mentor, prename: 'Mentor 8', name: 'Other') }
-  let!(:mentor_9) { create(:mentor, prename: 'Mentor 9', name: 'Other') }
-  let!(:mentor_10) { create(:mentor, prename: 'Mentor 10', name: 'Other') }
-  let!(:mentor_11) { create(:mentor, prename: 'Mentor 11', name: 'Other') }
-  let!(:mentor_12) { create(:mentor, prename: 'Mentor 12', name: 'Other') }
-  let!(:mentor_13) { create(:mentor, prename: 'Mentor 13', name: 'Other') }
+
+  before { 9.times { |i| create(:mentor, prename: "Filler #{i + 5}", name: 'Other') } }
 
   background do
     log_in(admin)
@@ -144,40 +139,40 @@ feature 'Kid Mentor planning', :js do
         scenario 'select only mentors with no kid' do
           select 'keinem Schüler zugewiesen', from: 'number-of-kids'
           within('.kid-mentor-schedules') do
-            expect(page).to have_content 'Haller Frederik'
-            expect(page).to have_no_content 'Rohner Melanie'
-            expect(page).to have_no_content 'Steiner Max'
-            expect(page).to have_no_content 'Koller Sarah'
+            expect(page).to have_text 'Haller Frederik'
+            expect(page).to have_no_text 'Rohner Melanie'
+            expect(page).to have_no_text 'Steiner Max'
+            expect(page).to have_no_text 'Koller Sarah'
           end
         end
 
         scenario 'select only mentors with 1 primary kid assigned' do
           select 'nur primärem Schüler zugewiesen', from: 'number-of-kids'
           within('.kid-mentor-schedules') do
-            expect(page).to have_no_content 'Haller Frederik'
-            expect(page).to have_content 'Rohner Melanie'
-            expect(page).to have_no_content 'Steiner Max'
-            expect(page).to have_no_content 'Koller Sarah'
+            expect(page).to have_no_text 'Haller Frederik'
+            expect(page).to have_text 'Rohner Melanie'
+            expect(page).to have_no_text 'Steiner Max'
+            expect(page).to have_no_text 'Koller Sarah'
           end
         end
 
         scenario 'select mentors with only one secondary kid assigned' do
           select 'nur sekundärem Schüler', from: 'number-of-kids'
           within('.kid-mentor-schedules') do
-            expect(page).to have_no_content 'Haller Frederik'
-            expect(page).to have_no_content 'Rohner Melanie'
-            expect(page).to have_content 'Steiner Max'
-            expect(page).to have_no_content 'Koller Sarah'
+            expect(page).to have_no_text 'Haller Frederik'
+            expect(page).to have_no_text 'Rohner Melanie'
+            expect(page).to have_text 'Steiner Max'
+            expect(page).to have_no_text 'Koller Sarah'
           end
         end
 
         scenario 'show mentors with primary and secondary kid assigned' do
           select 'primärem und sekundärem Schüler', from: 'number-of-kids'
           within('.kid-mentor-schedules') do
-            expect(page).to have_no_content 'Haller Frederik'
-            expect(page).to have_no_content 'Steiner Max'
-            expect(page).to have_no_content 'Rohner Melanie'
-            expect(page).to have_content 'Koller Sarah'
+            expect(page).to have_no_text 'Haller Frederik'
+            expect(page).to have_no_text 'Steiner Max'
+            expect(page).to have_no_text 'Rohner Melanie'
+            expect(page).to have_text 'Koller Sarah'
           end
         end
       end
@@ -191,20 +186,20 @@ feature 'Kid Mentor planning', :js do
         scenario 'select only male mentors' do
           select 'Männlich', from: 'sex'
           within('.kid-mentor-schedules') do
-            expect(page).to have_content 'Haller Frederik'
-            expect(page).to have_no_content 'Rohner Melanie'
-            expect(page).to have_content 'Steiner Max'
-            expect(page).to have_no_content 'Koller Sarah'
+            expect(page).to have_text 'Haller Frederik'
+            expect(page).to have_no_text 'Rohner Melanie'
+            expect(page).to have_text 'Steiner Max'
+            expect(page).to have_no_text 'Koller Sarah'
           end
         end
 
         scenario 'select only female mentors' do
           select 'Weiblich', from: 'sex'
           within('.kid-mentor-schedules') do
-            expect(page).to have_no_content 'Haller Frederik'
-            expect(page).to have_content 'Rohner Melanie'
-            expect(page).to have_no_content 'Steiner Max'
-            expect(page).to have_content 'Koller Sarah'
+            expect(page).to have_no_text 'Haller Frederik'
+            expect(page).to have_text 'Rohner Melanie'
+            expect(page).to have_no_text 'Steiner Max'
+            expect(page).to have_text 'Koller Sarah'
           end
         end
       end
@@ -212,20 +207,20 @@ feature 'Kid Mentor planning', :js do
       describe 'mentors-display-filter' do
         it 'shows all the mentors initially' do
           within('.mentors-display-filter') do
-            expect(page).to have_content 'Haller Frederik'
-            expect(page).to have_content 'Rohner Melanie'
-            expect(page).to have_content 'Steiner Max'
-            expect(page).to have_content 'Koller Sarah'
+            expect(page).to have_text 'Haller Frederik'
+            expect(page).to have_text 'Rohner Melanie'
+            expect(page).to have_text 'Steiner Max'
+            expect(page).to have_text 'Koller Sarah'
           end
         end
 
         it 'has a button to clear the selection' do
           within('.mentors-display-filter') do
             find('.Select-clear').click
-            expect(find('.Select-control')).to have_no_content 'Haller Frederik'
-            expect(find('.Select-control')).to have_no_content 'Rohner Melanie'
-            expect(find('.Select-control')).to have_no_content 'Steiner Max'
-            expect(find('.Select-control')).to have_no_content 'Koller Sarah'
+            expect(find('.Select-control')).to have_no_text 'Haller Frederik'
+            expect(find('.Select-control')).to have_no_text 'Rohner Melanie'
+            expect(find('.Select-control')).to have_no_text 'Steiner Max'
+            expect(find('.Select-control')).to have_no_text 'Koller Sarah'
           end
         end
 
@@ -233,7 +228,7 @@ feature 'Kid Mentor planning', :js do
           within('.mentors-display-filter') do
             find('.Select-clear').click
             find('.Select-input input').set('Hall')
-            expect(find('.Select-menu')).to have_content 'Haller Frederik'
+            expect(find('.Select-menu')).to have_text 'Haller Frederik'
           end
         end
 
@@ -241,7 +236,7 @@ feature 'Kid Mentor planning', :js do
           within('.mentors-display-filter') do
             find('.Select-clear').click
             find('.Select-input input').set('lanie')
-            expect(find('.Select-menu')).to have_content 'Rohner Melanie'
+            expect(find('.Select-menu')).to have_text 'Rohner Melanie'
           end
         end
       end
@@ -281,51 +276,51 @@ feature 'Kid Mentor planning', :js do
         scenario 'select only mentors from zhaw' do
           select school_zhaw.name, from: 'school'
           within('.kid-mentor-schedules') do
-            expect(page).to have_content 'Haller Frederik'
-            expect(page).to have_no_content 'Rohner Melanie'
-            expect(page).to have_content 'Steiner Max'
-            expect(page).to have_no_content 'Koller Sarah'
+            expect(page).to have_text 'Haller Frederik'
+            expect(page).to have_no_text 'Rohner Melanie'
+            expect(page).to have_text 'Steiner Max'
+            expect(page).to have_no_text 'Koller Sarah'
           end
         end
 
         scenario 'select only mentors from the secondary school' do
           select school_secondary_school.name, from: 'school'
           within('.kid-mentor-schedules') do
-            expect(page).to have_content 'Haller Frederik'
-            expect(page).to have_content 'Rohner Melanie'
-            expect(page).to have_no_content 'Steiner Max'
-            expect(page).to have_no_content 'Koller Sarah'
+            expect(page).to have_text 'Haller Frederik'
+            expect(page).to have_text 'Rohner Melanie'
+            expect(page).to have_no_text 'Steiner Max'
+            expect(page).to have_no_text 'Koller Sarah'
           end
           select 'Weiblich', from: 'sex'
           within('.kid-mentor-schedules') do
-            expect(page).to have_no_content 'Haller Frederik'
-            expect(page).to have_content 'Rohner Melanie'
-            expect(page).to have_no_content 'Steiner Max'
-            expect(page).to have_no_content 'Koller Sarah'
+            expect(page).to have_no_text 'Haller Frederik'
+            expect(page).to have_text 'Rohner Melanie'
+            expect(page).to have_no_text 'Steiner Max'
+            expect(page).to have_no_text 'Koller Sarah'
           end
         end
 
         scenario 'select only mentors from the primary school' do
           select 'Männlich', from: 'sex'
           within('.kid-mentor-schedules') do
-            expect(page).to have_content 'Haller Frederik'
-            expect(page).to have_no_content 'Rohner Melanie'
-            expect(page).to have_content 'Steiner Max'
-            expect(page).to have_no_content 'Koller Sarah'
+            expect(page).to have_text 'Haller Frederik'
+            expect(page).to have_no_text 'Rohner Melanie'
+            expect(page).to have_text 'Steiner Max'
+            expect(page).to have_no_text 'Koller Sarah'
           end
           select school_primary_school.name, from: 'school'
           within('.kid-mentor-schedules') do
-            expect(page).to have_no_content 'Haller Frederik'
-            expect(page).to have_no_content 'Rohner Melanie'
-            expect(page).to have_no_content 'Steiner Max'
-            expect(page).to have_no_content 'Koller Sarah'
+            expect(page).to have_no_text 'Haller Frederik'
+            expect(page).to have_no_text 'Rohner Melanie'
+            expect(page).to have_no_text 'Steiner Max'
+            expect(page).to have_no_text 'Koller Sarah'
           end
           select 'Weiblich', from: 'sex'
           within('.kid-mentor-schedules') do
-            expect(page).to have_no_content 'Haller Frederik'
-            expect(page).to have_content 'Rohner Melanie'
-            expect(page).to have_no_content 'Steiner Max'
-            expect(page).to have_no_content 'Koller Sarah'
+            expect(page).to have_no_text 'Haller Frederik'
+            expect(page).to have_text 'Rohner Melanie'
+            expect(page).to have_no_text 'Steiner Max'
+            expect(page).to have_no_text 'Koller Sarah'
           end
         end
       end
@@ -334,24 +329,24 @@ feature 'Kid Mentor planning', :js do
     describe 'timetable' do
       it 'shows all weekdays' do
         within('.timetable') do
-          expect(page).to have_content 'Montag'
-          expect(page).to have_content 'Dienstag'
-          expect(page).to have_content 'Mittwoch'
-          expect(page).to have_content 'Donnerstag'
-          expect(page).to have_content 'Freitag'
+          expect(page).to have_text 'Montag'
+          expect(page).to have_text 'Dienstag'
+          expect(page).to have_text 'Mittwoch'
+          expect(page).to have_text 'Donnerstag'
+          expect(page).to have_text 'Freitag'
         end
       end
 
       it 'shows times from 13:00 to 19:00 with 30min intervals' do
         within('.timetable') do
-          expect(page).to have_no_content '12:30'
-          expect(page).to have_content '13:00'
-          expect(page).to have_content '13:30'
-          expect(page).to have_content '14:00'
-          expect(page).to have_content '18:00'
-          expect(page).to have_content '18:30'
-          expect(page).to have_content '19:00'
-          expect(page).to have_no_content '19:30'
+          expect(page).to have_no_text '12:30'
+          expect(page).to have_text '13:00'
+          expect(page).to have_text '13:30'
+          expect(page).to have_text '14:00'
+          expect(page).to have_text '18:00'
+          expect(page).to have_text '18:30'
+          expect(page).to have_text '19:00'
+          expect(page).to have_no_text '19:30'
         end
       end
 
@@ -359,13 +354,13 @@ feature 'Kid Mentor planning', :js do
         # TODO: also test if entire column gets hidden
         within('.timetable') do
           days = %w[Montag Dienstag Mittwoch Donnerstag]
-          for week_day in days
-            day = find('.clickable_dayLabel.' + week_day)
-            expect(day).to have_content week_day
+          days.each do |week_day|
+            day = find(".clickable_dayLabel.#{week_day}")
+            expect(day).to have_text week_day
             day.click
-            expect(day).to have_no_content week_day
+            expect(day).to have_no_text week_day
             day.click
-            expect(day).to have_content week_day
+            expect(day).to have_text week_day
           end
         end
       end
@@ -416,19 +411,19 @@ feature 'Kid Mentor planning', :js do
             expect(message).to include('primärer Mentor')
           end
           within('.kid_meeting_day') do
-            expect(page).to have_content 'Dienstag'
+            expect(page).to have_text 'Dienstag'
           end
           within('.kid_meeting_start_at') do
-            expect(page).to have_content '15:00'
+            expect(page).to have_text '15:00'
           end
           within('.kid_meeting_start_at') do
-            expect(page).to have_content '15:00'
+            expect(page).to have_text '15:00'
           end
           within('.kid_mentor') do
-            expect(page).to have_content 'Haller, Frederik'
+            expect(page).to have_text 'Haller, Frederik'
           end
           within('.kid_secondary_mentor') do
-            expect(page).to have_content ''
+            expect(page).to have_text ''
           end
         end
 
@@ -452,10 +447,10 @@ feature 'Kid Mentor planning', :js do
           end
 
           within('.kid_mentor') do
-            expect(page).to have_content 'Haller, Frederik'
+            expect(page).to have_text 'Haller, Frederik'
           end
           within('.kid_secondary_mentor') do
-            expect(page).to have_content 'Steiner, Max'
+            expect(page).to have_text 'Steiner, Max'
           end
         end
 

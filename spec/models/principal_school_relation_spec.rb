@@ -1,6 +1,8 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
-RSpec.describe PrincipalSchoolRelation, type: :model do
+RSpec.describe PrincipalSchoolRelation do
   it 'has a valid factory' do
     principal_school_relation = build(:principal_school_relation)
     expect(principal_school_relation).to be_valid

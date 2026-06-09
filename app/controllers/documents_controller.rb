@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class DocumentsController < ApplicationController
   load_and_authorize_resource
   include CrudActions
@@ -7,6 +9,11 @@ class DocumentsController < ApplicationController
     respond_with @documents
   end
 
+  def show
+    @document.increment!(:download_count)
+    redirect_to rails_blob_path(@document.attachment.blob, only_path: true), allow_other_host: false
+  end
+
   def create
     @document = Document.create(document_params)
     if @document.valid?
@@ -14,11 +21,6 @@ class DocumentsController < ApplicationController
     else
       render :new
     end
-  end
-
-  def show
-    @document.increment!(:download_count)
-    redirect_to rails_blob_path(@document.attachment.blob, only_path: true), allow_other_host: false
   end
 
   def update

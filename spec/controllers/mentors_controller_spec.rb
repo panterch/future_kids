@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe MentorsController do
@@ -34,7 +36,6 @@ describe MentorsController do
         expect(@mentor.reload.schedules.count).to eq(2)
       end
     end
-
   end
 
   context 'as an admin' do

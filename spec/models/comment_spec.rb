@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Comment do
@@ -14,23 +16,23 @@ describe Comment do
 
     it 'does not set recipients when not present on previous' do
       @comment.initialize_default_values(@journal.mentor)
-      expect(@comment.to_teacher).to eq(false)
-      expect(@comment.to_secondary_teacher).to eq(false)
+      expect(@comment.to_teacher).to be(false)
+      expect(@comment.to_secondary_teacher).to be(false)
     end
 
     it 'does set recipients from previous' do
       @previous.update(to_teacher: true,
                        to_secondary_teacher: true)
       @comment.initialize_default_values(@journal.mentor)
-      expect(@comment.to_teacher).to eq(true)
-      expect(@comment.to_secondary_teacher).to eq(true)
+      expect(@comment.to_teacher).to be(true)
+      expect(@comment.to_secondary_teacher).to be(true)
     end
 
     it 'does set teacher as recipient when creator' do
       @journal.kid.update_attribute(:teacher, create(:teacher))
       @comment.initialize_default_values(@journal.kid.teacher)
-      expect(@comment.to_teacher).to eq(true)
-      expect(@comment.to_secondary_teacher).to eq(false)
+      expect(@comment.to_teacher).to be(true)
+      expect(@comment.to_secondary_teacher).to be(false)
     end
   end
 

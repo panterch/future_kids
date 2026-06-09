@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Schedule do
@@ -20,7 +22,7 @@ describe Schedule do
   end
 
   it 'builds schedules for a whole week' do
-    week = Schedule.build_week
+    week = described_class.build_week
     expect(week.length).to eq(5)
     # days * hours * halfhours
     expect(week.flatten.length).to eq(5 * 6 * 2)

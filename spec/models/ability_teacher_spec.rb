@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 require 'cancan/matchers'
 
@@ -5,7 +7,7 @@ describe Ability do
   describe 'A Teacher' do
     before do
       @teacher = create(:teacher)
-      @ability = Ability.new(@teacher)
+      @ability = described_class.new(@teacher)
     end
 
     let(:foreign_teacher) { create(:teacher) }
@@ -15,6 +17,7 @@ describe Ability do
     let(:journal) { create(:journal, kid: kid) }
     let(:foreign_journal) { create(:journal, kid: foreign_kid) }
     let(:review) { create(:review, kid: kid) }
+
     it 'cannot access teachers in general' do
       expect(@ability).not_to be_able_to(:read, foreign_teacher)
     end
@@ -113,6 +116,5 @@ describe Ability do
       Site.load.update!(teachers_can_access_reviews: true)
       expect(@ability).not_to be_able_to(:read, review)
     end
-
   end
 end

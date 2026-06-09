@@ -1,2 +1,4 @@
+# frozen_string_literal: true
+
 wb = xlsx_package.workbook
 render partial: 'mentors/index', locals: { wb: wb }

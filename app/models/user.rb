@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class User < ApplicationRecord
   devise :database_authenticatable,
          :recoverable, :rememberable, :trackable, :validatable
@@ -13,10 +15,10 @@ class User < ApplicationRecord
 
   validates :name, :prename, presence: true
 
-  has_many :relation_logs, -> { order('created_at DESC') }, dependent: :nullify
+  has_many :relation_logs, -> { order(created_at: :desc) }, dependent: :nullify, inverse_of: :user
 
   def display_name
-    [name, prename].reject(&:blank?).join(', ')
+    [name, prename].compact_blank.join(', ')
   end
 
   enum :exit_kind, { exit: 'exit', later: 'later', continue_term: 'continue_term', continue: 'continue' }
@@ -46,7 +48,6 @@ class User < ApplicationRecord
   def track_inactive
     return unless inactive_changed?
 
-    self.inactive_at = (Time.now if inactive?)
+    self.inactive_at = (Time.zone.now if inactive?)
   end
-
 end

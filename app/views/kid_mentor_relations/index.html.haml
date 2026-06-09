@@ -18,7 +18,7 @@
       %label
         = Mentor.human_attribute_name('ects')
         = Mentor.model_name.human
-      = f.select :mentor_ects, ects_collection(true), { include_blank: true }, class: 'form-control'
+      = f.select :mentor_ects, ects_collection(explicit_mapping: true), { include_blank: true }, class: 'form-control'
     .form-group
       %label Einstieg
       = f.select :simple_term, %w(Frühling Herbst), { :include_blank => true }, class: 'form-control'

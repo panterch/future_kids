@@ -1,10 +1,13 @@
+# frozen_string_literal: true
+
 class Ability
   include CanCan::Ability
 
   def initialize(user)
-    if user.is_a?(Admin)
+    case user
+    when Admin
       can :manage, :all
-    elsif user.is_a?(Mentor)
+    when Mentor
       # own record may be read
       can %i[read update edit_schedules update_schedules],
           Mentor, id: user.id
@@ -42,7 +45,7 @@ class Ability
       can :read, Teacher, secondary_kids: { secondary_mentor_id: user.id,
                                             secondary_active: true }
 
-    elsif user.is_a?(Teacher)
+    when Teacher
       can :manage, Teacher, id: user.id
       can :create, Kid
       can %i[read update], Kid, teacher_id: user.id, inactive: false
@@ -72,7 +75,7 @@ class Ability
         can :manage, Review, kid: { third_teacher_id: user.id }
       end
 
-    elsif user.is_a?(Principal)
+    when Principal
       # own record may be read
       can %i[read update], Principal, id: user.id
       can :create, Kid

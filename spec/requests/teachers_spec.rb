@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'requests/acceptance_helper'
 
 feature 'Teachers as Admin' do
@@ -16,6 +18,6 @@ feature 'Teachers as Admin' do
     fill_in 'Passwort Bestätigung', with: '123456'
     click_button 'Lehrperson erstellen'
 
-    expect(page).to have_content('raffael@example.com')
+    expect(page).to have_text('raffael@example.com')
   end
 end

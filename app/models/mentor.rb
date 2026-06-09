@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Mentor < User
   # Filters mentors by their kids coach. Used only in the mentor index form.
   attr_accessor :filter_by_coach_id
@@ -6,15 +8,17 @@ class Mentor < User
   # Filters mentors by their kids school. Used only in the mentor index form.
   attr_accessor :filter_by_school_id
 
-  has_many :kids
+  has_many :kids, dependent: :nullify
   has_many :admins, through: :kids
   has_many :secondary_kids, class_name: 'Kid',
-                            foreign_key: 'secondary_mentor_id'
-  has_many :journals
-  has_many :reminders
+                            foreign_key: 'secondary_mentor_id', inverse_of: :secondary_mentor,
+                            dependent: :nullify
+  has_many :journals, dependent: :destroy
+  has_many :reminders, dependent: :destroy
   has_many :secondary_reminders, class_name: 'Reminder',
-                                 foreign_key: 'secondary_mentor_id'
-  has_many :schedules, as: :person
+                                 foreign_key: 'secondary_mentor_id', inverse_of: :secondary_mentor,
+                                 dependent: :nullify
+  has_many :schedules, as: :person, inverse_of: :person, dependent: :destroy
 
   belongs_to :school, optional: true
 
@@ -57,7 +61,7 @@ class Mentor < User
   end
 
   def total_duration_last_month_with_coaching
-    last_month = Date.today - 1.month
+    last_month = Time.zone.today - 1.month
     journals = self.journals.where(year: last_month.year, month: last_month.month).to_a
     journals << Journal.coaching_entry(self, last_month.month, last_month.year)
     journals.sum(&:duration)
@@ -85,6 +89,6 @@ class Mentor < User
   def track_exit_kind_updates
     return unless exit_kind_changed?
 
-    self.exit_kind_updated_at = Time.now
+    self.exit_kind_updated_at = Time.zone.now
   end
 end

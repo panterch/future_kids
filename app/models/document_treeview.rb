@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # helps building the json format that is used by the treeview plugin
 class DocumentTreeview
   def initialize(user_class)

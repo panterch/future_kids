@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe KidMentorRelationsController do
@@ -30,7 +32,7 @@ describe KidMentorRelationsController do
         expect(response.headers['Content-Disposition']).to match(/filename="kid-mentor-relations-\d{4}-\d{2}-\d{2}-\d{2}-\d{2}\.xlsx"/)
       end
     end
-  end # end of as an admin
+  end
 
   context 'as a mentor' do
     before do
@@ -43,5 +45,5 @@ describe KidMentorRelationsController do
         expect { get :index }.to raise_error(SecurityError)
       end
     end
-  end # end of as a mentor
+  end
 end

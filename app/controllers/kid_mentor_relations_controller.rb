@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class KidMentorRelationsController < ApplicationController
   include AdminOnly
 
@@ -9,7 +11,7 @@ class KidMentorRelationsController < ApplicationController
     # all fields to filter here have to be present in the sql view
     @kid_mentor_relation = KidMentorRelation.new(filter_params)
     @kid_mentor_relations = @kid_mentor_relations.where(filter_params.to_h.delete_if do |key, val|
-      !KidMentorRelation.column_names.include?(key.to_s) || val.blank?
+      KidMentorRelation.column_names.exclude?(key.to_s) || val.blank?
     end)
     @kid_mentor_relations = if params['order_by'] && valid_order_by?(Kid, params['order_by'])
                               @kid_mentor_relations.reorder(params['order_by'])
@@ -26,7 +28,7 @@ class KidMentorRelationsController < ApplicationController
 
   def destroy
     KidMentorRelation.inactivate(params[:id])
-    redirect_back(fallback_location: kids_url)
+    redirect_back_or_to(kids_url)
   end
 
   def destroy_all
@@ -37,7 +39,7 @@ class KidMentorRelationsController < ApplicationController
   protected
 
   def filter_params
-    return {} unless params[:kid_mentor_relation].present?
+    return {} if params[:kid_mentor_relation].blank?
 
     params.require(:kid_mentor_relation).permit(
       :kid_exit_kind, :mentor_exit_kind, :mentor_ects, :admin_id, :school_id, :simple_term

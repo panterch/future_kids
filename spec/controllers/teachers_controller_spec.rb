@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe TeachersController do
@@ -9,7 +11,7 @@ describe TeachersController do
 
     context 'index' do
       it 'assigns two teachers in the index' do
-        2.times { create(:teacher) }
+        create_list(:teacher, 2)
         get :index
         expect(assigns(:teachers).size).to eq(2)
       end
@@ -47,7 +49,7 @@ describe TeachersController do
       it 'can destroy inactive' do
         @teacher = create(:teacher, inactive: true)
         delete :destroy, params: { id: @teacher.id }
-        expect(Teacher.exists?(@teacher.id)).to be_falsey
+        expect(Teacher).not_to exist(@teacher.id)
       end
 
       it 'cannot destroy active' do
@@ -55,7 +57,7 @@ describe TeachersController do
         expect do
           delete :destroy, params: { id: @teacher.id }
         end.to raise_error(CanCan::AccessDenied)
-        expect(Teacher.exists?(@teacher.id)).to be_truthy
+        expect(Teacher).to exist(@teacher.id)
       end
     end
   end

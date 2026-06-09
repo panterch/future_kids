@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class RemindersController < ApplicationController
   load_and_authorize_resource
   include CrudActions
@@ -33,7 +35,7 @@ class RemindersController < ApplicationController
     respond_to do |format|
       format.js
       format.html do
-        redirect_back fallback_location: reminders_url, notice: "Erinnerung wird zugestellt an #{@reminder.recipient}"
+        redirect_back_or_to(reminders_url, notice: "Erinnerung wird zugestellt an #{@reminder.recipient}")
       end
     end
   end
@@ -44,10 +46,10 @@ class RemindersController < ApplicationController
   # reminders for a certain week and mentor twice. acknowledged reminders
   # are not displayed anymore
   def destroy
-    @reminder.update_attribute(:acknowledged_at, Time.now)
+    @reminder.update_attribute(:acknowledged_at, Time.zone.now)
     respond_to do |format|
       format.js
-      format.html { redirect_back fallback_location: reminders_url }
+      format.html { redirect_back_or_to(reminders_url) }
     end
   end
 

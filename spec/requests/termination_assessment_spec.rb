@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'requests/acceptance_helper'
 
 feature 'TEACHER::CREATE:TERMINATION_ASSESSMENT', '

@@ -1,12 +1,14 @@
+# frozen_string_literal: true
+
 wb.add_worksheet(name: 'Beziehungen') do |sheet|
   sheet.add_row [
-    Kid.human_attribute_name(:id) + ' ' + Kid.model_name.human,
-    Kid.human_attribute_name(:name) + ' ' + Kid.model_name.human,
+    "#{Kid.human_attribute_name(:id)} #{Kid.model_name.human}",
+    "#{Kid.human_attribute_name(:name)} #{Kid.model_name.human}",
     'Einstieg',
     Kid.human_attribute_name(:exit_kind),
     Kid.human_attribute_name(:exit_at),
-    Mentor.human_attribute_name(:id) + ' ' + Mentor.model_name.human,
-    Mentor.human_attribute_name(:name) + ' ' + Mentor.model_name.human,
+    "#{Mentor.human_attribute_name(:id)} #{Mentor.model_name.human}",
+    "#{Mentor.human_attribute_name(:name)} #{Mentor.model_name.human}",
     Mentor.human_attribute_name(:email),
     Mentor.human_attribute_name(:exit_kind),
     Mentor.human_attribute_name(:exit_at),

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 namespace :active_storage do
   desc 'ActiveStorage actions'
   task move_paperclip_files: :environment do
@@ -5,7 +7,7 @@ namespace :active_storage do
       name = attachment.name
       filename = attachment.blob.filename
 
-      source = "#{Rails.root.join("public/system/#{ActiveSupport::Inflector.pluralize(name)}/#{attachment.record_id}/original/#{filename}")}"
+      source = Rails.root.join("public/system/#{ActiveSupport::Inflector.pluralize(name)}/#{attachment.record_id}/original/#{filename}").to_s
       dest_dir = File.join(
         'storage',
         attachment.blob.key.first(2),

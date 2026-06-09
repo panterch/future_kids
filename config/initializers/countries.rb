@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 ISO3166::Data.register(
   alpha2: 'XK',
   iso_short_name: 'Kosovo',

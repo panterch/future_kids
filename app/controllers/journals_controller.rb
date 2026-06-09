@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class JournalsController < ApplicationController
   # this filter has to run before cancan resource loading
   before_action :preset_mentor, only: %i[create update]
@@ -10,14 +12,16 @@ class JournalsController < ApplicationController
   before_action :prepare_mentor_selection, except: %i[index show], if: :admin?
   before_action :preset_start_time, only: :new
 
-  def index # not supported action
+  # not supported action
+  def index
     redirect_to kid_url(@kid)
   end
 
   # when a users re-loads the url after and unsuccesul edit, the url
   # points to show. show does not exist in our applications context, but
   # we want to avoid error messages sent to those users
-  def show # not supported action
+  # not supported action
+  def show
     redirect_to edit_kid_journal_url(@journal.kid, @journal)
   end
 

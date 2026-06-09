@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe Teacher do
@@ -30,12 +32,12 @@ describe Teacher do
     it 'delivers journals email when journals available' do
       create(:journal, kid: kid)
       create(:journal, kid: secondary_kid)
-      Teacher.conditionally_send_journals
+      described_class.conditionally_send_journals
       expect(ActionMailer::Base.deliveries.size).to eq(1)
     end
 
     it 'does not deliver journals when no available' do
-      Teacher.conditionally_send_journals
+      described_class.conditionally_send_journals
       expect(ActionMailer::Base.deliveries).to be_empty
     end
 
@@ -43,7 +45,7 @@ describe Teacher do
       create(:journal, kid: kid)
       teacher.update(receive_journals: false)
       create(:journal)
-      Teacher.conditionally_send_journals
+      described_class.conditionally_send_journals
       expect(ActionMailer::Base.deliveries).to be_empty
     end
   end

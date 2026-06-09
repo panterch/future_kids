@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Schedule < ApplicationRecord
   belongs_to :person, polymorphic: true
 
@@ -9,8 +11,6 @@ class Schedule < ApplicationRecord
                                      greater_than_or_equal_to: 0, less_than_or_equal_to: 59 }
 
   validates :person_id, uniqueness: { scope: %i[person_type day hour minute] }
-
-  validates :person, presence: true
 
   MIN_HOUR = 13
   MAX_HOUR = 18
@@ -46,23 +46,23 @@ class Schedule < ApplicationRecord
   def human_hour
     return nil if hour.nil?
 
-    '%02d' % hour
+    format('%02d', hour)
   end
 
   def human_minute
     return nil if minute.nil?
 
-    '%02d' % minute
+    format('%02d', minute)
   end
 
-  def is_last_meeting?
-    return false if LAST_MEETING_HOUR != hour
+  def last_meeting?
+    return false if hour != LAST_MEETING_HOUR
 
-    LAST_MEETING_MIN == minute
+    minute == LAST_MEETING_MIN
   end
 
   # shows when last schedules entry was edited for relation
   def self.schedules_updated_at(relation)
-    relation.schedules.order('updated_at DESC').first&.updated_at
+    relation.schedules.order(updated_at: :desc).first&.updated_at
   end
 end

@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Comment < ApplicationRecord
   after_create :send_notification
   after_update :send_notification
@@ -5,8 +7,8 @@ class Comment < ApplicationRecord
   belongs_to :journal
   belongs_to :created_by, class_name: 'User'
 
-  default_scope { order('id') }
-  validates :body, :by, :journal, presence: true
+  default_scope { order(:id) }
+  validates :body, :by, presence: true
 
   def initialize_default_values(current_user)
     self.created_by = current_user

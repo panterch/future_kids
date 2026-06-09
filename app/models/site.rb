@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 class Site < ApplicationRecord
   has_one_attached :logo
   validates :logo, content_type: %i[jpg png gif], size: { less_than: 3.megabytes }

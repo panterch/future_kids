@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 require 'spec_helper'
 
 describe JournalsController do
@@ -53,12 +55,6 @@ describe JournalsController do
       expect(response).to render_template(:new)
     end
 
-    it 'renders new' do
-      get :new, params: { kid_id: kid.id }
-      expect(response).to be_successful
-      expect(response).to render_template(:new)
-    end
-
     it 'renders edit' do
       get :edit, params: { kid_id: kid.id, id: journal.id }
       expect(response).to be_successful
@@ -89,7 +85,7 @@ describe JournalsController do
       expect(response).to be_redirect
       expect(Journal.count).to eq(0)
     end
-  end # end of 'as an admin'
+  end
 
   context 'as a mentor' do
     before do
@@ -145,7 +141,7 @@ describe JournalsController do
       post :create, params: attrs
       expect(assigns(:journal).kid).to eq(kid)
     end
-  end # end of as a mentor
+  end
 
   # valid attributes to create a journal
   # this uses strings for time and date fields, since this is what we

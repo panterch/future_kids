@@ -1,13 +1,17 @@
+# frozen_string_literal: true
+
 class FirstYearAssessmentsController < ApplicationController
   load_and_authorize_resource :kid
   load_and_authorize_resource :first_year_assessment, through: :kid
   include CrudActions
 
-  def index # not supported action
+  # not supported action
+  def index
     redirect_to kid_url(@kid)
   end
 
-  def show # not supported action
+  # not supported action
+  def show
     redirect_to edit_kid_first_year_assessment_url(@first_year_assessment.kid, @first_year_assessment)
   end
 

@@ -18,6 +18,26 @@ AllCops:
 Rails:
   Enabled: true
 
+# Rewrites params.require.permit to params.expect (Rails 8 style), but breaks when
+# controllers pre-set params keys before the permit call — params.expect calls require
+# internally and raises ActionController::ParameterMissing on an empty hash.
+Rails/StrongParametersExpect:
+  Enabled: false
+
+# Would rename `class Notifications` to `class NotificationsMailer`. The mailer is
+# referenced as Notifications.* throughout the app; renaming requires updating all callers.
+Rails/MailerName:
+  Enabled: false
+
+# Paired with MailerName: would change `< ActionMailer::Base` to `< ApplicationMailer`.
+Rails/ApplicationMailer:
+  Enabled: false
+
+# Converts .each to .find_each on collections, but also incorrectly rewrites Capybara
+# result sets (e.g. page.all(...).each) which are arrays, not ActiveRecord relations.
+Rails/FindEach:
+  Enabled: false
+
 RSpec:
   Enabled: true
 
