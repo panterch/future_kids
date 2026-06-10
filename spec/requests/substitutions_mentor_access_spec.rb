@@ -12,7 +12,7 @@ feature 'MENTOR::SHOW:SUBSTITUTION', '
   end
 
   background do
-    expect(User.first.valid_password?(mentor.password)).to be(true)
+    expect(mentor.valid_password?(mentor.password)).to be(true)
     log_in(mentor)
   end
 

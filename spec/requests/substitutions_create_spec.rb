@@ -15,7 +15,7 @@ feature 'ADMIN::CREATE:SUBSTITUTION', '
   let!(:kid) { create(:kid, mentor: mentor_frederik) }
 
   background do
-    expect(User.first.valid_password?(admin.password)).to be(true)
+    expect(admin.valid_password?(admin.password)).to be(true)
     log_in(admin)
   end
 

@@ -20,7 +20,7 @@ feature 'ADMIN::UPDATE:SUBSTITUTION', '
   end
 
   background do
-    expect(User.first.valid_password?(admin.password)).to be(true)
+    expect(admin.valid_password?(admin.password)).to be(true)
     log_in(admin)
   end
 

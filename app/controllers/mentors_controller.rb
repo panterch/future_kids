@@ -19,7 +19,7 @@ class MentorsController < ApplicationController
       @mentors = @mentors.joins(:kids).where(kids: { meeting_day: filter[:filter_by_meeting_day].to_i }).distinct
     end
     if filter[:filter_by_school_id].present?
-      @mentors = @mentors.joins(:schools).where(kids: { school_id: filter[:filter_by_school_id].to_i }).distinct
+      @mentors = @mentors.joins(:kids).where(kids: { school_id: filter[:filter_by_school_id].to_i }).distinct
     end
 
     # generic query building
