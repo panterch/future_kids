@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-Future Kids is a Rails 7 application that manages a mentoring program connecting university students (mentors) with primary school children who need academic support. The application tracks mentor-kid relationships, schedules, journal entries, assessments, and communications.
+Future Kids is a Rails 8 application that manages a mentoring program connecting university students (mentors) with primary school children who need academic support. The application tracks mentor-kid relationships, schedules, journal entries, assessments, and communications.
 
 ## Key Commands
 
