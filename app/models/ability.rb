@@ -3,14 +3,13 @@
 class Ability
   include CanCan::Ability
 
-  # the order of the four steps is significant: cancancan gives later rules
-  # precedence, the role rules rely on being revoked by the global destroy
-  # protection, and the mentor journal rules rely on overriding it
+  # rules are purely additive: each role method grants exactly the actions it
+  # is meant to have, so no rule depends on being revoked later. grant
+  # :manage only in admin_abilities - everywhere else list the actions
+  # explicitly, otherwise destroy would be granted unintentionally
   def initialize(user)
     role_abilities(user)
     common_abilities(user)
-    destroy_restrictions(user)
-    mentor_journal_overrides(user) if user.is_a?(Mentor)
   end
 
   private
@@ -26,6 +25,25 @@ class Ability
 
   def admin_abilities(_user)
     can :manage, :all
+
+    # destruction of records is generally not allowed and must be granted
+    # per model below - new models are not destroyable by default. cancancan
+    # gives later rules precedence, so keep these revocations adjacent to
+    # the :manage grant above
+    cannot :destroy, :all
+    can :destroy, Reminder
+    can :destroy, Document
+    can :destroy, Journal
+    can :destroy, KidMentorRelation
+    can :destroy, Review
+    can :destroy, FirstYearAssessment
+    can :destroy, TerminationAssessment
+    can :destroy, Teacher, inactive: true
+    can :destroy, Kid, inactive: true
+
+    # reminders are only created by a batch job, but the destruction is
+    # customized in the controller to allow setting the acknowledged_at date
+    cannot :create, Reminder
   end
 
   def mentor_abilities(user)
@@ -48,15 +66,20 @@ class Ability
     can :read, Journal, kid: { mentor_id: user.id }
     can :read, Journal, kid: { secondary_mentor_id: user.id, secondary_active: true }
 
-    # manage - since it is possible for mentors to even destroy journals, the
-    # management is defined in mentor_journal_overrides, after the global
-    # destroy rules
+    # to change a journal there have to be more criterias fulfilled: the
+    # mentor himself must be set on the journal entry and must be associated
+    # with the kid. these are the only rules besides the admin ones that
+    # grant destroy
+    can %i[create read update destroy], Journal, mentor_id: user.id, kid: { mentor_id: user.id }
+    can %i[create read update destroy], Journal,
+        mentor_id: user.id, kid: { secondary_mentor_id: user.id, secondary_active: true }
 
     # reviews can be edited by mentors who are associated with the kids
     # about whom the entry is
-    can :manage, Review, kid: { mentor_id: user.id }
-    can :manage, FirstYearAssessment, kid: { mentor_id: user.id }
-    can :manage, FirstYearAssessment, kid: { secondary_mentor_id: user.id, secondary_active: true }
+    can %i[create read update], Review, kid: { mentor_id: user.id }
+    can %i[create read update], FirstYearAssessment, kid: { mentor_id: user.id }
+    can %i[create read update], FirstYearAssessment,
+        kid: { secondary_mentor_id: user.id, secondary_active: true }
     # has read access to teachers he is connected
     can :read, Teacher, kids: { mentor_id: user.id }
     can :read, Teacher, secondary_kids: { mentor_id: user.id }
@@ -65,7 +88,8 @@ class Ability
   end
 
   def teacher_abilities(user)
-    can :manage, Teacher, id: user.id
+    # own record may be read and updated
+    can %i[read update], Teacher, id: user.id
     can :create, Kid
     can %i[read update], Kid, teacher_id: user.id, inactive: false
     can %i[read update], Kid, secondary_teacher_id: user.id, inactive: false
@@ -81,15 +105,15 @@ class Ability
     can :read, Journal, kid: { teacher_id: user.id }
     can :read, Journal, kid: { secondary_teacher_id: user.id }
     can :read, Journal, kid: { third_teacher_id: user.id }
-    can :manage, TerminationAssessment, kid: { teacher_id: user.id }
-    can :manage, TerminationAssessment, kid: { secondary_teacher_id: user.id }
-    can :manage, TerminationAssessment, kid: { third_teacher_id: user.id }
+    can %i[create read update], TerminationAssessment, kid: { teacher_id: user.id }
+    can %i[create read update], TerminationAssessment, kid: { secondary_teacher_id: user.id }
+    can %i[create read update], TerminationAssessment, kid: { third_teacher_id: user.id }
     # reviews can only be read for certain instances depending on sitewide config
     return unless Site.load.teachers_can_access_reviews?
 
-    can :manage, Review, kid: { teacher_id: user.id }
-    can :manage, Review, kid: { secondary_teacher_id: user.id }
-    can :manage, Review, kid: { third_teacher_id: user.id }
+    can %i[create read update], Review, kid: { teacher_id: user.id }
+    can %i[create read update], Review, kid: { secondary_teacher_id: user.id }
+    can %i[create read update], Review, kid: { third_teacher_id: user.id }
   end
 
   def principal_abilities(user)
@@ -115,35 +139,5 @@ class Ability
     else
       can :read, Document, admin_only: false
     end
-  end
-
-  def destroy_restrictions(user)
-    # destruction of records is generally not allowed
-    cannot :destroy, :all
-
-    # reminders are only created by a batch job, but the destruction is
-    # customized in the controller to allow setting the acknowledged_at date
-    cannot :create, Reminder
-    return unless user.is_a?(Admin)
-
-    can :destroy, Reminder
-    can :destroy, Document
-    can :destroy, Journal
-    can :destroy, KidMentorRelation
-    can :destroy, Review
-    can :destroy, FirstYearAssessment
-    can :destroy, TerminationAssessment
-    can :destroy, Teacher, inactive: true
-    can :destroy, Kid, inactive: true
-  end
-
-  # special manage definition for mentors - OVERWRITING even the global
-  # destroy protection
-  def mentor_journal_overrides(user)
-    # to change a journal there have to be more criterias fulfilled: the mentor
-    # himself must be set on the journal entry and must be associated with
-    # the kid
-    can :manage, Journal, mentor_id: user.id, kid: { mentor_id: user.id }
-    can :manage, Journal, mentor_id: user.id, kid: { secondary_mentor_id: user.id, secondary_active: true }
   end
 end
