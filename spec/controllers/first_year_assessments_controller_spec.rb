@@ -55,6 +55,11 @@ describe FirstYearAssessmentsController do
       post :create, params: valid_attributes
       expect(assigns(:first_year_assessment)).not_to be_new_record
     end
+
+    it 'denies creation once the secondary assignment is deactivated' do
+      @kid.update!(secondary_active: false)
+      expect { post :create, params: valid_attributes }.to raise_error(CanCan::AccessDenied)
+    end
   end
 
   context 'as a foreign mentor' do

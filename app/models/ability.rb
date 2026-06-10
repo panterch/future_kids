@@ -58,7 +58,8 @@ class Ability
     # about whom the entry is
     can :manage, Review, kid: { mentor_id: user.id }
     can :manage, FirstYearAssessment, kid: { mentor_id: user.id }
-    can :manage, FirstYearAssessment, kid: { secondary_mentor_id: user.id }
+    can :manage, FirstYearAssessment, kid: { secondary_mentor_id: user.id,
+                                             secondary_active: true }
     # has read access to teachers he is connected
     can :read, Teacher, kids: { mentor_id: user.id }
     can :read, Teacher, secondary_kids: { mentor_id: user.id }

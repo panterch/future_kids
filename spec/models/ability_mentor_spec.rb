@@ -254,11 +254,9 @@ describe Ability do
         expect(ability).to be_able_to(:update, build(:first_year_assessment, kid: secondary_kid))
       end
 
-      # unlike the kid read rule, the rule via secondary mentor does not
-      # require secondary_active - this pins the current behavior
-      it 'can update first year assessments even when not active as secondary mentor' do
+      it 'cannot update first year assessments when not active as secondary mentor' do
         inactive_secondary_kid = create(:kid, secondary_mentor: mentor, secondary_active: false)
-        expect(ability).to be_able_to(:update, build(:first_year_assessment, kid: inactive_secondary_kid))
+        expect(ability).not_to be_able_to(:update, build(:first_year_assessment, kid: inactive_secondary_kid))
       end
 
       it 'cannot update first year assessments of kids he is not associated' do
