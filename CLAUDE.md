@@ -20,6 +20,12 @@ Future Kids is a Rails 8 application that manages a mentoring program connecting
 - `bundle exec rspec spec/models/` - Run model tests only
 - `bundle exec rubocop` - Run Ruby linter/formatter
 
+IMPORTANT: There is no linting in CI. After making any code changes, always run
+`bundle exec rubocop` and fix new offenses before considering the work done.
+The codebase is offense-free; keep it that way. Do not silence offenses by
+adding cops to `.rubocop.yml`, `.rubocop_todo.yml`, or inline disables unless
+the offense is a documented false positive or a deliberate, commented decision.
+
 ### Asset Management
 - Assets are compiled using Sprockets with SCSS and CoffeeScript
 - JavaScript components use React (via react-rails gem)
