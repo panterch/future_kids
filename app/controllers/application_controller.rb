@@ -33,7 +33,7 @@ class ApplicationController < ActionController::Base
 
     # Clear the session and redirect back to login with a helpful message
     reset_session
-    flash[:alert] = 'Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.'
+    flash[:alert] = t('flash.session_expired')
     redirect_to new_user_session_path
   end
 
@@ -70,7 +70,7 @@ class ApplicationController < ActionController::Base
     return true unless current_user.inactive?
 
     sign_out current_user
-    redirect_to root_url, alert: 'Benutzer*in inaktiv'
+    redirect_to root_url, alert: t('flash.user_inactive')
   end
 
   # some parameters should only be set by admins.

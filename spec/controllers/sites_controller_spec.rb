@@ -13,7 +13,8 @@ describe SitesController do
     it 'renders xlsx' do
       get :show, format: 'xlsx'
       expect(response).to be_successful
-      expect(response.headers['Content-Disposition']).to match(/filename="futurekids-\d{4}-\d{2}-\d{2}-\d{2}-\d{2}\.xlsx"/)
+      expect(response.headers['Content-Disposition'])
+        .to match(/filename="futurekids-\d{4}-\d{2}-\d{2}-\d{2}-\d{2}\.xlsx"/)
     end
   end
 end

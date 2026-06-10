@@ -34,7 +34,8 @@ module ApplicationHelper
   end
 
   def term_collection
-    (@site.term_collection_start..@site.term_collection_end)
+    site = Site.load
+    (site.term_collection_start..site.term_collection_end)
       .reduce([]) { |ar, year| ar << "#{year} Frühling" << "#{year} Herbst" }
   end
 
@@ -189,18 +190,6 @@ module ApplicationHelper
   # determines style class of scheduler cells
   def schedule_class(schedule)
     schedule.last_meeting? ? 'info' : ''
-  end
-
-  def schedule_tags(schedule)
-    return [] unless @mentor_schedules
-
-    tags = []
-    @mentor_schedules.each do |tag, schedules|
-      next unless schedules.include?(schedule)
-
-      tags << tag
-    end
-    tags
   end
 
   def nav_link(model_name_or_link_text, link_path = nil)

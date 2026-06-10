@@ -10,7 +10,8 @@ class DocumentsController < ApplicationController
   end
 
   def show
-    @document.increment!(:download_count)
+    # atomic counter update - validations are not relevant for download counting
+    @document.increment!(:download_count) # rubocop:disable Rails/SkipsModelValidations
     redirect_to rails_blob_path(@document.attachment.blob, only_path: true), allow_other_host: false
   end
 

@@ -20,13 +20,9 @@ describe Admin do
   end
 
   context 'association with kids and mentors' do
-    it 'has many kids' do
-      is_expected.to have_many(:coachings)
-    end
+    it { is_expected.to have_many(:coachings) }
 
-    it 'has many mentors through kids' do
-      is_expected.to have_many(:mentors).through(:coachings)
-    end
+    it { is_expected.to have_many(:mentors).through(:coachings) }
 
     it 'returns one\'s mentors' do
       @admin   = create(:admin)

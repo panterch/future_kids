@@ -55,7 +55,7 @@ class JournalsController < ApplicationController
     @mentors = [@journal.kid.mentor, @journal.kid.secondary_mentor].compact
     return unless @mentors.empty?
 
-    redirect_to kid_url(@journal.kid), alert: 'Bitte vorher einen Mentor zuordnen.'
+    redirect_to kid_url(@journal.kid), alert: t('flash.assign_mentor_first')
   end
 
   private

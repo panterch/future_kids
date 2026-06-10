@@ -60,6 +60,6 @@ class NotificationsMailer < ApplicationMailer
   # NotificationsMailer.test('futurekids@example.com').deliver_later
   def test(to = ENV.fetch('TEST_EMAIL_TO', nil))
     Rails.logger.info "Sending test email from #{NotificationsMailer.default_email} to #{to}"
-    mail subject: 'future kids test mail', to: to
+    mail to: to
   end
 end

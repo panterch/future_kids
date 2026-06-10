@@ -265,16 +265,10 @@ describe Kid do
   end
 
   context 'association with admin, mentor and school' do
-    it 'has admin' do
-      is_expected.to belong_to(:admin).optional
-    end
+    it { is_expected.to belong_to(:admin).optional }
 
-    it 'has mentor' do
-      is_expected.to belong_to(:mentor).optional
-    end
+    it { is_expected.to belong_to(:mentor).optional }
 
-    it 'has school' do
-      is_expected.to belong_to(:school).optional
-    end
+    it { is_expected.to belong_to(:school).optional }
   end
 end

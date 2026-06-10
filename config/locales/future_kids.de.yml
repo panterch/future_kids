@@ -1,4 +1,9 @@
 de:
+  flash:
+    session_expired: 'Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.'
+    user_inactive: 'Benutzer*in inaktiv'
+    assign_mentor_first: 'Bitte vorher einen Mentor zuordnen.'
+
   activerecord:
     models:
       admin: "Administrator*in"
@@ -301,6 +306,8 @@ de:
   notifications_mailer:
     remind:
       subject: Future Kids Erinnerung
+    test:
+      subject: future kids test mail
     reminders_created:
       subject: Neue Erinnerungen
     comment_created:

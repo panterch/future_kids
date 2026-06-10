@@ -68,14 +68,14 @@ describe Ability do
     it 'cannot read secondary mentor of assigned kid when secondary not active' do
       mentor = create(:mentor)
       mentor.secondary_kids << kid
-      kid.update_attribute(:secondary_active, false)
+      kid.update!(secondary_active: false)
       expect(@ability).not_to be_able_to(:read, mentor)
     end
 
     it 'can read secondary mentor of assigned kid when secondary active' do
       mentor = create(:mentor)
       mentor.secondary_kids << kid
-      kid.update_attribute(:secondary_active, true)
+      kid.update!(secondary_active: true)
       expect(@ability).to be_able_to(:read, mentor)
     end
 

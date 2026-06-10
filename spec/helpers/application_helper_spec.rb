@@ -38,7 +38,7 @@ describe ApplicationHelper do
 
   describe 'term collection' do
     it 'renders terms' do
-      @site = Site.new(term_collection_start: 2011, term_collection_end: 2015)
+      Site.load.update!(term_collection_start: 2011, term_collection_end: 2015)
       expect(term_collection.first).to eq('2011 Frühling')
       expect(term_collection.last).to eq('2015 Herbst')
     end

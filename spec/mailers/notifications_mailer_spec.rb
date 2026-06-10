@@ -49,7 +49,7 @@ describe NotificationsMailer do
 
   describe 'comment created with site wide bcc feature' do
     before do
-      Site.load.update_attribute(:comment_bcc, 'bcc@example.com')
+      Site.load.update!(comment_bcc: 'bcc@example.com')
       @comment = create(:comment)
       @mail = described_class.comment_created(@comment)
     end

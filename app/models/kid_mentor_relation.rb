@@ -15,18 +15,26 @@ class KidMentorRelation < ApplicationRecord
 
   default_scope { includes(:kid, :mentor, :admin) }
 
+  # bulk reset without callbacks or validations - the columns are simply
+  # nulled for all records
+  # rubocop:disable Rails/SkipsModelValidations
   def self.reset_all
     Kid.unscoped.active.update_all(exit_kind: nil, exit_at: nil)
     Mentor.unscoped.active.update_all(exit_kind: nil, exit_at: nil)
   end
+  # rubocop:enable Rails/SkipsModelValidations
 
   # inactivates mentor and kid at once - see #inactivatable
   # for precondition
+  # update_attribute is used on purpose: inactivation must also work for
+  # legacy records that do not pass current validations
+  # rubocop:disable Rails/SkipsModelValidations
   def self.inactivate(kid_id)
     kid = Kid.find(kid_id)
     kid.mentor.update_attribute(:inactive, true)
     kid.update_attribute(:inactive, true)
   end
+  # rubocop:enable Rails/SkipsModelValidations
 
   # checks elements of relation for candidates of inactivation
   def inactivatable?
