@@ -34,7 +34,7 @@ class Teacher < User
       end
       logger.info "[#{teacher.id}] #{teacher.display_name}: sending #{journals.size} journals"
       # since this is run async from cron delivery can run instantly
-      Notifications.journals_created(teacher, journals).deliver_now
+      NotificationsMailer.journals_created(teacher, journals).deliver_now
     end
   end
 

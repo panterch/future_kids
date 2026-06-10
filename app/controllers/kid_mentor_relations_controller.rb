@@ -41,8 +41,8 @@ class KidMentorRelationsController < ApplicationController
   def filter_params
     return {} if params[:kid_mentor_relation].blank?
 
-    params.require(:kid_mentor_relation).permit(
-      :kid_exit_kind, :mentor_exit_kind, :mentor_ects, :admin_id, :school_id, :simple_term
+    params.expect(
+      kid_mentor_relation: %i[kid_exit_kind mentor_exit_kind mentor_ects admin_id school_id simple_term]
     )
   end
 end

@@ -12,12 +12,13 @@ class TeachersController < ApplicationController
   def index
     # a prototyped teacher is submitted with each index query. if the prototype
     # is not present, it is built here with default values
-    params[:teacher] ||= {}
-    params[:teacher][:inactive] = '0' if params[:teacher][:inactive].nil?
+    filter = teacher_params
+    # the inactive filter is only permitted for admins (see teacher_params)
+    filter = filter.with_defaults(inactive: '0') if current_user.is_a?(Admin)
 
-    @teachers = @teachers.where(teacher_params.to_h.compact_blank!)
+    @teachers = @teachers.where(filter.to_h.compact_blank!)
 
-    @teacher = Teacher.new(teacher_params)
+    @teacher = Teacher.new(filter)
 
     # when only one record is present, show it immediatelly. this is not for
     # admins, since they could have no chance to alter their filter settings in

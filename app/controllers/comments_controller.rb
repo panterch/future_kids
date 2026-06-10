@@ -10,7 +10,7 @@ class CommentsController < ApplicationController
   end
 
   def edit
-    @comment = @journal.comments.find(params[:id])
+    @comment = @journal.comments.find(params.expect(:id))
     authorize! :update, @comment
   end
 
@@ -26,7 +26,7 @@ class CommentsController < ApplicationController
   end
 
   def update
-    @comment = @journal.comments.find(params[:id])
+    @comment = @journal.comments.find(params.expect(:id))
     authorize! :update, @comment
     if @comment.update(comment_params)
       redirect_to kid_url(id: @journal.kid_id, anchor: "journal_#{@journal.id}")
@@ -38,20 +38,18 @@ class CommentsController < ApplicationController
   private
 
   def prepare_journal
-    @journal = Journal.find(params[:journal_id])
+    @journal = Journal.find(params.expect(:journal_id))
     # all users that can read a journal, may comment on it. there are no other
     # special security constraints on comments.
     authorize! :read, @journal
   end
 
   def comment_params
-    if params[:comment].present?
-      params.require(:comment).permit(
-        # don't add created_by here - it is set by the controller directly for security reasons
-        :by, :body, :to_teacher, :to_secondary_teacher, :to_third_teacher
-      )
-    else
-      {}
-    end
+    return {} if params[:comment].blank?
+
+    params.expect(
+      # don't add created_by here - it is set by the controller directly for security reasons
+      comment: %i[by body to_teacher to_secondary_teacher to_third_teacher]
+    )
   end
 end

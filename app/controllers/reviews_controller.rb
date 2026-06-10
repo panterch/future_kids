@@ -39,8 +39,8 @@ class ReviewsController < ApplicationController
   private
 
   def review_params
-    params.require(:review).permit(
-      :held_at, :attendee, :reason, :kind, :content, :outcome, :note
+    params.expect(
+      review: %i[held_at attendee reason kind content outcome note]
     )
   end
 end

@@ -1,3 +1,5 @@
+inherit_from: .rubocop_todo.yml
+
 plugins:
   - rubocop-rails
   - rubocop-rspec
@@ -18,28 +20,58 @@ AllCops:
 Rails:
   Enabled: true
 
-# Rewrites params.require.permit to params.expect (Rails 8 style), but breaks when
-# controllers pre-set params keys before the permit call — params.expect calls require
-# internally and raises ActionController::ParameterMissing on an empty hash.
-Rails/StrongParametersExpect:
+# the listed actions are defined in the CrudActions concern or inherited from
+# Devise; the cop cannot see actions that are not lexically defined in the class
+Rails/LexicallyScopedActionFilter:
   Enabled: false
 
-# Would rename `class Notifications` to `class NotificationsMailer`. The mailer is
-# referenced as Notifications.* throughout the app; renaming requires updating all callers.
-Rails/MailerName:
+# goal_1 .. goal_35 are actual database columns on kids and the assessments;
+# symbols referencing them cannot use normalcase
+Naming/VariableNumber:
+  AllowedPatterns:
+    - '\Agoal_\d+\z'
+
+# documentation comments on every class are not part of this codebase's style
+Style/Documentation:
   Enabled: false
 
-# Paired with MailerName: would change `< ActionMailer::Base` to `< ApplicationMailer`.
-Rails/ApplicationMailer:
-  Enabled: false
-
-# Converts .each to .find_each on collections, but also incorrectly rewrites Capybara
-# result sets (e.g. page.all(...).each) which are arrays, not ActiveRecord relations.
-Rails/FindEach:
+# the presence validations on belongs_to associations are not redundant here:
+# simple_form ignores the conditional validator that belongs_to generates, so
+# removing the explicit validation drops the required marker (*) from the forms
+Rails/RedundantPresenceValidationOnBelongsTo:
   Enabled: false
 
 RSpec:
   Enabled: true
+
+# the spec suite consistently uses before blocks with instance variables
+# instead of let; rewriting ~600 occurrences is not worth the churn
+RSpec/InstanceVariable:
+  Enabled: false
+
+# acceptance scenarios deliberately walk through a flow and assert several
+# things along the way; one-expectation-per-example does not fit this suite
+RSpec/MultipleExpectations:
+  Enabled: false
+
+RSpec/ExampleLength:
+  Enabled: false
+
+# context descriptions are written in free-form (often German) prose
+RSpec/ContextWording:
+  Enabled: false
+
+RSpec/MultipleMemoizedHelpers:
+  Enabled: false
+
+RSpec/NestedGroups:
+  Enabled: false
+
+# the mentor fixtures are rendered by the React component under test and
+# referenced via super() in nested let overrides, which the cop cannot see
+RSpec/LetSetup:
+  Exclude:
+    - 'spec/requests/show_kid_mentors_schedules_spec.rb'
 
 FactoryBot:
   Enabled: true

@@ -24,9 +24,9 @@ class SchoolsController < ApplicationController
   private
 
   def school_params
-    params.require(:school).permit(
-      :name, :school_kind, :principal_id, :street, :city, :phone, :homepage, :social,
-      :district, :note, :term
+    params.expect(
+      school: %i[name school_kind principal_id street city phone homepage social
+                 district note term]
     )
   end
 end

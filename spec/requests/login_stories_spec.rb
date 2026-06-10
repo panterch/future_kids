@@ -30,7 +30,7 @@ feature 'SESSION::LOGIN', '
   end
 
   scenario 'should not login inactive users' do
-    @mentor.update_attribute(:inactive, true)
+    @mentor.update!(inactive: true)
     visit new_user_session_path
     fill_in 'user_email',    with: @mentor.email
     fill_in 'user_password', with: @pw

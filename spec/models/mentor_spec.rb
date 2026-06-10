@@ -175,21 +175,13 @@ describe Mentor do
       @kid5    = create(:kid, mentor: @mentor1, admin: @admin2, meeting_day: '2', school: @school2)
     end
 
-    it 'has many kids' do
-      is_expected.to have_many(:kids)
-    end
+    it { is_expected.to have_many(:kids) }
 
-    it 'has many admins through kids' do
-      is_expected.to have_many(:admins).through(:kids)
-    end
+    it { is_expected.to have_many(:admins).through(:kids) }
 
-    it 'has many schools through kids' do
-      is_expected.to have_many(:schools).through(:kids)
-    end
+    it { is_expected.to have_many(:schools).through(:kids) }
 
-    it 'has his own school' do
-      is_expected.to belong_to(:school).optional
-    end
+    it { is_expected.to belong_to(:school).optional }
 
     it 'filters mentors by admins' do
       expect(@mentor1.kids.size).to eq(3)

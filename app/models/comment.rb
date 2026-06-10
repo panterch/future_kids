@@ -61,8 +61,7 @@ class Comment < ApplicationRecord
     # guard against the edge case where no receiver at all for the email
     # is left at all
     if to.empty?
-      fallback_email = Site.load.comment_bcc
-      fallback_email ||= Notifications.default_email
+      fallback_email = Site.load.comment_bcc.presence || NotificationsMailer.default_email
       to << fallback_email
     end
 
@@ -74,6 +73,6 @@ class Comment < ApplicationRecord
   protected
 
   def send_notification
-    Notifications.comment_created(self).deliver_later
+    NotificationsMailer.comment_created(self).deliver_later
   end
 end

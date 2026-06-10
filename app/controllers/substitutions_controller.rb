@@ -5,13 +5,12 @@ class SubstitutionsController < ApplicationController
   include CrudActions
 
   def index
-    params[:substitution] ||= {}
-    params[:substitution][:inactive] = '0' if params[:substitution][:inactive].nil?
+    filter = substitution_params.with_defaults(inactive: '0')
 
-    @substitutions = @substitutions.where(substitution_params.to_h.compact_blank!)
+    @substitutions = @substitutions.where(filter.to_h.compact_blank!)
 
     # provide a prototype for the filter form
-    @substitution = Substitution.new(substitution_params)
+    @substitution = Substitution.new(filter)
     respond_with @substitutions
   end
 
@@ -46,8 +45,10 @@ class SubstitutionsController < ApplicationController
   protected
 
   def substitution_params
-    params.require(:substitution).permit(
-      :start_at, :end_at, :mentor_id, :kid_id, :secondary_mentor_id, :comments, :inactive
+    return {} if params[:substitution].blank?
+
+    params.expect(
+      substitution: %i[start_at end_at mentor_id kid_id secondary_mentor_id comments inactive]
     )
   end
 end

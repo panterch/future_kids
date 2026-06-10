@@ -1,9 +1,6 @@
 # frozen_string_literal: true
 
 class JournalsController < ApplicationController
-  # this filter has to run before cancan resource loading
-  before_action :preset_mentor, only: %i[create update]
-
   load_and_authorize_resource :kid
   load_and_authorize_resource :journal, through: :kid
   include CrudActions
@@ -48,17 +45,8 @@ class JournalsController < ApplicationController
 
   protected
 
-  # before giving cancan the control over the resource loading we influence
-  # the created / built resource by adding some parameters to the params
-  # hash
   def preset_start_time
     @journal.start_at = @kid.meeting_start_at if @kid.meeting_start_at.present?
-  end
-
-  def preset_mentor
-    # for mentors we overwrite the mentor_id paramenter to assure that they
-    # do not create entries for other mentors
-    params[:journal][:mentor_id] = current_user.id if current_user.is_a?(Mentor)
   end
 
   # for admins a dropdown to select a mentor is displayed, its data is
@@ -67,19 +55,21 @@ class JournalsController < ApplicationController
     @mentors = [@journal.kid.mentor, @journal.kid.secondary_mentor].compact
     return unless @mentors.empty?
 
-    redirect_to kid_url(@journal.kid), alert: 'Bitte vorher einen Mentor zuordnen.'
+    redirect_to kid_url(@journal.kid), alert: t('flash.assign_mentor_first')
   end
 
   private
 
   def journal_params
-    if params[:journal].present?
-      params.require(:journal).permit(
-        :mentor_id, :held_at, :meeting_type, :cancelled, :important, :start_at, :end_at, :goal, :subject,
-        :method, :outcome, :note
-      )
-    else
-      {}
-    end
+    return {} if params[:journal].blank?
+
+    permitted = params.expect(
+      journal: %i[mentor_id held_at meeting_type cancelled important start_at end_at goal subject
+                  method outcome note]
+    )
+    # for mentors we overwrite the mentor_id parameter to assure that they
+    # do not create entries for other mentors
+    permitted[:mentor_id] = current_user.id if current_user.is_a?(Mentor)
+    permitted
   end
 end

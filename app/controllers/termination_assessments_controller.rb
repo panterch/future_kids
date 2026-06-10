@@ -45,12 +45,12 @@ class TerminationAssessmentsController < ApplicationController
   private
 
   def termination_assessment_params
-    params.require(:termination_assessment).permit(
-      :held_at, :teacher_id,
-      :development,
-      :goals, :goals_reached, :collaboration,
-      :improvements,
-      :note
+    params.expect(
+      termination_assessment: %i[held_at teacher_id
+                                 development
+                                 goals goals_reached collaboration
+                                 improvements
+                                 note]
     )
   end
 end

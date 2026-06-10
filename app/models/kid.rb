@@ -155,7 +155,7 @@ class Kid < ApplicationRecord
   def release_relations
     # Use update_columns to bypass callbacks and directly update the database
     # This prevents infinite loops since we're in an after_save callback
-    update_columns(
+    update_columns( # rubocop:disable Rails/SkipsModelValidations
       mentor_id: nil,
       secondary_mentor_id: nil,
       teacher_id: nil,

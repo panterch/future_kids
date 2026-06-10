@@ -16,13 +16,9 @@ describe School do
       expect(Kid.find(kid.id).school).to eq(school)
     end
 
-    it 'has many kids' do
-      is_expected.to have_many(:kids)
-    end
+    it { is_expected.to have_many(:kids) }
 
-    it 'has many mentors through kids' do
-      is_expected.to have_many(:mentors).through(:kids)
-    end
+    it { is_expected.to have_many(:mentors).through(:kids) }
 
     it 'returns one\'s mentors' do
       @school  = create(:school)

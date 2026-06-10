@@ -7,12 +7,11 @@ class AdminsController < ApplicationController
   def index
     # a prototyped admin is submitted with each index query. if the prototype
     # is not present, it is built here with default values
-    params[:admin] ||= {}
-    params[:admin][:inactive] = '0' if params[:admin][:inactive].nil?
-    @admins = @admins.where(admin_params.to_h.compact_blank!)
+    filter = admin_params.with_defaults(inactive: '0')
+    @admins = @admins.where(filter.to_h.compact_blank!)
 
     # provide a prototype admin for the filter form
-    @admin = Admin.new(admin_params)
+    @admin = Admin.new(filter)
 
     respond_with @admins
   end
@@ -20,9 +19,11 @@ class AdminsController < ApplicationController
   private
 
   def admin_params
-    params.require(:admin).permit(
-      :name, :prename, :email, :phone, :password, :password_confirmation,
-      :address, :city, :note, :inactive
+    return {} if params[:admin].blank?
+
+    params.expect(
+      admin: %i[name prename email phone password password_confirmation
+                address city note inactive]
     )
   end
 end

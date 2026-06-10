@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-class Notifications < ActionMailer::Base
+class NotificationsMailer < ApplicationMailer
   def self.default_email
     email = Site.first_or_create.try(:notifications_default_email)
-    email = I18n.t('notifications.default_email') if email.blank?
+    email = I18n.t('notifications_mailer.default_email') if email.blank?
     email
   end
 
-  default from: Notifications.default_email
+  default from: NotificationsMailer.default_email
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
   #
-  #   en.notifications.reminder.subject
+  #   en.notifications_mailer.remind.subject
   #
   def remind(reminder)
     @reminder = reminder
@@ -21,7 +21,7 @@ class Notifications < ActionMailer::Base
 
   def reminders_created(count)
     @count = count
-    mail to: Notifications.default_email
+    mail to: NotificationsMailer.default_email
   end
 
   def comment_created(comment)
@@ -40,26 +40,26 @@ class Notifications < ActionMailer::Base
   def important_journal_created(journal)
     @journal = journal
     recipients = []
-    recipients << Notifications.default_email
+    recipients << NotificationsMailer.default_email
     recipients << @journal.kid.admin&.email if @journal.kid.admin
-    mail subject: I18n.t('notifications.important_subject'),
+    mail subject: I18n.t('notifications_mailer.important_subject'),
          to: recipients
   end
 
   def first_year_assessment_created(assessment)
     @assessment = assessment
-    mail to: Notifications.default_email
+    mail to: NotificationsMailer.default_email
   end
 
   def termination_assessment_created(assessment)
     @assessment = assessment
-    mail to: Notifications.default_email
+    mail to: NotificationsMailer.default_email
   end
 
   # sends out a simple test email
-  # Notifications.test('futurekids@example.com').deliver_later
+  # NotificationsMailer.test('futurekids@example.com').deliver_later
   def test(to = ENV.fetch('TEST_EMAIL_TO', nil))
-    Rails.logger.info "Sending test email from #{Notifications.default_email} to #{to}"
-    mail subject: 'future kids test mail', to: to
+    Rails.logger.info "Sending test email from #{NotificationsMailer.default_email} to #{to}"
+    mail to: to
   end
 end

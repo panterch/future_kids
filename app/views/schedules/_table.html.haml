@@ -26,8 +26,6 @@
               :name => "#{param_name}[hour]"}
             %input{:type => :hidden, :value => schedule.minute,
               :name => "#{param_name}[minute]"}
-            - schedule_tags(schedule).each do |tag|
-              %p= tag
 
 
   %p(style='margin-top: 15px')
