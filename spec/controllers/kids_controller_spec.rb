@@ -110,6 +110,15 @@ describe KidsController do
       sign_in @teacher
     end
 
+    context 'update' do
+      it 'does not allow moving an assigned kid to a foreign school' do
+        kid = create(:kid, teacher: @teacher, school: @school)
+        expect do
+          put :update, params: { id: kid.id, kid: { school_id: create(:school).id } }
+        end.to raise_error(SecurityError)
+      end
+    end
+
     context 'create' do
       it 'assigns itself as teacher' do
         post :create, params: { kid: attributes_for(:kid, school_id: @school.id) }
@@ -181,6 +190,37 @@ describe KidsController do
       expect do
         post :create, params: { kid: attributes_for(:kid, school_id: 'non-existant') }
       end.to raise_error SecurityError
+    end
+
+    context 'index' do
+      it 'lists only kids of own schools' do
+        own_kid = create(:kid, school: @school)
+        create(:kid, school: create(:school))
+        get :index
+        expect(assigns(:kids)).to eq([own_kid])
+      end
+    end
+
+    context 'update' do
+      it 'updates kids of own schools' do
+        kid = create(:kid, school: @school)
+        put :update, params: { id: kid.id, kid: { name: 'Changed' } }
+        expect(kid.reload.name).to eq('Changed')
+      end
+
+      it 'denies updating kids of foreign schools' do
+        kid = create(:kid, school: create(:school))
+        expect do
+          put :update, params: { id: kid.id, kid: { name: 'Changed' } }
+        end.to raise_error(CanCan::AccessDenied)
+      end
+
+      it 'does not allow moving a kid to a foreign school' do
+        kid = create(:kid, school: @school)
+        expect do
+          put :update, params: { id: kid.id, kid: { school_id: create(:school).id } }
+        end.to raise_error(SecurityError)
+      end
     end
   end
 end

@@ -122,12 +122,24 @@ describe Ability do
         expect(ability).to be_able_to(:read, journal)
       end
 
-      it 'cannot destroy journals of he is directly associated' do
+      # the journal manage rules deliberately override the global destroy
+      # protection for journals the mentor wrote about his own kids
+      it 'can destroy journals he is directly associated' do
         expect(ability).to be_able_to(:destroy, journal)
       end
 
       it 'can update journals of he is directly associated' do
         expect(ability).to be_able_to(:update, journal)
+      end
+
+      it 'cannot update journals of his kids written by other mentors' do
+        other_journal = create(:journal, kid: kid, mentor: other_mentor)
+        expect(ability).not_to be_able_to(:update, other_journal)
+      end
+
+      it 'cannot destroy journals of his kids written by other mentors' do
+        other_journal = create(:journal, kid: kid, mentor: other_mentor)
+        expect(ability).not_to be_able_to(:destroy, other_journal)
       end
     end
 
@@ -182,6 +194,14 @@ describe Ability do
     end
 
     context 'comments' do
+      it 'can create comments with himself as creator' do
+        expect(ability).to be_able_to(:create, build(:comment, journal: journal, created_by: mentor))
+      end
+
+      it 'cannot create comments with a foreign creator' do
+        expect(ability).not_to be_able_to(:create, build(:comment, journal: journal, created_by: admin))
+      end
+
       it 'can update own journal comments' do
         expect(ability).to be_able_to(:update, comment)
       end
@@ -215,6 +235,37 @@ describe Ability do
       end
     end
 
+    context 'first year assessment' do
+      it 'can create first year assessments for kids he is set as mentor' do
+        expect(ability).to be_able_to(:create, build(:first_year_assessment, kid: kid))
+      end
+
+      it 'can update first year assessments for kids he is set as mentor' do
+        expect(ability).to be_able_to(:update, build(:first_year_assessment, kid: kid))
+      end
+
+      # the first year assessment rules are defined before the global destroy
+      # protection, so destroy stays revoked
+      it 'cannot destroy first year assessments for kids he is set as mentor' do
+        expect(ability).not_to be_able_to(:destroy, build(:first_year_assessment, kid: kid))
+      end
+
+      it 'can update first year assessments for kids he is set as secondary mentor' do
+        expect(ability).to be_able_to(:update, build(:first_year_assessment, kid: secondary_kid))
+      end
+
+      # unlike the kid read rule, the rule via secondary mentor does not
+      # require secondary_active - this pins the current behavior
+      it 'can update first year assessments even when not active as secondary mentor' do
+        inactive_secondary_kid = create(:kid, secondary_mentor: mentor, secondary_active: false)
+        expect(ability).to be_able_to(:update, build(:first_year_assessment, kid: inactive_secondary_kid))
+      end
+
+      it 'cannot update first year assessments of kids he is not associated' do
+        expect(ability).not_to be_able_to(:update, build(:first_year_assessment, kid: foreign_kid))
+      end
+    end
+
     context 'teacher' do
       it 'cannot read foreign teachers' do
         expect(ability).not_to be_able_to(:read, create(:teacher))
@@ -240,6 +291,30 @@ describe Ability do
       it 'does retrieve teachers that can be read' do
         teacher = create(:teacher, kids: [kid])
         expect(Teacher.accessible_by(ability, :read)).to eq([teacher])
+      end
+    end
+
+    context 'documents' do
+      it 'can read public documents' do
+        expect(ability).to be_able_to(:read, build(:document, admin_only: false))
+      end
+
+      it 'cannot read admin only documents' do
+        expect(ability).not_to be_able_to(:read, build(:document, admin_only: true))
+      end
+
+      it 'cannot destroy documents' do
+        expect(ability).not_to be_able_to(:destroy, build(:document, admin_only: false))
+      end
+    end
+
+    context 'reminders' do
+      it 'cannot create reminders' do
+        expect(ability).not_to be_able_to(:create, Reminder)
+      end
+
+      it 'cannot destroy reminders' do
+        expect(ability).not_to be_able_to(:destroy, create(:reminder))
       end
     end
 
