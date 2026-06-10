@@ -30,8 +30,7 @@ class Ability
 
   def mentor_abilities(user)
     # own record may be read
-    can %i[read update edit_schedules update_schedules],
-        Mentor, id: user.id
+    can %i[read update edit_schedules update_schedules], Mentor, id: user.id
     # mentor can read records of admins associated indirectly via kid
     can :read, Admin, coachings: { mentor_id: user.id }
     can :read, Admin, coachings: { secondary_mentor_id: user.id }
@@ -47,8 +46,7 @@ class Ability
     # indirectly (via the kid) associated
     can :read, Journal, mentor_id: user.id
     can :read, Journal, kid: { mentor_id: user.id }
-    can :read, Journal, kid: { secondary_mentor_id: user.id,
-                               secondary_active: true }
+    can :read, Journal, kid: { secondary_mentor_id: user.id, secondary_active: true }
 
     # manage - since it is possible for mentors to even destroy journals, the
     # management is defined in mentor_journal_overrides, after the global
@@ -58,15 +56,12 @@ class Ability
     # about whom the entry is
     can :manage, Review, kid: { mentor_id: user.id }
     can :manage, FirstYearAssessment, kid: { mentor_id: user.id }
-    can :manage, FirstYearAssessment, kid: { secondary_mentor_id: user.id,
-                                             secondary_active: true }
+    can :manage, FirstYearAssessment, kid: { secondary_mentor_id: user.id, secondary_active: true }
     # has read access to teachers he is connected
     can :read, Teacher, kids: { mentor_id: user.id }
     can :read, Teacher, secondary_kids: { mentor_id: user.id }
-    can :read, Teacher, kids: { secondary_mentor_id: user.id,
-                                secondary_active: true }
-    can :read, Teacher, secondary_kids: { secondary_mentor_id: user.id,
-                                          secondary_active: true }
+    can :read, Teacher, kids: { secondary_mentor_id: user.id, secondary_active: true }
+    can :read, Teacher, secondary_kids: { secondary_mentor_id: user.id, secondary_active: true }
   end
 
   def teacher_abilities(user)
@@ -78,12 +73,9 @@ class Ability
     can :read, Mentor, kids: { teacher_id: user.id }
     can :read, Mentor, kids: { secondary_teacher_id: user.id }
     can :read, Mentor, kids: { third_teacher_id: user.id }
-    can :read, Mentor, secondary_kids: { teacher_id: user.id,
-                                         secondary_active: true }
-    can :read, Mentor, secondary_kids: { secondary_teacher_id: user.id,
-                                         secondary_active: true }
-    can :read, Mentor, secondary_kids: { third_teacher_id: user.id,
-                                         secondary_active: true }
+    can :read, Mentor, secondary_kids: { teacher_id: user.id, secondary_active: true }
+    can :read, Mentor, secondary_kids: { secondary_teacher_id: user.id, secondary_active: true }
+    can :read, Mentor, secondary_kids: { third_teacher_id: user.id, secondary_active: true }
 
     # journals can be read indirect via kids
     can :read, Journal, kid: { teacher_id: user.id }
@@ -151,10 +143,7 @@ class Ability
     # to change a journal there have to be more criterias fulfilled: the mentor
     # himself must be set on the journal entry and must be associated with
     # the kid
-    can :manage, Journal, mentor_id: user.id,
-                          kid: { mentor_id: user.id }
-    can :manage, Journal, mentor_id: user.id,
-                          kid: { secondary_mentor_id: user.id,
-                                 secondary_active: true }
+    can :manage, Journal, mentor_id: user.id, kid: { mentor_id: user.id }
+    can :manage, Journal, mentor_id: user.id, kid: { secondary_mentor_id: user.id, secondary_active: true }
   end
 end

@@ -40,12 +40,11 @@ Metrics/BlockLength:
     - 'config/routes.rb'
     - 'lib/tasks/active_storage.rake'
 
-# Offense count: 3
+# Offense count: 2
 # Configuration parameters: CountComments, Max, CountAsOne.
 Metrics/ClassLength:
   Exclude:
     - 'app/controllers/kids_controller.rb'
-    - 'app/models/ability.rb'
     - 'app/models/kid.rb'
 
 # Offense count: 4
