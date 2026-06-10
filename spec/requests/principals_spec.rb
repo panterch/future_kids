@@ -37,7 +37,8 @@ feature 'Principals as Admin' do
 
     click_on 'Bearbeiten'
 
-    page.all(:css, '#principal_school_ids option').each(&:select_option)
+    select 'extra-school-one', from: 'principal_school_ids'
+    select 'extra-school-two', from: 'principal_school_ids'
 
     click_button 'SL/QUIMS-Verantwortliche*r aktualisieren'
 

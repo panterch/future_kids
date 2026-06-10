@@ -14,7 +14,7 @@ class Reminder < ApplicationRecord
 
   # sends the reminder to the appropriate recipient
   def deliver_mail
-    mail = Notifications.remind(self)
+    mail = NotificationsMailer.remind(self)
     mail.deliver_later
     update!(sent_at: Time.zone.now)
   end
@@ -65,7 +65,7 @@ class Reminder < ApplicationRecord
     # send out admin notification when reminders were created
     if reminders_created_count.positive?
       # since this is run async from cron delivery can run instantly
-      Notifications.reminders_created(reminders_created_count).deliver_now
+      NotificationsMailer.reminders_created(reminders_created_count).deliver_now
     end
 
     logger.info(

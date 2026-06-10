@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-describe Notifications do
+describe NotificationsMailer do
   describe 'remind' do
     before do
       @reminder = create(:reminder)
@@ -77,8 +77,8 @@ describe Notifications do
     end
 
     it 'renders the headers' do
-      expect(@mail1.subject).to eq(I18n.t('notifications.important_subject'))
-      expect(@mail2.subject).to eq(I18n.t('notifications.important_subject'))
+      expect(@mail1.subject).to eq(I18n.t('notifications_mailer.important_subject'))
+      expect(@mail2.subject).to eq(I18n.t('notifications_mailer.important_subject'))
       expect(@mail1.to).to eq(['futurekids-tech@panter.ch', @admin.email])
       expect(@mail2.to).to eq(['futurekids-tech@panter.ch'])
       expect(@mail1.from).to eq(['futurekids-tech@panter.ch'])

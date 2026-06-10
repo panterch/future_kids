@@ -5,24 +5,21 @@ class RemindersController < ApplicationController
   include CrudActions
 
   def index
-    params[:reminder] ||= {}
     @reminders = @reminders.active
 
-    last_selected_school = params[:reminder][:filter_by_school_id]
-    if last_selected_school.present?
+    filter = reminder_params
+
+    if filter[:filter_by_school_id].present?
       @reminders = @reminders.joins(kid: [:school])
-                             .where({ kids: { school_id: last_selected_school.to_i } })
+                             .where({ kids: { school_id: filter[:filter_by_school_id].to_i } })
     end
-    params[:reminder][:filter_by_school_id] = last_selected_school
 
-    last_selected_ects = params[:reminder][:filter_by_ects]
-    if last_selected_ects.present?
+    if filter[:filter_by_ects].present?
       @reminders = @reminders.joins(:mentor)
-                             .where({ mentor: { ects: last_selected_ects } })
+                             .where({ mentor: { ects: filter[:filter_by_ects] } })
     end
-    params[:reminder][:filter_by_ects] = last_selected_ects
 
-    @reminder = Reminder.new(reminder_params)
+    @reminder = Reminder.new(filter)
     respond_with @reminders
   end
 
@@ -56,10 +53,8 @@ class RemindersController < ApplicationController
   private
 
   def reminder_params
-    if params[:reminder].present?
-      params.require(:reminder).permit(:filter_by_school_id, :filter_by_ects)
-    else
-      {}
-    end
+    return {} if params[:reminder].blank?
+
+    params.expect(reminder: %i[filter_by_school_id filter_by_ects])
   end
 end

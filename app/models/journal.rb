@@ -69,6 +69,6 @@ class Journal < ApplicationRecord
   end
 
   def send_notification
-    Notifications.important_journal_created(self).deliver_later
+    NotificationsMailer.important_journal_created(self).deliver_later
   end
 end

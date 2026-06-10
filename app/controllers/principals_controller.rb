@@ -7,12 +7,13 @@ class PrincipalsController < ApplicationController
   def index
     # a prototyped principal is submitted with each index query. if the
     # prototype is not present, it is built here with default values
-    params[:principal] ||= {}
-    params[:principal][:inactive] = '0' if params[:principal][:inactive].nil?
-    @principals = @principals.where(principal_params.to_h.compact_blank!)
+    filter = principal_params
+    # the inactive filter is only permitted for admins (see principal_params)
+    filter = filter.with_defaults(inactive: '0') if current_user.is_a?(Admin)
+    @principals = @principals.where(filter.to_h.compact_blank!)
 
     # provide a prototype principal for the filter form
-    @principal = Principal.new(principal_params)
+    @principal = Principal.new(filter)
 
     respond_with @principals
   end
@@ -20,15 +21,13 @@ class PrincipalsController < ApplicationController
   private
 
   def principal_params
-    if params[:principal].present?
-      keys = %i[name prename email password password_confirmation phone]
-      if current_user.is_a?(Admin)
-        keys << { school_ids: [] }
-        keys << :inactive
-      end
-      params.require(:principal).permit(keys)
-    else
-      {}
+    return {} if params[:principal].blank?
+
+    keys = %i[name prename email password password_confirmation phone]
+    if current_user.is_a?(Admin)
+      keys << { school_ids: [] }
+      keys << :inactive
     end
+    params.require(:principal).permit(keys)
   end
 end

@@ -298,7 +298,7 @@ de:
         medium: "Mittel"
         low: "Tief"
 
-  notifications:
+  notifications_mailer:
     remind:
       subject: Future Kids Erinnerung
     reminders_created:

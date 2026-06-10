@@ -8,35 +8,27 @@ class MentorsController < ApplicationController
   def index
     # a prototyped mentor is submitted with each index query. if the prototype
     # is not present, it is built here with default values
-    params[:mentor] ||= {}
-    params[:mentor][:inactive] = '0' if params[:mentor][:inactive].nil?
+    filter = mentor_params.with_defaults(inactive: '0')
 
-    # mentors are filtered by the criteria above
-    last_selected_coach = params[:mentor][:filter_by_coach_id]
-    last_selected_meeting_day = params[:mentor][:filter_by_meeting_day]
-    last_selected_school = params[:mentor][:filter_by_school_id]
-    if params[:mentor][:filter_by_coach_id].present?
-      @mentors = @mentors.joins(:admins).where(kids: { admin_id: params[:mentor][:filter_by_coach_id].to_i }).distinct
-      params[:mentor][:filter_by_coach_id] = nil
+    # mentors are filtered by the custom criteria below; these are virtual
+    # attributes and may not appear in the generic where condition
+    if filter[:filter_by_coach_id].present?
+      @mentors = @mentors.joins(:admins).where(kids: { admin_id: filter[:filter_by_coach_id].to_i }).distinct
     end
-    if params[:mentor][:filter_by_meeting_day].present?
-      @mentors = @mentors.joins(:kids).where(kids: { meeting_day: params[:mentor][:filter_by_meeting_day].to_i }).distinct
-      params[:mentor][:filter_by_meeting_day] = nil
+    if filter[:filter_by_meeting_day].present?
+      @mentors = @mentors.joins(:kids).where(kids: { meeting_day: filter[:filter_by_meeting_day].to_i }).distinct
     end
-    if params[:mentor][:filter_by_school_id].present?
-      @mentors = @mentors.joins(:schools).where(kids: { school_id: params[:mentor][:filter_by_school_id].to_i }).distinct
-      params[:mentor][:filter_by_school_id] = nil
+    if filter[:filter_by_school_id].present?
+      @mentors = @mentors.joins(:schools).where(kids: { school_id: filter[:filter_by_school_id].to_i }).distinct
     end
 
     # generic query building
-    @mentors = @mentors.where(mentor_params.to_h.compact_blank!)
+    @mentors = @mentors.where(
+      filter.except(:filter_by_coach_id, :filter_by_meeting_day, :filter_by_school_id).to_h.compact_blank!
+    )
 
-    # add backuped custom parameters again for filter consistency
-    params[:mentor][:filter_by_coach_id] = last_selected_coach
-    params[:mentor][:filter_by_meeting_day] = last_selected_meeting_day
-    params[:mentor][:filter_by_school_id] = last_selected_school
     # provide a prototype for the filter form
-    @mentor = Mentor.new(mentor_params)
+    @mentor = Mentor.new(filter)
 
     if current_user.is_a?(Admin) && params[:format] == 'xlsx'
       render xlsx: 'index', filename: "mentors-#{Time.current.strftime('%Y-%m-%d-%H-%M')}.xlsx"
@@ -69,16 +61,17 @@ class MentorsController < ApplicationController
   private
 
   def mentor_params
-    if params[:mentor].present?
-      p = [:name, :prename, :email, :password, :password_confirmation, :address, :sex,
-           :city, :dob, :phone, :school_id, :field_of_study, :education, :transport,
-           :personnel_number, :ects, :term, :absence, :note, :todo, :substitute,
-           :filter_by_school_id, :filter_by_meeting_day, :filter_by_coach_id,
-           :exit, :exit_kind, :exit_at,
-           :inactive, :photo, { schedules_attributes: %i[day hour minute] }]
-      params.require(:mentor).permit(*p)
-    else
-      {}
-    end
+    return {} if params[:mentor].blank?
+
+    # schedules_attributes are submitted as an array of hashes, which expect
+    # requires to be declared with the double array syntax
+    params.expect(
+      mentor: [:name, :prename, :email, :password, :password_confirmation, :address, :sex,
+               :city, :dob, :phone, :school_id, :field_of_study, :education, :transport,
+               :personnel_number, :ects, :term, :absence, :note, :todo, :substitute,
+               :filter_by_school_id, :filter_by_meeting_day, :filter_by_coach_id,
+               :exit, :exit_kind, :exit_at,
+               :inactive, :photo, { schedules_attributes: [%i[day hour minute]] }]
+    )
   end
 end

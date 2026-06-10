@@ -23,14 +23,13 @@ class KidsController < ApplicationController
       # a prototyped kid is submitted with each index query. if the prototype
       # is not present, it is built here with default values
       # build a where condition out of all parameters supplied for kid
-      params[:kid] ||= {}
-      params[:kid][:inactive] = '0' if params[:kid][:inactive].nil?
-      @kids = @kids.where(kid_params.to_h.delete_if { |key, val| Kid.column_names.exclude?(key.to_s) || val.blank? })
+      filter = kid_params.with_defaults(inactive: '0')
+      @kids = @kids.where(filter.to_h.delete_if { |key, val| Kid.column_names.exclude?(key.to_s) || val.blank? })
       # reorder the kids according to the supplied parameter
 
       @kids = @kids.reorder(params['order_by']) if params['order_by'] && valid_order_by?(Kid, params['order_by'])
       # provide a prototype for the filter form
-      @kid = Kid.new(kid_params)
+      @kid = Kid.new(filter)
     end
 
     if current_user.is_a?(Admin) && params[:format] == 'xlsx'
@@ -135,8 +134,12 @@ class KidsController < ApplicationController
   private
 
   def kid_params
-    if params[:kid].present?
-      params.require(:kid).permit(
+    return {} if params[:kid].blank?
+
+    # schedules_attributes are submitted as an array of hashes, which expect
+    # requires to be declared with the double array syntax
+    params.expect(
+      kid: [
         :name, :prename, :sex, :dob, :grade, :language, :parent_country, :parent, :address,
         :city, :phone, :translator, :note, :school_id,
         :goal_1, :goal_2, :goal_3, :goal_4, :goal_5, :goal_6, :goal_7, :goal_8, :goal_9, :goal_10,
@@ -149,11 +152,9 @@ class KidsController < ApplicationController
         :exit, :exit_reason, :exit_kind, :exit_at, :checked_at,
         :coached_at, :abnormality,
         :abnormality_criticality, :todo, :inactive,
-        schedules_attributes: %i[day hour minute]
-      )
-    else
-      {}
-    end
+        { schedules_attributes: [%i[day hour minute]] }
+      ]
+    )
   end
 
   # In the react-component, we need the schedules as some kind of "nested-set"
@@ -176,7 +177,7 @@ class KidsController < ApplicationController
   def prepare_substitution
     return if params[:substitution_id].blank?
 
-    @substitution = Substitution.find(params[:substitution_id])
+    @substitution = Substitution.find(params.expect(:substitution_id))
   end
 
   def load_and_constrain_schools
