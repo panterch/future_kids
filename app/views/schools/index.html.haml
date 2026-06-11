@@ -6,6 +6,12 @@
     .form-group
       %label= School.human_attribute_name(:district)
       = f.select :district, school_district_collection, { include_blank: true }, class: 'form-control'
+    - if current_user.is_a?(Admin)
+      .checkbox
+        %label
+          = f.check_box :inactive
+          %p
+            %b Inaktive
     .form-group
       = f.submit 'Suchen', class: 'btn btn-xs btn-success'
       = link_to 'Filter aufheben', schools_path, class: 'btn btn-xs'
@@ -23,8 +29,11 @@
       %th SL/QUIMS
   %tbody
     - @schools.each do |school|
-      %tr
-        %td= link_to school.name, school_path(school)
+      %tr{class: ('text-muted' if school.inactive?)}
+        %td
+          = link_to school.name, school_path(school)
+          - if school.inactive?
+            %span.label.label-default Inaktiv
         %td{style: 'white-space: nowrap'}= school.human_school_kind
         %td= "#{@active_kids_counts[school.id].to_i} / #{school.teachers.count { |t| !t.inactive }}"
         %td= school.principals.select { |p| !p.inactive }.map(&:display_name).join(', ')

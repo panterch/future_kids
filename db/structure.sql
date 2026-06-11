@@ -1,6 +1,7 @@
 SET statement_timeout = 0;
 SET lock_timeout = 0;
 SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
 SET client_encoding = 'UTF8';
 SET standard_conforming_strings = on;
 SELECT pg_catalog.set_config('search_path', '', false);
@@ -760,7 +761,9 @@ CREATE TABLE public.schools (
     district character varying,
     term character varying,
     note text,
-    school_kind public.school_kind
+    school_kind public.school_kind,
+    inactive boolean DEFAULT false NOT NULL,
+    inactive_at timestamp(6) without time zone
 );
 
 
@@ -1385,6 +1388,13 @@ CREATE UNIQUE INDEX index_schedules_on_uniqueness ON public.schedules USING btre
 
 
 --
+-- Name: index_schools_on_inactive; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_schools_on_inactive ON public.schools USING btree (inactive);
+
+
+--
 -- Name: index_schools_on_school_kind; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1495,6 +1505,7 @@ ALTER TABLE ONLY public.mentor_matchings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260611133849'),
 ('20260408182213'),
 ('20250913213902'),
 ('20250209132950'),

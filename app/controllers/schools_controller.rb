@@ -4,8 +4,17 @@ class SchoolsController < ApplicationController
   load_and_authorize_resource
   include CrudActions
 
+  def inactivate
+    @school.inactive = true
+    if @school.save
+      redirect_to schools_path, notice: t('flash.school_inactivated')
+    else
+      redirect_to school_path(@school), alert: @school.errors.full_messages.to_sentence
+    end
+  end
+
   def index
-    filter = school_filter_params
+    filter = school_filter_params.with_defaults(inactive: '0')
     @schools = apply_school_filter(@schools, filter)
     @active_kids_counts = Kid.active.reorder(nil).where(school_id: @schools).group(:school_id).count
     @schools = @schools.includes(:teachers, { principal_school_relations: :principal })
@@ -41,7 +50,7 @@ class SchoolsController < ApplicationController
   def school_filter_params
     return {} if params[:school].blank?
 
-    params.expect(school: %i[school_kind district])
+    params.expect(school: %i[school_kind district inactive])
   end
 
   def school_params

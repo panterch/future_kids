@@ -30,7 +30,11 @@ Rails.application.routes.draw do
     delete :destroy_all, on: :collection
   end
   resources :schedules
-  resources :schools
+  resources :schools do
+    member do
+      put :inactivate
+    end
+  end
   resources :reminders
   resources :teachers
   resources :principals
