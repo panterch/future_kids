@@ -21,9 +21,9 @@ describe PrincipalsController do
       end
 
       it 'cant edit the other record' do
-        expect do
+        expect_access_denied do
           get :edit, params: { id: create(:principal).id }
-        end.to raise_error(CanCan::AccessDenied)
+        end
       end
     end
 

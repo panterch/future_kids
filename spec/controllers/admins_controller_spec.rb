@@ -50,9 +50,9 @@ describe AdminsController do
 
     context 'show' do
       it 'is not allowed to display random mentors' do
-        expect do
+        expect_access_denied do
           get :show, params: { id: @admin.id }
-        end.to raise_error CanCan::AccessDenied
+        end
       end
 
       it 'displays only basic information on coaches' do

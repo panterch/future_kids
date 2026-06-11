@@ -38,9 +38,9 @@ describe TerminationAssessmentsController do
 
     it 'is not able to destroy an entry' do
       assessment = create(:termination_assessment, kid: @kid)
-      expect do
+      expect_access_denied do
         delete :destroy, params: { kid_id: @kid.id, id: assessment.id }
-      end.to raise_error(CanCan::AccessDenied)
+      end
     end
   end
 
@@ -63,11 +63,11 @@ describe TerminationAssessmentsController do
     end
 
     it 'denies access to new' do
-      expect { get :new, params: { kid_id: @kid.id } }.to raise_error(CanCan::AccessDenied)
+      expect_access_denied { get :new, params: { kid_id: @kid.id } }
     end
 
     it 'denies creation' do
-      expect { post :create, params: valid_attributes }.to raise_error(CanCan::AccessDenied)
+      expect_access_denied { post :create, params: valid_attributes }
     end
   end
 
@@ -77,7 +77,7 @@ describe TerminationAssessmentsController do
     end
 
     it 'denies access to new' do
-      expect { get :new, params: { kid_id: @kid.id } }.to raise_error(CanCan::AccessDenied)
+      expect_access_denied { get :new, params: { kid_id: @kid.id } }
     end
   end
 

@@ -17,7 +17,9 @@ feature 'MENTOR::SHOW:SUBSTITUTION', '
   end
 
   scenario 'mentor should not be able to show substitution' do
-    expect { visit substitutions_path }.to raise_error(CanCan::AccessDenied)
+    visit substitutions_path
+    expect(page).to have_current_path(root_path)
+    expect(page).to have_text('Sie haben keinen Zugriff (mehr) auf diese Seite.')
   end
 
   scenario 'mentor should not be able to see substitution-header-link' do

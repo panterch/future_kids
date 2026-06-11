@@ -23,9 +23,9 @@ describe DocumentsController do
 
     it 'cannot show admin-only documents' do
       document = Document.find_by(title: 'ax1')
-      expect do
+      expect_access_denied do
         get :show, params: { id: document.id }
-      end.to raise_error(CanCan::AccessDenied)
+      end
     end
 
     it 'can browse non-admin documents' do
@@ -36,9 +36,9 @@ describe DocumentsController do
     end
 
     it 'cannot destroy a document' do
-      expect do
+      expect_access_denied do
         delete :destroy, params: { id: Document.first.id }
-      end.to raise_error(CanCan::AccessDenied)
+      end
     end
   end
 

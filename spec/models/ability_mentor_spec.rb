@@ -67,12 +67,24 @@ describe Ability do
 
       it 'can read other mentor records if they work with the same kid' do
         other_mentor.secondary_kids << kid
+        kid.update!(secondary_active: true)
         expect(ability).to be_able_to(:read, other_mentor)
+      end
+
+      it 'cannot read other mentor records of the same kid when secondary not active' do
+        other_mentor.secondary_kids << kid
+        expect(ability).not_to be_able_to(:read, other_mentor)
       end
 
       it 'can read other mentor records if he is secondary mentor on the same kid' do
         other_mentor.kids << secondary_kid
         expect(ability).to be_able_to(:read, other_mentor)
+      end
+
+      it 'cannot read other mentor records as secondary mentor when secondary not active' do
+        other_mentor.kids << secondary_kid
+        secondary_kid.update!(secondary_active: false)
+        expect(ability).not_to be_able_to(:read, other_mentor)
       end
 
       it 'can edit its schedules' do

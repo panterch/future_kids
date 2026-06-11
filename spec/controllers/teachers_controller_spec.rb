@@ -54,9 +54,9 @@ describe TeachersController do
 
       it 'cannot destroy active' do
         @teacher = create(:teacher)
-        expect do
+        expect_access_denied do
           delete :destroy, params: { id: @teacher.id }
-        end.to raise_error(CanCan::AccessDenied)
+        end
         expect(Teacher).to exist(@teacher.id)
       end
     end

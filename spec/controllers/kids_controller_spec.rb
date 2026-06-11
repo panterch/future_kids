@@ -20,11 +20,11 @@ describe KidsController do
 
     context 'schedules' do
       it 'does not allow displaying the kids schedule' do
-        expect { get :edit_schedules, params: { id: @kid } }.to raise_error(CanCan::AccessDenied)
+        expect_access_denied { get :edit_schedules, params: { id: @kid } }
       end
 
       it 'does not allow updating the kids schedule' do
-        expect { post :update_schedules, params: { id: @kid } }.to raise_error(CanCan::AccessDenied)
+        expect_access_denied { post :update_schedules, params: { id: @kid } }
       end
     end
   end
@@ -95,9 +95,9 @@ describe KidsController do
       end
 
       it 'cannot destroy active' do
-        expect do
+        expect_access_denied do
           delete :destroy, params: { id: @kid.id }
-        end.to raise_error(CanCan::AccessDenied)
+        end
         expect(Kid).to exist(@kid.id)
       end
     end
@@ -210,9 +210,9 @@ describe KidsController do
 
       it 'denies updating kids of foreign schools' do
         kid = create(:kid, school: create(:school))
-        expect do
+        expect_access_denied do
           put :update, params: { id: kid.id, kid: { name: 'Changed' } }
-        end.to raise_error(CanCan::AccessDenied)
+        end
       end
 
       it 'does not allow moving a kid to a foreign school' do

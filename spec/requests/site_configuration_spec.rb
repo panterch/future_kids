@@ -14,7 +14,9 @@ feature 'Site' do
 
   scenario 'should not allow mentors to edit configuration' do
     log_in(create(:mentor))
-    expect { visit edit_site_url }.to raise_error(CanCan::AccessDenied)
+    visit edit_site_url
+    expect(page).to have_current_path(root_path)
+    expect(page).to have_text('Sie haben keinen Zugriff (mehr) auf diese Seite.')
   end
 
   scenario 'should show teachers reviews when site configuration allows it' do

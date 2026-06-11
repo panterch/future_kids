@@ -19,7 +19,7 @@ describe ReviewsController do
     end
 
     it 'denies access for foreign kids' do
-      expect { get :new, params: { kid_id: create(:kid).id } }.to raise_error(CanCan::AccessDenied)
+      expect_access_denied { get :new, params: { kid_id: create(:kid).id } }
     end
 
     it 'creates a new entry' do
@@ -30,7 +30,7 @@ describe ReviewsController do
     it 'is not able to create entries for other kids' do
       attrs = valid_attributes
       attrs[:kid_id] = create(:kid).id
-      expect { post :create, params: attrs }.to raise_error(CanCan::AccessDenied)
+      expect_access_denied { post :create, params: attrs }
     end
 
     # kid_id is submitted as url parameter - it should not be taintable
@@ -54,9 +54,9 @@ describe ReviewsController do
 
     it 'is not able to destroy an entry' do
       review = create(:review, kid: @kid)
-      expect do
+      expect_access_denied do
         delete :destroy, params: { kid_id: @kid.id, id: review.id }
-      end.to raise_error(CanCan::AccessDenied)
+      end
     end
   end
 
@@ -68,7 +68,7 @@ describe ReviewsController do
     end
 
     it 'denies access when the site config does not permit teacher reviews' do
-      expect { get :new, params: { kid_id: @kid.id } }.to raise_error(CanCan::AccessDenied)
+      expect_access_denied { get :new, params: { kid_id: @kid.id } }
     end
 
     context 'when the site config permits teacher reviews' do
@@ -88,9 +88,9 @@ describe ReviewsController do
 
       it 'is not able to destroy an entry' do
         review = create(:review, kid: @kid)
-        expect do
+        expect_access_denied do
           delete :destroy, params: { kid_id: @kid.id, id: review.id }
-        end.to raise_error(CanCan::AccessDenied)
+        end
       end
     end
   end

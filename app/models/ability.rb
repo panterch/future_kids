@@ -53,8 +53,8 @@ class Ability
     can :read, Admin, coachings: { mentor_id: user.id }
     can :read, Admin, coachings: { secondary_mentor_id: user.id }
     # mentor can read records of other mentors associated indirectly via kid
-    can :read, Mentor, kids: { secondary_mentor_id: user.id }
-    can :read, Mentor, secondary_kids: { mentor_id: user.id }
+    can :read, Mentor, kids: { secondary_mentor_id: user.id, secondary_active: true }
+    can :read, Mentor, secondary_kids: { mentor_id: user.id, secondary_active: true }
 
     # mentor may be associated via two fields to a kid
     can :read, Kid, mentor_id: user.id, inactive: false

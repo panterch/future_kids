@@ -9,6 +9,11 @@ class ApplicationController < ActionController::Base
   # Handle CSRF token validation failures gracefully
   rescue_from ActionController::InvalidAuthenticityToken, with: :handle_invalid_token
 
+  # stale links (e.g. a kid set inactive or a secondary assignment
+  # deactivated while a page was still open) should bounce gracefully
+  # instead of rendering an error page
+  rescue_from CanCan::AccessDenied, with: :handle_access_denied
+
   before_action :load_site_configuration
   before_action :logout_inactive
   before_action :authenticate_user!
@@ -35,6 +40,17 @@ class ApplicationController < ActionController::Base
     reset_session
     flash[:alert] = t('flash.session_expired')
     redirect_to new_user_session_path
+  end
+
+  def handle_access_denied(exception)
+    Rails.logger.warn(
+      'Access denied: ' \
+      "user=#{current_user&.id}, " \
+      "controller=#{controller_name}, " \
+      "action=#{action_name}, " \
+      "subject=#{exception.subject.class}"
+    )
+    redirect_to root_url, alert: t('flash.access_denied')
   end
 
   def detect_empty_session
