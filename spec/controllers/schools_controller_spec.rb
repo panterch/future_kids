@@ -67,6 +67,12 @@ describe SchoolsController do
       put :update, params: { id: @school.id, school: { inactive: '1' } }
       expect(@school.reload.inactive).to be(false)
     end
+
+    it 'blocks inactivation when active teachers are present' do
+      create(:teacher, school: @school)
+      put :update, params: { id: @school.id, school: { inactive: '1' } }
+      expect(@school.reload.inactive).to be(false)
+    end
   end
 
   context 'edit' do
