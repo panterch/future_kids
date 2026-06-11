@@ -279,8 +279,8 @@ de:
       models:
         school:
           attributes:
-            base:
-              has_active_dependents: 'hat noch aktive Kinder oder Lehrpersonen'
+            inactive:
+              has_active_dependents: 'kann nicht gesetzt werden: Schule hat noch aktive Kinder oder Lehrpersonen'
 
     enums:
       school_kinds:

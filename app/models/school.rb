@@ -54,6 +54,6 @@ class School < ApplicationRecord
     return unless inactive? && inactive_changed?
     return unless kids.active.any? || teachers.active.any?
 
-    errors.add(:base, :has_active_dependents)
+    errors.add(:inactive, :has_active_dependents)
   end
 end

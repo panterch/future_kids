@@ -71,14 +71,14 @@ describe School do
       create(:kid, school: school)
       school.inactive = true
       expect(school).not_to be_valid
-      expect(school.errors[:base]).to be_present
+      expect(school.errors[:inactive]).to be_present
     end
 
     it 'blocks inactivation when active teachers are present' do
       create(:teacher, school: school)
       school.inactive = true
       expect(school).not_to be_valid
-      expect(school.errors[:base]).to be_present
+      expect(school.errors[:inactive]).to be_present
     end
 
     it 'allows inactivation when no active dependents exist' do

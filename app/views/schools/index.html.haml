@@ -30,10 +30,7 @@
   %tbody
     - @schools.each do |school|
       %tr{class: ('text-muted' if school.inactive?)}
-        %td
-          = link_to school.name, school_path(school)
-          - if school.inactive?
-            %span.label.label-default Inaktiv
+        %td= link_to school.name, school_path(school)
         %td{style: 'white-space: nowrap'}= school.human_school_kind
         %td= "#{@active_kids_counts[school.id].to_i} / #{school.teachers.count { |t| !t.inactive }}"
         %td= school.principals.select { |p| !p.inactive }.map(&:display_name).join(', ')
