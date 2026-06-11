@@ -69,6 +69,16 @@ describe Ability do
       expect(@ability).not_to be_able_to(:update, kid)
     end
 
+    it 'cannot read secondary assigned kid that is inactive' do
+      secondary_kid.update!(inactive: true)
+      expect(@ability).not_to be_able_to(:read, secondary_kid)
+    end
+
+    it 'cannot read third assigned kid that is inactive' do
+      third_kid.update!(inactive: true)
+      expect(@ability).not_to be_able_to(:read, third_kid)
+    end
+
     it 'cannot read foreign kid' do
       expect(@ability).not_to be_able_to(:read, foreign_kid)
     end

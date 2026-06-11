@@ -35,11 +35,11 @@ describe Ability do
       expect(@ability).to be_able_to(:read, create(:kid, school: @school, inactive: true))
     end
 
-    it 'cannot edit own schools kids' do
+    it 'can edit own schools kids' do
       expect(@ability).to be_able_to(:edit, create(:kid, school: @school))
     end
 
-    it 'cannot update own schools kids' do
+    it 'can update own schools kids' do
       expect(@ability).to be_able_to(:update, create(:kid, school: @school))
     end
 
@@ -89,6 +89,38 @@ describe Ability do
 
     it 'cannot destroy its own record' do
       expect(@ability).not_to be_able_to(:destroy, @principal)
+    end
+
+    # principals have no access to journals, reviews, assessments or mentors,
+    # not even for kids of their own schools
+    context 'with a kid of his own school' do
+      before do
+        @kid = create(:kid, school: @school, mentor: create(:mentor))
+      end
+
+      it 'cannot read journals' do
+        expect(@ability).not_to be_able_to(:read, create(:journal, kid: @kid))
+      end
+
+      it 'cannot read reviews' do
+        expect(@ability).not_to be_able_to(:read, create(:review, kid: @kid))
+      end
+
+      it 'cannot read first year assessments' do
+        expect(@ability).not_to be_able_to(:read, create(:first_year_assessment, kid: @kid))
+      end
+
+      it 'cannot read termination assessments' do
+        expect(@ability).not_to be_able_to(:read, build(:termination_assessment, kid: @kid))
+      end
+
+      it 'cannot read the kids mentor' do
+        expect(@ability).not_to be_able_to(:read, @kid.mentor)
+      end
+    end
+
+    it 'cannot read admin only documents' do
+      expect(@ability).not_to be_able_to(:read, build(:document, admin_only: true))
     end
 
     context 'with multiple schools' do
