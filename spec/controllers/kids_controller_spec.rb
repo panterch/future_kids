@@ -82,13 +82,13 @@ describe KidsController do
       it 'returns JSON with top-level keys mentors, kid, schools' do
         get :show_kid_mentors_schedules, params: { id: @kid }, format: :json
         expect(response).to be_successful
-        body = JSON.parse(response.body)
+        body = response.parsed_body
         expect(body.keys).to contain_exactly('mentors', 'kid', 'schools')
       end
 
       it 'kid data contains expected fields' do
         get :show_kid_mentors_schedules, params: { id: @kid }, format: :json
-        kid_data = JSON.parse(response.body)['kid']
+        kid_data = response.parsed_body['kid']
         expect(kid_data.keys).to include('id', 'prename', 'name', 'mentor_id',
                                          'secondary_mentor_id', 'meeting_start_at',
                                          'meeting_day', 'schedules')
@@ -96,14 +96,14 @@ describe KidsController do
 
       it 'mentor data contains expected fields' do
         get :show_kid_mentors_schedules, params: { id: @kid }, format: :json
-        mentor_data = JSON.parse(response.body)['mentors'][@mentor.id.to_s]
+        mentor_data = response.parsed_body['mentors'][@mentor.id.to_s]
         expect(mentor_data.keys).to include('id', 'prename', 'name', 'sex', 'ects',
                                             'kids', 'secondary_kids', 'schools', 'schedules')
       end
 
       it 'schools is an array with id and display_name' do
         get :show_kid_mentors_schedules, params: { id: @kid }, format: :json
-        schools_data = JSON.parse(response.body)['schools']
+        schools_data = response.parsed_body['schools']
         expect(schools_data).to be_an(Array)
         expect(schools_data.first.keys).to include('id', 'display_name')
       end

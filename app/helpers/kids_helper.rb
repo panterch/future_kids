@@ -18,11 +18,14 @@ module KidsHelper
   def create_schedules_nested_set(schedules_array)
     schedules_set = Hash.new { |h, k| h[k] = Hash.new { |h, k| h[k] = {} } }
     schedules_array.group_by(&:day).each do |day, times|
-      times.each do |time|
-        key = "#{time.hour.to_s.rjust(2, '0')}:#{time.minute.to_s.rjust(2, '0')}"
-        schedules_set[day][key] = true
-      end
+      times.each { |t| schedules_set[day][schedule_time_key(t)] = true }
     end
     schedules_set
+  end
+
+  private
+
+  def schedule_time_key(time)
+    "#{time.hour.to_s.rjust(2, '0')}:#{time.minute.to_s.rjust(2, '0')}"
   end
 end
