@@ -14,6 +14,10 @@ class ApplicationController < ActionController::Base
   # instead of rendering an error page
   rescue_from CanCan::AccessDenied, with: :handle_access_denied
 
+  # every action must perform an authorization check - a controller that
+  # forgets load_and_authorize_resource fails loudly instead of being open
+  check_authorization unless: :devise_controller?
+
   before_action :load_site_configuration
   before_action :logout_inactive
   before_action :authenticate_user!
