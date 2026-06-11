@@ -82,14 +82,14 @@ window.KidMentorSchedules = function KidMentorSchedules({ mentors, schools, kid 
       let message, mentorKey;
       if (mentorType === 'primary') {
         message = confirmMessage(
-          mentor.kids?.length > 0
+          mentor.kids && mentor.kids.length > 0
             ? alertMentorHasKid({ mentorLabel: 'primärer Mentor', otherKidLabel: displayName(mentor.kids[0]) })
             : assignmentText('primärer Mentor')
         );
         mentorKey = 'mentor_id';
       } else {
         message = confirmMessage(
-          mentor.secondary_kids?.length > 0
+          mentor.secondary_kids && mentor.secondary_kids.length > 0
             ? alertMentorHasKid({ mentorLabel: 'Ersatzmentor*in', otherKidLabel: displayName(mentor.secondary_kids[0]) })
             : assignmentText('Ersatzmentor*in')
         );
