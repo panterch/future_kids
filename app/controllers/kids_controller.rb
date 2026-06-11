@@ -58,50 +58,12 @@ class KidsController < ApplicationController
   end
 
   def show_kid_mentors_schedules
-    # prepare substitution json
-    @kid_mentor_schedules_data = Jbuilder.new do |json|
-      json.mentors do
-        Mentor.active.each do |mentor|
-          json.set! mentor.id do
-            json.id mentor.id
-            json.prename mentor.prename
-            json.name mentor.name
-            json.sex mentor.sex
-            json.ects mentor.ects
-            json.kids mentor.kids, :id, :name, :prename
-            json.secondary_kids mentor.secondary_kids, :id, :name, :prename
-            json.schools mentor.schools.ids
-            json.schedules create_schedules_nested_set mentor.schedules
-          end
-        end
-      end
-      json.kid do
-        json.id @kid.id
-        json.prename @kid.prename
-        json.name @kid.name
-        json.mentor_id @kid.mentor_id
-        json.meeting_start_at meeting_start_time
-        json.meeting_day meeting_day
-        json.secondary_mentor_id @kid.secondary_mentor_id
-        json.schedules create_schedules_nested_set @kid.schedules
-      end
-      json.schools School.all, :id, :display_name
-    end.attributes!
+    @mentors = Mentor.active.includes(:kids, :secondary_kids, :schools, :schedules)
+    @schools = School.all
+    @kid_mentor_schedules_data = JSON.parse(render_to_string(formats: [:json]))
   end
 
   protected
-
-  def meeting_start_time
-    return nil if @kid.meeting_start_at.blank?
-
-    @kid.meeting_start_at.strftime('%H:%M')
-  end
-
-  def meeting_day
-    return nil if @kid.meeting_day.blank?
-
-    @kid.meeting_day
-  end
 
   # when the user working on the kid is a teacher, it get's
   # assigned as the first teacher of the kid in creation case
@@ -155,21 +117,6 @@ class KidsController < ApplicationController
         { schedules_attributes: [%i[day hour minute]] }
       ]
     )
-  end
-
-  # In the react-component, we need the schedules as some kind of "nested-set"
-  # It is a hash where an entry set[day]["hour:minute"] is true, if that day and
-  # time occurs in the array. Otherwise this key does not exist.
-  def create_schedules_nested_set(schedules_array)
-    schedules_set = Hash.new { |h, k| h[k] = Hash.new { |h, k| h[k] = {} } }
-    schedules_by_day = schedules_array.group_by(&:day)
-    schedules_by_day.each do |day, times|
-      times.each do |time|
-        key = "#{time.hour.to_s.rjust(2, '0')}:#{time.minute.to_s.rjust(2, '0')}"
-        schedules_set[day][key] = true
-      end
-    end
-    schedules_set
   end
 
   # this form may be reached from substitutions, this is indicated

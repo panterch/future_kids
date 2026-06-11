@@ -341,6 +341,16 @@ form.schedule {
       }
     }
 
+    .day-placeholder {
+      cursor: pointer;
+      background-color: #EFEFEF;
+    }
+
+    .show-icon {
+      display: block;
+      text-align: center;
+    }
+
     .spacer,
     .cell-mentor {
       display: block;
