@@ -4,6 +4,8 @@ source 'https://rubygems.org'
 
 ruby '3.4.9'
 
+gem 'psych', '5.4.0'
+
 gem 'haml-rails'
 gem 'jbuilder'
 gem 'jquery-rails'

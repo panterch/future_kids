@@ -577,6 +577,7 @@ DEPENDENCIES
   multi_json
   ostruct
   pg
+  psych (= 5.4.0)
   puma
   rails
   rails-controller-testing
