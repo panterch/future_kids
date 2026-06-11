@@ -5,7 +5,7 @@ class SchoolsController < ApplicationController
   include CrudActions
 
   def index
-    filter = school_filter_params
+    filter = school_filter_params.with_defaults(inactive: '0')
     @schools = apply_school_filter(@schools, filter)
     @active_kids_counts = Kid.active.reorder(nil).where(school_id: @schools).group(:school_id).count
     @schools = @schools.includes(:teachers, { principal_school_relations: :principal })
@@ -41,13 +41,13 @@ class SchoolsController < ApplicationController
   def school_filter_params
     return {} if params[:school].blank?
 
-    params.expect(school: %i[school_kind district])
+    params.expect(school: %i[school_kind district inactive])
   end
 
   def school_params
     params.expect(
       school: %i[name school_kind principal_id street city phone homepage social
-                 district note term]
+                 district note term inactive]
     )
   end
 end

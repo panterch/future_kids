@@ -10,5 +10,8 @@
   = show.attribute :district
   = show.attribute :term
   = show.attribute :note
+  - if @school.inactive?
+    = show.attribute :inactive
+    = show.attribute :inactive_at
 
 = render 'associations'

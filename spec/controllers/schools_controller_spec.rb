@@ -38,6 +38,41 @@ describe SchoolsController do
       expect(assigns(:schools)).to eq([@school])
       expect(response).to be_successful
     end
+
+    it 'excludes inactive schools by default' do
+      create(:school, inactive: true)
+      get :index
+      expect(assigns(:schools)).to eq([@school])
+    end
+
+    it 'shows only inactive schools when filtered' do
+      inactive = create(:school, inactive: true)
+      get :index, params: { school: { inactive: '1' } }
+      expect(assigns(:schools)).to eq([inactive])
+    end
+  end
+
+  context 'inactivate via update' do
+    before do
+      @school = create(:school)
+    end
+
+    it 'inactivates a school with no active dependents' do
+      put :update, params: { id: @school.id, school: { inactive: '1' } }
+      expect(@school.reload.inactive).to be(true)
+    end
+
+    it 'blocks inactivation when active kids are present' do
+      create(:kid, school: @school)
+      put :update, params: { id: @school.id, school: { inactive: '1' } }
+      expect(@school.reload.inactive).to be(false)
+    end
+
+    it 'blocks inactivation when active teachers are present' do
+      create(:teacher, school: @school)
+      put :update, params: { id: @school.id, school: { inactive: '1' } }
+      expect(@school.reload.inactive).to be(false)
+    end
   end
 
   context 'edit' do

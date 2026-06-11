@@ -2,6 +2,7 @@ de:
   flash:
     session_expired: 'Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.'
     user_inactive: 'Benutzer*in inaktiv'
+    school_inactivated: 'Schule wurde inaktiv gesetzt'
     access_denied: 'Sie haben keinen Zugriff (mehr) auf diese Seite.'
     assign_mentor_first: 'Bitte vorher einen Mentor zuordnen.'
 
@@ -230,6 +231,8 @@ de:
         to_secondary_teacher: "Zweite Lehrperson"
         to_third_teacher: "Dritte Lehrperson"
       school:
+        inactive: Inaktiv
+        inactive_at: Inaktiviert am
         street: "Strasse, Nr."
         street_no: Hausnummer
         zip: PLZ
@@ -271,6 +274,13 @@ de:
         start_at: "Beginn"
         end_at: "Ende"
         comments: Bemerkungen
+
+    errors:
+      models:
+        school:
+          attributes:
+            inactive:
+              has_active_dependents: 'kann nicht gesetzt werden: Schule hat noch aktive Kinder oder Lehrpersonen'
 
     enums:
       school_kinds:
