@@ -1,10 +1,30 @@
-= boot_page_title
+- content_for :sidebar do
+  = form_for @school, url: { action: 'index' }, html: { method: :get, class: 'filter' } do |f|
+    .form-group
+      %label= School.human_attribute_name(:school_kind)
+      = f.select :school_kind, school_kind_collection, { include_blank: true }, class: 'form-control'
+    .form-group
+      %label= School.human_attribute_name(:district)
+      = f.select :district, school_district_collection, { include_blank: true }, class: 'form-control'
+    .form-group
+      = f.submit 'Suchen', class: 'btn btn-xs btn-success'
+      = link_to 'Filter aufheben', schools_path, class: 'btn btn-xs'
+
+= boot_page_title do
+  = @schools.count
+  Schulen
 
 %table.table.table-striped.table-condensed.table-hover
   %thead
     %tr
-      %th Name
+      %th= School.human_attribute_name(:name)
+      %th{style: 'white-space: nowrap'}= School.human_attribute_name(:school_kind)
+      %th Schüler*innen / Lehrpersonen
+      %th SL/QUIMS
   %tbody
     - @schools.each do |school|
       %tr
         %td= link_to school.name, school_path(school)
+        %td{style: 'white-space: nowrap'}= school.human_school_kind
+        %td= "#{@active_kids_counts[school.id].to_i} / #{school.teachers.count { |t| !t.inactive }}"
+        %td= school.principals.select { |p| !p.inactive }.map(&:display_name).join(', ')
