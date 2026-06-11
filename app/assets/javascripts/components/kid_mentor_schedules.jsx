@@ -219,7 +219,7 @@ function Filters({ mentors, schools, initialFilters, onChange }) {
           name="number-of-kids"
           className="form-control"
           value={initialFilters.numberOfKids}
-          onChange={e => onChange?.('numberOfKids', e.target.value)}
+          onChange={e => onChange && onChange('numberOfKids', e.target.value)}
         >
           <option value="no-kid">keinem Schüler zugewiesen</option>
           <option value="primary-only">nur primärem Schüler zugewiesen</option>
@@ -233,7 +233,7 @@ function Filters({ mentors, schools, initialFilters, onChange }) {
           name="sex"
           className="form-control"
           value={initialFilters.sex || ''}
-          onChange={e => onChange?.('sex', sanitizeSex(e.target.value))}
+          onChange={e => onChange && onChange('sex', sanitizeSex(e.target.value))}
         >
           <option />
           <option value="male">Männlich</option>
@@ -247,7 +247,7 @@ function Filters({ mentors, schools, initialFilters, onChange }) {
           name="school"
           className="form-control"
           value={initialFilters.school || ''}
-          onChange={e => onChange?.('school', sanitizeSchool(e.target.value))}
+          onChange={e => onChange && onChange('school', sanitizeSchool(e.target.value))}
         >
           <option />
           {schools.map(school => (
@@ -357,7 +357,7 @@ function TimeTable({ kid, mentors, onSelectDate }) {
                       <TimeTableMentorCell
                         key={`mentor_cell_${day.key}_${time.key}_${mentor.id}`}
                         mentor={mentor}
-                        onClick={() => onSelectDate?.(mentor, day, time)}
+                        onClick={() => onSelectDate && onSelectDate(mentor, day, time)}
                         kidIsAvailable={kidIsAvailable}
                         numberOfMentors={mentorCount}
                         day={day}
@@ -378,7 +378,7 @@ function TimeTable({ kid, mentors, onSelectDate }) {
 }
 
 function TimeTableMentorCell({ mentor, onClick, kidIsAvailable, numberOfMentors, day, time, lastTime, nextTime }) {
-  const mentorIsAvailable = mentor.schedules?.[day.key]?.[time.key] != null;
+  const mentorIsAvailable = mentor.schedules && mentor.schedules[day.key] && mentor.schedules[day.key][time.key] != null;
   const mentorColumnWidth = numberOfMentors > 0 ? 100 / numberOfMentors : 0;
 
   if (mentorIsAvailable) {
@@ -421,7 +421,7 @@ function limitAndRemoveFromBeginning(mentorIds) {
   return mentorIds.slice(Math.max(mentorIds.length - MAX_MENTORS_TO_DISPLAY, 0));
 }
 function availableInSchedule(schedules, day, time) {
-  return schedules?.[day?.key]?.[time?.key] != null;
+  return schedules && day && time && schedules[day.key] && schedules[day.key][time.key] != null;
 }
 function hasPrimaryKid(mentor) { return mentor.kids.length > 0; }
 function hasSecondaryKid(mentor) { return mentor.secondary_kids.length > 0; }
