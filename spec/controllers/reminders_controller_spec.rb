@@ -43,11 +43,17 @@ describe RemindersController do
 
   it 'does not allow access to mentors' do
     sign_in create(:mentor)
-    expect { get :index }.to raise_error(CanCan::AccessDenied)
+    expect_access_denied { get :index }
+  end
+
+  it 'does not allow mentors to destroy reminders' do
+    sign_in create(:mentor)
+    reminder = create(:reminder)
+    expect_access_denied { delete :destroy, params: { id: reminder.id } }
   end
 
   it 'does not allow access to teachers' do
     sign_in create(:teacher)
-    expect { get :index }.to raise_error(CanCan::AccessDenied)
+    expect_access_denied { get :index }
   end
 end

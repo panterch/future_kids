@@ -47,13 +47,12 @@ Metrics/ClassLength:
     - 'app/controllers/kids_controller.rb'
     - 'app/models/kid.rb'
 
-# Offense count: 5
+# Offense count: 4
 # Configuration parameters: AllowedMethods, AllowedPatterns, Max.
 Metrics/CyclomaticComplexity:
   Exclude:
     - 'app/controllers/kids_controller.rb'
     - 'app/controllers/mentors_controller.rb'
-    - 'app/models/ability.rb'
     - 'app/models/comment.rb'
 
 # Offense count: 24

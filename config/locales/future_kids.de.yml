@@ -2,6 +2,7 @@ de:
   flash:
     session_expired: 'Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.'
     user_inactive: 'Benutzer*in inaktiv'
+    access_denied: 'Sie haben keinen Zugriff (mehr) auf diese Seite.'
     assign_mentor_first: 'Bitte vorher einen Mentor zuordnen.'
 
   activerecord:

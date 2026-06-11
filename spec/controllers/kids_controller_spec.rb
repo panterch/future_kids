@@ -20,11 +20,11 @@ describe KidsController do
 
     context 'schedules' do
       it 'does not allow displaying the kids schedule' do
-        expect { get :edit_schedules, params: { id: @kid } }.to raise_error(CanCan::AccessDenied)
+        expect_access_denied { get :edit_schedules, params: { id: @kid } }
       end
 
       it 'does not allow updating the kids schedule' do
-        expect { post :update_schedules, params: { id: @kid } }.to raise_error(CanCan::AccessDenied)
+        expect_access_denied { post :update_schedules, params: { id: @kid } }
       end
     end
   end
@@ -95,9 +95,9 @@ describe KidsController do
       end
 
       it 'cannot destroy active' do
-        expect do
+        expect_access_denied do
           delete :destroy, params: { id: @kid.id }
-        end.to raise_error(CanCan::AccessDenied)
+        end
         expect(Kid).to exist(@kid.id)
       end
     end
@@ -108,6 +108,15 @@ describe KidsController do
       @school = create(:school)
       @teacher = create(:teacher, school: @school)
       sign_in @teacher
+    end
+
+    context 'update' do
+      it 'does not allow moving an assigned kid to a foreign school' do
+        kid = create(:kid, teacher: @teacher, school: @school)
+        expect do
+          put :update, params: { id: kid.id, kid: { school_id: create(:school).id } }
+        end.to raise_error(SecurityError)
+      end
     end
 
     context 'create' do
@@ -181,6 +190,37 @@ describe KidsController do
       expect do
         post :create, params: { kid: attributes_for(:kid, school_id: 'non-existant') }
       end.to raise_error SecurityError
+    end
+
+    context 'index' do
+      it 'lists only kids of own schools' do
+        own_kid = create(:kid, school: @school)
+        create(:kid, school: create(:school))
+        get :index
+        expect(assigns(:kids)).to eq([own_kid])
+      end
+    end
+
+    context 'update' do
+      it 'updates kids of own schools' do
+        kid = create(:kid, school: @school)
+        put :update, params: { id: kid.id, kid: { name: 'Changed' } }
+        expect(kid.reload.name).to eq('Changed')
+      end
+
+      it 'denies updating kids of foreign schools' do
+        kid = create(:kid, school: create(:school))
+        expect_access_denied do
+          put :update, params: { id: kid.id, kid: { name: 'Changed' } }
+        end
+      end
+
+      it 'does not allow moving a kid to a foreign school' do
+        kid = create(:kid, school: @school)
+        expect do
+          put :update, params: { id: kid.id, kid: { school_id: create(:school).id } }
+        end.to raise_error(SecurityError)
+      end
     end
   end
 end

@@ -9,6 +9,13 @@ FactoryBot.define do
     held_at { Date.parse('2018-10-01') }
   end
 
+  factory :termination_assessment do
+    kid
+    teacher
+    created_by(&:teacher)
+    held_at { Date.parse('2018-10-01') }
+  end
+
   factory :substitution do
     mentor
     kid

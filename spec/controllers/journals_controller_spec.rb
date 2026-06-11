@@ -105,7 +105,7 @@ describe JournalsController do
     it 'does not render the new template for inactive secondary kids' do
       inactive_kid = create(:kid, secondary_mentor: mentor,
                                   secondary_active: false)
-      expect { get :new, params: { kid_id: inactive_kid.id } }.to raise_error(CanCan::AccessDenied)
+      expect_access_denied { get :new, params: { kid_id: inactive_kid.id } }
     end
 
     it 'does not assign mentors for selectbox' do
@@ -114,7 +114,7 @@ describe JournalsController do
     end
 
     it 'denies access for foreign kids' do
-      expect { get :new, params: { kid_id: create(:kid).id } }.to raise_error(CanCan::AccessDenied)
+      expect_access_denied { get :new, params: { kid_id: create(:kid).id } }
     end
 
     it 'creates a new entry' do
@@ -132,7 +132,7 @@ describe JournalsController do
     it 'is not able to create entries for other kids' do
       attrs = valid_attributes
       attrs[:kid_id] = create(:kid).id
-      expect { post :create, params: attrs }.to raise_error(CanCan::AccessDenied)
+      expect_access_denied { post :create, params: attrs }
     end
 
     it 'is not able to taint kid_id via journal attributes' do

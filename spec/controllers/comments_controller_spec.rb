@@ -22,7 +22,7 @@ describe CommentsController do
 
     it 'does not render the new template for foreign journal entries' do
       @foreign = create(:journal)
-      expect { get :new, params: { kid_id: @foreign.kid.id, journal_id: @foreign.id } }.to raise_error(CanCan::AccessDenied)
+      expect_access_denied { get :new, params: { kid_id: @foreign.kid.id, journal_id: @foreign.id } }
     end
 
     it 'does not create an invalid journal entry' do
@@ -36,6 +36,18 @@ describe CommentsController do
       expect(response).to be_redirect
     end
 
+    it 'records the current user as creator' do
+      post :create, params: { kid_id: @kid.id, journal_id: @journal.id,
+                              comment: attributes_for(:comment) }
+      expect(assigns(:comment).created_by).to eq(@mentor)
+    end
+
+    it 'ignores a creator submitted via parameters' do
+      post :create, params: { kid_id: @kid.id, journal_id: @journal.id,
+                              comment: attributes_for(:comment).merge(created_by_id: @coach.id) }
+      expect(assigns(:comment).created_by).to eq(@mentor)
+    end
+
     it 'renders the edit template' do
       @comment = create(:comment, journal: @journal, created_by: @mentor)
       get :edit, params: { kid_id: @kid.id, journal_id: @journal.id, id: @comment.id }
@@ -44,10 +56,10 @@ describe CommentsController do
 
     it 'is not able to update other comments' do
       @comment = create(:comment, journal: @journal, created_by: @coach)
-      expect do
+      expect_access_denied do
         put :update, params: { kid_id: @kid.id, journal_id: @journal.id,
                                id: @comment.id }
-      end.to raise_error CanCan::AccessDenied
+      end
     end
 
     it 'updates a comment and redirects to the journal anchor' do
@@ -69,6 +81,35 @@ describe CommentsController do
         post :create, params: { kid_id: @kid.id, journal_id: @journal.id,
                                 comment: attributes_for(:comment) }
       end.to have_enqueued_job(ActionMailer::MailDeliveryJob)
+    end
+  end
+
+  context 'as the kids teacher' do
+    before do
+      @teacher = create(:teacher)
+      @kid.update!(teacher: @teacher)
+      sign_in @teacher
+    end
+
+    # all users that can read the journal may comment on it
+    it 'creates a journal comment entry' do
+      post :create, params: { kid_id: @kid.id, journal_id: @journal.id,
+                              comment: attributes_for(:comment) }
+      expect(response).to be_redirect
+      expect(assigns(:comment).created_by).to eq(@teacher)
+    end
+  end
+
+  context 'as a mentor without access to the journal' do
+    before do
+      sign_in create(:mentor)
+    end
+
+    it 'does not allow creating comments' do
+      expect_access_denied do
+        post :create, params: { kid_id: @kid.id, journal_id: @journal.id,
+                                comment: attributes_for(:comment) }
+      end
     end
   end
 end
