@@ -169,6 +169,10 @@ module ApplicationHelper
     School.school_kinds.keys.map { |s| [School.humanize_enum('school_kind', s), s] }
   end
 
+  def school_district_collection
+    School.unscoped.distinct.order(:district).pluck(:district).compact_blank.map { |d| [d, d] }
+  end
+
   # can be used in view to display private data only to their owners (and
   # admins)
   def viewing_own_data?(resource)
