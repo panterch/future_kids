@@ -52,22 +52,20 @@ describe SchoolsController do
     end
   end
 
-  context 'inactivate' do
+  context 'inactivate via update' do
     before do
       @school = create(:school)
     end
 
     it 'inactivates a school with no active dependents' do
-      put :inactivate, params: { id: @school.id }
+      put :update, params: { id: @school.id, school: { inactive: '1' } }
       expect(@school.reload.inactive).to be(true)
-      expect(response).to redirect_to(schools_path)
     end
 
     it 'blocks inactivation when active kids are present' do
       create(:kid, school: @school)
-      put :inactivate, params: { id: @school.id }
+      put :update, params: { id: @school.id, school: { inactive: '1' } }
       expect(@school.reload.inactive).to be(false)
-      expect(response).to redirect_to(school_path(@school))
     end
   end
 

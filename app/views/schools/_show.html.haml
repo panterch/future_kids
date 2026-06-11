@@ -10,14 +10,8 @@
   = show.attribute :district
   = show.attribute :term
   = show.attribute :note
-  - if current_user.is_a?(Admin)
+  - if current_user.is_a?(Admin) && @school.inactive?
     = show.attribute :inactive
-    - if @school.inactive?
-      = show.attribute :inactive_at
-
-- if current_user.is_a?(Admin) && !@school.inactive?
-  = button_to 'Inaktiv setzen', inactivate_school_path(@school),
-      method: :put, class: 'btn btn-danger btn-xs',
-      data: { confirm: 'Schule wirklich inaktivieren?' }
+    = show.attribute :inactive_at
 
 = render 'associations'

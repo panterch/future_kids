@@ -4,15 +4,6 @@ class SchoolsController < ApplicationController
   load_and_authorize_resource
   include CrudActions
 
-  def inactivate
-    @school.inactive = true
-    if @school.save
-      redirect_to schools_path, notice: t('flash.school_inactivated')
-    else
-      redirect_to school_path(@school), alert: @school.errors.full_messages.to_sentence
-    end
-  end
-
   def index
     filter = school_filter_params.with_defaults(inactive: '0')
     @schools = apply_school_filter(@schools, filter)
@@ -56,7 +47,7 @@ class SchoolsController < ApplicationController
   def school_params
     params.expect(
       school: %i[name school_kind principal_id street city phone homepage social
-                 district note term]
+                 district note term inactive]
     )
   end
 end

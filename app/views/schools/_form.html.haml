@@ -12,5 +12,8 @@
 
   = render :partial => 'associations'
 
+  - if current_user.is_a?(Admin)
+    = form.input :inactive
+
   .col-sm-offset-3.col-sm-9
     = form.button :submit
