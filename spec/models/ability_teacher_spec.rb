@@ -126,8 +126,8 @@ describe Ability do
     end
 
     it 'fetches only assigned kids' do
-      kid && secondary_kid && foreign_kid # trigger factory
-      expect(Kid.accessible_by(@ability, :read)).to eq([kid, secondary_kid])
+      kid && secondary_kid && third_kid && foreign_kid # trigger factory
+      expect(Kid.accessible_by(@ability, :read)).to contain_exactly(kid, secondary_kid, third_kid)
     end
 
     it 'can read journals of kids he is set as teacher' do
