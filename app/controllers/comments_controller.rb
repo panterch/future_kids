@@ -49,7 +49,7 @@ class CommentsController < ApplicationController
 
     params.expect(
       # don't add created_by here - it is set by the controller directly for security reasons
-      comment: %i[by body to_teacher to_secondary_teacher to_third_teacher]
+      comment: %i[by body to_teacher to_secondary_teacher to_third_teacher to_principal]
     )
   end
 end

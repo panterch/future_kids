@@ -172,7 +172,8 @@ CREATE TABLE public.comments (
     to_teacher boolean DEFAULT false,
     to_secondary_teacher boolean DEFAULT false,
     to_third_teacher boolean,
-    created_by_id integer
+    created_by_id integer,
+    to_principal boolean DEFAULT false
 );
 
 
@@ -1512,6 +1513,7 @@ ALTER TABLE ONLY public.mentor_matchings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260611154400'),
 ('20260611133849'),
 ('20260408182213'),
 ('20250913213902'),

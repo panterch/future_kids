@@ -17,6 +17,7 @@ class Comment < ApplicationRecord
       self.to_teacher = previous.to_teacher
       self.to_secondary_teacher = previous.to_secondary_teacher
       self.to_third_teacher = previous.to_third_teacher
+      self.to_principal = previous.to_principal
     end
     return unless current_user.is_a?(Teacher)
 
@@ -52,6 +53,7 @@ class Comment < ApplicationRecord
     to << kid.teacher&.email if to_teacher?
     to << kid.secondary_teacher&.email if to_secondary_teacher?
     to << kid.third_teacher&.email if to_third_teacher?
+    kid.school&.active_principals&.each { |p| to << p.email } if to_principal?
 
     # do not send emails out to the original creator
     to.delete(created_by.try(:email))

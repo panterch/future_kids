@@ -8,21 +8,24 @@
       .checkbox
         %label.boolean
           %input.boolean.optional(type='checkbox' disabled='disabled' checked)
-          Mentor*in
+          Mentor*in (#{@journal.mentor.display_name})
   - if @journal.kid.admin && @site.feature_coach?
     .form-group.boolean.optional
       .col-sm-offset-3.col-sm-9
         .checkbox
           %label.boolean
             %input.boolean.optional(type='checkbox' disabled='disabled' checked)
-            Pädagogischer Coach
+            Pädagogischer Coach (#{@journal.kid.admin.display_name})
 
   - if @journal.kid.teacher
-    = form.input :to_teacher
+    = form.input :to_teacher, label: "Lehrperson (#{@journal.kid.teacher.display_name})"
   - if @journal.kid.secondary_teacher
-    = form.input :to_secondary_teacher
+    = form.input :to_secondary_teacher, label: "Zweite Lehrperson (#{@journal.kid.secondary_teacher.display_name})"
   - if @journal.kid.third_teacher
-    = form.input :to_third_teacher
+    = form.input :to_third_teacher, label: "Dritte Lehrperson (#{@journal.kid.third_teacher.display_name})"
+  - principals = @journal.kid.school&.active_principals
+  - if principals&.any?
+    = form.input :to_principal, label: "SL/QUIMS-Verantwortliche*r (#{principals.map(&:display_name).join(', ')})"
   .col-sm-offset-3.col-sm-9
     = form.button :submit
 

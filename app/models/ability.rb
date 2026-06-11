@@ -123,6 +123,7 @@ class Ability
     can %i[read update], Kid, school_id: user.school_ids
     can :create, Teacher
     can %i[read update], Teacher, school_id: user.school_ids, inactive: false
+    can :read, Journal, kid: { school_id: user.school_ids }
   end
 
   def common_abilities(user)
