@@ -15,7 +15,7 @@ gem 'actionview-encoded_mail_to'
 gem 'active_storage_validations'
 gem 'bootstrap-sass'
 gem 'cancancan'
-gem 'connection_pool', '~> 2.4' # Pin to 2.x - react_rails compatibility issue
+gem 'connection_pool', '~> 3.0' # Pin to 2.x - react_rails compatibility issue
 gem 'countries'
 gem 'country_select'
 gem 'devise'
