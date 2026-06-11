@@ -91,15 +91,36 @@ describe Ability do
       expect(@ability).not_to be_able_to(:destroy, @principal)
     end
 
-    # principals have no access to journals, reviews, assessments or mentors,
-    # not even for kids of their own schools
+    # principals can read journals of kids at their schools and comment on them,
+    # but have no access to reviews, assessments or mentors
     context 'with a kid of his own school' do
       before do
         @kid = create(:kid, school: @school, mentor: create(:mentor))
+        @journal = create(:journal, kid: @kid)
       end
 
-      it 'cannot read journals' do
-        expect(@ability).not_to be_able_to(:read, create(:journal, kid: @kid))
+      it 'can read journals' do
+        expect(@ability).to be_able_to(:read, @journal)
+      end
+
+      it 'cannot read journals of kids from other schools' do
+        expect(@ability).not_to be_able_to(:read, create(:journal, kid: create(:kid)))
+      end
+
+      it 'can create a comment with themselves as creator' do
+        expect(@ability).to be_able_to(:create, build(:comment, journal: @journal, created_by: @principal))
+      end
+
+      it 'cannot create a comment with a foreign creator' do
+        expect(@ability).not_to be_able_to(:create, build(:comment, journal: @journal, created_by: create(:mentor)))
+      end
+
+      it 'can update own comment' do
+        expect(@ability).to be_able_to(:update, create(:comment, journal: @journal, created_by: @principal))
+      end
+
+      it 'cannot update another users comment' do
+        expect(@ability).not_to be_able_to(:update, create(:comment, journal: @journal, created_by: create(:mentor)))
       end
 
       it 'cannot read reviews' do

@@ -230,6 +230,7 @@ de:
         to_teacher: Lehrperson
         to_secondary_teacher: "Zweite Lehrperson"
         to_third_teacher: "Dritte Lehrperson"
+        to_principal: "SL/QUIMS-Verantwortliche*r"
       school:
         inactive: Inaktiv
         inactive_at: Inaktiviert am

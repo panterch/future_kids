@@ -11,27 +11,6 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- Name: heroku_ext; Type: SCHEMA; Schema: -; Owner: -
---
-
-CREATE SCHEMA heroku_ext;
-
-
---
--- Name: pg_stat_statements; Type: EXTENSION; Schema: -; Owner: -
---
-
-CREATE EXTENSION IF NOT EXISTS pg_stat_statements WITH SCHEMA public;
-
-
---
--- Name: EXTENSION pg_stat_statements; Type: COMMENT; Schema: -; Owner: -
---
-
-COMMENT ON EXTENSION pg_stat_statements IS 'track planning and execution statistics of all SQL statements executed';
-
-
---
 -- Name: school_kind; Type: TYPE; Schema: public; Owner: -
 --
 
@@ -153,8 +132,8 @@ ALTER SEQUENCE public.active_storage_variant_records_id_seq OWNED BY public.acti
 CREATE TABLE public.ar_internal_metadata (
     key character varying NOT NULL,
     value character varying,
-    created_at timestamp without time zone NOT NULL,
-    updated_at timestamp without time zone NOT NULL
+    created_at timestamp(6) without time zone NOT NULL,
+    updated_at timestamp(6) without time zone NOT NULL
 );
 
 
@@ -165,14 +144,15 @@ CREATE TABLE public.ar_internal_metadata (
 CREATE TABLE public.comments (
     id integer NOT NULL,
     journal_id integer NOT NULL,
-    by character varying(255) NOT NULL,
+    by character varying NOT NULL,
     body text NOT NULL,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
     to_teacher boolean DEFAULT false,
     to_secondary_teacher boolean DEFAULT false,
     to_third_teacher boolean,
-    created_by_id integer
+    created_by_id integer,
+    to_principal boolean DEFAULT false
 );
 
 
@@ -181,6 +161,7 @@ CREATE TABLE public.comments (
 --
 
 CREATE SEQUENCE public.comments_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -201,16 +182,16 @@ ALTER SEQUENCE public.comments_id_seq OWNED BY public.comments.id;
 
 CREATE TABLE public.documents (
     id integer NOT NULL,
-    title character varying(255),
+    title character varying,
     description text,
-    attachment_file_name character varying(255),
-    attachment_content_type character varying(255),
+    attachment_file_name character varying,
+    attachment_content_type character varying,
     attachment_file_size integer,
     attachment_updated_at timestamp without time zone,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    category0 character varying(255),
-    category1 character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    category0 character varying,
+    category1 character varying,
     category2 character varying,
     category3 character varying,
     category4 character varying,
@@ -227,6 +208,7 @@ CREATE TABLE public.documents (
 --
 
 CREATE SEQUENCE public.documents_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -250,7 +232,7 @@ CREATE TABLE public.first_year_assessments (
     kid_id bigint NOT NULL,
     teacher_id integer,
     mentor_id integer,
-    created_by_id integer NOT NULL,
+    created_by_id integer,
     held_at date,
     duration integer,
     development_teacher text,
@@ -312,8 +294,8 @@ CREATE TABLE public.journals (
     note text,
     kid_id integer NOT NULL,
     mentor_id integer NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     month integer,
     important boolean DEFAULT false NOT NULL,
     meeting_type integer
@@ -325,6 +307,7 @@ CREATE TABLE public.journals (
 --
 
 CREATE SEQUENCE public.journals_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -345,12 +328,12 @@ ALTER SEQUENCE public.journals_id_seq OWNED BY public.journals.id;
 
 CREATE TABLE public.kids (
     id integer NOT NULL,
-    name character varying(255),
-    prename character varying(255),
-    parent character varying(255),
-    address character varying(255),
-    sex character varying(255),
-    grade character varying(255),
+    name character varying,
+    prename character varying,
+    parent character varying,
+    address character varying,
+    sex character varying,
+    grade character varying,
     available text,
     entered_at date,
     meeting_day integer,
@@ -359,31 +342,31 @@ CREATE TABLE public.kids (
     secondary_mentor_id integer,
     teacher_id integer,
     secondary_teacher_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    phone character varying(255),
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    phone character varying,
     secondary_active boolean DEFAULT false NOT NULL,
     dob date,
-    language character varying(255),
+    language character varying,
     translator boolean,
     goal_1 text,
     goal_2 text,
     note text,
-    city character varying(255),
-    term character varying(255),
+    city character varying,
+    term character varying,
     inactive boolean DEFAULT false,
     todo text,
     relation_archive text,
-    zip character varying(255),
-    street_no character varying(255),
+    zip character varying,
+    street_no character varying,
     checked_at date,
     coached_at date,
     abnormality text,
     abnormality_criticality integer,
     admin_id integer,
     school_id integer,
-    exit character varying(255),
-    exit_reason character varying(255),
+    exit character varying,
+    exit_reason character varying,
     exit_kind character varying,
     exit_at date,
     third_teacher_id integer,
@@ -434,44 +417,44 @@ CREATE TABLE public.kids (
 
 CREATE TABLE public.users (
     id integer NOT NULL,
-    type character varying(255),
-    name character varying(255),
-    prename character varying(255),
-    address character varying(255),
-    phone character varying(255),
-    personnel_number character varying(255),
-    field_of_study character varying(255),
-    education character varying(255),
+    type character varying,
+    name character varying,
+    prename character varying,
+    address character varying,
+    phone character varying,
+    personnel_number character varying,
+    field_of_study character varying,
+    education character varying,
     available text,
     ects_legacy boolean DEFAULT false NOT NULL,
     entry_date date,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
-    email character varying(255) DEFAULT ''::character varying NOT NULL,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
+    email character varying DEFAULT ''::character varying NOT NULL,
     encrypted_password character varying(128) DEFAULT ''::character varying NOT NULL,
-    reset_password_token character varying(255),
+    reset_password_token character varying,
     reset_password_sent_at timestamp without time zone,
     remember_created_at timestamp without time zone,
     sign_in_count integer DEFAULT 0,
     current_sign_in_at timestamp without time zone,
     last_sign_in_at timestamp without time zone,
-    current_sign_in_ip character varying(255),
-    last_sign_in_ip character varying(255),
+    current_sign_in_ip character varying,
+    last_sign_in_ip character varying,
     absence text,
-    city character varying(255),
-    transport character varying(255),
-    term character varying(255),
+    city character varying,
+    transport character varying,
+    term character varying,
     dob date,
     inactive boolean DEFAULT false,
     todo text,
     substitute boolean DEFAULT false,
-    zip character varying(255),
-    street_no character varying(255),
-    college character varying(255),
+    zip character varying,
+    street_no character varying,
+    college character varying,
     school_id integer,
     note text,
-    photo_file_name character varying(255),
-    photo_content_type character varying(255),
+    photo_file_name character varying,
+    photo_content_type character varying,
     photo_file_size integer,
     photo_updated_at timestamp without time zone,
     receive_journals boolean DEFAULT true,
@@ -517,6 +500,7 @@ CREATE VIEW public.kid_mentor_relations AS
 --
 
 CREATE SEQUENCE public.kids_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -583,6 +567,7 @@ CREATE TABLE public.principal_school_relations (
 --
 
 CREATE SEQUENCE public.principal_school_relations_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -605,7 +590,7 @@ CREATE TABLE public.relation_logs (
     id integer NOT NULL,
     kid_id integer,
     user_id integer,
-    role character varying(255),
+    role character varying,
     start_at timestamp without time zone,
     end_at timestamp without time zone,
     created_at timestamp without time zone NOT NULL,
@@ -618,6 +603,7 @@ CREATE TABLE public.relation_logs (
 --
 
 CREATE SEQUENCE public.relation_logs_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -639,15 +625,15 @@ ALTER SEQUENCE public.relation_logs_id_seq OWNED BY public.relation_logs.id;
 CREATE TABLE public.reminders (
     id integer NOT NULL,
     held_at date NOT NULL,
-    recipient character varying(255) NOT NULL,
+    recipient character varying NOT NULL,
     week integer NOT NULL,
     year integer NOT NULL,
     kid_id integer NOT NULL,
     mentor_id integer NOT NULL,
     sent_at timestamp without time zone,
     secondary_mentor_id integer,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone,
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL,
     acknowledged_at timestamp without time zone
 );
 
@@ -657,6 +643,7 @@ CREATE TABLE public.reminders (
 --
 
 CREATE SEQUENCE public.reminders_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -678,15 +665,15 @@ ALTER SEQUENCE public.reminders_id_seq OWNED BY public.reminders.id;
 CREATE TABLE public.reviews (
     id integer NOT NULL,
     held_at date,
-    kind character varying(255),
+    kind character varying,
     reason text,
     content text,
-    outcome text,
     note text,
+    outcome text,
     attendee text,
     kid_id integer NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -695,6 +682,7 @@ CREATE TABLE public.reviews (
 --
 
 CREATE SEQUENCE public.reviews_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -716,12 +704,12 @@ ALTER SEQUENCE public.reviews_id_seq OWNED BY public.reviews.id;
 CREATE TABLE public.schedules (
     id integer NOT NULL,
     person_id integer NOT NULL,
-    person_type character varying(255) NOT NULL,
+    person_type character varying NOT NULL,
     day integer NOT NULL,
     hour integer NOT NULL,
     minute integer NOT NULL,
-    created_at timestamp without time zone,
-    updated_at timestamp without time zone
+    created_at timestamp without time zone NOT NULL,
+    updated_at timestamp without time zone NOT NULL
 );
 
 
@@ -730,6 +718,7 @@ CREATE TABLE public.schedules (
 --
 
 CREATE SEQUENCE public.schedules_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -749,7 +738,7 @@ ALTER SEQUENCE public.schedules_id_seq OWNED BY public.schedules.id;
 --
 
 CREATE TABLE public.schema_migrations (
-    version character varying(255) NOT NULL
+    version character varying NOT NULL
 );
 
 
@@ -759,19 +748,19 @@ CREATE TABLE public.schema_migrations (
 
 CREATE TABLE public.schools (
     id integer NOT NULL,
-    name character varying(255),
+    name character varying,
     principal_id integer,
     created_at timestamp without time zone NOT NULL,
     updated_at timestamp without time zone NOT NULL,
-    street character varying(255),
-    street_no character varying(255),
-    zip character varying(255),
-    city character varying(255),
-    phone character varying(255),
-    homepage character varying(255) DEFAULT 'http://'::character varying,
-    social character varying(255),
-    district character varying(255),
-    term character varying(255),
+    street character varying,
+    street_no character varying,
+    zip character varying,
+    city character varying,
+    phone character varying,
+    homepage character varying DEFAULT 'http://'::character varying,
+    social character varying,
+    district character varying,
+    term character varying,
     note text,
     school_kind public.school_kind,
     inactive boolean DEFAULT false NOT NULL,
@@ -784,6 +773,7 @@ CREATE TABLE public.schools (
 --
 
 CREATE SEQUENCE public.schools_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -830,6 +820,7 @@ CREATE TABLE public.sites (
 --
 
 CREATE SEQUENCE public.sites_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -867,6 +858,7 @@ CREATE TABLE public.substitutions (
 --
 
 CREATE SEQUENCE public.substitutions_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -926,6 +918,7 @@ ALTER SEQUENCE public.termination_assessments_id_seq OWNED BY public.termination
 --
 
 CREATE SEQUENCE public.users_id_seq
+    AS integer
     START WITH 1
     INCREMENT BY 1
     NO MINVALUE
@@ -1194,6 +1187,14 @@ ALTER TABLE ONLY public.schedules
 
 
 --
+-- Name: schema_migrations schema_migrations_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.schema_migrations
+    ADD CONSTRAINT schema_migrations_pkey PRIMARY KEY (version);
+
+
+--
 -- Name: schools schools_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1451,13 +1452,6 @@ CREATE INDEX index_users_on_school_id ON public.users USING btree (school_id);
 
 
 --
--- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
---
-
-CREATE UNIQUE INDEX unique_schema_migrations ON public.schema_migrations USING btree (version);
-
-
---
 -- Name: termination_assessments fk_rails_090a7af30c; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -1512,6 +1506,7 @@ ALTER TABLE ONLY public.mentor_matchings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260611154400'),
 ('20260611133849'),
 ('20260408182213'),
 ('20250913213902'),
@@ -1551,7 +1546,6 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20200528120329'),
 ('20200526130657'),
 ('20200526121729'),
-('20200526050620'),
 ('20200525155228'),
 ('20181021000000'),
 ('20181001152303'),
@@ -1572,13 +1566,11 @@ INSERT INTO "schema_migrations" (version) VALUES
 ('20151113110517'),
 ('20150929205014'),
 ('20150804205014'),
-('20150804135014'),
 ('20150713124950'),
 ('20150626141604'),
 ('20150602204436'),
 ('20150524164241'),
 ('20150520135622'),
-('20150503135014'),
 ('20150424163124'),
 ('20141228185936'),
 ('20140831092941'),
