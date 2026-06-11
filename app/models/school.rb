@@ -31,6 +31,17 @@ class School < ApplicationRecord
     name
   end
 
+  human_rails_enum_attributes :school_kind
+
+  def self.by_kind(role)
+    case role
+    when :mentor
+      high_school + gymnasium
+    when :teacher, :kid
+      primary_school + secondary_school
+    end
+  end
+
   private
 
   def track_inactive
@@ -44,16 +55,5 @@ class School < ApplicationRecord
     return unless kids.active.any? || teachers.active.any?
 
     errors.add(:base, :has_active_dependents)
-  end
-
-  human_rails_enum_attributes :school_kind
-
-  def self.by_kind(role)
-    case role
-    when :mentor
-      high_school + gymnasium
-    when :teacher, :kid
-      primary_school + secondary_school
-    end
   end
 end
