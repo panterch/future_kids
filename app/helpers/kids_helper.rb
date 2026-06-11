@@ -1,16 +1,16 @@
 # frozen_string_literal: true
 
 module KidsHelper
-  def meeting_start_time
-    return nil if @kid.meeting_start_at.blank?
+  def meeting_start_time(kid)
+    return nil if kid.meeting_start_at.blank?
 
-    @kid.meeting_start_at.strftime('%H:%M')
+    kid.meeting_start_at.strftime('%H:%M')
   end
 
-  def meeting_day
-    return nil if @kid.meeting_day.blank?
+  def meeting_day(kid)
+    return nil if kid.meeting_day.blank?
 
-    @kid.meeting_day
+    kid.meeting_day
   end
 
   # Transforms a schedule array into a nested hash for the React component.

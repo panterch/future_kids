@@ -58,7 +58,7 @@ class KidsController < ApplicationController
   end
 
   def show_kid_mentors_schedules
-    @mentors = Mentor.active
+    @mentors = Mentor.active.includes(:kids, :secondary_kids, :schools, :schedules)
     @schools = School.all
     @kid_mentor_schedules_data = JSON.parse(render_to_string(formats: [:json]))
   end

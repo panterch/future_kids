@@ -70,7 +70,7 @@ window.KidMentorSchedules = function KidMentorSchedules({ mentors, schools, kid 
 
   const onSelectDate = (mentor, day, time) => {
     const assignmentText = (mentorLabel) =>
-      `Der Mentor wir dem Schüler als ${mentorLabel} zugewiesen.`;
+      `Der Mentor wird dem Schüler als ${mentorLabel} zugewiesen.`;
 
     const alertMentorHasKid = ({ otherKidLabel, mentorLabel }) =>
       `Achtung: \nDieser Mentor ist bereits für den Schüler '${otherKidLabel}' als ${mentorLabel} im Einsatz. Trotzdem dem Schüler zuweisen?\n        (der Mentor bleibt beiden Schülern zugewiesen)`;
