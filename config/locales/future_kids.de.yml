@@ -326,7 +326,7 @@ de:
     kids:
       index:
         teacher: 'Um neue Schüler*innen für die Teilnahme anzumelden, klicken Sie links auf „Erfassen”.'
-        mentor: “Schüler*innen in Ihrem Mentoring”
+        mentor: "Schüler*innen in Ihrem Mentoring"
   crud:
     action:
       edit_schedules: Stundenplan bearbeiten
