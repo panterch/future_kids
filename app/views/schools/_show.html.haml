@@ -10,7 +10,7 @@
   = show.attribute :district
   = show.attribute :term
   = show.attribute :note
-  - if current_user.is_a?(Admin) && @school.inactive?
+  - if @school.inactive?
     = show.attribute :inactive
     = show.attribute :inactive_at
 
