@@ -287,8 +287,7 @@ de:
       school_kinds:
         high_school: "Fachhochschule / Uni"
         gymnasium: "Gymnasium"
-        secondary_school: "Sekundarschule"
-        primary_school: "Grundschule"
+        primary_school: "Primarschule"
       meeting_types:
         physical: "Physisch"
         virtual: "Virtuell"

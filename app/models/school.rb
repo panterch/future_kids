@@ -16,8 +16,7 @@ class School < ApplicationRecord
   has_many :mentors, through: :kids
 
   enum :school_kind,
-       { high_school: 'high_school', gymnasium: 'gymnasium', secondary_school: 'secondary_school',
-         primary_school: 'primary_school' }
+       { high_school: 'high_school', gymnasium: 'gymnasium', primary_school: 'primary_school' }
 
   def active_teachers
     teachers.active
@@ -38,7 +37,7 @@ class School < ApplicationRecord
     when :mentor
       high_school + gymnasium
     when :teacher, :kid
-      primary_school + secondary_school
+      primary_school
     end
   end
 

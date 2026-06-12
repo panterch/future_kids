@@ -89,13 +89,12 @@ describe School do
 
   context 'filtered by kind' do
     before do
-      # Create 2 high schools, 3 gymnasiums, 1 secondary school and 1 primary school
+      # Create 2 high schools, 3 gymnasiums and 1 primary school
       create(:school, school_kind: :high_school)
       create(:school, school_kind: :high_school)
       create(:school, school_kind: :gymnasium)
       create(:school, school_kind: :gymnasium)
       create(:school, school_kind: :gymnasium)
-      create(:school, school_kind: :secondary_school)
       create(:school, school_kind: :primary_school)
     end
 
@@ -103,12 +102,12 @@ describe School do
       expect(described_class.by_kind(:mentor).length).to eq(5)
     end
 
-    it 'is only of primary and secondary schools for kids' do
-      expect(described_class.by_kind(:kid).length).to eq(2)
+    it 'is only of primary schools for kids' do
+      expect(described_class.by_kind(:kid).length).to eq(1)
     end
 
-    it 'is only of primary and secondary schools for teachers' do
-      expect(described_class.by_kind(:teacher).length).to eq(2)
+    it 'is only of primary schools for teachers' do
+      expect(described_class.by_kind(:teacher).length).to eq(1)
     end
   end
 end

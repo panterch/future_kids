@@ -9,9 +9,6 @@ feature 'Kid Mentor planning', :js do
   let(:school_primary_school) do
     create(:school, name: 'Primary School X')
   end
-  let(:school_secondary_school) do
-    create(:school, name: 'Secondary School X')
-  end
   let(:kid) do
     kid = create(:kid)
 
@@ -242,18 +239,16 @@ feature 'Kid Mentor planning', :js do
       end
 
       describe 'school-filter' do
-        # frederik's kids go to zhaw and to the secondary school
+        # frederik's kids go to zhaw and to the primary school
         let(:mentor_frederik) do
           kid = create(:kid, school: school_zhaw)
           super().kids.push kid
-          kid = create(:kid, school: school_secondary_school)
-          super().kids.push kid
-        end
-        # melanie's kids go to the primary school and to the secondary school
-        let(:mentor_melanie) do
           kid = create(:kid, school: school_primary_school)
           super().kids.push kid
-          kid = create(:kid, school: school_secondary_school)
+        end
+        # melanie's kids go to the primary school
+        let(:mentor_melanie) do
+          kid = create(:kid, school: school_primary_school)
           super().kids.push kid
         end
         # max's kid goes to zhaw
@@ -283,35 +278,11 @@ feature 'Kid Mentor planning', :js do
           end
         end
 
-        scenario 'select only mentors from the secondary school' do
-          select school_secondary_school.name, from: 'school'
-          within('.kid-mentor-schedules') do
-            expect(page).to have_text 'Haller Frederik'
-            expect(page).to have_text 'Rohner Melanie'
-            expect(page).to have_no_text 'Steiner Max'
-            expect(page).to have_no_text 'Koller Sarah'
-          end
-          select 'Weiblich', from: 'sex'
-          within('.kid-mentor-schedules') do
-            expect(page).to have_no_text 'Haller Frederik'
-            expect(page).to have_text 'Rohner Melanie'
-            expect(page).to have_no_text 'Steiner Max'
-            expect(page).to have_no_text 'Koller Sarah'
-          end
-        end
-
         scenario 'select only mentors from the primary school' do
-          select 'Männlich', from: 'sex'
-          within('.kid-mentor-schedules') do
-            expect(page).to have_text 'Haller Frederik'
-            expect(page).to have_no_text 'Rohner Melanie'
-            expect(page).to have_text 'Steiner Max'
-            expect(page).to have_no_text 'Koller Sarah'
-          end
           select school_primary_school.name, from: 'school'
           within('.kid-mentor-schedules') do
-            expect(page).to have_no_text 'Haller Frederik'
-            expect(page).to have_no_text 'Rohner Melanie'
+            expect(page).to have_text 'Haller Frederik'
+            expect(page).to have_text 'Rohner Melanie'
             expect(page).to have_no_text 'Steiner Max'
             expect(page).to have_no_text 'Koller Sarah'
           end

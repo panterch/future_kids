@@ -38,7 +38,6 @@ COMMENT ON EXTENSION pg_stat_statements IS 'track planning and execution statist
 CREATE TYPE public.school_kind AS ENUM (
     'high_school',
     'gymnasium',
-    'secondary_school',
     'primary_school'
 );
 
@@ -1513,6 +1512,7 @@ ALTER TABLE ONLY public.mentor_matchings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260612090000'),
 ('20260611154400'),
 ('20260611133849'),
 ('20260408182213'),
