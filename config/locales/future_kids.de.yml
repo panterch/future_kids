@@ -102,8 +102,6 @@ de:
         todo: Pendenzen
         checked_at: 'Letztes Kontrolldatum'
         coached_at: 'Letztes Coaching'
-        abnormality: 'Auffälligkeiten'
-        abnormality_criticality: 'Kritikalität der Auffälligkeiten'
         admin: Pädagogischer Coach
         admin_id: Pädagogischer Coach
         creator: Ersteller*in
@@ -309,11 +307,6 @@ de:
         male: "männlich"
         female: "weiblich"
         diverse: "divers"
-      abnormality_criticalities:
-        high: "Hoch"
-        medium: "Mittel"
-        low: "Tief"
-
   notifications_mailer:
     remind:
       subject: Future Kids Erinnerung

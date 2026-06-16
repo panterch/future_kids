@@ -112,8 +112,7 @@ class KidsController < ApplicationController
         :meeting_day, :meeting_start_at, :teacher_id, :secondary_teacher_id,
         :third_teacher_id, :mentor_id, :secondary_mentor_id, :secondary_active, :admin_id, :term,
         :exit, :exit_reason, :exit_kind, :exit_at, :checked_at,
-        :coached_at, :abnormality,
-        :abnormality_criticality, :todo, :inactive,
+        :coached_at, :todo, :inactive,
         { schedules_attributes: [%i[day hour minute]] }
       ]
     )

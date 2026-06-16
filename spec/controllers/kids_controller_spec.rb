@@ -44,15 +44,6 @@ describe KidsController do
         expect(assigns(:kids).length).to eq(2)
       end
 
-      it 'orders kids by criticality' do
-        @low  = create(:kid, abnormality_criticality: 3)
-        @high = create(:kid, abnormality_criticality: 1)
-        get :index, params: { order_by: 'abnormality_criticality' }
-        expect(assigns(:kids).first).to eq(@high)
-        expect(assigns(:kids).second).to eq(@low)
-        expect(assigns(:kids).last).to eq(@kid)
-      end
-
       it 'creates a criteria instance for search' do
         get :index, params: { kid: { translator: '1' } }
         expect(assigns(:kid).translator).to be(true)
