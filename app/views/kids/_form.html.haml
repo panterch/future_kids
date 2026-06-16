@@ -122,8 +122,6 @@
     = form.input :checked_at, as: :date, html5: true
     - if @site.feature_coach?
       = form.input :coached_at, as: :date, html5: true
-    = form.input :abnormality
-    = form.input :abnormality_criticality, :collection => criticality_collection
     = form.input :todo
     %a(name='todo')
     = form.input :inactive

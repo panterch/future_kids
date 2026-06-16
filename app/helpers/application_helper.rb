@@ -93,8 +93,7 @@ module ApplicationHelper
     options = [%w[Name name],
                %w[Kontrolldatum checked_at],
                %w[Coachingdatum coached_at],
-               %w[Erfassungsdatum created_at],
-               %w[Kritikalität abnormality_criticality]]
+               %w[Erfassungsdatum created_at]]
     options_for_select(options, selected)
   end
 
@@ -118,10 +117,6 @@ module ApplicationHelper
     options = [%w[Unterstufe 1-3],
                %w[Mittelstufe 4-6]]
     options_for_select(options, selected)
-  end
-
-  def criticality_collection
-    Kid.abnormality_criticalities.keys.map { |k| [Kid.humanize_enum('abnormality_criticality', k), k] }
   end
 
   def duration_collection

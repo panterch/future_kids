@@ -131,11 +131,9 @@ class Kid < ApplicationRecord
 
   enum :exit_kind, { exit: 'exit', later: 'later', continue_term: 'continue_term', continue: 'continue' }
   enum :sex, { male: 'm', female: 'f', diverse: 'd' }
-  enum :abnormality_criticality, { high: 1, medium: 2, low: 3 }
-
-  human_text_attributes :goal, :goal_1, :goal_2, :simplified_schedule, :note, :todo, :abnormality
+  human_text_attributes :goal, :goal_1, :goal_2, :simplified_schedule, :note, :todo
   human_time_attributes :meeting_start_at
-  human_rails_enum_attributes :exit_kind, :sex, :abnormality_criticality
+  human_rails_enum_attributes :exit_kind, :sex
 
   def human_meeting_day
     return nil if meeting_day.nil?
