@@ -27,3 +27,4 @@ storage/
 .byebug_history
 
 /config/master.key
+.claude/settings.local.json
