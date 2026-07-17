@@ -424,7 +424,9 @@ CREATE TABLE public.kids (
     goal_33 boolean,
     goal_34 boolean,
     goal_35 boolean,
-    goals_updated_at timestamp without time zone
+    goals_updated_at timestamp without time zone,
+    journal_summary text,
+    journal_summary_generated_at timestamp without time zone
 );
 
 
@@ -821,7 +823,10 @@ CREATE TABLE public.sites (
     terms_of_use_content_parsed text,
     public_signups_active boolean DEFAULT false,
     title character varying,
-    css text
+    css text,
+    ai_api_url character varying,
+    ai_api_token character varying,
+    ai_model character varying
 );
 
 
@@ -1512,6 +1517,8 @@ ALTER TABLE ONLY public.mentor_matchings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260717094503'),
+('20260717085835'),
 ('20260612090000'),
 ('20260611154400'),
 ('20260611133849'),

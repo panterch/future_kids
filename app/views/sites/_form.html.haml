@@ -20,5 +20,9 @@
   = form.input :teachers_can_access_reviews
   = form.input :kids_schedule_hourly
 
+  = form.input :ai_api_url
+  = form.input :ai_api_token, as: :password
+  = form.input :ai_model
+
   .col-sm-offset-3.col-sm-9
     = form.button :submit

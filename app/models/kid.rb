@@ -118,6 +118,15 @@ class Kid < ApplicationRecord
     journals.order(held_at: :desc).first
   end
 
+  # true if journal entries were added or edited after the summary was generated,
+  # or if no summary has been generated yet while entries exist
+  def journal_summary_stale?
+    return false unless journals.exists?
+    return true if journal_summary_generated_at.blank?
+
+    journals.maximum(:updated_at) > journal_summary_generated_at
+  end
+
   # shows when last schedule relation entry was edited
   def schedules_updated_at
     Schedule.schedules_updated_at(self)
@@ -131,7 +140,7 @@ class Kid < ApplicationRecord
 
   enum :exit_kind, { exit: 'exit', later: 'later', continue_term: 'continue_term', continue: 'continue' }
   enum :sex, { male: 'm', female: 'f', diverse: 'd' }
-  human_text_attributes :goal, :goal_1, :goal_2, :simplified_schedule, :note, :todo
+  human_text_attributes :goal, :goal_1, :goal_2, :simplified_schedule, :note, :todo, :journal_summary
   human_time_attributes :meeting_start_at
   human_rails_enum_attributes :exit_kind, :sex
 

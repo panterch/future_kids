@@ -27,6 +27,21 @@ describe KidsController do
         expect_access_denied { post :update_schedules, params: { id: @kid } }
       end
     end
+
+    context 'show' do
+      it 'renders without a journal summary yet' do
+        create(:journal, kid: @kid, mentor: @mentor)
+        get :show, params: { id: @kid }
+        expect(response).to be_successful
+      end
+
+      it 'renders with a generated journal summary' do
+        create(:journal, kid: @kid, mentor: @mentor)
+        @kid.update!(journal_summary: 'Zusammenfassung', journal_summary_generated_at: Time.zone.now)
+        get :show, params: { id: @kid }
+        expect(response).to be_successful
+      end
+    end
   end
 
   context 'as a admin' do

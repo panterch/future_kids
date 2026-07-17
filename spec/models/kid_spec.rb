@@ -264,6 +264,31 @@ describe Kid do
     end
   end
 
+  context 'journal summary staleness' do
+    let(:kid) { create(:kid) }
+
+    it 'is not stale without journal entries' do
+      expect(kid).not_to be_journal_summary_stale
+    end
+
+    it 'is stale when journals exist but no summary was generated yet' do
+      create(:journal, kid: kid)
+      expect(kid).to be_journal_summary_stale
+    end
+
+    it 'is not stale when the summary was generated after the last journal update' do
+      journal = create(:journal, kid: kid)
+      kid.update!(journal_summary: 'text', journal_summary_generated_at: journal.updated_at + 1.hour)
+      expect(kid).not_to be_journal_summary_stale
+    end
+
+    it 'is stale when a journal was updated after the summary was generated' do
+      journal = create(:journal, kid: kid)
+      kid.update!(journal_summary: 'text', journal_summary_generated_at: journal.updated_at - 1.hour)
+      expect(kid).to be_journal_summary_stale
+    end
+  end
+
   context 'association with admin, mentor and school' do
     it { is_expected.to belong_to(:admin).optional }
 

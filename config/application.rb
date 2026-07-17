@@ -47,6 +47,16 @@ module FutureKids
 
     config.active_record.time_zone_aware_types = %i[datetime time]
 
+    # encrypts sensitive attributes at rest (e.g. Site#ai_api_token). the keys must be set
+    # via ENV in production; development/test fall back to fixed insecure values so the app
+    # runs out of the box without extra setup
+    config.active_record.encryption.primary_key =
+      ENV.fetch('ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY') { Rails.env.production? ? nil : 'insecure-dev-primary-key' }
+    config.active_record.encryption.deterministic_key =
+      ENV.fetch('ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY') { Rails.env.production? ? nil : 'insecure-dev-deterministic-key' }
+    config.active_record.encryption.key_derivation_salt =
+      ENV.fetch('ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT') { Rails.env.production? ? nil : 'insecure-dev-key-derivation-salt' }
+
     # OPTIMIZE: country select only to available locales (this does not to work automatically with
     # i18n active_record)
     ISO3166.configure do |config|

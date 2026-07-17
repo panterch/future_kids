@@ -25,4 +25,32 @@ describe Site do
       expect(@site.terms_of_use_content_parsed).to eq html_result
     end
   end
+
+  describe 'ai_api_token encryption' do
+    it 'stores the token encrypted at rest' do
+      @site.update!(ai_api_token: 'super-secret-token')
+      raw_value = described_class.connection.select_value(
+        "SELECT ai_api_token FROM sites WHERE id = #{@site.id}"
+      )
+      expect(raw_value).not_to eq('super-secret-token')
+      expect(@site.reload.ai_api_token).to eq('super-secret-token')
+    end
+  end
+
+  describe 'ai_api_url validation' do
+    it 'accepts a blank url' do
+      @site.ai_api_url = ''
+      expect(@site).to be_valid
+    end
+
+    it 'accepts a valid http(s) url' do
+      @site.ai_api_url = 'https://api.example.com/v1/chat/completions'
+      expect(@site).to be_valid
+    end
+
+    it 'rejects a malformed url' do
+      @site.ai_api_url = 'not a url'
+      expect(@site).not_to be_valid
+    end
+  end
 end

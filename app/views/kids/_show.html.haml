@@ -153,6 +153,23 @@
   Lernjournale
   - if can?(:create, @cancan_journal)
     =link_to 'Neues Lernjournal', new_kid_journal_path(@kid), class: 'btn btn-default pull-right'
+
+- if @kid.journals.exists?
+  .panel.panel-default
+    .panel-heading
+      %h4 KI-Zusammenfassung
+    .panel-body
+      - if @kid.journal_summary.present?
+        = @kid.human_journal_summary
+        %p.text-muted
+          Erstellt am #{I18n.l(@kid.journal_summary_generated_at.to_date)}
+          - if @kid.journal_summary_stale?
+            (neuere Einträge vorhanden)
+      - else
+        %p.text-muted Es wurde noch keine Zusammenfassung erstellt.
+      = button_to @kid.journal_summary.present? ? 'Zusammenfassung neu erstellen' : 'Zusammenfassung erstellen',
+        kid_journal_summary_path(@kid), method: :post, class: 'btn btn-default'
+
 - @kid.journals.each do |journal|
   .panel.panel-default[journal]
     .panel-heading
