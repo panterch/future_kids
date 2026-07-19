@@ -20,5 +20,12 @@
   = form.input :teachers_can_access_reviews
   = form.input :kids_schedule_hourly
 
+  = form.input :ai_api_base_url, hint: 'OpenAI-kompatible Basis-URL'
+  - token_hint = 'Das Feld zeigt den gespeicherten Token nicht an. Leer lassen, um den bestehenden Token zu behalten.'
+  = form.input :ai_api_token, as: :string, input_html: { value: '', placeholder: @site.ai_api_token.present? ? '••••••••' : nil }, hint: token_hint
+  = form.input :ai_model
+  - prompt_hint = 'Leer lassen, um die Standardanweisung (siehe Platzhalter) zu verwenden.'
+  = form.input :ai_summary_prompt, as: :text, placeholder: JournalSummarizer::DEFAULT_PROMPT, hint: prompt_hint
+
   .col-sm-offset-3.col-sm-9
     = form.button :submit

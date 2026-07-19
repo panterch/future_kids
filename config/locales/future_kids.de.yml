@@ -5,6 +5,7 @@ de:
     school_inactivated: 'Schule wurde inaktiv gesetzt'
     access_denied: 'Sie haben keinen Zugriff (mehr) auf diese Seite.'
     assign_mentor_first: 'Bitte vorher einen Mentor zuordnen.'
+    journal_summary_generated: 'KI-Zusammenfassung wurde erstellt.'
 
   activerecord:
     models:
@@ -20,6 +21,7 @@ de:
       principal: "SL/QUIMS-Verantwortliche*r"
       review: "Gesprächsdokumentation"
       kid_mentor_relation: 'Bewegungen'
+      relation_log: Beziehungen
       site: 'Seitenweite Konfiguration'
       substitutions: 'Ersatz'
       substitution: 'Ersatz'
@@ -37,6 +39,7 @@ de:
         distance: "Entfernung"
         street_no: "Hausnummer"
         note: "Wichtig zu wissen"
+        journal_summary: "KI-Zusammenfassung der Lernjournale"
         sex: "Geschlecht"
         grade: "Klassenstufe"
         available: "Mögliche Termine"
@@ -265,6 +268,10 @@ de:
         kids_schedule_hourly: Stundenplan aktivieren
         terms_of_use_content: Nutzungsbedingungen
         title: Titel des Browsertabs
+        ai_api_base_url: "KI-Anbieter: API Basis-URL"
+        ai_api_token: "KI-Anbieter: API-Token"
+        ai_model: "KI-Anbieter: Modell"
+        ai_summary_prompt: "KI-Zusammenfassung: Anweisung"
         css: Seitenspezifisches CSS
       substitution:
         kid: "Kind"

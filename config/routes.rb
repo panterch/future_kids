@@ -19,6 +19,7 @@ Rails.application.routes.draw do
     resources :reviews
     resources :first_year_assessments
     resources :termination_assessments
+    resource :journal_summary, only: %i[create]
     member do
       get 'edit_schedules'
       get 'show_kid_mentors_schedules'

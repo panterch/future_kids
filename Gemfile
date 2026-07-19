@@ -22,15 +22,11 @@ gem 'devise'
 gem 'google-cloud-storage', require: false
 gem 'i18n_rails_helpers'
 gem 'image_processing'
-# workaround for googleauth 1.17.0 bug — remove once
-# googleapis/google-auth-library-ruby#575 is properly fixed
-gem 'multi_json'
-gem 'ostruct'
 gem 'pg'
 gem 'react-rails'
 gem 'redcarpet'
 gem 'responders'
-gem 'ruby-vips', '~> 2.0'
+gem 'ruby-vips'
 gem 'sassc-rails'
 gem 'show_for'
 gem 'simple_form'

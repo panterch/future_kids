@@ -118,6 +118,15 @@ class Kid < ApplicationRecord
     journals.order(held_at: :desc).first
   end
 
+  # true if journal entries were added or edited after the summary was generated,
+  # or if no summary has been generated yet while entries exist
+  def journal_summary_stale?
+    return false unless journals.exists?
+    return true if journal_summary_generated_at.blank?
+
+    journals.maximum(:updated_at) > journal_summary_generated_at
+  end
+
   # shows when last schedule relation entry was edited
   def schedules_updated_at
     Schedule.schedules_updated_at(self)
@@ -146,6 +155,20 @@ class Kid < ApplicationRecord
 
     c = ISO3166::Country[parent_country]
     c.translations[I18n.locale.to_s] || c.name
+  end
+
+  # the AI summary may contain markdown (e.g. emphasis) despite the prompt
+  # asking for plain flowing text, so it is rendered similar to
+  # Site#terms_of_use_content rather than through simple_format. unlike that
+  # admin-authored content, this text comes from a third-party AI response,
+  # so raw HTML is escaped rather than passed through
+  def human_journal_summary
+    return unless journal_summary
+
+    markdown = Redcarpet::Markdown.new(
+      Redcarpet::Render::HTML.new(escape_html: true, safe_links_only: true), autolink: true, tables: true
+    )
+    markdown.render(journal_summary).html_safe # rubocop:disable Rails/OutputSafety
   end
 
   protected

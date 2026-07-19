@@ -2,7 +2,12 @@
 
 class Site < ApplicationRecord
   has_one_attached :logo
+  encrypts :ai_api_token
+
   validates :logo, content_type: %i[jpg png gif], size: { less_than: 3.megabytes }
+  validates :ai_api_base_url,
+            format: { with: /\A#{URI::DEFAULT_PARSER.make_regexp(%w[http https])}\z/ },
+            allow_blank: true
   before_save :parse_markdown
 
   def self.load
