@@ -81,6 +81,26 @@ describe JournalSummarizer do
       expect { described_class.new(kid).call }.to raise_error(described_class::Error, /keine Zusammenfassung/)
     end
 
+    it 'raises an error when the response body is not valid JSON' do
+      stub_ai_response(body: 'not json')
+      expect { described_class.new(kid).call }.to raise_error(described_class::Error, /nicht gelesen/)
+    end
+
+    it 'raises an error when the connection is refused' do
+      allow(Net::HTTP).to receive(:start).and_raise(Errno::ECONNREFUSED)
+      expect { described_class.new(kid).call }.to raise_error(described_class::Error, /fehlgeschlagen/)
+    end
+
+    it 'raises an error when the connection is reset' do
+      allow(Net::HTTP).to receive(:start).and_raise(Errno::ECONNRESET)
+      expect { described_class.new(kid).call }.to raise_error(described_class::Error, /fehlgeschlagen/)
+    end
+
+    it 'raises an error when the connection closes abruptly' do
+      allow(Net::HTTP).to receive(:start).and_raise(EOFError)
+      expect { described_class.new(kid).call }.to raise_error(described_class::Error, /fehlgeschlagen/)
+    end
+
     it 'includes cancelled journals in the prompt, marked as cancelled' do
       create(:cancelled_journal, kid: kid, held_at: Date.new(2024, 5, 1))
       stub_ai_response(body: { choices: [{ message: { content: 'ok' } }] }.to_json)
@@ -120,6 +140,34 @@ describe JournalSummarizer do
         prompt = JSON.parse(body)['messages'].first['content']
         expect(prompt).to include('Bruchrechnen')
       end
+    end
+  end
+
+  context 'with a single known mentor to redact' do
+    let(:journal_mentor) { create(:mentor, name: 'Fischer', prename: 'Lea') }
+
+    before { create(:journal, kid: kid, mentor: journal_mentor) }
+
+    it 'redacts the mentor name from the outgoing prompt' do
+      stub_ai_response(body: { choices: [{ message: { content: 'ok' } }] }.to_json)
+      described_class.new(kid).call
+      expect(posted_http).to have_received(:post) do |_uri, body, _headers|
+        prompt = JSON.parse(body)['messages'].first['content']
+        expect(prompt).not_to include('Lea')
+        expect(prompt).to match(/\[Mentor\d+\]/)
+      end
+    end
+
+    it 'rehydrates a placeholder in the AI response back to the real name' do
+      http_double = instance_double(Net::HTTP)
+      allow(Net::HTTP).to receive(:start).and_yield(http_double)
+      allow(http_double).to receive(:post) do |_uri, body, _headers|
+        placeholder = JSON.parse(body)['messages'].first['content'][/\[Mentor\d+\]/]
+        content = { choices: [{ message: { content: "Bericht über #{placeholder}." } }] }.to_json
+        instance_double(Net::HTTPSuccess, code: '200', body: content, is_a?: true)
+      end
+
+      expect(described_class.new(kid).call).to eq('Bericht über Lea.')
     end
   end
 end

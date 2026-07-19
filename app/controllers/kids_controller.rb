@@ -61,6 +61,8 @@ class KidsController < ApplicationController
     if params[:format] == 'md'
       raise CanCan::AccessDenied unless current_user.is_a?(Admin)
 
+      return render formats: [:md], locals: { redactor: NameRedactor.new(@kid) } if params[:redacted].present?
+
       return render formats: [:md]
     end
 

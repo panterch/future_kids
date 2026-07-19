@@ -13,6 +13,7 @@ gem 'sprockets-rails'
 
 gem 'actionview-encoded_mail_to'
 gem 'active_storage_validations'
+gem 'jaro_winkler'
 gem 'bootstrap-sass'
 gem 'cancancan'
 gem 'connection_pool'

@@ -9,7 +9,10 @@
 # The prompt is the kid's markdown profile (kids/show.md.erb - the same
 # template the admin-only "/kids/:id.md" view renders), which includes the
 # kid's name, support areas, mentor/teacher assignment history, and the full
-# chronological record (journals, Gespräche, assessments).
+# chronological record (journals, Gespräche, assessments). Real names are
+# redacted from the outgoing prompt via NameRedactor before it leaves the
+# app, and the AI's response is rehydrated back to real names afterwards -
+# see kids/:id.md?redacted=true for a preview of what actually gets sent.
 class JournalSummarizer
   class Error < StandardError; end
 
@@ -36,13 +39,15 @@ class JournalSummarizer
   def call
     raise Error, 'Es sind keine Lernjournal-Einträge vorhanden.' if @kid.journals.empty?
 
-    fetch_summary(build_prompt)
+    redactor = NameRedactor.new(@kid)
+    redactor.rehydrate(fetch_summary(build_prompt(redactor)))
   end
 
   private
 
-  def build_prompt
-    markdown = ApplicationController.renderer.render(template: 'kids/show', formats: [:md], assigns: { kid: @kid })
+  def build_prompt(redactor)
+    markdown = ApplicationController.renderer.render(template: 'kids/show', formats: [:md], assigns: { kid: @kid },
+                                                       locals: { redactor: redactor })
     "#{@site.ai_summary_prompt.presence || DEFAULT_PROMPT}\n\n#{markdown}"
   end
 
@@ -51,6 +56,8 @@ class JournalSummarizer
     raise Error, 'Die Antwort der KI enthielt keine Zusammenfassung.' if content.blank?
 
     content.strip
+  rescue JSON::ParserError
+    raise Error, 'Die Antwort der KI konnte nicht gelesen werden.'
   end
 
   def request(prompt)
@@ -74,7 +81,7 @@ class JournalSummarizer
     raise Error, "Die Anfrage an die KI ist fehlgeschlagen (#{response.code})." unless response.is_a?(Net::HTTPSuccess)
 
     response
-  rescue Timeout::Error, SocketError, OpenSSL::SSL::SSLError => e
+  rescue Timeout::Error, SocketError, OpenSSL::SSL::SSLError, SystemCallError, EOFError => e
     raise Error, "Verbindung zur KI ist fehlgeschlagen: #{e.message}"
   end
 end
