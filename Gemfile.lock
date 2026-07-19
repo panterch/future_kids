@@ -575,8 +575,6 @@ DEPENDENCIES
   jquery-rails
   letter_opener
   listen
-  multi_json
-  ostruct
   pg
   puma
   rails
