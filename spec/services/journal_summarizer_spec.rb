@@ -122,4 +122,32 @@ describe JournalSummarizer do
       end
     end
   end
+
+  context 'with a single known mentor to redact' do
+    let(:journal_mentor) { create(:mentor, name: 'Fischer', prename: 'Lea') }
+
+    before { create(:journal, kid: kid, mentor: journal_mentor) }
+
+    it 'redacts the mentor name from the outgoing prompt' do
+      stub_ai_response(body: { choices: [{ message: { content: 'ok' } }] }.to_json)
+      described_class.new(kid).call
+      expect(posted_http).to have_received(:post) do |_uri, body, _headers|
+        prompt = JSON.parse(body)['messages'].first['content']
+        expect(prompt).not_to include('Lea')
+        expect(prompt).to match(/\[Mentor\d+\]/)
+      end
+    end
+
+    it 'rehydrates a placeholder in the AI response back to the real name' do
+      http_double = instance_double(Net::HTTP)
+      allow(Net::HTTP).to receive(:start).and_yield(http_double)
+      allow(http_double).to receive(:post) do |_uri, body, _headers|
+        placeholder = JSON.parse(body)['messages'].first['content'][/\[Mentor\d+\]/]
+        content = { choices: [{ message: { content: "Bericht über #{placeholder}." } }] }.to_json
+        instance_double(Net::HTTPSuccess, code: '200', body: content, is_a?: true)
+      end
+
+      expect(described_class.new(kid).call).to eq('Bericht über Lea.')
+    end
+  end
 end

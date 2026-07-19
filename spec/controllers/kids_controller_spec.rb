@@ -32,6 +32,10 @@ describe KidsController do
       it 'does not allow rendering the markdown representation' do
         expect_access_denied { get :show, params: { id: @kid }, format: :md }
       end
+
+      it 'does not allow rendering the redacted markdown representation' do
+        expect_access_denied { get :show, params: { id: @kid, redacted: 'true' }, format: :md }
+      end
     end
 
     context 'show' do
@@ -95,6 +99,18 @@ describe KidsController do
         expect(response.media_type).to eq('text/markdown')
         expect(response.body.index('Lernjournal vom 10.01.2024'))
           .to be < response.body.index('Gesprächsdokumentation vom 20.01.2024')
+      end
+
+      it 'renders a redacted markdown representation when redacted=true is given' do
+        mentor = create(:mentor, name: 'Fischer', prename: 'Lea')
+        create(:journal, kid: @kid, mentor: mentor, subject: 'Lea kam vorbei.')
+
+        get :show, params: { id: @kid, redacted: 'true' }, format: :md
+
+        expect(response).to be_successful
+        expect(response.media_type).to eq('text/markdown')
+        expect(response.body).not_to include('Lea')
+        expect(response.body).to match(/\[Mentor\d+\]/)
       end
     end
 

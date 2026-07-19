@@ -1,4 +1,9 @@
-# <%= Kid.model_name.human %>: <%= @kid.display_name %>
+<%
+  redactor = local_assigns[:redactor]
+  name_of = ->(record) { record.nil? ? nil : (redactor ? redactor.placeholder_for_record(record) : record.display_name) }
+  redact = ->(text) { redactor ? redactor.redact(text) : text }
+-%>
+# <%= Kid.model_name.human %>: <%= name_of.(@kid) %>
 
 ## Allgemeine Informationen
 
@@ -18,22 +23,22 @@
 - <%= Kid.human_attribute_name(:parent_country_name) %>: <%= @kid.parent_country_name %>
 <% end -%>
 <% if @kid.note.present? -%>
-- <%= Kid.human_attribute_name(:note) %>: <%= @kid.note %>
+- <%= Kid.human_attribute_name(:note) %>: <%= redact.(@kid.note) %>
 <% end -%>
 <% if @kid.teacher.present? -%>
-- <%= Kid.human_attribute_name(:teacher) %>: <%= @kid.teacher.display_name %>
+- <%= Kid.human_attribute_name(:teacher) %>: <%= name_of.(@kid.teacher) %>
 <% end -%>
 <% if @kid.secondary_teacher.present? -%>
-- <%= Kid.human_attribute_name(:secondary_teacher) %>: <%= @kid.secondary_teacher.display_name %>
+- <%= Kid.human_attribute_name(:secondary_teacher) %>: <%= name_of.(@kid.secondary_teacher) %>
 <% end -%>
 <% if @kid.third_teacher.present? -%>
-- <%= Kid.human_attribute_name(:third_teacher) %>: <%= @kid.third_teacher.display_name %>
+- <%= Kid.human_attribute_name(:third_teacher) %>: <%= name_of.(@kid.third_teacher) %>
 <% end -%>
 <% if @kid.mentor.present? -%>
-- <%= Kid.human_attribute_name(:mentor) %>: <%= @kid.mentor.display_name %>
+- <%= Kid.human_attribute_name(:mentor) %>: <%= name_of.(@kid.mentor) %>
 <% end -%>
 <% if @kid.secondary_active? && @kid.secondary_mentor.present? -%>
-- <%= Kid.human_attribute_name(:secondary_mentor) %>: <%= @kid.secondary_mentor.display_name %>
+- <%= Kid.human_attribute_name(:secondary_mentor) %>: <%= name_of.(@kid.secondary_mentor) %>
 <% end -%>
 
 ## Fachliche Förderbereiche
@@ -110,7 +115,7 @@
 - <%= Kid.human_attribute_name(:goal_24) %>
 <% end -%>
 <% if @kid.goal_1.present? -%>
-- <%= Kid.human_attribute_name(:goal_1) %>: <%= @kid.goal_1 %>
+- <%= Kid.human_attribute_name(:goal_1) %>: <%= redact.(@kid.goal_1) %>
 <% end -%>
 
 ## Überfachliche Förderbereiche
@@ -154,7 +159,7 @@
 - <%= Kid.human_attribute_name(:goal_35) %>
 <% end -%>
 <% if @kid.goal_2.present? -%>
-- <%= Kid.human_attribute_name(:goal_2) %>: <%= @kid.goal_2 %>
+- <%= Kid.human_attribute_name(:goal_2) %>: <%= redact.(@kid.goal_2) %>
 <% end -%>
 
 ## Verlauf
@@ -184,114 +189,114 @@
 <% case record -%>
 <% when Journal -%>
 <% if record.mentor.present? -%>
-- <%= Journal.human_attribute_name(:mentor) %>: <%= record.mentor.display_name %>
+- <%= Journal.human_attribute_name(:mentor) %>: <%= name_of.(record.mentor) %>
 <% end -%>
 <% if record.subject.present? -%>
-- <%= Journal.human_attribute_name(:subject) %>: <%= record.subject %>
+- <%= Journal.human_attribute_name(:subject) %>: <%= redact.(record.subject) %>
 <% end -%>
 <% if record.goal.present? -%>
-- <%= Journal.human_attribute_name(:goal) %>: <%= record.goal %>
+- <%= Journal.human_attribute_name(:goal) %>: <%= redact.(record.goal) %>
 <% end -%>
 <% if record.method.present? -%>
-- <%= Journal.human_attribute_name(:method) %>: <%= record.method %>
+- <%= Journal.human_attribute_name(:method) %>: <%= redact.(record.method) %>
 <% end -%>
 <% if record.outcome.present? -%>
-- <%= Journal.human_attribute_name(:outcome) %>: <%= record.outcome %>
+- <%= Journal.human_attribute_name(:outcome) %>: <%= redact.(record.outcome) %>
 <% end -%>
 <% if record.note.present? -%>
-- <%= Journal.human_attribute_name(:note) %>: <%= record.note %>
+- <%= Journal.human_attribute_name(:note) %>: <%= redact.(record.note) %>
 <% end -%>
 <% if record.comments.any? -%>
 
 #### Kommentare
 
 <% record.comments.sort_by(&:created_at).each do |comment| -%>
-- <%= human_date(comment.created_at) %> – <%= comment.by %>: <%= comment.body %>
+- <%= human_date(comment.created_at) %> – <%= redact.(comment.by) %>: <%= redact.(comment.body) %>
 <% end -%>
 <% end -%>
 <% when Review -%>
 <% if record.attendee.present? -%>
-- <%= Review.human_attribute_name(:attendee) %>: <%= record.attendee %>
+- <%= Review.human_attribute_name(:attendee) %>: <%= redact.(record.attendee) %>
 <% end -%>
 <% if record.reason.present? -%>
-- <%= Review.human_attribute_name(:reason) %>: <%= record.reason %>
+- <%= Review.human_attribute_name(:reason) %>: <%= redact.(record.reason) %>
 <% end -%>
 <% if record.kind.present? -%>
-- <%= Review.human_attribute_name(:kind) %>: <%= record.kind %>
+- <%= Review.human_attribute_name(:kind) %>: <%= redact.(record.kind) %>
 <% end -%>
 <% if record.content.present? -%>
-- <%= Review.human_attribute_name(:content) %>: <%= record.content %>
+- <%= Review.human_attribute_name(:content) %>: <%= redact.(record.content) %>
 <% end -%>
 <% if record.outcome.present? -%>
-- <%= Review.human_attribute_name(:outcome) %>: <%= record.outcome %>
+- <%= Review.human_attribute_name(:outcome) %>: <%= redact.(record.outcome) %>
 <% end -%>
 <% if record.note.present? -%>
-- <%= Review.human_attribute_name(:note) %>: <%= record.note %>
+- <%= Review.human_attribute_name(:note) %>: <%= redact.(record.note) %>
 <% end -%>
 <% when FirstYearAssessment -%>
 <% if record.teacher.present? -%>
-- <%= FirstYearAssessment.human_attribute_name(:teacher) %>: <%= record.teacher.display_name %>
+- <%= FirstYearAssessment.human_attribute_name(:teacher) %>: <%= name_of.(record.teacher) %>
 <% end -%>
 <% if record.mentor.present? -%>
-- <%= FirstYearAssessment.human_attribute_name(:mentor) %>: <%= record.mentor.display_name %>
+- <%= FirstYearAssessment.human_attribute_name(:mentor) %>: <%= name_of.(record.mentor) %>
 <% end -%>
 <% if record.development_teacher.present? || record.development_mentor.present? -%>
 - <%= FirstYearAssessment.human_attribute_name(:development) %>
 <% if record.development_teacher.present? -%>
-  - <%= FirstYearAssessment.human_attribute_name(:development_teacher) %>: <%= record.development_teacher %>
+  - <%= FirstYearAssessment.human_attribute_name(:development_teacher) %>: <%= redact.(record.development_teacher) %>
 <% end -%>
 <% if record.development_mentor.present? -%>
-  - <%= FirstYearAssessment.human_attribute_name(:development_mentor) %>: <%= record.development_mentor %>
+  - <%= FirstYearAssessment.human_attribute_name(:development_mentor) %>: <%= redact.(record.development_mentor) %>
 <% end -%>
 <% end -%>
 <% if record.goals_teacher.present? || record.goals_mentor.present? -%>
 - <%= FirstYearAssessment.human_attribute_name(:goals) %>
 <% if record.goals_teacher.present? -%>
-  - <%= FirstYearAssessment.human_attribute_name(:goals_teacher) %>: <%= record.goals_teacher %>
+  - <%= FirstYearAssessment.human_attribute_name(:goals_teacher) %>: <%= redact.(record.goals_teacher) %>
 <% end -%>
 <% if record.goals_mentor.present? -%>
-  - <%= FirstYearAssessment.human_attribute_name(:goals_mentor) %>: <%= record.goals_mentor %>
+  - <%= FirstYearAssessment.human_attribute_name(:goals_mentor) %>: <%= redact.(record.goals_mentor) %>
 <% end -%>
 <% end -%>
 <% if record.relation_mentor.present? -%>
-- <%= FirstYearAssessment.human_attribute_name(:relation_mentor) %>: <%= record.relation_mentor %>
+- <%= FirstYearAssessment.human_attribute_name(:relation_mentor) %>: <%= redact.(record.relation_mentor) %>
 <% end -%>
 <% if record.motivation.present? -%>
-- <%= FirstYearAssessment.human_attribute_name(:motivation) %>: <%= record.motivation %>
+- <%= FirstYearAssessment.human_attribute_name(:motivation) %>: <%= redact.(record.motivation) %>
 <% end -%>
 <% if record.collaboration.present? -%>
-- <%= FirstYearAssessment.human_attribute_name(:collaboration) %>: <%= record.collaboration %>
+- <%= FirstYearAssessment.human_attribute_name(:collaboration) %>: <%= redact.(record.collaboration) %>
 <% end -%>
 <% if record.improvements.present? -%>
-- <%= FirstYearAssessment.human_attribute_name(:improvements) %>: <%= record.improvements %>
+- <%= FirstYearAssessment.human_attribute_name(:improvements) %>: <%= redact.(record.improvements) %>
 <% end -%>
 <% if record.note.present? -%>
-- <%= FirstYearAssessment.human_attribute_name(:note) %>: <%= record.note %>
+- <%= FirstYearAssessment.human_attribute_name(:note) %>: <%= redact.(record.note) %>
 <% end -%>
 <% when TerminationAssessment -%>
 <% if record.teacher.present? -%>
-- <%= TerminationAssessment.human_attribute_name(:teacher) %>: <%= record.teacher.display_name %>
+- <%= TerminationAssessment.human_attribute_name(:teacher) %>: <%= name_of.(record.teacher) %>
 <% end -%>
 <% if record.development.present? -%>
-- <%= TerminationAssessment.human_attribute_name(:development) %>: <%= record.development %>
+- <%= TerminationAssessment.human_attribute_name(:development) %>: <%= redact.(record.development) %>
 <% end -%>
 <% if record.goals.present? -%>
-- <%= TerminationAssessment.human_attribute_name(:goals) %>: <%= record.goals %>
+- <%= TerminationAssessment.human_attribute_name(:goals) %>: <%= redact.(record.goals) %>
 <% end -%>
 <% if record.goals_reached.present? -%>
-- <%= TerminationAssessment.human_attribute_name(:goals_reached) %>: <%= record.goals_reached %>
+- <%= TerminationAssessment.human_attribute_name(:goals_reached) %>: <%= redact.(record.goals_reached) %>
 <% end -%>
 <% if record.collaboration.present? -%>
-- <%= TerminationAssessment.human_attribute_name(:collaboration) %>: <%= record.collaboration %>
+- <%= TerminationAssessment.human_attribute_name(:collaboration) %>: <%= redact.(record.collaboration) %>
 <% end -%>
 <% if record.improvements.present? -%>
-- <%= TerminationAssessment.human_attribute_name(:improvements) %>: <%= record.improvements %>
+- <%= TerminationAssessment.human_attribute_name(:improvements) %>: <%= redact.(record.improvements) %>
 <% end -%>
 <% if record.note.present? -%>
-- <%= TerminationAssessment.human_attribute_name(:note) %>: <%= record.note %>
+- <%= TerminationAssessment.human_attribute_name(:note) %>: <%= redact.(record.note) %>
 <% end -%>
 <% when RelationLog -%>
-- <%= record.end_at ? 'Entfernt' : 'Zugeordnet' %> als <%= Kid.human_attribute_name(record.role) %>: <%= record.user&.display_name %>
+- <%= record.end_at ? 'Entfernt' : 'Zugeordnet' %> als <%= Kid.human_attribute_name(record.role) %>: <%= name_of.(record.user) %>
 <% end -%>
 
 <% end -%>
