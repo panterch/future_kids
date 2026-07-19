@@ -161,12 +161,19 @@
 
 <%
   timeline = []
-  @kid.journals.each { |journal| timeline << { date: journal.held_at, record: journal } }
+  @kid.journals.includes(:mentor, :comments).each { |journal| timeline << { date: journal.held_at, record: journal } }
   @kid.reviews.each { |review| timeline << { date: review.held_at, record: review } }
-  @kid.first_year_assessments.each { |assessment| timeline << { date: assessment.held_at, record: assessment } }
-  @kid.termination_assessments.each { |assessment| timeline << { date: assessment.held_at, record: assessment } }
-  @kid.relation_logs.each do |relation_log|
-    timeline << { date: (relation_log.start_at || relation_log.end_at).to_date, record: relation_log }
+  @kid.first_year_assessments.includes(:teacher, :mentor).each do |assessment|
+    timeline << { date: assessment.held_at, record: assessment }
+  end
+  @kid.termination_assessments.includes(:teacher).each do |assessment|
+    timeline << { date: assessment.held_at, record: assessment }
+  end
+  @kid.relation_logs.includes(:user).each do |relation_log|
+    date = relation_log.start_at || relation_log.end_at
+    next if date.nil?
+
+    timeline << { date: date.to_date, record: relation_log }
   end
   timeline.sort_by! { |entry| entry[:date] }
 -%>
@@ -198,7 +205,7 @@
 
 #### Kommentare
 
-<% record.comments.reorder(:created_at).each do |comment| -%>
+<% record.comments.sort_by(&:created_at).each do |comment| -%>
 - <%= human_date(comment.created_at) %> – <%= comment.by %>: <%= comment.body %>
 <% end -%>
 <% end -%>

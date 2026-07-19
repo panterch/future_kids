@@ -67,8 +67,10 @@ class JournalSummarizer
     }.to_json
     headers = { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{@site.ai_api_token}" }
 
-    url = "#{@site.ai_api_base_url.chomp('/')}/chat/completions"
-    response = Net::HTTP.post(URI(url), body, headers)
+    uri = URI("#{@site.ai_api_base_url.chomp('/')}/chat/completions")
+    response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https', open_timeout: 10, read_timeout: 30) do |http|
+      http.post(uri, body, headers)
+    end
     raise Error, "Die Anfrage an die KI ist fehlgeschlagen (#{response.code})." unless response.is_a?(Net::HTTPSuccess)
 
     response

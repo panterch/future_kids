@@ -165,7 +165,9 @@ class Kid < ApplicationRecord
   def human_journal_summary
     return unless journal_summary
 
-    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(escape_html: true), autolink: true, tables: true)
+    markdown = Redcarpet::Markdown.new(
+      Redcarpet::Render::HTML.new(escape_html: true, safe_links_only: true), autolink: true, tables: true
+    )
     markdown.render(journal_summary).html_safe # rubocop:disable Rails/OutputSafety
   end
 
