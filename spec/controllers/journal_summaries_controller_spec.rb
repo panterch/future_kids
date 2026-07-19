@@ -6,6 +6,7 @@ describe JournalSummariesController do
   let(:kid) { create(:kid) }
 
   before do
+    Site.load.update!(ai_features_enabled: true)
     create(:journal, kid: kid)
     sign_in create(:admin)
   end
@@ -29,6 +30,14 @@ describe JournalSummariesController do
       expect(kid.reload.journal_summary).to be_nil
       expect(response).to redirect_to(kid_path(kid))
       expect(flash[:alert]).to eq('boom')
+    end
+  end
+
+  context 'when ai features are disabled' do
+    before { Site.load.update!(ai_features_enabled: false) }
+
+    it 'denies generating a summary' do
+      expect_access_denied { post :create, params: { kid_id: kid.id } }
     end
   end
 

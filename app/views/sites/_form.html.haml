@@ -20,6 +20,7 @@
   = form.input :teachers_can_access_reviews
   = form.input :kids_schedule_hourly
 
+  = form.input :ai_features_enabled
   = form.input :ai_api_base_url, hint: 'OpenAI-kompatible Basis-URL'
   - token_hint = 'Das Feld zeigt den gespeicherten Token nicht an. Leer lassen, um den bestehenden Token zu behalten.'
   = form.input :ai_api_token, as: :string, input_html: { value: '', placeholder: @site.ai_api_token.present? ? '••••••••' : nil }, hint: token_hint

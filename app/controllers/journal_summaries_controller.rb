@@ -5,6 +5,7 @@ class JournalSummariesController < ApplicationController
     @kid = Kid.find(params[:kid_id])
     authorize! :read, @kid
     raise CanCan::AccessDenied unless current_user.is_a?(Admin)
+    raise CanCan::AccessDenied unless @site.ai_features_enabled?
 
     @kid.update!(journal_summary: JournalSummarizer.new(@kid).call, journal_summary_generated_at: Time.zone.now)
     redirect_to kid_path(@kid), notice: t('flash.journal_summary_generated')
