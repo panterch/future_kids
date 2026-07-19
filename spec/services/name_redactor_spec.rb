@@ -80,6 +80,13 @@ describe NameRedactor do
       expect(redactor.rehydrate(redacted)).to eq('Anna a Marca de Muster // Beispiel Fritz (wohnt in Musterhausen) rief an.')
     end
 
+    it 'does not treat a guardian name particle as a standalone match token' do
+      kid.update!(parent: 'Anna van Muster')
+
+      result = described_class.new(kid).redact('Wir haben die Reise dann van Fahrt genannt.')
+      expect(result).to eq('Wir haben die Reise dann van Fahrt genannt.')
+    end
+
     it 'redacts teachers including the third teacher, with distinct placeholders' do
       teacher = create(:teacher, name: 'Berger', prename: 'Anna')
       third_teacher = create(:teacher, name: 'Keller', prename: 'Tom')
@@ -177,6 +184,13 @@ describe NameRedactor do
     it 'returns text unchanged when no placeholders were ever produced' do
       redactor = described_class.new(kid)
       expect(redactor.rehydrate('Ein normaler Satz.')).to eq('Ein normaler Satz.')
+    end
+
+    it 'restores a guardian name containing a literal backslash without mangling it' do
+      kid.update!(parent: 'Anna \\1 Muster')
+      redactor = described_class.new(kid)
+      redacted = redactor.redact('Anna hat angerufen.')
+      expect(redactor.rehydrate(redacted)).to eq('Anna \\1 Muster hat angerufen.')
     end
   end
 end

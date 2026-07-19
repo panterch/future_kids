@@ -56,6 +56,8 @@ class JournalSummarizer
     raise Error, 'Die Antwort der KI enthielt keine Zusammenfassung.' if content.blank?
 
     content.strip
+  rescue JSON::ParserError
+    raise Error, 'Die Antwort der KI konnte nicht gelesen werden.'
   end
 
   def request(prompt)
@@ -79,7 +81,7 @@ class JournalSummarizer
     raise Error, "Die Anfrage an die KI ist fehlgeschlagen (#{response.code})." unless response.is_a?(Net::HTTPSuccess)
 
     response
-  rescue Timeout::Error, SocketError, OpenSSL::SSL::SSLError => e
+  rescue Timeout::Error, SocketError, OpenSSL::SSL::SSLError, SystemCallError, EOFError => e
     raise Error, "Verbindung zur KI ist fehlgeschlagen: #{e.message}"
   end
 end

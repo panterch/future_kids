@@ -120,12 +120,14 @@ class PersonDictionary
       self.class.person_for(@kid.third_teacher, :teacher),
       self.class.person_for(@kid.mentor, :mentor),
       self.class.person_for(@kid.secondary_mentor, :mentor),
-      *@kid.journals.map { |journal| self.class.person_for(journal.mentor, :mentor) },
-      *@kid.first_year_assessments.flat_map do |a|
+      *@kid.journals.includes(:mentor).map { |journal| self.class.person_for(journal.mentor, :mentor) },
+      *@kid.first_year_assessments.includes(:teacher, :mentor).flat_map do |a|
         [self.class.person_for(a.teacher, :teacher), self.class.person_for(a.mentor, :mentor)]
       end,
-      *@kid.termination_assessments.map { |a| self.class.person_for(a.teacher, :teacher) },
-      *@kid.relation_logs.map { |log| self.class.person_for(log.user, RELATION_LOG_ROLES.fetch(log.role, :admin)) },
+      *@kid.termination_assessments.includes(:teacher).map { |a| self.class.person_for(a.teacher, :teacher) },
+      *@kid.relation_logs.includes(:user).map do |log|
+        self.class.person_for(log.user, RELATION_LOG_ROLES.fetch(log.role, :admin))
+      end,
       *Admin.all.map { |admin| self.class.person_for(admin, :admin) },
       *@kid.school&.principals&.map { |principal| self.class.person_for(principal, :principal) }
     ]
@@ -148,7 +150,7 @@ class PersonDictionary
 
   def guardian_words
     @kid.parent.split(GUARDIAN_DELIMITER).flat_map { |part| part.split(/[\s-]+/) }.reject do |word|
-      word.blank? || GUARDIAN_STOPWORDS.include?(word.downcase)
+      word.blank? || GUARDIAN_STOPWORDS.include?(word.downcase) || NAME_PARTICLES.include?(word.downcase)
     end
   end
 end

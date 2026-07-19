@@ -81,6 +81,26 @@ describe JournalSummarizer do
       expect { described_class.new(kid).call }.to raise_error(described_class::Error, /keine Zusammenfassung/)
     end
 
+    it 'raises an error when the response body is not valid JSON' do
+      stub_ai_response(body: 'not json')
+      expect { described_class.new(kid).call }.to raise_error(described_class::Error, /nicht gelesen/)
+    end
+
+    it 'raises an error when the connection is refused' do
+      allow(Net::HTTP).to receive(:start).and_raise(Errno::ECONNREFUSED)
+      expect { described_class.new(kid).call }.to raise_error(described_class::Error, /fehlgeschlagen/)
+    end
+
+    it 'raises an error when the connection is reset' do
+      allow(Net::HTTP).to receive(:start).and_raise(Errno::ECONNRESET)
+      expect { described_class.new(kid).call }.to raise_error(described_class::Error, /fehlgeschlagen/)
+    end
+
+    it 'raises an error when the connection closes abruptly' do
+      allow(Net::HTTP).to receive(:start).and_raise(EOFError)
+      expect { described_class.new(kid).call }.to raise_error(described_class::Error, /fehlgeschlagen/)
+    end
+
     it 'includes cancelled journals in the prompt, marked as cancelled' do
       create(:cancelled_journal, kid: kid, held_at: Date.new(2024, 5, 1))
       stub_ai_response(body: { choices: [{ message: { content: 'ok' } }] }.to_json)

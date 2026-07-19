@@ -94,7 +94,7 @@ class NameRedactor
   def rehydrate(text)
     return text if text.blank?
 
-    @mapping.each { |placeholder, name| text = text.gsub(placeholder, name) }
+    @mapping.each { |placeholder, name| text = text.gsub(placeholder) { name } }
     text
   end
 
