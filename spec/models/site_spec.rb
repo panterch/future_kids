@@ -37,19 +37,19 @@ describe Site do
     end
   end
 
-  describe 'ai_api_url validation' do
+  describe 'ai_api_base_url validation' do
     it 'accepts a blank url' do
-      @site.ai_api_url = ''
+      @site.ai_api_base_url = ''
       expect(@site).to be_valid
     end
 
     it 'accepts a valid http(s) url' do
-      @site.ai_api_url = 'https://api.example.com/v1/chat/completions'
+      @site.ai_api_base_url = 'https://api.example.com/v1'
       expect(@site).to be_valid
     end
 
     it 'rejects a malformed url' do
-      @site.ai_api_url = 'not a url'
+      @site.ai_api_base_url = 'not a url'
       expect(@site).not_to be_valid
     end
   end

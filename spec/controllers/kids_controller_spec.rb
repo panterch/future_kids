@@ -28,6 +28,12 @@ describe KidsController do
       end
     end
 
+    context 'markdown' do
+      it 'does not allow rendering the markdown representation' do
+        expect_access_denied { get :show, params: { id: @kid }, format: :md }
+      end
+    end
+
     context 'show' do
       it 'renders without a journal summary yet' do
         create(:journal, kid: @kid, mentor: @mentor)
@@ -75,6 +81,20 @@ describe KidsController do
         get :index, format: 'xlsx'
         expect(response).to be_successful
         expect(response.headers['Content-Disposition']).to match(/filename="kids-\d{4}-\d{2}-\d{2}-\d{2}-\d{2}\.xlsx"/)
+      end
+    end
+
+    context 'markdown' do
+      it 'renders a markdown representation including journals and reviews in chronological order' do
+        create(:journal, kid: @kid, subject: 'Bruchrechnen', held_at: Date.new(2024, 1, 10))
+        create(:review, kid: @kid, content: 'Elterngespräch', held_at: Date.new(2024, 1, 20))
+
+        get :show, params: { id: @kid }, format: :md
+
+        expect(response).to be_successful
+        expect(response.media_type).to eq('text/markdown')
+        expect(response.body.index('Lernjournal vom 10.01.2024'))
+          .to be < response.body.index('Gesprächsdokumentation vom 20.01.2024')
       end
     end
 

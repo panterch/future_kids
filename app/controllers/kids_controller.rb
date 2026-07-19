@@ -57,6 +57,16 @@ class KidsController < ApplicationController
     redirect_to substitution_url(@substitution)
   end
 
+  def show
+    if params[:format] == 'md'
+      raise CanCan::AccessDenied unless current_user.is_a?(Admin)
+
+      return render formats: [:md]
+    end
+
+    respond_with @kid
+  end
+
   def show_kid_mentors_schedules
     @mentors = Mentor.active.includes(:kids, :secondary_kids, :schools, :schedules)
     @schools = School.all

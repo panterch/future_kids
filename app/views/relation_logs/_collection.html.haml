@@ -1,5 +1,5 @@
 - if current_user.is_a?(Admin) && !resource.relation_logs.empty?
-  %h2#relation_logs Beziehungen
+  %h2#relation_logs= RelationLog.model_name.human
   %table.table.table-striped.table-condensed.table-hover
     %tr
       %th Datum

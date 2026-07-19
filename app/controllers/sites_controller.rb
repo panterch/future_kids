@@ -31,16 +31,16 @@ class SitesController < ApplicationController
 
   private
 
-  # the API token is submitted through a password field which is never
-  # pre-filled with the (encrypted) existing value, so an untouched field
-  # must not overwrite the stored token with a blank one
+  # the API token field is rendered blank (never pre-filled with the existing
+  # value, see the form), so an untouched field must not overwrite the stored
+  # token with a blank one
   def site_params
     permitted = params.expect(
       site: %i[footer_address footer_email logo feature_coach
                term_collection_start term_collection_end
                comment_bcc notifications_default_email teachers_can_access_reviews
                kids_schedule_hourly terms_of_use_content
-               title css ai_api_url ai_api_token ai_model]
+               title css ai_api_base_url ai_api_token ai_model ai_summary_prompt]
     )
     permitted.delete(:ai_api_token) if permitted[:ai_api_token].blank?
     permitted

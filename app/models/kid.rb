@@ -140,7 +140,7 @@ class Kid < ApplicationRecord
 
   enum :exit_kind, { exit: 'exit', later: 'later', continue_term: 'continue_term', continue: 'continue' }
   enum :sex, { male: 'm', female: 'f', diverse: 'd' }
-  human_text_attributes :goal, :goal_1, :goal_2, :simplified_schedule, :note, :todo, :journal_summary
+  human_text_attributes :goal, :goal_1, :goal_2, :simplified_schedule, :note, :todo
   human_time_attributes :meeting_start_at
   human_rails_enum_attributes :exit_kind, :sex
 
@@ -155,6 +155,18 @@ class Kid < ApplicationRecord
 
     c = ISO3166::Country[parent_country]
     c.translations[I18n.locale.to_s] || c.name
+  end
+
+  # the AI summary may contain markdown (e.g. emphasis) despite the prompt
+  # asking for plain flowing text, so it is rendered similar to
+  # Site#terms_of_use_content rather than through simple_format. unlike that
+  # admin-authored content, this text comes from a third-party AI response,
+  # so raw HTML is escaped rather than passed through
+  def human_journal_summary
+    return unless journal_summary
+
+    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML.new(escape_html: true), autolink: true, tables: true)
+    markdown.render(journal_summary).html_safe # rubocop:disable Rails/OutputSafety
   end
 
   protected

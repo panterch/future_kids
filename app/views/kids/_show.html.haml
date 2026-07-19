@@ -154,7 +154,7 @@
   - if can?(:create, @cancan_journal)
     =link_to 'Neues Lernjournal', new_kid_journal_path(@kid), class: 'btn btn-default pull-right'
 
-- if @kid.journals.exists?
+- if current_user.is_a?(Admin) && @kid.journals.exists?
   .panel.panel-default
     .panel-heading
       %h4 KI-Zusammenfassung

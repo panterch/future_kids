@@ -31,4 +31,16 @@ describe JournalSummariesController do
       expect(flash[:alert]).to eq('boom')
     end
   end
+
+  context 'as a mentor with read access to the kid' do
+    before do
+      mentor = create(:mentor)
+      kid.update!(mentor: mentor)
+      sign_in mentor
+    end
+
+    it 'denies generating a summary' do
+      expect_access_denied { post :create, params: { kid_id: kid.id } }
+    end
+  end
 end

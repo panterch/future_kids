@@ -5,7 +5,7 @@ class Site < ApplicationRecord
   encrypts :ai_api_token
 
   validates :logo, content_type: %i[jpg png gif], size: { less_than: 3.megabytes }
-  validates :ai_api_url, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]) }, allow_blank: true
+  validates :ai_api_base_url, format: { with: URI::DEFAULT_PARSER.make_regexp(%w[http https]) }, allow_blank: true
   before_save :parse_markdown
 
   def self.load

@@ -824,9 +824,10 @@ CREATE TABLE public.sites (
     public_signups_active boolean DEFAULT false,
     title character varying,
     css text,
-    ai_api_url character varying,
     ai_api_token character varying,
-    ai_model character varying
+    ai_model character varying,
+    ai_api_base_url character varying,
+    ai_summary_prompt text
 );
 
 
@@ -1517,6 +1518,7 @@ ALTER TABLE ONLY public.mentor_matchings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260719100000'),
 ('20260717094503'),
 ('20260717085835'),
 ('20260612090000'),

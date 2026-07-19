@@ -29,6 +29,11 @@ describe SitesController do
         expect(Site.load.ai_api_token).to eq('existing-token')
         expect(Site.load.title).to eq('Future Kids')
       end
+
+      it 'updates the ai summary prompt' do
+        put :update, params: { site: { ai_summary_prompt: 'Custom instruction' } }
+        expect(Site.load.ai_summary_prompt).to eq('Custom instruction')
+      end
     end
   end
 end
