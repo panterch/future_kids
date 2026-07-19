@@ -40,7 +40,7 @@ class SitesController < ApplicationController
                term_collection_start term_collection_end
                comment_bcc notifications_default_email teachers_can_access_reviews
                kids_schedule_hourly terms_of_use_content
-               title css ai_api_base_url ai_api_token ai_model ai_summary_prompt]
+               title css ai_features_enabled ai_api_base_url ai_api_token ai_model ai_summary_prompt]
     )
     permitted.delete(:ai_api_token) if permitted[:ai_api_token].blank?
     permitted
