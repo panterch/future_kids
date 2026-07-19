@@ -590,7 +590,7 @@ DEPENDENCIES
   rubocop-rails
   rubocop-rspec
   rubocop-rspec_rails
-  ruby-vips (~> 2.0)
+  ruby-vips
   sassc-rails
   shoulda-matchers
   show_for
