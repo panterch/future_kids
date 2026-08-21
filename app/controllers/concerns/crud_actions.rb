@@ -58,7 +58,7 @@ module CrudActions
   end
 
   def resource_class
-    resource_name.capitalize.constantize
+    resource_name.classify.constantize
   end
 
   def alias_as_resource
