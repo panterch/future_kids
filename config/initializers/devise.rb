@@ -11,7 +11,9 @@ Devise.setup do |config|
   config.remember_for = 4.weeks
   config.expire_all_remember_me_on_sign_out = true
   config.password_length = 6..128
-  config.timeout_in = 5.weeks
+  # Idle session timeout (requires :timeoutable in User). Kept in sync with the session
+  # cookie's expire_after via config.x.session_lifetime (see config/application.rb).
+  config.timeout_in = Rails.application.config.x.session_lifetime
   config.reset_password_within = 6.hours
   config.sign_out_via = :delete
 end

@@ -32,6 +32,10 @@ module FutureKids
 
     config.time_zone = 'Bern'
 
+    # Single source of truth for session lifetime, shared by the session cookie's expire_after
+    # (config/initializers/session_store.rb) and Devise's idle timeout (config/initializers/devise.rb).
+    config.x.session_lifetime = 4.weeks
+
     config.i18n.default_locale = :de
     config.i18n.available_locales = :de
     config.i18n.fallbacks = [:de]
