@@ -21,7 +21,7 @@ Future Kids is a Rails 8 application that manages a mentoring program connecting
 - `bundle exec rubocop` - Run Ruby linter/formatter
 
 ### Asset Management
-- Assets are compiled using Sprockets with SCSS and CoffeeScript
+- Assets are compiled using Sprockets with SCSS
 - JavaScript components use React (via react-rails gem)
 - Run `bin/rails assets:precompile` for production builds
 
