@@ -5,15 +5,11 @@ class TeachersController < ApplicationController
   include CrudActions
 
   before_action :load_and_constrain_schools, except: %i[index show]
-  # principals are allowed to change teachers schools, so we cannot
-  # use the too aggressive global parameter filtering
-  skip_before_action :intercept_sensitive_params!
 
   def index
     # a prototyped teacher is submitted with each index query. if the prototype
     # is not present, it is built here with default values
     filter = teacher_params
-    # the inactive filter is only permitted for admins (see teacher_params)
     filter = filter.with_defaults(inactive: '0') if current_user.is_a?(Admin)
 
     @teachers = @teachers.where(filter.to_h.compact_blank!)
@@ -51,12 +47,12 @@ class TeachersController < ApplicationController
     raise SecurityError, "User #{current_user.id} not allowed to change school_id to #{params[:teacher][:school_id]}"
   end
 
+  # inactive is write-protected by the global ApplicationController guard,
+  # not by role-conditional permitting here
   def teacher_params
     if params[:teacher].present?
-      keys = %i[name prename email password password_confirmation school_id
-                phone receive_journals todo note]
-      keys << :inactive if current_user.is_a?(Admin)
-      params.require(:teacher).permit(keys)
+      params.require(:teacher).permit(:name, :prename, :email, :password, :password_confirmation, :school_id,
+                                       :phone, :receive_journals, :todo, :note, :inactive)
     else
       {}
     end

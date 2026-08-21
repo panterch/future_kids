@@ -36,6 +36,37 @@ describe MentorsController do
         expect(@mentor.reload.schedules.count).to eq(2)
       end
     end
+
+    context 'update' do
+      it 'can update its own record' do
+        put :update, params: { id: @mentor.id, mentor: { name: 'changed' } }
+        expect(@mentor.reload.name).to eq('changed')
+      end
+
+      it 'does not allow setting ects' do
+        expect do
+          put :update, params: { id: @mentor.id, mentor: { ects: 30 } }
+        end.to raise_error(SecurityError)
+      end
+
+      it 'does not allow setting the personnel number' do
+        expect do
+          put :update, params: { id: @mentor.id, mentor: { personnel_number: '1337' } }
+        end.to raise_error(SecurityError)
+      end
+
+      it 'does not allow setting the exit status' do
+        expect do
+          put :update, params: { id: @mentor.id, mentor: { exit_kind: 'other' } }
+        end.to raise_error(SecurityError)
+      end
+
+      it 'does not allow setting the inactive flag' do
+        expect do
+          put :update, params: { id: @mentor.id, mentor: { inactive: true } }
+        end.to raise_error(SecurityError)
+      end
+    end
   end
 
   context 'as an admin' do

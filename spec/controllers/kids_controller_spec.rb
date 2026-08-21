@@ -196,6 +196,34 @@ describe KidsController do
           put :update, params: { id: kid.id, kid: { school_id: create(:school).id } }
         end.to raise_error(SecurityError)
       end
+
+      it 'does not allow reassigning the mentor' do
+        kid = create(:kid, teacher: @teacher, school: @school)
+        expect do
+          put :update, params: { id: kid.id, kid: { mentor_id: create(:mentor).id } }
+        end.to raise_error(SecurityError)
+      end
+
+      it 'does not allow assigning a coach' do
+        kid = create(:kid, teacher: @teacher, school: @school)
+        expect do
+          put :update, params: { id: kid.id, kid: { admin_id: create(:admin).id } }
+        end.to raise_error(SecurityError)
+      end
+
+      it 'does not allow setting the exit status' do
+        kid = create(:kid, teacher: @teacher, school: @school)
+        expect do
+          put :update, params: { id: kid.id, kid: { exit_kind: 'other' } }
+        end.to raise_error(SecurityError)
+      end
+
+      it 'does not allow setting the inactive flag' do
+        kid = create(:kid, teacher: @teacher, school: @school)
+        expect do
+          put :update, params: { id: kid.id, kid: { inactive: true } }
+        end.to raise_error(SecurityError)
+      end
     end
 
     context 'create' do

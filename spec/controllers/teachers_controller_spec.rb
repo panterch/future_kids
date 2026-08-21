@@ -120,7 +120,7 @@ describe TeachersController do
         expect(@teacher.reload.name).to eq('changed')
       end
 
-      it 'cannot update its own school or inactivity' do
+      it 'cannot update its own school' do
         @original_school = @teacher.school
         @school = create(:school)
         expect do
@@ -129,6 +129,13 @@ describe TeachersController do
           } }
         end.to raise_error(SecurityError)
         expect(@teacher.reload.school).not_to eq(@school)
+      end
+
+      it 'cannot update its own inactivity' do
+        expect do
+          put :update, params: { id: @teacher.id, teacher: { inactive: true } }
+        end.to raise_error(SecurityError)
+        expect(@teacher.reload.inactive).to be(false)
       end
     end
   end

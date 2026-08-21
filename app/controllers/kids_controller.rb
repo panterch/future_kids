@@ -7,6 +7,18 @@ class KidsController < ApplicationController
   include CrudActions
   include ManageSchedules # edit_schedules & update_schedules
 
+  # mentor/admin assignment and exit/termination fields are only editable by
+  # admins (see app/views/kids/_form.html.haml) but kid_params permits them
+  # regardless of role - load_and_authorize_resource only restricts which
+  # kids may be updated, not which attributes on them. teacher_id and its
+  # secondary/third variants are excluded here: teachers are legitimately
+  # allowed to assign themselves/other teachers on kids they create (see
+  # #assign_current_teacher and the "assign itself as teacher" specs)
+  guards_privileged_fields :kid, %w[
+    mentor_id secondary_mentor_id secondary_active
+    admin_id term exit exit_reason exit_kind exit_at checked_at coached_at
+  ]
+
   before_action :cancan_prototypes, only: [:show]
   before_action :assign_current_teacher, only: [:create]
   before_action :prepare_substitution
