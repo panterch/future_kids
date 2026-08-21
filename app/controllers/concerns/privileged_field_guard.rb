@@ -6,24 +6,47 @@ module PrivilegedFieldGuard
   extend ActiveSupport::Concern
 
   included do
-    class_attribute :privileged_field_param_root, :privileged_fields
+    class_attribute :privileged_field_guards, default: []
   end
 
   class_methods do
+    # param_root: the top-level params key to check (e.g. :kid), or nil to
+    # search the whole params tree (used for fields sensitive on every
+    # controller, such as :inactive). Guards accumulate across the
+    # inheritance chain, so ApplicationController's global guards still run
+    # alongside any a subclass registers.
     def guards_privileged_fields(param_root, fields)
-      self.privileged_field_param_root = param_root
-      self.privileged_fields = fields
+      self.privileged_field_guards += [[param_root, fields]]
     end
   end
 
   def intercept_privileged_fields
     return true unless %w[update create].include?(action_name)
     return if current_user.is_a?(Admin)
-    return if params[privileged_field_param_root].blank?
 
-    submitted = privileged_fields.select { |field| params[privileged_field_param_root].key?(field) }
-    return if submitted.empty?
+    privileged_field_guards.each do |param_root, fields|
+      scope = param_root ? params[param_root] : params
+      next if scope.blank?
 
-    raise SecurityError, "User #{current_user.id} not allowed to change #{submitted.join(', ')}"
+      submitted = fields.select { |field| params_key_present?(scope, field) }
+      next if submitted.empty?
+
+      raise SecurityError, "User #{current_user.id} not allowed to change #{submitted.join(', ')}"
+    end
+  end
+
+  private
+
+  def params_key_present?(scope, key)
+    case scope
+    when ActionController::Parameters, Hash
+      return true if scope.key?(key)
+
+      scope.values.any? { |value| params_key_present?(value, key) }
+    when Array
+      scope.any? { |value| params_key_present?(value, key) }
+    else
+      false
+    end
   end
 end

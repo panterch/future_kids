@@ -5,6 +5,11 @@ require 'application_responder'
 class ApplicationController < ActionController::Base
   self.responder = ApplicationResponder
   respond_to :html
+  include PrivilegedFieldGuard
+
+  # inactive is a sensitive param that is only manageable by admins, on
+  # every controller
+  guards_privileged_fields nil, %w[inactive]
 
   # Handle CSRF token validation failures gracefully
   rescue_from ActionController::InvalidAuthenticityToken, with: :handle_invalid_token
@@ -21,7 +26,7 @@ class ApplicationController < ActionController::Base
   before_action :load_site_configuration
   before_action :logout_inactive
   before_action :authenticate_user!
-  before_action :intercept_sensitive_params!
+  before_action :intercept_privileged_fields
   before_action :detect_empty_session
 
   protected
@@ -91,16 +96,6 @@ class ApplicationController < ActionController::Base
 
     sign_out current_user
     redirect_to root_url, alert: t('flash.user_inactive')
-  end
-
-  # some parameters should only be set by admins.
-  # school_id: setting this would allow access to other school's kids
-  def intercept_sensitive_params!
-    return true unless %w[update create].include?(action_name)
-    return true if current_user.is_a?(Admin)
-    return true if params.blank?
-    # inactive is a sensitive param that is only manageable by admins
-    raise SecurityError, "User #{current_user.id} not allowed to change inactive flag" if params.inspect =~ /inactive/
   end
 
   def valid_order_by?(klass, params)

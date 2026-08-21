@@ -3,14 +3,11 @@
 class PrincipalsController < ApplicationController
   load_and_authorize_resource
   include CrudActions
-  include PrivilegedFieldGuard
 
   # school assignment is only manageable by admins - a principal changing
   # their own schools would let them reach kids/teachers outside their
   # original assignment
   guards_privileged_fields :principal, %w[school_ids]
-
-  before_action :intercept_privileged_fields
 
   def index
     # a prototyped principal is submitted with each index query. if the

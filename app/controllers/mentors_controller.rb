@@ -4,15 +4,12 @@ class MentorsController < ApplicationController
   load_and_authorize_resource
   include CrudActions
   include ManageSchedules # edit_schedules & update_schedules
-  include PrivilegedFieldGuard
 
   # personnel_number/ects/term/exit/absence/substitute are only editable by
   # admins (see app/views/mentors/_form.html.haml) but mentor_params permits
   # them regardless of role - a mentor may update their own record
   # (can :update, Mentor, id: user.id) which would otherwise let them set these
   guards_privileged_fields :mentor, %w[personnel_number ects term exit exit_kind exit_at absence substitute]
-
-  before_action :intercept_privileged_fields
 
   def index
     # a prototyped mentor is submitted with each index query. if the prototype

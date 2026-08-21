@@ -6,7 +6,6 @@ class KidsController < ApplicationController
   load_and_authorize_resource
   include CrudActions
   include ManageSchedules # edit_schedules & update_schedules
-  include PrivilegedFieldGuard
 
   # mentor/admin assignment and exit/termination fields are only editable by
   # admins (see app/views/kids/_form.html.haml) but kid_params permits them
@@ -24,7 +23,6 @@ class KidsController < ApplicationController
   before_action :assign_current_teacher, only: [:create]
   before_action :prepare_substitution
   before_action :intercept_school_id
-  before_action :intercept_privileged_fields
   before_action :load_and_constrain_schools, except: %i[index show show_kid_mentors_schedules]
   after_action :track_creation_relation, only: [:create]
 
