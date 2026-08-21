@@ -3,8 +3,14 @@
 class PrincipalsController < ApplicationController
   load_and_authorize_resource
   include CrudActions
+  include PrivilegedFieldGuard
 
-  before_action :intercept_privileged_principal_fields
+  # school assignment is only manageable by admins - a principal changing
+  # their own schools would let them reach kids/teachers outside their
+  # original assignment
+  guards_privileged_fields :principal, %w[school_ids]
+
+  before_action :intercept_privileged_fields
 
   def index
     # a prototyped principal is submitted with each index query. if the
@@ -31,17 +37,5 @@ class PrincipalsController < ApplicationController
       keys << :inactive
     end
     params.require(:principal).permit(keys)
-  end
-
-  # school assignment is only manageable by admins - a principal changing
-  # their own schools would let them reach kids/teachers outside their
-  # original assignment
-  def intercept_privileged_principal_fields
-    return true unless %w[update create].include?(action_name)
-    return if current_user.is_a?(Admin)
-    return if params[:principal].blank?
-    return unless params[:principal].key?(:school_ids)
-
-    raise SecurityError, "User #{current_user.id} not allowed to change school_ids"
   end
 end
