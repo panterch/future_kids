@@ -6,4 +6,4 @@ Rails.application.config.session_store :cookie_store,
                                        key: '_future_kids_session',
                                        same_site: :lax,
                                        secure: Rails.env.production?,
-                                       expire_after: 2.weeks
+                                       expire_after: Rails.application.config.x.session_lifetime
