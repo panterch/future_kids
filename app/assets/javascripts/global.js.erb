@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', function() {
   register_back_to_top_link();
   register_exit_at_toggler();
   register_freetext_toggler();
+  register_dropdowns();
+  register_collapses();
   register_treeview();
   register_document_search();
   setTimeout(remove_alerts, 3000);
@@ -56,11 +58,74 @@ function register_schedule_checkboxes() {
 }
 
 function register_todotogglers() {
-  // popover is a Bootstrap 3 jQuery plugin
-  $('a.todotoggle').popover({
-    placement: 'left',
-    trigger: 'hover',
-    html: true
+  document.querySelectorAll('a.todotoggle').forEach(function(link) {
+    var popover = null;
+
+    function showPopover() {
+      var content = link.dataset.content;
+      if (!content) return;
+
+      popover = document.createElement('div');
+      popover.className = 'popover left';
+      popover.setAttribute('role', 'tooltip');
+      popover.innerHTML = '<div class="arrow"></div><div class="popover-content"></div>';
+      popover.querySelector('.popover-content').innerHTML = content;
+      document.body.appendChild(popover);
+
+      // pointer-events: none keeps the cursor from "landing" on the popover
+      // itself, which would otherwise trigger the link's mouseleave and
+      // flicker the popover open/closed in a loop.
+      popover.style.pointerEvents = 'none';
+
+      var linkRect = link.getBoundingClientRect();
+      var popoverRect = popover.getBoundingClientRect();
+      popover.style.position = 'absolute';
+      popover.style.top = (window.scrollY + linkRect.top + linkRect.height / 2 - popoverRect.height / 2) + 'px';
+      popover.style.left = (window.scrollX + linkRect.left - popoverRect.width - 10) + 'px';
+      popover.style.display = 'block';
+    }
+
+    function hidePopover() {
+      if (popover) {
+        popover.remove();
+        popover = null;
+      }
+    }
+
+    link.addEventListener('mouseenter', showPopover);
+    link.addEventListener('mouseleave', hidePopover);
+  });
+}
+
+function register_dropdowns() {
+  document.querySelectorAll('.dropdown-toggle').forEach(function(toggle) {
+    toggle.addEventListener('click', function(event) {
+      event.preventDefault();
+      event.stopPropagation();
+      var dropdown = toggle.closest('.dropdown');
+      var wasOpen = dropdown.classList.contains('open');
+      document.querySelectorAll('.dropdown.open').forEach(function(el) {
+        el.classList.remove('open');
+      });
+      if (!wasOpen) dropdown.classList.add('open');
+    });
+  });
+
+  document.addEventListener('click', function() {
+    document.querySelectorAll('.dropdown.open').forEach(function(el) {
+      el.classList.remove('open');
+    });
+  });
+}
+
+function register_collapses() {
+  document.querySelectorAll('[data-toggle="collapse"]').forEach(function(trigger) {
+    trigger.addEventListener('click', function(event) {
+      event.preventDefault();
+      var targetSelector = trigger.getAttribute('data-target');
+      var target = targetSelector && document.querySelector(targetSelector);
+      if (target) target.classList.toggle('in');
+    });
   });
 }
 
@@ -160,13 +225,14 @@ function register_freetext_toggler() {
   });
 }
 
+var documentTree = null;
+
 function register_treeview() {
   var treeEl = document.getElementById('tree');
   if (!treeEl) return;
 
-  // treeview, expandAll, collapseAll, getSelected are bootstrap-treeview jQuery plugin calls
-  $('#tree').treeview({
-    data: $('#tree').data('tree'),
+  documentTree = new Treeview(treeEl, {
+    data: JSON.parse(treeEl.dataset.tree),
     enableLinks: true,
     levels: 1
   });
@@ -174,14 +240,14 @@ function register_treeview() {
   var expandAll = document.getElementById('tree_expand_all');
   if (expandAll) {
     expandAll.addEventListener('click', function() {
-      $('#tree').treeview('expandAll');
+      documentTree.expandAll();
     });
   }
 
   var collapseAll = document.getElementById('tree_collapse_all');
   if (collapseAll) {
     collapseAll.addEventListener('click', function() {
-      $('#tree').treeview('collapseAll');
+      documentTree.collapseAll();
     });
   }
 
@@ -192,7 +258,7 @@ function register_treeview() {
     deleteNode.addEventListener('click', function(event) {
       event.preventDefault();
       event.stopPropagation();
-      var nodes = $('#tree').treeview('getSelected');
+      var nodes = documentTree.getSelected();
       if (nodes.length < 1) {
         alert('Bitte wählen Sie ein Dokument zum löschen.');
         return;
@@ -217,7 +283,7 @@ function register_treeview() {
     editNode.addEventListener('click', function(event) {
       event.preventDefault();
       event.stopPropagation();
-      var nodes = $('#tree').treeview('getSelected');
+      var nodes = documentTree.getSelected();
       if (nodes.length < 1) {
         alert('Bitte wählen Sie ein Dokument zum bearbeiten.');
         return;
@@ -242,8 +308,7 @@ function register_document_search() {
 
   if (!searchInput || !treeEl) return;
 
-  // $('#tree').data('tree') reads the data-tree attribute via the treeview jQuery plugin
-  var originalTreeData = $('#tree').data('tree');
+  var originalTreeData = JSON.parse(treeEl.dataset.tree);
   if (!originalTreeData) return;
 
   if (clearButton) {
@@ -262,11 +327,11 @@ function register_document_search() {
     if (searchTerm === '') {
       if (noResults) noResults.style.display = 'none';
       treeEl.style.display = '';
-      $('#tree').treeview('remove');
-      $('#tree').treeview({data: originalTreeData, enableLinks: true, levels: 1});
+      documentTree.remove();
+      documentTree = new Treeview(treeEl, {data: originalTreeData, enableLinks: true, levels: 1});
     } else {
       var filteredData = filterTreeData(originalTreeData, searchTerm);
-      $('#tree').treeview('remove');
+      documentTree.remove();
 
       if (filteredData.length === 0) {
         treeEl.style.display = 'none';
@@ -274,7 +339,7 @@ function register_document_search() {
       } else {
         if (noResults) noResults.style.display = 'none';
         treeEl.style.display = '';
-        $('#tree').treeview({data: filteredData, enableLinks: true, levels: 10});
+        documentTree = new Treeview(treeEl, {data: filteredData, enableLinks: true, levels: 10});
       }
     }
   });
