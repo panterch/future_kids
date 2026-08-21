@@ -69,5 +69,9 @@ module FutureKids
 
     # Don't generate system test files.
     config.generators.system_tests = nil
+
+    # Brute-force protection: rack-attack's railtie auto-inserts its middleware; throttle
+    # rules for auth endpoints live in config/initializers/rack_attack.rb. Devise's
+    # :lockable is the per-account backstop.
   end
 end

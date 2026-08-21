@@ -2,7 +2,7 @@
 
 class User < ApplicationRecord
   devise :database_authenticatable,
-         :recoverable, :rememberable, :trackable, :timeoutable, :validatable
+         :recoverable, :rememberable, :trackable, :timeoutable, :lockable, :validatable
 
   has_one_attached :photo
   validates :photo, content_type: %i[jpg png gif], size: { less_than: 15.megabytes }

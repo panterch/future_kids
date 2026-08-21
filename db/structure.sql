@@ -172,7 +172,7 @@ CREATE TABLE public.comments (
     to_secondary_teacher boolean DEFAULT false,
     to_third_teacher boolean,
     created_by_id integer,
-    to_principal boolean DEFAULT false
+    to_principal boolean DEFAULT false NOT NULL
 );
 
 
@@ -426,7 +426,7 @@ CREATE TABLE public.kids (
     goal_35 boolean,
     goals_updated_at timestamp without time zone,
     journal_summary text,
-    journal_summary_generated_at timestamp without time zone
+    journal_summary_generated_at timestamp(6) without time zone
 );
 
 
@@ -487,7 +487,10 @@ CREATE TABLE public.users (
     inactive_at timestamp without time zone,
     no_kids_reminder boolean DEFAULT true,
     exit character varying,
-    exit_kind_updated_at timestamp without time zone
+    exit_kind_updated_at timestamp without time zone,
+    failed_attempts integer DEFAULT 0 NOT NULL,
+    unlock_token character varying,
+    locked_at timestamp(6) without time zone
 );
 
 
@@ -824,9 +827,9 @@ CREATE TABLE public.sites (
     public_signups_active boolean DEFAULT false,
     title character varying,
     css text,
+    ai_api_base_url character varying,
     ai_api_token character varying,
     ai_model character varying,
-    ai_api_base_url character varying,
     ai_summary_prompt text,
     ai_features_enabled boolean DEFAULT false NOT NULL
 );
@@ -1458,6 +1461,13 @@ CREATE INDEX index_users_on_school_id ON public.users USING btree (school_id);
 
 
 --
+-- Name: index_users_on_unlock_token; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE UNIQUE INDEX index_users_on_unlock_token ON public.users USING btree (unlock_token);
+
+
+--
 -- Name: unique_schema_migrations; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1519,6 +1529,7 @@ ALTER TABLE ONLY public.mentor_matchings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20260821181122'),
 ('20260719160153'),
 ('20260719100000'),
 ('20260717094503'),
