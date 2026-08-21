@@ -1,14 +1,12 @@
 // This is a manifest file that'll be compiled into including all the files listed below.
-// Add new JavaScript code in separate files in this directory and they'll automatically
-// be included in the compiled file accessible from http://example.com/assets/application.js
+// Only files under ./components are included automatically (via require_tree below);
+// any other JavaScript file must be added here explicitly with its own require line.
 // It's not advisable to add code directly here, but if you do, it'll appear at the bottom of the
 // the compiled file.
 //
-//= require jquery
 //= require rails-ujs
-//= require bootstrap
-//= require bootstrap-treeview
 //= require react
 //= require react_ujs
 //= require_tree ./components
+//= require treeview
 //= require global

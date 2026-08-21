@@ -6,7 +6,6 @@ ruby '3.4.9'
 
 gem 'haml-rails'
 gem 'jbuilder'
-gem 'jquery-rails'
 gem 'rails'
 gem 'rails-i18n'
 gem 'sprockets-rails'
