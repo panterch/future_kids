@@ -12,7 +12,8 @@ function Treeview(element, options) {
   this.tree = this.cloneData(this.options.data || []);
   this.element.classList.add('treeview');
   this.setInitialStates({ nodes: this.tree }, 0);
-  this.element.addEventListener('click', this.handleClick.bind(this));
+  this.boundHandleClick = this.handleClick.bind(this);
+  this.element.addEventListener('click', this.boundHandleClick);
   this.render();
 }
 
@@ -82,6 +83,7 @@ Treeview.prototype.getSelected = function() {
 };
 
 Treeview.prototype.remove = function() {
+  this.element.removeEventListener('click', this.boundHandleClick);
   this.element.innerHTML = '';
   this.nodes = [];
   this.tree = [];

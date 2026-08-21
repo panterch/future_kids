@@ -76,13 +76,16 @@ function register_todotogglers() {
       // itself, which would otherwise trigger the link's mouseleave and
       // flicker the popover open/closed in a loop.
       popover.style.pointerEvents = 'none';
+      popover.style.position = 'absolute';
+      // .popover is display:none by default; switch to block before reading
+      // getBoundingClientRect() below, otherwise its size reads as 0x0 and
+      // the popover ends up positioned on top of the link instead of beside it.
+      popover.style.display = 'block';
 
       var linkRect = link.getBoundingClientRect();
       var popoverRect = popover.getBoundingClientRect();
-      popover.style.position = 'absolute';
       popover.style.top = (window.scrollY + linkRect.top + linkRect.height / 2 - popoverRect.height / 2) + 'px';
       popover.style.left = (window.scrollX + linkRect.left - popoverRect.width - 10) + 'px';
-      popover.style.display = 'block';
     }
 
     function hidePopover() {
