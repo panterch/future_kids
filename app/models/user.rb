@@ -32,9 +32,9 @@ class User < ApplicationRecord
   end
 
   def self.reset_password!(user)
-    @new_password = Devise.friendly_token.first(10)
-    user.update!(password: @new_password, password_confirmation: @new_password)
-    @new_password
+    new_password = Devise.friendly_token.first(10)
+    user.update!(password: new_password, password_confirmation: new_password)
+    new_password
   end
 
   protected
