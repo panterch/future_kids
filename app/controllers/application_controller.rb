@@ -101,13 +101,6 @@ class ApplicationController < ActionController::Base
     return true if params.blank?
     # inactive is a sensitive param that is only manageable by admins
     raise SecurityError, "User #{current_user.id} not allowed to change inactive flag" if params.inspect =~ /inactive/
-    # school_id may allow users for principals and teachers access to kids outside their school
-    # this has to be protected (unless for kids controller, there it is
-    # managed by its own method #intercept_school_id)
-    # for mentors controller it is unproblematic, since it has no influence on access rights
-    return unless %w[principals teachers].include?(controller_name) && params.inspect =~ /school_id/
-
-    raise SecurityError, "User #{current_user.id} not allowed to change school_id"
   end
 
   def valid_order_by?(klass, params)

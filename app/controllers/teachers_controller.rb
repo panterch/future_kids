@@ -5,9 +5,6 @@ class TeachersController < ApplicationController
   include CrudActions
 
   before_action :load_and_constrain_schools, except: %i[index show]
-  # principals are allowed to change teachers schools, so we cannot
-  # use the too aggressive global parameter filtering
-  skip_before_action :intercept_sensitive_params!
 
   def index
     # a prototyped teacher is submitted with each index query. if the prototype

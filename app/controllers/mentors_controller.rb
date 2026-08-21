@@ -5,6 +5,8 @@ class MentorsController < ApplicationController
   include CrudActions
   include ManageSchedules # edit_schedules & update_schedules
 
+  before_action :intercept_privileged_mentor_fields
+
   def index
     # a prototyped mentor is submitted with each index query. if the prototype
     # is not present, it is built here with default values
@@ -73,5 +75,24 @@ class MentorsController < ApplicationController
                :exit, :exit_kind, :exit_at,
                :inactive, :photo, { schedules_attributes: [%i[day hour minute]] }]
     )
+  end
+
+  # personnel_number/ects/term/exit/absence/substitute are only editable by
+  # admins (see app/views/mentors/_form.html.haml) but mentor_params permits
+  # them regardless of role - a mentor may update their own record
+  # (can :update, Mentor, id: user.id) which would otherwise let them set these
+  PRIVILEGED_MENTOR_FIELDS = %w[
+    personnel_number ects term exit exit_kind exit_at absence substitute
+  ].freeze
+
+  def intercept_privileged_mentor_fields
+    return true unless %w[update create].include?(action_name)
+    return if current_user.is_a?(Admin)
+    return if params[:mentor].blank?
+
+    submitted = PRIVILEGED_MENTOR_FIELDS.select { |field| params[:mentor].key?(field) }
+    return if submitted.empty?
+
+    raise SecurityError, "User #{current_user.id} not allowed to change #{submitted.join(', ')}"
   end
 end

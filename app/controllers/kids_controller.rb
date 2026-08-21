@@ -11,6 +11,7 @@ class KidsController < ApplicationController
   before_action :assign_current_teacher, only: [:create]
   before_action :prepare_substitution
   before_action :intercept_school_id
+  before_action :intercept_privileged_kid_fields
   before_action :load_and_constrain_schools, except: %i[index show show_kid_mentors_schedules]
   after_action :track_creation_relation, only: [:create]
 
@@ -171,5 +172,28 @@ class KidsController < ApplicationController
     return if valid_school_ids.map(&:to_s).include?(school_id)
 
     raise SecurityError, "User #{current_user.id} not allowed to change school_id to #{school_id}"
+  end
+
+  # mentor/admin assignment and exit/termination fields are only editable by
+  # admins (see app/views/kids/_form.html.haml) but kid_params permits them
+  # regardless of role - load_and_authorize_resource only restricts which
+  # kids may be updated, not which attributes on them. teacher_id and its
+  # secondary/third variants are excluded here: teachers are legitimately
+  # allowed to assign themselves/other teachers on kids they create (see
+  # #assign_current_teacher and the "assign itself as teacher" specs)
+  PRIVILEGED_KID_FIELDS = %w[
+    mentor_id secondary_mentor_id secondary_active
+    admin_id term exit exit_reason exit_kind exit_at checked_at coached_at
+  ].freeze
+
+  def intercept_privileged_kid_fields
+    return true unless %w[update create].include?(action_name)
+    return if current_user.is_a?(Admin)
+    return if params[:kid].blank?
+
+    submitted = PRIVILEGED_KID_FIELDS.select { |field| params[:kid].key?(field) }
+    return if submitted.empty?
+
+    raise SecurityError, "User #{current_user.id} not allowed to change #{submitted.join(', ')}"
   end
 end
