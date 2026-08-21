@@ -16,4 +16,12 @@ Devise.setup do |config|
   config.timeout_in = Rails.application.config.x.session_lifetime
   config.reset_password_within = 6.hours
   config.sign_out_via = :delete
+
+  # Brute-force protection: lock the account after repeated failed sign-in attempts.
+  # Unlocks automatically after unlock_in, or immediately via the emailed unlock link.
+  config.lock_strategy = :failed_attempts
+  config.unlock_strategy = :both
+  config.maximum_attempts = 10
+  config.unlock_in = 1.hour
+  config.last_attempt_warning = true
 end

@@ -24,6 +24,7 @@ gem 'google-cloud-storage', require: false
 gem 'i18n_rails_helpers'
 gem 'image_processing'
 gem 'pg'
+gem 'rack-attack'
 gem 'react-rails'
 gem 'redcarpet'
 gem 'responders'
