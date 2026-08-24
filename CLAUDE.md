@@ -10,7 +10,7 @@ Future Kids is a Rails 8 application that manages a mentoring program connecting
 
 ### Development
 - `bundle install` - Install Ruby gems
-- `bin/rails server` - Start development server (port 3000)
+- `bin/dev` - Start development server (port 3000) plus the SCSS watcher (`bin/rails server` alone won't recompile stylesheets, see Procfile.dev)
 - `bin/rails console` - Open Rails console
 - `bin/rails db:migrate` - Run database migrations
 - `bin/rails db:seed` - Seed database with initial data

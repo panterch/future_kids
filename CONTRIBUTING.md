@@ -31,7 +31,7 @@ Please follow the below process to share your contribution via PR.
     bundle exec rake db:create 
     bundle exec rake db:migrate 
     bundle exec rake db:seed
-    bundle exec rails server
+    bin/dev
     ```
 3. Make your contributions.
 4. [Open a Pull Request](https://help.github.com/articles/about-pull-requests/) with __clear title__ and __description__ against the _master_ branch.
