@@ -53,7 +53,10 @@ RSpec.configure do |config|
     browser = Capybara.current_session.driver.browser
     failed = browser.network.traffic.select { |e| e.error || (e.response && e.response.status.to_i >= 400) }
     failed.each do |exchange|
-      warn "[cuprite] #{exchange.url} -> status=#{exchange.response&.status} error=#{exchange.error}"
+      # Strip query strings -- some app URLs (password reset/confirmation
+      # links) carry tokens there, and this hook's output goes to CI logs.
+      url = exchange.url.to_s.sub(/\?.*/, '')
+      warn "[cuprite] #{url} -> status=#{exchange.response&.status} error=#{exchange.error}"
     end
   end
 end
