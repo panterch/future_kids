@@ -1,6 +1,32 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
+  # inline SVG replacements for the glyphicon-* icon font (removed together
+  # with its vendored font files).
+  ICON_PATHS = {
+    info_sign: [
+      '<circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/>',
+      '<circle cx="8" cy="4.6" r="1" fill="currentColor"/>',
+      '<line x1="8" y1="7.2" x2="8" y2="11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'
+    ].join,
+    user: [
+      '<circle cx="8" cy="5" r="3" fill="currentColor"/>',
+      '<path d="M2 14c0-3.3 2.7-5 6-5s6 1.7 6 5" fill="currentColor"/>'
+    ].join,
+    menu_hamburger: [
+      '<rect x="2" y="3.4" width="12" height="1.6" fill="currentColor"/>',
+      '<rect x="2" y="7.2" width="12" height="1.6" fill="currentColor"/>',
+      '<rect x="2" y="11" width="12" height="1.6" fill="currentColor"/>'
+    ].join,
+    edit: '<path d="M11.3 1.6a1.5 1.5 0 0 1 2.1 2.1L5 12.1l-2.8.7.7-2.8 8.4-8.4z" fill="currentColor"/>'
+  }.freeze
+
+  def icon(name, css_class: nil)
+    content_tag(:svg, ICON_PATHS.fetch(name).html_safe, # rubocop:disable Rails/OutputSafety
+                class: ['icon-svg', css_class].compact.join(' '),
+                viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg', 'aria-hidden': true)
+  end
+
   # link to the given resource if at least read access is given
   def can_link_to(resource)
     return '' if resource.blank?

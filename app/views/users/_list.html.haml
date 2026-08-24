@@ -11,7 +11,7 @@
             %td
               -# if resource.todo.present?
                 %a.todotoggle.btn.btn-xs{data: { content: resource.human_todo}, href:  edit_resource_path(resource, :anchor => 'todo') }
-                  %span.glyphicon.glyphicon-info-sign
+                  = icon(:info_sign)
                   Pendenz
 - else
   %p Kein Eintrag vorhanden

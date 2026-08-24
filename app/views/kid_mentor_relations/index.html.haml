@@ -45,7 +45,7 @@
         = Kid.human_attribute_name(:name)
         = Kid.model_name.human
       %th
-        %span.glyphicon.glyphicon-info-sign
+        = icon(:info_sign)
       %th Einstieg
       %th=Kid.human_attribute_name(:exit_kind)
       %th=Kid.human_attribute_name(:exit_at)
@@ -53,7 +53,7 @@
         = Mentor.human_attribute_name(:name)
         = Mentor.model_name.human
       %th
-        %span.glyphicon.glyphicon-info-sign
+        = icon(:info_sign)
       %th= Mentor.human_attribute_name(:exit_kind)
       %th= Mentor.human_attribute_name(:exit_at)
       %th= School.model_name.human
@@ -65,7 +65,7 @@
         %td
           -if relation.kid.todo.present?
             %a.todotoggle{data: { content: relation.kid.human_todo}, href:  edit_kid_path(relation.kid, :anchor => 'todo') }
-              %span.glyphicon.glyphicon-info-sign
+              = icon(:info_sign)
         %td= relation.simple_term
         %td= relation.kid.human_exit_kind
         %td= human_date(relation.kid.exit_at)
@@ -74,7 +74,7 @@
           %td
             -if relation.mentor.todo.present?
               %a.todotoggle{data: { content: relation.mentor.human_todo}, href:  edit_mentor_path(relation.mentor, :anchor => 'todo') }
-                %span.glyphicon.glyphicon-info-sign
+                = icon(:info_sign)
           %td= relation.mentor.human_exit_kind
           %td= human_date(relation.mentor.exit_at)
         - else

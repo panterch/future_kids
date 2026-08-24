@@ -3,6 +3,7 @@
 pin "application"
 pin "global"
 pin "treeview"
+pin "icons"
 
 # actionview's own rails-ujs.esm.js -- a genuine ES module, no UMD patching
 # needed (unlike the react-* files below). Named rails_ujs_esm.js, not

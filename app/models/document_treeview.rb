@@ -52,7 +52,7 @@ class DocumentTreeview
         text: d.title,
         href: Rails.application.routes.url_helpers.document_path(d),
         documentId: d.id,
-        icon: 'glyphicon glyphicon-book'
+        icon: 'book'
       }
       nodes.sort_by! do |node|
         key = node[:nodes] ? '0folder' : '1doc' # prefer folders over documents

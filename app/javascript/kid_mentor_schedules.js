@@ -3,6 +3,7 @@ import classNames from "classnames";
 import "react-input-autosize";
 import Select from "react-select";
 import htm from "htm";
+import { iconMarkup } from "icons";
 
 const html = htm.bind(React.createElement);
 const { useState } = React;
@@ -186,7 +187,7 @@ function MentorsForDisplayingFilter({ mentors, selection, onChange, visitedMento
 
   const optionRenderer = (option) => html`
     <span>
-      ${option.visited && html`<i className="glyphicon glyphicon-eye-open" />`}
+      ${option.visited && html`<i dangerouslySetInnerHTML=${{ __html: iconMarkup('eyeOpen') }} />`}
       ${' '}${option.label}
     </span>
   `;
@@ -307,11 +308,12 @@ function TimeTable({ kid, mentors, onSelectDate }) {
               key=${day.key}
               onClick=${() => toggleDay(day.key)}
               className=${`clickable_dayLabel ${day.label}`}
+              aria-label=${showWeekdays[day.key] ? undefined : `${day.label} anzeigen`}
             >
               <span>
                 ${showWeekdays[day.key]
                   ? day.label
-                  : html`<span className="glyphicon glyphicon-eye-open show-icon" />`}
+                  : html`<span className="show-icon" dangerouslySetInnerHTML=${{ __html: iconMarkup('eyeOpen') }} />`}
               </span>
             </th>
           `)}
@@ -395,8 +397,12 @@ function TimeTableMentorCell({ mentor, onClick, kidIsAvailable, numberOfMentors,
         }}
       >
         ${kidIsAvailable && html`
-          <a className="btn-set-date" onClick=${onClick}>
-            <i className="icon glyphicon glyphicon-calendar" />
+          <a
+            className="btn-set-date"
+            onClick=${onClick}
+            aria-label=${`Termin mit ${displayName(mentor)} am ${day.label} um ${time.label} buchen`}
+          >
+            <i className="icon" dangerouslySetInnerHTML=${{ __html: iconMarkup('calendar') }} />
           </a>
         `}
         <span className="name-label">${mentor.name} ${mentor.prename}</span>

@@ -58,7 +58,7 @@
             %td
               - if current_user.is_a?(Admin) && mentor.todo.present?
                 %a.todotoggle.btn.btn-xs{data: { content: mentor.human_todo}, href:  edit_mentor_path(mentor, :anchor => 'todo') }
-                  %span.glyphicon.glyphicon-info-sign
+                  = icon(:info_sign)
                   Pendenz
 - else
   %p Kein Eintrag vorhanden
