@@ -44,4 +44,16 @@ RSpec.configure do |config|
     # so its first mount takes longer than Capybara's 2s default.
     config.default_max_wait_time = 5
   end
+
+  # Diagnostic for :js failures -- dump any failed asset/page requests (and
+  # their errors) so a CI-only failure isn't a black box.
+  config.after(:each, :js) do |example|
+    next unless example.exception
+
+    browser = Capybara.current_session.driver.browser
+    failed = browser.network.traffic.select { |e| e.error || (e.response && e.response.status.to_i >= 400) }
+    failed.each do |exchange|
+      warn "[cuprite] #{exchange.url} -> status=#{exchange.response&.status} error=#{exchange.error}"
+    end
+  end
 end
