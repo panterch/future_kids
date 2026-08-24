@@ -308,6 +308,7 @@ function TimeTable({ kid, mentors, onSelectDate }) {
               key=${day.key}
               onClick=${() => toggleDay(day.key)}
               className=${`clickable_dayLabel ${day.label}`}
+              aria-label=${showWeekdays[day.key] ? undefined : `${day.label} anzeigen`}
             >
               <span>
                 ${showWeekdays[day.key]
@@ -396,7 +397,11 @@ function TimeTableMentorCell({ mentor, onClick, kidIsAvailable, numberOfMentors,
         }}
       >
         ${kidIsAvailable && html`
-          <a className="btn-set-date" onClick=${onClick}>
+          <a
+            className="btn-set-date"
+            onClick=${onClick}
+            aria-label=${`Termin mit ${displayName(mentor)} am ${day.label} um ${time.label} buchen`}
+          >
             <i className="icon" dangerouslySetInnerHTML=${{ __html: iconMarkup('calendar') }} />
           </a>
         `}

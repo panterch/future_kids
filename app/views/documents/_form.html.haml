@@ -4,7 +4,7 @@
     .form-group.string.optional.document_category
       %label.string.optional.col-sm-3.control-label(for="document_category#{i}")
         = Document.human_attribute_name("category#{i}")
-        %a.freetext(href="#")= icon(:edit)
+        %a.freetext(href="#" aria-label="Freitext eingeben")= icon(:edit)
       .col-sm-9
         = form.select "category#{i}", Document.categories(i), {}, class: 'select optional form-control', style: 'display: none;'
         = form.text_field "category#{i}", class: 'string optional form-control'
