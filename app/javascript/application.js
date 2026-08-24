@@ -18,7 +18,16 @@ if (document.querySelector("[data-react-class]")) {
 
   reactReady
     .then(() => import("react_ujs"))
-    .then(({ default: ReactRailsUJS }) => componentReady.then(() => ReactRailsUJS.mountComponents()))
+    .then((reactUjsModule) => {
+      console.log(
+        "[diag] window.React=%s window.ReactDOM=%s reactUjsModule.default=%s window.ReactRailsUJS=%s",
+        typeof window.React,
+        typeof window.ReactDOM,
+        typeof reactUjsModule.default,
+        typeof window.ReactRailsUJS
+      );
+      return componentReady.then(() => reactUjsModule.default.mountComponents());
+    })
     .catch((error) => {
       console.error("[kid_mentor_schedules] failed to load/mount:", error);
       throw error;
