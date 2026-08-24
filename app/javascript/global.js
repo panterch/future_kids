@@ -1,5 +1,8 @@
 "use strict";
 
+import Treeview from "treeview";
+import Rails from "@rails/ujs";
+
 document.addEventListener('DOMContentLoaded', function() {
   register_journal_controls();
   register_mentor_journal_date_selectors();

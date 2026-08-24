@@ -1,7 +1,10 @@
-//= require classnames
-//= require react-input-autosize
-//= require react-select
+import React from "react";
+import classNames from "classnames";
+import "react-input-autosize";
+import Select from "react-select";
+import htm from "htm";
 
+const html = htm.bind(React.createElement);
 const { useState } = React;
 
 const STYLE_DAY_PLACEHOLDER_WIDTH = 4;
@@ -116,35 +119,35 @@ window.KidMentorSchedules = function KidMentorSchedules({ mentors, schools, kid 
     }
   };
 
-  return (
+  return html`
     <div className="kid-mentor-schedules row">
       <div className="header panel panel-default">
         <div className="row">
           <div className="col-xs-2 title">Mentoren Filtern: </div>
           <div className="col-xs-10">
-            <Filters
-              mentors={mentors}
-              schools={schools}
-              initialFilters={filters}
-              onChange={onChangeFilter}
+            <${Filters}
+              mentors=${mentors}
+              schools=${schools}
+              initialFilters=${filters}
+              onChange=${onChangeFilter}
             />
           </div>
         </div>
         <div className="row">
           <div className="col-xs-2 title">Mentoren anzeigen: </div>
           <div className="col-xs-10">
-            <MentorsForDisplayingFilter
-              mentors={filteredMentors}
-              selection={selectedMentorIds}
-              onChange={onChangeSelectedMentorsToDisplay}
-              visitedMentors={visitedMentors}
+            <${MentorsForDisplayingFilter}
+              mentors=${filteredMentors}
+              selection=${selectedMentorIds}
+              onChange=${onChangeSelectedMentorsToDisplay}
+              visitedMentors=${visitedMentors}
             />
           </div>
         </div>
       </div>
-      <TimeTable kid={kid} mentors={selectedMentors} onSelectDate={onSelectDate} />
+      <${TimeTable} kid=${kid} mentors=${selectedMentors} onSelectDate=${onSelectDate} />
     </div>
-  );
+  `;
 };
 
 function MentorsForDisplayingFilter({ mentors, selection, onChange, visitedMentors }) {
@@ -178,48 +181,48 @@ function MentorsForDisplayingFilter({ mentors, selection, onChange, visitedMento
 
   const mentorCount = Object.keys(mentors).length;
   const sizeLabel = mentorCount > MAX_MENTORS_TO_DISPLAY
-    ? <span>({MAX_MENTORS_TO_DISPLAY} von {mentorCount}) <br /><strong>Max. erreicht</strong></span>
-    : <span>({mentorCount})</span>;
+    ? html`<span>(${MAX_MENTORS_TO_DISPLAY} von ${mentorCount}) <br /><strong>Max. erreicht</strong></span>`
+    : html`<span>(${mentorCount})</span>`;
 
-  const optionRenderer = (option) => (
+  const optionRenderer = (option) => html`
     <span>
-      {option.visited && <i className="glyphicon glyphicon-eye-open" />}
-      {' '}{option.label}
+      ${option.visited && html`<i className="glyphicon glyphicon-eye-open" />`}
+      ${' '}${option.label}
     </span>
-  );
+  `;
 
-  return (
+  return html`
     <div className="mentors-display-filter row">
       <div className="col-xs-10">
-        <Select
-          options={options}
-          multi={true}
-          optionRenderer={optionRenderer}
-          delimiter={DELIMITER}
-          value={value}
-          onChange={handleChange}
+        <${Select}
+          options=${options}
+          multi=${true}
+          optionRenderer=${optionRenderer}
+          delimiter=${DELIMITER}
+          value=${value}
+          onChange=${handleChange}
         />
       </div>
-      <button onClick={selectAll} className="btn btn-default col-xs-2">
-        Alle wählen <br />{sizeLabel}
+      <button onClick=${selectAll} className="btn btn-default col-xs-2">
+        Alle wählen <br />${sizeLabel}
       </button>
     </div>
-  );
+  `;
 }
 
 function Filters({ mentors, schools, initialFilters, onChange }) {
   const sanitizeSex = (value) => (['male', 'female', 'diverse'].includes(value) ? value : null);
   const sanitizeSchool = (value) => (value.length === 0 ? null : parseInt(value, 10));
 
-  return (
+  return html`
     <div className="filters form-inline">
       <div className="form-group">
         <label htmlFor="number-of-kids">Zeige Mentoren mit </label>
         <select
           name="number-of-kids"
           className="form-control"
-          value={initialFilters.numberOfKids}
-          onChange={e => onChange && onChange('numberOfKids', e.target.value)}
+          value=${initialFilters.numberOfKids}
+          onChange=${e => onChange && onChange('numberOfKids', e.target.value)}
         >
           <option value="no-kid">keinem Schüler zugewiesen</option>
           <option value="primary-only">nur primärem Schüler zugewiesen</option>
@@ -232,8 +235,8 @@ function Filters({ mentors, schools, initialFilters, onChange }) {
         <select
           name="sex"
           className="form-control"
-          value={initialFilters.sex || ''}
-          onChange={e => onChange && onChange('sex', sanitizeSex(e.target.value))}
+          value=${initialFilters.sex || ''}
+          onChange=${e => onChange && onChange('sex', sanitizeSex(e.target.value))}
         >
           <option />
           <option value="male">Männlich</option>
@@ -246,17 +249,17 @@ function Filters({ mentors, schools, initialFilters, onChange }) {
         <select
           name="school"
           className="form-control"
-          value={initialFilters.school || ''}
-          onChange={e => onChange && onChange('school', sanitizeSchool(e.target.value))}
+          value=${initialFilters.school || ''}
+          onChange=${e => onChange && onChange('school', sanitizeSchool(e.target.value))}
         >
           <option />
-          {schools.map(school => (
-            <option value={`${school.id}`} key={`${school.id}`}>{school.display_name}</option>
-          ))}
+          ${schools.map(school => html`
+            <option value=${`${school.id}`} key=${`${school.id}`}>${school.display_name}</option>
+          `)}
         </select>
       </div>
     </div>
-  );
+  `;
 }
 
 function TimeTable({ kid, mentors, onSelectDate }) {
@@ -294,47 +297,47 @@ function TimeTable({ kid, mentors, onSelectDate }) {
     return (100 - (days.length - visibleCount) * STYLE_DAY_PLACEHOLDER_WIDTH) / visibleCount;
   };
 
-  return (
+  return html`
     <table className="timetable">
       <thead>
         <tr>
           <th />
-          {days.map(day => (
+          ${days.map(day => html`
             <th
-              key={day.key}
-              onClick={() => toggleDay(day.key)}
-              className={`clickable_dayLabel ${day.label}`}
+              key=${day.key}
+              onClick=${() => toggleDay(day.key)}
+              className=${`clickable_dayLabel ${day.label}`}
             >
               <span>
-                {showWeekdays[day.key]
+                ${showWeekdays[day.key]
                   ? day.label
-                  : <span className="glyphicon glyphicon-eye-open show-icon" />}
+                  : html`<span className="glyphicon glyphicon-eye-open show-icon" />`}
               </span>
             </th>
-          ))}
+          `)}
         </tr>
       </thead>
       <tbody>
-        {times.map((time, i) => {
+        ${times.map((time, i) => {
           const lastTime = times[i - 1];
           const nextTime = times[i + 1];
-          return (
-            <tr key={time.key}>
-              <th>{time.label}</th>
-              {days.map(day => {
+          return html`
+            <tr key=${time.key}>
+              <th>${time.label}</th>
+              ${days.map(day => {
                 if (!showWeekdays[day.key]) {
-                  return (
+                  return html`
                     <td
-                      key={`time_cell_${day.key}_${time.key}`}
+                      key=${`time_cell_${day.key}_${time.key}`}
                       className="time-cell day-placeholder"
-                      style={{ width: `${STYLE_DAY_PLACEHOLDER_WIDTH}%` }}
-                      onClick={() => toggleDay(day.key)}
+                      style=${{ width: `${STYLE_DAY_PLACEHOLDER_WIDTH}%` }}
+                      onClick=${() => toggleDay(day.key)}
                     >
-                      <div className={`cell-mentor${nextTime ? '' : ' time-last'}`}>
-                        <span className="name-label">{day.label}</span>
+                      <div className=${`cell-mentor${nextTime ? '' : ' time-last'}`}>
+                        <span className="name-label">${day.label}</span>
                       </div>
                     </td>
-                  );
+                  `;
                 }
 
                 const kidIsAvailable = availableInSchedule(kid.schedules, day, time);
@@ -346,35 +349,35 @@ function TimeTable({ kid, mentors, onSelectDate }) {
                   { 'kid-booked': meetingFixed && kid.secondary_mentor_id === null }
                 );
 
-                return (
+                return html`
                   <td
-                    key={`time_cell_${day.key}_${time.key}`}
-                    className={classNames('time-cell', { 'kid-available': kidIsAvailable })}
-                    style={{ width: `${calcWidth()}%` }}
+                    key=${`time_cell_${day.key}_${time.key}`}
+                    className=${classNames('time-cell', { 'kid-available': kidIsAvailable })}
+                    style=${{ width: `${calcWidth()}%` }}
                   >
-                    <div className={kidCellClasses} />
-                    {mentorList.map(mentor => (
-                      <TimeTableMentorCell
-                        key={`mentor_cell_${day.key}_${time.key}_${mentor.id}`}
-                        mentor={mentor}
-                        onClick={() => onSelectDate && onSelectDate(mentor, day, time)}
-                        kidIsAvailable={kidIsAvailable}
-                        numberOfMentors={mentorCount}
-                        day={day}
-                        time={time}
-                        lastTime={lastTime}
-                        nextTime={nextTime}
+                    <div className=${kidCellClasses} />
+                    ${mentorList.map(mentor => html`
+                      <${TimeTableMentorCell}
+                        key=${`mentor_cell_${day.key}_${time.key}_${mentor.id}`}
+                        mentor=${mentor}
+                        onClick=${() => onSelectDate && onSelectDate(mentor, day, time)}
+                        kidIsAvailable=${kidIsAvailable}
+                        numberOfMentors=${mentorCount}
+                        day=${day}
+                        time=${time}
+                        lastTime=${lastTime}
+                        nextTime=${nextTime}
                       />
-                    ))}
+                    `)}
                   </td>
-                );
+                `;
               })}
             </tr>
-          );
+          `;
         })}
       </tbody>
     </table>
-  );
+  `;
 }
 
 function TimeTableMentorCell({ mentor, onClick, kidIsAvailable, numberOfMentors, day, time, lastTime, nextTime }) {
@@ -382,26 +385,26 @@ function TimeTableMentorCell({ mentor, onClick, kidIsAvailable, numberOfMentors,
   const mentorColumnWidth = numberOfMentors > 0 ? 100 / numberOfMentors : 0;
 
   if (mentorIsAvailable) {
-    return (
+    return html`
       <div
-        className={createTimeCellClasses({ primaryClass: 'column cell-mentor', day, lastTime, nextTime, time, schedules: mentor.schedules })}
-        style={{
+        className=${createTimeCellClasses({ primaryClass: 'column cell-mentor', day, lastTime, nextTime, time, schedules: mentor.schedules })}
+        style=${{
           backgroundColor: mentor.colors.background,
           color: mentor.colors.text,
           width: `${mentorColumnWidth}%`,
         }}
       >
-        {kidIsAvailable && (
-          <a className="btn-set-date" onClick={onClick}>
+        ${kidIsAvailable && html`
+          <a className="btn-set-date" onClick=${onClick}>
             <i className="icon glyphicon glyphicon-calendar" />
           </a>
-        )}
-        <span className="name-label">{mentor.name} {mentor.prename}</span>
+        `}
+        <span className="name-label">${mentor.name} ${mentor.prename}</span>
       </div>
-    );
+    `;
   }
 
-  return <div className="column spacer" style={{ width: `${mentorColumnWidth}%` }} />;
+  return html`<div className="column spacer" style=${{ width: `${mentorColumnWidth}%` }} />`;
 }
 
 // helpers

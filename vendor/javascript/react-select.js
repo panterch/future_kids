@@ -2,7 +2,7 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('react-input-autosize'), require('classnames'), require('prop-types'), require('react'), require('react-dom')) :
         typeof define === 'function' && define.amd ? define(['react-input-autosize', 'classnames', 'prop-types', 'react', 'react-dom'], factory) :
             (global.Select = factory(global.AutosizeInput,global.classNames,global.PropTypes,global.React,global.ReactDOM));
-}(this, (function (AutosizeInput,classNames,PropTypes,React,reactDom) { 'use strict';
+}(window, (function (AutosizeInput,classNames,PropTypes,React,reactDom) { 'use strict';
 
     AutosizeInput = AutosizeInput && AutosizeInput.hasOwnProperty('default') ? AutosizeInput['default'] : AutosizeInput;
     classNames = classNames && classNames.hasOwnProperty('default') ? classNames['default'] : classNames;
@@ -2672,3 +2672,5 @@
     return Select$1;
 
 })));
+
+export default window.Select;

@@ -16,7 +16,7 @@ Capybara.register_driver(:cuprite) do |app|
   browser_options = {}.tap do |opts|
     opts['no-sandbox'] = nil if ENV['CI']
   end
-  Capybara::Cuprite::Driver.new(app, window_size: [1400, 800], browser_options: browser_options)
+  Capybara::Cuprite::Driver.new(app, window_size: [1400, 800], browser_options: browser_options, js_errors: true)
 end
 
 RSpec.configure do |config|
@@ -37,8 +37,26 @@ RSpec.configure do |config|
     end
   end
 
-  # Ignore hidden elements, mobile version hidden elements
   Capybara.configure do |config|
+    # Ignore hidden elements, mobile version hidden elements
     config.match = :prefer_exact
+    # The kid-mentor-schedules page lazy-loads React (see app/javascript/application.js),
+    # so its first mount takes longer than Capybara's 2s default.
+    config.default_max_wait_time = 5
+  end
+
+  # Diagnostic for :js failures -- dump any failed asset/page requests (and
+  # their errors) so a CI-only failure isn't a black box.
+  config.after(:each, :js) do |example|
+    next unless example.exception
+
+    browser = Capybara.current_session.driver.browser
+    failed = browser.network.traffic.select { |e| e.error || (e.response && e.response.status.to_i >= 400) }
+    failed.each do |exchange|
+      # Strip query strings -- some app URLs (password reset/confirmation
+      # links) carry tokens there, and this hook's output goes to CI logs.
+      url = exchange.url.to_s.sub(/\?.*/, '')
+      warn "[cuprite] #{url} -> status=#{exchange.response&.status} error=#{exchange.error}"
+    end
   end
 end

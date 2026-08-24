@@ -41,3 +41,10 @@ if (typeof define !== 'undefined' && define.amd) {
 		return classNames;
 	});
 }
+
+// react-select.js reads this off window (its UMD wrapper's `global.classNames`
+// argument) -- ES modules don't leak top-level declarations to window the way
+// classic scripts do, so this needs to be explicit.
+window.classNames = classNames;
+
+export default classNames;

@@ -151,3 +151,5 @@ Treeview.prototype.buildTree = function(list, nodes, level) {
     }
   });
 };
+
+export default Treeview;

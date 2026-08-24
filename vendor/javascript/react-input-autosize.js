@@ -2,7 +2,7 @@
     typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory(require('react'), require('prop-types')) :
         typeof define === 'function' && define.amd ? define(['react', 'prop-types'], factory) :
             (global.AutosizeInput = factory(global.React,global.PropTypes));
-}(this, (function (React,PropTypes) { 'use strict';
+}(window, (function (React,PropTypes) { 'use strict';
 
     var React__default = 'default' in React ? React['default'] : React;
     PropTypes = PropTypes && PropTypes.hasOwnProperty('default') ? PropTypes['default'] : PropTypes;
@@ -455,3 +455,5 @@
     return AutosizeInput;
 
 })));
+
+export default window.AutosizeInput;
