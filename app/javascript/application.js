@@ -12,24 +12,18 @@ Rails.start();
 // globals) before "react_ujs" runs; and mountComponents() must be called
 // explicitly since react_ujs's own DOMContentLoaded listener is registered
 // too late to fire for a dynamically-imported module.
+//
+// We read window.ReactRailsUJS directly rather than react_ujs's own default
+// export: that export is `export default window.ReactRailsUJS` appended to
+// the vendored UMD bundle, a one-time snapshot taken while the bundle's own
+// factory is still running -- it can freeze on the pre-assignment
+// `undefined` even though the global itself ends up set correctly.
 if (document.querySelector("[data-react-class]")) {
   const reactReady = import("react");
   const componentReady = reactReady.then(() => import("kid_mentor_schedules"));
 
   reactReady
     .then(() => import("react_ujs"))
-    .then((reactUjsModule) => {
-      console.log(
-        "[diag] window.React=%s window.ReactDOM=%s reactUjsModule.default=%s window.ReactRailsUJS=%s",
-        typeof window.React,
-        typeof window.ReactDOM,
-        typeof reactUjsModule.default,
-        typeof window.ReactRailsUJS
-      );
-      return componentReady.then(() => reactUjsModule.default.mountComponents());
-    })
-    .catch((error) => {
-      console.error("[kid_mentor_schedules] failed to load/mount:", error);
-      throw error;
-    });
+    .then(() => componentReady.then(() => window.ReactRailsUJS.mountComponents()))
+    .catch((error) => console.error("[kid_mentor_schedules] failed to load/mount:", error));
 }

@@ -16,11 +16,7 @@ Capybara.register_driver(:cuprite) do |app|
   browser_options = {}.tap do |opts|
     opts['no-sandbox'] = nil if ENV['CI']
   end
-  # TEMP: logger forwards console.* to stdout so the [diag] line in
-  # application.js is visible in CI; noisy (dumps raw CDP frames too), will
-  # be removed once the kid-mentor-schedules mount failure is understood.
-  Capybara::Cuprite::Driver.new(app, window_size: [1400, 800], browser_options: browser_options, js_errors: true,
-                                      logger: $stdout)
+  Capybara::Cuprite::Driver.new(app, window_size: [1400, 800], browser_options: browser_options, js_errors: true)
 end
 
 RSpec.configure do |config|
