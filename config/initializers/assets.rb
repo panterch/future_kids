@@ -8,12 +8,11 @@ Rails.application.config.assets.version = '1.0'
 # Add additional assets to the asset load path.
 # Rails.application.config.assets.paths << Emoji.images_path
 
-# Sprockets calls CoffeeScriptProcessor.cache_key eagerly (even with no .coffee files),
-# which requires the coffee_script gem — not present in production. Stub it out.
-module Sprockets
-  module CoffeeScriptProcessor
-    def self.cache_key
-      'CoffeeScriptProcessor:disabled'
-    end
-  end
-end
+Rails.application.config.dartsass.builds['print.scss'] = 'print.css'
+
+# react-rails tries to attach its Sprockets-only JSX transform to whatever
+# `app.assets` is -- Propshaft also sets `app.assets` (for its own API
+# compatibility), so react-rails mistakes it for Sprockets and crashes on
+# `Sprockets::VERSION` at boot. Moot anyway: no .jsx files remain, the one
+# React component was converted to plain JS (see the plan).
+Rails.application.config.react.sprockets_strategy = false

@@ -1,11 +1,3 @@
-/*
- * This is a manifest file that'll automatically include all the stylesheets available in this directory
- * and any sub-directories. You're free to add application-wide styles to this file and they'll appear at
- * the top of the compiled file, but it's generally better to create a new file per style scope.
- * = require react-select
- * = require bootstrap-treeview
-*/
-
 $font-size-base: 12px;
 $line-height-base: 1.4;
 $grid-gutter-width: 20px;
@@ -36,10 +28,17 @@ $footer-height: 30px;
 $sidebar-width: 220px;
 
 
-@import 'bootstrap-sprockets';
+// Not 'bootstrap-sprockets': that sets $bootstrap-sass-asset-helper, which
+// makes bootstrap-sass call Sprockets-only Sass functions (font-path/
+// image-path) that Dart Sass doesn't have -- it silently emits them as
+// literal (broken) CSS instead of erroring. Plain 'bootstrap' falls back to
+// relative paths instead; the glyphicon font files are vendored to match at
+// public/fonts/bootstrap/.
 @import 'bootstrap';
 @import 'mixins';
 @import 'utility';
+@import 'react-select';
+@import 'bootstrap-treeview';
 
 /* self_registrations */
 @import 'self_registrations/select_resource';
@@ -55,7 +54,10 @@ $sidebar-width: 220px;
 
 #teaser {
   height: $header-height;
-  background: white image-url("teaser.jpg");
+  // Not image-url(): that's a Sprockets/sass-rails Sass function dartsass-rails
+  // doesn't provide. Vendored to a stable public/ path instead, same reasoning
+  // as the bootstrap font files above.
+  background: white url("/images/teaser.jpg");
 }
 
 #nav {
