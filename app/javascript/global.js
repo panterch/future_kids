@@ -41,10 +41,9 @@ function register_journal_controls() {
 function register_mentor_journal_date_selectors() {
   document.querySelectorAll('select.select_mentor_journal_date').forEach(function(select) {
     select.addEventListener('change', function() {
-      var href = window.location.pathname;
-      href += '?month=' + document.getElementById('date_month').value;
-      href += '&year=' + document.getElementById('date_year').value;
-      href += '#mentor_journal_date';
+      var month = encodeURIComponent(document.getElementById('date_month').value);
+      var year = encodeURIComponent(document.getElementById('date_year').value);
+      var href = window.location.pathname + '?month=' + month + '&year=' + year + '#mentor_journal_date';
       window.location = href;
     });
   });
