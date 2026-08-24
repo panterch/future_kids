@@ -32,9 +32,51 @@ $sidebar-width: 220px;
 // makes bootstrap-sass call Sprockets-only Sass functions (font-path/
 // image-path) that Dart Sass doesn't have -- it silently emits them as
 // literal (broken) CSS instead of erroring. Plain 'bootstrap' falls back to
-// relative paths instead; the glyphicon font files are vendored to match at
-// public/fonts/bootstrap/.
-@import 'bootstrap';
+// relative paths instead.
+//
+// Not the 'bootstrap' umbrella partial either: it unconditionally pulls in
+// 'bootstrap/glyphicons', which declares an @font-face for a font we no
+// longer ship (all glyphicon-* usages were replaced with inline SVG icons,
+// see app/helpers/application_helper.rb). This is the same import list as
+// bootstrap-sass's _bootstrap.scss, minus that one line.
+@import 'bootstrap/variables';
+@import 'bootstrap/mixins';
+@import 'bootstrap/normalize';
+@import 'bootstrap/print';
+@import 'bootstrap/scaffolding';
+@import 'bootstrap/type';
+@import 'bootstrap/code';
+@import 'bootstrap/grid';
+@import 'bootstrap/tables';
+@import 'bootstrap/forms';
+@import 'bootstrap/buttons';
+@import 'bootstrap/component-animations';
+@import 'bootstrap/dropdowns';
+@import 'bootstrap/button-groups';
+@import 'bootstrap/input-groups';
+@import 'bootstrap/navs';
+@import 'bootstrap/navbar';
+@import 'bootstrap/breadcrumbs';
+@import 'bootstrap/pagination';
+@import 'bootstrap/pager';
+@import 'bootstrap/labels';
+@import 'bootstrap/badges';
+@import 'bootstrap/jumbotron';
+@import 'bootstrap/thumbnails';
+@import 'bootstrap/alerts';
+@import 'bootstrap/progress-bars';
+@import 'bootstrap/media';
+@import 'bootstrap/list-group';
+@import 'bootstrap/panels';
+@import 'bootstrap/responsive-embed';
+@import 'bootstrap/wells';
+@import 'bootstrap/close';
+@import 'bootstrap/modals';
+@import 'bootstrap/tooltip';
+@import 'bootstrap/popovers';
+@import 'bootstrap/carousel';
+@import 'bootstrap/utilities';
+@import 'bootstrap/responsive-utilities';
 @import 'mixins';
 @import 'utility';
 @import 'react-select';
@@ -42,6 +84,17 @@ $sidebar-width: 220px;
 
 /* self_registrations */
 @import 'self_registrations/select_resource';
+
+// Sizing for the inline SVG icons that replaced glyphicon-* (see
+// ApplicationHelper#icon). Scales with the surrounding font-size like the
+// glyphicon font did, and inherits color via currentColor.
+.icon-svg {
+  display: inline-block;
+  width: 1em;
+  height: 1em;
+  vertical-align: -0.15em;
+  fill: currentColor;
+}
 
 #header {
   position: fixed;

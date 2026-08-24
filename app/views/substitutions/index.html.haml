@@ -48,7 +48,7 @@
           -if substitution.comments.present?
             %a.todotoggle.btn.btn-xs{data: { content: substitution.comments}, href:  edit_substitution_path(substitution, :anchor => 'comments') }
               Kommentar
-              %span.glyphicon.glyphicon-info-sign
+              = icon(:info_sign)
 
 
         - if substitution.inactive

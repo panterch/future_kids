@@ -5,6 +5,8 @@
 // the visuals stay identical.
 "use strict";
 
+import { iconMarkup } from "icons";
+
 function Treeview(element, options) {
   this.element = element;
   this.options = options || {};
@@ -121,16 +123,15 @@ Treeview.prototype.buildTree = function(list, nodes, level) {
     var expandIcon = document.createElement('span');
     expandIcon.className = 'icon';
     if (node.nodes) {
-      expandIcon.classList.add('expand-icon', 'glyphicon');
-      expandIcon.classList.add(node.state.expanded ? 'glyphicon-minus' : 'glyphicon-plus');
-    } else {
-      expandIcon.classList.add('glyphicon');
+      expandIcon.classList.add('expand-icon');
+      expandIcon.innerHTML = iconMarkup(node.state.expanded ? 'minus' : 'plus');
     }
     item.appendChild(expandIcon);
 
     if (node.icon) {
       var nodeIcon = document.createElement('span');
-      nodeIcon.className = 'icon node-icon ' + node.icon;
+      nodeIcon.className = 'icon node-icon';
+      nodeIcon.innerHTML = iconMarkup(node.icon);
       item.appendChild(nodeIcon);
     }
 
