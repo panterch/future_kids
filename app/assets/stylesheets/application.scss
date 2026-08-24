@@ -54,6 +54,7 @@ $sidebar-width: 220px;
 
 #teaser {
   height: $header-height;
+
   // Not image-url(): that's a Sprockets/sass-rails Sass function dartsass-rails
   // doesn't provide. Vendored to a stable public/ path instead, same reasoning
   // as the bootstrap font files above.

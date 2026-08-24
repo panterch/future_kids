@@ -37,8 +37,11 @@ RSpec.configure do |config|
     end
   end
 
-  # Ignore hidden elements, mobile version hidden elements
   Capybara.configure do |config|
+    # Ignore hidden elements, mobile version hidden elements
     config.match = :prefer_exact
+    # The kid-mentor-schedules page lazy-loads React (see app/javascript/application.js),
+    # so its first mount takes longer than Capybara's 2s default.
+    config.default_max_wait_time = 5
   end
 end

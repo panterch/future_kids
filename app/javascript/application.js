@@ -13,9 +13,10 @@ Rails.start();
 // explicitly since react_ujs's own DOMContentLoaded listener is registered
 // too late to fire for a dynamically-imported module.
 if (document.querySelector("[data-react-class]")) {
-  import("react")
+  const reactReady = import("react");
+  const componentReady = reactReady.then(() => import("kid_mentor_schedules"));
+
+  reactReady
     .then(() => import("react_ujs"))
-    .then(({ default: ReactRailsUJS }) =>
-      import("kid_mentor_schedules").then(() => ReactRailsUJS.mountComponents())
-    );
+    .then(({ default: ReactRailsUJS }) => componentReady.then(() => ReactRailsUJS.mountComponents()));
 }
