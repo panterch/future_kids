@@ -99,8 +99,6 @@ GEM
     base64 (0.3.0)
     bcrypt (3.1.22)
     bigdecimal (4.1.2)
-    bootsnap (1.25.0)
-      msgpack (~> 1.5)
     bootstrap-sass (3.4.1)
       autoprefixer-rails (>= 5.2.1)
       sassc (>= 2.0.0)
@@ -267,9 +265,6 @@ GEM
     htmlentities (4.4.2)
     i18n (1.15.2)
       concurrent-ruby (~> 1.0)
-    i18n_rails_helpers (2.1.0)
-      bootsnap
-      rails (>= 6.0.0)
     image_processing (2.0.3)
     importmap-rails (2.2.3)
       actionpack (>= 6.0.0)
@@ -317,7 +312,6 @@ GEM
     minitest (6.0.6)
       drb (~> 2.0)
       prism (~> 1.5)
-    msgpack (1.8.4)
     multi_json (1.21.1)
     net-http (0.9.1)
       uri (>= 0.11.1)
@@ -610,7 +604,6 @@ DEPENDENCIES
   factory_bot_rails
   google-cloud-storage
   haml-rails
-  i18n_rails_helpers
   image_processing
   importmap-rails
   jaro_winkler
