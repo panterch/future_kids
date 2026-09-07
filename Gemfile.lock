@@ -86,8 +86,6 @@ GEM
     addressable (2.9.0)
       public_suffix (>= 2.0.2, < 8.0)
     ast (2.4.3)
-    autoprefixer-rails (10.4.21.0)
-      execjs (~> 2)
     babel-source (5.8.35)
     babel-transpiler (0.7.0)
       babel-source (>= 4.0, < 6)
@@ -99,9 +97,8 @@ GEM
     base64 (0.3.0)
     bcrypt (3.1.22)
     bigdecimal (4.1.2)
-    bootstrap-sass (3.4.1)
-      autoprefixer-rails (>= 5.2.1)
-      sassc (>= 2.0.0)
+    bootstrap (5.3.8)
+      popper_js (>= 2.11.8, < 3)
     builder (3.3.0)
     cancancan (3.6.1)
     capybara (3.40.0)
@@ -358,6 +355,7 @@ GEM
     pg (1.6.3-x86_64-darwin)
     pg (1.6.3-x86_64-linux)
     pg (1.6.3-x86_64-linux-musl)
+    popper_js (2.11.8)
     pp (0.6.4)
       prettyprint
     prettyprint (0.2.0)
@@ -525,8 +523,6 @@ GEM
       google-protobuf (~> 4.31)
     sass-embedded (1.103.1-x86_64-linux-musl)
       google-protobuf (~> 4.31)
-    sassc (2.4.0)
-      ffi (~> 1.9)
     securerandom (0.4.1)
     shoulda-matchers (8.0.1)
       activesupport (>= 7.2)
@@ -588,7 +584,7 @@ DEPENDENCIES
   actionview-encoded_mail_to
   active_storage_validations
   barnes
-  bootstrap-sass
+  bootstrap
   cancancan
   capybara
   caxlsx

@@ -1,84 +1,14 @@
-$font-size-base: 12px;
+@import 'bootstrap/functions';
+
+$font-size-base: .75rem; // 12px
 $line-height-base: 1.4;
 $grid-gutter-width: 20px;
-$navbar-height: 40px;
-
-$screen-xs: 576px;
-$screen-xs-min: $screen-xs;
-$screen-phone: $screen-xs-min;
-
-$screen-sm: 720px;
-$screen-sm-min: $screen-sm;
-$screen-tablet: $screen-sm-min;
-
-$screen-md: 992px;
-$screen-md-min: $screen-md;
-$screen-desktop: $screen-md-min;
-
-$screen-lg: 1200px;
-$screen-lg-min: $screen-lg;
-$screen-lg-desktop: $screen-lg-min;
-
-$navbar-default-border: #fff;
-$navbar-default-bg: #fff;
-$grid-float-breakpoint: 1px;
 
 $header-height: 70px;
 $footer-height: 30px;
 $sidebar-width: 220px;
 
-
-// Not 'bootstrap-sprockets': that sets $bootstrap-sass-asset-helper, which
-// makes bootstrap-sass call Sprockets-only Sass functions (font-path/
-// image-path) that Dart Sass doesn't have -- it silently emits them as
-// literal (broken) CSS instead of erroring. Plain 'bootstrap' falls back to
-// relative paths instead.
-//
-// Not the 'bootstrap' umbrella partial either: it unconditionally pulls in
-// 'bootstrap/glyphicons', which declares an @font-face for a font we no
-// longer ship (all glyphicon-* usages were replaced with inline SVG icons,
-// see app/helpers/application_helper.rb). This is the same import list as
-// bootstrap-sass's _bootstrap.scss, minus that one line.
-@import 'bootstrap/variables';
-@import 'bootstrap/mixins';
-@import 'bootstrap/normalize';
-@import 'bootstrap/print';
-@import 'bootstrap/scaffolding';
-@import 'bootstrap/type';
-@import 'bootstrap/code';
-@import 'bootstrap/grid';
-@import 'bootstrap/tables';
-@import 'bootstrap/forms';
-@import 'bootstrap/buttons';
-@import 'bootstrap/component-animations';
-@import 'bootstrap/dropdowns';
-@import 'bootstrap/button-groups';
-@import 'bootstrap/input-groups';
-@import 'bootstrap/navs';
-@import 'bootstrap/navbar';
-@import 'bootstrap/breadcrumbs';
-@import 'bootstrap/pagination';
-@import 'bootstrap/pager';
-@import 'bootstrap/labels';
-@import 'bootstrap/badges';
-@import 'bootstrap/jumbotron';
-@import 'bootstrap/thumbnails';
-@import 'bootstrap/alerts';
-@import 'bootstrap/progress-bars';
-@import 'bootstrap/media';
-@import 'bootstrap/list-group';
-@import 'bootstrap/panels';
-@import 'bootstrap/responsive-embed';
-@import 'bootstrap/wells';
-@import 'bootstrap/close';
-@import 'bootstrap/modals';
-@import 'bootstrap/tooltip';
-@import 'bootstrap/popovers';
-@import 'bootstrap/carousel';
-@import 'bootstrap/utilities';
-@import 'bootstrap/responsive-utilities';
-@import 'mixins';
-@import 'utility';
+@import 'bootstrap';
 @import 'react-select';
 @import 'bootstrap-treeview';
 
@@ -171,6 +101,14 @@ textarea {
   margin-top: 0;
 }
 
+// Bootstrap 5 dropped .form-group; kept here as a plain spacing hook for
+// hand-written (non-simple_form) forms and the JS in global.js that toggles
+// visibility via .closest('.form-group'). simple_form-generated wrappers use
+// Bootstrap 5's .mb-3 directly instead (see simple_form_bootstrap.rb).
+.form-group {
+  margin-bottom: 1rem;
+}
+
 // Fix alignment of text at checkboxes
 .checkbox {
   input[type=checkbox] {
@@ -253,7 +191,7 @@ form.schedule {
   font-size: 10px;
   border-top: 1px solid #eee;
 
-  @include desktop {
+  @include media-breakpoint-up(md) {
     position: fixed;
   }
 }

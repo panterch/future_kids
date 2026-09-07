@@ -22,15 +22,14 @@
         #nav-wrapper
           #nav
             .container
-              .navbar.navbar-default{role: "navigation"}
-                %ul.nav.navbar-nav.hidden-xs.hidden-sm.visible-md.visible-lg
+              .navbar.bg-white{role: "navigation"}
+                %ul.nav.navbar-nav.d-none.d-md-flex
                   = render 'layouts/navigation_items'
 
-                %ul.nav.navbar-nav.navbar-left.visible-xs.visible-sm.hidden-md.hidden-lg
+                %ul.nav.navbar-nav.d-flex.d-md-none
                   %li.dropdown(style="display: block !important")
                     = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown', 'aria-label' => 'Menü öffnen' do
                       = icon(:menu_hamburger)
-                      %span.caret
                     %ul.dropdown-menu
                       = render 'layouts/navigation_items'
 
@@ -39,45 +38,44 @@
                   %li.dropdown(style="display: block !important")
                     = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown', 'aria-label' => 'Benutzermenü' do
                       = icon(:user)
-                      %span.caret
                     %ul.dropdown-menu
                       %li= link_to current_user.display_name, current_user
                       -if can? :read, Site
                         %li= link_to Site.model_name.human, edit_site_path
-                      %li.divider
+                      %li.dropdown-divider
                       %li= link_to 'Abmelden', destroy_user_session_path, method: :delete
 
 
     #sidebar-wrapper
       .container
-        #sidebar.hidden-xs.hidden-sm
+        #sidebar.d-none.d-md-block
           %h1.logo
             - if @site.logo.present?
               %img{:src => rails_representation_url(@site.logo_medium)}
 
           - if user_signed_in?
-            .contextual_links_panel.panel.panel-default.hidden-xs.hidden-sm
+            .contextual_links_panel.card.d-none.d-md-block
               = render 'layouts/actions'
             = yield :sidebar
 
     #main
       .container
         .row
-          #content.col-md-offset-3.col-md-9
+          #content.offset-md-3.col-md-9
             - flash.each do |name, msg|
               = boot_alert(msg, name) unless msg.blank?
             = yield
 
       .container
-        .row.visible-xs.visible-sm.hidden-md.hidden-lg
+        .row.d-md-none
           - if user_signed_in?
-            .contextual_links_panel.mobile-actions.panel.panel-default
+            .contextual_links_panel.mobile-actions.card
               = render 'layouts/actions'
 
     - if @site.footer_address.present? || @site.footer_email.present?
       #footer
         .container
-          .col-md12
+          .col-md-12
             = @site.footer_address
             - if @site.footer_email.present?
               = mail_to @site.footer_email, nil, :encode => "hex"

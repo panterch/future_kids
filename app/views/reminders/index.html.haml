@@ -45,8 +45,8 @@
           - if reminder.sent_at
             = human_date(reminder.sent_at.to_date)
           - else
-            = button_to "Zustellen", { action: "update", id: reminder.id }, method: :put, remote: true,  data: { disable_with: "In Arbeit..." }, class: 'btn btn-default btn-xs'
+            = button_to "Zustellen", { action: "update", id: reminder.id }, method: :put, remote: true,  data: { disable_with: "In Arbeit..." }, class: 'btn btn-secondary btn-xs'
         %td
-          = button_to "Quittieren", { action: "destroy", id: reminder.id }, method: :delete, remote: true,  data: { disable_with: "In Arbeit..." }, class: 'btn btn-default btn-xs'
+          = button_to "Quittieren", { action: "destroy", id: reminder.id }, method: :delete, remote: true,  data: { disable_with: "In Arbeit..." }, class: 'btn btn-secondary btn-xs'
 - else
   %p Kein Eintrag vorhanden

@@ -20,21 +20,6 @@ require 'action_view/railtie'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-# bootstrap-sass's own engine initializer references Sprockets::Rails::VERSION
-# unconditionally (no defined?() guard), which crashes at boot now that
-# Sprockets is gone. Faking that constant is tempting but leaky: it makes
-# `defined?(Sprockets::Rails)` true app-wide, which trips up importmap-rails'
-# own (correct) Sprockets::Rails feature detection elsewhere. Replace the one
-# crashing initializer instead -- keeping the asset-path registration (still
-# useful, Propshaft reads config.assets.paths too) and dropping only the
-# version check, which only mattered for sprockets-rails < 3 anyway.
-Bootstrap::Rails::Engine.initializers.delete_if { |i| i.name == 'bootstrap-sass.assets.precompile' }
-Bootstrap::Rails::Engine.initializer 'bootstrap-sass.assets.precompile' do |app|
-  %w[stylesheets javascripts fonts images].each do |sub|
-    app.config.assets.paths << Bootstrap::Rails::Engine.root.join('assets', sub).to_s
-  end
-end
-
 module FutureKids
   class Application < Rails::Application
     # Initialize configuration defaults for originally generated Rails version.

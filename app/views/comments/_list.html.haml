@@ -2,8 +2,8 @@
   - journal.comments.each do |comment|
     .list-group-item
       - if show_actions && can?(:update, comment)
-        .btn-group.pull-right
-          = link_to 'Bearbeiten', edit_kid_journal_comment_path(kid, journal, comment), class: 'btn btn-default'
-      %label.col-sm-3.text-right= comment.display_name
-      .col-sm-offset-3
+        .btn-group.float-end
+          = link_to 'Bearbeiten', edit_kid_journal_comment_path(kid, journal, comment), class: 'btn btn-secondary'
+      %label.col-sm-3.text-end= comment.display_name
+      .offset-sm-3
         = comment.human_body

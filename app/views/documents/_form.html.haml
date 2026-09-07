@@ -2,7 +2,7 @@
   -# allow user to select category or enter it via freetext
   - (0..7).each do |i|
     .form-group.string.optional.document_category
-      %label.string.optional.col-sm-3.control-label(for="document_category#{i}")
+      %label.string.optional.col-sm-3.col-form-label(for="document_category#{i}")
         = Document.human_attribute_name("category#{i}")
         %a.freetext(href="#" aria-label="Freitext eingeben")= icon(:edit)
       .col-sm-9
@@ -13,9 +13,9 @@
   = form.input :admin_only, as: :boolean, label: Document.human_attribute_name(:admin_only)
   - if @document.persisted?
     .form-group
-      %label.col-sm-3.control-label= Document.human_attribute_name(:download_count)
+      %label.col-sm-3.col-form-label= Document.human_attribute_name(:download_count)
       .col-sm-9
         %p.form-control-static= @document.download_count
 
-  .col-sm-offset-3.col-sm-9
+  .offset-sm-3.col-sm-9
     = form.button :submit

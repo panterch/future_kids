@@ -48,7 +48,7 @@
 
 -# times are only visible to the mentor himself or an admin
 - if viewing_own_data?(@mentor)
-  #mentor_journal_date.pull-right
+  #mentor_journal_date.float-end
     = select_month(@month, {}, :class => 'select_mentor_journal_date')
     = select_year(@year, {}, :class => 'select_mentor_journal_date')
   #a(name='mentor_journal_date')

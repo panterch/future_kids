@@ -25,7 +25,7 @@
     .col-sm-6
       - kid_time_options = meeting_time_collection
       .form-group
-        %label.col-sm-3.control-label= Kid.human_attribute_name(:meeting_start_at)
+        %label.col-sm-3.col-form-label= Kid.human_attribute_name(:meeting_start_at)
         .col-sm-9
           = form.select :meeting_start_at, options_for_select(kid_time_options, @kid.human_meeting_start_at), { include_blank: true }, { class: 'form-control' }
   .hide

@@ -2,7 +2,7 @@
   = form.input :by
   = form.input :body
   .form-group.boolean.optional
-    %label.boolean.optional.control-label.col-sm-3.control-label
+    %label.boolean.optional.col-form-label.col-sm-3.col-form-label
       Benachrichtigung senden
     .col-sm-9
       .checkbox
@@ -11,7 +11,7 @@
           Mentor*in (#{@journal.mentor.display_name})
   - if @journal.kid.admin && @site.feature_coach?
     .form-group.boolean.optional
-      .col-sm-offset-3.col-sm-9
+      .offset-sm-3.col-sm-9
         .checkbox
           %label.boolean
             %input.boolean.optional(type='checkbox' disabled='disabled' checked)
@@ -26,14 +26,14 @@
   - principals = @journal.kid.school&.active_principals
   - if principals&.any?
     = form.input :to_principal, label: "SL/QUIMS-Verantwortliche*r (#{principals.map(&:display_name).join(', ')})"
-  .col-sm-offset-3.col-sm-9
+  .offset-sm-3.col-sm-9
     = form.button :submit
 
 .clearfix
 
-.panel.panel-default.mt-4
-  .panel-heading
+.card.mt-4
+  .card-header
     %h4= @journal.display_name
-  .panel-body
+  .card-body
     = render 'journals/body', journal: @journal
   = render 'comments/list', journal: @journal, kid: @journal.kid, show_actions: false

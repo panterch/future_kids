@@ -107,18 +107,18 @@ function register_dropdowns() {
     toggle.addEventListener('click', function(event) {
       event.preventDefault();
       event.stopPropagation();
-      var dropdown = toggle.closest('.dropdown');
-      var wasOpen = dropdown.classList.contains('open');
-      document.querySelectorAll('.dropdown.open').forEach(function(el) {
-        el.classList.remove('open');
+      var menu = toggle.closest('.dropdown').querySelector('.dropdown-menu');
+      var wasOpen = menu.classList.contains('show');
+      document.querySelectorAll('.dropdown-menu.show').forEach(function(el) {
+        el.classList.remove('show');
       });
-      if (!wasOpen) dropdown.classList.add('open');
+      if (!wasOpen) menu.classList.add('show');
     });
   });
 
   document.addEventListener('click', function() {
-    document.querySelectorAll('.dropdown.open').forEach(function(el) {
-      el.classList.remove('open');
+    document.querySelectorAll('.dropdown-menu.show').forEach(function(el) {
+      el.classList.remove('show');
     });
   });
 }
@@ -129,7 +129,7 @@ function register_collapses() {
       event.preventDefault();
       var targetSelector = trigger.getAttribute('data-target');
       var target = targetSelector && document.querySelector(targetSelector);
-      if (target) target.classList.toggle('in');
+      if (target) target.classList.toggle('show');
     });
   });
 }
@@ -201,13 +201,23 @@ function register_exit_at_toggler() {
   });
 }
 
-function remove_alerts() {
-  document.querySelectorAll('.alert').forEach(function(el) {
-    el.style.transition = 'opacity 0.4s';
-    el.style.opacity = '0';
-    setTimeout(function() { el.style.display = 'none'; }, 400);
-  });
+function remove_alert(el) {
+  el.style.transition = 'opacity 0.4s';
+  el.style.opacity = '0';
+  setTimeout(function() { el.style.display = 'none'; }, 400);
 }
+
+function remove_alerts() {
+  document.querySelectorAll('.alert').forEach(remove_alert);
+}
+
+document.addEventListener('click', function(event) {
+  var dismiss = event.target.closest('[data-dismiss="alert"]');
+  if (!dismiss) return;
+  event.preventDefault();
+  var alert = dismiss.closest('.alert');
+  if (alert) remove_alert(alert);
+});
 
 function register_freetext_toggler() {
   document.querySelectorAll('a.freetext').forEach(function(link) {

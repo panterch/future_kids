@@ -12,7 +12,7 @@
   = form.input :notifications_default_email
   = form.input :comment_bcc
   .form-group
-    = form.label :terms_of_use_content, class: 'control-label col-sm-3'
+    = form.label :terms_of_use_content, class: 'col-form-label col-sm-3'
     .col-sm-9
       = form.text_area :terms_of_use_content, class: 'form-control'
   = form.input :logo
@@ -28,5 +28,5 @@
   - prompt_hint = 'Leer lassen, um die Standardanweisung (siehe Platzhalter) zu verwenden.'
   = form.input :ai_summary_prompt, as: :text, placeholder: JournalSummarizer::DEFAULT_PROMPT, hint: prompt_hint
 
-  .col-sm-offset-3.col-sm-9
+  .offset-sm-3.col-sm-9
     = form.button :submit

@@ -5,7 +5,7 @@
   = form.input :sex, :collection => sex_collection, required: true
   = form.input :dob, as: :date, html5: true
   .form-group.select.required.kid_grade
-    %label.col-sm-3.control-label.select.required
+    %label.col-sm-3.col-form-label.select.required
       = Kid.human_attribute_name(:grade)
       %br
       %em (bei Einstieg Future Kids)
@@ -28,7 +28,7 @@
     %em="- mindestens eines, maximal #{Kid::GOALS_1_MAX}"
   - if @kid.errors[:goal_1].any?
     %h3.has-error
-      %span.help-block= @kid.errors[:goal_1].try(:first)
+      %span.text-danger= @kid.errors[:goal_1].try(:first)
   %h3 Deutsch
   =form_subtitle("Hören")
   = form.input :goal_3
@@ -69,7 +69,7 @@
     %em="- mindestens eines, maximal #{Kid::GOALS_2_MAX}"
   - if @kid.errors[:goal_2].any?
     %h3.has-error
-      %span.help-block= @kid.errors[:goal_2].try(:first)
+      %span.text-danger= @kid.errors[:goal_2].try(:first)
   =form_subtitle("Personale Förderbereiche")
   = form.input :goal_25
   = form.input :goal_26
@@ -88,7 +88,7 @@
 
   %h2 Allgemeine Informationen
   - unless @site.kids_schedule_hourly
-    %label.string.col-sm-3.control-label
+    %label.string.col-sm-3.col-form-label
     .col-sm-9
       %p Bitte mehrere Zeitfenster angeben, in denen das Kind Zeit für das Mentoring hat.
     = form.input :simplified_schedule, required: true
@@ -96,7 +96,7 @@
     = form.input :meeting_day, :collection => wday_collection
     - kid_time_options = meeting_time_collection
     .form-group
-      %label.col-sm-3.control-label= Kid.human_attribute_name(:meeting_start_at)
+      %label.col-sm-3.col-form-label= Kid.human_attribute_name(:meeting_start_at)
       .col-sm-9
         = form.select :meeting_start_at, options_for_select(kid_time_options, @kid.human_meeting_start_at), { include_blank: true }, { class: 'form-control' }
   -# this form is accessible by admins and teachers. teachers can only set the
@@ -126,5 +126,5 @@
     %a(name='todo')
     = form.input :inactive
 
-  .col-sm-offset-3.col-sm-9
+  .offset-sm-3.col-sm-9
     = form.button :submit

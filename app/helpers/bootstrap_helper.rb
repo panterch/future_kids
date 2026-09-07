@@ -80,8 +80,8 @@ module BootstrapHelper
     end
 
     type ||= 'info'
-    content_tag(:div, :class => "alert alert-#{boot_alert_name(type)}") do
-      link_to('&times;'.html_safe, '#', :class => 'close', 'data-dismiss' => 'alert') + content
+    content_tag(:div, :class => "alert alert-#{boot_alert_name(type)} alert-dismissible") do
+      content_tag(:button, '', :type => 'button', :class => 'btn-close', 'data-dismiss' => 'alert', 'aria-label' => 'Close') + content
     end
   end
 
@@ -175,8 +175,8 @@ end
 
 class BootFormBuilder < SimpleForm::FormBuilder
   def buttons(*args, &block)
-    @template.content_tag 'div', class: 'form-groups' do
-      @template.content_tag 'div', class: ['col-sm-offset-3', 'col-sm-9'] do
+    @template.content_tag 'div', class: 'row mb-3' do
+      @template.content_tag 'div', class: ['offset-sm-3', 'col-sm-9'] do
         button(:submit, *args, &block)
       end
     end

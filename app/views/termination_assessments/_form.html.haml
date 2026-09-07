@@ -1,7 +1,7 @@
 
 = simple_form_for [@kid, @termination_assessment] do |form|
   .form-group.string.optional.document_category
-    %label.string.col-sm-3.control-label
+    %label.string.col-sm-3.col-form-label
       Inhalt des Gespräches
     .col-sm-9
       %p Reflektion und Resümee der vergangenen zwei Future Kids-Jahren.
@@ -15,5 +15,5 @@
   = form.input :improvements
   = form.input :collaboration
 
-  .col-sm-offset-3.col-sm-9
+  .offset-sm-3.col-sm-9
     = form.button :submit
