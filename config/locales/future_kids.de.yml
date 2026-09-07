@@ -338,8 +338,36 @@ de:
       index:
         teacher: 'Um neue Schüler*innen für die Teilnahme anzumelden, klicken Sie links auf „Erfassen”.'
         mentor: "Schüler*innen in Ihrem Mentoring"
+  messages:
+    confirm_delete: "%{model} %{record} wirklich löschen?"
+    select_prompt:  "%{model} auswählen"
+
   crud:
+    title:
+      index:  "%{model} Liste"
+      edit:   "%{model} bearbeiten"
+      update: "%{model} bearbeiten"
+      show:   "%{model} anzeigen"
+      new:    "%{model} erfassen"
+      create: "%{model} erfassen"
+      delete: "%{model} löschen"
+      destroy: "%{model} löschen"
+    notices:
+      create: "%{model} %{record}erstellt."
+      update: "%{model} %{record}geändert."
+      destroy: "%{model} %{record}gelöscht."
     action:
+      edit: "Bearbeiten"
+      update: "Bearbeiten"
+      show: "Anzeigen"
+      new: "Erfassen"
+      create: "Erfassen"
+      delete: "Löschen"
+      destroy: "Löschen"
+      cancel: "Abbrechen"
+      back: "Zurück"
+      previous: "Zurück"
+      next: "Weiter"
       edit_schedules: Stundenplan bearbeiten
       show_kid_mentors_schedules: Mentor finden
       new_journal: Neues Lernjournal
