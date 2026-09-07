@@ -1,6 +1,6 @@
 - if current_user.is_a?(Admin) && !resource.relation_logs.empty?
   %h2#relation_logs= RelationLog.model_name.human
-  %table.table.table-striped.table-condensed.table-hover
+  %table.table.table-striped.table-sm.table-hover
     %tr
       %th Datum
       %th= RelationLog.human_attribute_name(:user)

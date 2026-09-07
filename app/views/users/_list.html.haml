@@ -1,5 +1,5 @@
 - if collection.present?
-  %table.table.table-striped.table-condensed.table-hover
+  %table.table.table-striped.table-sm.table-hover
     %tbody
       - collection.each do |resource|
         %tr
@@ -10,7 +10,7 @@
                 = mail_to resource.email, "<#{resource.email}>"
             %td
               -# if resource.todo.present?
-                %a.todotoggle.btn.btn-xs{data: { content: resource.human_todo}, href:  edit_resource_path(resource, :anchor => 'todo') }
+                %a.todotoggle.btn.btn-sm{data: { content: resource.human_todo}, href:  edit_resource_path(resource, :anchor => 'todo') }
                   = icon(:info_sign)
                   Pendenz
 - else

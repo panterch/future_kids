@@ -38,15 +38,15 @@
           %p
             %b Inaktive
       .form-group
-        = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
-        = link_to 'Filter aufheben', mentors_path, class: 'btn btn-xs'
+        = f.submit 'Filter anwenden', class: 'btn btn-sm btn-success'
+        = link_to 'Filter aufheben', mentors_path, class: 'btn btn-sm'
 
 = boot_page_title do
   = @mentors.count if current_user.is_a?(Admin)
   Mentor*innen
 
 - if @mentors.present?
-  %table.table.table-striped.table-condensed.table-hover
+  %table.table.table-striped.table-sm.table-hover
     %tbody
       - @mentors.each do |mentor|
         %tr
@@ -57,7 +57,7 @@
                 = mail_to mentor.email, "<#{mentor.email}>"
             %td
               - if current_user.is_a?(Admin) && mentor.todo.present?
-                %a.todotoggle.btn.btn-xs{data: { content: mentor.human_todo}, href:  edit_mentor_path(mentor, :anchor => 'todo') }
+                %a.todotoggle.btn.btn-sm{data: { content: mentor.human_todo}, href:  edit_mentor_path(mentor, :anchor => 'todo') }
                   = icon(:info_sign)
                   Pendenz
 - else

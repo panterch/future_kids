@@ -4,7 +4,7 @@
     .card-header
       %h4.card-title(data-toggle="collapse" data-target="#collapseJournals")
         Lernjournale
-        %span.badge.float-end=@kid.journals.size
+        %span.badge.text-bg-secondary.float-end=@kid.journals.size
     #collapseJournals.collapse.list-group.kidanchors
       - @kid.journals.each do |journal|
         .list-group-item
@@ -15,7 +15,7 @@
       .card-header
         %h4.card-title(data-toggle="collapse" data-target="#collapseReviews")
           Gespräche
-          %span.badge.float-end=@kid.reviews.size
+          %span.badge.text-bg-secondary.float-end=@kid.reviews.size
       #collapseReviews.collapse.list-group.kidanchors
         - @kid.reviews.each do |review|
           .list-group-item
@@ -25,7 +25,7 @@
     .card-header
       %h4.card-title(data-toggle="collapse" data-target="#collapseFirstYearAssessments")
         Auswertung/Abschluss
-        %span.badge.float-end=@kid.first_year_assessments.size+@kid.termination_assessments.size
+        %span.badge.text-bg-secondary.float-end=@kid.first_year_assessments.size+@kid.termination_assessments.size
     #collapseFirstYearAssessments.collapse.list-group.kidanchors
       - @kid.first_year_assessments.each do |assessment|
         .list-group-item

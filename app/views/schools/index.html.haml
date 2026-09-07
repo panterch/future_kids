@@ -12,14 +12,14 @@
         %p
           %b Inaktive
     .form-group
-      = f.submit 'Suchen', class: 'btn btn-xs btn-success'
-      = link_to 'Filter aufheben', schools_path, class: 'btn btn-xs'
+      = f.submit 'Suchen', class: 'btn btn-sm btn-success'
+      = link_to 'Filter aufheben', schools_path, class: 'btn btn-sm'
 
 = boot_page_title do
   = @schools.count
   Schulen
 
-%table.table.table-striped.table-condensed.table-hover
+%table.table.table-striped.table-sm.table-hover
   %thead
     %tr
       %th= School.human_attribute_name(:name)

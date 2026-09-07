@@ -202,6 +202,10 @@ form.schedule {
   bottom: $footer-height;
   width: 100%;
   overflow: hidden;
+  // Only #sidebar itself is meant to be visible/interactive; the rest of
+  // this fixed, full-width wrapper would otherwise sit on top of #main and
+  // swallow clicks meant for the page content underneath.
+  pointer-events: none;
 
   #sidebar {
     position: absolute;
@@ -209,6 +213,7 @@ form.schedule {
     bottom: 0;
     width: $sidebar-width;
     overflow: auto;
+    pointer-events: auto;
 
     .logo {
       margin-bottom: 20px;

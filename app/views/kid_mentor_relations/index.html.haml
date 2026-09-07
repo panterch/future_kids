@@ -33,13 +33,13 @@
       %label Ordnen nach
       = select_tag 'order_by', order_by_collection_for_kid_mentor_relations(params[:order_by]), class: 'form-control'
     .form-group
-      = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
-      = link_to 'Filter aufheben', kid_mentor_relations_path, class: 'btn btn-xs'
+      = f.submit 'Filter anwenden', class: 'btn btn-sm btn-success'
+      = link_to 'Filter aufheben', kid_mentor_relations_path, class: 'btn btn-sm'
 
 = boot_page_title do
   =t('title.kid_mentor_relation_index', count: @kid_mentor_relations.count)
 -if @kid_mentor_relations.present?
-  %table.table.table-striped.table-condensed.table-hover
+  %table.table.table-striped.table-sm.table-hover
     %tr
       %th
         = Kid.human_attribute_name(:name)
@@ -87,6 +87,6 @@
             = link_to relation.school.display_name, relation.school
         %td
           - if relation.inactivatable?
-            =button_to "Inaktiv setzen", kid_mentor_relation_path(id: relation.kid_id), method: :delete, class: 'btn btn-xs btn-danger'
+            =button_to "Inaktiv setzen", kid_mentor_relation_path(id: relation.kid_id), method: :delete, class: 'btn btn-sm btn-danger'
 -else
   %p Kein Eintrag vorhanden

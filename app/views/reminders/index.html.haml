@@ -8,14 +8,14 @@
         %label=Mentor.human_attribute_name('ects')
         = f.select :filter_by_ects, ects_collection, { include_blank: true }, class: 'form-control'
       .form-group
-        = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
-        = link_to 'Filter aufheben', reminders_path, class: 'btn btn-xs'
+        = f.submit 'Filter anwenden', class: 'btn btn-sm btn-success'
+        = link_to 'Filter aufheben', reminders_path, class: 'btn btn-sm'
 
 = boot_page_title do
   %h2 Erinnerungen
 
 - if @reminders.present?
-  %table#reminders_table.table.table-striped.table-condensed.table-hover.no-sidebar-actions
+  %table#reminders_table.table.table-striped.table-sm.table-hover.no-sidebar-actions
     %thead
       %tr
         %th Meeting vom
@@ -45,8 +45,8 @@
           - if reminder.sent_at
             = human_date(reminder.sent_at.to_date)
           - else
-            = button_to "Zustellen", { action: "update", id: reminder.id }, method: :put, remote: true,  data: { disable_with: "In Arbeit..." }, class: 'btn btn-secondary btn-xs'
+            = button_to "Zustellen", { action: "update", id: reminder.id }, method: :put, remote: true,  data: { disable_with: "In Arbeit..." }, class: 'btn btn-secondary btn-sm'
         %td
-          = button_to "Quittieren", { action: "destroy", id: reminder.id }, method: :delete, remote: true,  data: { disable_with: "In Arbeit..." }, class: 'btn btn-secondary btn-xs'
+          = button_to "Quittieren", { action: "destroy", id: reminder.id }, method: :delete, remote: true,  data: { disable_with: "In Arbeit..." }, class: 'btn btn-secondary btn-sm'
 - else
   %p Kein Eintrag vorhanden

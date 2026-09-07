@@ -9,15 +9,15 @@
         %p
           %b Inaktive
     .form-group
-      = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
-      = link_to 'Filter aufheben', substitutions_path, class: 'btn btn-xs'
+      = f.submit 'Filter anwenden', class: 'btn btn-sm btn-success'
+      = link_to 'Filter aufheben', substitutions_path, class: 'btn btn-sm'
 
 
 = boot_page_title do
   %h2 Vertretungen
 
 - if @substitutions.present?
-  %table.table.table-striped.table-condensed.table-hover.no-sidebar-actions
+  %table.table.table-striped.table-sm.table-hover.no-sidebar-actions
     %thead
       %tr
         %th Mentor*in
@@ -43,10 +43,10 @@
             = link_to substitution.secondary_mentor.display_name, substitution.secondary_mentor
           - else
             - if substitution.end_at > DateTime.now()
-              =button_to "Ersatz finden", { :controller => "kids", :id => substitution.kid.id, :action => :show_kid_mentors_schedules}, { :method => :get, :class => 'btn btn-secondary btn-xs', params: { substitution_id: substitution.id } }
+              =button_to "Ersatz finden", { :controller => "kids", :id => substitution.kid.id, :action => :show_kid_mentors_schedules}, { :method => :get, :class => 'btn btn-secondary btn-sm', params: { substitution_id: substitution.id } }
         %td
           -if substitution.comments.present?
-            %a.todotoggle.btn.btn-xs{data: { content: substitution.comments}, href:  edit_substitution_path(substitution, :anchor => 'comments') }
+            %a.todotoggle.btn.btn-sm{data: { content: substitution.comments}, href:  edit_substitution_path(substitution, :anchor => 'comments') }
               Kommentar
               = icon(:info_sign)
 
@@ -56,9 +56,9 @@
         - else
           %td
             - if substitution.end_at < DateTime.now
-              = button_to "Abwesenheit schliessen", { :action => "inactivate", :id => substitution.id }, { :method => :put, :class => 'btn btn-danger btn-xs' }
+              = button_to "Abwesenheit schliessen", { :action => "inactivate", :id => substitution.id }, { :method => :put, :class => 'btn btn-danger btn-sm' }
             - else
-              = button_to "Bearbeiten", edit_substitution_path(substitution), { :method => :get, :class => 'btn btn-secondary btn-xs' }
+              = button_to "Bearbeiten", edit_substitution_path(substitution), { :method => :get, :class => 'btn btn-secondary btn-sm' }
 
 - else
   %p Kein Eintrag vorhanden

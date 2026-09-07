@@ -43,7 +43,7 @@
     - if @mentor.photo.present?
       .portrait
         %img{:src => rails_representation_url(@mentor.photo_medium)}
-  .col-md-12.hidden-print
+  .col-md-12.d-print-none
     = render 'relation_logs/collection', resource: @mentor
 
 -# times are only visible to the mentor himself or an admin
@@ -54,7 +54,7 @@
   #a(name='mentor_journal_date')
   %h2
     Zeiterfassung für den Monat
-  %table.table.table-striped.table-condensed.table-hover
+  %table.table.table-striped.table-sm.table-hover
     - @journals.each do |journal|
       %tr
         %td= human_date(journal.held_at)
@@ -76,7 +76,7 @@
           = (@journals.sum(&:duration) / 60.0).round(2)
           Stunden
 
-  .hidden-print
+  .d-print-none
     %h2
       Zeiterfassung seit Einstieg
     %table.table.table-striped.table-hover
@@ -102,6 +102,6 @@
           = duration + coaching
           Stunden
 
-  .visible-print
+  .d-print-block
     %p.signature Unterschrift Mentor*in
     %p.signature Unterschrift Vorgesetzte*r

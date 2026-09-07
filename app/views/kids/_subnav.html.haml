@@ -4,7 +4,7 @@
     .card-header
       %h4.card-title(data-toggle="collapse" data-target="#collapseJournals")
         Lernjournale
-        %span.badge.float-end=resource.journals.size
+        %span.badge.text-bg-secondary.float-end=resource.journals.size
     #collapseJournals.collapse.list-group.kidanchors
       - resource.journals.each do |journal|
         .list-group-item
@@ -15,7 +15,7 @@
       .card-header
         %h4.card-title(data-toggle="collapse" data-target="#collapseReviews")
           Gespräche
-          %span.badge.float-end=resource.reviews.size
+          %span.badge.text-bg-secondary.float-end=resource.reviews.size
       #collapseReviews.collapse.list-group.kidanchors
         - resource.reviews.each do |review|
           .list-group-item
