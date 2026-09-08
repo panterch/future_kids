@@ -7,22 +7,19 @@
   = form.input :important
   - journal_time_options = (0..24).map { |i| t = 780 + i * 15; "%02d:%02d" % [t / 60, t % 60] }
   .form-group
-    %label.col-sm-3.col-form-label
+    %label.form-label
       = Journal.human_attribute_name(:start_at)
       %abbr{title: 'required'} *
-    .col-sm-9
-      = form.select :start_at, options_for_select(journal_time_options, @journal.human_start_at), { include_blank: true }, { class: 'form-control', required: true }
+    = form.select :start_at, options_for_select(journal_time_options, @journal.human_start_at), { include_blank: true }, { class: 'form-control', required: true }
   .form-group
-    %label.col-sm-3.col-form-label
+    %label.form-label
       = Journal.human_attribute_name(:end_at)
       %abbr{title: 'required'} *
-    .col-sm-9
-      = form.select :end_at, options_for_select(journal_time_options, @journal.human_end_at), { include_blank: true }, { class: 'form-control', required: true }
+    = form.select :end_at, options_for_select(journal_time_options, @journal.human_end_at), { include_blank: true }, { class: 'form-control', required: true }
   = form.input :goal
   = form.input :subject
   = form.input :method
   = form.input :outcome
   = form.input :note
 
-  .offset-sm-3.col-sm-9
-    = form.button :submit
+  = form.button :submit

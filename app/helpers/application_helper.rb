@@ -235,13 +235,7 @@ module ApplicationHelper
 
   # renders a title inside the form, aligned with form fields
   def form_subtitle(text)
-    html = tag.label class: %w[string col-sm-3 col-form-label]
-
-    html += tag.div class: %w[col-sm-9] do
-      tag.p tag.strong text
-    end
-
-    html
+    tag.p tag.strong text
   end
 
   # renders the label of a boolean field when it is set fitting into

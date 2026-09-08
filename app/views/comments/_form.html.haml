@@ -1,21 +1,19 @@
 = simple_form_for [@journal.kid, @journal, @comment] do |form|
   = form.input :by
   = form.input :body
-  .form-group.boolean.optional
-    %label.boolean.optional.col-form-label.col-sm-3.col-form-label
+  .mb-3
+    %label.form-label
       Benachrichtigung senden
-    .col-sm-9
-      .checkbox
-        %label.boolean
-          %input.boolean.optional(type='checkbox' disabled='disabled' checked)
-          Mentor*in (#{@journal.mentor.display_name})
+    .form-check
+      %label.form-check-label
+        %input.form-check-input(type='checkbox' disabled='disabled' checked)
+        Mentor*in (#{@journal.mentor.display_name})
   - if @journal.kid.admin && @site.feature_coach?
-    .form-group.boolean.optional
-      .offset-sm-3.col-sm-9
-        .checkbox
-          %label.boolean
-            %input.boolean.optional(type='checkbox' disabled='disabled' checked)
-            Pädagogischer Coach (#{@journal.kid.admin.display_name})
+    .mb-3
+      .form-check
+        %label.form-check-label
+          %input.form-check-input(type='checkbox' disabled='disabled' checked)
+          Pädagogischer Coach (#{@journal.kid.admin.display_name})
 
   - if @journal.kid.teacher
     = form.input :to_teacher, label: "Lehrperson (#{@journal.kid.teacher.display_name})"
@@ -26,8 +24,7 @@
   - principals = @journal.kid.school&.active_principals
   - if principals&.any?
     = form.input :to_principal, label: "SL/QUIMS-Verantwortliche*r (#{principals.map(&:display_name).join(', ')})"
-  .offset-sm-3.col-sm-9
-    = form.button :submit
+  = form.button :submit
 
 .clearfix
 

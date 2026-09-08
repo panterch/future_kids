@@ -4,13 +4,12 @@
   = form.input :prename, required: true
   = form.input :sex, :collection => sex_collection, required: true
   = form.input :dob, as: :date, html5: true
-  .form-group.select.required.kid_grade
-    %label.col-sm-3.col-form-label.select.required
+  .mb-3.kid_grade
+    %label.form-label
       = Kid.human_attribute_name(:grade)
       %br
       %em (bei Einstieg Future Kids)
-    .col-sm-9
-      = form.select :grade, grade_collection, { include_blank: true }, { class: 'form-control select required' }
+    = form.select :grade, grade_collection, { include_blank: true }, { class: 'form-control select required' }
 
   = form.input :language, required: true
   = form.input :parent_country, priority: ["AL", "TR", "LK", "XK", "ES", "PT"], :include_blank => true, locale: 'de'
@@ -88,17 +87,14 @@
 
   %h2 Allgemeine Informationen
   - unless @site.kids_schedule_hourly
-    %label.string.col-sm-3.col-form-label
-    .col-sm-9
-      %p Bitte mehrere Zeitfenster angeben, in denen das Kind Zeit für das Mentoring hat.
+    %p Bitte mehrere Zeitfenster angeben, in denen das Kind Zeit für das Mentoring hat.
     = form.input :simplified_schedule, required: true
   - if current_user.is_a?(Admin)
     = form.input :meeting_day, :collection => wday_collection
     - kid_time_options = meeting_time_collection
-    .form-group
-      %label.col-sm-3.col-form-label= Kid.human_attribute_name(:meeting_start_at)
-      .col-sm-9
-        = form.select :meeting_start_at, options_for_select(kid_time_options, @kid.human_meeting_start_at), { include_blank: true }, { class: 'form-control' }
+    .mb-3
+      %label.form-label= Kid.human_attribute_name(:meeting_start_at)
+      = form.select :meeting_start_at, options_for_select(kid_time_options, @kid.human_meeting_start_at), { include_blank: true }, { class: 'form-control' }
   -# this form is accessible by admins and teachers. teachers can only set the
   -# the secondary_mentor and ara automatically assigned as first mentor for any kid
   -# they are working on
@@ -126,5 +122,4 @@
     %a(name='todo')
     = form.input :inactive
 
-  .offset-sm-3.col-sm-9
-    = form.button :submit
+  = form.button :submit

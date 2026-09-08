@@ -175,10 +175,8 @@ end
 
 class BootFormBuilder < SimpleForm::FormBuilder
   def buttons(*args, &block)
-    @template.content_tag 'div', class: 'row mb-3' do
-      @template.content_tag 'div', class: ['offset-sm-3', 'col-sm-9'] do
-        button(:submit, *args, &block)
-      end
+    @template.content_tag 'div', class: 'mb-3' do
+      button(:submit, *args, &block)
     end
   end
 end
