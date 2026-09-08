@@ -7,6 +7,15 @@ $footer-height: 30px;
 @import 'react-select';
 @import 'bootstrap-treeview';
 
+// Bootstrap 5 dropped .form-group (its migration guide points to margin
+// utilities like .mb-3 instead), but views across the app -- especially
+// the sidebar filter forms on the index pages -- still use it and were
+// never migrated, leaving fields with no spacing between them. Reviving
+// it here fixes every one of those forms without touching each view.
+.form-group {
+  margin-bottom: 1rem;
+}
+
 // Sizing for the inline SVG icons that replaced glyphicon-* (see
 // ApplicationHelper#icon). Scales with the surrounding font-size like the
 // glyphicon font did, and inherits color via currentColor.
@@ -18,13 +27,30 @@ $footer-height: 30px;
   fill: currentColor;
 }
 
+// #theme-toggle shows a moon (click to go dark) while in light mode, and a
+// sun (click to go back to light) while in dark mode -- see the button
+// markup in application.html.haml and app/javascript/theme.js.
+.theme-toggle-icon-light {
+  display: none;
+}
+
+[data-bs-theme='dark'] {
+  .theme-toggle-icon-dark {
+    display: none;
+  }
+
+  .theme-toggle-icon-light {
+    display: inline-block;
+  }
+}
+
 #header {
   position: fixed;
   top: 0;
   width: 100%;
   height: $header-height;
   z-index: 2;
-  background-color: #fff;
+  background-color: var(--bs-body-bg);
 }
 
 #teaser {
@@ -33,11 +59,11 @@ $footer-height: 30px;
   // Not image-url(): that's a Sprockets/sass-rails Sass function dartsass-rails
   // doesn't provide. Vendored to a stable public/ path instead, same reasoning
   // as the bootstrap font files above.
-  background: white url("/images/teaser.jpg");
+  background: var(--bs-body-bg) url("/images/teaser.jpg");
 }
 
 #nav {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--bs-border-color);
 
   // #sidebar-wrapper and #main still offset themselves by $header-height,
   // a leftover from when this nav lived inside the fixed #header box (see
@@ -60,7 +86,7 @@ $footer-height: 30px;
 // red text to emphasize parts of certain labels
 h2 em,
 label em {
-  color: #a94442;
+  color: var(--bs-danger-text-emphasis);
   font-style: normal;
 }
 
@@ -97,7 +123,7 @@ textarea {
 // Fix alignement of html5 datepicker
 input.date[type=date] {
   line-height: 1.4;
-  background-color: #fff;
+  background-color: var(--bs-body-bg);
 }
 
 // pages that contain no actions
@@ -136,7 +162,7 @@ form.schedule {
   td {
     width: 20%;
     vertical-align: top;
-    border-left: 1px solid #CCC;
+    border-left: 1px solid var(--bs-border-color);
   }
 
   th {
@@ -163,7 +189,7 @@ form.schedule {
 }
 
 #content {
-  background-color: white;
+  background-color: var(--bs-body-bg);
 }
 
 #footer {
@@ -172,12 +198,75 @@ form.schedule {
   height: $footer-height - 1;
   padding-top: 8px;
   z-index: 2;
-  background-color: #fff;
+  background-color: var(--bs-body-bg);
   font-size: 10px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--bs-border-color);
 
   @include media-breakpoint-up(md) {
     position: fixed;
+  }
+}
+
+// show_for label/value rows (config/initializers/show_for.rb). The label
+// column shrinks to fit its content (capped at 220px, wrapping beyond that)
+// instead of a hardcoded Bootstrap column fraction, so short labels like
+// "Name" don't waste space and long ones don't force a wide column for
+// every other row sharing the grid.
+.show-for-grid {
+  display: grid;
+  grid-template-columns: fit-content(220px) minmax(0, 1fr);
+  align-items: start;
+  column-gap: 1rem;
+  row-gap: .5rem;
+
+  @include media-breakpoint-down(sm) {
+    grid-template-columns: 1fr;
+    row-gap: .25rem;
+  }
+
+  // Some views mix plain content into a show_for block alongside
+  // show.attribute rows -- a heading, or a nested show_for block rendered
+  // from a shared partial. Anything that isn't a proper show-for-row
+  // (display: contents) is a single opaque grid item, so left to
+  // auto-placement it would occupy just one column and desync every row
+  // that follows it. Spanning the full width keeps it self-contained
+  // instead.
+  > :not(.show-for-row) {
+    grid-column: 1 / -1;
+  }
+}
+
+.show-for-row {
+  display: contents;
+}
+
+.show-for-label {
+  text-align: right;
+
+  @include media-breakpoint-down(sm) {
+    text-align: left;
+    font-weight: 600;
+  }
+}
+
+.show-for-value {
+  min-width: 0;
+}
+
+// Collapsible card headers (e.g. the kid page's Lernjournale/Gespräche/
+// Auswertung jump-lists) give no visual hint that they're clickable.
+[data-bs-toggle='collapse'].card-title {
+  cursor: pointer;
+
+  &::after {
+    content: '\25BE'; // ▾, flips to ▸ when collapsed via aria-expanded
+    float: left;
+    margin-right: .5rem;
+    transition: transform .2s ease;
+  }
+
+  &[aria-expanded='false']::after {
+    transform: rotate(-90deg);
   }
 }
 
@@ -187,6 +276,9 @@ form.schedule {
 
     img {
       max-width: 220px;
+      max-height: 120px;
+      width: auto;
+      object-fit: contain;
     }
   }
 
@@ -197,6 +289,14 @@ form.schedule {
     position: sticky;
     top: $header-height + 8px;
     align-self: flex-start;
+
+    // Sticky only pins the top edge -- it doesn't give the element its own
+    // scroll, so on pages with a long sidebar (e.g. the kids index filter
+    // form) content past the viewport bottom would otherwise be permanently
+    // unreachable. Capping the height and scrolling internally keeps
+    // everything reachable while the sidebar still stays in view.
+    max-height: calc(100vh - #{$header-height + 16px});
+    overflow-y: auto;
   }
 }
 

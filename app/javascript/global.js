@@ -6,8 +6,10 @@ import Rails from "@rails/ujs";
 // dropdowns) as a side effect of loading -- see the navbar markup in
 // app/views/layouts/application.html.haml.
 import "bootstrap";
+import { register_theme_toggle } from "theme";
 
 document.addEventListener('DOMContentLoaded', function() {
+  register_theme_toggle();
   register_journal_controls();
   register_mentor_journal_date_selectors();
   register_schedule_checkboxes();

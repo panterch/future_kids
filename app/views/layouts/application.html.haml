@@ -1,5 +1,6 @@
 !!!
-%html{lang: "de-CH"}
+- force_light_theme = content_for?(:force_light_theme)
+%html{lang: "de-CH", data: (force_light_theme ? {bs_theme: 'light'} : {})}
   %head
     %meta{charset: "utf-8"}/
     %meta{content: "IE=edge", "http-equiv" => "X-UA-Compatible"}/
@@ -9,6 +10,15 @@
     = stylesheet_link_tag 'print', :media => :print
     - if @site.css.present?
       %style=raw(@site.css)
+    - unless force_light_theme
+      %script
+        :plain
+          (function() {
+            var stored = null;
+            try { stored = localStorage.getItem('theme'); } catch (e) {}
+            var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-bs-theme', theme);
+          })();
     = javascript_importmap_tags
     = favicon_link_tag 'favicon.svg', :rel => 'icon', :type => 'image/svg+xml'
     = csrf_meta_tag
@@ -19,7 +29,7 @@
         #teaser.container
 
     - if user_signed_in?
-      #nav.navbar.navbar-expand-md.sticky-top.bg-white{role: "navigation"}
+      #nav.navbar.navbar-expand-md.sticky-top.bg-body{role: "navigation"}
         .container
           %button.navbar-toggler{type: "button", "data-bs-toggle" => "collapse", "data-bs-target" => "#navbarNav", "aria-controls" => "navbarNav", "aria-expanded" => "false", "aria-label" => "Menü öffnen"}
             %span.navbar-toggler-icon
@@ -29,6 +39,11 @@
               = render 'layouts/navigation_items'
 
             %ul.navbar-nav
+              - unless force_light_theme
+                %li.nav-item
+                  %button#theme-toggle.nav-link.btn.btn-link{type: "button", "aria-label" => "Farbschema umschalten"}
+                    = icon('moon-stars', css_class: 'theme-toggle-icon-dark')
+                    = icon('sun', css_class: 'theme-toggle-icon-light')
               %li.nav-item.dropdown
                 %a.nav-link.dropdown-toggle{href: "#", role: "button", "data-bs-toggle" => "dropdown", "aria-expanded" => "false", "aria-label" => "Benutzermenü"}
                   = icon('person')

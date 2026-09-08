@@ -2,6 +2,7 @@
 
 pin "application"
 pin "global"
+pin "theme"
 pin "treeview"
 pin "icons"
 
