@@ -91,7 +91,7 @@ module BootstrapHelper
 
     type ||= 'info'
     content_tag(:div, :class => "alert alert-#{boot_alert_name(type)} alert-dismissible") do
-      content_tag(:button, '', :type => 'button', :class => 'btn-close', 'data-dismiss' => 'alert', 'aria-label' => 'Close') +
+      content_tag(:button, '', :type => 'button', :class => 'btn-close', 'data-bs-dismiss' => 'alert', 'aria-label' => 'Close') +
         icon(icon_name || boot_alert_icon(type)) + ' ' + content
     end
   end

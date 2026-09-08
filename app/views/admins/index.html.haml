@@ -1,11 +1,9 @@
 - content_for :sidebar do
   -if current_user.is_a?(Admin)
     = form_for :admin, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
-      .checkbox
-        %label
-          = f.check_box :inactive
-          %p
-            %b Inaktive
+      .form-check.mb-3
+        = f.check_box :inactive, class: 'form-check-input'
+        = f.label :inactive, 'Inaktive', class: 'form-check-label'
 
       .form-group
         = f.button (icon('funnel') + ' Filter anwenden'), class: 'btn btn-sm btn-primary'

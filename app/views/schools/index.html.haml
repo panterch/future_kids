@@ -6,11 +6,9 @@
     .form-group
       %label= School.human_attribute_name(:district)
       = f.select :district, school_district_collection, { include_blank: true }, class: 'form-control'
-    .checkbox
-      %label
-        = f.check_box :inactive
-        %p
-          %b Inaktive
+    .form-check.mb-3
+      = f.check_box :inactive, class: 'form-check-input'
+      = f.label :inactive, 'Inaktive', class: 'form-check-label'
     .form-group
       = f.button (icon('search') + ' Suchen'), class: 'btn btn-sm btn-primary'
       = link_to (icon('x-lg') + ' Filter aufheben'), schools_path, class: 'btn btn-sm btn-secondary'

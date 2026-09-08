@@ -231,6 +231,17 @@ module ApplicationHelper
     tag.div(I18n.t("activerecord.attributes.#{obj.model_name.to_s.downcase}.#{field}"))
   end
 
+  # renders the labels of every set boolean field in fields, fitting into
+  # a show_for context; falls back to the show_for blank text when none are set,
+  # so groups of boolean fields (e.g. the kid's goal checklists) look consistent
+  # with the rest of a show_for block instead of leaving an empty gap
+  def show_for_boolean_group(obj, *fields)
+    set_fields = fields.select { |field| obj[field] }
+    return tag.div(I18n.t('show_for.blank'), class: 'no_content') if set_fields.empty?
+
+    safe_join(set_fields.map { |field| conditionally_show_for(obj, field) })
+  end
+
   def human_date(date)
     return nil if date.blank?
 
@@ -388,7 +399,7 @@ module ApplicationHelper
       classes << class_options.split(' ')
     end
 
-    classes << 'list-group-item'
+    classes << 'list-group-item' << 'list-group-item-action'
 
     if action.is_a? Symbol
       url ||= {:action => action}
@@ -402,6 +413,7 @@ module ApplicationHelper
 
     type = options.delete(:type)
     classes << "btn-#{type}" unless type.blank?
+    classes << 'text-danger' if %i[delete destroy].include?(action)
 
     options.merge!(:class => classes.join(" "))
     link_to(url_for(url), options) do

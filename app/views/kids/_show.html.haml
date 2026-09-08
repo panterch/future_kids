@@ -2,7 +2,7 @@
 
   .card
     .card-header
-      %h4.card-title(data-toggle="collapse" data-target="#collapseJournals")
+      %h4.card-title(data-bs-toggle="collapse" data-bs-target="#collapseJournals" role="button" aria-expanded="false" aria-controls="collapseJournals")
         Lernjournale
         %span.badge.text-bg-secondary.float-end=@kid.journals.size
     #collapseJournals.collapse.list-group.kidanchors
@@ -13,7 +13,7 @@
   - if can?(:read, @cancan_review)
     .card
       .card-header
-        %h4.card-title(data-toggle="collapse" data-target="#collapseReviews")
+        %h4.card-title(data-bs-toggle="collapse" data-bs-target="#collapseReviews" role="button" aria-expanded="false" aria-controls="collapseReviews")
           Gespräche
           %span.badge.text-bg-secondary.float-end=@kid.reviews.size
       #collapseReviews.collapse.list-group.kidanchors
@@ -23,7 +23,7 @@
 
   .card
     .card-header
-      %h4.card-title(data-toggle="collapse" data-target="#collapseFirstYearAssessments")
+      %h4.card-title(data-bs-toggle="collapse" data-bs-target="#collapseFirstYearAssessments" role="button" aria-expanded="false" aria-controls="collapseFirstYearAssessments")
         Auswertung/Abschluss
         %span.badge.text-bg-secondary.float-end=@kid.first_year_assessments.size+@kid.termination_assessments.size
     #collapseFirstYearAssessments.collapse.list-group.kidanchors
@@ -43,12 +43,12 @@
       = show.attribute :prename
       = show.attribute :sex
       = show.attribute :dob
-      .row.mb-2.kid_grade
-        %label.col-sm-3.text-sm-end.text-muted
+      .show-for-row.kid_grade
+        %label.show-for-label.text-muted
           = Kid.human_attribute_name(:grade)
           %br
           (bei Einstieg Future Kids)
-        .col-sm-9
+        .show-for-value
           = @kid.grade
       = show.attribute :language
       = show.attribute :parent_country_name
@@ -66,34 +66,17 @@
     %h4.card-title.mb-0 Fachliche Förderbereiche
   .card-body
     = show_for @kid do |show|
-      .row.mb-2
-        %label.col-sm-3.text-sm-end.text-muted Deutsch
-        .col-sm-9
-          = conditionally_show_for(@kid, :goal_3)
-          = conditionally_show_for(@kid, :goal_4)
-          = conditionally_show_for(@kid, :goal_5)
-          = conditionally_show_for(@kid, :goal_6)
-          = conditionally_show_for(@kid, :goal_7)
-          = conditionally_show_for(@kid, :goal_8)
-          = conditionally_show_for(@kid, :goal_9)
-          = conditionally_show_for(@kid, :goal_10)
-          = conditionally_show_for(@kid, :goal_11)
-          = conditionally_show_for(@kid, :goal_12)
-          = conditionally_show_for(@kid, :goal_13)
-          = conditionally_show_for(@kid, :goal_14)
-          = conditionally_show_for(@kid, :goal_15)
-      .row.mb-2
-        %label.col-sm-3.text-sm-end.text-muted Mathematik
-        .col-sm-9
-          = conditionally_show_for(@kid, :goal_16)
-          = conditionally_show_for(@kid, :goal_17)
-          = conditionally_show_for(@kid, :goal_18)
-          = conditionally_show_for(@kid, :goal_19)
-          = conditionally_show_for(@kid, :goal_20)
-          = conditionally_show_for(@kid, :goal_21)
-          = conditionally_show_for(@kid, :goal_22)
-          = conditionally_show_for(@kid, :goal_23)
-          = conditionally_show_for(@kid, :goal_24)
+      .show-for-row
+        %label.show-for-label.text-muted Deutsch
+        .show-for-value
+          = show_for_boolean_group(@kid, :goal_3, :goal_4, :goal_5, :goal_6, :goal_7,
+                                    :goal_8, :goal_9, :goal_10, :goal_11, :goal_12,
+                                    :goal_13, :goal_14, :goal_15)
+      .show-for-row
+        %label.show-for-label.text-muted Mathematik
+        .show-for-value
+          = show_for_boolean_group(@kid, :goal_16, :goal_17, :goal_18, :goal_19,
+                                    :goal_20, :goal_21, :goal_22, :goal_23, :goal_24)
       = show.attribute :goal_1
 
 .card.mb-4
@@ -101,23 +84,15 @@
     %h4.card-title.mb-0 Überfachliche Förderbereiche
   .card-body
     = show_for @kid do |show|
-      .row.mb-2
-        %label.col-sm-3.text-sm-end.text-muted Personale Förderbereiche
-        .col-sm-9
-          = conditionally_show_for(@kid, :goal_25)
-          = conditionally_show_for(@kid, :goal_26)
-          = conditionally_show_for(@kid, :goal_27)
-          = conditionally_show_for(@kid, :goal_28)
-          = conditionally_show_for(@kid, :goal_29)
-          = conditionally_show_for(@kid, :goal_30)
-          = conditionally_show_for(@kid, :goal_31)
-      .row.mb-2
-        %label.col-sm-3.text-sm-end.text-muted Methodische Förderbereiche
-        .col-sm-9
-          = conditionally_show_for(@kid, :goal_32)
-          = conditionally_show_for(@kid, :goal_33)
-          = conditionally_show_for(@kid, :goal_34)
-          = conditionally_show_for(@kid, :goal_35)
+      .show-for-row
+        %label.show-for-label.text-muted Personale Förderbereiche
+        .show-for-value
+          = show_for_boolean_group(@kid, :goal_25, :goal_26, :goal_27, :goal_28,
+                                    :goal_29, :goal_30, :goal_31)
+      .show-for-row
+        %label.show-for-label.text-muted Methodische Förderbereiche
+        .show-for-value
+          = show_for_boolean_group(@kid, :goal_32, :goal_33, :goal_34, :goal_35)
       = show.attribute :goal_2
 
 .card.mb-4
@@ -167,7 +142,8 @@
           = show.attribute :todo
           - if @site.kids_schedule_hourly
             = show.attribute :schedules_updated_at
-          = render 'relation_logs/collection', resource: @kid
+
+  = render 'relation_logs/collection', resource: @kid
 
 %h2#journals
   Lernjournale
@@ -193,7 +169,7 @@
 - @kid.journals.each do |journal|
   .card[journal]
     .card-header
-      .btn-group.float-end
+      .d-flex.gap-2.float-end
         - if can?(:edit, journal)
           = link_to (icon('pencil') + ' Bearbeiten'), edit_kid_journal_path(@kid, journal), class: 'btn btn-secondary'
         - if current_user.is_a?(Admin)
@@ -213,7 +189,7 @@
   - @kid.reviews.each do |review|
     .card[review]
       .card-header
-        .btn-group.float-end
+        .d-flex.gap-2.float-end
           - if can?(:edit, review)
             = link_to (icon('pencil') + ' Bearbeiten'), edit_kid_review_path(@kid, review), class: 'btn btn-secondary'
           - if current_user.is_a?(Admin)
@@ -235,7 +211,7 @@
 - @kid.first_year_assessments.each do |assessment|
   .card[assessment]
     .card-header
-      .btn-group.float-end
+      .d-flex.gap-2.float-end
         - if can?(:edit, assessment)
           = link_to (icon('pencil') + ' Bearbeiten'), edit_kid_first_year_assessment_path(@kid, assessment), class: 'btn btn-secondary'
         - if current_user.is_a?(Admin)
@@ -269,7 +245,7 @@
 - @kid.termination_assessments.each do |assessment|
   .card[assessment]
     .card-header
-      .btn-group.float-end
+      .d-flex.gap-2.float-end
         - if can?(:edit, assessment)
           = link_to (icon('pencil') + ' Bearbeiten'), edit_kid_termination_assessment_path(@kid, assessment), class: 'btn btn-secondary'
         - if current_user.is_a?(Admin)

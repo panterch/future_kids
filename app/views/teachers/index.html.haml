@@ -5,11 +5,9 @@
       .form-group
         = f.select :school_id, school_collection_by_kind(:teacher), { :include_blank => true }, class: 'form-control'
 
-      .checkbox
-        %label
-          = f.check_box :inactive
-          %p
-            %b Inaktive
+      .form-check.mb-3
+        = f.check_box :inactive, class: 'form-check-input'
+        = f.label :inactive, 'Inaktive', class: 'form-check-label'
       .form-group
         = f.button (icon('funnel') + ' Filter anwenden'), class: 'btn btn-sm btn-primary'
         = link_to (icon('x-lg') + ' Filter aufheben'), teachers_path, class: 'btn btn-sm btn-secondary'

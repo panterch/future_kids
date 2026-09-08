@@ -34,11 +34,9 @@
         = f.select :grade, grade_collection, { :include_blank => true }, class: 'form-control'
 
     - if current_user.is_a?(Admin) or current_user.is_a?(Principal)
-      .checkbox
-        %label
-          = f.check_box :inactive
-          %p
-            %b Inaktive
+      .form-check.mb-3
+        = f.check_box :inactive, class: 'form-check-input'
+        = f.label :inactive, 'Inaktive', class: 'form-check-label'
 
     .form-group
       %label Ordnen nach
