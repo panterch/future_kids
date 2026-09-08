@@ -57,41 +57,42 @@
   = page_description
 %p &nbsp;
 
-%table.table.table-striped.table-sm.table-hover
-  %tr
-    %th Name
-    - if current_user.is_a?(Admin) or current_user.is_a?(Principal)
-      %th Eintritt
-    - if current_user.is_a?(Admin)
-      %th Letztes Kontrolldatum
-      - if @site.feature_coach?
-        %th Letztes pädagogisches Coaching
-      %th Pendenzen
-    %th Mentor*in
-    - if @site.feature_coach?
-      %th Pädagogischer Coach
-  - @kids.each do |kid|
+.table-responsive
+  %table.table.table-striped.table-sm.table-hover
     %tr
-      %td= link_to kid.display_name, kid
-      -if current_user.is_a?(Admin) or current_user.is_a?(Principal)
+      %th Name
+      - if current_user.is_a?(Admin) or current_user.is_a?(Principal)
+        %th Eintritt
+      - if current_user.is_a?(Admin)
+        %th Letztes Kontrolldatum
+        - if @site.feature_coach?
+          %th Letztes pädagogisches Coaching
+        %th Pendenzen
+      %th Mentor*in
+      - if @site.feature_coach?
+        %th Pädagogischer Coach
+    - @kids.each do |kid|
+      %tr
+        %td= link_to kid.display_name, kid
+        -if current_user.is_a?(Admin) or current_user.is_a?(Principal)
+          %td
+            = kid.created_at ? I18n.l(kid.created_at.to_date) : '-'
+        -if current_user.is_a?(Admin)
+          %td
+            = kid.checked_at ? I18n.l(kid.checked_at.to_date) : '-'
+          - if @site.feature_coach?
+            %td
+              = kid.coached_at ? I18n.l(kid.coached_at.to_date) : '-'
+          %td
+            -if current_user.is_a?(Admin) && kid.todo.present?
+              %a.todotoggle.btn.btn-sm{data: { content: kid.human_todo}, href:  edit_kid_path(kid, :anchor => 'todo') }
+                Pendenz
+                = icon(:info_sign)
         %td
-          = kid.created_at ? I18n.l(kid.created_at.to_date) : '-'
-      -if current_user.is_a?(Admin)
-        %td
-          = kid.checked_at ? I18n.l(kid.checked_at.to_date) : '-'
+          = can_link_to(kid.mentor) if kid.mentor.present?
         - if @site.feature_coach?
           %td
-            = kid.coached_at ? I18n.l(kid.coached_at.to_date) : '-'
-        %td
-          -if current_user.is_a?(Admin) && kid.todo.present?
-            %a.todotoggle.btn.btn-sm{data: { content: kid.human_todo}, href:  edit_kid_path(kid, :anchor => 'todo') }
-              Pendenz
-              = icon(:info_sign)
-      %td
-        = can_link_to(kid.mentor) if kid.mentor.present?
-      - if @site.feature_coach?
-        %td
-          = can_link_to(kid.admin) if kid.admin.present?
+            = can_link_to(kid.admin) if kid.admin.present?
 
 
 - if @kids.empty?

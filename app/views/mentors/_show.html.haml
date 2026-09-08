@@ -54,53 +54,55 @@
   #a(name='mentor_journal_date')
   %h2
     Zeiterfassung für den Monat
-  %table.table.table-striped.table-sm.table-hover
-    - @journals.each do |journal|
-      %tr
-        %td= human_date(journal.held_at)
-        %td
-          - if journal.kid
-            = journal.kid.display_name
-          - else
-            Pauschalzuschlag
-        %td
-          - if journal.cancelled?
-            ausgefallen
-          - else
-            = "#{journal.duration} Minuten"
-    %tfoot
-      %tr
-        %td Total
-        %td
-        %td
-          = (@journals.sum(&:duration) / 60.0).round(2)
-          Stunden
+  .table-responsive
+    %table.table.table-striped.table-sm.table-hover
+      - @journals.each do |journal|
+        %tr
+          %td= human_date(journal.held_at)
+          %td
+            - if journal.kid
+              = journal.kid.display_name
+            - else
+              Pauschalzuschlag
+          %td
+            - if journal.cancelled?
+              ausgefallen
+            - else
+              = "#{journal.duration} Minuten"
+      %tfoot
+        %tr
+          %td Total
+          %td
+          %td
+            = (@journals.sum(&:duration) / 60.0).round(2)
+            Stunden
 
   .d-print-none
     %h2
       Zeiterfassung seit Einstieg
-    %table.table.table-striped.table-hover
-      - duration = (@mentor.total_duration / 60.0).round(2)
-      - coaching = @mentor.month_count
+    .table-responsive
+      %table.table.table-striped.table-hover
+        - duration = (@mentor.total_duration / 60.0).round(2)
+        - coaching = @mentor.month_count
 
-      %tr
-        %td Geleistet insgesamt
-        %td
-          = duration
-          Stunden
-      %tr
-        %td
-          Pauschalzuschlag für
-          = coaching
-          Monate Einsatz
-        %td
-          = coaching
-          Stunden
-      %tr
-        %td Total
-        %td
-          = duration + coaching
-          Stunden
+        %tr
+          %td Geleistet insgesamt
+          %td
+            = duration
+            Stunden
+        %tr
+          %td
+            Pauschalzuschlag für
+            = coaching
+            Monate Einsatz
+          %td
+            = coaching
+            Stunden
+        %tr
+          %td Total
+          %td
+            = duration + coaching
+            Stunden
 
   .d-print-block
     %p.signature Unterschrift Mentor*in

@@ -202,7 +202,7 @@ module ApplicationHelper
 
   # determines style class of scheduler cells
   def schedule_class(schedule)
-    schedule.last_meeting? ? 'info' : ''
+    schedule.last_meeting? ? 'table-info' : ''
   end
 
   def nav_link(model_name_or_link_text, link_path = nil)

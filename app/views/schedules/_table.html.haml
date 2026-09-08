@@ -3,29 +3,30 @@
 - clazz = resource.class.to_s.downcase # kid or mentor
 
 = simple_form_for resource, :url => { :action => 'update_schedules' }, :html => { :class => 'schedule' } do |form|
-  %table.table.table-striped.table-sm.table-hover
-    %tr
-      %th.time &nbsp;
-      - (1..@week.length).each do |day|
-        %th= I18n.t('date.day_names')[day]
-    - @week.transpose.each do |row|
-      %tr{class: schedule_class(row.first)}
-        %th.time
-          - start_time = Time.new(2000, 1, 1, row.first.hour, row.first.minute)
-          - end_time = start_time + 30.minutes
-          = "#{start_time.strftime('%H:%M')} - #{end_time.strftime('%H:%M')}"
-          = "*" if row.first.last_meeting?
-        - row.each do |schedule|
-          - active = @schedules.include?(schedule)
-          %td
-            %input{:type => :checkbox, :checked => active}
-            - param_name = "#{clazz}[schedules_attributes][]"
-            %input{:type => :hidden, :value => schedule.day,
-              :name => "#{param_name}[day]"}
-            %input{:type => :hidden, :value => schedule.hour,
-              :name => "#{param_name}[hour]"}
-            %input{:type => :hidden, :value => schedule.minute,
-              :name => "#{param_name}[minute]"}
+  .table-responsive
+    %table.table.table-striped.table-sm.table-hover
+      %tr
+        %th.time &nbsp;
+        - (1..@week.length).each do |day|
+          %th= I18n.t('date.day_names')[day]
+      - @week.transpose.each do |row|
+        %tr{class: schedule_class(row.first)}
+          %th.time
+            - start_time = Time.new(2000, 1, 1, row.first.hour, row.first.minute)
+            - end_time = start_time + 30.minutes
+            = "#{start_time.strftime('%H:%M')} - #{end_time.strftime('%H:%M')}"
+            = "*" if row.first.last_meeting?
+          - row.each do |schedule|
+            - active = @schedules.include?(schedule)
+            %td
+              %input{:type => :checkbox, :checked => active}
+              - param_name = "#{clazz}[schedules_attributes][]"
+              %input{:type => :hidden, :value => schedule.day,
+                :name => "#{param_name}[day]"}
+              %input{:type => :hidden, :value => schedule.hour,
+                :name => "#{param_name}[hour]"}
+              %input{:type => :hidden, :value => schedule.minute,
+                :name => "#{param_name}[minute]"}
 
 
   %p(style='margin-top: 15px')
