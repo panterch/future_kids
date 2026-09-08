@@ -81,15 +81,6 @@ textarea {
   min-height: 10em;
 }
 
-// Fix show_form breaking for long labels
-.show_for .wrapper {
-  clear: both;
-}
-
-.show_for .show-label {
-  min-width: 150px;
-}
-
 .page-header {
   margin-top: 0;
 }

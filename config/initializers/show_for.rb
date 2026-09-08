@@ -4,21 +4,23 @@
 ShowFor.setup do |config|
   # The tag which wraps show_for calls.
   config.show_for_tag = :div
-  config.show_for_class = 'form-horizontal'
 
   # The DOM class set for show_for tag. Default is nil
   # config.show_for_class = :custom
 
   # The tag which wraps each attribute/association call. Default is :p.
+  # Bootstrap 5's grid needs a `row` ancestor for the label/content columns
+  # below to lay out side by side (BS3's floated columns didn't).
   config.wrapper_tag = :div
+  config.wrapper_class = 'row mb-2'
 
   # The tag used to wrap each label. Default is :strong.
   config.label_tag = :label
-  config.label_class = 'col-sm-3 col-xs-6 text-right'
+  config.label_class = 'col-sm-3 text-sm-end text-muted'
 
   # The tag used to wrap each content (value). Default is nil.
   config.content_tag = :div
-  config.content_class = 'col-sm-offset-3 col-xs-offset-3'
+  config.content_class = 'col-sm-9'
 
   # The DOM class set for blank content tags. Default is "blank".
   config.blank_content_class = 'no_content'

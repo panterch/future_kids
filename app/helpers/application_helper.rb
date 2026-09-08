@@ -243,9 +243,7 @@ module ApplicationHelper
   def conditionally_show_for(obj, field)
     return unless obj[field]
 
-    tag.div class: %w[col-sm-offset-3 col-xs-offset-3] do
-      I18n.t("activerecord.attributes.#{obj.model_name.to_s.downcase}.#{field}")
-    end
+    tag.div(I18n.t("activerecord.attributes.#{obj.model_name.to_s.downcase}.#{field}"))
   end
 
   def human_date(date)
