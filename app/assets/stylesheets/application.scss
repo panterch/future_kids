@@ -6,7 +6,6 @@ $grid-gutter-width: 20px;
 
 $header-height: 70px;
 $footer-height: 30px;
-$sidebar-width: 220px;
 
 @import 'bootstrap';
 @import 'react-select';
@@ -167,8 +166,16 @@ form.schedule {
 }
 
 #main {
-  margin-top: $header-height + 10px;
   margin-bottom: $footer-height;
+}
+
+// #header only renders for signed-out visitors now (see the top nav in
+// application.html.haml) -- the signed-in nav is sticky and in normal
+// flow, so #main already starts right below it with no help needed. Only
+// the signed-out teaser bar (fixed, removed from flow) needs #main
+// pushed down to clear it.
+#header ~ #main {
+  margin-top: $header-height + 10px;
 }
 
 #content {
@@ -190,44 +197,28 @@ form.schedule {
   }
 }
 
-#sidebar-wrapper {
-  position: fixed;
-  top: $header-height + 10px;
-  bottom: $footer-height;
-  width: 100%;
-  overflow: hidden;
-  // Only #sidebar itself is meant to be visible/interactive; the rest of
-  // this fixed, full-width wrapper would otherwise sit on top of #main and
-  // swallow clicks meant for the page content underneath.
-  pointer-events: none;
+#sidebar {
+  .logo {
+    margin-bottom: 20px;
 
-  #sidebar {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: $sidebar-width;
-    overflow: auto;
-    pointer-events: auto;
-
-    .logo {
-      margin-bottom: 20px;
-
-      img {
-        max-width: 220px;
-      }
+    img {
+      max-width: 220px;
     }
-
   }
 
+  // Rendered once, right after #content -- a plain flex row puts it on the
+  // right on desktop and lets it fall in below on mobile, so unlike the old
+  // fixed-position sidebar this needs no separate mobile duplicate.
+  @include media-breakpoint-up(md) {
+    position: sticky;
+    top: $header-height + 8px;
+    align-self: flex-start;
+  }
 }
 
 
 .portrait {
   overflow: hidden;
-}
-
-.mobile-actions {
-  margin: 10px;
 }
 
 

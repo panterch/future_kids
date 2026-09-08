@@ -41,31 +41,23 @@
                   %li= link_to 'Abmelden', destroy_user_session_path, method: :delete, class: 'dropdown-item'
 
 
-    #sidebar-wrapper
-      .container
-        #sidebar.d-none.d-md-block
-          %h1.logo
-            - if @site.logo.present?
-              %img{:src => rails_representation_url(@site.logo_medium)}
-
-          - if user_signed_in?
-            .contextual_links_panel.card.d-none.d-md-block
-              = render 'layouts/actions'
-            = yield :sidebar
-
     #main
       .container
         .row
-          #content.offset-md-3.col-md-9
+          #content.col-md-9
             - flash.each do |name, msg|
               = boot_alert(msg, name) unless msg.blank?
             = yield
 
-      .container
-        .row.d-md-none
-          - if user_signed_in?
-            .contextual_links_panel.mobile-actions.card
-              = render 'layouts/actions'
+          #sidebar.col-md-3
+            %h1.logo.d-none.d-md-block
+              - if @site.logo.present?
+                %img{:src => rails_representation_url(@site.logo_medium)}
+
+            - if user_signed_in?
+              .contextual_links_panel.card
+                = render 'layouts/actions'
+              = yield :sidebar
 
     - if @site.footer_address.present? || @site.footer_email.present?
       #footer
