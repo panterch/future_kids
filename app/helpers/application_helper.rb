@@ -18,7 +18,36 @@ module ApplicationHelper
       '<rect x="2" y="7.2" width="12" height="1.6" fill="currentColor"/>',
       '<rect x="2" y="11" width="12" height="1.6" fill="currentColor"/>'
     ].join,
-    edit: '<path d="M11.3 1.6a1.5 1.5 0 0 1 2.1 2.1L5 12.1l-2.8.7.7-2.8 8.4-8.4z" fill="currentColor"/>'
+    edit: '<path d="M11.3 1.6a1.5 1.5 0 0 1 2.1 2.1L5 12.1l-2.8.7.7-2.8 8.4-8.4z" fill="currentColor"/>',
+    plus: [
+      '<rect x="7.2" y="2" width="1.6" height="12" fill="currentColor"/>',
+      '<rect x="2" y="7.2" width="12" height="1.6" fill="currentColor"/>'
+    ].join,
+    eye_open: [
+      '<path d="M1 8s2.6-5 7-5 7 5 7 5-2.6 5-7 5-7-5-7-5z" fill="none" stroke="currentColor" stroke-width="1.3"/>',
+      '<circle cx="8" cy="8" r="2.2" fill="currentColor"/>'
+    ].join,
+    trash: [
+      '<line x1="2" y1="5" x2="14" y2="5" stroke="currentColor" stroke-width="1.3"/>',
+      '<path d="M6 5V3.5a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1V5" fill="none" stroke="currentColor" stroke-width="1.3"/>',
+      '<path d="M3.5 5.5l.7 8a1 1 0 0 0 1 .9h5.6a1 1 0 0 0 1-.9l.7-8" fill="none" stroke="currentColor" stroke-width="1.3"/>',
+      '<line x1="6.5" y1="7.5" x2="6.5" y2="11.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>',
+      '<line x1="9.5" y1="7.5" x2="9.5" y2="11.5" stroke="currentColor" stroke-width="1.1" stroke-linecap="round"/>'
+    ].join,
+    list_alt: [
+      '<rect x="1.5" y="2.5" width="13" height="11" rx="1" fill="none" stroke="currentColor" stroke-width="1.2"/>',
+      '<line x1="4" y1="5.5" x2="12" y2="5.5" stroke="currentColor" stroke-width="1.2"/>',
+      '<line x1="4" y1="8" x2="12" y2="8" stroke="currentColor" stroke-width="1.2"/>',
+      '<line x1="4" y1="10.5" x2="12" y2="10.5" stroke="currentColor" stroke-width="1.2"/>'
+    ].join,
+    refresh: [
+      '<path d="M13.5 8a5.5 5.5 0 1 1-1.6-3.9" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round"/>',
+      '<path d="M13.7 2.5v3.3h-3.3" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>'
+    ].join,
+    repeat: [
+      '<rect x="2" y="2" width="9" height="9" rx="0.5" fill="none" stroke="currentColor" stroke-width="1.2"/>',
+      '<rect x="5" y="5" width="9" height="9" rx="0.5" fill="none" stroke="currentColor" stroke-width="1.2"/>'
+    ].join
   }.freeze
 
   def icon(name, css_class: nil)
@@ -368,7 +397,7 @@ module ApplicationHelper
 
   # Returns translated identifier
   def t_page_head
-    if params[:id] && resource
+    if params[:id] && defined?(resource) && resource
       "#{t_title} #{resource}"
     else
       t_title
@@ -443,6 +472,10 @@ module ApplicationHelper
       resource = resource_or_model || default_resource
       model = resource.class
       explicit_resource_or_model = default_resource != resource
+    else
+      default_model = controller_name.singularize.camelize.constantize
+      model = resource_or_model || default_model
+      explicit_resource_or_model = default_model != model
     end
     model_name = model.to_s.underscore
 
@@ -477,7 +510,13 @@ module ApplicationHelper
           end
         else
           if explicit_resource_or_model
-            path = polymorphic_path(resource_or_model, :action => action)
+            # polymorphic_path has no "show_kid_path" route to look up -- :show
+            # is its implicit default action, so only pass :action for others.
+            path = if action == :show
+                     polymorphic_path(resource_or_model)
+                   else
+                     polymorphic_path(resource_or_model, :action => action)
+                   end
           else
             path = url_for(:action => action)
           end

@@ -34,8 +34,10 @@ module BootstrapHelper
   # Icons
   # =====
   def boot_icon(type)
-    classes = 'icon icon-%s ' % [type]
-    content_tag(:i, '', :class => classes)
+    key = type.to_s.tr('-', '_').to_sym
+    return ''.html_safe unless ApplicationHelper::ICON_PATHS.key?(key)
+
+    icon(key)
   end
 
   # Labels
@@ -51,7 +53,7 @@ module BootstrapHelper
   # =====
   def modal_header(title)
     content_tag(:div, :class => 'modal-header') do
-      content_tag(:button, '&times;'.html_safe, :type => 'button', :class => 'close', 'data-dismiss' => 'modal') +
+      content_tag(:button, '&times;'.html_safe, :type => 'button', :class => 'close', 'data-bs-dismiss' => 'modal') +
       content_tag(:h3, title)
     end
   end
@@ -117,7 +119,7 @@ module BootstrapHelper
       content_tag(:li, :class => classes, &content)
     else
       content_tag(:li, :class => classes) do
-        url = url_for(params.merge({param_name => param_value}))
+        url = url_for(params.permit!.merge({param_name => param_value}))
         link_to title, url
       end
     end

@@ -1,18 +1,11 @@
 @import 'bootstrap/functions';
 
-$font-size-base: .75rem; // 12px
-$line-height-base: 1.4;
-$grid-gutter-width: 20px;
-
 $header-height: 70px;
 $footer-height: 30px;
 
 @import 'bootstrap';
 @import 'react-select';
 @import 'bootstrap-treeview';
-
-/* self_registrations */
-@import 'self_registrations/select_resource';
 
 // Sizing for the inline SVG icons that replaced glyphicon-* (see
 // ApplicationHelper#icon). Scales with the surrounding font-size like the
