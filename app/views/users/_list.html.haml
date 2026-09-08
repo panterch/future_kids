@@ -8,11 +8,11 @@
             - if current_user.is_a?(Admin)
               %td
                 - if resource.email.present?
-                  = mail_to resource.email, "<#{resource.email}>"
+                  = mail_to(resource.email) { icon('envelope') + " <#{resource.email}>" }
               %td
                 -# if resource.todo.present?
                   %a.todotoggle.btn.btn-sm{data: { content: resource.human_todo}, href:  edit_resource_path(resource, :anchor => 'todo') }
-                    = icon(:info_sign)
+                    = icon('info-circle')
                     Pendenz
 - else
   %p Kein Eintrag vorhanden

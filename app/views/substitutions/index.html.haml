@@ -9,8 +9,8 @@
         %p
           %b Inaktive
     .form-group
-      = f.submit 'Filter anwenden', class: 'btn btn-sm btn-primary'
-      = link_to 'Filter aufheben', substitutions_path, class: 'btn btn-sm btn-secondary'
+      = f.button (icon('funnel') + ' Filter anwenden'), class: 'btn btn-sm btn-primary'
+      = link_to (icon('x-lg') + ' Filter aufheben'), substitutions_path, class: 'btn btn-sm btn-secondary'
 
 
 = boot_page_title do
@@ -49,7 +49,7 @@
             -if substitution.comments.present?
               %a.todotoggle.btn.btn-sm{data: { content: substitution.comments}, href:  edit_substitution_path(substitution, :anchor => 'comments') }
                 Kommentar
-                = icon(:info_sign)
+                = icon('info-circle')
 
 
           - if substitution.inactive
@@ -57,9 +57,9 @@
           - else
             %td
               - if substitution.end_at < DateTime.now
-                = button_to "Abwesenheit schliessen", { :action => "inactivate", :id => substitution.id }, { :method => :put, :class => 'btn btn-danger btn-sm' }
+                = button_to (icon('x-circle') + ' Abwesenheit schliessen'), { :action => "inactivate", :id => substitution.id }, { :method => :put, :class => 'btn btn-danger btn-sm' }
               - else
-                = button_to "Bearbeiten", edit_substitution_path(substitution), { :method => :get, :class => 'btn btn-secondary btn-sm' }
+                = button_to (icon('pencil') + ' Bearbeiten'), edit_substitution_path(substitution), { :method => :get, :class => 'btn btn-secondary btn-sm' }
 
 - else
-  %p Kein Eintrag vorhanden
+  %p= icon('inbox') + ' Kein Eintrag vorhanden'

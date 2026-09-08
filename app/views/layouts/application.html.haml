@@ -31,7 +31,7 @@
             %ul.navbar-nav
               %li.nav-item.dropdown
                 %a.nav-link.dropdown-toggle{href: "#", role: "button", "data-bs-toggle" => "dropdown", "aria-expanded" => "false", "aria-label" => "Benutzermenü"}
-                  = icon(:user)
+                  = icon('person')
                 %ul.dropdown-menu.dropdown-menu-end
                   %li= link_to current_user.display_name, current_user, class: 'dropdown-item'
                   -if can? :read, Site

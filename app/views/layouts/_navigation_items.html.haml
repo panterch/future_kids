@@ -1,19 +1,19 @@
 -if current_user.is_a?(Admin)
-  = nav_link Admin.model_name.human, admins_path
+  = nav_link Admin.model_name.human, admins_path, icon_name: 'person-badge'
 -if can? :read, Kid
-  = nav_link Kid.model_name.human, kids_path
+  = nav_link Kid.model_name.human, kids_path, icon_name: 'people'
 -# FIXME load of teachers for mentors via cancan does not yet
 -#       work correctly, see ability_spec.rb. till this is fixed
 -#       we do not display this option to mentors
 -if current_user.is_a?(Admin) or current_user.is_a?(Principal)
-  = nav_link :teacher
+  = nav_link :teacher, icon_name: 'person-workspace'
 -if current_user.is_a?(Admin)
-  = nav_link :mentor
-  = nav_link :principal
-  = nav_link :kid_mentor_relation
-  = nav_link :substitutions
+  = nav_link :mentor, icon_name: 'person-hearts'
+  = nav_link :principal, icon_name: 'building'
+  = nav_link :kid_mentor_relation, icon_name: 'diagram-3'
+  = nav_link :substitutions, icon_name: 'arrow-left-right'
 -if can? :read, Reminder
-  = nav_link :reminder
-= nav_link :document
+  = nav_link :reminder, icon_name: 'bell'
+= nav_link :document, icon_name: 'folder2-open'
 -if can? :read, School
-  = nav_link :school
+  = nav_link :school, icon_name: 'bank'

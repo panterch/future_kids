@@ -8,8 +8,8 @@
             %b Inaktive
 
       .form-group
-        = f.submit 'Filter anwenden', class: 'btn btn-sm btn-primary'
-        = link_to 'Filter aufheben', principals_path, class: 'btn btn-sm btn-secondary'
+        = f.button (icon('funnel') + ' Filter anwenden'), class: 'btn btn-sm btn-primary'
+        = link_to (icon('x-lg') + ' Filter aufheben'), principals_path, class: 'btn btn-sm btn-secondary'
 
 = boot_page_title
 

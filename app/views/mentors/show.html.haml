@@ -1,9 +1,9 @@
 - content_for :contextual_links do
   = contextual_links do
     - if can?(:edit_schedules, @mentor)
-      = contextual_link_to :edit_schedules, edit_schedules_mentor_path(@mentor)
+      = contextual_link_to :edit_schedules, edit_schedules_mentor_path(@mentor), icon: 'calendar3-week'
     - if can?(:create, Substitution)
-      = contextual_link_to :new_substitution, new_substitution_path(:mentor_id=>@mentor.id)
+      = contextual_link_to :new_substitution, new_substitution_path(:mentor_id=>@mentor.id), icon: 'person-plus'
 
 = boot_page_title
 

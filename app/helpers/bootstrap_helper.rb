@@ -34,10 +34,7 @@ module BootstrapHelper
   # Icons
   # =====
   def boot_icon(type)
-    key = type.to_s.tr('-', '_').to_sym
-    return ''.html_safe unless ApplicationHelper::ICON_PATHS.key?(key)
-
-    icon(key)
+    icon(type.to_s)
   end
 
   # Labels
@@ -72,7 +69,18 @@ module BootstrapHelper
     end
   end
 
-  def boot_alert(*args, &block)
+  def boot_alert_icon(type)
+    case boot_alert_name(type)
+    when 'danger', 'warning'
+      'exclamation-triangle'
+    when 'success'
+      'check-circle'
+    else
+      'info-circle'
+    end
+  end
+
+  def boot_alert(*args, icon_name: nil, &block)
     if block_given?
       type = args[0]
       content = capture(&block)
@@ -83,12 +91,13 @@ module BootstrapHelper
 
     type ||= 'info'
     content_tag(:div, :class => "alert alert-#{boot_alert_name(type)} alert-dismissible") do
-      content_tag(:button, '', :type => 'button', :class => 'btn-close', 'data-dismiss' => 'alert', 'aria-label' => 'Close') + content
+      content_tag(:button, '', :type => 'button', :class => 'btn-close', 'data-dismiss' => 'alert', 'aria-label' => 'Close') +
+        icon(icon_name || boot_alert_icon(type)) + ' ' + content
     end
   end
 
   def boot_no_entry_alert
-    boot_alert t('alerts.empty')
+    boot_alert t('alerts.empty'), icon_name: 'inbox'
   end
 
   # Navigation
@@ -102,7 +111,7 @@ module BootstrapHelper
       content = [title]
       if refresh_action
         content << content_tag(:button, :type => "submit", :style => 'border: none; background-color: transparent; float: right') do
-          content_tag(:i, "", :class => 'icon-refresh')
+          icon('arrow-clockwise')
         end
       end
 

@@ -1,7 +1,7 @@
 - content_for :contextual_links do
   = contextual_links do
-    = contextual_link_to :expand_all, '#', id: 'tree_expand_all'
-    = contextual_link_to :collapse_all, '#', id: 'tree_collapse_all'
+    = contextual_link_to :expand_all, '#', id: 'tree_expand_all', icon: 'arrows-expand'
+    = contextual_link_to :collapse_all, '#', id: 'tree_collapse_all', icon: 'arrows-collapse'
 
     - if current_user.is_a?(Admin)
       = contextual_link_to :edit, documents_path, id: 'tree_edit_node'
@@ -9,16 +9,20 @@
 
 - content_for :sidebar do
   .form-group
-    %label Suche
+    %label
+      = icon('search')
+      Suche
     %input#document_search.form-control{type: 'text', placeholder: 'Dokumente durchsuchen...'}
   .form-group
     %button#document_search_clear.btn.btn-sm{type: 'button', style: 'display: none;'}
+      = icon('x-lg')
       Suche löschen
 
 = boot_page_title do
   = I18n.t('nav.document')
 
 #search_no_results.alert.alert-info{style: 'display: none;'}
+  = icon('inbox')
   Keine Dokumente gefunden für den Suchbegriff.
 
 #tree(data-tree="#{@documents_json.to_json}")

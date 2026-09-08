@@ -186,7 +186,7 @@
           - if @kid.journal_summary_stale?
             (neuere Einträge vorhanden)
       - else
-        %p.text-muted Es wurde noch keine Zusammenfassung erstellt.
+        %p.text-muted= icon('info-circle') + ' Es wurde noch keine Zusammenfassung erstellt.'
       = button_to @kid.journal_summary.present? ? 'Zusammenfassung neu erstellen' : 'Zusammenfassung erstellen',
         kid_journal_summary_path(@kid), method: :post, class: 'btn btn-secondary'
 
@@ -195,9 +195,9 @@
     .card-header
       .btn-group.float-end
         - if can?(:edit, journal)
-          = link_to 'Bearbeiten', edit_kid_journal_path(@kid, journal), class: 'btn btn-secondary'
+          = link_to (icon('pencil') + ' Bearbeiten'), edit_kid_journal_path(@kid, journal), class: 'btn btn-secondary'
         - if current_user.is_a?(Admin)
-          = link_to "Löschen", kid_journal_path(@kid, journal), { :method => :delete, :class => 'btn btn-danger', data: { confirm: "Sind Sie sicher?" } }
+          = link_to (icon('trash') + ' Löschen'), kid_journal_path(@kid, journal), { :method => :delete, :class => 'btn btn-danger', data: { confirm: "Sind Sie sicher?" } }
         - if can?(:create, Comment)
           = link_to 'Kommentieren', new_kid_journal_comment_path(@kid, journal), class: 'btn btn-secondary'
       %h4= journal.display_name
@@ -215,9 +215,9 @@
       .card-header
         .btn-group.float-end
           - if can?(:edit, review)
-            = link_to 'Bearbeiten', edit_kid_review_path(@kid, review), class: 'btn btn-secondary'
+            = link_to (icon('pencil') + ' Bearbeiten'), edit_kid_review_path(@kid, review), class: 'btn btn-secondary'
           - if current_user.is_a?(Admin)
-            = link_to "Löschen", kid_review_path(@kid, review), { :method => :delete, :class => 'btn btn-danger', data: { confirm: "Sind Sie sicher?" } }
+            = link_to (icon('trash') + ' Löschen'), kid_review_path(@kid, review), { :method => :delete, :class => 'btn btn-danger', data: { confirm: "Sind Sie sicher?" } }
         %h4= review.display_name
       .card-body
         = show_for review do |review_show|
@@ -237,9 +237,9 @@
     .card-header
       .btn-group.float-end
         - if can?(:edit, assessment)
-          = link_to 'Bearbeiten', edit_kid_first_year_assessment_path(@kid, assessment), class: 'btn btn-secondary'
+          = link_to (icon('pencil') + ' Bearbeiten'), edit_kid_first_year_assessment_path(@kid, assessment), class: 'btn btn-secondary'
         - if current_user.is_a?(Admin)
-          = link_to "Löschen", kid_first_year_assessment_path(@kid, assessment), { :method => :delete, :class => 'btn btn-danger', data: { confirm: "Sind Sie sicher?" } }
+          = link_to (icon('trash') + ' Löschen'), kid_first_year_assessment_path(@kid, assessment), { :method => :delete, :class => 'btn btn-danger', data: { confirm: "Sind Sie sicher?" } }
       %h4= assessment.display_name
     .card-body
       = show_for assessment do |assessment_show|
@@ -271,9 +271,9 @@
     .card-header
       .btn-group.float-end
         - if can?(:edit, assessment)
-          = link_to 'Bearbeiten', edit_kid_termination_assessment_path(@kid, assessment), class: 'btn btn-secondary'
+          = link_to (icon('pencil') + ' Bearbeiten'), edit_kid_termination_assessment_path(@kid, assessment), class: 'btn btn-secondary'
         - if current_user.is_a?(Admin)
-          = link_to "Löschen", kid_termination_assessment_path(@kid, assessment), { :method => :delete, :class => 'btn btn-danger', data: { confirm: "Sind Sie sicher?" } }
+          = link_to (icon('trash') + ' Löschen'), kid_termination_assessment_path(@kid, assessment), { :method => :delete, :class => 'btn btn-danger', data: { confirm: "Sind Sie sicher?" } }
       %h4= assessment.display_name
     .card-body
       = show_for assessment do |assessment_show|

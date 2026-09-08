@@ -1,7 +1,7 @@
 = show_for @teacher do |show|
   = show.attribute :name
   = show.attribute :prename
-  = show.attribute(:email) { mail_to @teacher.email }
+  = show.attribute(:email) { mail_to(@teacher.email) { icon('envelope') + ' ' + @teacher.email } }
   = show.attribute :school do
     = can_link_to(@teacher.school)
   = show.attribute :phone

@@ -4,7 +4,7 @@
     .form-group.document_category
       %label.form-label(for="document_category#{i}")
         = Document.human_attribute_name("category#{i}")
-        %a.freetext(href="#" aria-label="Freitext eingeben")= icon(:edit)
+        %a.freetext(href="#" aria-label="Freitext eingeben")= icon('pencil')
       = form.select "category#{i}", Document.categories(i), {}, class: 'select optional form-control', style: 'display: none;'
       = form.text_field "category#{i}", class: 'string optional form-control'
   = form.input :title
@@ -12,7 +12,7 @@
   = form.input :admin_only, as: :boolean, label: Document.human_attribute_name(:admin_only)
   - if @document.persisted?
     .mb-3
-      %label.form-label= Document.human_attribute_name(:download_count)
+      %label.form-label= icon('download') + ' ' + Document.human_attribute_name(:download_count)
       %p.form-control-plaintext= @document.download_count
 
   = form.button :submit

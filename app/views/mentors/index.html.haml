@@ -1,7 +1,7 @@
 - content_for :contextual_links do
   = contextual_links do
     - if current_user.is_a?(Admin)
-      = contextual_link_to :xlsx, url_for(params.permit!.merge(format: 'xlsx'))
+      = contextual_link_to :xlsx, url_for(params.permit!.merge(format: 'xlsx')), icon: 'file-earmark-excel'
 
 - content_for :sidebar do
   - if current_user.is_a?(Admin)
@@ -38,8 +38,8 @@
           %p
             %b Inaktive
       .form-group
-        = f.submit 'Filter anwenden', class: 'btn btn-sm btn-primary'
-        = link_to 'Filter aufheben', mentors_path, class: 'btn btn-sm btn-secondary'
+        = f.button (icon('funnel') + ' Filter anwenden'), class: 'btn btn-sm btn-primary'
+        = link_to (icon('x-lg') + ' Filter aufheben'), mentors_path, class: 'btn btn-sm btn-secondary'
 
 = boot_page_title do
   = @mentors.count if current_user.is_a?(Admin)
@@ -55,11 +55,11 @@
             - if current_user.is_a?(Admin)
               %td
                 - if mentor.email.present?
-                  = mail_to mentor.email, "<#{mentor.email}>"
+                  = mail_to(mentor.email) { icon('envelope') + " <#{mentor.email}>" }
               %td
                 - if current_user.is_a?(Admin) && mentor.todo.present?
                   %a.todotoggle.btn.btn-sm{data: { content: mentor.human_todo}, href:  edit_mentor_path(mentor, :anchor => 'todo') }
-                    = icon(:info_sign)
+                    = icon('info-circle')
                     Pendenz
 - else
   %p Kein Eintrag vorhanden

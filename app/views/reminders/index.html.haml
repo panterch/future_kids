@@ -8,8 +8,8 @@
         %label=Mentor.human_attribute_name('ects')
         = f.select :filter_by_ects, ects_collection, { include_blank: true }, class: 'form-control'
       .form-group
-        = f.submit 'Filter anwenden', class: 'btn btn-sm btn-primary'
-        = link_to 'Filter aufheben', reminders_path, class: 'btn btn-sm btn-secondary'
+        = f.button (icon('funnel') + ' Filter anwenden'), class: 'btn btn-sm btn-primary'
+        = link_to (icon('x-lg') + ' Filter aufheben'), reminders_path, class: 'btn btn-sm btn-secondary'
 
 = boot_page_title do
   %h2 Erinnerungen
