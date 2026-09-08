@@ -47,18 +47,12 @@ $sidebar-width: 220px;
 #nav {
   border-bottom: 1px solid #eee;
 
-  ul.nav.navbar-nav li a {
-    padding: 10px;
-  }
-
-  .navbar-nav.navbar-right:last-child {
-    margin: 0;
-  }
-
-  >.container {
-    padding-top: 15px;
-  }
-
+  // #sidebar-wrapper and #main still offset themselves by $header-height,
+  // a leftover from when this nav lived inside the fixed #header box (see
+  // git history) -- pin the real navbar to that same height so those
+  // offsets keep working until the sidebar/main layout is reworked to not
+  // need a hardcoded height at all.
+  min-height: $header-height;
 }
 
 .alert {

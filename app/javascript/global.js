@@ -2,6 +2,10 @@
 
 import Treeview from "treeview";
 import Rails from "@rails/ujs";
+// Registers Bootstrap's own data-bs-* auto-init listeners (navbar toggler,
+// dropdowns) as a side effect of loading -- see the navbar markup in
+// app/views/layouts/application.html.haml.
+import "bootstrap";
 
 document.addEventListener('DOMContentLoaded', function() {
   register_journal_controls();
@@ -14,7 +18,6 @@ document.addEventListener('DOMContentLoaded', function() {
   register_back_to_top_link();
   register_exit_at_toggler();
   register_freetext_toggler();
-  register_dropdowns();
   register_collapses();
   register_treeview();
   register_document_search();
@@ -99,27 +102,6 @@ function register_todotogglers() {
 
     link.addEventListener('mouseenter', showPopover);
     link.addEventListener('mouseleave', hidePopover);
-  });
-}
-
-function register_dropdowns() {
-  document.querySelectorAll('.dropdown-toggle').forEach(function(toggle) {
-    toggle.addEventListener('click', function(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      var menu = toggle.closest('.dropdown').querySelector('.dropdown-menu');
-      var wasOpen = menu.classList.contains('show');
-      document.querySelectorAll('.dropdown-menu.show').forEach(function(el) {
-        el.classList.remove('show');
-      });
-      if (!wasOpen) menu.classList.add('show');
-    });
-  });
-
-  document.addEventListener('click', function() {
-    document.querySelectorAll('.dropdown-menu.show').forEach(function(el) {
-      el.classList.remove('show');
-    });
   });
 }
 

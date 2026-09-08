@@ -14,36 +14,31 @@
     = csrf_meta_tag
 
   %body(class="#{controller_name} #{action_name}")
-    #header
-      - if !user_signed_in?
+    - if !user_signed_in?
+      #header
         #teaser.container
 
-      - if user_signed_in?
-        #nav-wrapper
-          #nav
-            .container
-              .navbar.navbar-expand-md.bg-white{role: "navigation"}
-                %ul.nav.navbar-nav.d-none.d-md-flex
-                  = render 'layouts/navigation_items'
+    - if user_signed_in?
+      #nav.navbar.navbar-expand-md.sticky-top.bg-white{role: "navigation"}
+        .container
+          %button.navbar-toggler{type: "button", "data-bs-toggle" => "collapse", "data-bs-target" => "#navbarNav", "aria-controls" => "navbarNav", "aria-expanded" => "false", "aria-label" => "Menü öffnen"}
+            %span.navbar-toggler-icon
 
-                %ul.nav.navbar-nav.d-flex.d-md-none
-                  %li.dropdown(style="display: block !important")
-                    = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown', 'aria-label' => 'Menü öffnen' do
-                      = icon(:menu_hamburger)
-                    %ul.dropdown-menu
-                      = render 'layouts/navigation_items'
+          #navbarNav.collapse.navbar-collapse
+            %ul.navbar-nav.me-auto
+              = render 'layouts/navigation_items'
 
-
-                %ul.nav.navbar-nav.navbar-right
-                  %li.dropdown(style="display: block !important")
-                    = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown', 'aria-label' => 'Benutzermenü' do
-                      = icon(:user)
-                    %ul.dropdown-menu
-                      %li= link_to current_user.display_name, current_user
-                      -if can? :read, Site
-                        %li= link_to Site.model_name.human, edit_site_path
-                      %li.dropdown-divider
-                      %li= link_to 'Abmelden', destroy_user_session_path, method: :delete
+            %ul.navbar-nav
+              %li.nav-item.dropdown
+                %a.nav-link.dropdown-toggle{href: "#", role: "button", "data-bs-toggle" => "dropdown", "aria-expanded" => "false", "aria-label" => "Benutzermenü"}
+                  = icon(:user)
+                %ul.dropdown-menu.dropdown-menu-end
+                  %li= link_to current_user.display_name, current_user, class: 'dropdown-item'
+                  -if can? :read, Site
+                    %li= link_to Site.model_name.human, edit_site_path, class: 'dropdown-item'
+                  %li
+                    %hr.dropdown-divider
+                  %li= link_to 'Abmelden', destroy_user_session_path, method: :delete, class: 'dropdown-item'
 
 
     #sidebar-wrapper

@@ -223,11 +223,13 @@ module ApplicationHelper
     else
       link_text = model_name_or_link_text
     end
-    # set classname to active when link corresponds with current page
+    # active state when link corresponds with current page
     # (first test for request is to make testing easier)
-    class_name = request && current_page?(link_path) ? 'active' : ''
-    content_tag(:li, class: class_name) do
-      link_to link_text, link_path
+    active = request && current_page?(link_path)
+    content_tag(:li, class: 'nav-item') do
+      link_to link_text, link_path,
+              class: ['nav-link', active ? 'active' : nil].compact.join(' '),
+              **(active ? { 'aria-current' => 'page' } : {})
     end
   end
 

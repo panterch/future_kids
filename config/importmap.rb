@@ -5,6 +5,12 @@ pin "global"
 pin "treeview"
 pin "icons"
 
+# Vendored from the bootstrap/popper_js gems (see vendor/javascript/), same
+# hand-patched-to-be-a-real-ES-module treatment as the react-* pins below --
+# needed on every page for the navbar's collapse/dropdown, so preload: true.
+pin "popper", preload: true
+pin "bootstrap", preload: true
+
 # actionview's own rails-ujs.esm.js -- a genuine ES module, no UMD patching
 # needed (unlike the react-* files below). Named rails_ujs_esm.js, not
 # rails-ujs.js: actionview also ships a classic-script rails-ujs.js on
