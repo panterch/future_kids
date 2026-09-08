@@ -152,7 +152,7 @@
 %h2#journals
   Lernjournale
   - if can?(:create, @cancan_journal)
-    =link_to 'Neues Lernjournal', new_kid_journal_path(@kid), class: 'btn btn-secondary float-end'
+    =link_to 'Neues Lernjournal', new_kid_journal_path(@kid), class: 'btn btn-primary float-end'
 
 - if @site.ai_features_enabled? && current_user.is_a?(Admin) && @kid.journals.any?
   .card
@@ -177,7 +177,7 @@
         - if can?(:edit, journal)
           = link_to 'Bearbeiten', edit_kid_journal_path(@kid, journal), class: 'btn btn-secondary'
         - if current_user.is_a?(Admin)
-          = link_to "Löschen", kid_journal_path(@kid, journal), { :method => :delete, :class => 'btn btn-secondary', data: { confirm: "Sind Sie sicher?" } }
+          = link_to "Löschen", kid_journal_path(@kid, journal), { :method => :delete, :class => 'btn btn-danger', data: { confirm: "Sind Sie sicher?" } }
         - if can?(:create, Comment)
           = link_to 'Kommentieren', new_kid_journal_comment_path(@kid, journal), class: 'btn btn-secondary'
       %h4= journal.display_name
@@ -189,7 +189,7 @@
   %h2#reviews
     Gesprächsdokumentationen
     - if can?(:create, @cancan_review)
-      =link_to 'Neue Gesprächsdokumentation', new_kid_review_path(@kid), class: 'btn btn-secondary float-end'
+      =link_to 'Neue Gesprächsdokumentation', new_kid_review_path(@kid), class: 'btn btn-primary float-end'
   - @kid.reviews.each do |review|
     .card[review]
       .card-header
@@ -197,7 +197,7 @@
           - if can?(:edit, review)
             = link_to 'Bearbeiten', edit_kid_review_path(@kid, review), class: 'btn btn-secondary'
           - if current_user.is_a?(Admin)
-            = link_to "Löschen", kid_review_path(@kid, review), { :method => :delete, :class => 'btn btn-secondary', data: { confirm: "Sind Sie sicher?" } }
+            = link_to "Löschen", kid_review_path(@kid, review), { :method => :delete, :class => 'btn btn-danger', data: { confirm: "Sind Sie sicher?" } }
         %h4= review.display_name
       .card-body
         = show_for review do |review_show|
@@ -219,7 +219,7 @@
         - if can?(:edit, assessment)
           = link_to 'Bearbeiten', edit_kid_first_year_assessment_path(@kid, assessment), class: 'btn btn-secondary'
         - if current_user.is_a?(Admin)
-          = link_to "Löschen", kid_first_year_assessment_path(@kid, assessment), { :method => :delete, :class => 'btn btn-secondary', data: { confirm: "Sind Sie sicher?" } }
+          = link_to "Löschen", kid_first_year_assessment_path(@kid, assessment), { :method => :delete, :class => 'btn btn-danger', data: { confirm: "Sind Sie sicher?" } }
       %h4= assessment.display_name
     .card-body
       = show_for assessment do |assessment_show|
@@ -257,7 +257,7 @@
         - if can?(:edit, assessment)
           = link_to 'Bearbeiten', edit_kid_termination_assessment_path(@kid, assessment), class: 'btn btn-secondary'
         - if current_user.is_a?(Admin)
-          = link_to "Löschen", kid_termination_assessment_path(@kid, assessment), { :method => :delete, :class => 'btn btn-secondary', data: { confirm: "Sind Sie sicher?" } }
+          = link_to "Löschen", kid_termination_assessment_path(@kid, assessment), { :method => :delete, :class => 'btn btn-danger', data: { confirm: "Sind Sie sicher?" } }
       %h4= assessment.display_name
     .card-body
       = show_for assessment do |assessment_show|

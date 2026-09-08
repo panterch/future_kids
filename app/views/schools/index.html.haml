@@ -12,8 +12,8 @@
         %p
           %b Inaktive
     .form-group
-      = f.submit 'Suchen', class: 'btn btn-sm btn-success'
-      = link_to 'Filter aufheben', schools_path, class: 'btn btn-sm'
+      = f.submit 'Suchen', class: 'btn btn-sm btn-primary'
+      = link_to 'Filter aufheben', schools_path, class: 'btn btn-sm btn-secondary'
 
 = boot_page_title do
   = @schools.count

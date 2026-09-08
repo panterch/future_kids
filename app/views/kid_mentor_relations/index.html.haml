@@ -33,8 +33,8 @@
       %label Ordnen nach
       = select_tag 'order_by', order_by_collection_for_kid_mentor_relations(params[:order_by]), class: 'form-control'
     .form-group
-      = f.submit 'Filter anwenden', class: 'btn btn-sm btn-success'
-      = link_to 'Filter aufheben', kid_mentor_relations_path, class: 'btn btn-sm'
+      = f.submit 'Filter anwenden', class: 'btn btn-sm btn-primary'
+      = link_to 'Filter aufheben', kid_mentor_relations_path, class: 'btn btn-sm btn-secondary'
 
 = boot_page_title do
   =t('title.kid_mentor_relation_index', count: @kid_mentor_relations.count)

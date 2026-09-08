@@ -3,7 +3,7 @@
 # Use this setup block to configure all options available in SimpleForm.
 SimpleForm.setup do |config|
   config.error_notification_class = 'alert alert-danger'
-  config.button_class = 'btn btn-secondary'
+  config.button_class = 'btn btn-primary'
   config.boolean_label_class = nil
   config.input_field_error_class = 'is-invalid'
 
