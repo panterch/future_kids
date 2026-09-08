@@ -1,7 +1,7 @@
 = show_for mentor do |show|
   = show.attribute :name
   = show.attribute :prename
-  = show.attribute(:email) { mail_to mentor.email }
+  = show.attribute(:email) { mail_to(mentor.email) { icon('envelope') + ' ' + mentor.email } }
   = show.attribute :sex
   - if viewing_own_data?(mentor)
     = show.attribute :address

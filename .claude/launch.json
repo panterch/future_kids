@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "future_kids",
+      "runtimeExecutable": "bin/dev",
+      "runtimeArgs": [],
+      "port": 3005
+    }
+  ]
+}

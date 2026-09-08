@@ -1,89 +1,20 @@
-$font-size-base: 12px;
-$line-height-base: 1.4;
-$grid-gutter-width: 20px;
-$navbar-height: 40px;
-
-$screen-xs: 576px;
-$screen-xs-min: $screen-xs;
-$screen-phone: $screen-xs-min;
-
-$screen-sm: 720px;
-$screen-sm-min: $screen-sm;
-$screen-tablet: $screen-sm-min;
-
-$screen-md: 992px;
-$screen-md-min: $screen-md;
-$screen-desktop: $screen-md-min;
-
-$screen-lg: 1200px;
-$screen-lg-min: $screen-lg;
-$screen-lg-desktop: $screen-lg-min;
-
-$navbar-default-border: #fff;
-$navbar-default-bg: #fff;
-$grid-float-breakpoint: 1px;
+@import 'bootstrap/functions';
 
 $header-height: 70px;
 $footer-height: 30px;
-$sidebar-width: 220px;
 
-
-// Not 'bootstrap-sprockets': that sets $bootstrap-sass-asset-helper, which
-// makes bootstrap-sass call Sprockets-only Sass functions (font-path/
-// image-path) that Dart Sass doesn't have -- it silently emits them as
-// literal (broken) CSS instead of erroring. Plain 'bootstrap' falls back to
-// relative paths instead.
-//
-// Not the 'bootstrap' umbrella partial either: it unconditionally pulls in
-// 'bootstrap/glyphicons', which declares an @font-face for a font we no
-// longer ship (all glyphicon-* usages were replaced with inline SVG icons,
-// see app/helpers/application_helper.rb). This is the same import list as
-// bootstrap-sass's _bootstrap.scss, minus that one line.
-@import 'bootstrap/variables';
-@import 'bootstrap/mixins';
-@import 'bootstrap/normalize';
-@import 'bootstrap/print';
-@import 'bootstrap/scaffolding';
-@import 'bootstrap/type';
-@import 'bootstrap/code';
-@import 'bootstrap/grid';
-@import 'bootstrap/tables';
-@import 'bootstrap/forms';
-@import 'bootstrap/buttons';
-@import 'bootstrap/component-animations';
-@import 'bootstrap/dropdowns';
-@import 'bootstrap/button-groups';
-@import 'bootstrap/input-groups';
-@import 'bootstrap/navs';
-@import 'bootstrap/navbar';
-@import 'bootstrap/breadcrumbs';
-@import 'bootstrap/pagination';
-@import 'bootstrap/pager';
-@import 'bootstrap/labels';
-@import 'bootstrap/badges';
-@import 'bootstrap/jumbotron';
-@import 'bootstrap/thumbnails';
-@import 'bootstrap/alerts';
-@import 'bootstrap/progress-bars';
-@import 'bootstrap/media';
-@import 'bootstrap/list-group';
-@import 'bootstrap/panels';
-@import 'bootstrap/responsive-embed';
-@import 'bootstrap/wells';
-@import 'bootstrap/close';
-@import 'bootstrap/modals';
-@import 'bootstrap/tooltip';
-@import 'bootstrap/popovers';
-@import 'bootstrap/carousel';
-@import 'bootstrap/utilities';
-@import 'bootstrap/responsive-utilities';
-@import 'mixins';
-@import 'utility';
+@import 'bootstrap';
 @import 'react-select';
 @import 'bootstrap-treeview';
 
-/* self_registrations */
-@import 'self_registrations/select_resource';
+// Bootstrap 5 dropped .form-group (its migration guide points to margin
+// utilities like .mb-3 instead), but views across the app -- especially
+// the sidebar filter forms on the index pages -- still use it and were
+// never migrated, leaving fields with no spacing between them. Reviving
+// it here fixes every one of those forms without touching each view.
+.form-group {
+  margin-bottom: 1rem;
+}
 
 // Sizing for the inline SVG icons that replaced glyphicon-* (see
 // ApplicationHelper#icon). Scales with the surrounding font-size like the
@@ -96,13 +27,30 @@ $sidebar-width: 220px;
   fill: currentColor;
 }
 
+// #theme-toggle shows a moon (click to go dark) while in light mode, and a
+// sun (click to go back to light) while in dark mode -- see the button
+// markup in application.html.haml and app/javascript/theme.js.
+.theme-toggle-icon-light {
+  display: none;
+}
+
+[data-bs-theme='dark'] {
+  .theme-toggle-icon-dark {
+    display: none;
+  }
+
+  .theme-toggle-icon-light {
+    display: inline-block;
+  }
+}
+
 #header {
   position: fixed;
   top: 0;
   width: 100%;
   height: $header-height;
   z-index: 2;
-  background-color: #fff;
+  background-color: var(--bs-body-bg);
 }
 
 #teaser {
@@ -111,24 +59,43 @@ $sidebar-width: 220px;
   // Not image-url(): that's a Sprockets/sass-rails Sass function dartsass-rails
   // doesn't provide. Vendored to a stable public/ path instead, same reasoning
   // as the bootstrap font files above.
-  background: white url("/images/teaser.jpg");
+  background: var(--bs-body-bg) url("/images/teaser.jpg");
 }
 
 #nav {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--bs-border-color);
 
-  ul.nav.navbar-nav li a {
-    padding: 10px;
+  // #sidebar-wrapper and #main still offset themselves by $header-height,
+  // a leftover from when this nav lived inside the fixed #header box (see
+  // git history) -- pin the real navbar to that same height so those
+  // offsets keep working until the sidebar/main layout is reworked to not
+  // need a hardcoded height at all.
+  min-height: $header-height;
+
+  // Icon-above-label layout, like a tab bar, once the nav is expanded
+  // (md+) and items sit side by side. Left as the default icon-then-text
+  // row on narrower screens, where each item is a full-width row in the
+  // collapsed menu and stacking icon over label would waste space.
+  @include media-breakpoint-up(md) {
+    .navbar-nav > .nav-item > .nav-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .125rem;
+      padding-left: .5rem;
+      padding-right: .5rem;
+      font-size: .75rem;
+
+      .icon-svg {
+        width: 1.375rem;
+        height: 1.375rem;
+      }
+
+      &.active {
+        font-weight: 600;
+      }
+    }
   }
-
-  .navbar-nav.navbar-right:last-child {
-    margin: 0;
-  }
-
-  >.container {
-    padding-top: 15px;
-  }
-
 }
 
 .alert {
@@ -136,7 +103,7 @@ $sidebar-width: 220px;
   left: 0;
   right: 0;
   top: 10px;
-  z-index: 3;
+  z-index: 1030;
   margin: auto;
   text-align: center;
 }
@@ -144,7 +111,7 @@ $sidebar-width: 220px;
 // red text to emphasize parts of certain labels
 h2 em,
 label em {
-  color: #a94442;
+  color: var(--bs-danger-text-emphasis);
   font-style: normal;
 }
 
@@ -158,17 +125,16 @@ textarea {
   min-height: 10em;
 }
 
-// Fix show_form breaking for long labels
-.show_for .wrapper {
-  clear: both;
-}
-
-.show_for .show-label {
-  min-width: 150px;
-}
-
 .page-header {
   margin-top: 0;
+}
+
+// Bootstrap 5 dropped .form-group; kept here as a plain spacing hook for
+// hand-written (non-simple_form) forms and the JS in global.js that toggles
+// visibility via .closest('.form-group'). simple_form-generated wrappers use
+// Bootstrap 5's .mb-3 directly instead (see simple_form_bootstrap.rb).
+.form-group {
+  margin-bottom: 1rem;
 }
 
 // Fix alignment of text at checkboxes
@@ -182,7 +148,7 @@ textarea {
 // Fix alignement of html5 datepicker
 input.date[type=date] {
   line-height: 1.4;
-  background-color: #fff;
+  background-color: var(--bs-body-bg);
 }
 
 // pages that contain no actions
@@ -221,7 +187,7 @@ form.schedule {
   td {
     width: 20%;
     vertical-align: top;
-    border-left: 1px solid #CCC;
+    border-left: 1px solid var(--bs-border-color);
   }
 
   th {
@@ -235,12 +201,20 @@ form.schedule {
 }
 
 #main {
-  margin-top: $header-height + 10px;
   margin-bottom: $footer-height;
 }
 
+// #header only renders for signed-out visitors now (see the top nav in
+// application.html.haml) -- the signed-in nav is sticky and in normal
+// flow, so #main already starts right below it with no help needed. Only
+// the signed-out teaser bar (fixed, removed from flow) needs #main
+// pushed down to clear it.
+#header ~ #main {
+  margin-top: $header-height + 10px;
+}
+
 #content {
-  background-color: white;
+  background-color: var(--bs-body-bg);
 }
 
 #footer {
@@ -249,48 +223,111 @@ form.schedule {
   height: $footer-height - 1;
   padding-top: 8px;
   z-index: 2;
-  background-color: #fff;
+  background-color: var(--bs-body-bg);
   font-size: 10px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--bs-border-color);
 
-  @include desktop {
+  @include media-breakpoint-up(md) {
     position: fixed;
   }
 }
 
-#sidebar-wrapper {
-  position: fixed;
-  top: $header-height + 10px;
-  bottom: $footer-height;
-  width: 100%;
-  overflow: hidden;
+// show_for label/value rows (config/initializers/show_for.rb). The label
+// column shrinks to fit its content (capped at 220px, wrapping beyond that)
+// instead of a hardcoded Bootstrap column fraction, so short labels like
+// "Name" don't waste space and long ones don't force a wide column for
+// every other row sharing the grid.
+.show-for-grid {
+  display: grid;
+  grid-template-columns: fit-content(220px) minmax(0, 1fr);
+  align-items: start;
+  column-gap: 1rem;
+  row-gap: .5rem;
 
-  #sidebar {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: $sidebar-width;
-    overflow: auto;
-
-    .logo {
-      margin-bottom: 20px;
-
-      img {
-        max-width: 220px;
-      }
-    }
-
+  @include media-breakpoint-down(sm) {
+    grid-template-columns: 1fr;
+    row-gap: .25rem;
   }
 
+  // Some views mix plain content into a show_for block alongside
+  // show.attribute rows -- a heading, or a nested show_for block rendered
+  // from a shared partial. Anything that isn't a proper show-for-row
+  // (display: contents) is a single opaque grid item, so left to
+  // auto-placement it would occupy just one column and desync every row
+  // that follows it. Spanning the full width keeps it self-contained
+  // instead.
+  > :not(.show-for-row) {
+    grid-column: 1 / -1;
+  }
+}
+
+.show-for-row {
+  display: contents;
+}
+
+.show-for-label {
+  text-align: right;
+
+  @include media-breakpoint-down(sm) {
+    text-align: left;
+    font-weight: 600;
+  }
+}
+
+.show-for-value {
+  min-width: 0;
+}
+
+// Collapsible card headers (e.g. the kid page's Lernjournale/Gespräche/
+// Auswertung jump-lists) give no visual hint that they're clickable.
+[data-bs-toggle='collapse'].card-title {
+  cursor: pointer;
+
+  &::after {
+    content: '\25BE'; // ▾, flips to ▸ when collapsed via aria-expanded
+    float: left;
+    margin-right: .5rem;
+    transition: transform .2s ease;
+  }
+
+  &[aria-expanded='false']::after {
+    transform: rotate(-90deg);
+  }
+}
+
+#sidebar {
+  .logo {
+    margin-bottom: 20px;
+
+    img {
+      max-width: 220px;
+      max-height: 120px;
+      width: auto;
+      object-fit: contain;
+    }
+  }
+
+  // Rendered once, right after #content -- a plain flex row puts it on the
+  // right on desktop and lets it fall in below on mobile, so unlike the old
+  // fixed-position sidebar this needs no separate mobile duplicate.
+  @include media-breakpoint-up(md) {
+    position: sticky;
+    top: $header-height + 8px;
+    align-self: flex-start;
+
+    // Sticky only pins the top edge -- it doesn't give the element its own
+    // scroll, so on pages with a long sidebar (e.g. the kids index filter
+    // form) content past the viewport bottom would otherwise be permanently
+    // unreachable. Capping the height and scrolling internally keeps
+    // everything reachable while the sidebar still stays in view.
+    max-height: calc(100vh - #{$header-height + 16px});
+    overflow-y: auto;
+  }
 }
 
 
 .portrait {
   overflow: hidden;
-}
-
-.mobile-actions {
-  margin: 10px;
 }
 
 

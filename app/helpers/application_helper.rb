@@ -1,30 +1,14 @@
 # frozen_string_literal: true
 
 module ApplicationHelper
-  # inline SVG replacements for the glyphicon-* icon font (removed together
-  # with its vendored font files).
-  ICON_PATHS = {
-    info_sign: [
-      '<circle cx="8" cy="8" r="7" fill="none" stroke="currentColor" stroke-width="1.5"/>',
-      '<circle cx="8" cy="4.6" r="1" fill="currentColor"/>',
-      '<line x1="8" y1="7.2" x2="8" y2="11.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>'
-    ].join,
-    user: [
-      '<circle cx="8" cy="5" r="3" fill="currentColor"/>',
-      '<path d="M2 14c0-3.3 2.7-5 6-5s6 1.7 6 5" fill="currentColor"/>'
-    ].join,
-    menu_hamburger: [
-      '<rect x="2" y="3.4" width="12" height="1.6" fill="currentColor"/>',
-      '<rect x="2" y="7.2" width="12" height="1.6" fill="currentColor"/>',
-      '<rect x="2" y="11" width="12" height="1.6" fill="currentColor"/>'
-    ].join,
-    edit: '<path d="M11.3 1.6a1.5 1.5 0 0 1 2.1 2.1L5 12.1l-2.8.7.7-2.8 8.4-8.4z" fill="currentColor"/>'
-  }.freeze
-
+  # Bootstrap Icons (vendored sprite at app/assets/images/bootstrap-icons.svg,
+  # see https://icons.getbootstrap.com/). `name` is a Bootstrap Icons id, e.g.
+  # "trash" or "arrow-clockwise".
   def icon(name, css_class: nil)
-    content_tag(:svg, ICON_PATHS.fetch(name).html_safe, # rubocop:disable Rails/OutputSafety
-                class: ['icon-svg', css_class].compact.join(' '),
-                viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg', 'aria-hidden': true)
+    content_tag(:svg, class: ['icon-svg', css_class].compact.join(' '),
+                       viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg', 'aria-hidden': true) do
+      tag.use(href: "#{asset_path('bootstrap-icons.svg')}##{name}")
+    end
   end
 
   # link to the given resource if at least read access is given
@@ -202,10 +186,10 @@ module ApplicationHelper
 
   # determines style class of scheduler cells
   def schedule_class(schedule)
-    schedule.last_meeting? ? 'info' : ''
+    schedule.last_meeting? ? 'table-info' : ''
   end
 
-  def nav_link(model_name_or_link_text, link_path = nil)
+  def nav_link(model_name_or_link_text, link_path = nil, icon_name: nil)
     # convenience interpolation: when a symbol is submitted to
     # this method it tries to automatically extrapolate the link
     # text and path
@@ -223,23 +207,20 @@ module ApplicationHelper
     else
       link_text = model_name_or_link_text
     end
-    # set classname to active when link corresponds with current page
+    link_text = icon(icon_name) + ' ' + link_text if icon_name
+    # active state when link corresponds with current page
     # (first test for request is to make testing easier)
-    class_name = request && current_page?(link_path) ? 'active' : ''
-    content_tag(:li, class: class_name) do
-      link_to link_text, link_path
+    active = request && current_page?(link_path)
+    content_tag(:li, class: 'nav-item') do
+      link_to link_text, link_path,
+              class: ['nav-link', active ? 'active' : nil].compact.join(' '),
+              **(active ? { 'aria-current' => 'page' } : {})
     end
   end
 
   # renders a title inside the form, aligned with form fields
   def form_subtitle(text)
-    html = tag.label class: %w[string col-sm-3 control-label]
-
-    html += tag.div class: %w[col-sm-9] do
-      tag.p tag.strong text
-    end
-
-    html
+    tag.p tag.strong text
   end
 
   # renders the label of a boolean field when it is set fitting into
@@ -247,9 +228,18 @@ module ApplicationHelper
   def conditionally_show_for(obj, field)
     return unless obj[field]
 
-    tag.div class: %w[col-sm-offset-3 col-xs-offset-3] do
-      I18n.t("activerecord.attributes.#{obj.model_name.to_s.downcase}.#{field}")
-    end
+    tag.div(I18n.t("activerecord.attributes.#{obj.model_name.to_s.downcase}.#{field}"))
+  end
+
+  # renders the labels of every set boolean field in fields, fitting into
+  # a show_for context; falls back to the show_for blank text when none are set,
+  # so groups of boolean fields (e.g. the kid's goal checklists) look consistent
+  # with the rest of a show_for block instead of leaving an empty gap
+  def show_for_boolean_group(obj, *fields)
+    set_fields = fields.select { |field| obj[field] }
+    return tag.div(I18n.t('show_for.blank'), class: 'no_content') if set_fields.empty?
+
+    safe_join(set_fields.map { |field| conditionally_show_for(obj, field) })
   end
 
   def human_date(date)
@@ -374,7 +364,7 @@ module ApplicationHelper
 
   # Returns translated identifier
   def t_page_head
-    if params[:id] && resource
+    if params[:id] && defined?(resource) && resource
       "#{t_title} #{resource}"
     else
       t_title
@@ -385,19 +375,19 @@ module ApplicationHelper
   def action_to_icon(action)
     case action.to_s
     when 'new'
-      "plus"
+      "plus-lg"
     when 'show'
-      "eye-open"
+      "eye"
     when 'edit'
-      "edit"
+      "pencil"
     when 'delete', 'destroy'
       "trash"
     when "index", "list"
-      "list-alt"
+      "card-list"
     when "update"
-      "refresh"
+      "arrow-clockwise"
     when "copy"
-      "repeat"
+      "copy"
     else
       action
     end
@@ -409,7 +399,7 @@ module ApplicationHelper
       classes << class_options.split(' ')
     end
 
-    classes << 'list-group-item'
+    classes << 'list-group-item' << 'list-group-item-action'
 
     if action.is_a? Symbol
       url ||= {:action => action}
@@ -423,6 +413,7 @@ module ApplicationHelper
 
     type = options.delete(:type)
     classes << "btn-#{type}" unless type.blank?
+    classes << 'text-danger' if %i[delete destroy].include?(action)
 
     options.merge!(:class => classes.join(" "))
     link_to(url_for(url), options) do
@@ -449,6 +440,10 @@ module ApplicationHelper
       resource = resource_or_model || default_resource
       model = resource.class
       explicit_resource_or_model = default_resource != resource
+    else
+      default_model = controller_name.singularize.camelize.constantize
+      model = resource_or_model || default_model
+      explicit_resource_or_model = default_model != model
     end
     model_name = model.to_s.underscore
 
@@ -460,7 +455,7 @@ module ApplicationHelper
     # Option generation
     case action
     when :delete, :destroy
-      options.merge!(:confirm => t_confirm_delete(resource), :method => :delete)
+      options.merge!(:data => { :confirm => t_confirm_delete(resource) }, :method => :delete)
     end
 
     begin
@@ -483,7 +478,13 @@ module ApplicationHelper
           end
         else
           if explicit_resource_or_model
-            path = polymorphic_path(resource_or_model, :action => action)
+            # polymorphic_path has no "show_kid_path" route to look up -- :show
+            # is its implicit default action, so only pass :action for others.
+            path = if action == :show
+                     polymorphic_path(resource_or_model)
+                   else
+                     polymorphic_path(resource_or_model, :action => action)
+                   end
           else
             path = url_for(:action => action)
           end

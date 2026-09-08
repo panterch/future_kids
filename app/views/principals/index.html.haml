@@ -1,15 +1,13 @@
 - content_for :sidebar do
   -if current_user.is_a?(Admin)
     = form_for :principal, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
-      .checkbox
-        %label
-          = f.check_box :inactive
-          %p
-            %b Inaktive
+      .form-check.mb-3
+        = f.check_box :inactive, class: 'form-check-input'
+        = f.label :inactive, 'Inaktive', class: 'form-check-label'
 
       .form-group
-        = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
-        = link_to 'Filter aufheben', principals_path, class: 'btn btn-xs'
+        = f.button (icon('funnel') + ' Filter anwenden'), class: 'btn btn-sm btn-primary'
+        = link_to (icon('x-lg') + ' Filter aufheben'), principals_path, class: 'btn btn-sm btn-secondary'
 
 = boot_page_title
 

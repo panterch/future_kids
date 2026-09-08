@@ -1,29 +1,36 @@
 - if current_user.is_a?(Admin) && !resource.relation_logs.empty?
-  %h2#relation_logs= RelationLog.model_name.human
-  %table.table.table-striped.table-condensed.table-hover
-    %tr
-      %th Datum
-      %th= RelationLog.human_attribute_name(:user)
-      %th
-      %th= RelationLog.human_attribute_name(:role)
-      %th= RelationLog.human_attribute_name(:kid)
-    - resource.relation_logs.each do |relation_log|
-      %tr
-        %td
-          = human_date(relation_log.start_at)
-          = human_date(relation_log.end_at)
-        %td
-          - if relation_log.user.present?
-            = link_to relation_log.user.display_name, relation_log.user
-          - else
-            Gelöschte*r Benutzer*in
-        %td= relation_log.end_at ? 'entfernt' : 'zugeordnet'
-        %td
-          als
-          = Kid.human_attribute_name(relation_log.role)
-        %td
-          - if relation_log.kid.present?
-            = link_to relation_log.kid.display_name, relation_log.kid
-          - else
-            Gelöschte*r Schüler*in
+  - show_kid_column = !resource.is_a?(Kid)
+  .card.mb-4
+    .card-header
+      %h4.card-title.mb-0#relation_logs= RelationLog.model_name.human
+    .card-body
+      .table-responsive
+        %table.table.table-striped.table-sm.table-hover
+          %tr
+            %th Datum
+            %th= RelationLog.human_attribute_name(:user)
+            %th
+            %th= RelationLog.human_attribute_name(:role)
+            - if show_kid_column
+              %th= RelationLog.human_attribute_name(:kid)
+          - resource.relation_logs.each do |relation_log|
+            %tr
+              %td
+                = human_date(relation_log.start_at)
+                = human_date(relation_log.end_at)
+              %td
+                - if relation_log.user.present?
+                  = link_to relation_log.user.display_name, relation_log.user
+                - else
+                  Gelöschte*r Benutzer*in
+              %td= relation_log.end_at ? 'entfernt' : 'zugeordnet'
+              %td
+                als
+                = Kid.human_attribute_name(relation_log.role)
+              - if show_kid_column
+                %td
+                  - if relation_log.kid.present?
+                    = link_to relation_log.kid.display_name, relation_log.kid
+                  - else
+                    Gelöschte*r Schüler*in
 

@@ -34,8 +34,7 @@ module BootstrapHelper
   # Icons
   # =====
   def boot_icon(type)
-    classes = 'icon icon-%s ' % [type]
-    content_tag(:i, '', :class => classes)
+    icon(type.to_s)
   end
 
   # Labels
@@ -51,7 +50,7 @@ module BootstrapHelper
   # =====
   def modal_header(title)
     content_tag(:div, :class => 'modal-header') do
-      content_tag(:button, '&times;'.html_safe, :type => 'button', :class => 'close', 'data-dismiss' => 'modal') +
+      content_tag(:button, '&times;'.html_safe, :type => 'button', :class => 'close', 'data-bs-dismiss' => 'modal') +
       content_tag(:h3, title)
     end
   end
@@ -70,7 +69,18 @@ module BootstrapHelper
     end
   end
 
-  def boot_alert(*args, &block)
+  def boot_alert_icon(type)
+    case boot_alert_name(type)
+    when 'danger', 'warning'
+      'exclamation-triangle'
+    when 'success'
+      'check-circle'
+    else
+      'info-circle'
+    end
+  end
+
+  def boot_alert(*args, icon_name: nil, &block)
     if block_given?
       type = args[0]
       content = capture(&block)
@@ -80,13 +90,14 @@ module BootstrapHelper
     end
 
     type ||= 'info'
-    content_tag(:div, :class => "alert alert-#{boot_alert_name(type)}") do
-      link_to('&times;'.html_safe, '#', :class => 'close', 'data-dismiss' => 'alert') + content
+    content_tag(:div, :class => "alert alert-#{boot_alert_name(type)} alert-dismissible") do
+      content_tag(:button, '', :type => 'button', :class => 'btn-close', 'data-bs-dismiss' => 'alert', 'aria-label' => 'Close') +
+        icon(icon_name || boot_alert_icon(type)) + ' ' + content
     end
   end
 
   def boot_no_entry_alert
-    boot_alert t('alerts.empty')
+    boot_alert t('alerts.empty'), icon_name: 'inbox'
   end
 
   # Navigation
@@ -100,7 +111,7 @@ module BootstrapHelper
       content = [title]
       if refresh_action
         content << content_tag(:button, :type => "submit", :style => 'border: none; background-color: transparent; float: right') do
-          content_tag(:i, "", :class => 'icon-refresh')
+          icon('arrow-clockwise')
         end
       end
 
@@ -117,7 +128,7 @@ module BootstrapHelper
       content_tag(:li, :class => classes, &content)
     else
       content_tag(:li, :class => classes) do
-        url = url_for(params.merge({param_name => param_value}))
+        url = url_for(params.permit!.merge({param_name => param_value}))
         link_to title, url
       end
     end
@@ -169,16 +180,6 @@ module BootstrapHelper
       end
 
       content.join("\n").html_safe
-    end
-  end
-end
-
-class BootFormBuilder < SimpleForm::FormBuilder
-  def buttons(*args, &block)
-    @template.content_tag 'div', class: 'form-groups' do
-      @template.content_tag 'div', class: ['col-sm-offset-3', 'col-sm-9'] do
-        button(:submit, *args, &block)
-      end
     end
   end
 end

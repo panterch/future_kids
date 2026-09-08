@@ -2,8 +2,14 @@
 
 import Treeview from "treeview";
 import Rails from "@rails/ujs";
+// Registers Bootstrap's own data-bs-* auto-init listeners (navbar toggler,
+// dropdowns) as a side effect of loading -- see the navbar markup in
+// app/views/layouts/application.html.haml.
+import "bootstrap";
+import { register_theme_toggle } from "theme";
 
 document.addEventListener('DOMContentLoaded', function() {
+  register_theme_toggle();
   register_journal_controls();
   register_mentor_journal_date_selectors();
   register_schedule_checkboxes();
@@ -14,7 +20,6 @@ document.addEventListener('DOMContentLoaded', function() {
   register_back_to_top_link();
   register_exit_at_toggler();
   register_freetext_toggler();
-  register_dropdowns();
   register_collapses();
   register_treeview();
   register_document_search();
@@ -102,34 +107,13 @@ function register_todotogglers() {
   });
 }
 
-function register_dropdowns() {
-  document.querySelectorAll('.dropdown-toggle').forEach(function(toggle) {
-    toggle.addEventListener('click', function(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      var dropdown = toggle.closest('.dropdown');
-      var wasOpen = dropdown.classList.contains('open');
-      document.querySelectorAll('.dropdown.open').forEach(function(el) {
-        el.classList.remove('open');
-      });
-      if (!wasOpen) dropdown.classList.add('open');
-    });
-  });
-
-  document.addEventListener('click', function() {
-    document.querySelectorAll('.dropdown.open').forEach(function(el) {
-      el.classList.remove('open');
-    });
-  });
-}
-
 function register_collapses() {
   document.querySelectorAll('[data-toggle="collapse"]').forEach(function(trigger) {
     trigger.addEventListener('click', function(event) {
       event.preventDefault();
       var targetSelector = trigger.getAttribute('data-target');
       var target = targetSelector && document.querySelector(targetSelector);
-      if (target) target.classList.toggle('in');
+      if (target) target.classList.toggle('show');
     });
   });
 }
@@ -148,7 +132,7 @@ function register_kidanchors() {
       event.preventDefault();
       var target = document.querySelector(this.hash);
       if (!target) return;
-      var header = document.getElementById('header');
+      var header = document.getElementById('header') || document.getElementById('nav');
       var headerHeight = header ? header.offsetHeight : 0;
       var top = target.getBoundingClientRect().top + window.scrollY - headerHeight - 3;
       window.scrollTo({top: top, behavior: 'smooth'});
@@ -191,7 +175,7 @@ function register_exit_at_toggler() {
   selects.forEach(function(select) {
     select.addEventListener('change', function() {
       var show = this.value === 'later';
-      document.querySelectorAll('.form-group.kid_exit_at, .form-group.mentor_exit_at').forEach(function(el) {
+      document.querySelectorAll('.mb-3.kid_exit_at, .mb-3.mentor_exit_at').forEach(function(el) {
         el.style.display = show ? '' : 'none';
       });
     });
@@ -201,13 +185,23 @@ function register_exit_at_toggler() {
   });
 }
 
-function remove_alerts() {
-  document.querySelectorAll('.alert').forEach(function(el) {
-    el.style.transition = 'opacity 0.4s';
-    el.style.opacity = '0';
-    setTimeout(function() { el.style.display = 'none'; }, 400);
-  });
+function remove_alert(el) {
+  el.style.transition = 'opacity 0.4s';
+  el.style.opacity = '0';
+  setTimeout(function() { el.style.display = 'none'; }, 400);
 }
+
+function remove_alerts() {
+  document.querySelectorAll('.alert').forEach(remove_alert);
+}
+
+document.addEventListener('click', function(event) {
+  var dismiss = event.target.closest('[data-dismiss="alert"]');
+  if (!dismiss) return;
+  event.preventDefault();
+  var alert = dismiss.closest('.alert');
+  if (alert) remove_alert(alert);
+});
 
 function register_freetext_toggler() {
   document.querySelectorAll('a.freetext').forEach(function(link) {
