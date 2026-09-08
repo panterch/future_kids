@@ -71,6 +71,31 @@ $footer-height: 30px;
   // offsets keep working until the sidebar/main layout is reworked to not
   // need a hardcoded height at all.
   min-height: $header-height;
+
+  // Icon-above-label layout, like a tab bar, once the nav is expanded
+  // (md+) and items sit side by side. Left as the default icon-then-text
+  // row on narrower screens, where each item is a full-width row in the
+  // collapsed menu and stacking icon over label would waste space.
+  @include media-breakpoint-up(md) {
+    .navbar-nav > .nav-item > .nav-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .125rem;
+      padding-left: .5rem;
+      padding-right: .5rem;
+      font-size: .75rem;
+
+      .icon-svg {
+        width: 1.375rem;
+        height: 1.375rem;
+      }
+
+      &.active {
+        font-weight: 600;
+      }
+    }
+  }
 }
 
 .alert {
