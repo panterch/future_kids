@@ -454,7 +454,7 @@ module ApplicationHelper
     # Option generation
     case action
     when :delete, :destroy
-      options.merge!(:confirm => t_confirm_delete(resource), :method => :delete)
+      options.merge!(:data => { :confirm => t_confirm_delete(resource) }, :method => :delete)
     end
 
     begin

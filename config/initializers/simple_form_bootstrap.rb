@@ -39,10 +39,9 @@ SimpleForm.setup do |config|
 
     b.wrapper tag: 'div', class: 'form-check' do |ba|
       ba.use :label_input, class: 'form-check-input'
+      ba.use :error, wrap_with: { tag: 'span', class: 'invalid-feedback' }
+      ba.use :hint,  wrap_with: { tag: 'p', class: 'form-text' }
     end
-
-    b.use :error, wrap_with: { tag: 'span', class: 'invalid-feedback' }
-    b.use :hint,  wrap_with: { tag: 'p', class: 'form-text' }
   end
 
   config.wrappers :vertical_radio_and_checkboxes, tag: 'div', class: 'mb-3' do |b|

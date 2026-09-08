@@ -130,7 +130,7 @@ function register_kidanchors() {
       event.preventDefault();
       var target = document.querySelector(this.hash);
       if (!target) return;
-      var header = document.getElementById('header');
+      var header = document.getElementById('header') || document.getElementById('nav');
       var headerHeight = header ? header.offsetHeight : 0;
       var top = target.getBoundingClientRect().top + window.scrollY - headerHeight - 3;
       window.scrollTo({top: top, behavior: 'smooth'});
@@ -173,7 +173,7 @@ function register_exit_at_toggler() {
   selects.forEach(function(select) {
     select.addEventListener('change', function() {
       var show = this.value === 'later';
-      document.querySelectorAll('.form-group.kid_exit_at, .form-group.mentor_exit_at').forEach(function(el) {
+      document.querySelectorAll('.mb-3.kid_exit_at, .mb-3.mentor_exit_at').forEach(function(el) {
         el.style.display = show ? '' : 'none';
       });
     });

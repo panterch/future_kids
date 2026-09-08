@@ -353,9 +353,9 @@ de:
       delete: "%{model} löschen"
       destroy: "%{model} löschen"
     notices:
-      create: "%{model} %{record}erstellt."
-      update: "%{model} %{record}geändert."
-      destroy: "%{model} %{record}gelöscht."
+      create: "%{model} %{record} erstellt."
+      update: "%{model} %{record} geändert."
+      destroy: "%{model} %{record} gelöscht."
     action:
       edit: "Bearbeiten"
       update: "Bearbeiten"
