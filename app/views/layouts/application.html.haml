@@ -39,21 +39,22 @@
               = render 'layouts/navigation_items'
 
             %ul.navbar-nav
-              - unless force_light_theme
-                %li.nav-item
-                  %button#theme-toggle.nav-link.btn.btn-link{type: "button", "aria-label" => "Farbschema umschalten"}
-                    = icon('moon-stars', css_class: 'theme-toggle-icon-dark')
-                    = icon('sun', css_class: 'theme-toggle-icon-light')
-              %li.nav-item.dropdown
-                %a.nav-link.dropdown-toggle{href: "#", role: "button", "data-bs-toggle" => "dropdown", "aria-expanded" => "false", "aria-label" => "Benutzermenü"}
-                  = icon('person')
+              %li.nav-item.dropdown.no-caret
+                %a.nav-link.dropdown-toggle{href: "#", role: "button", "data-bs-toggle" => "dropdown", "aria-expanded" => "false", "aria-label" => "Einstellungsmenü"}
+                  = icon('gear')
                 %ul.dropdown-menu.dropdown-menu-end
-                  %li= link_to current_user.display_name, current_user, class: 'dropdown-item'
+                  %li= link_to (icon('person', css_class: 'me-2') + current_user.display_name), current_user, class: 'dropdown-item'
                   -if can? :read, Site
-                    %li= link_to Site.model_name.human, edit_site_path, class: 'dropdown-item'
+                    %li= link_to (icon('building', css_class: 'me-2') + Site.model_name.human), edit_site_path, class: 'dropdown-item'
+                  - unless force_light_theme
+                    %li
+                      %button#theme-toggle.dropdown-item{type: "button"}
+                        = icon('moon-stars', css_class: 'theme-toggle-icon-dark me-2')
+                        = icon('sun', css_class: 'theme-toggle-icon-light me-2')
+                        Farbschema umschalten
                   %li
                     %hr.dropdown-divider
-                  %li= link_to 'Abmelden', destroy_user_session_path, method: :delete, class: 'dropdown-item'
+                  %li= link_to (icon('box-arrow-right', css_class: 'me-2') + 'Abmelden'), destroy_user_session_path, method: :delete, class: 'dropdown-item'
 
 
     #main(class="#{content_for(:main_class)}")
