@@ -1,7 +1,7 @@
 .row
   .col-md-8
     = show_for @mentor do |show|
-      = render "details", mentor: @mentor
+      = render "details", show: show, mentor: @mentor
       = show.association :schools do |k|
         %li
           = can_link_to k
