@@ -3,24 +3,32 @@
 // Mirrors the resolution order of the inline no-flash script in
 // application.html.haml's <head> (that one is duplicated as a plain string
 // there since importmap modules aren't available that early). Pages that
-// opt out via `content_for :force_light_theme` render without this button
+// opt out via `content_for :force_light_theme` render without this menu
 // and without the inline script, so this only ever runs on themeable pages.
 export function register_theme_toggle() {
-  var button = document.getElementById('theme-toggle');
-  if (!button) return;
+  var options = document.querySelectorAll('.theme-option');
+  if (!options.length) return;
 
-  var media = window.matchMedia('(prefers-color-scheme: dark)');
-  media.addEventListener('change', function(event) {
+  window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change', function() {
     if (stored_theme()) return;
-    apply_theme(event.matches ? 'dark' : 'light');
+    apply_theme('auto');
   });
 
-  button.addEventListener('click', function() {
-    var current = document.documentElement.getAttribute('data-bs-theme');
-    var next = current === 'dark' ? 'light' : 'dark';
-    try { localStorage.setItem('theme', next); } catch (e) {}
-    apply_theme(next);
+  options.forEach(function(option) {
+    option.addEventListener('click', function() {
+      var theme = option.getAttribute('data-theme-value');
+      try {
+        if (theme === 'auto') {
+          localStorage.removeItem('theme');
+        } else {
+          localStorage.setItem('theme', theme);
+        }
+      } catch (e) {}
+      apply_theme(theme);
+    });
   });
+
+  show_active_theme(stored_theme() || 'auto');
 }
 
 function stored_theme() {
@@ -28,5 +36,17 @@ function stored_theme() {
 }
 
 function apply_theme(theme) {
-  document.documentElement.setAttribute('data-bs-theme', theme);
+  var resolved = theme === 'auto'
+    ? (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light')
+    : theme;
+  document.documentElement.setAttribute('data-bs-theme', resolved);
+  show_active_theme(theme);
+}
+
+function show_active_theme(theme) {
+  document.querySelectorAll('.theme-option').forEach(function(option) {
+    var active = option.getAttribute('data-theme-value') === theme;
+    option.classList.toggle('active', active);
+    option.setAttribute('aria-pressed', active ? 'true' : 'false');
+  });
 }

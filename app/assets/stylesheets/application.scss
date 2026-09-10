@@ -27,21 +27,15 @@ $footer-height: 30px;
   fill: currentColor;
 }
 
-// #theme-toggle shows a moon (click to go dark) while in light mode, and a
-// sun (click to go back to light) while in dark mode -- see the button
-// markup in application.html.haml and app/javascript/theme.js.
-.theme-toggle-icon-light {
+// The theme submenu (.theme-option buttons) only shows the checkmark next
+// to the active choice -- see the markup in application.html.haml and the
+// active-state toggling in app/javascript/theme.js.
+.theme-option-check {
   display: none;
 }
 
-[data-bs-theme='dark'] {
-  .theme-toggle-icon-dark {
-    display: none;
-  }
-
-  .theme-toggle-icon-light {
-    display: inline-block;
-  }
+.theme-option.active .theme-option-check {
+  display: inline-block;
 }
 
 .no-caret > .dropdown-toggle::after {

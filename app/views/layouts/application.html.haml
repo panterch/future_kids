@@ -16,7 +16,9 @@
           (function() {
             var stored = null;
             try { stored = localStorage.getItem('theme'); } catch (e) {}
-            var theme = stored || (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            var theme = stored === 'light' || stored === 'dark'
+              ? stored
+              : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
             document.documentElement.setAttribute('data-bs-theme', theme);
           })();
     = javascript_importmap_tags
@@ -47,11 +49,13 @@
                   -if can? :read, Site
                     %li= link_to (icon('building', css_class: 'me-2') + Site.model_name.human), edit_site_path, class: 'dropdown-item'
                   - unless force_light_theme
-                    %li
-                      %button#theme-toggle.dropdown-item{type: "button"}
-                        = icon('moon-stars', css_class: 'theme-toggle-icon-dark me-2')
-                        = icon('sun', css_class: 'theme-toggle-icon-light me-2')
-                        Farbschema umschalten
+                    %li.dropdown-header Farbschema
+                    - [['light', 'sun', 'Hell'], ['dark', 'moon-stars', 'Dunkel'], ['auto', 'circle-half', 'Automatisch']].each do |value, icon_name, label|
+                      %li
+                        %button.dropdown-item.theme-option.d-flex.align-items-center{type: "button", data: {theme_value: value}, "aria-pressed" => "false"}
+                          = icon(icon_name, css_class: 'me-2')
+                          = label
+                          = icon('check2', css_class: 'ms-auto theme-option-check')
                   %li
                     %hr.dropdown-divider
                   %li= link_to (icon('box-arrow-right', css_class: 'me-2') + 'Abmelden'), destroy_user_session_path, method: :delete, class: 'dropdown-item'
