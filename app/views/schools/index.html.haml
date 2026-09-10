@@ -1,3 +1,5 @@
+- content_for :main_class, 'wide'
+
 - content_for :sidebar do
   = form_for @school, url: { action: 'index' }, html: { method: :get, class: 'filter' } do |f|
     .form-group

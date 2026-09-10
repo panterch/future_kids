@@ -56,7 +56,7 @@
                   %li= link_to 'Abmelden', destroy_user_session_path, method: :delete, class: 'dropdown-item'
 
 
-    #main
+    #main(class="#{content_for(:main_class)}")
       .container
         .row
           #content.col-md-9

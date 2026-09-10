@@ -44,6 +44,10 @@ $footer-height: 30px;
   }
 }
 
+.no-caret > .dropdown-toggle::after {
+  display: none;
+}
+
 #header {
   position: fixed;
   top: 0;
@@ -215,6 +219,31 @@ form.schedule {
 
 #content {
   background-color: var(--bs-body-bg);
+}
+
+// Some index pages have tables wide enough that Bootstrap's stepped
+// .container forces horizontal scrolling or line-wrapping (kids,
+// kid_mentor_relations, reminders, schools -- see the `content_for
+// :main_class, 'wide'` call at the top of each of those views). For those
+// only, #content "bleeds" past the container's normal left edge: shift its
+// left edge out towards the viewport while widening it by that same
+// amount, so its right edge -- and #sidebar, which this leaves completely
+// untouched -- stays exactly where .container would put it on a show/edit
+// page. Other index pages (mentors, admins, ...) are narrow enough to stay
+// on the common layout and don't opt in.
+$wide-content-breakpoints: md, lg, xl, xxl;
+
+@each $breakpoint in $wide-content-breakpoints {
+  $max-width: map-get($container-max-widths, $breakpoint);
+
+  @include media-breakpoint-up($breakpoint) {
+    #main.wide #content {
+      $bleed: calc(50vw - #{$max-width * .5});
+      margin-left: calc(-1 * #{$bleed});
+      width: calc(75% + #{$bleed});
+      max-width: none;
+    }
+  }
 }
 
 #footer {

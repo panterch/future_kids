@@ -1,3 +1,5 @@
+- content_for :main_class, 'wide'
+
 - content_for :sidebar do
   -if current_user.is_a?(Admin)
     = form_for :reminder, url: { action: 'index' }, html: { method: :get, class: 'filter' } do |f|
