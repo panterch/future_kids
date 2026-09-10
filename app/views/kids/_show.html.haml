@@ -2,8 +2,9 @@
 
   .card
     .card-header
-      %h4.card-title(data-bs-toggle="collapse" data-bs-target="#collapseJournals" role="button" aria-expanded="false" aria-controls="collapseJournals")
-        Lernjournale
+      %h4.card-title
+        %button(type="button" data-bs-toggle="collapse" data-bs-target="#collapseJournals" aria-expanded="false" aria-controls="collapseJournals")
+          Lernjournale
         %span.badge.text-bg-secondary.float-end=@kid.journals.size
     #collapseJournals.collapse.list-group.kidanchors
       - @kid.journals.each do |journal|
@@ -13,8 +14,9 @@
   - if can?(:read, @cancan_review)
     .card
       .card-header
-        %h4.card-title(data-bs-toggle="collapse" data-bs-target="#collapseReviews" role="button" aria-expanded="false" aria-controls="collapseReviews")
-          Gespräche
+        %h4.card-title
+          %button(type="button" data-bs-toggle="collapse" data-bs-target="#collapseReviews" aria-expanded="false" aria-controls="collapseReviews")
+            Gespräche
           %span.badge.text-bg-secondary.float-end=@kid.reviews.size
       #collapseReviews.collapse.list-group.kidanchors
         - @kid.reviews.each do |review|
@@ -23,8 +25,9 @@
 
   .card
     .card-header
-      %h4.card-title(data-bs-toggle="collapse" data-bs-target="#collapseFirstYearAssessments" role="button" aria-expanded="false" aria-controls="collapseFirstYearAssessments")
-        Auswertung/Abschluss
+      %h4.card-title
+        %button(type="button" data-bs-toggle="collapse" data-bs-target="#collapseFirstYearAssessments" aria-expanded="false" aria-controls="collapseFirstYearAssessments")
+          Auswertung/Abschluss
         %span.badge.text-bg-secondary.float-end=@kid.first_year_assessments.size+@kid.termination_assessments.size
     #collapseFirstYearAssessments.collapse.list-group.kidanchors
       - @kid.first_year_assessments.each do |assessment|

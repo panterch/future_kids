@@ -303,7 +303,12 @@ $wide-content-breakpoints: md, lg, xl, xxl;
 
 // Collapsible card headers (e.g. the kid page's Lernjournale/Gespräche/
 // Auswertung jump-lists) give no visual hint that they're clickable.
-[data-bs-toggle='collapse'].card-title {
+.card-title [data-bs-toggle='collapse'] {
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
   cursor: pointer;
 
   &::after {
@@ -357,7 +362,7 @@ $wide-content-breakpoints: md, lg, xl, xxl;
     // form) content past the viewport bottom would otherwise be permanently
     // unreachable. Capping the height and scrolling internally keeps
     // everything reachable while the sidebar still stays in view.
-    max-height: calc(100vh - #{$header-height + 16px});
+    max-height: calc(100vh - #{$header-height + $footer-height + 16px});
     overflow-y: auto;
   }
 }

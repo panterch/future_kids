@@ -27,7 +27,7 @@
       .mb-3
         %label.form-label= Kid.human_attribute_name(:meeting_start_at)
         = form.select :meeting_start_at, options_for_select(kid_time_options, @kid.human_meeting_start_at), { include_blank: true }, { class: 'form-control' }
-  .hide
+  .d-none
     = form.submit
 
 - content_for :force_light_theme, true

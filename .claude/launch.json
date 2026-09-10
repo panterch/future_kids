@@ -5,7 +5,7 @@
       "name": "future_kids",
       "runtimeExecutable": "bin/dev",
       "runtimeArgs": [],
-      "port": 3005
+      "port": 3000
     }
   ]
 }
