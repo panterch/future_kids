@@ -328,6 +328,20 @@ $wide-content-breakpoints: md, lg, xl, xxl;
   .logo {
     margin-bottom: 20px;
 
+    // The partner logo (e.g. denteo) is a dark-on-transparent asset we
+    // don't control, so it disappears on the dark theme's background.
+    // Pin it to a fixed light backdrop in both themes instead of trying
+    // to theme an image we can't edit.
+    .logo-badge {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      background-color: #fff;
+      border-radius: 999px;
+      padding: 16px 32px;
+    }
+
     img {
       max-width: 220px;
       max-height: 120px;

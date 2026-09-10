@@ -68,7 +68,8 @@
           #sidebar.col-md-3
             %h1.logo.d-none.d-md-block
               - if @site.logo.present?
-                %img{:src => rails_representation_url(@site.logo_medium)}
+                .logo-badge
+                  %img{:src => rails_representation_url(@site.logo_medium)}
 
             - if user_signed_in?
               .contextual_links_panel.card
