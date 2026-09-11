@@ -3,6 +3,59 @@
 $header-height: 70px;
 $footer-height: 30px;
 
+// Solarized (Ethan Schoonover, https://ethanschoonover.com/solarized/),
+// mapped onto Bootstrap's color-mode variables so light/dark match the
+// canonical Solarized Light/Dark palettes and switch via the existing
+// data-bs-theme toggle (see app/javascript/theme.js).
+$solarized-base03:  #002b36;
+$solarized-base02:  #073642;
+$solarized-base01:  #586e75;
+$solarized-base00:  #657b83;
+$solarized-base0:   #839496;
+$solarized-base1:   #93a1a1;
+$solarized-base2:   #eee8d5;
+$solarized-base3:   #fdf6e3;
+
+$solarized-yellow:  #b58900;
+$solarized-red:     #dc322f;
+$solarized-blue:    #268bd2;
+$solarized-cyan:    #2aa198;
+$solarized-green:   #859900;
+
+$primary:   $solarized-blue;
+$secondary: $solarized-base01;
+$success:   $solarized-green;
+$info:      $solarized-cyan;
+$warning:   $solarized-yellow;
+$danger:    $solarized-red;
+$light:     $solarized-base2;
+$dark:      $solarized-base02;
+
+// Solarized Light -- backgrounds and the border are blended 70% toward
+// white (mix(color, white, 30%)) so the page reads as light and airy
+// rather than true Solarized's warmer, more saturated cream; text and
+// accent colors stay true Solarized.
+$body-bg:           mix($solarized-base3, white, 30%);
+$body-color:        $solarized-base00;
+$body-secondary-bg: mix($solarized-base2, white, 30%);
+$border-color:      mix($solarized-base1, white, 30%);
+$headings-color:    $solarized-base01;
+
+// Solarized Dark
+$body-bg-dark:            $solarized-base03;
+$body-color-dark:         $solarized-base0;
+$border-color-dark:       $solarized-base01;
+$body-secondary-bg-dark:  $solarized-base02;
+$body-tertiary-bg-dark:   mix($solarized-base02, $solarized-base03);
+$headings-color-dark:     $solarized-base1;
+
+// Form fields default to $body-bg, which under Solarized's low-contrast-by-
+// design palette left them nearly invisible against the page. Give them the
+// same subtle tint as the sidebar/nav (--bs-secondary-bg switches with
+// data-bs-theme already, via $body-secondary-bg / $body-secondary-bg-dark
+// above), so fields stay visually distinct in both modes.
+$input-bg: var(--bs-secondary-bg);
+
 @import 'bootstrap';
 @import 'react-select';
 @import 'bootstrap-treeview';
@@ -329,15 +382,17 @@ $wide-content-breakpoints: md, lg, xl, xxl;
 
     // The partner logo (e.g. denteo) is a dark-on-transparent asset we
     // don't control, so it disappears on the dark theme's background.
-    // Pin it to a fixed light backdrop in both themes instead of trying
-    // to theme an image we can't edit.
+    // Pin it to a fixed white backdrop in both themes instead of trying
+    // to theme an image we can't edit, framed the same way as the sidebar's
+    // form fields and .card (same border color/width and radius).
     .logo-badge {
       display: flex;
       justify-content: center;
       align-items: center;
       width: 100%;
       background-color: #fff;
-      border-radius: 999px;
+      border: var(--bs-border-width) solid var(--bs-border-color);
+      border-radius: var(--bs-border-radius);
       padding: 16px 32px;
     }
 
