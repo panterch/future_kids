@@ -15,7 +15,7 @@
   = form.input :education
   = form.input :transport, collection: transport_collection
   -if current_user.is_a?(Admin)
-    %h2#internal Projektinterne Informationen
+    %h2.mt-4#internal Projektinterne Informationen
     = form.input :personnel_number
     = form.input :ects, collection: ects_collection
     = form.input :term, collection: term_collection

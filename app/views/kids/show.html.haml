@@ -1,7 +1,7 @@
 = boot_page_title @kid.display_name
 
 - content_for :contextual_links do
-  .list-group
+  .list-group.list-group-flush
     - if can?(:edit, @kid)
       = contextual_link_to :edit, @kid
     - if can?(:destroy, @kid)

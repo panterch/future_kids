@@ -76,7 +76,7 @@
                   %img{:src => rails_representation_url(@site.logo_medium)}
 
             - if user_signed_in?
-              .contextual_links_panel.card
+              .contextual_links_panel.card.mb-3
                 = render 'layouts/actions'
               = yield :sidebar
 

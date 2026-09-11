@@ -523,7 +523,7 @@ module ApplicationHelper
   end
 
   def contextual_links(action = nil, resource_or_model = nil, options = {}, &block)
-    content_tag('div', :class => 'list-group') do
+    content_tag('div', :class => 'list-group list-group-flush') do
       content = contextual_links_for(action, resource_or_model, options)
       if block_given?
         additional_content = capture(&block)

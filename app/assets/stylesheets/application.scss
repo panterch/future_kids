@@ -63,8 +63,11 @@ $input-bg: var(--bs-secondary-bg);
 // Bootstrap 5 dropped .form-group (its migration guide points to margin
 // utilities like .mb-3 instead), but views across the app -- especially
 // the sidebar filter forms on the index pages -- still use it and were
-// never migrated, leaving fields with no spacing between them. Reviving
-// it here fixes every one of those forms without touching each view.
+// never migrated, leaving fields with no spacing between them. Reviving it
+// here fixes every one of those forms without touching each view; it also
+// stays a hook for the JS in global.js that toggles visibility via
+// .closest('.form-group'). simple_form-generated wrappers use Bootstrap 5's
+// .mb-3 directly instead (see simple_form_bootstrap.rb).
 .form-group {
   margin-bottom: 1rem;
 }
@@ -180,14 +183,6 @@ textarea {
   margin-top: 0;
 }
 
-// Bootstrap 5 dropped .form-group; kept here as a plain spacing hook for
-// hand-written (non-simple_form) forms and the JS in global.js that toggles
-// visibility via .closest('.form-group'). simple_form-generated wrappers use
-// Bootstrap 5's .mb-3 directly instead (see simple_form_bootstrap.rb).
-.form-group {
-  margin-bottom: 1rem;
-}
-
 // Fix alignment of text at checkboxes
 .checkbox {
   input[type=checkbox] {
@@ -253,6 +248,13 @@ form.schedule {
 
 #main {
   margin-bottom: $footer-height;
+
+  // Baseline vertical rhythm for every signed-in page: breathing room below
+  // the sticky nav (so page titles and the sidebar don't start flush
+  // against it) and above the footer. #content/#sidebar and their cards
+  // inherit this for free since they're just columns inside #main.
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
 }
 
 // #header only renders for signed-out visitors now (see the top nav in
@@ -285,7 +287,13 @@ $wide-content-breakpoints: md, lg, xl, xxl;
 
   @include media-breakpoint-up($breakpoint) {
     #main.wide #content {
-      $bleed: calc(50vw - #{$max-width * .5});
+      // 50vw measures the viewport including its scrollbar track, but these
+      // are exactly the tall, scrollbar-triggering pages the bleed exists
+      // for -- so the raw formula overshoots the true edge by roughly half
+      // the scrollbar's width and clips content past x=0. Backing off by
+      // 1rem keeps a small, deliberate gutter (matching the container
+      // padding used everywhere else) instead of an accidental negative one.
+      $bleed: calc(50vw - #{$max-width * .5} - 1rem);
       margin-left: calc(-1 * #{$bleed});
       width: calc(75% + #{$bleed});
       max-width: none;
@@ -355,25 +363,27 @@ $wide-content-breakpoints: md, lg, xl, xxl;
 }
 
 // Collapsible card headers (e.g. the kid page's Lernjournale/Gespräche/
-// Auswertung jump-lists) give no visual hint that they're clickable.
+// Auswertung jump-lists). The title sits in a flex row with its count
+// badge (see the views) so short titles share a line with the badge and
+// only long ones (e.g. "Auswertung / Abschluss", wider than the whole
+// sidebar column on its own) wrap. min-width: 0 lets the button shrink
+// below its text's natural width so it wraps instead of overflowing the
+// card -- buttons/inputs otherwise size themselves to their content
+// regardless of the container, unlike a plain inline-block. overflow-wrap:
+// normal overrides Bootstrap's global word-wrap: break-word on body, which
+// otherwise breaks a too-narrow single word (e.g. "Lernjournale") mid-word
+// as a last resort instead of just wrapping the whole button onto its own
+// full-height line.
 .card-title [data-bs-toggle='collapse'] {
+  min-width: 0;
+  overflow-wrap: normal;
   border: none;
   background: none;
   padding: 0;
   font: inherit;
   color: inherit;
+  text-align: left;
   cursor: pointer;
-
-  &::after {
-    content: '\25BE'; // ▾, flips to ▸ when collapsed via aria-expanded
-    float: left;
-    margin-right: .5rem;
-    transition: transform .2s ease;
-  }
-
-  &[aria-expanded='false']::after {
-    transform: rotate(-90deg);
-  }
 }
 
 #sidebar {
@@ -429,36 +439,24 @@ $wide-content-breakpoints: md, lg, xl, xxl;
 
 
 .kid-mentor-schedules {
-  .header {
-    padding: 10px 15px;
+  // "Mentoren Filtern:" / "Mentoren anzeigen:" row labels, siblings of
+  // .filters / .mentors-display-filter -- not to be confused with either.
+  .header .title {
+    font-size: 14px;
+    font-weight: 600;
+  }
 
-    .row {
-      margin-bottom: 5px;
-    }
-
-    .title {
-      margin-top: 4px;
-      font-size: 12px;
-      font-weight: bold;
-    }
+  // .filters uses row-cols-lg-auto so its 3 fields sit side by side on wide
+  // screens, sized to fit their content -- but a <select>'s natural width
+  // is driven by its longest <option> text (e.g. "primärem und sekundärem
+  // Schüler"), which is far wider than the field needs to be and forces the
+  // 3 of them to wrap again despite the room available. Capping it keeps
+  // them compact and lets all 3 share a line.
+  .filters select {
+    max-width: 220px;
   }
 
   $kidMentorSchedulesRowHeight: 40px;
-
-  .filters {
-    .title {
-      font-size: 14px;
-      margin-right: 20px;
-    }
-
-    .form-group {
-      margin-right: 20px;
-    }
-
-    label {
-      margin-right: 5px;
-    }
-  }
 
   .mentors-display-filter .Select-control {
     min-height: 62px;

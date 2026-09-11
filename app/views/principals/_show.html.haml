@@ -1,14 +1,18 @@
-= show_for @principal do |show|
-  = show.attribute :name
-  = show.attribute :prename
-  = show.attribute(:email) { mail_to(@principal.email) { icon('envelope') + ' ' + @principal.email } }
-  = show.attribute :schools do
-    %ul.list-unstyled
-      - @principal.schools.each do |school|
-        %li=can_link_to(school)
-  = show.attribute :phone
-  -if current_user.is_a?(Admin)
-    = show.attribute :inactive
-    - if @principal.inactive?
-      = show.attribute :inactive_at
+.card.mb-4
+  .card-header
+    %h4.card-title.mb-0 Persönliche Angaben
+  .card-body
+    = show_for @principal do |show|
+      = show.attribute :name
+      = show.attribute :prename
+      = show.attribute(:email) { mail_to(@principal.email) { icon('envelope') + ' ' + @principal.email } }
+      = show.attribute :schools do
+        %ul.list-unstyled
+          - @principal.schools.each do |school|
+            %li=can_link_to(school)
+      = show.attribute :phone
+      -if current_user.is_a?(Admin)
+        = show.attribute :inactive
+        - if @principal.inactive?
+          = show.attribute :inactive_at
 

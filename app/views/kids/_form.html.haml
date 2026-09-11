@@ -22,13 +22,13 @@
   = form.input :note
   = form.association :school, collection: @schools, include_blank: @schools_include_blank
 
-  %h2
+  %h2.mt-4
     Fachliche Förderbereiche
     %em="- mindestens eines, maximal #{Kid::GOALS_1_MAX}"
   - if @kid.errors[:goal_1].any?
     %h3.has-error
       %span.text-danger= @kid.errors[:goal_1].try(:first)
-  %h3 Deutsch
+  %h3.mt-3 Deutsch
   =form_subtitle("Hören")
   = form.input :goal_3
   = form.input :goal_4
@@ -48,7 +48,7 @@
   = form.input :goal_14
   = form.input :goal_15
 
-  %h3 Mathematik
+  %h3.mt-3 Mathematik
   = form.input :goal_16
   =form_subtitle("Zahl und Variable")
   = form.input :goal_17
@@ -63,7 +63,7 @@
   = form.input :goal_24
   = form.input :goal_1
 
-  %h2
+  %h2.mt-4
     Überfachliche Förderbereiche
     %em="- mindestens eines, maximal #{Kid::GOALS_2_MAX}"
   - if @kid.errors[:goal_2].any?
@@ -85,7 +85,7 @@
   = form.input :goal_2
 
 
-  %h2 Allgemeine Informationen
+  %h2.mt-4 Allgemeine Informationen
   - unless @site.kids_schedule_hourly
     %p Bitte mehrere Zeitfenster angeben, in denen das Kind Zeit für das Mentoring hat.
     = form.input :simplified_schedule, required: true
@@ -109,7 +109,7 @@
     = form.input :admin_id, :collection => Admin.active
 
   - if current_user.is_a?(Admin)
-    %h2#internal Projektinterne Informationen
+    %h2.mt-4#internal Projektinterne Informationen
     = form.input :term, :collection => term_collection
     = form.input :exit, :collection => term_collection
     = form.input :exit_reason, :collection => exit_reason_collection

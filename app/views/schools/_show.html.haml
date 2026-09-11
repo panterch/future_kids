@@ -1,17 +1,25 @@
-= show_for @school do |show|
-  = show.attribute :name
-  = show.attribute :school_kind
-  = show.attribute :street
-  = show.attribute :city
-  = show.attribute :homepage do
-    -if @school.homepage.present?
-      %a{:href => @school.homepage}= @school.homepage
-  = show.attribute :social
-  = show.attribute :district
-  = show.attribute :term
-  = show.attribute :note
-  - if @school.inactive?
-    = show.attribute :inactive
-    = show.attribute :inactive_at
+.card.mb-4
+  .card-header
+    %h4.card-title.mb-0 Angaben zur Schule
+  .card-body
+    = show_for @school do |show|
+      = show.attribute :name
+      = show.attribute :school_kind
+      = show.attribute :street
+      = show.attribute :city
+      = show.attribute :homepage do
+        -if @school.homepage.present?
+          %a{:href => @school.homepage}= @school.homepage
+      = show.attribute :social
+      = show.attribute :district
+      = show.attribute :term
+      = show.attribute :note
+      - if @school.inactive?
+        = show.attribute :inactive
+        = show.attribute :inactive_at
 
-= render 'associations'
+.card.mb-4
+  .card-header
+    %h4.card-title.mb-0 Beteiligte Personen
+  .card-body
+    = render 'associations'

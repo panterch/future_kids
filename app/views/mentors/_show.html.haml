@@ -1,47 +1,52 @@
 .row
   .col-md-8
-    = show_for @mentor do |show|
-      = render "details", show: show, mentor: @mentor
-      = show.association :schools do |k|
-        %li
-          = can_link_to k
-      = show.association :kids do |k|
-        %li
-          = can_link_to k
-          = "am #{k.human_meeting_day}" if k.meeting_day.present?
-          = "in #{k.city}" if k.city.present?
-      = show.association :secondary_kids do |k|
-        %li
+    .card.mb-4
+      .card-header
+        %h4.card-title.mb-0 Persönliche Angaben
+      .card-body
+        = show_for @mentor do |show|
+          = render "details", show: show, mentor: @mentor
+          = show.association :schools do |k|
+            %li
+              = can_link_to k
+          = show.association :kids do |k|
+            %li
+              = can_link_to k
+              = "am #{k.human_meeting_day}" if k.meeting_day.present?
+              = "in #{k.city}" if k.city.present?
+          = show.association :secondary_kids do |k|
+            %li
 
-          = can_link_to k
-          = "am #{k.human_meeting_day}" if k.meeting_day.present?
-          = "in #{k.city}" if k.city.present?
-
+              = can_link_to k
+              = "am #{k.human_meeting_day}" if k.meeting_day.present?
+              = "in #{k.city}" if k.city.present?
 
     -if current_user.is_a?(Admin)
-      = show_for @mentor do |show|
-        %h2#internal Projektinterne Informationen
-        = show.attribute :personnel_number
-        = show.attribute :ects
-        = show.attribute :term
-        = show.attribute :exit
-        = show.attribute :exit_kind
-        - if @mentor.later?
-          = show.attribute :exit_at
-        = show.attribute :exit_kind_updated_at
-        = show.attribute :absence
-        = show.attribute :note
-        = show.attribute :todo
-        = show.attribute :substitute
-        = show.attribute :schedules_updated_at
-        = show.attribute :inactive
-        - if @mentor.inactive?
-          = show.attribute :inactive_at
-
+      .card.mb-4
+        .card-header
+          %h4.card-title.mb-0#internal Projektinterne Informationen
+        .card-body
+          = show_for @mentor do |show|
+            = show.attribute :personnel_number
+            = show.attribute :ects
+            = show.attribute :term
+            = show.attribute :exit
+            = show.attribute :exit_kind
+            - if @mentor.later?
+              = show.attribute :exit_at
+            = show.attribute :exit_kind_updated_at
+            = show.attribute :absence
+            = show.attribute :note
+            = show.attribute :todo
+            = show.attribute :substitute
+            = show.attribute :schedules_updated_at
+            = show.attribute :inactive
+            - if @mentor.inactive?
+              = show.attribute :inactive_at
 
   .col-md-4
     - if @mentor.photo.present?
-      .portrait
+      .portrait.mb-4
         %img{:src => rails_representation_url(@mentor.photo_medium)}
   .col-md-12.d-print-none
     = render 'relation_logs/collection', resource: @mentor
@@ -52,7 +57,7 @@
     = select_month(@month, {}, :class => 'select_mentor_journal_date')
     = select_year(@year, {}, :class => 'select_mentor_journal_date')
   #a(name='mentor_journal_date')
-  %h2
+  %h2.mt-4
     Zeiterfassung für den Monat
   .table-responsive
     %table.table.table-striped.table-sm.table-hover
@@ -78,7 +83,7 @@
             Stunden
 
   .d-print-none
-    %h2
+    %h2.mt-4
       Zeiterfassung seit Einstieg
     .table-responsive
       %table.table.table-striped.table-hover

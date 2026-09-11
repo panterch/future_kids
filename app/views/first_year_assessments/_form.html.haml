@@ -9,10 +9,10 @@
   = form.input :held_at, as: :date, html5: true
   = form.association :teacher, collection: teacher_collection(@kid)
   = form.association :mentor, collection: mentor_collection(@kid)
-  %h4=t('activerecord.attributes.first_year_assessment.development')
+  %h4.mt-3=t('activerecord.attributes.first_year_assessment.development')
   = form.input :development_teacher
   = form.input :development_mentor
-  %h4=t('activerecord.attributes.first_year_assessment.goals')
+  %h4.mt-3=t('activerecord.attributes.first_year_assessment.goals')
   = form.input :goals_teacher
   = form.input :goals_mentor
   = form.input :relation_mentor
