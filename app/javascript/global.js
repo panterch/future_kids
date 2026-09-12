@@ -4,9 +4,23 @@ import Treeview from "treeview";
 import Rails from "@rails/ujs";
 // Registers Bootstrap's own data-bs-* auto-init listeners (navbar toggler,
 // dropdowns) as a side effect of loading -- see the navbar markup in
-// app/views/layouts/application.html.haml.
-import "bootstrap";
+// app/views/layouts/application.html.haml. Popovers have no such auto-init
+// (see register_todotogglers below), so the module itself is imported too.
+import bootstrap from "bootstrap";
 import { register_theme_toggle } from "theme";
+
+// Builds an icon for a JS-constructed element (the sidebar's "Seitenanfang"
+// link here; treeview.js and kid_mentor_schedules.js have their own copies)
+// -- everywhere else icons are rendered server-side by ApplicationHelper#icon
+// straight into the page's HTML, but that helper needs Rails' asset_path to
+// find the sprite's digested filename, which isn't available here. The
+// layout exposes that one path via data-icon-sprite on <body> instead, so
+// this still points at the same bootstrap-icons.svg sprite.
+function iconMarkup(name) {
+  var sprite = document.body.dataset.iconSprite;
+  return '<svg class="icon-svg" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+    '<use href="' + sprite + '#' + name + '"></use></svg>';
+}
 
 document.addEventListener('DOMContentLoaded', function() {
   register_theme_toggle();
@@ -23,6 +37,7 @@ document.addEventListener('DOMContentLoaded', function() {
   register_collapses();
   register_treeview();
   register_document_search();
+  register_autogrow_textareas();
   setTimeout(remove_alerts, 3000);
 });
 
@@ -65,45 +80,12 @@ function register_schedule_checkboxes() {
 }
 
 function register_todotogglers() {
-  document.querySelectorAll('a.todotoggle').forEach(function(link) {
-    var popover = null;
-
-    function showPopover() {
-      var content = link.dataset.content;
-      if (!content) return;
-
-      popover = document.createElement('div');
-      popover.className = 'popover left';
-      popover.setAttribute('role', 'tooltip');
-      popover.innerHTML = '<div class="arrow"></div><div class="popover-content"></div>';
-      popover.querySelector('.popover-content').innerHTML = content;
-      document.body.appendChild(popover);
-
-      // pointer-events: none keeps the cursor from "landing" on the popover
-      // itself, which would otherwise trigger the link's mouseleave and
-      // flicker the popover open/closed in a loop.
-      popover.style.pointerEvents = 'none';
-      popover.style.position = 'absolute';
-      // .popover is display:none by default; switch to block before reading
-      // getBoundingClientRect() below, otherwise its size reads as 0x0 and
-      // the popover ends up positioned on top of the link instead of beside it.
-      popover.style.display = 'block';
-
-      var linkRect = link.getBoundingClientRect();
-      var popoverRect = popover.getBoundingClientRect();
-      popover.style.top = (window.scrollY + linkRect.top + linkRect.height / 2 - popoverRect.height / 2) + 'px';
-      popover.style.left = (window.scrollX + linkRect.left - popoverRect.width - 10) + 'px';
-    }
-
-    function hidePopover() {
-      if (popover) {
-        popover.remove();
-        popover = null;
-      }
-    }
-
-    link.addEventListener('mouseenter', showPopover);
-    link.addEventListener('mouseleave', hidePopover);
+  // The todo preview on kids/mentors/etc. index pages (data-bs-toggle=
+  // "popover" on the .todotoggle links, see e.g. kids/index.html.haml) --
+  // Bootstrap's own Popover component, Popper-positioned like any other
+  // data-bs-* component, instead of a hand-rolled hover listener.
+  document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function(el) {
+    new bootstrap.Popover(el);
   });
 }
 
@@ -141,12 +123,20 @@ function register_kidanchors() {
 }
 
 function register_submit_action_in_sidebar() {
-  document.querySelectorAll('#main form input[type=submit]').forEach(function(submit) {
+  // input[type=submit]'s label is its `value` attribute, always plain text;
+  // button[type=submit]'s label is its markup content (e.g. an icon, see
+  // schedules/_table.html.haml) -- read/clone each the way it actually
+  // carries its label instead of assuming one shape for both.
+  document.querySelectorAll('#main form input[type=submit], #main form button[type=submit]').forEach(function(submit) {
     if (submit.closest('.no-sidebar-actions')) return;
     var clone = document.createElement('a');
     clone.href = '#';
-    clone.className = 'list-group-item list-group-item-success';
-    clone.textContent = submit.value;
+    clone.className = 'list-group-item list-group-item-action list-group-item-success';
+    if (submit.tagName === 'BUTTON') {
+      clone.innerHTML = submit.innerHTML;
+    } else {
+      clone.textContent = submit.value;
+    }
     clone.addEventListener('click', function(event) {
       event.preventDefault();
       submit.click();
@@ -160,8 +150,8 @@ function register_back_to_top_link() {
   if (document.body.scrollHeight <= window.innerHeight) return;
   var link = document.createElement('a');
   link.href = '#';
-  link.className = 'list-group-item';
-  link.textContent = 'Seitenanfang';
+  link.className = 'list-group-item list-group-item-action';
+  link.innerHTML = iconMarkup('arrow-bar-up') + ' Seitenanfang';
   link.addEventListener('click', function(event) {
     event.preventDefault();
     window.scrollTo({top: 0, behavior: 'smooth'});
@@ -182,6 +172,19 @@ function register_exit_at_toggler() {
   });
   selects.forEach(function(select) {
     select.dispatchEvent(new Event('change'));
+  });
+}
+
+// grows a textarea to fit its content as the user types, so the full text
+// stays visible instead of scrolling inside a fixed-height box
+function register_autogrow_textareas() {
+  document.querySelectorAll('textarea.form-control').forEach(function(textarea) {
+    function resize() {
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+    textarea.addEventListener('input', resize);
+    resize();
   });
 }
 

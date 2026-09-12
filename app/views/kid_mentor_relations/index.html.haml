@@ -36,14 +36,14 @@
       %label Ordnen nach
       = select_tag 'order_by', order_by_collection_for_kid_mentor_relations(params[:order_by]), class: 'form-control'
     .form-group
-      = f.button (icon('funnel') + ' Filter anwenden'), class: 'btn btn-sm btn-primary'
-      = link_to (icon('x-lg') + ' Filter aufheben'), kid_mentor_relations_path, class: 'btn btn-sm btn-secondary'
+      = f.button (icon('funnel') + ' Filter anwenden'), class: 'btn btn-primary'
+      = link_to (icon('x-lg') + ' Filter aufheben'), kid_mentor_relations_path, class: 'btn btn-secondary'
 
 = boot_page_title do
   =t('title.kid_mentor_relation_index', count: @kid_mentor_relations.count)
 -if @kid_mentor_relations.present?
   .table-responsive
-    %table.table.table-striped.table-sm.table-hover
+    %table.table.table-striped.table-hover
       %tr
         %th
           = Kid.human_attribute_name(:name)
@@ -68,7 +68,7 @@
             = link_to relation.kid.display_name, relation.kid
           %td
             -if relation.kid.todo.present?
-              %a.todotoggle{data: { content: relation.kid.human_todo}, href:  edit_kid_path(relation.kid, :anchor => 'todo') }
+              %a.todotoggle{data: { bs_toggle: 'popover', bs_trigger: 'hover focus', bs_placement: 'left', bs_container: 'body', bs_html: 'true', bs_content: relation.kid.human_todo}, href:  edit_kid_path(relation.kid, :anchor => 'todo') }
                 = icon('info-circle')
           %td= relation.simple_term
           %td= relation.kid.human_exit_kind
@@ -77,7 +77,7 @@
             %td= link_to(relation.mentor.display_name, relation.mentor)
             %td
               -if relation.mentor.todo.present?
-                %a.todotoggle{data: { content: relation.mentor.human_todo}, href:  edit_mentor_path(relation.mentor, :anchor => 'todo') }
+                %a.todotoggle{data: { bs_toggle: 'popover', bs_trigger: 'hover focus', bs_placement: 'left', bs_container: 'body', bs_html: 'true', bs_content: relation.mentor.human_todo}, href:  edit_mentor_path(relation.mentor, :anchor => 'todo') }
                   = icon('info-circle')
             %td= relation.mentor.human_exit_kind
             %td= human_date(relation.mentor.exit_at)
@@ -91,6 +91,6 @@
               = link_to relation.school.display_name, relation.school
           %td
             - if relation.inactivatable?
-              =button_to "Inaktiv setzen", kid_mentor_relation_path(id: relation.kid_id), method: :delete, class: 'btn btn-sm btn-danger'
+              =button_to "Inaktiv setzen", kid_mentor_relation_path(id: relation.kid_id), method: :delete, class: 'btn btn-danger'
 -else
   %p Kein Eintrag vorhanden

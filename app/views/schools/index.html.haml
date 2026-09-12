@@ -12,15 +12,15 @@
       = f.check_box :inactive, class: 'form-check-input'
       = f.label :inactive, 'Inaktive', class: 'form-check-label'
     .form-group
-      = f.button (icon('search') + ' Suchen'), class: 'btn btn-sm btn-primary'
-      = link_to (icon('x-lg') + ' Filter aufheben'), schools_path, class: 'btn btn-sm btn-secondary'
+      = f.button (icon('search') + ' Suchen'), class: 'btn btn-primary'
+      = link_to (icon('x-lg') + ' Filter aufheben'), schools_path, class: 'btn btn-secondary'
 
 = boot_page_title do
   = @schools.count
   Schulen
 
 .table-responsive
-  %table.table.table-striped.table-sm.table-hover
+  %table.table.table-striped.table-hover
     %thead
       %tr
         %th= School.human_attribute_name(:name)

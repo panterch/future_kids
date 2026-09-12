@@ -36,8 +36,8 @@
         = f.check_box :inactive, class: 'form-check-input'
         = f.label :inactive, 'Inaktive', class: 'form-check-label'
       .form-group
-        = f.button (icon('funnel') + ' Filter anwenden'), class: 'btn btn-sm btn-primary'
-        = link_to (icon('x-lg') + ' Filter aufheben'), mentors_path, class: 'btn btn-sm btn-secondary'
+        = f.button (icon('funnel') + ' Filter anwenden'), class: 'btn btn-primary'
+        = link_to (icon('x-lg') + ' Filter aufheben'), mentors_path, class: 'btn btn-secondary'
 
 = boot_page_title do
   = @mentors.count if current_user.is_a?(Admin)
@@ -45,7 +45,7 @@
 
 - if @mentors.present?
   .table-responsive
-    %table.table.table-striped.table-sm.table-hover
+    %table.table.table-striped.table-hover
       %tbody
         - @mentors.each do |mentor|
           %tr
@@ -56,7 +56,7 @@
                   = mail_to(mentor.email) { icon('envelope') + " <#{mentor.email}>" }
               %td
                 - if current_user.is_a?(Admin) && mentor.todo.present?
-                  %a.todotoggle.btn.btn-sm{data: { content: mentor.human_todo}, href:  edit_mentor_path(mentor, :anchor => 'todo') }
+                  %a.todotoggle.btn.btn-sm{data: { bs_toggle: 'popover', bs_trigger: 'hover focus', bs_placement: 'left', bs_container: 'body', bs_html: 'true', bs_content: mentor.human_todo}, href:  edit_mentor_path(mentor, :anchor => 'todo') }
                     = icon('info-circle')
                     Pendenz
 - else
