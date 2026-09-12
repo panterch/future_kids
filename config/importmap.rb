@@ -4,7 +4,6 @@ pin "application"
 pin "global"
 pin "theme"
 pin "treeview"
-pin "icons"
 
 # Vendored from the bootstrap/popper_js gems (see vendor/javascript/), same
 # hand-patched-to-be-a-real-ES-module treatment as the react-* pins below --

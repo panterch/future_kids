@@ -3,10 +3,17 @@ import classNames from "classnames";
 import "react-input-autosize";
 import Select from "react-select";
 import htm from "htm";
-import { iconMarkup } from "icons";
 
 const html = htm.bind(React.createElement);
 const { useState } = React;
+
+// Duplicated in global.js and treeview.js -- see the comment on global.js's
+// copy for why.
+function iconMarkup(name) {
+  var sprite = document.body.dataset.iconSprite;
+  return '<svg class="icon-svg" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+    '<use href="' + sprite + '#' + name + '"></use></svg>';
+}
 
 const STYLE_DAY_PLACEHOLDER_WIDTH = 4;
 const MAX_MENTORS_TO_DISPLAY = 10;
@@ -189,7 +196,7 @@ function MentorsForDisplayingFilter({ mentors, selection, onChange, visitedMento
 
   const optionRenderer = (option) => html`
     <span>
-      ${option.visited && html`<i dangerouslySetInnerHTML=${{ __html: iconMarkup('eyeOpen') }} />`}
+      ${option.visited && html`<i dangerouslySetInnerHTML=${{ __html: iconMarkup('eye') }} />`}
       ${' '}${option.label}
     </span>
   `;
@@ -324,7 +331,7 @@ function TimeTable({ kid, mentors, onSelectDate }) {
               <span>
                 ${showWeekdays[day.key]
                   ? day.label
-                  : html`<span className="show-icon" dangerouslySetInnerHTML=${{ __html: iconMarkup('eyeOpen') }} />`}
+                  : html`<span className="show-icon" dangerouslySetInnerHTML=${{ __html: iconMarkup('eye') }} />`}
               </span>
             </th>
           `)}
