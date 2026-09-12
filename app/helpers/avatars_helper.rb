@@ -50,7 +50,7 @@ module AvatarsHelper
   def avatar_link_to(resource, size: :md)
     return '' if resource.blank?
 
-    content_tag(:span, class: 'avatar-link d-inline-flex align-items-center gap-2') do
+    content_tag(:span, class: 'avatar-link d-inline-flex gap-2') do
       avatar(resource, size: size) + can_link_to(resource)
     end
   end

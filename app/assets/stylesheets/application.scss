@@ -739,12 +739,13 @@ $wide-content-breakpoints: md, lg, xl, xxl;
 }
 
 .avatar-link {
+  // top-align the avatar with the name's first line rather than centering
+  // it between two lines, in case a long name wraps.
+  align-items: flex-start;
   min-width: 0;
 
   > a, > span:last-child {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+    overflow-wrap: anywhere;
   }
 }
 
