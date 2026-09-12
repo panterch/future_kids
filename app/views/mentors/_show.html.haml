@@ -60,7 +60,7 @@
   %h2.mt-4
     Zeiterfassung für den Monat
   .table-responsive
-    %table.table.table-striped.table-sm.table-hover
+    %table.table.table-striped.table-hover
       - @journals.each do |journal|
         %tr
           %td= human_date(journal.held_at)

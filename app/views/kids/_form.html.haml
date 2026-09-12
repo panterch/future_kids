@@ -4,12 +4,8 @@
   = form.input :prename, required: true
   = form.input :sex, :collection => sex_collection, required: true
   = form.input :dob, as: :date, html5: true
-  .mb-3.kid_grade
-    %label.form-label
-      = Kid.human_attribute_name(:grade)
-      %br
-      %em (bei Einstieg Future Kids)
-    = form.select :grade, grade_collection, { include_blank: true }, { class: 'form-control select required' }
+  = form.input :grade, collection: grade_collection, include_blank: true,
+    hint: '(bei Einstieg Future Kids)', wrapper_html: { class: 'kid_grade' }
 
   = form.input :language, required: true
   = form.input :parent_country, priority: ["AL", "TR", "LK", "XK", "ES", "PT"], :include_blank => true, locale: 'de'
@@ -28,40 +24,60 @@
   - if @kid.errors[:goal_1].any?
     %h3.has-error
       %span.text-danger= @kid.errors[:goal_1].try(:first)
-  %h3.mt-3 Deutsch
-  =form_subtitle("Hören")
-  = form.input :goal_3
-  = form.input :goal_4
-  = form.input :goal_5
-  =form_subtitle("Lesen")
-  = form.input :goal_6
-  = form.input :goal_7
-  = form.input :goal_8
-  =form_subtitle("Sprechen")
-  = form.input :goal_9
-  = form.input :goal_10
-  =form_subtitle("Schreiben")
-  = form.input :goal_11
-  = form.input :goal_12
-  = form.input :goal_13
-  =form_subtitle("Sprache im Fokus (Grammatik und Rechtschreibung)")
-  = form.input :goal_14
-  = form.input :goal_15
 
-  %h3.mt-3 Mathematik
-  = form.input :goal_16
-  =form_subtitle("Zahl und Variable")
-  = form.input :goal_17
-  = form.input :goal_18
-  = form.input :goal_19
-  = form.input :goal_20
-  =form_subtitle("Form und Raum")
-  = form.input :goal_21
-  = form.input :goal_22
-  =form_subtitle("Grössen")
-  = form.input :goal_23
-  = form.input :goal_24
-  = form.input :goal_1
+  .card.mb-4
+    .card-header
+      %h3.card-title.mb-0 Deutsch
+    .card-body
+      .goal-group
+        %p.goal-group-label Hören
+        = form.input :goal_3, wrapper: :vertical_boolean
+        = form.input :goal_4, wrapper: :vertical_boolean
+        = form.input :goal_5, wrapper: :vertical_boolean
+      .goal-group
+        %p.goal-group-label Lesen
+        = form.input :goal_6, wrapper: :vertical_boolean
+        = form.input :goal_7, wrapper: :vertical_boolean
+        = form.input :goal_8, wrapper: :vertical_boolean
+      .goal-group
+        %p.goal-group-label Sprechen
+        = form.input :goal_9, wrapper: :vertical_boolean
+        = form.input :goal_10, wrapper: :vertical_boolean
+      .goal-group
+        %p.goal-group-label Schreiben
+        = form.input :goal_11, wrapper: :vertical_boolean
+        = form.input :goal_12, wrapper: :vertical_boolean
+        = form.input :goal_13, wrapper: :vertical_boolean
+      .goal-group
+        %p.goal-group-label Sprache im Fokus (Grammatik und Rechtschreibung)
+        = form.input :goal_14, wrapper: :vertical_boolean
+        = form.input :goal_15, wrapper: :vertical_boolean
+
+  .card.mb-4
+    .card-header
+      %h3.card-title.mb-0 Mathematik
+    .card-body
+      = form.input :goal_16, wrapper: :vertical_boolean
+      .goal-group
+        %p.goal-group-label Zahl und Variable
+        = form.input :goal_17, wrapper: :vertical_boolean
+        = form.input :goal_18, wrapper: :vertical_boolean
+        = form.input :goal_19, wrapper: :vertical_boolean
+        = form.input :goal_20, wrapper: :vertical_boolean
+      .goal-group
+        %p.goal-group-label Form und Raum
+        = form.input :goal_21, wrapper: :vertical_boolean
+        = form.input :goal_22, wrapper: :vertical_boolean
+      .goal-group
+        %p.goal-group-label Grössen
+        = form.input :goal_23, wrapper: :vertical_boolean
+        = form.input :goal_24, wrapper: :vertical_boolean
+
+  .card.mb-4
+    .card-header
+      %h3.card-title.mb-0 Ergänzungen
+    .card-body
+      = form.input :goal_1, wrapper: :vertical_form
 
   %h2.mt-4
     Überfachliche Förderbereiche
@@ -69,32 +85,42 @@
   - if @kid.errors[:goal_2].any?
     %h3.has-error
       %span.text-danger= @kid.errors[:goal_2].try(:first)
-  =form_subtitle("Personale Förderbereiche")
-  = form.input :goal_25
-  = form.input :goal_26
-  = form.input :goal_27
-  = form.input :goal_28
-  = form.input :goal_29
-  = form.input :goal_30
-  = form.input :goal_31
-  =form_subtitle("Methodische Förderbereiche")
-  = form.input :goal_32
-  = form.input :goal_33
-  = form.input :goal_34
-  = form.input :goal_35
-  = form.input :goal_2
 
+  .card.mb-4
+    .card-header
+      %h3.card-title.mb-0 Personale Förderbereiche
+    .card-body
+      = form.input :goal_25, wrapper: :vertical_boolean
+      = form.input :goal_26, wrapper: :vertical_boolean
+      = form.input :goal_27, wrapper: :vertical_boolean
+      = form.input :goal_28, wrapper: :vertical_boolean
+      = form.input :goal_29, wrapper: :vertical_boolean
+      = form.input :goal_30, wrapper: :vertical_boolean
+      = form.input :goal_31, wrapper: :vertical_boolean
+
+  .card.mb-4
+    .card-header
+      %h3.card-title.mb-0 Methodische Förderbereiche
+    .card-body
+      = form.input :goal_32, wrapper: :vertical_boolean
+      = form.input :goal_33, wrapper: :vertical_boolean
+      = form.input :goal_34, wrapper: :vertical_boolean
+      = form.input :goal_35, wrapper: :vertical_boolean
+
+  .card.mb-4
+    .card-header
+      %h3.card-title.mb-0 Ergänzungen
+    .card-body
+      = form.input :goal_2, wrapper: :vertical_form
 
   %h2.mt-4 Allgemeine Informationen
   - unless @site.kids_schedule_hourly
-    %p Bitte mehrere Zeitfenster angeben, in denen das Kind Zeit für das Mentoring hat.
-    = form.input :simplified_schedule, required: true
+    = form.input :simplified_schedule, required: true,
+      hint: 'Bitte mehrere Zeitfenster angeben, in denen das Kind Zeit für das Mentoring hat.'
   - if current_user.is_a?(Admin)
     = form.input :meeting_day, :collection => wday_collection
-    - kid_time_options = meeting_time_collection
-    .mb-3
-      %label.form-label= Kid.human_attribute_name(:meeting_start_at)
-      = form.select :meeting_start_at, options_for_select(kid_time_options, @kid.human_meeting_start_at), { include_blank: true }, { class: 'form-control' }
+    = form.input :meeting_start_at, collection: meeting_time_collection,
+      selected: @kid.human_meeting_start_at, include_blank: true
   -# this form is accessible by admins and teachers. teachers can only set the
   -# the secondary_mentor and ara automatically assigned as first mentor for any kid
   -# they are working on
@@ -122,4 +148,4 @@
     %a(name='todo')
     = form.input :inactive
 
-  = form.button :submit
+  = horizontal_form_actions(form)

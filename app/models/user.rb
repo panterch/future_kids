@@ -24,7 +24,7 @@ class User < ApplicationRecord
   enum :exit_kind, { exit: 'exit', later: 'later', continue_term: 'continue_term', continue: 'continue' }
   enum :sex, { male: 'm', female: 'f', diverse: 'd' }
 
-  human_text_attributes :absence, :available, :todo
+  human_text_attributes :absence, :available, :note, :todo
   human_rails_enum_attributes :exit_kind, :sex
 
   def photo_medium

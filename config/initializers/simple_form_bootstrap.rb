@@ -28,7 +28,7 @@ SimpleForm.setup do |config|
     b.optional :readonly
     b.use :label, class: 'form-label'
 
-    b.use :input
+    b.use :input, class: 'form-control'
     b.use :error, wrap_with: { tag: 'span', class: 'invalid-feedback' }
     b.use :hint,  wrap_with: { tag: 'p', class: 'form-text' }
   end
@@ -77,6 +77,23 @@ SimpleForm.setup do |config|
     b.use :label, class: 'col-sm-3 col-form-label text-sm-end'
 
     b.wrapper tag: 'div', class: 'col-sm-9' do |ba|
+      ba.use :input, class: 'form-select'
+      ba.use :error, wrap_with: { tag: 'span', class: 'invalid-feedback' }
+      ba.use :hint,  wrap_with: { tag: 'p', class: 'form-text' }
+    end
+  end
+
+  # Same as horizontal_select, but a wider label column -- for selects that
+  # sit two-per-row in col-sm-6 halves (see
+  # kids/show_kid_mentors_schedules.html.haml), where the default col-sm-3
+  # label is effectively an eighth of the row and wraps badly, while the
+  # short option values (a weekday, a time, a name) don't need col-sm-9.
+  config.wrappers :horizontal_select_narrow_label, tag: 'div', class: 'mb-3 row' do |b|
+    b.use :html5
+    b.optional :readonly
+    b.use :label, class: 'col-sm-5 col-form-label text-sm-end'
+
+    b.wrapper tag: 'div', class: 'col-sm-7' do |ba|
       ba.use :input, class: 'form-select'
       ba.use :error, wrap_with: { tag: 'span', class: 'invalid-feedback' }
       ba.use :hint,  wrap_with: { tag: 'p', class: 'form-text' }

@@ -4,7 +4,7 @@
 
 = simple_form_for resource, :url => { :action => 'update_schedules' }, :html => { :class => 'schedule' } do |form|
   .table-responsive
-    %table.table.table-striped.table-sm.table-hover
+    %table.table.table-striped.table-hover
       %tr
         %th.time &nbsp;
         - (1..@week.length).each do |day|
@@ -33,4 +33,4 @@
     * Letztmöglicher Beginn Mentoring:
     = "#{Schedule::LAST_MEETING_HOUR}:#{Schedule::LAST_MEETING_MIN}"
 
-  = form.button :submit, (icon('save') + ' Stundenplandaten speichern'), class: 'btn btn-primary'
+  = button_tag (icon('save') + ' Stundenplandaten speichern'), type: 'submit', class: 'btn btn-primary'
