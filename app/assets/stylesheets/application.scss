@@ -513,6 +513,25 @@ $wide-content-breakpoints: md, lg, xl, xxl;
   }
 }
 
+// A comment on a journal entry (comments/_list.html.haml). Flush because
+// this list-group sits inside a .card -- a plain .list-group would double
+// up its own border against the card's, most visible on the left/right
+// edges where the two run parallel for the full height. human_body is
+// simple_format output (a <p>), so trim its trailing margin the same way
+// as .show-for-value above -- here there's only ever one paragraph's worth
+// of margin to trim, never a gap between multiple ones.
+.comment-item {
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+.comment-byline {
+  color: var(--bs-secondary-color);
+  font-size: .875rem;
+  margin-bottom: .5rem;
+}
+
 // A few edit forms (e.g. schools/_form.html.haml) embed a read-only
 // show_for block -- associations the form itself has no field for -- among
 // their simple_form inputs. Left at its normal fit-content width, its label
@@ -521,6 +540,15 @@ $wide-content-breakpoints: md, lg, xl, xxl;
 // label and value on the same two vertical lines.
 .simple_form .show-for-grid {
   grid-template-columns: 25% 1fr;
+
+  // .show-for-grid's own mobile override above is a single class and loses
+  // to this rule's two-class specificity regardless of source order, so it
+  // never actually collapsed to one column here -- repeat it at matching
+  // specificity to keep that behavior for a show_for block embedded in a
+  // form too.
+  @include media-breakpoint-down(sm) {
+    grid-template-columns: 1fr;
+  }
 }
 
 // the school's teacher list tends to run long (dozens of names); splitting

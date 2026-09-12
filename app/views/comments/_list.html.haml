@@ -1,9 +1,7 @@
-.list-group
+.list-group.list-group-flush
   - journal.comments.each do |comment|
-    .list-group-item
+    .list-group-item.comment-item
       - if show_actions && can?(:update, comment)
-        .btn-group.float-end
-          = link_to (icon('pencil') + ' Bearbeiten'), edit_kid_journal_comment_path(kid, journal, comment), class: 'btn btn-secondary'
-      %label.col-sm-3.text-end= comment.display_name
-      .offset-sm-3
-        = comment.human_body
+        = link_to (icon('pencil') + ' Bearbeiten'), edit_kid_journal_comment_path(kid, journal, comment), class: 'btn btn-secondary float-end'
+      %p.comment-byline= comment.display_name
+      = comment.human_body
