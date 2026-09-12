@@ -108,19 +108,19 @@
       = show.attribute :meeting_day
       = show.attribute :meeting_start_at
       = show.attribute :teacher do
-        = can_link_to(@kid.teacher)
+        = avatar_link_to(@kid.teacher, size: :sm)
       = show.attribute :secondary_teacher do
-        = can_link_to(@kid.secondary_teacher)
+        = avatar_link_to(@kid.secondary_teacher, size: :sm)
       = show.attribute :third_teacher do
-        = can_link_to(@kid.third_teacher)
+        = avatar_link_to(@kid.third_teacher, size: :sm)
       = show.attribute :mentor do
-        = can_link_to(@kid.mentor)
+        = avatar_link_to(@kid.mentor, size: :sm)
       = show.attribute :secondary_mentor do
-        = can_link_to(@kid.secondary_mentor)
+        = avatar_link_to(@kid.secondary_mentor, size: :sm)
       = show.attribute :secondary_active
       - if @site.feature_coach?
         = show.attribute :admin do
-          = can_link_to(@kid.admin)
+          = avatar_link_to(@kid.admin, size: :sm)
 
 - if current_user.is_a?(Admin) or current_user.is_a?(Principal)
   .card.mb-4
@@ -224,9 +224,9 @@
       = show_for assessment do |assessment_show|
         = assessment_show.attribute :held_at
         = assessment_show.attribute :mentor do
-          = can_link_to(assessment.mentor)
+          = avatar_link_to(assessment.mentor, size: :sm)
         = assessment_show.attribute :teacher do
-          = can_link_to(assessment.teacher)
+          = avatar_link_to(assessment.teacher, size: :sm)
         %h5.mt-3=t('activerecord.attributes.first_year_assessment.development')
         = assessment_show.attribute :development_teacher
         = assessment_show.attribute :development_mentor
@@ -258,7 +258,7 @@
       = show_for assessment do |assessment_show|
         = assessment_show.attribute :held_at
         = assessment_show.attribute :teacher do
-          = can_link_to(assessment.teacher)
+          = avatar_link_to(assessment.teacher, size: :sm)
         = assessment_show.attribute :development
         = assessment_show.attribute :goals
         = assessment_show.attribute :goals_reached

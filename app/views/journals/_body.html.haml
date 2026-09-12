@@ -1,6 +1,6 @@
 = show_for journal do |journal_show|
   = journal_show.attribute :mentor do
-    = avatar_link_to(journal.mentor)
+    = avatar_link_to(journal.mentor, size: :sm)
   = journal_show.attribute :held_at
   = journal_show.attribute :meeting_type
   - if journal.cancelled?
