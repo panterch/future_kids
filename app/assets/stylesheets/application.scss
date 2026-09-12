@@ -435,6 +435,18 @@ $wide-content-breakpoints: md, lg, xl, xxl;
   }
 }
 
+// The sidebar filter forms (kids/mentors/admins/... index views, all built
+// from the same unmigrated markup) end with a bare "Filter anwenden" +
+// "Filter aufheben" button pair in one .form-group -- two adjacent inline
+// buttons with no gap between them and no defined width, wrapping wherever
+// the narrow sidebar column happens to break. Bootstrap 5's own docs call
+// for a d-grid wrapper with gap for exactly this stacked-full-width-buttons
+// case, so apply it here once instead of touching every view.
+.filter .form-group:last-child {
+  display: grid;
+  gap: 0.5rem;
+}
+
 
 .portrait {
   overflow: hidden;
