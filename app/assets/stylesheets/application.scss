@@ -407,7 +407,10 @@ $wide-content-breakpoints: md, lg, xl, xxl;
     }
 
     img {
-      max-width: 220px;
+      // min() so the cap never exceeds the logo-badge's own content box --
+      // a fixed 220px alone overflowed the badge (and its border) on the
+      // md breakpoint's narrower sidebar column.
+      max-width: min(220px, 100%);
       max-height: 120px;
       width: auto;
       object-fit: contain;
