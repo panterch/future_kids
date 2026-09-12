@@ -1,5 +1,79 @@
 @import 'bootstrap/functions';
 
+// Karla (SIL OFL, https://fonts.google.com/specimen/Karla), vendored to
+// public/ rather than linked from Google Fonts -- same reasoning as the
+// teaser image above (dartsass-rails has no image-url) plus not wanting a
+// third-party font host resolving on every page load of an app that
+// otherwise makes no outside requests.
+@font-face {
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/karla/karla-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215;
+}
+
+@font-face {
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/karla/karla-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+// Zilla Slab (SIL OFL) -- heading face for the same direction. Only shipped
+// as static weights (no variable range like Figtree/Karla), so 500 and 600
+// are separate files.
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/zilla-slab/zilla-slab-500-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215;
+}
+
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/zilla-slab/zilla-slab-500-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/zilla-slab/zilla-slab-600-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215;
+}
+
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/zilla-slab/zilla-slab-600-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+// "Warm & humanist" direction: Karla body + Zilla Slab headings.
+$font-family-sans-serif: 'Karla', system-ui, -apple-system, 'Segoe UI', Roboto,
+  'Helvetica Neue', Arial, sans-serif;
+$headings-font-family: 'Zilla Slab', Georgia, serif;
+$headings-font-weight: 600;
+
 $header-height: 70px;
 $footer-height: 30px;
 
@@ -22,11 +96,19 @@ $solarized-blue:    #268bd2;
 $solarized-cyan:    #2aa198;
 $solarized-green:   #859900;
 
-$primary:   $solarized-blue;
+// Bootstrap picks each button's text color (black or white) by whichever
+// has the higher WCAG contrast ratio against the button's background --
+// for these four Solarized accents at their true saturation, black
+// technically wins (e.g. primary: 5.71:1 black vs 3.68:1 white), so every
+// filled button on them rendered with murky-looking black text. Darkening
+// each a little is enough to flip that same Bootstrap calculation over to
+// white on its own -- secondary/danger/dark already contrast better with
+// white and are left at their true Solarized value.
+$primary:   darken($solarized-blue, 8%);
 $secondary: $solarized-base01;
-$success:   $solarized-green;
-$info:      $solarized-cyan;
-$warning:   $solarized-yellow;
+$success:   darken($solarized-green, 7%);
+$info:      darken($solarized-cyan, 10%);
+$warning:   darken($solarized-yellow, 8%);
 $danger:    $solarized-red;
 $light:     $solarized-base2;
 $dark:      $solarized-base02;
@@ -56,6 +138,22 @@ $headings-color-dark:     $solarized-base1;
 // above), so fields stay visually distinct in both modes.
 $input-bg: var(--bs-secondary-bg);
 
+// Underline-by-default reads as noisy in tables where most cells are links
+// (kids/mentors/etc. index pages) -- drop it and bring it back on
+// hover/focus so the affordance is still there for anyone not relying on
+// link color alone, just not shown on every link at rest.
+$link-decoration: none;
+$link-hover-decoration: underline;
+
+// The sidebar "Aktionen" panel (contextual_links helper) renders a flush
+// list-group inside a .card -- flush is correct there (a plain .list-group
+// would double up its own border/radius against the card's), but its
+// default item padding (.5rem 1rem) reads as cramped next to the card's
+// own 1rem/1.25rem header padding. Match the two instead of leaving the
+// list-group on its tighter built-in default.
+$list-group-item-padding-y: 1rem;
+$list-group-item-padding-x: 1.25rem;
+
 @import 'bootstrap';
 @import 'react-select';
 @import 'bootstrap-treeview';
@@ -70,6 +168,23 @@ $input-bg: var(--bs-secondary-bg);
 // .mb-3 directly instead (see simple_form_bootstrap.rb).
 .form-group {
   margin-bottom: 1rem;
+}
+
+// Bootstrap 5 removes the chevron and its padding from a <select multiple>
+// (there's no closed state to point at), so its .form-select is otherwise
+// identical to a text input -- but the browser still defaults its box to a
+// cramped 4 visible rows regardless of how many options it holds, which
+// forces scrolling even for short lists. Giving it a taller minimum height
+// is the only lever CSS has here (individual <option> rows are drawn by the
+// OS and can't be restyled).
+.form-select[multiple] {
+  min-height: 8rem;
+}
+
+// global.js grows these to fit their content on load and on input, so they
+// never need their own scrollbar (the page scrolls instead).
+textarea.form-control {
+  overflow-y: hidden;
 }
 
 // Sizing for the inline SVG icons that replaced glyphicon-* (see
@@ -96,6 +211,25 @@ $input-bg: var(--bs-secondary-bg);
 
 .no-caret > .dropdown-toggle::after {
   display: none;
+}
+
+// The kids index Pendenz indicator (its label + icon, see global.js's
+// register_todotogglers) otherwise wraps onto two lines inside its narrow
+// table column, inflating that whole row -- keep it on one line instead.
+.todotoggle {
+  white-space: nowrap;
+}
+
+// The Pendenz popover's content is simple_format output (see
+// ApplicationRecord#text_format) -- its <p> margins sit outside
+// .popover-body's own padding rather than collapsing into it, doubling the
+// vertical gap at the top and bottom edges.
+.popover-body > :first-child {
+  margin-top: 0;
+}
+
+.popover-body > :last-child {
+  margin-bottom: 0;
 }
 
 #header {
@@ -360,6 +494,40 @@ $wide-content-breakpoints: md, lg, xl, xxl;
 
 .show-for-value {
   min-width: 0;
+
+  // show_for prefers a human_* method when the model defines one (e.g.
+  // human_todo/human_note, simple_format'd -- see ApplicationRecord
+  // #text_format), and its own collection wrapper is a plain <ul
+  // class="list-unstyled">. Both a <p> and a <ul> carry their own
+  // browser-default margin that .list-unstyled doesn't reset, which stacked
+  // on top of .show-for-grid's own row-gap, doubling the gap below that
+  // particular row versus a plain-text attribute next to it. Trimming just
+  // the outer edges (not any gap *between* multiple paragraphs) keeps
+  // multi-paragraph text's own spacing intact.
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+// A few edit forms (e.g. schools/_form.html.haml) embed a read-only
+// show_for block -- associations the form itself has no field for -- among
+// their simple_form inputs. Left at its normal fit-content width, its label
+// column lines up with nothing else on the page; matching horizontal_form's
+// col-sm-3/col-sm-9 split (see simple_form_bootstrap.rb) instead keeps every
+// label and value on the same two vertical lines.
+.simple_form .show-for-grid {
+  grid-template-columns: 25% 1fr;
+}
+
+// the school's teacher list tends to run long (dozens of names); splitting
+// it into two columns keeps the row from dwarfing the rest of the form
+.school_active_teachers .show-for-value ul {
+  column-count: 2;
+  column-gap: 1.5rem;
 }
 
 // Collapsible card headers (e.g. the kid page's Lernjournale/Gespräche/
@@ -384,6 +552,23 @@ $wide-content-breakpoints: md, lg, xl, xxl;
   color: inherit;
   text-align: left;
   cursor: pointer;
+}
+
+// Sub-skill groups within a goal-picking card (kids/_form.html.haml's
+// "Fachliche/Überfachliche Förderbereiche" -- e.g. Deutsch's Hören/Lesen/
+// Sprechen). A light top border between consecutive groups reads as a
+// divider without needing an explicit <hr> in the markup, and only kicks
+// in from the second group on so the card-header's own border stays the
+// only line above the first one.
+.goal-group-label {
+  font-weight: 600;
+  margin-bottom: .5rem;
+}
+
+.goal-group + .goal-group {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--bs-border-color);
 }
 
 #sidebar {
