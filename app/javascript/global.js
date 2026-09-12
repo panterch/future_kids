@@ -129,9 +129,11 @@ function register_submit_action_in_sidebar() {
   // carries its label instead of assuming one shape for both.
   document.querySelectorAll('#content form input[type=submit], #content form button[type=submit]').forEach(function(submit) {
     if (submit.closest('.no-sidebar-actions')) return;
+    var variant_match = submit.className.match(/\bbtn-(primary|secondary|success|danger|warning|info|light|dark)\b/);
+    var variant = variant_match ? variant_match[1] : 'primary';
     var clone = document.createElement('a');
     clone.href = '#';
-    clone.className = 'list-group-item list-group-item-action list-group-item-success';
+    clone.className = 'list-group-item list-group-item-action list-group-item-' + variant;
     if (submit.tagName === 'BUTTON') {
       clone.innerHTML = submit.innerHTML;
     } else {
