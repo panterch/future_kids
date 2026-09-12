@@ -11,6 +11,17 @@ module ApplicationHelper
     end
   end
 
+  # renders form.button :submit (or the given block) aligned under the
+  # field column of the horizontal_form simple_form wrapper (see
+  # simple_form_bootstrap.rb), instead of flush with the label column
+  def horizontal_form_actions(form, &block)
+    content_tag(:div, class: 'row') do
+      content_tag(:div, class: 'col-sm-9 offset-sm-3') do
+        block_given? ? capture(&block) : form.button(:submit)
+      end
+    end
+  end
+
   # link to the given resource if at least read access is given
   def can_link_to(resource)
     return '' if resource.blank?

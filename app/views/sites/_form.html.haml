@@ -27,4 +27,4 @@
   - prompt_hint = 'Leer lassen, um die Standardanweisung (siehe Platzhalter) zu verwenden.'
   = form.input :ai_summary_prompt, as: :text, placeholder: JournalSummarizer::DEFAULT_PROMPT, hint: prompt_hint
 
-  = form.button :submit
+  = horizontal_form_actions(form)

@@ -6,7 +6,7 @@
   = form.input :password_confirmation
   = form.input :phone
   - if current_user.is_a?(Admin)
-    = form.association :schools
+    = form.association :schools, input_html: { size: 12 }
     = form.input :inactive
 
-  = form.button :submit
+  = horizontal_form_actions(form)
