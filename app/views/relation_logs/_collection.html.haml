@@ -20,7 +20,7 @@
                 = human_date(relation_log.end_at)
               %td
                 - if relation_log.user.present?
-                  = link_to relation_log.user.display_name, relation_log.user
+                  = avatar_link_to(relation_log.user, size: :sm)
                 - else
                   Gelöschte*r Benutzer*in
               %td= relation_log.end_at ? 'entfernt' : 'zugeordnet'
@@ -30,7 +30,7 @@
               - if show_kid_column
                 %td
                   - if relation_log.kid.present?
-                    = link_to relation_log.kid.display_name, relation_log.kid
+                    = avatar_link_to(relation_log.kid, size: :sm)
                   - else
                     Gelöschte*r Schüler*in
 

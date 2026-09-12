@@ -65,7 +65,7 @@
       - @kid_mentor_relations.each do |relation|
         %tr
           %td
-            = link_to relation.kid.display_name, relation.kid
+            = avatar_link_to(relation.kid, size: :sm)
           %td
             -if relation.kid.todo.present?
               %a.todotoggle{data: { bs_toggle: 'popover', bs_trigger: 'hover focus', bs_placement: 'left', bs_container: 'body', bs_html: 'true', bs_content: relation.kid.human_todo}, href:  edit_kid_path(relation.kid, :anchor => 'todo') }
@@ -74,7 +74,7 @@
           %td= relation.kid.human_exit_kind
           %td= human_date(relation.kid.exit_at)
           - if relation.mentor.present?
-            %td= link_to(relation.mentor.display_name, relation.mentor)
+            %td= avatar_link_to(relation.mentor, size: :sm)
             %td
               -if relation.mentor.todo.present?
                 %a.todotoggle{data: { bs_toggle: 'popover', bs_trigger: 'hover focus', bs_placement: 'left', bs_container: 'body', bs_html: 'true', bs_content: relation.mentor.human_todo}, href:  edit_mentor_path(relation.mentor, :anchor => 'todo') }

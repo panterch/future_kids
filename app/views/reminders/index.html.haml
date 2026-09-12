@@ -33,11 +33,11 @@
       - @reminders.each do |reminder|
         %tr
           %td= human_date(reminder.held_at)
-          %td= link_to reminder.kid.display_name, reminder.kid
-          %td= link_to reminder.mentor.display_name, reminder.mentor
+          %td= avatar_link_to(reminder.kid, size: :sm)
+          %td= avatar_link_to(reminder.mentor, size: :sm)
           %td
             -if reminder.secondary_mentor
-              = link_to reminder.secondary_mentor.display_name, reminder.secondary_mentor
+              = avatar_link_to(reminder.secondary_mentor, size: :sm)
           %td= reminder.recipient
           %td= human_date(reminder.created_at.to_date)
           %td

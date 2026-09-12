@@ -4,6 +4,7 @@
   = form.input :email
   = form.input :password
   = form.input :password_confirmation
+  = form.input :photo
   = form.input :phone
   - if current_user.is_a?(Admin)
     = form.association :schools, input_html: { size: 12 }

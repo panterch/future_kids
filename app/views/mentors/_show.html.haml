@@ -44,10 +44,7 @@
             - if @mentor.inactive?
               = show.attribute :inactive_at
 
-  .col-md-4
-    - if @mentor.photo.present?
-      .portrait.mb-4
-        %img{:src => rails_representation_url(@mentor.photo_medium)}
+  .col-md-4= profile_photo(@mentor)
   .col-md-12.d-print-none
     = render 'relation_logs/collection', resource: @mentor
 

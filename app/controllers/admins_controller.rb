@@ -23,7 +23,7 @@ class AdminsController < ApplicationController
 
     params.expect(
       admin: %i[name prename email phone password password_confirmation
-                address city note inactive]
+                address city note inactive photo]
     )
   end
 end

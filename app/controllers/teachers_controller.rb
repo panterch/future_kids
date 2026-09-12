@@ -52,7 +52,7 @@ class TeachersController < ApplicationController
   def teacher_params
     if params[:teacher].present?
       params.require(:teacher).permit(:name, :prename, :email, :password, :password_confirmation, :school_id,
-                                       :phone, :receive_journals, :todo, :note, :inactive)
+                                       :phone, :receive_journals, :todo, :note, :inactive, :photo)
     else
       {}
     end

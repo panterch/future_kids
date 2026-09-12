@@ -49,7 +49,7 @@
       %tbody
         - @mentors.each do |mentor|
           %tr
-            %td= link_to mentor.display_name, mentor
+            %td= avatar_link_to(mentor, size: :sm)
             - if current_user.is_a?(Admin)
               %td
                 - if mentor.email.present?

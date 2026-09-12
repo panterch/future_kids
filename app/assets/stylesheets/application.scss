@@ -527,6 +527,9 @@ $wide-content-breakpoints: md, lg, xl, xxl;
 }
 
 .comment-byline {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
   color: var(--bs-secondary-color);
   font-size: .875rem;
   margin-bottom: .5rem;
@@ -661,8 +664,102 @@ $wide-content-breakpoints: md, lg, xl, xxl;
 }
 
 
-.portrait {
+// Circular avatar: a user/kid's uploaded photo, or initials on a
+// type-colored background when there is none. Colors reuse Bootstrap's own
+// semantic vars (already Solarized-mapped above) so they theme with
+// data-bs-theme like everything else, rather than introducing new ones.
+.avatar {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
+  border-radius: 50%;
+
+  .avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .avatar-initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  &.avatar-sm {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.6rem;
+
+    // sm avatars are too small in dense tables/lists to make out a face --
+    // scale up on hover so the photo is actually useful, rather than adding
+    // a whole tooltip/popover for what a bigger image already answers well
+    // enough (who is this). Only for a real photo (.avatar-photo, set by
+    // AvatarsHelper#avatar) -- zooming a two-letter initials blob doesn't
+    // reveal anything new.
+    &.avatar-photo {
+      transition: transform .15s ease-out;
+      transform-origin: center;
+      cursor: zoom-in;
+
+      &:hover {
+        position: relative;
+        z-index: 5;
+        transform: scale(3);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, .35);
+      }
+    }
+  }
+
+  &.avatar-md {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 0.9rem;
+  }
+
+  &.avatar-lg {
+    width: 8rem;
+    height: 8rem;
+    font-size: 2rem;
+  }
+
+  &.avatar-mentor .avatar-initials { background-color: var(--bs-info); }
+  &.avatar-teacher .avatar-initials { background-color: var(--bs-primary); }
+  &.avatar-admin .avatar-initials { background-color: var(--bs-warning); }
+  &.avatar-principal .avatar-initials { background-color: var(--bs-secondary); }
+  &.avatar-kid .avatar-initials { background-color: var(--bs-success); }
+  &.avatar-default .avatar-initials { background-color: var(--bs-secondary); }
+}
+
+.avatar-link {
+  min-width: 0;
+
+  > a, > span:last-child {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+}
+
+// A user's own full, uncropped photo on their profile page (see
+// AvatarsHelper#profile_photo) -- unlike .avatar-lg this isn't circular/
+// cover-cropped, since staff use it to actually recognize the person.
+.profile-portrait {
+  overflow: hidden;
+  border-radius: var(--bs-border-radius);
+
+  .profile-portrait-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
 }
 
 

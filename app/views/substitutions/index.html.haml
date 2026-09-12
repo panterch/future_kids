@@ -33,13 +33,13 @@
                      ("table-success" if substitution.end_at > DateTime.now() and substitution.secondary_mentor.present?)]
 
         %tr{:class => trclasses}
-          %td= link_to substitution.mentor.display_name, substitution.mentor
+          %td= avatar_link_to(substitution.mentor, size: :sm)
           %td= link_to human_date(substitution.start_at), edit_substitution_path(substitution)
           %td= link_to human_date(substitution.end_at), edit_substitution_path(substitution)
-          %td= link_to substitution.kid.display_name, substitution.kid
+          %td= avatar_link_to(substitution.kid, size: :sm)
           %td
             - if substitution.secondary_mentor.present?
-              = link_to substitution.secondary_mentor.display_name, substitution.secondary_mentor
+              = avatar_link_to(substitution.secondary_mentor, size: :sm)
             - else
               - if substitution.end_at > DateTime.now()
                 =button_to "Ersatz finden", { :controller => "kids", :id => substitution.kid.id, :action => :show_kid_mentors_schedules}, { :method => :get, :class => 'btn btn-secondary', params: { substitution_id: substitution.id } }

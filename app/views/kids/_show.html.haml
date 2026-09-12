@@ -33,32 +33,36 @@
       - @kid.termination_assessments.each do |assessment|
         = link_to assessment.display_name, { anchor: dom_id(assessment) }, class: 'list-group-item list-group-item-action'
 
-.card.mb-4
-  .card-header
-    %h4.card-title.mb-0 Persönliche Angaben
-  .card-body
-    = show_for @kid do |show|
-      = show.attribute :name
-      = show.attribute :prename
-      = show.attribute :sex
-      = show.attribute :dob
-      .show-for-row.kid_grade
-        %label.show-for-label.text-muted
-          = Kid.human_attribute_name(:grade)
-          %br
-          (bei Einstieg Future Kids)
-        .show-for-value
-          = @kid.grade
-      = show.attribute :language
-      = show.attribute :parent_country_name
-      = show.attribute :parent
-      = show.attribute :address
-      = show.attribute :city
-      = show.attribute :phone
-      = show.attribute :translator
-      = show.attribute :note
-      = show.attribute :school do
-        = can_link_to(@kid.school)
+.row
+  .col-md-8
+    .card.mb-4
+      .card-header
+        %h4.card-title.mb-0 Persönliche Angaben
+      .card-body
+        = show_for @kid do |show|
+          = show.attribute :name
+          = show.attribute :prename
+          = show.attribute :sex
+          = show.attribute :dob
+          .show-for-row.kid_grade
+            %label.show-for-label.text-muted
+              = Kid.human_attribute_name(:grade)
+              %br
+              (bei Einstieg Future Kids)
+            .show-for-value
+              = @kid.grade
+          = show.attribute :language
+          = show.attribute :parent_country_name
+          = show.attribute :parent
+          = show.attribute :address
+          = show.attribute :city
+          = show.attribute :phone
+          = show.attribute :translator
+          = show.attribute :note
+          = show.attribute :school do
+            = can_link_to(@kid.school)
+  .col-md-4
+    .mb-4= avatar(@kid, size: :lg)
 
 .card.mb-4
   .card-header

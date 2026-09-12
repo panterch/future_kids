@@ -4,6 +4,7 @@
   = form.input :email
   = form.input :password
   = form.input :password_confirmation
+  = form.input :photo
   -if current_user.is_a?(Admin) || current_user.is_a?(Principal)
     = form.association :school, collection: @schools, include_blank: true
   = form.input :phone

@@ -72,7 +72,7 @@
         %th Pädagogischer Coach
     - @kids.each do |kid|
       %tr
-        %td= link_to kid.display_name, kid
+        %td= avatar_link_to(kid, size: :sm)
         -if current_user.is_a?(Admin) or current_user.is_a?(Principal)
           %td
             = kid.created_at ? I18n.l(kid.created_at.to_date) : '-'
@@ -88,10 +88,10 @@
                 Pendenz
                 = icon('info-circle')
         %td
-          = can_link_to(kid.mentor) if kid.mentor.present?
+          = avatar_link_to(kid.mentor, size: :sm) if kid.mentor.present?
         - if @site.feature_coach?
           %td
-            = can_link_to(kid.admin) if kid.admin.present?
+            = avatar_link_to(kid.admin, size: :sm) if kid.admin.present?
 
 
 - if @kids.empty?

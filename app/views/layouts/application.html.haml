@@ -40,14 +40,16 @@
             %ul.navbar-nav.me-auto
               = render 'layouts/navigation_items'
 
-            %ul.navbar-nav
+            %ul.navbar-nav.align-items-center
+              -if can? :read, Site
+                %li.nav-item
+                  = link_to (icon('gear') + ' Konfiguration'), edit_site_path, class: 'nav-link'
+
               %li.nav-item.dropdown.no-caret
-                %a.nav-link.dropdown-toggle{href: "#", role: "button", "data-bs-toggle" => "dropdown", "aria-expanded" => "false", "aria-label" => "Einstellungsmenü"}
-                  = icon('gear')
+                %a.nav-link.dropdown-toggle{href: "#", role: "button", "data-bs-toggle" => "dropdown", "aria-expanded" => "false", "aria-label" => "Benutzermenü"}
+                  = avatar(current_user, size: :md)
                 %ul.dropdown-menu.dropdown-menu-end
-                  %li= link_to (icon('person', css_class: 'me-2') + current_user.display_name), current_user, class: 'dropdown-item'
-                  -if can? :read, Site
-                    %li= link_to (icon('building', css_class: 'me-2') + Site.model_name.human), edit_site_path, class: 'dropdown-item'
+                  %li= link_to (avatar(current_user, size: :md) + tag.span(current_user.display_name, class: 'ms-2')), current_user, class: 'dropdown-item d-flex align-items-center'
                   - unless force_light_theme
                     %li.dropdown-header Farbschema
                     - [['light', 'sun', 'Hell'], ['dark', 'moon-stars', 'Dunkel'], ['auto', 'circle-half', 'Automatisch']].each do |value, icon_name, label|

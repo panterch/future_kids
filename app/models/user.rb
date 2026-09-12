@@ -31,6 +31,12 @@ class User < ApplicationRecord
     photo.variant(resize_to_fit: [300, 300])
   end
 
+  # small square crop for avatars in tables/lists (as opposed to
+  # photo_medium's fit-within-bounds, used on profile pages)
+  def photo_thumb
+    photo.variant(resize_to_fill: [96, 96])
+  end
+
   def self.reset_password!(user)
     new_password = Devise.friendly_token.first(10)
     user.update!(password: new_password, password_confirmation: new_password)

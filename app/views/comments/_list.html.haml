@@ -3,5 +3,7 @@
     .list-group-item.comment-item
       - if show_actions && can?(:update, comment)
         = link_to (icon('pencil') + ' Bearbeiten'), edit_kid_journal_comment_path(kid, journal, comment), class: 'btn btn-secondary float-end'
-      %p.comment-byline= comment.display_name
+      %p.comment-byline
+        = avatar(comment.created_by, size: :sm)
+        = comment.display_name
       = comment.human_body
