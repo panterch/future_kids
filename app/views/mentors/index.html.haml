@@ -8,29 +8,29 @@
     = form_for :mentor, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
       .form-group
         %label Startzeit
-        = f.select :term, term_collection, { :include_blank => true }, class: 'form-control'
+        = f.select :term, term_collection, { :include_blank => true }, class: 'form-select'
       .form-group
         %label Austritt
-        = f.select :exit, term_collection, { :include_blank => true }, class: 'form-control'
+        = f.select :exit, term_collection, { :include_blank => true }, class: 'form-select'
       .form-group
         %label Einsatzort
-        = f.select :filter_by_school_id, school_collection_by_kind(:kid), { :include_blank => true }, class: 'form-control'
+        = f.select :filter_by_school_id, school_collection_by_kind(:kid), { :include_blank => true }, class: 'form-select'
       .form-group
         %label Einsatztag
-        = f.select :filter_by_meeting_day, wday_collection, { :include_blank => true }, class: 'form-control'
+        = f.select :filter_by_meeting_day, wday_collection, { :include_blank => true }, class: 'form-select'
       .form-group
         %label Schule Mentor
-        = f.select :school_id, school_collection_by_kind(:mentor), { :include_blank => true }, class: 'form-control'
+        = f.select :school_id, school_collection_by_kind(:mentor), { :include_blank => true }, class: 'form-select'
       - if @site.feature_coach?
         .form-group
           %label Pädagogischer Coach
-          = f.select :filter_by_coach_id, admin_collection, { :include_blank => true }, class: 'form-control'
+          = f.select :filter_by_coach_id, admin_collection, { :include_blank => true }, class: 'form-select'
       .form-group
         %label ÖV
-        = f.select :transport, transport_collection, { :include_blank => true }, class: 'form-control'
+        = f.select :transport, transport_collection, { :include_blank => true }, class: 'form-select'
       .form-group
         %label=Mentor.human_attribute_name('ects')
-        = f.select :ects, ects_collection, { include_blank: true }, class: 'form-control'
+        = f.select :ects, ects_collection, { include_blank: true }, class: 'form-select'
 
       .form-check.mb-3
         = f.check_box :inactive, class: 'form-check-input'

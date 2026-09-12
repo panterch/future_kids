@@ -5,10 +5,10 @@
     = form_for :reminder, url: { action: 'index' }, html: { method: :get, class: 'filter' } do |f|
       .form-group
         %label= Kid.human_attribute_name(:school)
-        = f.select :filter_by_school_id, school_collection, { include_blank: true }, class: 'form-control'
+        = f.select :filter_by_school_id, school_collection, { include_blank: true }, class: 'form-select'
       .form-group
         %label=Mentor.human_attribute_name('ects')
-        = f.select :filter_by_ects, ects_collection, { include_blank: true }, class: 'form-control'
+        = f.select :filter_by_ects, ects_collection, { include_blank: true }, class: 'form-select'
       .form-group
         = f.button (icon('funnel') + ' Filter anwenden'), class: 'btn btn-primary'
         = link_to (icon('x-lg') + ' Filter aufheben'), reminders_path, class: 'btn btn-secondary'
@@ -48,8 +48,8 @@
             - if reminder.sent_at
               = human_date(reminder.sent_at.to_date)
             - else
-              = button_to "Zustellen", { action: "update", id: reminder.id }, method: :put, remote: true,  data: { disable_with: "In Arbeit..." }, class: 'btn btn-secondary'
+              = button_to "Zustellen", { action: "update", id: reminder.id }, method: :put, remote: true,  data: { disable_with: "In Arbeit..." }, class: 'btn btn-primary'
           %td
-            = button_to "Quittieren", { action: "destroy", id: reminder.id }, method: :delete, remote: true,  data: { disable_with: "In Arbeit..." }, class: 'btn btn-danger'
+            = button_to "Quittieren", { action: "destroy", id: reminder.id }, method: :delete, remote: true,  data: { disable_with: "In Arbeit..." }, class: 'btn btn-secondary'
 - else
   %p Kein Eintrag vorhanden

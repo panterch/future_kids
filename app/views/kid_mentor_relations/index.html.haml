@@ -11,30 +11,30 @@
       %label
         = Kid.human_attribute_name(:exit_kind)
         = Kid.model_name.human
-      = f.select :kid_exit_kind, exit_kind_collection, { :include_blank => true }, class: 'form-control'
+      = f.select :kid_exit_kind, exit_kind_collection, { :include_blank => true }, class: 'form-select'
     .form-group
       %label
         = Mentor.human_attribute_name(:exit_kind)
         = Mentor.model_name.human
-      = f.select :mentor_exit_kind, exit_kind_collection, { :include_blank => true }, class: 'form-control'
+      = f.select :mentor_exit_kind, exit_kind_collection, { :include_blank => true }, class: 'form-select'
     .form-group
       %label
         = Mentor.human_attribute_name('ects')
         = Mentor.model_name.human
-      = f.select :mentor_ects, ects_collection(explicit_mapping: true), { include_blank: true }, class: 'form-control'
+      = f.select :mentor_ects, ects_collection(explicit_mapping: true), { include_blank: true }, class: 'form-select'
     .form-group
       %label Einstieg
-      = f.select :simple_term, %w(Frühling Herbst), { :include_blank => true }, class: 'form-control'
+      = f.select :simple_term, %w(Frühling Herbst), { :include_blank => true }, class: 'form-select'
     - if @site.feature_coach?
       .form-group
         %label Pädagogischer Coach
-        = f.select :admin_id, admin_collection, { :include_blank => true }, class: 'form-control'
+        = f.select :admin_id, admin_collection, { :include_blank => true }, class: 'form-select'
     .form-group
       %label= Kid.human_attribute_name(:school)
-      = f.select :school_id, school_collection, { :include_blank => true }, class: 'form-control'
+      = f.select :school_id, school_collection, { :include_blank => true }, class: 'form-select'
     .form-group
       %label Ordnen nach
-      = select_tag 'order_by', order_by_collection_for_kid_mentor_relations(params[:order_by]), class: 'form-control'
+      = select_tag 'order_by', order_by_collection_for_kid_mentor_relations(params[:order_by]), class: 'form-select'
     .form-group
       = f.button (icon('funnel') + ' Filter anwenden'), class: 'btn btn-primary'
       = link_to (icon('x-lg') + ' Filter aufheben'), kid_mentor_relations_path, class: 'btn btn-secondary'

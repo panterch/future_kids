@@ -2,7 +2,7 @@
   = form_for :substitution, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
     %label= Substitution.human_attribute_name(:mentor)
     .form-group
-      = f.select :mentor_id, mentor_collection, { :include_blank => true }, class: 'form-control'
+      = f.select :mentor_id, mentor_collection, { :include_blank => true }, class: 'form-select'
     .form-check.mb-3
       = f.check_box :inactive, class: 'form-check-input'
       = f.label :inactive, 'Inaktive', class: 'form-check-label'
@@ -55,7 +55,7 @@
           - else
             %td
               - if substitution.end_at < DateTime.now
-                = button_to (icon('x-circle') + ' Abwesenheit schliessen'), { :action => "inactivate", :id => substitution.id }, { :method => :put, :class => 'btn btn-danger' }
+                = button_to (icon('x-circle') + ' Abwesenheit schliessen'), { :action => "inactivate", :id => substitution.id }, { :method => :put, :class => 'btn btn-warning' }
               - else
                 = button_to (icon('pencil') + ' Bearbeiten'), edit_substitution_path(substitution), { :method => :get, :class => 'btn btn-secondary' }
 

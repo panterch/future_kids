@@ -127,7 +127,7 @@ function register_submit_action_in_sidebar() {
   // button[type=submit]'s label is its markup content (e.g. an icon, see
   // schedules/_table.html.haml) -- read/clone each the way it actually
   // carries its label instead of assuming one shape for both.
-  document.querySelectorAll('#main form input[type=submit], #main form button[type=submit]').forEach(function(submit) {
+  document.querySelectorAll('#content form input[type=submit], #content form button[type=submit]').forEach(function(submit) {
     if (submit.closest('.no-sidebar-actions')) return;
     var clone = document.createElement('a');
     clone.href = '#';

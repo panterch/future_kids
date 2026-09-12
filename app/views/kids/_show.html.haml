@@ -163,7 +163,7 @@
       - else
         %p.text-muted= icon('info-circle') + ' Es wurde noch keine Zusammenfassung erstellt.'
       = button_to @kid.journal_summary.present? ? 'Zusammenfassung neu erstellen' : 'Zusammenfassung erstellen',
-        kid_journal_summary_path(@kid), method: :post, class: 'btn btn-secondary'
+        kid_journal_summary_path(@kid), method: :post, class: 'btn btn-secondary no-sidebar-actions'
 
 - @kid.journals.each do |journal|
   .card.mb-4[journal]
