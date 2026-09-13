@@ -78,8 +78,10 @@
                   %img{:src => rails_representation_url(@site.logo_medium)}
 
             - if user_signed_in?
-              .contextual_links_panel.card.mb-3
-                = render 'layouts/actions'
+              - actions_content = capture{ render 'layouts/actions' }
+              - if actions_content.present? && actions_content.include?('list-group-item')
+                .contextual_links_panel.card.mb-3
+                  = actions_content
               = yield :sidebar
 
     - if @site.footer_address.present? || @site.footer_email.present?
