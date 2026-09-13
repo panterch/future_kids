@@ -4,22 +4,9 @@
   = nav_link Kid.model_name.human, kids_path, icon_name: 'people'
 -if current_user.is_a?(Mentor)
   - mentor_kids = (current_user.kids.active.to_a + current_user.secondary_kids.active.to_a).uniq
-  - if mentor_kids.size == 1
-    - kid = mentor_kids.first
+  - mentor_kids.each do |kid|
     = nav_link kid.display_name, kid_path(kid), icon_name: 'person'
     = nav_link t_action(:new_journal), new_kid_journal_path(kid), icon_name: 'journal-plus'
-  - elsif mentor_kids.size > 1
-    %li.nav-item.dropdown
-      %a.nav-link.dropdown-toggle{href: "#", role: "button", "data-bs-toggle" => "dropdown", "aria-expanded" => "false"}
-        = icon('journal-plus')
-        = t_action(:new_journal)
-      %ul.dropdown-menu
-        - mentor_kids.each do |kid|
-          %li= link_to (icon('person') + ' ' + kid.display_name), kid_path(kid), class: 'dropdown-item'
-          %li= link_to (icon('journal-plus') + ' ' + t_action(:new_journal)), new_kid_journal_path(kid), class: 'dropdown-item'
-          - unless kid == mentor_kids.last
-            %li
-              %hr.dropdown-divider
 -# FIXME load of teachers for mentors via cancan does not yet
 -#       work correctly, see ability_spec.rb. till this is fixed
 -#       we do not display this option to mentors
