@@ -8,9 +8,11 @@
 </div>
 
 <div class="form-actions">
-  <%= f.button :submit, "Anmelden" %>
-  <div class="mt-3">
-    <%= render "devise/shared/links" %>
-  </div>
+  <%= horizontal_form_actions(f) do %>
+    <%= f.button :submit, "Anmelden" %>
+    <div class="mt-3">
+      <%= render "devise/shared/links" %>
+    </div>
+  <% end %>
 </div>
 <% end %>
