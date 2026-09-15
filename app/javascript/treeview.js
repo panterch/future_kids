@@ -5,7 +5,13 @@
 // the visuals stay identical.
 "use strict";
 
-import { iconMarkup } from "icons";
+// Duplicated in global.js and kid_mentor_schedules.js -- see the comment on
+// global.js's copy for why.
+function iconMarkup(name) {
+  var sprite = document.body.dataset.iconSprite;
+  return '<svg class="icon-svg" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+    '<use href="' + sprite + '#' + name + '"></use></svg>';
+}
 
 function Treeview(element, options) {
   this.element = element;
@@ -106,7 +112,7 @@ Treeview.prototype.buildTree = function(list, nodes, level) {
   var self = this;
   nodes.forEach(function(node) {
     var item = document.createElement('li');
-    item.className = 'list-group-item';
+    item.className = 'list-group-item list-group-item-action';
     if (node.state.selected) item.classList.add('node-selected');
     item.setAttribute('data-nodeid', node.nodeId);
     if (node.state.selected) {
@@ -124,7 +130,7 @@ Treeview.prototype.buildTree = function(list, nodes, level) {
     expandIcon.className = 'icon';
     if (node.nodes) {
       expandIcon.classList.add('expand-icon');
-      expandIcon.innerHTML = iconMarkup(node.state.expanded ? 'minus' : 'plus');
+      expandIcon.innerHTML = iconMarkup(node.state.expanded ? 'dash-lg' : 'plus-lg');
     }
     item.appendChild(expandIcon);
 

@@ -4,21 +4,26 @@
 ShowFor.setup do |config|
   # The tag which wraps show_for calls.
   config.show_for_tag = :div
-  config.show_for_class = 'form-horizontal'
 
   # The DOM class set for show_for tag. Default is nil
-  # config.show_for_class = :custom
+  # Turns the whole show_for block into a CSS grid (see application.scss)
+  # so the label column shrinks to fit its content instead of using a
+  # hardcoded Bootstrap column fraction.
+  config.show_for_class = 'show-for-grid'
 
   # The tag which wraps each attribute/association call. Default is :p.
+  # display: contents (see application.scss) lets the label/value below
+  # drop straight into the show-for-grid's columns.
   config.wrapper_tag = :div
+  config.wrapper_class = 'show-for-row'
 
   # The tag used to wrap each label. Default is :strong.
   config.label_tag = :label
-  config.label_class = 'col-sm-3 col-xs-6 text-right'
+  config.label_class = 'show-for-label text-muted'
 
   # The tag used to wrap each content (value). Default is nil.
   config.content_tag = :div
-  config.content_class = 'col-sm-offset-3 col-xs-offset-3'
+  config.content_class = 'show-for-value'
 
   # The DOM class set for blank content tags. Default is "blank".
   config.blank_content_class = 'no_content'

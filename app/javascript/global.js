@@ -2,8 +2,28 @@
 
 import Treeview from "treeview";
 import Rails from "@rails/ujs";
+// Registers Bootstrap's own data-bs-* auto-init listeners (navbar toggler,
+// dropdowns) as a side effect of loading -- see the navbar markup in
+// app/views/layouts/application.html.haml. Popovers have no such auto-init
+// (see register_todotogglers below), so the module itself is imported too.
+import bootstrap from "bootstrap";
+import { register_theme_toggle } from "theme";
+
+// Builds an icon for a JS-constructed element (the sidebar's "Seitenanfang"
+// link here; treeview.js and kid_mentor_schedules.js have their own copies)
+// -- everywhere else icons are rendered server-side by ApplicationHelper#icon
+// straight into the page's HTML, but that helper needs Rails' asset_path to
+// find the sprite's digested filename, which isn't available here. The
+// layout exposes that one path via data-icon-sprite on <body> instead, so
+// this still points at the same bootstrap-icons.svg sprite.
+function iconMarkup(name) {
+  var sprite = document.body.dataset.iconSprite;
+  return '<svg class="icon-svg" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+    '<use href="' + sprite + '#' + name + '"></use></svg>';
+}
 
 document.addEventListener('DOMContentLoaded', function() {
+  register_theme_toggle();
   register_journal_controls();
   register_mentor_journal_date_selectors();
   register_schedule_checkboxes();
@@ -14,10 +34,10 @@ document.addEventListener('DOMContentLoaded', function() {
   register_back_to_top_link();
   register_exit_at_toggler();
   register_freetext_toggler();
-  register_dropdowns();
   register_collapses();
   register_treeview();
   register_document_search();
+  register_autogrow_textareas();
   setTimeout(remove_alerts, 3000);
 });
 
@@ -60,66 +80,12 @@ function register_schedule_checkboxes() {
 }
 
 function register_todotogglers() {
-  document.querySelectorAll('a.todotoggle').forEach(function(link) {
-    var popover = null;
-
-    function showPopover() {
-      var content = link.dataset.content;
-      if (!content) return;
-
-      popover = document.createElement('div');
-      popover.className = 'popover left';
-      popover.setAttribute('role', 'tooltip');
-      popover.innerHTML = '<div class="arrow"></div><div class="popover-content"></div>';
-      popover.querySelector('.popover-content').innerHTML = content;
-      document.body.appendChild(popover);
-
-      // pointer-events: none keeps the cursor from "landing" on the popover
-      // itself, which would otherwise trigger the link's mouseleave and
-      // flicker the popover open/closed in a loop.
-      popover.style.pointerEvents = 'none';
-      popover.style.position = 'absolute';
-      // .popover is display:none by default; switch to block before reading
-      // getBoundingClientRect() below, otherwise its size reads as 0x0 and
-      // the popover ends up positioned on top of the link instead of beside it.
-      popover.style.display = 'block';
-
-      var linkRect = link.getBoundingClientRect();
-      var popoverRect = popover.getBoundingClientRect();
-      popover.style.top = (window.scrollY + linkRect.top + linkRect.height / 2 - popoverRect.height / 2) + 'px';
-      popover.style.left = (window.scrollX + linkRect.left - popoverRect.width - 10) + 'px';
-    }
-
-    function hidePopover() {
-      if (popover) {
-        popover.remove();
-        popover = null;
-      }
-    }
-
-    link.addEventListener('mouseenter', showPopover);
-    link.addEventListener('mouseleave', hidePopover);
-  });
-}
-
-function register_dropdowns() {
-  document.querySelectorAll('.dropdown-toggle').forEach(function(toggle) {
-    toggle.addEventListener('click', function(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      var dropdown = toggle.closest('.dropdown');
-      var wasOpen = dropdown.classList.contains('open');
-      document.querySelectorAll('.dropdown.open').forEach(function(el) {
-        el.classList.remove('open');
-      });
-      if (!wasOpen) dropdown.classList.add('open');
-    });
-  });
-
-  document.addEventListener('click', function() {
-    document.querySelectorAll('.dropdown.open').forEach(function(el) {
-      el.classList.remove('open');
-    });
+  // The todo preview on kids/mentors/etc. index pages (data-bs-toggle=
+  // "popover" on the .todotoggle links, see e.g. kids/index.html.haml) --
+  // Bootstrap's own Popover component, Popper-positioned like any other
+  // data-bs-* component, instead of a hand-rolled hover listener.
+  document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function(el) {
+    new bootstrap.Popover(el);
   });
 }
 
@@ -129,7 +95,7 @@ function register_collapses() {
       event.preventDefault();
       var targetSelector = trigger.getAttribute('data-target');
       var target = targetSelector && document.querySelector(targetSelector);
-      if (target) target.classList.toggle('in');
+      if (target) target.classList.toggle('show');
     });
   });
 }
@@ -148,7 +114,7 @@ function register_kidanchors() {
       event.preventDefault();
       var target = document.querySelector(this.hash);
       if (!target) return;
-      var header = document.getElementById('header');
+      var header = document.getElementById('header') || document.getElementById('nav');
       var headerHeight = header ? header.offsetHeight : 0;
       var top = target.getBoundingClientRect().top + window.scrollY - headerHeight - 3;
       window.scrollTo({top: top, behavior: 'smooth'});
@@ -157,12 +123,22 @@ function register_kidanchors() {
 }
 
 function register_submit_action_in_sidebar() {
-  document.querySelectorAll('#main form input[type=submit]').forEach(function(submit) {
+  // input[type=submit]'s label is its `value` attribute, always plain text;
+  // button[type=submit]'s label is its markup content (e.g. an icon, see
+  // schedules/_table.html.haml) -- read/clone each the way it actually
+  // carries its label instead of assuming one shape for both.
+  document.querySelectorAll('#content form input[type=submit], #content form button[type=submit]').forEach(function(submit) {
     if (submit.closest('.no-sidebar-actions')) return;
+    var variant_match = submit.className.match(/\bbtn-(primary|secondary|success|danger|warning|info|light|dark)\b/);
+    var variant = variant_match ? variant_match[1] : 'primary';
     var clone = document.createElement('a');
     clone.href = '#';
-    clone.className = 'list-group-item list-group-item-success';
-    clone.textContent = submit.value;
+    clone.className = 'list-group-item list-group-item-action list-group-item-' + variant;
+    if (submit.tagName === 'BUTTON') {
+      clone.innerHTML = submit.innerHTML;
+    } else {
+      clone.textContent = submit.value;
+    }
     clone.addEventListener('click', function(event) {
       event.preventDefault();
       submit.click();
@@ -176,8 +152,8 @@ function register_back_to_top_link() {
   if (document.body.scrollHeight <= window.innerHeight) return;
   var link = document.createElement('a');
   link.href = '#';
-  link.className = 'list-group-item';
-  link.textContent = 'Seitenanfang';
+  link.className = 'list-group-item list-group-item-action';
+  link.innerHTML = iconMarkup('arrow-bar-up') + ' Seitenanfang';
   link.addEventListener('click', function(event) {
     event.preventDefault();
     window.scrollTo({top: 0, behavior: 'smooth'});
@@ -191,7 +167,7 @@ function register_exit_at_toggler() {
   selects.forEach(function(select) {
     select.addEventListener('change', function() {
       var show = this.value === 'later';
-      document.querySelectorAll('.form-group.kid_exit_at, .form-group.mentor_exit_at').forEach(function(el) {
+      document.querySelectorAll('.mb-3.kid_exit_at, .mb-3.mentor_exit_at').forEach(function(el) {
         el.style.display = show ? '' : 'none';
       });
     });
@@ -201,13 +177,36 @@ function register_exit_at_toggler() {
   });
 }
 
-function remove_alerts() {
-  document.querySelectorAll('.alert').forEach(function(el) {
-    el.style.transition = 'opacity 0.4s';
-    el.style.opacity = '0';
-    setTimeout(function() { el.style.display = 'none'; }, 400);
+// grows a textarea to fit its content as the user types, so the full text
+// stays visible instead of scrolling inside a fixed-height box
+function register_autogrow_textareas() {
+  document.querySelectorAll('textarea.form-control').forEach(function(textarea) {
+    function resize() {
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+    textarea.addEventListener('input', resize);
+    resize();
   });
 }
+
+function remove_alert(el) {
+  el.style.transition = 'opacity 0.4s';
+  el.style.opacity = '0';
+  setTimeout(function() { el.style.display = 'none'; }, 400);
+}
+
+function remove_alerts() {
+  document.querySelectorAll('.alert').forEach(remove_alert);
+}
+
+document.addEventListener('click', function(event) {
+  var dismiss = event.target.closest('[data-dismiss="alert"]');
+  if (!dismiss) return;
+  event.preventDefault();
+  var alert = dismiss.closest('.alert');
+  if (alert) remove_alert(alert);
+});
 
 function register_freetext_toggler() {
   document.querySelectorAll('a.freetext').forEach(function(link) {

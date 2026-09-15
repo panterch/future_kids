@@ -1,39 +1,34 @@
 = simple_form_for [@journal.kid, @journal, @comment] do |form|
   = form.input :by
   = form.input :body
-  .form-group.boolean.optional
-    %label.boolean.optional.control-label.col-sm-3.control-label
-      Benachrichtigung senden
+  .mb-3.row
+    %label.col-sm-3.col-form-label.text-sm-end.pt-0 Benachrichtigung senden
     .col-sm-9
-      .checkbox
-        %label.boolean
-          %input.boolean.optional(type='checkbox' disabled='disabled' checked)
+      .form-check.mb-3
+        %label.form-check-label
+          %input.form-check-input(type='checkbox' disabled='disabled' checked)
           Mentor*in (#{@journal.mentor.display_name})
-  - if @journal.kid.admin && @site.feature_coach?
-    .form-group.boolean.optional
-      .col-sm-offset-3.col-sm-9
-        .checkbox
-          %label.boolean
-            %input.boolean.optional(type='checkbox' disabled='disabled' checked)
+      - if @journal.kid.admin && @site.feature_coach?
+        .form-check.mb-3
+          %label.form-check-label
+            %input.form-check-input(type='checkbox' disabled='disabled' checked)
             Pädagogischer Coach (#{@journal.kid.admin.display_name})
 
-  - if @journal.kid.teacher
-    = form.input :to_teacher, label: "Lehrperson (#{@journal.kid.teacher.display_name})"
-  - if @journal.kid.secondary_teacher
-    = form.input :to_secondary_teacher, label: "Zweite Lehrperson (#{@journal.kid.secondary_teacher.display_name})"
-  - if @journal.kid.third_teacher
-    = form.input :to_third_teacher, label: "Dritte Lehrperson (#{@journal.kid.third_teacher.display_name})"
-  - principals = @journal.kid.school&.active_principals
-  - if principals&.any?
-    = form.input :to_principal, label: "SL/QUIMS-Verantwortliche*r (#{principals.map(&:display_name).join(', ')})"
-  .col-sm-offset-3.col-sm-9
-    = form.button :submit
-
+      - if @journal.kid.teacher
+        = form.input :to_teacher, label: "Lehrperson (#{@journal.kid.teacher.display_name})", wrapper: :vertical_boolean
+      - if @journal.kid.secondary_teacher
+        = form.input :to_secondary_teacher, label: "Zweite Lehrperson (#{@journal.kid.secondary_teacher.display_name})", wrapper: :vertical_boolean
+      - if @journal.kid.third_teacher
+        = form.input :to_third_teacher, label: "Dritte Lehrperson (#{@journal.kid.third_teacher.display_name})", wrapper: :vertical_boolean
+      - principals = @journal.kid.school&.active_principals
+      - if principals&.any?
+        = form.input :to_principal, label: "SL/QUIMS-Verantwortliche*r (#{principals.map(&:display_name).join(', ')})", wrapper: :vertical_boolean
+  = horizontal_form_actions(form)
 .clearfix
 
-.panel.panel-default.mt-4
-  .panel-heading
+.card.mt-4
+  .card-header
     %h4= @journal.display_name
-  .panel-body
+  .card-body
     = render 'journals/body', journal: @journal
   = render 'comments/list', journal: @journal, kid: @journal.kid, show_actions: false

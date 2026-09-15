@@ -24,11 +24,17 @@ class User < ApplicationRecord
   enum :exit_kind, { exit: 'exit', later: 'later', continue_term: 'continue_term', continue: 'continue' }
   enum :sex, { male: 'm', female: 'f', diverse: 'd' }
 
-  human_text_attributes :absence, :available, :todo
+  human_text_attributes :absence, :available, :note, :todo
   human_rails_enum_attributes :exit_kind, :sex
 
   def photo_medium
     photo.variant(resize_to_fit: [300, 300])
+  end
+
+  # small square crop for avatars in tables/lists (as opposed to
+  # photo_medium's fit-within-bounds, used on profile pages)
+  def photo_thumb
+    photo.variant(resize_to_fill: [96, 96])
   end
 
   def self.reset_password!(user)

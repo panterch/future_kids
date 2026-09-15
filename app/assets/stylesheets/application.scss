@@ -1,89 +1,191 @@
-$font-size-base: 12px;
-$line-height-base: 1.4;
-$grid-gutter-width: 20px;
-$navbar-height: 40px;
+@import 'bootstrap/functions';
 
-$screen-xs: 576px;
-$screen-xs-min: $screen-xs;
-$screen-phone: $screen-xs-min;
+// Karla (SIL OFL, https://fonts.google.com/specimen/Karla), vendored to
+// public/ rather than linked from Google Fonts -- same reasoning as the
+// teaser image above (dartsass-rails has no image-url) plus not wanting a
+// third-party font host resolving on every page load of an app that
+// otherwise makes no outside requests.
+@font-face {
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/karla/karla-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215;
+}
 
-$screen-sm: 720px;
-$screen-sm-min: $screen-sm;
-$screen-tablet: $screen-sm-min;
+@font-face {
+  font-family: 'Karla';
+  font-style: normal;
+  font-weight: 400 700;
+  font-display: swap;
+  src: url('/fonts/karla/karla-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
 
-$screen-md: 992px;
-$screen-md-min: $screen-md;
-$screen-desktop: $screen-md-min;
+// Zilla Slab (SIL OFL) -- heading face for the same direction. Only shipped
+// as static weights (no variable range like Figtree/Karla), so 500 and 600
+// are separate files.
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/zilla-slab/zilla-slab-500-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215;
+}
 
-$screen-lg: 1200px;
-$screen-lg-min: $screen-lg;
-$screen-lg-desktop: $screen-lg-min;
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/zilla-slab/zilla-slab-500-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
 
-$navbar-default-border: #fff;
-$navbar-default-bg: #fff;
-$grid-float-breakpoint: 1px;
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/zilla-slab/zilla-slab-600-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA,
+    U+02DC, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215;
+}
+
+@font-face {
+  font-family: 'Zilla Slab';
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+  src: url('/fonts/zilla-slab/zilla-slab-600-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF,
+    U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+
+// "Warm & humanist" direction: Karla body + Zilla Slab headings.
+$font-family-sans-serif: 'Karla', system-ui, -apple-system, 'Segoe UI', Roboto,
+  'Helvetica Neue', Arial, sans-serif;
+$headings-font-family: 'Zilla Slab', Georgia, serif;
+$headings-font-weight: 600;
 
 $header-height: 70px;
 $footer-height: 30px;
-$sidebar-width: 220px;
 
+// Solarized (Ethan Schoonover, https://ethanschoonover.com/solarized/),
+// mapped onto Bootstrap's color-mode variables so light/dark match the
+// canonical Solarized Light/Dark palettes and switch via the existing
+// data-bs-theme toggle (see app/javascript/theme.js).
+$solarized-base03:  #002b36;
+$solarized-base02:  #073642;
+$solarized-base01:  #586e75;
+$solarized-base00:  #657b83;
+$solarized-base0:   #839496;
+$solarized-base1:   #93a1a1;
+$solarized-base2:   #eee8d5;
+$solarized-base3:   #fdf6e3;
 
-// Not 'bootstrap-sprockets': that sets $bootstrap-sass-asset-helper, which
-// makes bootstrap-sass call Sprockets-only Sass functions (font-path/
-// image-path) that Dart Sass doesn't have -- it silently emits them as
-// literal (broken) CSS instead of erroring. Plain 'bootstrap' falls back to
-// relative paths instead.
-//
-// Not the 'bootstrap' umbrella partial either: it unconditionally pulls in
-// 'bootstrap/glyphicons', which declares an @font-face for a font we no
-// longer ship (all glyphicon-* usages were replaced with inline SVG icons,
-// see app/helpers/application_helper.rb). This is the same import list as
-// bootstrap-sass's _bootstrap.scss, minus that one line.
-@import 'bootstrap/variables';
-@import 'bootstrap/mixins';
-@import 'bootstrap/normalize';
-@import 'bootstrap/print';
-@import 'bootstrap/scaffolding';
-@import 'bootstrap/type';
-@import 'bootstrap/code';
-@import 'bootstrap/grid';
-@import 'bootstrap/tables';
-@import 'bootstrap/forms';
-@import 'bootstrap/buttons';
-@import 'bootstrap/component-animations';
-@import 'bootstrap/dropdowns';
-@import 'bootstrap/button-groups';
-@import 'bootstrap/input-groups';
-@import 'bootstrap/navs';
-@import 'bootstrap/navbar';
-@import 'bootstrap/breadcrumbs';
-@import 'bootstrap/pagination';
-@import 'bootstrap/pager';
-@import 'bootstrap/labels';
-@import 'bootstrap/badges';
-@import 'bootstrap/jumbotron';
-@import 'bootstrap/thumbnails';
-@import 'bootstrap/alerts';
-@import 'bootstrap/progress-bars';
-@import 'bootstrap/media';
-@import 'bootstrap/list-group';
-@import 'bootstrap/panels';
-@import 'bootstrap/responsive-embed';
-@import 'bootstrap/wells';
-@import 'bootstrap/close';
-@import 'bootstrap/modals';
-@import 'bootstrap/tooltip';
-@import 'bootstrap/popovers';
-@import 'bootstrap/carousel';
-@import 'bootstrap/utilities';
-@import 'bootstrap/responsive-utilities';
-@import 'mixins';
-@import 'utility';
+$solarized-yellow:  #b58900;
+$solarized-red:     #dc322f;
+$solarized-blue:    #268bd2;
+$solarized-cyan:    #2aa198;
+$solarized-green:   #859900;
+
+// Bootstrap picks each button's text color (black or white) by whichever
+// has the higher WCAG contrast ratio against the button's background --
+// for these four Solarized accents at their true saturation, black
+// technically wins (e.g. primary: 5.71:1 black vs 3.68:1 white), so every
+// filled button on them rendered with murky-looking black text. Darkening
+// each a little is enough to flip that same Bootstrap calculation over to
+// white on its own -- secondary/danger/dark already contrast better with
+// white and are left at their true Solarized value.
+$primary:   darken($solarized-blue, 8%);
+$secondary: $solarized-base01;
+$success:   darken($solarized-green, 7%);
+$info:      darken($solarized-cyan, 10%);
+$warning:   darken($solarized-yellow, 8%);
+$danger:    $solarized-red;
+$light:     $solarized-base2;
+$dark:      $solarized-base02;
+
+// Solarized Light -- backgrounds and the border are blended 70% toward
+// white (mix(color, white, 30%)) so the page reads as light and airy
+// rather than true Solarized's warmer, more saturated cream; text and
+// accent colors stay true Solarized.
+$body-bg:           mix($solarized-base3, white, 30%);
+$body-color:        $solarized-base00;
+$body-secondary-bg: mix($solarized-base2, white, 30%);
+$border-color:      mix($solarized-base1, white, 30%);
+$headings-color:    $solarized-base01;
+
+// Solarized Dark
+$body-bg-dark:            $solarized-base03;
+$body-color-dark:         $solarized-base0;
+$border-color-dark:       $solarized-base01;
+$body-secondary-bg-dark:  $solarized-base02;
+$body-tertiary-bg-dark:   mix($solarized-base02, $solarized-base03);
+$headings-color-dark:     $solarized-base1;
+
+// Form fields default to $body-bg, which under Solarized's low-contrast-by-
+// design palette left them nearly invisible against the page. Give them the
+// same subtle tint as the sidebar/nav (--bs-secondary-bg switches with
+// data-bs-theme already, via $body-secondary-bg / $body-secondary-bg-dark
+// above), so fields stay visually distinct in both modes.
+$input-bg: var(--bs-secondary-bg);
+
+// Underline-by-default reads as noisy in tables where most cells are links
+// (kids/mentors/etc. index pages) -- drop it and bring it back on
+// hover/focus so the affordance is still there for anyone not relying on
+// link color alone, just not shown on every link at rest.
+$link-decoration: none;
+$link-hover-decoration: underline;
+
+// The sidebar "Aktionen" panel (contextual_links helper) renders a flush
+// list-group inside a .card -- flush is correct there (a plain .list-group
+// would double up its own border/radius against the card's), but its
+// default item padding (.5rem 1rem) reads as cramped next to the card's
+// own 1rem/1.25rem header padding. Match the two instead of leaving the
+// list-group on its tighter built-in default.
+$list-group-item-padding-y: 1rem;
+$list-group-item-padding-x: 1.25rem;
+
+@import 'bootstrap';
 @import 'react-select';
 @import 'bootstrap-treeview';
 
-/* self_registrations */
-@import 'self_registrations/select_resource';
+// Bootstrap 5 dropped .form-group (its migration guide points to margin
+// utilities like .mb-3 instead), but views across the app -- especially
+// the sidebar filter forms on the index pages -- still use it and were
+// never migrated, leaving fields with no spacing between them. Reviving it
+// here fixes every one of those forms without touching each view; it also
+// stays a hook for the JS in global.js that toggles visibility via
+// .closest('.form-group'). simple_form-generated wrappers use Bootstrap 5's
+// .mb-3 directly instead (see simple_form_bootstrap.rb).
+.form-group {
+  margin-bottom: 1rem;
+}
+
+// Bootstrap 5 removes the chevron and its padding from a <select multiple>
+// (there's no closed state to point at), so its .form-select is otherwise
+// identical to a text input -- but the browser still defaults its box to a
+// cramped 4 visible rows regardless of how many options it holds, which
+// forces scrolling even for short lists. Giving it a taller minimum height
+// is the only lever CSS has here (individual <option> rows are drawn by the
+// OS and can't be restyled).
+.form-select[multiple] {
+  min-height: 8rem;
+}
+
+// global.js grows these to fit their content on load and on input, so they
+// never need their own scrollbar (the page scrolls instead).
+textarea.form-control {
+  overflow-y: hidden;
+}
 
 // Sizing for the inline SVG icons that replaced glyphicon-* (see
 // ApplicationHelper#icon). Scales with the surrounding font-size like the
@@ -96,13 +198,47 @@ $sidebar-width: 220px;
   fill: currentColor;
 }
 
+// The theme submenu (.theme-option buttons) only shows the checkmark next
+// to the active choice -- see the markup in application.html.haml and the
+// active-state toggling in app/javascript/theme.js.
+.theme-option-check {
+  display: none;
+}
+
+.theme-option.active .theme-option-check {
+  display: inline-block;
+}
+
+.no-caret > .dropdown-toggle::after {
+  display: none;
+}
+
+// The kids index Pendenz indicator (its label + icon, see global.js's
+// register_todotogglers) otherwise wraps onto two lines inside its narrow
+// table column, inflating that whole row -- keep it on one line instead.
+.todotoggle {
+  white-space: nowrap;
+}
+
+// The Pendenz popover's content is simple_format output (see
+// ApplicationRecord#text_format) -- its <p> margins sit outside
+// .popover-body's own padding rather than collapsing into it, doubling the
+// vertical gap at the top and bottom edges.
+.popover-body > :first-child {
+  margin-top: 0;
+}
+
+.popover-body > :last-child {
+  margin-bottom: 0;
+}
+
 #header {
   position: fixed;
   top: 0;
   width: 100%;
   height: $header-height;
   z-index: 2;
-  background-color: #fff;
+  background-color: var(--bs-body-bg);
 }
 
 #teaser {
@@ -111,24 +247,48 @@ $sidebar-width: 220px;
   // Not image-url(): that's a Sprockets/sass-rails Sass function dartsass-rails
   // doesn't provide. Vendored to a stable public/ path instead, same reasoning
   // as the bootstrap font files above.
-  background: white url("/images/teaser.jpg");
+  background: var(--bs-body-bg) url("/images/teaser.jpg");
 }
 
 #nav {
-  border-bottom: 1px solid #eee;
+  border-bottom: 1px solid var(--bs-border-color);
 
-  ul.nav.navbar-nav li a {
-    padding: 10px;
+  // #sidebar-wrapper and #main still offset themselves by $header-height,
+  // a leftover from when this nav lived inside the fixed #header box (see
+  // git history) -- pin the real navbar to that same height so those
+  // offsets keep working until the sidebar/main layout is reworked to not
+  // need a hardcoded height at all.
+  min-height: $header-height;
+
+  // Icon-above-label layout, like a tab bar, once the nav is expanded
+  // (md+) and items sit side by side. Left as the default icon-then-text
+  // row on narrower screens, where each item is a full-width row in the
+  // collapsed menu and stacking icon over label would waste space.
+  @include media-breakpoint-up(md) {
+    .navbar-nav > .nav-item > .nav-link {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: .125rem;
+      padding-left: .5rem;
+      padding-right: .5rem;
+      font-size: .75rem;
+      // align-items: center only centers the label as a whole -- once it
+      // wraps to two lines (a long kid/mentor name), each line defaults to
+      // left-aligned within that block, so the second line comes out
+      // ragged instead of centered under the icon.
+      text-align: center;
+
+      .icon-svg {
+        width: 1.375rem;
+        height: 1.375rem;
+      }
+
+      &.active {
+        font-weight: 600;
+      }
+    }
   }
-
-  .navbar-nav.navbar-right:last-child {
-    margin: 0;
-  }
-
-  >.container {
-    padding-top: 15px;
-  }
-
 }
 
 .alert {
@@ -136,7 +296,7 @@ $sidebar-width: 220px;
   left: 0;
   right: 0;
   top: 10px;
-  z-index: 3;
+  z-index: 1030;
   margin: auto;
   text-align: center;
 }
@@ -144,7 +304,7 @@ $sidebar-width: 220px;
 // red text to emphasize parts of certain labels
 h2 em,
 label em {
-  color: #a94442;
+  color: var(--bs-danger-text-emphasis);
   font-style: normal;
 }
 
@@ -156,15 +316,6 @@ label em {
 // Set default height for textareas
 textarea {
   min-height: 10em;
-}
-
-// Fix show_form breaking for long labels
-.show_for .wrapper {
-  clear: both;
-}
-
-.show_for .show-label {
-  min-width: 150px;
 }
 
 .page-header {
@@ -182,7 +333,7 @@ textarea {
 // Fix alignement of html5 datepicker
 input.date[type=date] {
   line-height: 1.4;
-  background-color: #fff;
+  background-color: var(--bs-body-bg);
 }
 
 // pages that contain no actions
@@ -221,7 +372,7 @@ form.schedule {
   td {
     width: 20%;
     vertical-align: top;
-    border-left: 1px solid #CCC;
+    border-left: 1px solid var(--bs-border-color);
   }
 
   th {
@@ -235,12 +386,58 @@ form.schedule {
 }
 
 #main {
-  margin-top: $header-height + 10px;
   margin-bottom: $footer-height;
+
+  // Baseline vertical rhythm for every signed-in page: breathing room below
+  // the sticky nav (so page titles and the sidebar don't start flush
+  // against it) and above the footer. #content/#sidebar and their cards
+  // inherit this for free since they're just columns inside #main.
+  padding-top: 1.5rem;
+  padding-bottom: 2rem;
+}
+
+// #header only renders for signed-out visitors now (see the top nav in
+// application.html.haml) -- the signed-in nav is sticky and in normal
+// flow, so #main already starts right below it with no help needed. Only
+// the signed-out teaser bar (fixed, removed from flow) needs #main
+// pushed down to clear it.
+#header ~ #main {
+  margin-top: $header-height + 10px;
 }
 
 #content {
-  background-color: white;
+  background-color: var(--bs-body-bg);
+}
+
+// Some index pages have tables wide enough that Bootstrap's stepped
+// .container forces horizontal scrolling or line-wrapping (kids,
+// kid_mentor_relations, reminders, schools -- see the `content_for
+// :main_class, 'wide'` call at the top of each of those views). For those
+// only, #content "bleeds" past the container's normal left edge: shift its
+// left edge out towards the viewport while widening it by that same
+// amount, so its right edge -- and #sidebar, which this leaves completely
+// untouched -- stays exactly where .container would put it on a show/edit
+// page. Other index pages (mentors, admins, ...) are narrow enough to stay
+// on the common layout and don't opt in.
+$wide-content-breakpoints: md, lg, xl, xxl;
+
+@each $breakpoint in $wide-content-breakpoints {
+  $max-width: map-get($container-max-widths, $breakpoint);
+
+  @include media-breakpoint-up($breakpoint) {
+    #main.wide #content {
+      // 50vw measures the viewport including its scrollbar track, but these
+      // are exactly the tall, scrollbar-triggering pages the bleed exists
+      // for -- so the raw formula overshoots the true edge by roughly half
+      // the scrollbar's width and clips content past x=0. Backing off by
+      // 1rem keeps a small, deliberate gutter (matching the container
+      // padding used everywhere else) instead of an accidental negative one.
+      $bleed: calc(50vw - #{$max-width * .5} - 1rem);
+      margin-left: calc(-1 * #{$bleed});
+      width: calc(75% + #{$bleed});
+      max-width: none;
+    }
+  }
 }
 
 #footer {
@@ -249,82 +446,348 @@ form.schedule {
   height: $footer-height - 1;
   padding-top: 8px;
   z-index: 2;
-  background-color: #fff;
+  background-color: var(--bs-body-bg);
   font-size: 10px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid var(--bs-border-color);
 
-  @include desktop {
+  @include media-breakpoint-up(md) {
     position: fixed;
   }
 }
 
-#sidebar-wrapper {
-  position: fixed;
-  top: $header-height + 10px;
-  bottom: $footer-height;
-  width: 100%;
-  overflow: hidden;
+// show_for label/value rows (config/initializers/show_for.rb). The label
+// column shrinks to fit its content (capped at 220px, wrapping beyond that)
+// instead of a hardcoded Bootstrap column fraction, so short labels like
+// "Name" don't waste space and long ones don't force a wide column for
+// every other row sharing the grid.
+.show-for-grid {
+  display: grid;
+  grid-template-columns: fit-content(220px) minmax(0, 1fr);
+  align-items: start;
+  column-gap: 1rem;
+  row-gap: .5rem;
 
-  #sidebar {
-    position: absolute;
-    top: 0;
-    bottom: 0;
-    width: $sidebar-width;
-    overflow: auto;
-
-    .logo {
-      margin-bottom: 20px;
-
-      img {
-        max-width: 220px;
-      }
-    }
-
+  @include media-breakpoint-down(sm) {
+    grid-template-columns: 1fr;
+    row-gap: .25rem;
   }
 
+  // Some views mix plain content into a show_for block alongside
+  // show.attribute rows -- a heading, or a nested show_for block rendered
+  // from a shared partial. Anything that isn't a proper show-for-row
+  // (display: contents) is a single opaque grid item, so left to
+  // auto-placement it would occupy just one column and desync every row
+  // that follows it. Spanning the full width keeps it self-contained
+  // instead.
+  > :not(.show-for-row) {
+    grid-column: 1 / -1;
+  }
+}
+
+.show-for-row {
+  display: contents;
+}
+
+.show-for-label {
+  text-align: right;
+
+  @include media-breakpoint-down(sm) {
+    text-align: left;
+    font-weight: 600;
+  }
+}
+
+.show-for-value {
+  min-width: 0;
+
+  // show_for prefers a human_* method when the model defines one (e.g.
+  // human_todo/human_note, simple_format'd -- see ApplicationRecord
+  // #text_format), and its own collection wrapper is a plain <ul
+  // class="list-unstyled">. Both a <p> and a <ul> carry their own
+  // browser-default margin that .list-unstyled doesn't reset, which stacked
+  // on top of .show-for-grid's own row-gap, doubling the gap below that
+  // particular row versus a plain-text attribute next to it. Trimming just
+  // the outer edges (not any gap *between* multiple paragraphs) keeps
+  // multi-paragraph text's own spacing intact.
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+// A comment on a journal entry (comments/_list.html.haml). Flush because
+// this list-group sits inside a .card -- a plain .list-group would double
+// up its own border against the card's, most visible on the left/right
+// edges where the two run parallel for the full height. human_body is
+// simple_format output (a <p>), so trim its trailing margin the same way
+// as .show-for-value above -- here there's only ever one paragraph's worth
+// of margin to trim, never a gap between multiple ones.
+.comment-item {
+  > :last-child {
+    margin-bottom: 0;
+  }
+}
+
+.comment-byline {
+  display: flex;
+  align-items: center;
+  gap: .5rem;
+  color: var(--bs-secondary-color);
+  font-size: .875rem;
+  margin-bottom: .5rem;
+}
+
+// A few edit forms (e.g. schools/_form.html.haml) embed a read-only
+// show_for block -- associations the form itself has no field for -- among
+// their simple_form inputs. Left at its normal fit-content width, its label
+// column lines up with nothing else on the page; matching horizontal_form's
+// col-sm-3/col-sm-9 split (see simple_form_bootstrap.rb) instead keeps every
+// label and value on the same two vertical lines.
+.simple_form .show-for-grid {
+  grid-template-columns: 25% 1fr;
+
+  // .show-for-grid's own mobile override above is a single class and loses
+  // to this rule's two-class specificity regardless of source order, so it
+  // never actually collapsed to one column here -- repeat it at matching
+  // specificity to keep that behavior for a show_for block embedded in a
+  // form too.
+  @include media-breakpoint-down(sm) {
+    grid-template-columns: 1fr;
+  }
+}
+
+// the school's teacher list tends to run long (dozens of names); splitting
+// it into two columns keeps the row from dwarfing the rest of the form
+.school_active_teachers .show-for-value ul {
+  column-count: 2;
+  column-gap: 1.5rem;
+}
+
+// Collapsible card headers (e.g. the kid page's Lernjournale/Gespräche/
+// Auswertung jump-lists). The title sits in a flex row with its count
+// badge (see the views) so short titles share a line with the badge and
+// only long ones (e.g. "Auswertung / Abschluss", wider than the whole
+// sidebar column on its own) wrap. min-width: 0 lets the button shrink
+// below its text's natural width so it wraps instead of overflowing the
+// card -- buttons/inputs otherwise size themselves to their content
+// regardless of the container, unlike a plain inline-block. overflow-wrap:
+// normal overrides Bootstrap's global word-wrap: break-word on body, which
+// otherwise breaks a too-narrow single word (e.g. "Lernjournale") mid-word
+// as a last resort instead of just wrapping the whole button onto its own
+// full-height line.
+.card-title [data-bs-toggle='collapse'] {
+  min-width: 0;
+  overflow-wrap: normal;
+  border: none;
+  background: none;
+  padding: 0;
+  font: inherit;
+  color: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+// Sub-skill groups within a goal-picking card (kids/_form.html.haml's
+// "Fachliche/Überfachliche Förderbereiche" -- e.g. Deutsch's Hören/Lesen/
+// Sprechen). A light top border between consecutive groups reads as a
+// divider without needing an explicit <hr> in the markup, and only kicks
+// in from the second group on so the card-header's own border stays the
+// only line above the first one.
+.goal-group-label {
+  font-weight: 600;
+  margin-bottom: .5rem;
+}
+
+.goal-group + .goal-group {
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid var(--bs-border-color);
+}
+
+#sidebar {
+  .logo {
+    margin-bottom: 20px;
+
+    // The partner logo (e.g. denteo) is a dark-on-transparent asset we
+    // don't control, so it disappears on the dark theme's background.
+    // Pin it to a fixed white backdrop in both themes instead of trying
+    // to theme an image we can't edit, framed the same way as the sidebar's
+    // form fields and .card (same border color/width and radius).
+    .logo-badge {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      background-color: #fff;
+      border: var(--bs-border-width) solid var(--bs-border-color);
+      border-radius: var(--bs-border-radius);
+      padding: 16px 32px;
+    }
+
+    img {
+      // min() so the cap never exceeds the logo-badge's own content box --
+      // a fixed 220px alone overflowed the badge (and its border) on the
+      // md breakpoint's narrower sidebar column.
+      max-width: min(220px, 100%);
+      max-height: 120px;
+      width: auto;
+      object-fit: contain;
+    }
+  }
+
+  // Rendered once, right after #content -- a plain flex row puts it on the
+  // right on desktop and lets it fall in below on mobile, so unlike the old
+  // fixed-position sidebar this needs no separate mobile duplicate.
+  @include media-breakpoint-up(md) {
+    position: sticky;
+    top: $header-height + 8px;
+    align-self: flex-start;
+
+    // Sticky only pins the top edge -- it doesn't give the element its own
+    // scroll, so on pages with a long sidebar (e.g. the kids index filter
+    // form) content past the viewport bottom would otherwise be permanently
+    // unreachable. Capping the height and scrolling internally keeps
+    // everything reachable while the sidebar still stays in view.
+    max-height: calc(100vh - #{$header-height + $footer-height + 16px});
+    overflow-y: auto;
+  }
+}
+
+// The sidebar filter forms (kids/mentors/admins/... index views, all built
+// from the same unmigrated markup) end with a bare "Filter anwenden" +
+// "Filter aufheben" button pair in one .form-group -- two adjacent inline
+// buttons with no gap between them and no defined width, wrapping wherever
+// the narrow sidebar column happens to break. Bootstrap 5's own docs call
+// for a d-grid wrapper with gap for exactly this stacked-full-width-buttons
+// case, so apply it here once instead of touching every view.
+.filter .form-group:last-child {
+  display: grid;
+  gap: 0.5rem;
 }
 
 
-.portrait {
+// Circular avatar: a user/kid's uploaded photo, or initials on a
+// type-colored background when there is none. Colors reuse Bootstrap's own
+// semantic vars (already Solarized-mapped above) so they theme with
+// data-bs-theme like everything else, rather than introducing new ones.
+.avatar {
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
   overflow: hidden;
+  border-radius: 50%;
+
+  .avatar-img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .avatar-initials {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    color: #fff;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  &.avatar-sm {
+    width: 1.5rem;
+    height: 1.5rem;
+    font-size: 0.6rem;
+
+    // sm avatars are too small in dense tables/lists to make out a face --
+    // scale up on hover so the photo is actually useful, rather than adding
+    // a whole tooltip/popover for what a bigger image already answers well
+    // enough (who is this). Only for a real photo (.avatar-photo, set by
+    // AvatarsHelper#avatar) -- zooming a two-letter initials blob doesn't
+    // reveal anything new.
+    &.avatar-photo {
+      transition: transform .15s ease-out;
+      transform-origin: center;
+      cursor: zoom-in;
+
+      &:hover {
+        position: relative;
+        z-index: 5;
+        transform: scale(3);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, .35);
+      }
+    }
+  }
+
+  &.avatar-md {
+    width: 2.5rem;
+    height: 2.5rem;
+    font-size: 0.9rem;
+  }
+
+  &.avatar-lg {
+    width: 8rem;
+    height: 8rem;
+    font-size: 2rem;
+  }
+
+  &.avatar-mentor .avatar-initials { background-color: var(--bs-info); }
+  &.avatar-teacher .avatar-initials { background-color: var(--bs-primary); }
+  &.avatar-admin .avatar-initials { background-color: var(--bs-warning); }
+  &.avatar-principal .avatar-initials { background-color: var(--bs-secondary); }
+  &.avatar-kid .avatar-initials { background-color: var(--bs-success); }
+  &.avatar-default .avatar-initials { background-color: var(--bs-secondary); }
 }
 
-.mobile-actions {
-  margin: 10px;
+.avatar-link {
+  // top-align the avatar with the name's first line rather than centering
+  // it between two lines, in case a long name wraps.
+  align-items: flex-start;
+  min-width: 0;
+
+  > a, > span:last-child {
+    overflow-wrap: anywhere;
+  }
+}
+
+// A user's own full, uncropped photo on their profile page (see
+// AvatarsHelper#profile_photo) -- unlike .avatar-lg this isn't circular/
+// cover-cropped, since staff use it to actually recognize the person.
+.profile-portrait {
+  overflow: hidden;
+  border-radius: var(--bs-border-radius);
+
+  .profile-portrait-img {
+    width: 100%;
+    height: auto;
+    display: block;
+  }
 }
 
 
 .kid-mentor-schedules {
-  .header {
-    padding: 10px 15px;
+  // "Mentoren Filtern:" / "Mentoren anzeigen:" row labels, siblings of
+  // .filters / .mentors-display-filter -- not to be confused with either.
+  .header .title {
+    font-size: 14px;
+    font-weight: 600;
+  }
 
-    .row {
-      margin-bottom: 5px;
-    }
-
-    .title {
-      margin-top: 4px;
-      font-size: 12px;
-      font-weight: bold;
-    }
+  // .filters uses row-cols-lg-auto so its 3 fields sit side by side on wide
+  // screens, sized to fit their content -- but a <select>'s natural width
+  // is driven by its longest <option> text (e.g. "primärem und sekundärem
+  // Schüler"), which is far wider than the field needs to be and forces the
+  // 3 of them to wrap again despite the room available. Capping it keeps
+  // them compact and lets all 3 share a line.
+  .filters select {
+    max-width: 220px;
   }
 
   $kidMentorSchedulesRowHeight: 40px;
-
-  .filters {
-    .title {
-      font-size: 14px;
-      margin-right: 20px;
-    }
-
-    .form-group {
-      margin-right: 20px;
-    }
-
-    label {
-      margin-right: 5px;
-    }
-  }
 
   .mentors-display-filter .Select-control {
     min-height: 62px;
