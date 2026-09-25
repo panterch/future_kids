@@ -21,7 +21,7 @@ Future Kids is a Rails 8 application that manages a mentoring program connecting
 - `bundle exec rubocop` - Run Ruby linter/formatter
 
 ### Asset Management
-- Assets are compiled using Sprockets with SCSS
+- Assets are served by Propshaft; SCSS (`app/assets/stylesheets/`) is compiled by dartsass-rails
 - The one React component (kid_mentor_schedules.js) uses vendored React via importmap, written with htm (no JSX)
 - Run `bin/rails assets:precompile` for production builds
 
@@ -31,17 +31,22 @@ Future Kids is a Rails 8 application that manages a mentoring program connecting
 - **User** (STI base class) → **Mentor**, **Teacher**, **Principal**, **Admin**
 - **Kid** - Central model representing students needing support
 - **School** - Educational institutions where kids attend
-- **KidMentorRelation** - Manages mentor-student assignments
-- **Journal** - Weekly meeting logs between mentors and kids
+- **KidMentorRelation** - Read-only model backed by an SQL view, used to filter kid/mentor relations (assignment itself is the `mentor`/`secondary_mentor` columns on Kid)
+- **RelationLog** - History of mentor/teacher assignment changes per kid
+- **Journal** - Weekly meeting logs between mentors and kids; **Comment** - comments on journals (sends notifications)
 - **Schedule** - Polymorphic model for person availability
-- **Review**/**Assessment** - Evaluation forms (first year, termination)
+- **Review** - Conversations/check-ins about a kid; **FirstYearAssessment**/**TerminationAssessment** - evaluation forms
+- **Substitution** - Temporary replacement mentor for a kid
+- **Reminder** - Missing-journal reminders for mentors
+- **Document** (+ **DocumentTreeview**) - Uploaded files organised in a category tree
+- **PrincipalSchoolRelation** - Principals ↔ schools
+- **Site** - Singleton (`Site.load`) for per-deployment settings: logo, texts, AI provider config (encrypted token)
 
 ### Key Associations
-- Kids can have primary/secondary mentors and teachers
+- Kids have a `mentor` and `secondary_mentor`, up to three teachers (`teacher`, `secondary_teacher`, `third_teacher`), an `admin` and a `school`
 - Mentors belong to schools and have many kids
 - Journals track weekly meetings with duration and goals
 - Schedules are polymorphic (attached to mentors or kids)
-- MentorMatching handles mentor assignment workflow
 
 ### Authentication & Authorization
 - Devise for authentication
@@ -49,16 +54,18 @@ Future Kids is a Rails 8 application that manages a mentoring program connecting
 - Different user types (Admin, Mentor, Teacher, Principal) have distinct permissions
 
 ### Key Features
-- **Mentor-Kid Matching**: Algorithm-based assignment system
+- **Mentor-Kid Assignment**: Manual assignment by admins, logged in RelationLog
 - **Journal Tracking**: Weekly meeting documentation with goals/progress
 - **Schedule Management**: Availability coordination between mentors/kids
 - **Assessment System**: First-year and termination evaluations
 - **Multi-language Support**: German localization (primary language)
-- **Geolocation**: Address geocoding for mentor-kid proximity matching
+- **AI Kid Summaries**: `JournalSummarizer` (`app/services/`) sends a kid's markdown profile (`kids/show.md.erb`, also at `/kids/:id.md`) to an OpenAI-compatible API configured per Site. Real names are replaced by placeholders via `NameRedactor`/`PersonDictionary` before sending and restored afterwards; `/kids/:id.md?redacted=true` previews what is sent
+- **File uploads**: Active Storage for user photos, the site logo and documents (photos/logo served as resized, metadata-stripped variants)
 
 ### File Structure
 - `/app/models/` - Core domain models with business logic
 - `/app/controllers/` - RESTful controllers with concern modules
+- `/app/services/` - Service objects (AI summary, name redaction)
 - `/app/views/` - HAML templates with responsive Bootstrap styling
 - `/spec/` - RSpec test suite with FactoryBot factories
 - `/config/routes.rb` - Nested resource routing structure
@@ -67,11 +74,9 @@ Future Kids is a Rails 8 application that manages a mentoring program connecting
 - Single Table Inheritance (STI) for User types
 - Polymorphic associations for Schedules
 - Validation concerns and callbacks for data integrity
-- Excel export functionality via Axlsx gem
-- Phone number validation for Swiss formats only
+- Excel export via caxlsx / caxlsx_rails
 
 ## Database
 - PostgreSQL in production
 - Uses Rails migrations and ActiveRecord ORM
-- Geographic data stored for distance calculations
 - Soft deletion patterns (inactive flags rather than hard deletes)
