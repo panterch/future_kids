@@ -1,4 +1,4 @@
-= show_for @school do |show|
+= details_for @school do |show|
   = show.association :active_principals do |p|
     %li= can_link_to(p)
   = show.association :active_teachers do |t|

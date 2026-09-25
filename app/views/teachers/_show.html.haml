@@ -4,7 +4,7 @@
       .card-header
         %h4.card-title.mb-0 Persönliche Angaben
       .card-body
-        = show_for @teacher do |show|
+        = details_for @teacher do |show|
           = show.attribute :name
           = show.attribute :prename
           = show.attribute(:email) { mail_to(@teacher.email) { icon_text('envelope', @teacher.email) } }
@@ -24,7 +24,7 @@
     .card-header
       %h4.card-title.mb-0 Projektinterne Informationen
     .card-body
-      = show_for @teacher do |show|
+      = details_for @teacher do |show|
         = show.attribute :todo
         = show.attribute :note
         = show.attribute :inactive

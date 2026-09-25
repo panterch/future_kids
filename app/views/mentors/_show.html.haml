@@ -4,7 +4,7 @@
       .card-header
         %h4.card-title.mb-0 Persönliche Angaben
       .card-body
-        = show_for @mentor do |show|
+        = details_for @mentor do |show|
           = render "details", show: show, mentor: @mentor
           = show.association :schools do |k|
             %li
@@ -26,7 +26,7 @@
         .card-header
           %h4.card-title.mb-0#internal Projektinterne Informationen
         .card-body
-          = show_for @mentor do |show|
+          = details_for @mentor do |show|
             = show.attribute :personnel_number
             = show.attribute :ects
             = show.attribute :term

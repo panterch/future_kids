@@ -42,7 +42,7 @@ module AvatarsHelper
 
   # avatar + can_link_to's linked (or plain) display name, side by side --
   # for table rows and lists. Keeps can_link_to itself untouched since it's
-  # also used in dense show_for attribute rows where an avatar per row would
+  # also used in dense details_for attribute rows where an avatar per row would
   # be noise rather than signal.
   def avatar_link_to(resource)
     return '' if resource.blank?

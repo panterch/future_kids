@@ -29,7 +29,6 @@ gem 'redcarpet'
 gem 'responders'
 gem 'ruby-vips'
 gem 'dartsass-rails'
-gem 'show_for'
 gem 'simple_form'
 gem 'validates_timeliness'
 gem 'whenever', require: false

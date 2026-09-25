@@ -341,6 +341,12 @@ de:
   messages:
     confirm_delete: "%{model} %{record} wirklich löschen?"
 
+  # label/value lists on the show pages (DetailsHelper)
+  details:
+    blank: "Keine Angabe"
+    "yes": "Ja"
+    "no": "Nein"
+
   crud:
     title:
       index:  "%{model} Liste"
