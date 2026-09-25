@@ -2,7 +2,7 @@
 
 source 'https://rubygems.org'
 
-ruby '3.4.9'
+ruby file: '.ruby-version'
 
 gem 'haml-rails'
 gem 'importmap-rails'
