@@ -36,6 +36,7 @@ Rails.application.routes.draw do
   resources :teachers
   resources :principals
   resource :site
+  resource :terms_of_use, only: :show, controller: 'terms_of_use'
   resources :substitutions do
     member do
       put 'inactivate'

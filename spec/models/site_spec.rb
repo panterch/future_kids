@@ -7,8 +7,8 @@ describe Site do
     @site = described_class.load
   end
 
-  describe 'terms of conditions markdown' do
-    it 'parses markdown to HTML on save and saves it into terms_of_use_content_parsed' do
+  describe '#terms_of_use_html' do
+    it 'renders the markdown terms of use as HTML' do
       md_content = "# heading 1\n" \
                    "## heading 2\n" \
                    "Combined emphasis with **asterisks and _underscores_**.\n" \
@@ -19,10 +19,21 @@ describe Site do
                     "<p>Combined emphasis with <strong>asterisks and <em>underscores</em></strong>.\n" \
                     "<a href=\"https://www.google.com\">I&#39;m an inline-style link</a></p>\n"
 
-      @site.update(terms_of_use_content: md_content)
-      @site.save
-      @site.reload
-      expect(@site.terms_of_use_content_parsed).to eq html_result
+      @site.terms_of_use_content = md_content
+      expect(@site.terms_of_use_html).to eq html_result
+    end
+
+    it 'escapes raw HTML and drops javascript: links' do
+      @site.terms_of_use_content = "<script>alert(1)</script>\n\n[click](javascript:alert(1))"
+      html = @site.terms_of_use_html
+      expect(html).not_to include('<script>')
+      expect(html).to include('&lt;script&gt;')
+      expect(html).not_to include('href="javascript:')
+    end
+
+    it 'is nil without terms of use' do
+      @site.terms_of_use_content = ''
+      expect(@site.terms_of_use_html).to be_nil
     end
   end
 

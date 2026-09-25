@@ -107,12 +107,14 @@
                       = sidebar
                       = link_to icon_text('arrow-bar-up', 'Seitenanfang'), '#', class: 'btn btn-link text-secondary'
 
-    - if @site.footer_address.present? || @site.footer_email.present?
+    - if @site.footer_address.present? || @site.footer_email.present? || @site.terms_of_use_content.present?
       #footer
         .container
           .col-md-12
             = @site.footer_address
             - if @site.footer_email.present?
-              = mail_to @site.footer_email, nil, :encode => "hex"
+              = mail_to @site.footer_email
+            - if @site.terms_of_use_content.present?
+              = link_to t('activerecord.attributes.site.terms_of_use_content'), terms_of_use_path, class: 'ms-2'
 
 -

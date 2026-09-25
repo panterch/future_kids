@@ -60,6 +60,7 @@ Future Kids is a Rails 8 application that manages a mentoring program connecting
 - **Assessment System**: First-year and termination evaluations
 - **Multi-language Support**: German localization (primary language)
 - **AI Kid Summaries**: `JournalSummarizer` (`app/services/`) sends a kid's markdown profile (`kids/show.md.erb`, also at `/kids/:id.md`) to an OpenAI-compatible API configured per Site. Real names are replaced by placeholders via `NameRedactor`/`PersonDictionary` before sending and restored afterwards; `/kids/:id.md?redacted=true` previews what is sent
+- **Scheduled jobs**: daily journal digest and mentor reminders (`lib/tasks/schedule.rake`), scheduled per deployment, not by anything in the repo; see DEPLOYMENT.md
 - **File uploads**: Active Storage for user photos, the site logo and documents (photos/logo served as resized, metadata-stripped variants)
 
 ### File Structure

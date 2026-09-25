@@ -6,17 +6,14 @@ ruby file: '.ruby-version'
 
 gem 'haml-rails'
 gem 'importmap-rails'
-gem 'jbuilder'
 gem 'rails'
 gem 'rails-i18n'
 gem 'propshaft'
 
-gem 'actionview-encoded_mail_to'
 gem 'active_storage_validations'
 gem 'jaro_winkler'
 gem 'bootstrap'
 gem 'cancancan'
-gem 'connection_pool'
 gem 'countries'
 gem 'country_select'
 gem 'devise'
@@ -28,12 +25,10 @@ gem 'responders'
 gem 'ruby-vips'
 gem 'dartsass-rails'
 gem 'simple_form'
-gem 'whenever', require: false
 
 gem 'caxlsx'
 gem 'caxlsx_rails'
 
-gem 'barnes'
 gem 'puma'
 
 # Bundle gems for the local environment. Make sure to
@@ -42,9 +37,7 @@ gem 'puma'
 group :development, :test do
   gem 'capybara'
   gem 'cuprite'
-  gem 'factory_bot'
   gem 'factory_bot_rails'
-  gem 'listen'
   gem 'rails-controller-testing'
   gem 'rspec-rails'
   gem 'rubocop', require: false
@@ -57,7 +50,6 @@ group :development, :test do
 end
 
 group :development do
-  gem 'letter_opener'
 end
 
 group :production do

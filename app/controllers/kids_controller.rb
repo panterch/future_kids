@@ -84,7 +84,11 @@ class KidsController < ApplicationController
   def show_kid_mentors_schedules
     @mentors = Mentor.active.includes(:kids, :secondary_kids, :schools, :schedules)
     @schools = School.all
-    @kid_mentor_schedules_data = JSON.parse(render_to_string(formats: [:json]))
+    @kid_mentor_schedules_data = helpers.kid_mentor_schedules_data(@kid, @mentors, @schools)
+    respond_to do |format|
+      format.html
+      format.json { render json: @kid_mentor_schedules_data }
+    end
   end
 
   protected

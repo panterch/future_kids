@@ -1,0 +1,9 @@
+# Scheduled jobs for a host with cron, see DEPLOYMENT.md. Install with
+# `crontab -e` as the app user and adjust the path. Times are UTC.
+CRON_TZ=UTC
+
+# Journal digest for teachers (covers the last 24 hours, so run exactly once a day)
+0 5 * * * cd /path/to/future_kids && RAILS_ENV=production bin/rails schedule:send_journals
+
+# Missing-journal reminders for mentors
+0 22 * * * cd /path/to/future_kids && RAILS_ENV=production bin/rails schedule:create_reminders

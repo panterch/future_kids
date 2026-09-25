@@ -38,6 +38,24 @@ module KidsHelper
     kid.meeting_start_at.strftime('%H:%M')
   end
 
+  # Props for the React component on show_kid_mentors_schedules
+  def kid_mentor_schedules_data(kid, mentors, schools)
+    {
+      mentors: mentors.to_h { |mentor| [mentor.id.to_s, mentor_schedules_data(mentor)] },
+      kid: {
+        id: kid.id,
+        prename: kid.prename,
+        name: kid.name,
+        mentor_id: kid.mentor_id,
+        meeting_start_at: meeting_start_time(kid),
+        meeting_day: kid.meeting_day.presence,
+        secondary_mentor_id: kid.secondary_mentor_id,
+        schedules: create_schedules_nested_set(kid.schedules)
+      },
+      schools: schools.map { |school| { id: school.id, display_name: school.display_name } }
+    }
+  end
+
   # Transforms a schedule array into a nested hash for the React component.
   # Entry set[day]["HH:MM"] is true when that slot is available.
   def create_schedules_nested_set(schedules_array)
@@ -49,6 +67,20 @@ module KidsHelper
   end
 
   private
+
+  def mentor_schedules_data(mentor)
+    {
+      id: mentor.id,
+      prename: mentor.prename,
+      name: mentor.name,
+      sex: mentor.sex,
+      ects: mentor.ects,
+      kids: mentor.kids.map { |k| { id: k.id, name: k.name, prename: k.prename } },
+      secondary_kids: mentor.secondary_kids.map { |k| { id: k.id, name: k.name, prename: k.prename } },
+      schools: mentor.schools.ids,
+      schedules: create_schedules_nested_set(mentor.schedules)
+    }
+  end
 
   def schedule_time_key(time)
     "#{time.hour.to_s.rjust(2, '0')}:#{time.minute.to_s.rjust(2, '0')}"

@@ -158,10 +158,9 @@ class Kid < ApplicationRecord
   end
 
   # the AI summary may contain markdown (e.g. emphasis) despite the prompt
-  # asking for plain flowing text, so it is rendered similar to
-  # Site#terms_of_use_content rather than through simple_format. unlike that
-  # admin-authored content, this text comes from a third-party AI response,
-  # so raw HTML is escaped rather than passed through
+  # asking for plain flowing text, so it is rendered like
+  # Site#terms_of_use_html rather than through simple_format. it comes from a
+  # third-party AI response, so raw HTML is escaped rather than passed through
   def human_journal_summary
     return unless journal_summary
 

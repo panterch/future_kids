@@ -8,7 +8,6 @@ class Site < ApplicationRecord
   validates :ai_api_base_url,
             format: { with: /\A#{URI::DEFAULT_PARSER.make_regexp(%w[http https])}\z/ },
             allow_blank: true
-  before_save :parse_markdown
 
   def self.load
     first_or_create!
@@ -19,12 +18,14 @@ class Site < ApplicationRecord
     logo.variant(resize_to_limit: [240, 72]).processed
   end
 
-  private
+  # rendered on every call (instead of stored on save) so that content saved
+  # before escaping was introduced can't bring raw HTML back onto the page
+  def terms_of_use_html
+    return if terms_of_use_content.blank?
 
-  def parse_markdown
-    return unless terms_of_use_content
-
-    markdown = Redcarpet::Markdown.new(Redcarpet::Render::HTML, autolink: true, tables: true)
-    self.terms_of_use_content_parsed = markdown.render(terms_of_use_content)
+    markdown = Redcarpet::Markdown.new(
+      Redcarpet::Render::HTML.new(escape_html: true, safe_links_only: true), autolink: true, tables: true
+    )
+    markdown.render(terms_of_use_content).html_safe # rubocop:disable Rails/OutputSafety
   end
 end
