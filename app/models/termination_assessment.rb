@@ -8,7 +8,7 @@ class TerminationAssessment < ApplicationRecord
   belongs_to :created_by, class_name: 'User'
 
   validates :held_at, :teacher, presence: true
-  validates_date :held_at, after: '2001-01-01'
+  validates :held_at, comparison: { greater_than: Date.new(2001, 1, 1) }, allow_blank: true
 
   after_create :send_notification
 

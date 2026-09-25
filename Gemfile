@@ -23,14 +23,11 @@ gem 'devise'
 gem 'google-cloud-storage', require: false
 gem 'image_processing'
 gem 'pg'
-gem 'rack-attack'
 gem 'redcarpet'
 gem 'responders'
 gem 'ruby-vips'
 gem 'dartsass-rails'
-gem 'show_for'
 gem 'simple_form'
-gem 'validates_timeliness'
 gem 'whenever', require: false
 
 gem 'caxlsx'

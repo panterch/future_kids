@@ -363,8 +363,6 @@ GEM
       nio4r (~> 2.0)
     racc (1.8.1)
     rack (3.2.7)
-    rack-attack (6.8.0)
-      rack (>= 1.0, < 4)
     rack-session (2.1.2)
       base64 (>= 0.1.0)
       rack (>= 3.0.0)
@@ -513,9 +511,6 @@ GEM
     securerandom (0.4.1)
     shoulda-matchers (8.0.1)
       activesupport (>= 7.2)
-    show_for (0.9.0)
-      actionpack (>= 7.0)
-      activemodel (>= 7.0)
     signet (0.22.0)
       addressable (~> 2.8)
       faraday (>= 0.17.5, < 3.a)
@@ -526,7 +521,6 @@ GEM
     temple (0.10.7)
     thor (1.5.0)
     tilt (2.9.0)
-    timeliness (0.5.3)
     timeout (0.6.1)
     trailblazer-option (0.1.2)
     tsort (0.2.0)
@@ -539,9 +533,6 @@ GEM
     unicode-emoji (4.3.0)
     uri (1.1.1)
     useragent (0.16.11)
-    validates_timeliness (8.0.0)
-      activemodel (>= 8.0.0, < 9)
-      timeliness (>= 0.3.10, < 1)
     warden (1.2.9)
       rack (>= 2.0.9)
     websocket-driver (0.8.2)
@@ -595,7 +586,6 @@ DEPENDENCIES
   pg
   propshaft
   puma
-  rack-attack
   rails
   rails-controller-testing
   rails-i18n
@@ -610,9 +600,7 @@ DEPENDENCIES
   rubocop-rspec_rails
   ruby-vips
   shoulda-matchers
-  show_for
   simple_form
-  validates_timeliness
   whenever
 
 RUBY VERSION

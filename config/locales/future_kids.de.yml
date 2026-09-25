@@ -1,6 +1,7 @@
 de:
   flash:
     session_expired: 'Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.'
+    too_many_requests: 'Zu viele Anfragen. Bitte versuchen Sie es in einigen Minuten erneut.'
     user_inactive: 'Benutzer*in inaktiv'
     school_inactivated: 'Schule wurde inaktiv gesetzt'
     access_denied: 'Sie haben keinen Zugriff (mehr) auf diese Seite.'
@@ -340,6 +341,12 @@ de:
         mentor: "Schüler*innen in Ihrem Mentoring"
   messages:
     confirm_delete: "%{model} %{record} wirklich löschen?"
+
+  # label/value lists on the show pages (DetailsHelper)
+  details:
+    blank: "Keine Angabe"
+    "yes": "Ja"
+    "no": "Nein"
 
   crud:
     title:

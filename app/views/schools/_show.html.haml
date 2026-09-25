@@ -2,7 +2,7 @@
   .card-header
     %h4.card-title.mb-0 Angaben zur Schule
   .card-body
-    = show_for @school do |show|
+    = details_for @school do |show|
       = show.attribute :name
       = show.attribute :school_kind
       = show.attribute :street

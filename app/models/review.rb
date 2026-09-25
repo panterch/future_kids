@@ -6,7 +6,7 @@ class Review < ApplicationRecord
   belongs_to :kid
 
   validates :held_at, presence: true
-  validates_date :held_at, after: '2001-01-01'
+  validates :held_at, comparison: { greater_than: Date.new(2001, 1, 1) }, allow_blank: true
 
   after_save :sync_fields_with_kid
 

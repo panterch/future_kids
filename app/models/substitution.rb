@@ -2,7 +2,7 @@
 
 class Substitution < ApplicationRecord
   validates :start_at, :end_at, presence: true
-  validates_date :start_at, :end_at, after: '2001-01-01'
+  validates :start_at, :end_at, comparison: { greater_than: Date.new(2001, 1, 1) }, allow_blank: true
 
   belongs_to :mentor
   belongs_to :secondary_mentor, class_name: 'Mentor', optional: true

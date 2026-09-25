@@ -4,7 +4,7 @@
       .card-header
         %h4.card-title.mb-0 Persönliche Angaben
       .card-body
-        = show_for @principal do |show|
+        = details_for @principal do |show|
           = show.attribute :name
           = show.attribute :prename
           = show.attribute(:email) { mail_to(@principal.email) { icon_text('envelope', @principal.email) } }
