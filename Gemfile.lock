@@ -538,7 +538,6 @@ GEM
     temple (0.10.7)
     thor (1.5.0)
     tilt (2.9.0)
-    timeliness (0.5.3)
     timeout (0.6.1)
     trailblazer-option (0.1.2)
     tsort (0.2.0)
@@ -551,9 +550,6 @@ GEM
     unicode-emoji (4.3.0)
     uri (1.1.1)
     useragent (0.16.11)
-    validates_timeliness (8.0.0)
-      activemodel (>= 8.0.0, < 9)
-      timeliness (>= 0.3.10, < 1)
     warden (1.2.9)
       rack (>= 2.0.9)
     websocket-driver (0.8.2)
@@ -625,7 +621,6 @@ DEPENDENCIES
   shoulda-matchers
   show_for
   simple_form
-  validates_timeliness
   whenever
 
 RUBY VERSION
