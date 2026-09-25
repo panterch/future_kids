@@ -49,9 +49,6 @@ group :development, :test do
   gem 'shoulda-matchers'
 end
 
-group :development do
-end
-
 group :production do
   gem 'exception_notification'
 end
