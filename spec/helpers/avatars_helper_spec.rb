@@ -33,11 +33,11 @@ describe AvatarsHelper do
       expect(markup).to have_css("img.avatar-img[alt='#{mentor.display_name}']")
     end
 
-    it 'uses the small photo_thumb variant for sm/md, and the original upload for lg' do
+    it 'uses the thumb variant for sm/md, and the medium one for lg' do
       mentor = create(:mentor)
 
-      expect(helper.avatar(mentor, size: :md)).to have_css("img[src='#{helper.rails_representation_url(mentor.photo_thumb)}']")
-      expect(helper.avatar(mentor, size: :lg)).to have_css("img[src='#{helper.rails_blob_path(mentor.photo)}']")
+      expect(helper.avatar(mentor, size: :md)).to have_css("img[src='#{helper.rails_storage_proxy_url(mentor.photo_thumb)}']")
+      expect(helper.avatar(mentor, size: :lg)).to have_css("img[src='#{helper.rails_storage_proxy_url(mentor.photo_medium)}']")
     end
 
     it 'keys the color to the resource type' do
@@ -86,7 +86,7 @@ describe AvatarsHelper do
 
       markup = helper.profile_photo(mentor)
 
-      expect(markup).to have_css('div.profile-portrait img.profile-portrait-img')
+      expect(markup).to have_css("div.profile-portrait img.profile-portrait-img[src='#{helper.rails_storage_proxy_url(mentor.photo_medium)}']")
       expect(markup).not_to have_css('.avatar')
     end
 

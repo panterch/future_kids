@@ -27,14 +27,25 @@ class User < ApplicationRecord
   human_text_attributes :absence, :available, :note, :todo
   human_rails_enum_attributes :exit_kind, :sex
 
+  # drop the upload's EXIF/XMP/IPTC metadata from served variants: phone
+  # photos carry GPS coordinates, capture time and device serial numbers,
+  # none of which an avatar needs. Keep only the color profile so wide-gamut
+  # (e.g. iPhone Display P3) photos don't look washed out; libvips < 8.15
+  # can't keep it selectively and strips everything.
+  PHOTO_SAVER = Vips.at_least_libvips?(8, 15) ? { keep: 'icc' }.freeze : { strip: true }.freeze
+
+  # whole, uncropped photo for profile pages: ~2x the widest the col-md-4
+  # column gets, so it stays sharp on HiDPI screens without shipping the
+  # original upload (which can be several MB)
   def photo_medium
-    photo.variant(resize_to_fit: [300, 300])
+    photo.variant(resize_to_limit: [800, 800], saver: PHOTO_SAVER)
   end
 
   # small square crop for avatars in tables/lists (as opposed to
-  # photo_medium's fit-within-bounds, used on profile pages)
+  # photo_medium's fit-within-bounds, used on profile pages). 2x the 72px
+  # an .avatar-sm zooms to on hover
   def photo_thumb
-    photo.variant(resize_to_fill: [96, 96])
+    photo.variant(resize_to_fill: [144, 144], saver: PHOTO_SAVER)
   end
 
   def self.reset_password!(user)

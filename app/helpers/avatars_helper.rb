@@ -16,13 +16,10 @@ module AvatarsHelper
 
     content_tag(:span, class: classes.join(' ')) do
       if has_photo
-        # profile pages (:lg) show the avatar much bigger than the 96px
-        # photo_thumb variant has resolution for, so use the original
-        # upload there instead -- it's cropped to a circle by CSS anyway,
-        # and this is a single image per page rather than a whole table/
-        # list of them, so the bigger download is cheap.
-        src = size == :lg ? rails_blob_path(resource.photo) : rails_representation_url(resource.photo_thumb)
-        image_tag src, class: 'avatar-img', alt: resource.display_name
+        # :lg is much bigger than photo_thumb has resolution for, so it uses
+        # photo_medium -- cropped to a circle by CSS anyway.
+        variant = size == :lg ? resource.photo_medium : resource.photo_thumb
+        image_tag rails_storage_proxy_url(variant), class: 'avatar-img', alt: resource.display_name
       else
         content_tag(:span, avatar_initials(resource), class: 'avatar-initials', 'aria-hidden': true)
       end
@@ -39,7 +36,7 @@ module AvatarsHelper
     return content_tag(:div, avatar(resource, size: :lg), class: 'mb-4') unless resource.respond_to?(:photo) && resource.photo.present?
 
     content_tag(:div, class: 'profile-portrait mb-4') do
-      image_tag rails_blob_path(resource.photo), class: 'profile-portrait-img', alt: resource.display_name
+      image_tag rails_storage_proxy_url(resource.photo_medium), class: 'profile-portrait-img', alt: resource.display_name
     end
   end
 
