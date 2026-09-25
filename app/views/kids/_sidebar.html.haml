@@ -1,0 +1,20 @@
+= edit_button
+
+- if @site.kids_schedule_hourly
+  = render 'button_stack', actions: [[t_action(:edit_schedules), url_for(action: :edit_schedules), 'calendar3-week', can?(:edit_schedules, @kid)],
+                                     [t_action(:show_kid_mentors_schedules), url_for(action: :show_kid_mentors_schedules), 'calendar3', can?(:show_kid_mentors_schedules, @kid)]]
+
+#kidSections.d-grid.gap-4
+  = render 'kids/sidebar_section', label: 'Lernjournale', anchor: 'journals',
+    new_actions: [[t_action(:new_journal), new_kid_journal_path(@kid), 'journal-plus', can?(:create, @cancan_journal)]],
+    items: @kid.journals.map { |journal| [journal.display_name, dom_id(journal)] }
+  - if can?(:read, @cancan_review)
+    = render 'kids/sidebar_section', label: 'Gespräche', anchor: 'reviews',
+      new_actions: [[t_action(:new_review), new_kid_review_path(@kid), 'clipboard-plus', can?(:create, @cancan_review)]],
+      items: @kid.reviews.map { |review| [review.display_name, dom_id(review)] }
+  = render 'kids/sidebar_section', label: 'Auswertung / Abschluss', anchor: 'assessments',
+    new_actions: [[t_action(:new_first_year_assessment), new_kid_first_year_assessment_path(@kid), 'clipboard-check', can?(:create, @cancan_first_year_assessment)],
+                  [t_action(:new_termination_assessment), new_kid_termination_assessment_path(@kid), 'clipboard-x', can?(:create, @cancan_termination_assessment)]],
+    items: (@kid.first_year_assessments + @kid.termination_assessments).map { |assessment| [assessment.display_name, dom_id(assessment)] }
+
+= delete_button

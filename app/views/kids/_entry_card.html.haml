@@ -1,0 +1,14 @@
+-# A journal/review/assessment card on the kid page (rendered as a layout,
+-# the block is the card's content). The header wraps its buttons under the
+-# title on narrow screens instead of squeezing it.
+.card.mb-4[record]
+  .card-header.d-flex.justify-content-between.align-items-center.flex-wrap.gap-2
+    %h4.mb-0= record.display_name
+    .d-flex.flex-wrap.gap-2
+      - if can?(:edit, record)
+        = link_to icon_text('pencil', t_action(:edit)), edit_polymorphic_path([@kid, record]), class: 'btn btn-secondary'
+      - if can?(:destroy, record)
+        = link_to icon_text('trash', t_action(:destroy)), polymorphic_path([@kid, record]), method: :delete,
+          class: 'btn btn-danger', data: { confirm: t_confirm_delete(record) }
+      = local_assigns[:extra_action]
+  = yield

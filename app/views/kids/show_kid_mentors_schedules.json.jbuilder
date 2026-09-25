@@ -22,7 +22,7 @@ json.kid do
   json.name @kid.name
   json.mentor_id @kid.mentor_id
   json.meeting_start_at meeting_start_time(@kid)
-  json.meeting_day meeting_day(@kid)
+  json.meeting_day @kid.meeting_day.presence
   json.secondary_mentor_id @kid.secondary_mentor_id
   json.schedules create_schedules_nested_set(@kid.schedules)
 end

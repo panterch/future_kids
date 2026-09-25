@@ -33,7 +33,7 @@ feature 'TEACHER::NAVIGATION:KID', "
     click_link 'Schüler*in'
     click_link 'last1, first1'
     expect(page).to have_css('h1', text: 'last1, first1')
-    expect(page).to have_css('h2', text: 'Allgemeine Informationen')
+    expect(page).to have_css('h4', text: 'Allgemeine Informationen')
     expect(page).to have_css('h2', text: 'Lernjournale')
     # reviews are normally not accessible for teachers. see site_configuration_spec for different setup
     expect(page).to have_no_css('h2', text: 'Gesprächsdokumentationen')

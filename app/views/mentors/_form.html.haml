@@ -1,9 +1,11 @@
 = simple_form_for @mentor do |form|
   = form.input :name
   = form.input :prename
-  = form.input :email
-  = form.input :password
-  = form.input :password_confirmation
+  -# Not a login form: stop browsers and password managers from filling in the
+  -# signed-in user's own credentials ('new-password' = a password being set).
+  = form.input :email, input_html: { autocomplete: 'off' }
+  = form.input :password, input_html: { autocomplete: 'new-password' }
+  = form.input :password_confirmation, input_html: { autocomplete: 'new-password' }
   = form.input :sex, :collection => sex_collection
   = form.input :address
   = form.input :city
@@ -15,7 +17,7 @@
   = form.input :education
   = form.input :transport, collection: transport_collection
   -if current_user.is_a?(Admin)
-    %h2#internal Projektinterne Informationen
+    %h2.mt-4#internal Projektinterne Informationen
     = form.input :personnel_number
     = form.input :ects, collection: ects_collection
     = form.input :term, collection: term_collection
@@ -29,5 +31,4 @@
     = form.input :substitute
     = form.input :inactive
 
-  .col-sm-offset-3.col-sm-9
-    = form.button :submit
+  = horizontal_form_actions(form)

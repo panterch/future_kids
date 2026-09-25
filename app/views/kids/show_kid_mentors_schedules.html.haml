@@ -1,4 +1,4 @@
-= boot_page_title @kid.display_name
+= page_title @kid.display_name
 
 = simple_form_for @kid, html:{id:'kid_form'} do |form|
   -if @substitution
@@ -16,21 +16,19 @@
 
   .row
     .col-sm-6
-      = form.association :mentor, :collection => Mentor.active
+      = form.association :mentor, :collection => Mentor.active, wrapper: :horizontal_select_narrow_label
     .col-sm-6
-      = form.association :secondary_mentor, :collection => Mentor.active
+      = form.association :secondary_mentor, :collection => Mentor.active, wrapper: :horizontal_select_narrow_label
   .row
     .col-sm-6
-      = form.input :meeting_day, :collection => wday_collection
+      = form.input :meeting_day, :collection => wday_collection, wrapper: :horizontal_select_narrow_label
     .col-sm-6
-      - kid_time_options = meeting_time_collection
-      .form-group
-        %label.col-sm-3.control-label= Kid.human_attribute_name(:meeting_start_at)
-        .col-sm-9
-          = form.select :meeting_start_at, options_for_select(kid_time_options, @kid.human_meeting_start_at), { include_blank: true }, { class: 'form-control' }
-  .hide
+      = form.input :meeting_start_at, collection: meeting_time_collection,
+        selected: @kid.human_meeting_start_at, include_blank: true, wrapper: :horizontal_select_narrow_label
+  .d-none
     = form.submit
 
+- content_for :force_light_theme, true
 = react_component('KidMentorSchedules', @kid_mentor_schedules_data)
 
 

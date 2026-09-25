@@ -2,37 +2,60 @@
 
 import Treeview from "treeview";
 import Rails from "@rails/ujs";
+// Registers Bootstrap's own data-bs-* auto-init listeners (navbar toggler,
+// dropdowns) as a side effect of loading -- see the navbar markup in
+// app/views/layouts/application.html.haml. Popovers have no such auto-init
+// (see register_todotogglers below), so the module itself is imported too.
+import bootstrap from "bootstrap";
+import { register_theme_toggle } from "theme";
+
+// A Bootstrap Icons sprite reference as an HTML string -- the JS twin of
+// ApplicationHelper#icon (same markup, same .icon-svg sizing). The sprite's
+// fingerprinted URL comes from the layout's <body data-icon-sprite>. Also
+// imported by treeview.js (which this module imports in turn): that cycle is
+// safe because this is a hoisted function declaration, only called after
+// every module has loaded -- keep it one, not a const/arrow function.
+export function iconMarkup(name) {
+  var sprite = document.body.dataset.iconSprite;
+  return '<svg class="icon-svg" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
+    '<use href="' + sprite + '#' + name + '"></use></svg>';
+}
 
 document.addEventListener('DOMContentLoaded', function() {
+  register_theme_toggle();
+  track_nav_height();
   register_journal_controls();
   register_mentor_journal_date_selectors();
   register_schedule_checkboxes();
   register_todotogglers();
-  register_kidsfilter();
-  register_kidanchors();
-  register_submit_action_in_sidebar();
-  register_back_to_top_link();
   register_exit_at_toggler();
   register_freetext_toggler();
-  register_dropdowns();
-  register_collapses();
   register_treeview();
   register_document_search();
-  setTimeout(remove_alerts, 3000);
+  register_autogrow_textareas();
+  setTimeout(close_flash_alerts, 3000);
 });
 
+
+// Publishes the sticky navbar's rendered height as --nav-height, which the
+// sticky sidebar offset and scroll-padding-top in application.scss use in
+// place of the static $nav-height -- the nav grows when a long label (e.g.
+// a kid's name) wraps to two lines, and would otherwise cover them.
+function track_nav_height() {
+  var nav = document.getElementById('nav');
+  if (!nav || !window.ResizeObserver) return;
+  new ResizeObserver(function() {
+    document.documentElement.style.setProperty('--nav-height', nav.offsetHeight + 'px');
+  }).observe(nav);
+}
 
 function register_journal_controls() {
   var cancelled = document.getElementById('journal_cancelled');
   if (!cancelled) return;
   cancelled.addEventListener('change', function() {
     var show_times = !this.checked;
-    ['journal_start_at', 'journal_end_at'].forEach(function(id) {
-      var input = document.getElementById(id);
-      if (input) {
-        var wrapper = input.closest('.form-group');
-        if (wrapper) wrapper.style.display = show_times ? '' : 'none';
-      }
+    document.querySelectorAll('.journal_start_at, .journal_end_at').forEach(function(el) {
+      el.style.display = show_times ? '' : 'none';
     });
   });
   cancelled.dispatchEvent(new Event('change'));
@@ -60,130 +83,13 @@ function register_schedule_checkboxes() {
 }
 
 function register_todotogglers() {
-  document.querySelectorAll('a.todotoggle').forEach(function(link) {
-    var popover = null;
-
-    function showPopover() {
-      var content = link.dataset.content;
-      if (!content) return;
-
-      popover = document.createElement('div');
-      popover.className = 'popover left';
-      popover.setAttribute('role', 'tooltip');
-      popover.innerHTML = '<div class="arrow"></div><div class="popover-content"></div>';
-      popover.querySelector('.popover-content').innerHTML = content;
-      document.body.appendChild(popover);
-
-      // pointer-events: none keeps the cursor from "landing" on the popover
-      // itself, which would otherwise trigger the link's mouseleave and
-      // flicker the popover open/closed in a loop.
-      popover.style.pointerEvents = 'none';
-      popover.style.position = 'absolute';
-      // .popover is display:none by default; switch to block before reading
-      // getBoundingClientRect() below, otherwise its size reads as 0x0 and
-      // the popover ends up positioned on top of the link instead of beside it.
-      popover.style.display = 'block';
-
-      var linkRect = link.getBoundingClientRect();
-      var popoverRect = popover.getBoundingClientRect();
-      popover.style.top = (window.scrollY + linkRect.top + linkRect.height / 2 - popoverRect.height / 2) + 'px';
-      popover.style.left = (window.scrollX + linkRect.left - popoverRect.width - 10) + 'px';
-    }
-
-    function hidePopover() {
-      if (popover) {
-        popover.remove();
-        popover = null;
-      }
-    }
-
-    link.addEventListener('mouseenter', showPopover);
-    link.addEventListener('mouseleave', hidePopover);
+  // The todo preview on kids/mentors/etc. index pages (data-bs-toggle=
+  // "popover" on the .todotoggle links, see e.g. kids/index.html.haml) --
+  // Bootstrap's own Popover component, Popper-positioned like any other
+  // data-bs-* component, instead of a hand-rolled hover listener.
+  document.querySelectorAll('[data-bs-toggle="popover"]').forEach(function(el) {
+    new bootstrap.Popover(el);
   });
-}
-
-function register_dropdowns() {
-  document.querySelectorAll('.dropdown-toggle').forEach(function(toggle) {
-    toggle.addEventListener('click', function(event) {
-      event.preventDefault();
-      event.stopPropagation();
-      var dropdown = toggle.closest('.dropdown');
-      var wasOpen = dropdown.classList.contains('open');
-      document.querySelectorAll('.dropdown.open').forEach(function(el) {
-        el.classList.remove('open');
-      });
-      if (!wasOpen) dropdown.classList.add('open');
-    });
-  });
-
-  document.addEventListener('click', function() {
-    document.querySelectorAll('.dropdown.open').forEach(function(el) {
-      el.classList.remove('open');
-    });
-  });
-}
-
-function register_collapses() {
-  document.querySelectorAll('[data-toggle="collapse"]').forEach(function(trigger) {
-    trigger.addEventListener('click', function(event) {
-      event.preventDefault();
-      var targetSelector = trigger.getAttribute('data-target');
-      var target = targetSelector && document.querySelector(targetSelector);
-      if (target) target.classList.toggle('in');
-    });
-  });
-}
-
-function register_kidsfilter() {
-  document.querySelectorAll('form.filter select, form.filter input').forEach(function(el) {
-    el.addEventListener('change', function() {
-      document.querySelector('form.filter').submit();
-    });
-  });
-}
-
-function register_kidanchors() {
-  document.querySelectorAll('#sidebar .kidanchors a').forEach(function(link) {
-    link.addEventListener('click', function(event) {
-      event.preventDefault();
-      var target = document.querySelector(this.hash);
-      if (!target) return;
-      var header = document.getElementById('header');
-      var headerHeight = header ? header.offsetHeight : 0;
-      var top = target.getBoundingClientRect().top + window.scrollY - headerHeight - 3;
-      window.scrollTo({top: top, behavior: 'smooth'});
-    });
-  });
-}
-
-function register_submit_action_in_sidebar() {
-  document.querySelectorAll('#main form input[type=submit]').forEach(function(submit) {
-    if (submit.closest('.no-sidebar-actions')) return;
-    var clone = document.createElement('a');
-    clone.href = '#';
-    clone.className = 'list-group-item list-group-item-success';
-    clone.textContent = submit.value;
-    clone.addEventListener('click', function(event) {
-      event.preventDefault();
-      submit.click();
-    });
-    var panel = document.querySelector('.contextual_links_panel .list-group');
-    if (panel) panel.prepend(clone);
-  });
-}
-
-function register_back_to_top_link() {
-  if (document.body.scrollHeight <= window.innerHeight) return;
-  var link = document.createElement('a');
-  link.href = '#';
-  link.className = 'list-group-item';
-  link.textContent = 'Seitenanfang';
-  link.addEventListener('click', function(event) {
-    event.preventDefault();
-    window.scrollTo({top: 0, behavior: 'smooth'});
-  });
-  var panel = document.querySelector('.contextual_links_panel .list-group');
-  if (panel) panel.append(link);
 }
 
 function register_exit_at_toggler() {
@@ -191,7 +97,7 @@ function register_exit_at_toggler() {
   selects.forEach(function(select) {
     select.addEventListener('change', function() {
       var show = this.value === 'later';
-      document.querySelectorAll('.form-group.kid_exit_at, .form-group.mentor_exit_at').forEach(function(el) {
+      document.querySelectorAll('.kid_exit_at, .mentor_exit_at').forEach(function(el) {
         el.style.display = show ? '' : 'none';
       });
     });
@@ -201,18 +107,32 @@ function register_exit_at_toggler() {
   });
 }
 
-function remove_alerts() {
-  document.querySelectorAll('.alert').forEach(function(el) {
-    el.style.transition = 'opacity 0.4s';
-    el.style.opacity = '0';
-    setTimeout(function() { el.style.display = 'none'; }, 400);
+// grows a textarea to fit its content as the user types, so the full text
+// stays visible instead of scrolling inside a fixed-height box
+function register_autogrow_textareas() {
+  document.querySelectorAll('textarea.form-control').forEach(function(textarea) {
+    function resize() {
+      textarea.style.height = 'auto';
+      textarea.style.height = textarea.scrollHeight + 'px';
+    }
+    textarea.addEventListener('input', resize);
+    resize();
+  });
+}
+
+// Flash messages close themselves after a few seconds. Only those: other
+// alerts (form error summaries, the document search's no-results hint)
+// carry information that has to stay on screen.
+function close_flash_alerts() {
+  document.querySelectorAll('#flash .alert').forEach(function(el) {
+    bootstrap.Alert.getOrCreateInstance(el).close();
   });
 }
 
 function register_freetext_toggler() {
   document.querySelectorAll('a.freetext').forEach(function(link) {
     link.addEventListener('click', function() {
-      this.closest('.form-group').querySelectorAll('input, textarea, select, button').forEach(function(input) {
+      this.closest('.document_category').querySelectorAll('input, textarea, select, button').forEach(function(input) {
         var isHidden = input.style.display === 'none';
         input.style.display = isHidden ? '' : 'none';
         if (isHidden) {
@@ -232,15 +152,47 @@ function register_freetext_toggler() {
 
 var documentTree = null;
 
+// Which folders of the documents tree are open, kept per browser across
+// page loads (see Treeview's `expanded` path keys). Storage can be
+// unavailable (private windows, blocked site data): then the tree simply
+// starts with its first level open, as without saved state.
+var DOCUMENT_TREE_STATE_KEY = 'documents.tree.expanded';
+
+function loadDocumentTreeState() {
+  try {
+    var paths = JSON.parse(window.localStorage.getItem(DOCUMENT_TREE_STATE_KEY));
+    return Array.isArray(paths) ? paths : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function saveDocumentTreeState(paths) {
+  try {
+    window.localStorage.setItem(DOCUMENT_TREE_STATE_KEY, JSON.stringify(paths));
+  } catch (e) {
+    // not persisted -- the tree still works for this page view
+  }
+}
+
+// The full (unfiltered) tree, opened as the user last left it. Search
+// results are built separately, fully expanded and without saving, so a
+// search never overwrites the saved state.
+function buildDocumentTree(treeEl, data) {
+  return new Treeview(treeEl, {
+    data: data,
+    enableLinks: true,
+    levels: 1,
+    expanded: loadDocumentTreeState(),
+    onToggle: saveDocumentTreeState
+  });
+}
+
 function register_treeview() {
   var treeEl = document.getElementById('tree');
   if (!treeEl) return;
 
-  documentTree = new Treeview(treeEl, {
-    data: JSON.parse(treeEl.dataset.tree),
-    enableLinks: true,
-    levels: 1
-  });
+  documentTree = buildDocumentTree(treeEl, JSON.parse(treeEl.dataset.tree));
 
   var expandAll = document.getElementById('tree_expand_all');
   if (expandAll) {
@@ -333,7 +285,7 @@ function register_document_search() {
       if (noResults) noResults.style.display = 'none';
       treeEl.style.display = '';
       documentTree.remove();
-      documentTree = new Treeview(treeEl, {data: originalTreeData, enableLinks: true, levels: 1});
+      documentTree = buildDocumentTree(treeEl, originalTreeData);
     } else {
       var filteredData = filterTreeData(originalTreeData, searchTerm);
       documentTree.remove();

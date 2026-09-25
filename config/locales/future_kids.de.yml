@@ -340,7 +340,6 @@ de:
         mentor: "Schüler*innen in Ihrem Mentoring"
   messages:
     confirm_delete: "%{model} %{record} wirklich löschen?"
-    select_prompt:  "%{model} auswählen"
 
   crud:
     title:
@@ -350,42 +349,25 @@ de:
       show:   "%{model} anzeigen"
       new:    "%{model} erfassen"
       create: "%{model} erfassen"
-      delete: "%{model} löschen"
-      destroy: "%{model} löschen"
-    notices:
-      create: "%{model} %{record}erstellt."
-      update: "%{model} %{record}geändert."
-      destroy: "%{model} %{record}gelöscht."
     action:
       edit: "Bearbeiten"
-      update: "Bearbeiten"
-      show: "Anzeigen"
+      show: Details
       new: "Erfassen"
-      create: "Erfassen"
       delete: "Löschen"
       destroy: "Löschen"
-      cancel: "Abbrechen"
-      back: "Zurück"
-      previous: "Zurück"
-      next: "Weiter"
+      index: "Zurück zur Liste"
       edit_schedules: Stundenplan bearbeiten
       show_kid_mentors_schedules: Mentor finden
       new_journal: Neues Lernjournal
       new_review: Neues Gespräch
       new_first_year_assessment: Neues Auswertungsgespräch
       new_termination_assessment: Neues Abschluss-Feedback
-      comment: Kommentieren
-      index: "Zurück zur Liste"
+      new_substitution: 'Neue Abwesenheit'
       xlsx: "Excel Export"
       reset_all: 'Alle zurücksetzen'
       update_success: 'Erfolgreich gespeichert'
-      new_substitution: 'Neue Abwesenheit'
       expand_all: "Alle anzeigen"
       collapse_all: "Alle einklappen"
-      accept: Akzeptieren
-      decline: Ablehnen
-      confirm: Bestätigen
-      show: Details
 
   title:
     kid_mentor_relation_index:
@@ -394,7 +376,7 @@ de:
 
   nav:
     principal: 'SL/QUIMS'
-    document: 'Anleitungen & Dokumente'
+    document: 'Informationen'
 
   time:
     formats:

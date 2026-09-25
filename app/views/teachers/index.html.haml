@@ -1,21 +1,9 @@
-- content_for :sidebar do
-  -if current_user.is_a?(Admin)
-    = form_for :teacher, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
-      %label= Kid.human_attribute_name(:school)
-      .form-group
-        = f.select :school_id, school_collection_by_kind(:teacher), { :include_blank => true }, class: 'form-control'
+= render layout: 'index_header', locals: { title: (current_user.is_a?(Admin) ? "#{@teachers.count} " : '') + 'Lehrpersonen' } do
+  = new_button(Teacher)
 
-      .checkbox
-        %label
-          = f.check_box :inactive
-          %p
-            %b Inaktive
-      .form-group
-        = f.submit 'Filter anwenden', class: 'btn btn-xs btn-success'
-        = link_to 'Filter aufheben', teachers_path, class: 'btn btn-xs'
+- if current_user.is_a?(Admin)
+  = render layout: 'filter_bar', locals: { record: @teacher } do
+    = render 'filter_dropdown', label: Kid.human_attribute_name(:school), field: :school_id, options: school_collection_by_kind(:teacher), record: @teacher
+    = render 'inactive_filter', record: @teacher
 
-= boot_page_title do
-  = @teachers.count if current_user.is_a?(Admin)
-  Lehrpersonen
-
-= render '/users/list', collection: @teachers
+= render 'users/list', collection: @teachers

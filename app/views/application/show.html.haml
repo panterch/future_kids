@@ -1,3 +1,10 @@
-= boot_page_title
+- content_for :sidebar do
+  = edit_button
+  = content_for(:sidebar_actions)
+  = delete_button
+- content_for :mobile_actions do
+  = edit_button
 
-= render "show"
+= render 'record_header'
+
+= render 'show'

@@ -30,7 +30,7 @@ class PrincipalsController < ApplicationController
     return {} if params[:principal].blank?
 
     params.require(:principal).permit(
-      :name, :prename, :email, :password, :password_confirmation, :phone, :inactive, school_ids: []
+      :name, :prename, :email, :password, :password_confirmation, :phone, :inactive, :photo, school_ids: []
     )
   end
 end

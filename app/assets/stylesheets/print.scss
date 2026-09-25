@@ -2,10 +2,6 @@ body {
   background-color: #FFF;
 }
 
-img#bg {
-  display: none;
-}
-
 #content, #main, .container {
   margin: 0;
   width: 100%;
@@ -26,10 +22,6 @@ img#bg {
   margin: 5em 2em 0 0;
 }
 
-.portrait {
+.avatar, .profile-portrait {
   display: none;
-}
-
-a[href]:after {
-  content: "";
 }

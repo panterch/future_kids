@@ -3,7 +3,8 @@ import classNames from "classnames";
 import "react-input-autosize";
 import Select from "react-select";
 import htm from "htm";
-import { iconMarkup } from "icons";
+
+import { iconMarkup } from "global";
 
 const html = htm.bind(React.createElement);
 const { useState } = React;
@@ -121,28 +122,30 @@ window.KidMentorSchedules = function KidMentorSchedules({ mentors, schools, kid 
   };
 
   return html`
-    <div className="kid-mentor-schedules row">
-      <div className="header panel panel-default">
-        <div className="row">
-          <div className="col-xs-2 title">Mentoren Filtern: </div>
-          <div className="col-xs-10">
-            <${Filters}
-              mentors=${mentors}
-              schools=${schools}
-              initialFilters=${filters}
-              onChange=${onChangeFilter}
-            />
+    <div className="kid-mentor-schedules">
+      <div className="header card mb-3">
+        <div className="card-body">
+          <div className="row gy-2 align-items-center mb-3">
+            <div className="col-12 col-lg-2 title">Mentoren Filtern:</div>
+            <div className="col-12 col-lg-10">
+              <${Filters}
+                mentors=${mentors}
+                schools=${schools}
+                initialFilters=${filters}
+                onChange=${onChangeFilter}
+              />
+            </div>
           </div>
-        </div>
-        <div className="row">
-          <div className="col-xs-2 title">Mentoren anzeigen: </div>
-          <div className="col-xs-10">
-            <${MentorsForDisplayingFilter}
-              mentors=${filteredMentors}
-              selection=${selectedMentorIds}
-              onChange=${onChangeSelectedMentorsToDisplay}
-              visitedMentors=${visitedMentors}
-            />
+          <div className="row gy-2 align-items-center">
+            <div className="col-12 col-lg-2 title">Mentoren anzeigen:</div>
+            <div className="col-12 col-lg-10">
+              <${MentorsForDisplayingFilter}
+                mentors=${filteredMentors}
+                selection=${selectedMentorIds}
+                onChange=${onChangeSelectedMentorsToDisplay}
+                visitedMentors=${visitedMentors}
+              />
+            </div>
           </div>
         </div>
       </div>
@@ -187,14 +190,14 @@ function MentorsForDisplayingFilter({ mentors, selection, onChange, visitedMento
 
   const optionRenderer = (option) => html`
     <span>
-      ${option.visited && html`<i dangerouslySetInnerHTML=${{ __html: iconMarkup('eyeOpen') }} />`}
+      ${option.visited && html`<i dangerouslySetInnerHTML=${{ __html: iconMarkup('eye') }} />`}
       ${' '}${option.label}
     </span>
   `;
 
   return html`
-    <div className="mentors-display-filter row">
-      <div className="col-xs-10">
+    <div className="mentors-display-filter d-flex align-items-start gap-2">
+      <div className="flex-grow-1">
         <${Select}
           options=${options}
           multi=${true}
@@ -204,7 +207,7 @@ function MentorsForDisplayingFilter({ mentors, selection, onChange, visitedMento
           onChange=${handleChange}
         />
       </div>
-      <button onClick=${selectAll} className="btn btn-default col-xs-2">
+      <button onClick=${selectAll} className="btn btn-secondary flex-shrink-0">
         Alle wählen <br />${sizeLabel}
       </button>
     </div>
@@ -216,48 +219,57 @@ function Filters({ mentors, schools, initialFilters, onChange }) {
   const sanitizeSchool = (value) => (value.length === 0 ? null : parseInt(value, 10));
 
   return html`
-    <div className="filters form-inline">
-      <div className="form-group">
-        <label htmlFor="number-of-kids">Zeige Mentoren mit </label>
-        <select
-          name="number-of-kids"
-          className="form-control"
-          value=${initialFilters.numberOfKids}
-          onChange=${e => onChange && onChange('numberOfKids', e.target.value)}
-        >
-          <option value="no-kid">keinem Schüler zugewiesen</option>
-          <option value="primary-only">nur primärem Schüler zugewiesen</option>
-          <option value="secondary-only">nur sekundärem Schüler</option>
-          <option value="primary-and-secondary">primärem und sekundärem Schüler</option>
-        </select>
+    <div className="filters row row-cols-lg-auto g-3 align-items-center">
+      <div className="col-12">
+        <div className="input-group">
+          <label className="input-group-text" htmlFor="number-of-kids">Zeige Mentoren mit</label>
+          <select
+            id="number-of-kids"
+            name="number-of-kids"
+            className="form-select"
+            value=${initialFilters.numberOfKids}
+            onChange=${e => onChange && onChange('numberOfKids', e.target.value)}
+          >
+            <option value="no-kid">keinem Schüler zugewiesen</option>
+            <option value="primary-only">nur primärem Schüler zugewiesen</option>
+            <option value="secondary-only">nur sekundärem Schüler</option>
+            <option value="primary-and-secondary">primärem und sekundärem Schüler</option>
+          </select>
+        </div>
       </div>
-      <div className="form-group">
-        <label htmlFor="sex">Geschlecht </label>
-        <select
-          name="sex"
-          className="form-control"
-          value=${initialFilters.sex || ''}
-          onChange=${e => onChange && onChange('sex', sanitizeSex(e.target.value))}
-        >
-          <option />
-          <option value="male">Männlich</option>
-          <option value="female">Weiblich</option>
-          <option value="diverse">Divers</option>
-        </select>
+      <div className="col-12">
+        <div className="input-group">
+          <label className="input-group-text" htmlFor="sex">Geschlecht</label>
+          <select
+            id="sex"
+            name="sex"
+            className="form-select"
+            value=${initialFilters.sex || ''}
+            onChange=${e => onChange && onChange('sex', sanitizeSex(e.target.value))}
+          >
+            <option />
+            <option value="male">Männlich</option>
+            <option value="female">Weiblich</option>
+            <option value="diverse">Divers</option>
+          </select>
+        </div>
       </div>
-      <div className="form-group">
-        <label htmlFor="school">Schule </label>
-        <select
-          name="school"
-          className="form-control"
-          value=${initialFilters.school || ''}
-          onChange=${e => onChange && onChange('school', sanitizeSchool(e.target.value))}
-        >
-          <option />
-          ${schools.map(school => html`
-            <option value=${`${school.id}`} key=${`${school.id}`}>${school.display_name}</option>
-          `)}
-        </select>
+      <div className="col-12">
+        <div className="input-group">
+          <label className="input-group-text" htmlFor="school">Schule</label>
+          <select
+            id="school"
+            name="school"
+            className="form-select"
+            value=${initialFilters.school || ''}
+            onChange=${e => onChange && onChange('school', sanitizeSchool(e.target.value))}
+          >
+            <option />
+            ${schools.map(school => html`
+              <option value=${`${school.id}`} key=${`${school.id}`}>${school.display_name}</option>
+            `)}
+          </select>
+        </div>
       </div>
     </div>
   `;
@@ -313,7 +325,7 @@ function TimeTable({ kid, mentors, onSelectDate }) {
               <span>
                 ${showWeekdays[day.key]
                   ? day.label
-                  : html`<span className="show-icon" dangerouslySetInnerHTML=${{ __html: iconMarkup('eyeOpen') }} />`}
+                  : html`<span className="show-icon" dangerouslySetInnerHTML=${{ __html: iconMarkup('eye') }} />`}
               </span>
             </th>
           `)}

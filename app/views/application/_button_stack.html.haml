@@ -1,0 +1,8 @@
+-# Vertical group of secondary sidebar actions, given as
+-# [[label, path, icon, permitted], ...] -- only the permitted ones are
+-# shown (e.g. can?(:create, Substitution)); renders nothing when none are.
+- permitted_actions = actions.select(&:last)
+- if permitted_actions.any?
+  .btn-group-vertical.w-100
+    - permitted_actions.each do |label, path, icon_name|
+      = link_to icon_text(icon_name, label), path, class: 'btn btn-outline-secondary'

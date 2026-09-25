@@ -1,3 +1,10 @@
-= boot_page_title
+- content_for :sidebar do
+  = submit_button
+  = show_button
+  = delete_button
+- content_for :mobile_actions do
+  = submit_button(label: 'Speichern')
+
+= render 'record_header'
 
 = render 'form'

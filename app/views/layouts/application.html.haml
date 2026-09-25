@@ -1,5 +1,6 @@
 !!!
-%html{lang: "de-CH"}
+- force_light_theme = content_for?(:force_light_theme)
+%html{lang: "de-CH", data: (force_light_theme ? {bs_theme: 'light'} : {})}
   %head
     %meta{charset: "utf-8"}/
     %meta{content: "IE=edge", "http-equiv" => "X-UA-Compatible"}/
@@ -9,75 +10,107 @@
     = stylesheet_link_tag 'print', :media => :print
     - if @site.css.present?
       %style=raw(@site.css)
+    - unless force_light_theme
+      %script
+        :plain
+          (function() {
+            var stored = null;
+            try { stored = localStorage.getItem('theme'); } catch (e) {}
+            var theme = stored === 'light' || stored === 'dark'
+              ? stored
+              : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+            document.documentElement.setAttribute('data-bs-theme', theme);
+          })();
     = javascript_importmap_tags
     = favicon_link_tag 'favicon.svg', :rel => 'icon', :type => 'image/svg+xml'
     = csrf_meta_tag
 
-  %body(class="#{controller_name} #{action_name}")
-    #header
-      - if !user_signed_in?
-        #teaser.container
+  %body(class="#{controller_name} #{action_name}"){data: {icon_sprite: asset_path('bootstrap-icons.svg')}}
+    - if !user_signed_in?
+      #header
+        #teaser.container.d-flex.align-items-center.justify-content-end
+          = render 'layouts/logo_badge'
 
-      - if user_signed_in?
-        #nav-wrapper
-          #nav
-            .container
-              .navbar.navbar-default{role: "navigation"}
-                %ul.nav.navbar-nav.hidden-xs.hidden-sm.visible-md.visible-lg
-                  = render 'layouts/navigation_items'
+    -# Wide pages (`content_for :wide_layout, true`) swap the stepped
+    -# .container for .container-fluid on both the navbar and #main, so the
+    -# menu spans the same full width as the table below it. Only admins get
+    -# it -- they're the ones with the many extra table columns; mentors and
+    -# teachers see a few narrow columns that look lost at full width.
+    - wide = current_user.is_a?(Admin) && content_for?(:wide_layout)
+    - container_class = wide ? 'container-fluid' : 'container'
+    - if user_signed_in?
+      #nav.navbar.navbar-expand-md.sticky-top.bg-body-secondary{role: "navigation"}
+        %div{class: container_class}
+          %button.navbar-toggler{type: "button", "data-bs-toggle" => "collapse", "data-bs-target" => "#navbarNav", "aria-controls" => "navbarNav", "aria-expanded" => "false", "aria-label" => "Menü öffnen"}
+            %span.navbar-toggler-icon
 
-                %ul.nav.navbar-nav.navbar-left.visible-xs.visible-sm.hidden-md.hidden-lg
-                  %li.dropdown(style="display: block !important")
-                    = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown', 'aria-label' => 'Menü öffnen' do
-                      = icon(:menu_hamburger)
-                      %span.caret
-                    %ul.dropdown-menu
-                      = render 'layouts/navigation_items'
+          -# Kept outside #navbarNav (like the logo) so it stays in the top bar
+          -# next to the logo on mobile instead of landing at the bottom of the
+          -# expanded menu. ms-auto pushes it (and the logo after it) to the
+          -# right while collapsed; order-md-1 puts it back after #navbarNav,
+          -# left of the order-md-last logo, once the nav is expanded. Not a
+          -# .navbar-nav child: Bootstrap makes those dropdowns position: static
+          -# below the expand breakpoint, which would render the menu inline and
+          -# stretch the bar.
+          .navbar-user.dropdown.no-caret.ms-auto.me-2.order-md-1
+            %a.nav-link.dropdown-toggle.px-2{href: "#", role: "button", "data-bs-toggle" => "dropdown", "aria-expanded" => "false", "aria-label" => "Benutzermenü"}
+              = avatar(current_user, size: :md)
+            %ul.dropdown-menu.dropdown-menu-end
+              %li= link_to (avatar(current_user, size: :md) + tag.span(current_user.display_name, class: 'ms-2')), current_user, class: 'dropdown-item d-flex align-items-center'
+              - unless force_light_theme
+                %li.dropdown-header Farbschema
+                - [['light', 'sun', 'Hell'], ['dark', 'moon-stars', 'Dunkel'], ['auto', 'circle-half', 'Automatisch']].each do |value, icon_name, label|
+                  %li
+                    %button.dropdown-item.theme-option.d-flex.align-items-center{type: "button", data: {theme_value: value}, "aria-pressed" => "false"}
+                      = icon(icon_name, css_class: 'me-2')
+                      = label
+                      = icon('check2', css_class: 'ms-auto theme-option-check')
+              %li
+                %hr.dropdown-divider
+              %li= link_to (icon('box-arrow-right', css_class: 'me-2') + 'Abmelden'), destroy_user_session_path, method: :delete, class: 'dropdown-item'
+
+          -# outside #navbarNav's collapse, so the logo stays visible on mobile
+          .d-flex.align-items-center.order-md-last
+            = render 'layouts/logo_badge'
+
+          #navbarNav.collapse.navbar-collapse
+            %ul.navbar-nav.me-auto
+              = render 'layouts/navigation_items'
+
+            %ul.navbar-nav.align-items-center
+              -if can? :read, Site
+                %li.nav-item
+                  = link_to icon_text('gear', 'Konfiguration'), edit_site_path, class: 'nav-link'
 
 
-                %ul.nav.navbar-nav.navbar-right
-                  %li.dropdown(style="display: block !important")
-                    = link_to '#', class: 'dropdown-toggle', 'data-toggle' => 'dropdown', 'aria-label' => 'Benutzermenü' do
-                      = icon(:user)
-                      %span.caret
-                    %ul.dropdown-menu
-                      %li= link_to current_user.display_name, current_user
-                      -if can? :read, Site
-                        %li= link_to Site.model_name.human, edit_site_path
-                      %li.divider
-                      %li= link_to 'Abmelden', destroy_user_session_path, method: :delete
 
-
-    #sidebar-wrapper
-      .container
-        #sidebar.hidden-xs.hidden-sm
-          %h1.logo
-            - if @site.logo.present?
-              %img{:src => rails_representation_url(@site.logo_medium)}
-
-          - if user_signed_in?
-            .contextual_links_panel.panel.panel-default.hidden-xs.hidden-sm
-              = render 'layouts/actions'
-            = yield :sidebar
-
+    - sidebar = content_for(:sidebar)
     #main
-      .container
+      %div{class: container_class}
         .row
-          #content.col-md-offset-3.col-md-9
-            - flash.each do |name, msg|
-              = boot_alert(msg, name) unless msg.blank?
+          #content(class="#{sidebar.present? ? 'col-lg-9' : 'col-12'}")
+            #flash
+              -# only messages: Devise also flashes a boolean :timedout marker
+              - flash.each do |name, msg|
+                = flash_alert(msg, name) if msg.is_a?(String) && msg.present?
             = yield
 
-      .container
-        .row.visible-xs.visible-sm.hidden-md.hidden-lg
-          - if user_signed_in?
-            .contextual_links_panel.mobile-actions.panel.panel-default
-              = render 'layouts/actions'
+          - if sidebar.present?
+            .col-lg-3
+              .sidebar-sticky
+                #sidebar.offcanvas-lg.offcanvas-end{tabindex: '-1', aria: {labelledby: 'sidebarLabel'}}
+                  .offcanvas-header
+                    %h5#sidebarLabel.offcanvas-title= content_for(:page_title)
+                    %button.btn-close{type: 'button', data: {bs_dismiss: 'offcanvas', bs_target: '#sidebar'}, aria: {label: 'Schliessen'}}
+                  .offcanvas-body
+                    .d-grid.gap-4.w-100
+                      = sidebar
+                      = link_to icon_text('arrow-bar-up', 'Seitenanfang'), '#', class: 'btn btn-link text-secondary'
 
     - if @site.footer_address.present? || @site.footer_email.present?
       #footer
         .container
-          .col-md12
+          .col-md-12
             = @site.footer_address
             - if @site.footer_email.present?
               = mail_to @site.footer_email, nil, :encode => "hex"

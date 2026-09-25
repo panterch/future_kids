@@ -1,21 +1,23 @@
 <h2>Passwort Ändern</h2>
 
-<%= boot_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
+<%= simple_form_for(resource, as: resource_name, url: password_path(resource_name), html: { method: :put }) do |f| %>
   <%= f.error_notification %>
 
   <%= f.input :reset_password_token, as: :hidden %>
   <%= f.full_error :reset_password_token %>
 
   <div class="form-inputs">
-    <%= f.input :password, label: "Neues Passwort", required: true, autofocus: true %>
-    <%= f.input :password_confirmation, label: "Passwort Bestätigung", required: true %>
+    <%= f.input :password, label: "Neues Passwort", required: true, autofocus: true, input_html: { autocomplete: 'new-password' } %>
+    <%= f.input :password_confirmation, label: "Passwort Bestätigung", required: true, input_html: { autocomplete: 'new-password' } %>
   </div>
 
   <div class="form-actions">
-    <div class="col-sm-offset-3 col-sm-9">
+    <%= horizontal_form_actions(f) do %>
       <%= f.button :submit, "Passwort ändern" %>
-      <%= render "devise/shared/links" %>
-    </div>
+      <div class="mt-3">
+        <%= render "devise/shared/links" %>
+      </div>
+    <% end %>
   </div>
 <% end %>
 

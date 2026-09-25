@@ -1,11 +1,18 @@
 // Minimal vanilla-JS re-implementation of the bootstrap-treeview jQuery
-// plugin, covering only what global.js.erb actually uses: init with
-// {data, enableLinks, levels}, expandAll, collapseAll, getSelected, remove.
-// Markup/classes match vendor/assets/stylesheets/bootstrap-treeview.css so
-// the visuals stay identical.
+// plugin, covering only what global.js (the documents page) uses: init with
+// {data, enableLinks, levels, expanded, onToggle}, expandAll, collapseAll,
+// getSelected, remove.
+//
+// Folders are identified across page loads by their path of node texts
+// (e.g. ["Anleitungen", "Mentoring"]) -- nodeId is only a position in this
+// render and shifts whenever a category is added. `expanded` takes such
+// path keys (see expandedPaths) and overrides `levels`; `onToggle` is called
+// with the current ones after every expand/collapse.
+// Renders a Bootstrap 5 list-group, styled by the .treeview rules in
+// application.scss.
 "use strict";
 
-import { iconMarkup } from "icons";
+import { iconMarkup } from "global";
 
 function Treeview(element, options) {
   this.element = element;
@@ -23,22 +30,40 @@ Treeview.prototype.cloneData = function(data) {
   return JSON.parse(JSON.stringify(data));
 };
 
-Treeview.prototype.setInitialStates = function(node, level) {
+Treeview.prototype.setInitialStates = function(node, level, parentPath) {
   if (!node.nodes) return;
   level += 1;
+  parentPath = parentPath || [];
 
   var self = this;
+  var expanded = this.options.expanded;
   node.nodes.forEach(function(child) {
+    var path = parentPath.concat(child.text);
+    var hasChildren = !!(child.nodes && child.nodes.length > 0);
     child.nodeId = self.nodes.length;
+    child.pathKey = JSON.stringify(path);
     if (!child.hasOwnProperty('selectable')) child.selectable = true;
     child.state = child.state || {};
     if (!child.state.hasOwnProperty('selected')) child.state.selected = false;
     if (!child.state.hasOwnProperty('expanded')) {
-      child.state.expanded = !!(child.nodes && child.nodes.length > 0 && level < (self.options.levels || 1));
+      child.state.expanded = hasChildren &&
+        (expanded ? expanded.indexOf(child.pathKey) !== -1 : level < (self.options.levels || 1));
     }
     self.nodes.push(child);
-    if (child.nodes) self.setInitialStates(child, level);
+    if (child.nodes) self.setInitialStates(child, level, path);
   });
+};
+
+// Path keys of the expanded folders, the format `expanded` takes.
+Treeview.prototype.expandedPaths = function() {
+  return this.nodes
+    .filter(function(n) { return n.nodes && n.state.expanded; })
+    .map(function(n) { return n.pathKey; });
+};
+
+Treeview.prototype.toggled = function() {
+  this.render();
+  if (this.options.onToggle) this.options.onToggle(this.expandedPaths());
 };
 
 Treeview.prototype.findNodeFromEvent = function(event) {
@@ -53,14 +78,12 @@ Treeview.prototype.handleClick = function(event) {
   var node = this.findNodeFromEvent(event);
   if (!node) return;
 
-  if (event.target.classList.contains('expand-icon')) {
+  // closest(): the click lands on the icon's <svg>/<use>, not the span
+  if (event.target.closest('.expand-icon') || !node.selectable) {
     node.state.expanded = !node.state.expanded;
-    this.render();
-  } else if (node.selectable) {
-    this.selectOnly(node);
-    this.render();
+    this.toggled();
   } else {
-    node.state.expanded = !node.state.expanded;
+    this.selectOnly(node);
     this.render();
   }
 };
@@ -72,12 +95,12 @@ Treeview.prototype.selectOnly = function(node) {
 
 Treeview.prototype.expandAll = function() {
   this.nodes.forEach(function(n) { n.state.expanded = true; });
-  this.render();
+  this.toggled();
 };
 
 Treeview.prototype.collapseAll = function() {
   this.nodes.forEach(function(n) { n.state.expanded = false; });
-  this.render();
+  this.toggled();
 };
 
 Treeview.prototype.getSelected = function() {
@@ -106,12 +129,11 @@ Treeview.prototype.buildTree = function(list, nodes, level) {
   var self = this;
   nodes.forEach(function(node) {
     var item = document.createElement('li');
-    item.className = 'list-group-item';
-    if (node.state.selected) item.classList.add('node-selected');
+    item.className = 'list-group-item list-group-item-action';
     item.setAttribute('data-nodeid', node.nodeId);
     if (node.state.selected) {
-      item.style.color = '#FFFFFF';
-      item.style.backgroundColor = '#428bca';
+      item.classList.add('active');
+      item.setAttribute('aria-current', 'true');
     }
 
     for (var i = 0; i < level - 1; i++) {
@@ -124,7 +146,7 @@ Treeview.prototype.buildTree = function(list, nodes, level) {
     expandIcon.className = 'icon';
     if (node.nodes) {
       expandIcon.classList.add('expand-icon');
-      expandIcon.innerHTML = iconMarkup(node.state.expanded ? 'minus' : 'plus');
+      expandIcon.innerHTML = iconMarkup(node.state.expanded ? 'dash-lg' : 'plus-lg');
     }
     item.appendChild(expandIcon);
 

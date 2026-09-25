@@ -1,0 +1,25 @@
+-# One filter of an index page's filter bar (application/_filter_bar): a
+-# dropdown of links that each rebuild the current query string with this
+-# field changed. Pass the index's prototype `record` (e.g. @kid, built from
+-# params[:kid]) for a model filter, or a plain `current_value` for an
+-# unscoped param like order_by.
+- record = local_assigns[:record]
+- scope = record&.model_name&.param_key
+- current_value = record ? record.public_send(field) : local_assigns[:current_value]
+- query_for = ->(value) { scope ? request.query_parameters.deep_merge(scope => { field.to_s => value }) : request.query_parameters.merge(field.to_s => value) }
+- selected_label = options.find { |_, value| value.to_s == current_value.to_s }&.first
+.dropdown.d-inline-block.me-2.mb-2
+  %button.btn.btn-sm.dropdown-toggle{type: 'button', class: (selected_label ? 'btn-primary' : 'btn-outline-secondary'), data: {bs_toggle: 'dropdown'}, aria: {expanded: 'false'}}
+    - if selected_label
+      = local_assigns.fetch(:show_label_prefix, true) ? "#{label}: #{selected_label}" : selected_label
+    - else
+      = label
+  %ul.dropdown-menu.filter-menu
+    - if local_assigns.fetch(:resettable, true)
+      %li
+        = link_to 'Alle', filter_path(query_for.call('')), class: "dropdown-item #{'active' unless selected_label}"
+      %li
+        %hr.dropdown-divider
+    - options.each do |opt_label, opt_value|
+      %li
+        = link_to opt_label, filter_path(query_for.call(opt_value)), class: "dropdown-item #{'active' if opt_label == selected_label}"

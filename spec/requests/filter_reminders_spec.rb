@@ -18,28 +18,33 @@ feature 'reminders index' do
   scenario 'Should display filter reminders by school' do
     expect(page).to have_css('a', text: @reminder1.kid.name)
     expect(page).to have_css('a', text: @reminder2.kid.name)
-    select('school1', from: 'reminder_filter_by_school_id')
-    click_button('Filter anwenden')
+    choose_filter('Schule', 'school1')
     expect(page).to have_css('a', text: @reminder1.kid.name)
     expect(page).to have_no_text @reminder2.kid.name
-    select('school2', from: 'reminder_filter_by_school_id')
-    click_button('Filter anwenden')
+    choose_filter('Schule', 'school2')
+    expect(page).to have_css('a', text: @reminder2.kid.name)
     expect(page).to have_no_text(@reminder1.kid.name)
+  end
+
+  scenario 'Should filter via the opened dropdown menu', :js do
+    choose_filter('Schule', 'school1', open: true)
+    expect(page).to have_css('.dropdown-toggle', text: 'Schule: school1')
+    expect(page).to have_css('a', text: @reminder1.kid.name)
+    expect(page).to have_no_text @reminder2.kid.name
   end
 
   scenario 'Should keep filter for reminders after update' do
     expect(page).to have_text(@reminder1.kid.name)
-    select('school2', from: 'reminder_filter_by_school_id')
-    click_button('Filter anwenden')
-    expect(page).to have_select('reminder_filter_by_school_id', selected: 'school2')
+    choose_filter('Schule', 'school2')
+    expect(page).to have_css('.dropdown-toggle', text: 'Schule: school2')
     expect(page).to have_no_text(@reminder1.kid.name)
     click_button('Zustellen')
-    expect(page).to have_select('reminder_filter_by_school_id', selected: 'school2')
+    expect(page).to have_css('.dropdown-toggle', text: 'Schule: school2')
     expect(page).to have_text 'Erinnerung wird zugestellt'
     expect(page).to have_no_text @reminder1.kid.name
     expect(page).to have_text @reminder2.kid.name
     click_button('Quittieren')
-    expect(page).to have_select('reminder_filter_by_school_id', selected: 'school2')
+    expect(page).to have_css('.dropdown-toggle', text: 'Schule: school2')
     expect(page).to have_no_text @reminder1.kid.name
     expect(page).to have_no_text @reminder2.kid.name
   end

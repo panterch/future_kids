@@ -1,24 +1,30 @@
-- content_for :contextual_links do
-  = contextual_links do
-    = contextual_link_to :expand_all, '#', id: 'tree_expand_all'
-    = contextual_link_to :collapse_all, '#', id: 'tree_collapse_all'
+= render layout: 'index_header', locals: { title: I18n.t('nav.document') } do
+  = new_button(Document)
 
-    - if current_user.is_a?(Admin)
-      = contextual_link_to :edit, documents_path, id: 'tree_edit_node'
-      = contextual_link_to :delete, documents_path, id: 'tree_delete_node'
-
-- content_for :sidebar do
-  .form-group
-    %label Suche
+.d-flex.flex-wrap.align-items-center.gap-2.border.rounded.p-2.mb-3
+  .input-group.w-auto.flex-grow-1
+    %span.input-group-text= icon('search')
     %input#document_search.form-control{type: 'text', placeholder: 'Dokumente durchsuchen...'}
-  .form-group
-    %button#document_search_clear.btn.btn-xs{type: 'button', style: 'display: none;'}
+    %button#document_search_clear.btn.btn-outline-secondary{type: 'button', style: 'display: none;'}
+      = icon('x-lg')
       Suche löschen
-
-= boot_page_title do
-  = I18n.t('nav.document')
+  .d-flex.flex-wrap.gap-2
+    %button#tree_expand_all.btn.btn-outline-secondary{type: 'button'}
+      = icon('arrows-expand')
+      = t_action(:expand_all)
+    %button#tree_collapse_all.btn.btn-outline-secondary{type: 'button'}
+      = icon('arrows-collapse')
+      = t_action(:collapse_all)
+    - if current_user.is_a?(Admin)
+      = link_to documents_path, id: 'tree_edit_node', class: 'btn btn-outline-secondary' do
+        = icon('pencil')
+        = t_action(:edit)
+      = link_to documents_path, id: 'tree_delete_node', class: 'btn btn-outline-danger' do
+        = icon('trash')
+        = t_action(:delete)
 
 #search_no_results.alert.alert-info{style: 'display: none;'}
+  = icon('inbox')
   Keine Dokumente gefunden für den Suchbegriff.
 
 #tree(data-tree="#{@documents_json.to_json}")
