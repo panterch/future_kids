@@ -1,3 +1,5 @@
+@use 'sass:color';
+
 @import 'bootstrap/functions';
 
 // Karla (SIL OFL, https://fonts.google.com/specimen/Karla), vendored to
@@ -108,11 +110,11 @@ $solarized-green:   #859900;
 // each a little is enough to flip that same Bootstrap calculation over to
 // white on its own -- secondary/danger/dark already contrast better with
 // white and are left at their true Solarized value.
-$primary:   darken($solarized-blue, 8%);
+$primary:   color.adjust($solarized-blue, $lightness: -8%);
 $secondary: $solarized-base01;
-$success:   darken($solarized-green, 7%);
-$info:      darken($solarized-cyan, 10%);
-$warning:   darken($solarized-yellow, 8%);
+$success:   color.adjust($solarized-green, $lightness: -7%);
+$info:      color.adjust($solarized-cyan, $lightness: -10%);
+$warning:   color.adjust($solarized-yellow, $lightness: -8%);
 $danger:    $solarized-red;
 $light:     $solarized-base2;
 $dark:      $solarized-base02;
@@ -121,10 +123,10 @@ $dark:      $solarized-base02;
 // white (mix(color, white, 30%)) so the page reads as light and airy
 // rather than true Solarized's warmer, more saturated cream; text and
 // accent colors stay true Solarized.
-$body-bg:           mix($solarized-base3, white, 30%);
+$body-bg:           color.mix($solarized-base3, white, 30%);
 $body-color:        $solarized-base00;
-$body-secondary-bg: mix($solarized-base2, white, 30%);
-$border-color:      mix($solarized-base1, white, 30%);
+$body-secondary-bg: color.mix($solarized-base2, white, 30%);
+$border-color:      color.mix($solarized-base1, white, 30%);
 $headings-color:    $solarized-base01;
 
 // Solarized Dark
@@ -132,7 +134,7 @@ $body-bg-dark:            $solarized-base03;
 $body-color-dark:         $solarized-base0;
 $border-color-dark:       $solarized-base01;
 $body-secondary-bg-dark:  $solarized-base02;
-$body-tertiary-bg-dark:   mix($solarized-base02, $solarized-base03);
+$body-tertiary-bg-dark:   color.mix($solarized-base02, $solarized-base03);
 $headings-color-dark:     $solarized-base1;
 
 // Form fields default to $body-bg, which under Solarized's low-contrast-by-
