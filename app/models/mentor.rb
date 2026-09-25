@@ -35,8 +35,8 @@ class Mentor < User
   after_save :release_relations, if: :inactive?
 
   # the html5 date submit allows two letter dates (e.g. '21') and translates them to wrong years (like '0021')
-  validates_date :exit_at, after: '2001-01-01', allow_blank: true
-  validates_date :dob, after: '1900-01-01', allow_blank: true
+  validates :exit_at, comparison: { greater_than: Date.new(2001, 1, 1) }, allow_blank: true
+  validates :dob, comparison: { greater_than: Date.new(1900, 1, 1) }, allow_blank: true
 
   def self.mentors_grouped_by_assigned_kids
     groups = { both: [], only_primary: [], only_secondary: [],

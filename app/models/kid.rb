@@ -40,7 +40,7 @@ class Kid < ApplicationRecord
                                           greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }
 
   # the html5 date submit allows two letter dates (e.g. '21') and translates them to wrong years (like '0021')
-  validates_date :dob, :exit_at, :checked_at, :coached_at, after: '2001-01-01', allow_blank: true
+  validates :dob, :exit_at, :checked_at, :coached_at, comparison: { greater_than: Date.new(2001, 1, 1) }, allow_blank: true
 
   # validate that enough goals were given in each group
   validate do |kid|
