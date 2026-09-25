@@ -14,8 +14,9 @@ class Site < ApplicationRecord
     first_or_create!
   end
 
+  # 2x the .logo-badge img max box (120x36) so it stays sharp on HiDPI screens
   def logo_medium
-    logo.variant(resize_to_fit: [440, nil]).processed
+    logo.variant(resize_to_limit: [240, 72]).processed
   end
 
   private

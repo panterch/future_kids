@@ -563,7 +563,8 @@ html {
 // $header-height without making it taller. The badge itself is a white,
 // bordered box in both themes (Bootstrap utilities in the partial): the
 // partner logo is a dark-on-transparent asset we don't control and would
-// disappear on the dark theme's background.
+// disappear on the dark theme's background. Keep the max box in sync with
+// Site#logo_medium, which renders the variant at 2x this size.
 .logo-badge img {
   max-width: 120px;
   max-height: 36px;
