@@ -23,6 +23,7 @@ export function iconMarkup(name) {
 
 document.addEventListener('DOMContentLoaded', function() {
   register_theme_toggle();
+  track_nav_height();
   register_journal_controls();
   register_mentor_journal_date_selectors();
   register_schedule_checkboxes();
@@ -35,6 +36,18 @@ document.addEventListener('DOMContentLoaded', function() {
   setTimeout(close_flash_alerts, 3000);
 });
 
+
+// Publishes the sticky navbar's rendered height as --nav-height, which the
+// sticky sidebar offset and scroll-padding-top in application.scss use in
+// place of the static $nav-height -- the nav grows when a long label (e.g.
+// a kid's name) wraps to two lines, and would otherwise cover them.
+function track_nav_height() {
+  var nav = document.getElementById('nav');
+  if (!nav || !window.ResizeObserver) return;
+  new ResizeObserver(function() {
+    document.documentElement.style.setProperty('--nav-height', nav.offsetHeight + 'px');
+  }).observe(nav);
+}
 
 function register_journal_controls() {
   var cancelled = document.getElementById('journal_cancelled');

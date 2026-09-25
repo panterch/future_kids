@@ -7,8 +7,8 @@
   <%= f.full_error :reset_password_token %>
 
   <div class="form-inputs">
-    <%= f.input :password, label: "Neues Passwort", required: true, autofocus: true %>
-    <%= f.input :password_confirmation, label: "Passwort Bestätigung", required: true %>
+    <%= f.input :password, label: "Neues Passwort", required: true, autofocus: true, input_html: { autocomplete: 'new-password' } %>
+    <%= f.input :password_confirmation, label: "Passwort Bestätigung", required: true, input_html: { autocomplete: 'new-password' } %>
   </div>
 
   <div class="form-actions">

@@ -44,7 +44,9 @@ SimpleForm.setup do |config|
     b.optional :readonly
     b.wrapper tag: 'div', class: 'form-check' do |ba|
       ba.use :label_input, class: 'form-check-input', error_class: 'is-invalid'
-      feedback.call(ba)
+      # nested in its label (boolean_style :nested), the checkbox isn't the
+      # message's sibling either -- same .d-block as the collections below
+      feedback.call(ba, error_class: 'invalid-feedback d-block')
     end
   end
 
@@ -91,7 +93,7 @@ SimpleForm.setup do |config|
     b.wrapper tag: 'div', class: 'col-sm-9 offset-sm-3' do |ba|
       ba.wrapper tag: 'div', class: 'form-check' do |bc|
         bc.use :label_input, class: 'form-check-input', error_class: 'is-invalid'
-        feedback.call(bc)
+        feedback.call(bc, error_class: 'invalid-feedback d-block')
       end
     end
   end

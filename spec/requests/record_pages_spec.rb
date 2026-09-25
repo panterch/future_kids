@@ -70,6 +70,7 @@ feature 'Session timeout' do
     allow_any_instance_of(User).to receive(:timedout?).and_return(true) # rubocop:disable RSpec/AnyInstance
     visit kids_path
     expect(page).to have_current_path(new_user_session_path)
+    expect(page).to have_css('#flash .alert', text: I18n.t('devise.failure.timeout'))
     expect(page).to have_button('Anmelden')
   end
 end

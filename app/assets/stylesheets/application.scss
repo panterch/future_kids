@@ -389,8 +389,8 @@ form.schedule {
 .sidebar-sticky {
   @include media-breakpoint-up(lg) {
     position: sticky;
-    top: calc(#{$nav-height} + 1.5rem);
-    max-height: calc(100vh - #{$nav-height + $footer-height + 8px} - 1.5rem);
+    top: calc(var(--nav-height, #{$nav-height}) + 1.5rem);
+    max-height: calc(100vh - var(--nav-height, #{$nav-height}) - #{$footer-height + 8px} - 1.5rem);
     overflow-y: auto;
   }
 }
@@ -452,7 +452,7 @@ form.schedule {
 // Keeps anchor targets (e.g. the kid sidebar's jumps to a journal card)
 // from landing underneath the sticky main nav.
 html {
-  scroll-padding-top: calc(#{$nav-height} + 1rem);
+  scroll-padding-top: calc(var(--nav-height, #{$nav-height}) + 1rem);
 }
 
 #footer {

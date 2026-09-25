@@ -22,7 +22,15 @@ feature 'reminders index' do
     expect(page).to have_css('a', text: @reminder1.kid.name)
     expect(page).to have_no_text @reminder2.kid.name
     choose_filter('Schule', 'school2')
+    expect(page).to have_css('a', text: @reminder2.kid.name)
     expect(page).to have_no_text(@reminder1.kid.name)
+  end
+
+  scenario 'Should filter via the opened dropdown menu', :js do
+    choose_filter('Schule', 'school1', open: true)
+    expect(page).to have_css('.dropdown-toggle', text: 'Schule: school1')
+    expect(page).to have_css('a', text: @reminder1.kid.name)
+    expect(page).to have_no_text @reminder2.kid.name
   end
 
   scenario 'Should keep filter for reminders after update' do

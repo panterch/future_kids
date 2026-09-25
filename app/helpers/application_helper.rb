@@ -70,11 +70,17 @@ module ApplicationHelper
   # from params[<param_key>]): any of those params left it different from an
   # unfiltered prototype. Compares the typecast attributes, so an explicit
   # "Nein" (false) counts while "Alle" ('') and the default "Aktiv" (false,
-  # whether sent as 'false' or '0') don't.
+  # whether sent as 'false' or '0') don't. Only keys naming an assignable
+  # attribute (incl. virtual ones like Mentor#filter_by_coach_id) are read --
+  # the rest of the query is user input and must not become a method call.
   def filters_active?(record)
     unfiltered = record.class.new
-    request.query_parameters.fetch(record.model_name.param_key, {}).keys.any? do |field|
-      record.try(field).to_s != unfiltered.try(field).to_s
+    filters = request.query_parameters.fetch(record.model_name.param_key, {})
+    return false unless filters.respond_to?(:keys)
+
+    filters.keys.any? do |field|
+      record.respond_to?("#{field}=") &&
+        record.public_send(field).to_s != unfiltered.public_send(field).to_s
     end
   end
 
@@ -87,8 +93,11 @@ module ApplicationHelper
     link_to icon_text('plus-lg', t_action(:new)), new_polymorphic_path(model), class: 'btn btn-primary'
   end
 
+  # The query string goes in as `params:`, never as url_for options, so
+  # request params like ?host= can't change where the link points.
   def xlsx_button
-    link_to icon_text('file-earmark-excel', t_action(:xlsx)), url_for(params.permit!.merge(format: 'xlsx')),
+    link_to icon_text('file-earmark-excel', t_action(:xlsx)),
+            url_for(format: 'xlsx', params: request.query_parameters.except('format')),
             class: 'btn btn-outline-secondary'
   end
 
