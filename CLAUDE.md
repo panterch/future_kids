@@ -22,7 +22,7 @@ Future Kids is a Rails 8 application that manages a mentoring program connecting
 
 ### Asset Management
 - Assets are compiled using Sprockets with SCSS
-- JavaScript components use React (via react-rails gem)
+- The one React component (kid_mentor_schedules.js) uses vendored React via importmap, written with htm (no JSX)
 - Run `bin/rails assets:precompile` for production builds
 
 ## Architecture Overview

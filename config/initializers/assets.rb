@@ -9,10 +9,3 @@ Rails.application.config.assets.version = '1.0'
 # Rails.application.config.assets.paths << Emoji.images_path
 
 Rails.application.config.dartsass.builds['print.scss'] = 'print.css'
-
-# react-rails tries to attach its Sprockets-only JSX transform to whatever
-# `app.assets` is -- Propshaft also sets `app.assets` (for its own API
-# compatibility), so react-rails mistakes it for Sprockets and crashes on
-# `Sprockets::VERSION` at boot. Moot anyway: no .jsx files remain, the one
-# React component (kid_mentor_schedules.js) is plain JS with htm.
-Rails.application.config.react.sprockets_strategy = false

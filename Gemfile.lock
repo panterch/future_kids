@@ -86,10 +86,6 @@ GEM
     addressable (2.9.0)
       public_suffix (>= 2.0.2, < 8.0)
     ast (2.4.3)
-    babel-source (5.8.35)
-    babel-transpiler (0.7.0)
-      babel-source (>= 4.0, < 6)
-      execjs (~> 2.0)
     barnes (1.0.1)
       json
       logger
@@ -151,8 +147,6 @@ GEM
     exception_notification (5.0.1)
       actionmailer (>= 7.1, < 9)
       activesupport (>= 7.1, < 9)
-    execjs (2.10.2)
-      json (>= 2)
     factory_bot (6.6.0)
       activesupport (>= 6.1.0)
     factory_bot_rails (6.5.1)
@@ -427,12 +421,6 @@ GEM
       prism (>= 1.6.0)
       rbs (>= 4.0.0)
       tsort
-    react-rails (3.3.1)
-      babel-transpiler (>= 0.7.0)
-      connection_pool
-      execjs
-      railties (>= 3.2)
-      tilt
     redcarpet (3.6.1)
     regexp_parser (2.13.0)
     reline (0.7.0)
@@ -601,7 +589,6 @@ DEPENDENCIES
   rails
   rails-controller-testing
   rails-i18n
-  react-rails
   redcarpet
   responders
   rspec-rails

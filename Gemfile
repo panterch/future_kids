@@ -23,7 +23,6 @@ gem 'devise'
 gem 'google-cloud-storage', require: false
 gem 'image_processing'
 gem 'pg'
-gem 'react-rails'
 gem 'redcarpet'
 gem 'responders'
 gem 'ruby-vips'
