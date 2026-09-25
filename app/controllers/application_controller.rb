@@ -81,6 +81,12 @@ class ApplicationController < ActionController::Base
     )
   end
 
+  # rate_limit callback - the default raises TooManyRequests, which renders an
+  # empty page since there is no public/429.html
+  def render_too_many_requests
+    render plain: t('flash.too_many_requests'), status: :too_many_requests
+  end
+
   def admin?
     user_signed_in? && current_user.is_a?(Admin)
   end
