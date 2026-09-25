@@ -1,4 +1,4 @@
-import React from "react";
+import React, { ReactDOM } from "react";
 import classNames from "classnames";
 import "react-input-autosize";
 import Select from "react-select";
@@ -12,7 +12,7 @@ const { useState } = React;
 const STYLE_DAY_PLACEHOLDER_WIDTH = 4;
 const MAX_MENTORS_TO_DISPLAY = 10;
 
-window.KidMentorSchedules = function KidMentorSchedules({ mentors, schools, kid }) {
+function KidMentorSchedules({ mentors, schools, kid }) {
   const [mentorsToDisplay, setMentorsToDisplay] = useState(() => getMentorIds(mentors));
   const [visitedMentors, setVisitedMentors] = useState([]);
   const [filters, setFilters] = useState({ sex: null, numberOfKids: 'no-kid', school: null });
@@ -152,7 +152,12 @@ window.KidMentorSchedules = function KidMentorSchedules({ mentors, schools, kid 
       <${TimeTable} kid=${kid} mentors=${selectedMentors} onSelectDate=${onSelectDate} />
     </div>
   `;
-};
+}
+
+export function mount(element) {
+  const props = JSON.parse(element.dataset.props);
+  ReactDOM.createRoot(element).render(React.createElement(KidMentorSchedules, props));
+}
 
 function MentorsForDisplayingFilter({ mentors, selection, onChange, visitedMentors }) {
   const DELIMITER = ';';

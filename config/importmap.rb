@@ -21,8 +21,8 @@ pin '@rails/ujs', to: 'rails_ujs_esm.js'
 # preload: false keeps these off every other page's modulepreload tags --
 # application.js dynamic-imports them on demand instead.
 #
-# react/react_ujs/classnames/react-input-autosize/react-select are vendored
-# by hand (react-rails gem and the upstream releases), not npm. Each
+# react/classnames/react-input-autosize/react-select are vendored by hand
+# (react-rails gem's React bundle and the upstream releases), not npm. Each
 # file has a small patch appended/applied on top of the unmodified library
 # code to make it a real ES module (see git history for the exact diff):
 # importmap-rails does no bundling/transformation, so these need to be
@@ -30,7 +30,6 @@ pin '@rails/ujs', to: 'rails_ujs_esm.js'
 pin "kid_mentor_schedules", preload: false
 pin "htm", preload: false # @3.1.1
 pin "react", to: Rails.env.production? ? 'react.production.js' : 'react.development.js', preload: false
-pin 'react_ujs', preload: false
 pin 'classnames', preload: false
 pin 'react-input-autosize', preload: false
 pin 'react-select', preload: false
