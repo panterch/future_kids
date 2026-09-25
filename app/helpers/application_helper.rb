@@ -259,7 +259,7 @@ module ApplicationHelper
   end
 
   # The labels of the set boolean fields, one per line -- blank when none is
-  # set, so a show_for block around it falls back to its usual blank text.
+  # set, so a details_for block around it falls back to its usual blank text.
   def boolean_labels(obj, *fields)
     safe_join(fields.select { |field| obj[field] }.map { |field| tag.div(obj.class.human_attribute_name(field)) })
   end

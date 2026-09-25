@@ -209,7 +209,7 @@ textarea.form-control {
 }
 
 // simple_format'd text (ApplicationRecord#text_format: the Pendenz popover,
-// human_* show_for values, comment bodies) and show_for's <ul> collections
+// human_* details_for values, comment bodies) and details_for's <ul> collections
 // bring browser-default <p>/<ul> margins that sit outside their container's
 // padding or grid gap and double it. Trim just the outer edges, not the gap
 // between paragraphs.
@@ -470,7 +470,7 @@ html {
   }
 }
 
-// show_for label/value rows (config/initializers/show_for.rb). The label
+// details_for label/value rows (DetailsHelper). The label
 // column shrinks to fit its content (capped at 220px, wrapping beyond that)
 // instead of a hardcoded Bootstrap column fraction, so short labels like
 // "Name" don't waste space and long ones don't force a wide column for
@@ -487,8 +487,8 @@ html {
     row-gap: .25rem;
   }
 
-  // Some views mix plain content into a show_for block alongside
-  // show.attribute rows -- a heading, or a nested show_for block rendered
+  // Some views mix plain content into a details_for block alongside
+  // attribute rows -- a heading, or a nested details_for block rendered
   // from a shared partial. Anything that isn't a proper show-for-row
   // (display: contents) is a single opaque grid item, so left to
   // auto-placement it would occupy just one column and desync every row
@@ -525,7 +525,7 @@ html {
 }
 
 // A few edit forms (e.g. schools/_form.html.haml) embed a read-only
-// show_for block -- associations the form itself has no field for -- among
+// details_for block -- associations the form itself has no field for -- among
 // their simple_form inputs. Left at its normal fit-content width, its label
 // column lines up with nothing else on the page; matching horizontal_form's
 // col-sm-3/col-sm-9 split (see simple_form.rb) instead keeps every

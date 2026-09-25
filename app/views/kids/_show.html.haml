@@ -4,7 +4,7 @@
       .card-header
         %h4.card-title.mb-0 Persönliche Angaben
       .card-body
-        = show_for @kid do |show|
+        = details_for @kid do |show|
           = show.attribute :name
           = show.attribute :prename
           = show.attribute :sex
@@ -28,7 +28,7 @@
     .card-header
       %h4.card-title.mb-0= heading
     .card-body
-      = show_for @kid do |show|
+      = details_for @kid do |show|
         - cards.each do |title, groups|
           = show.attribute :"goals_#{title.parameterize(separator: '_')}", label: title do
             = boolean_labels(@kid, *groups.flat_map(&:last))
@@ -38,7 +38,7 @@
   .card-header
     %h4.card-title.mb-0 Allgemeine Informationen
   .card-body
-    = show_for @kid do |show|
+    = details_for @kid do |show|
       - unless @site.kids_schedule_hourly
         = show.attribute :simplified_schedule
       = show.attribute :meeting_day
@@ -63,7 +63,7 @@
     .card-header
       %h4.card-title.mb-0#internal Projektinterne Informationen
     .card-body
-      = show_for @kid do |show|
+      = details_for @kid do |show|
         - if @kid.inactive?
           = show.attribute :inactive
         = show.attribute :term # shown to admins and principals
@@ -123,7 +123,7 @@
   - @kid.reviews.each do |review|
     = render layout: 'entry_card', locals: { record: review } do
       .card-body
-        = show_for review do |review_show|
+        = details_for review do |review_show|
           = review_show.attribute :attendee
           = review_show.attribute :reason
           = review_show.attribute :kind
@@ -138,7 +138,7 @@
 - @kid.first_year_assessments.each do |assessment|
   = render layout: 'entry_card', locals: { record: assessment } do
     .card-body
-      = show_for assessment do |assessment_show|
+      = details_for assessment do |assessment_show|
         = assessment_show.attribute :held_at
         = assessment_show.attribute :mentor do
           = avatar_link_to(assessment.mentor)
@@ -165,7 +165,7 @@
 - @kid.termination_assessments.each do |assessment|
   = render layout: 'entry_card', locals: { record: assessment } do
     .card-body
-      = show_for assessment do |assessment_show|
+      = details_for assessment do |assessment_show|
         = assessment_show.attribute :held_at
         = assessment_show.attribute :teacher do
           = avatar_link_to(assessment.teacher)
