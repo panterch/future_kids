@@ -1,13 +1,16 @@
 # frozen_string_literal: true
 
-RSpec.describe 'Rack::Attack throttling', type: :request do
-  # The test environment uses a null cache store so Rack::Attack's counters never persist
-  # (see config/environments/test.rb) - swap in a real store just for these examples.
-  around do |example|
-    original_store = Rack::Attack.cache.store
-    Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
-    example.run
-    Rack::Attack.cache.store = original_store
+require 'spec_helper'
+
+RSpec.describe 'Rate limiting', type: :request do
+  # The test environment uses a null cache store so rate limit counters never persist
+  # (see config/environments/test.rb). rate_limit captures the store when the controller
+  # class is loaded, so route its counters to a real store just for these examples.
+  before do
+    counters = ActiveSupport::Cache::MemoryStore.new
+    allow(ActionController::Base.cache_store).to receive(:increment) do |*args, **options|
+      counters.increment(*args, **options)
+    end
   end
 
   it 'throttles repeated sign-in attempts against a single account' do

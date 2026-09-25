@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
-  devise_for :user, controllers: { sessions: 'users/sessions' }
+  devise_for :user, controllers: { sessions: 'users/sessions', passwords: 'users/passwords' }
 
   root to: 'kids#index'
   resources :admins
