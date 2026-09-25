@@ -1,61 +1,28 @@
-- content_for :main_class, 'wide' if current_user.is_a?(Admin)
+- content_for :wide_layout, true
 
-- content_for :contextual_links do
-  = contextual_links do
+- has_filters = current_user.is_a?(Admin) || current_user.is_a?(Principal)
+
+= render layout: 'index_header', locals: { title: (has_filters ? "#{@kids.count} " : '') + 'Schüler*innen', description: page_description } do
+  - if current_user.is_a?(Admin)
+    = xlsx_button
+  = new_button(Kid)
+
+- if has_filters
+  = render layout: 'filter_bar', locals: { record: @kid } do
     - if current_user.is_a?(Admin)
-      = contextual_link_to :xlsx, url_for(params.permit!.merge(format: 'xlsx')), icon: 'file-earmark-excel'
+      = render 'filter_dropdown', label: Kid.human_attribute_name(:term), field: :term, options: term_collection.map { |t| [t, t] }, record: @kid
+      = render 'filter_dropdown', label: Kid.human_attribute_name(:exit), field: :exit, options: term_collection.map { |t| [t, t] }, record: @kid
+      = render 'filter_dropdown', label: Kid.human_attribute_name(:school), field: :school_id, options: school_collection_by_kind(:kid), record: @kid
+      - if @site.feature_coach?
+        = render 'filter_dropdown', label: 'Pädagogischer Coach', field: :admin_id, options: admin_collection, record: @kid
+      = render 'filter_dropdown', label: 'Übersetzer', field: :translator, options: boolean_collection, record: @kid
+      = render 'filter_dropdown', label: Kid.human_attribute_name(:meeting_day), field: :meeting_day, options: wday_collection, record: @kid
 
-- unless current_user.is_a?(Mentor)
-  - content_for :sidebar do
-    = form_for :kid, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
+    = render 'filter_dropdown', label: 'Klasse', field: :grade, options: grade_collection.map { |g| [g.to_s, g] }, record: @kid
+    = render 'inactive_filter', record: @kid
 
-      - if current_user.is_a?(Admin)
-        .form-group
-          %label= Kid.human_attribute_name(:term)
-          = f.select :term, term_collection, { :include_blank => true }, class: 'form-select'
-        .form-group
-          %label= Kid.human_attribute_name(:exit)
-          = f.select :exit, term_collection, { :include_blank => true }, class: 'form-select'
-        .form-group
-          %label= Kid.human_attribute_name(:school)
-          = f.select :school_id, school_collection_by_kind(:kid), { :include_blank => true }, class: 'form-select'
-        - if @site.feature_coach?
-          .form-group
-            %label Pädagogischer Coach
-            = f.select :admin_id, admin_collection, { :include_blank => true }, class: 'form-select'
-        .form-group
-          %label Übersetzer
-          = f.select :translator, boolean_collection, { include_blank: true }, class: 'form-select'
-        .form-group
-          %label= Kid.human_attribute_name(:meeting_day)
-          = f.select :meeting_day, wday_collection, { :include_blank => true }, class: 'form-select'
-
-
-      - if current_user.is_a?(Admin) || current_user.is_a?(Principal)
-        .form-group
-          %label Klasse
-          = f.select :grade, grade_collection, { :include_blank => true }, class: 'form-select'
-
-      - if current_user.is_a?(Admin) or current_user.is_a?(Principal)
-        .form-check.mb-3
-          = f.check_box :inactive, class: 'form-check-input'
-          = f.label :inactive, 'Inaktive', class: 'form-check-label'
-
-      .form-group
-        %label Ordnen nach
-        = select_tag 'order_by', order_by_collection_for_kids(params[:order_by]), class: 'form-select'
-      .form-group
-        = f.button (icon('search') + ' Suchen'), class: 'btn btn-primary'
-
-        - if current_user.is_a?(Admin) or current_user.is_a?(Principal)
-          = link_to (icon('x-lg') + ' Filter aufheben'), kids_path, class: 'btn btn-secondary'
-
-= boot_page_title do
-  = @kids.count if current_user.is_a?(Admin) or current_user.is_a?(Principal)
-  Sch&uuml;ler*innen
-
-%p
-  = page_description
+    .vr.mx-1.d-none.d-md-block
+    = render 'filter_dropdown', label: 'Ordnen nach', field: 'order_by', options: [%w[Name name], %w[Kontrolldatum checked_at], %w[Coachingdatum coached_at], %w[Erfassungsdatum created_at]], current_value: params[:order_by].presence || 'name', resettable: false
 
 .table-responsive
   %table.table.table-striped.table-hover
@@ -64,16 +31,19 @@
       - if current_user.is_a?(Admin) or current_user.is_a?(Principal)
         %th Eintritt
       - if current_user.is_a?(Admin)
-        %th Letztes Kontrolldatum
+        %th
+          %abbr{title: 'Letztes Kontrolldatum'} Kontrolle
         - if @site.feature_coach?
-          %th Letztes pädagogisches Coaching
+          %th
+            %abbr{title: 'Letztes pädagogisches Coaching'} Coaching
         %th Pendenzen
       %th Mentor*in
       - if @site.feature_coach?
-        %th Pädagogischer Coach
+        %th
+          %abbr{title: 'Pädagogischer Coach'} Coach
     - @kids.each do |kid|
       %tr
-        %td= avatar_link_to(kid, size: :sm)
+        %td= avatar_link_to(kid)
         -if current_user.is_a?(Admin) or current_user.is_a?(Principal)
           %td
             = kid.created_at ? I18n.l(kid.created_at.to_date) : '-'
@@ -89,10 +59,10 @@
                 Pendenz
                 = icon('info-circle')
         %td
-          = avatar_link_to(kid.mentor, size: :sm) if kid.mentor.present?
+          = avatar_link_to(kid.mentor)
         - if @site.feature_coach?
           %td
-            = avatar_link_to(kid.admin, size: :sm) if kid.admin.present?
+            = avatar_link_to(kid.admin)
 
 
 - if @kids.empty?

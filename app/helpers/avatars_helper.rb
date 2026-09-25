@@ -47,11 +47,11 @@ module AvatarsHelper
   # for table rows and lists. Keeps can_link_to itself untouched since it's
   # also used in dense show_for attribute rows where an avatar per row would
   # be noise rather than signal.
-  def avatar_link_to(resource, size: :md)
+  def avatar_link_to(resource)
     return '' if resource.blank?
 
     content_tag(:span, class: 'avatar-link d-inline-flex gap-2') do
-      avatar(resource, size: size) + can_link_to(resource)
+      avatar(resource, size: :sm) + can_link_to(resource)
     end
   end
 

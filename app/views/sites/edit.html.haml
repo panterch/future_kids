@@ -1,5 +1,6 @@
 - content_for :sidebar do
   = submit_button
+  = link_to icon_text('file-earmark-excel', t_action(:xlsx)), site_path(format: 'xlsx'), class: 'btn btn-outline-secondary'
 - content_for :mobile_actions do
   = submit_button(label: 'Speichern')
 

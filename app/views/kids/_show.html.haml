@@ -1,38 +1,3 @@
-- content_for :sidebar do
-
-  .card.mb-3
-    .card-header
-      %h4.card-title.mb-0.d-flex.align-items-start.gap-2
-        %button.flex-grow-1(type="button" data-bs-toggle="collapse" data-bs-target="#collapseJournals" aria-expanded="false" aria-controls="collapseJournals")
-          Lernjournale
-        %span.badge.text-bg-secondary=@kid.journals.size
-    #collapseJournals.collapse.list-group.list-group-flush.kidanchors
-      - @kid.journals.each do |journal|
-        = link_to journal.display_name, { anchor: dom_id(journal) }, class: 'list-group-item list-group-item-action'
-
-  - if can?(:read, @cancan_review)
-    .card.mb-3
-      .card-header
-        %h4.card-title.mb-0.d-flex.align-items-start.gap-2
-          %button.flex-grow-1(type="button" data-bs-toggle="collapse" data-bs-target="#collapseReviews" aria-expanded="false" aria-controls="collapseReviews")
-            Gespräche
-          %span.badge.text-bg-secondary=@kid.reviews.size
-      #collapseReviews.collapse.list-group.list-group-flush.kidanchors
-        - @kid.reviews.each do |review|
-          = link_to review.display_name, { anchor: dom_id(review) }, class: 'list-group-item list-group-item-action'
-
-  .card.mb-3
-    .card-header
-      %h4.card-title.mb-0.d-flex.align-items-start.gap-2
-        %button.flex-grow-1(type="button" data-bs-toggle="collapse" data-bs-target="#collapseFirstYearAssessments" aria-expanded="false" aria-controls="collapseFirstYearAssessments")
-          Auswertung / Abschluss
-        %span.badge.text-bg-secondary=@kid.first_year_assessments.size+@kid.termination_assessments.size
-    #collapseFirstYearAssessments.collapse.list-group.list-group-flush.kidanchors
-      - @kid.first_year_assessments.each do |assessment|
-        = link_to assessment.display_name, { anchor: dom_id(assessment) }, class: 'list-group-item list-group-item-action'
-      - @kid.termination_assessments.each do |assessment|
-        = link_to assessment.display_name, { anchor: dom_id(assessment) }, class: 'list-group-item list-group-item-action'
-
 .row
   .col-md-8
     .card.mb-4
@@ -44,13 +9,7 @@
           = show.attribute :prename
           = show.attribute :sex
           = show.attribute :dob
-          .show-for-row.kid_grade
-            %label.show-for-label.text-muted
-              = Kid.human_attribute_name(:grade)
-              %br
-              (bei Einstieg Future Kids)
-            .show-for-value
-              = @kid.grade
+          = show.attribute :grade, label: safe_join([Kid.human_attribute_name(:grade), tag.br, '(bei Einstieg Future Kids)'])
           = show.attribute :language
           = show.attribute :parent_country_name
           = show.attribute :parent
@@ -64,39 +23,16 @@
   .col-md-4
     .mb-4= avatar(@kid, size: :lg)
 
-.card.mb-4
-  .card-header
-    %h4.card-title.mb-0 Fachliche Förderbereiche
-  .card-body
-    = show_for @kid do |show|
-      .show-for-row
-        %label.show-for-label.text-muted Deutsch
-        .show-for-value
-          = show_for_boolean_group(@kid, :goal_3, :goal_4, :goal_5, :goal_6, :goal_7,
-                                    :goal_8, :goal_9, :goal_10, :goal_11, :goal_12,
-                                    :goal_13, :goal_14, :goal_15)
-      .show-for-row
-        %label.show-for-label.text-muted Mathematik
-        .show-for-value
-          = show_for_boolean_group(@kid, :goal_16, :goal_17, :goal_18, :goal_19,
-                                    :goal_20, :goal_21, :goal_22, :goal_23, :goal_24)
-      = show.attribute :goal_1
-
-.card.mb-4
-  .card-header
-    %h4.card-title.mb-0 Überfachliche Förderbereiche
-  .card-body
-    = show_for @kid do |show|
-      .show-for-row
-        %label.show-for-label.text-muted Personale Förderbereiche
-        .show-for-value
-          = show_for_boolean_group(@kid, :goal_25, :goal_26, :goal_27, :goal_28,
-                                    :goal_29, :goal_30, :goal_31)
-      .show-for-row
-        %label.show-for-label.text-muted Methodische Förderbereiche
-        .show-for-value
-          = show_for_boolean_group(@kid, :goal_32, :goal_33, :goal_34, :goal_35)
-      = show.attribute :goal_2
+- KidsHelper::GOAL_SECTIONS.each do |heading, free_text_goal, _max, cards|
+  .card.mb-4
+    .card-header
+      %h4.card-title.mb-0= heading
+    .card-body
+      = show_for @kid do |show|
+        - cards.each do |title, groups|
+          = show.attribute :"goals_#{title.parameterize(separator: '_')}", label: title do
+            = boolean_labels(@kid, *groups.flat_map(&:last))
+        = show.attribute free_text_goal
 
 .card.mb-4
   .card-header
@@ -108,19 +44,19 @@
       = show.attribute :meeting_day
       = show.attribute :meeting_start_at
       = show.attribute :teacher do
-        = avatar_link_to(@kid.teacher, size: :sm)
+        = avatar_link_to(@kid.teacher)
       = show.attribute :secondary_teacher do
-        = avatar_link_to(@kid.secondary_teacher, size: :sm)
+        = avatar_link_to(@kid.secondary_teacher)
       = show.attribute :third_teacher do
-        = avatar_link_to(@kid.third_teacher, size: :sm)
+        = avatar_link_to(@kid.third_teacher)
       = show.attribute :mentor do
-        = avatar_link_to(@kid.mentor, size: :sm)
+        = avatar_link_to(@kid.mentor)
       = show.attribute :secondary_mentor do
-        = avatar_link_to(@kid.secondary_mentor, size: :sm)
+        = avatar_link_to(@kid.secondary_mentor)
       = show.attribute :secondary_active
       - if @site.feature_coach?
         = show.attribute :admin do
-          = avatar_link_to(@kid.admin, size: :sm)
+          = avatar_link_to(@kid.admin)
 
 - if current_user.is_a?(Admin) or current_user.is_a?(Principal)
   .card.mb-4
@@ -148,10 +84,13 @@
 
   = render 'relation_logs/collection', resource: @kid
 
-%h2.mt-4#journals
-  Lernjournale
+-# Section headings and card headers below use flex-wrap instead of floated
+-# buttons: on narrow screens the buttons wrap under the title rather than
+-# squeezing it (or the content after it) into the leftover space.
+#journals.d-flex.justify-content-between.align-items-center.flex-wrap.gap-2.mt-4.mb-2
+  %h2.mb-0 Lernjournale
   - if can?(:create, @cancan_journal)
-    =link_to 'Neues Lernjournal', new_kid_journal_path(@kid), class: 'btn btn-primary float-end'
+    = link_to 'Neues Lernjournal', new_kid_journal_path(@kid), class: 'btn btn-primary'
 
 - if @site.ai_features_enabled? && current_user.is_a?(Admin) && @kid.journals.any?
   .card.mb-4
@@ -165,39 +104,24 @@
           - if @kid.journal_summary_stale?
             (neuere Einträge vorhanden)
       - else
-        %p.text-muted= icon('info-circle') + ' Es wurde noch keine Zusammenfassung erstellt.'
+        %p.text-muted= icon_text('info-circle', 'Es wurde noch keine Zusammenfassung erstellt.')
       = button_to @kid.journal_summary.present? ? 'Zusammenfassung neu erstellen' : 'Zusammenfassung erstellen',
-        kid_journal_summary_path(@kid), method: :post, class: 'btn btn-secondary no-sidebar-actions'
+        kid_journal_summary_path(@kid), method: :post, class: 'btn btn-secondary'
 
 - @kid.journals.each do |journal|
-  .card.mb-4[journal]
-    .card-header
-      .d-flex.gap-2.float-end
-        - if can?(:edit, journal)
-          = link_to (icon('pencil') + ' Bearbeiten'), edit_kid_journal_path(@kid, journal), class: 'btn btn-secondary'
-        - if current_user.is_a?(Admin)
-          = link_to (icon('trash') + ' Löschen'), kid_journal_path(@kid, journal), { :method => :delete, :class => 'btn btn-danger', data: { confirm: "Sind Sie sicher?" } }
-        - if can?(:create, Comment)
-          = link_to (icon('chat-left-text') + ' Kommentieren'), new_kid_journal_comment_path(@kid, journal), class: 'btn btn-secondary'
-      %h4= journal.display_name
+  - comment_link = link_to(icon_text('chat-left-text', 'Kommentieren'), new_kid_journal_comment_path(@kid, journal), class: 'btn btn-secondary') if can?(:create, Comment)
+  = render layout: 'entry_card', locals: { record: journal, extra_action: comment_link } do
     .card-body
       = render 'journals/body', journal: journal
     = render 'comments/list', journal: journal, kid: @kid, show_actions: true
 
 - if can?(:read, @cancan_review)
-  %h2.mt-4#reviews
-    Gesprächsdokumentationen
+  #reviews.d-flex.justify-content-between.align-items-center.flex-wrap.gap-2.mt-4.mb-2
+    %h2.mb-0 Gesprächsdokumentationen
     - if can?(:create, @cancan_review)
-      =link_to 'Neue Gesprächsdokumentation', new_kid_review_path(@kid), class: 'btn btn-primary float-end'
+      = link_to 'Neue Gesprächsdokumentation', new_kid_review_path(@kid), class: 'btn btn-primary'
   - @kid.reviews.each do |review|
-    .card.mb-4[review]
-      .card-header
-        .d-flex.gap-2.float-end
-          - if can?(:edit, review)
-            = link_to (icon('pencil') + ' Bearbeiten'), edit_kid_review_path(@kid, review), class: 'btn btn-secondary'
-          - if current_user.is_a?(Admin)
-            = link_to (icon('trash') + ' Löschen'), kid_review_path(@kid, review), { :method => :delete, :class => 'btn btn-danger', data: { confirm: "Sind Sie sicher?" } }
-        %h4= review.display_name
+    = render layout: 'entry_card', locals: { record: review } do
       .card-body
         = show_for review do |review_show|
           = review_show.attribute :attendee
@@ -212,21 +136,14 @@
   Auswertung/Abschluss
 
 - @kid.first_year_assessments.each do |assessment|
-  .card.mb-4[assessment]
-    .card-header
-      .d-flex.gap-2.float-end
-        - if can?(:edit, assessment)
-          = link_to (icon('pencil') + ' Bearbeiten'), edit_kid_first_year_assessment_path(@kid, assessment), class: 'btn btn-secondary'
-        - if current_user.is_a?(Admin)
-          = link_to (icon('trash') + ' Löschen'), kid_first_year_assessment_path(@kid, assessment), { :method => :delete, :class => 'btn btn-danger', data: { confirm: "Sind Sie sicher?" } }
-      %h4= assessment.display_name
+  = render layout: 'entry_card', locals: { record: assessment } do
     .card-body
       = show_for assessment do |assessment_show|
         = assessment_show.attribute :held_at
         = assessment_show.attribute :mentor do
-          = avatar_link_to(assessment.mentor, size: :sm)
+          = avatar_link_to(assessment.mentor)
         = assessment_show.attribute :teacher do
-          = avatar_link_to(assessment.teacher, size: :sm)
+          = avatar_link_to(assessment.teacher)
         %h5.mt-3=t('activerecord.attributes.first_year_assessment.development')
         = assessment_show.attribute :development_teacher
         = assessment_show.attribute :development_mentor
@@ -246,19 +163,12 @@
 
 
 - @kid.termination_assessments.each do |assessment|
-  .card.mb-4[assessment]
-    .card-header
-      .d-flex.gap-2.float-end
-        - if can?(:edit, assessment)
-          = link_to (icon('pencil') + ' Bearbeiten'), edit_kid_termination_assessment_path(@kid, assessment), class: 'btn btn-secondary'
-        - if current_user.is_a?(Admin)
-          = link_to (icon('trash') + ' Löschen'), kid_termination_assessment_path(@kid, assessment), { :method => :delete, :class => 'btn btn-danger', data: { confirm: "Sind Sie sicher?" } }
-      %h4= assessment.display_name
+  = render layout: 'entry_card', locals: { record: assessment } do
     .card-body
       = show_for assessment do |assessment_show|
         = assessment_show.attribute :held_at
         = assessment_show.attribute :teacher do
-          = avatar_link_to(assessment.teacher, size: :sm)
+          = avatar_link_to(assessment.teacher)
         = assessment_show.attribute :development
         = assessment_show.attribute :goals
         = assessment_show.attribute :goals_reached

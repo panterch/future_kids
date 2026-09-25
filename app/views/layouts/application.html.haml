@@ -28,13 +28,50 @@
   %body(class="#{controller_name} #{action_name}"){data: {icon_sprite: asset_path('bootstrap-icons.svg')}}
     - if !user_signed_in?
       #header
-        #teaser.container
+        #teaser.container.d-flex.align-items-center.justify-content-end
+          = render 'layouts/logo_badge'
 
+    -# Wide pages (`content_for :wide_layout, true`) swap the stepped
+    -# .container for .container-fluid on both the navbar and #main, so the
+    -# menu spans the same full width as the table below it. Only admins get
+    -# it -- they're the ones with the many extra table columns; mentors and
+    -# teachers see a few narrow columns that look lost at full width.
+    - wide = current_user.is_a?(Admin) && content_for?(:wide_layout)
+    - container_class = wide ? 'container-fluid' : 'container'
     - if user_signed_in?
       #nav.navbar.navbar-expand-md.sticky-top.bg-body-secondary{role: "navigation"}
-        .container
+        %div{class: container_class}
           %button.navbar-toggler{type: "button", "data-bs-toggle" => "collapse", "data-bs-target" => "#navbarNav", "aria-controls" => "navbarNav", "aria-expanded" => "false", "aria-label" => "Menü öffnen"}
             %span.navbar-toggler-icon
+
+          -# Kept outside #navbarNav (like the logo) so it stays in the top bar
+          -# next to the logo on mobile instead of landing at the bottom of the
+          -# expanded menu. ms-auto pushes it (and the logo after it) to the
+          -# right while collapsed; order-md-1 puts it back after #navbarNav,
+          -# left of the order-md-last logo, once the nav is expanded. Not a
+          -# .navbar-nav child: Bootstrap makes those dropdowns position: static
+          -# below the expand breakpoint, which would render the menu inline and
+          -# stretch the bar.
+          .navbar-user.dropdown.no-caret.ms-auto.me-2.order-md-1
+            %a.nav-link.dropdown-toggle.px-2{href: "#", role: "button", "data-bs-toggle" => "dropdown", "aria-expanded" => "false", "aria-label" => "Benutzermenü"}
+              = avatar(current_user, size: :md)
+            %ul.dropdown-menu.dropdown-menu-end
+              %li= link_to (avatar(current_user, size: :md) + tag.span(current_user.display_name, class: 'ms-2')), current_user, class: 'dropdown-item d-flex align-items-center'
+              - unless force_light_theme
+                %li.dropdown-header Farbschema
+                - [['light', 'sun', 'Hell'], ['dark', 'moon-stars', 'Dunkel'], ['auto', 'circle-half', 'Automatisch']].each do |value, icon_name, label|
+                  %li
+                    %button.dropdown-item.theme-option.d-flex.align-items-center{type: "button", data: {theme_value: value}, "aria-pressed" => "false"}
+                      = icon(icon_name, css_class: 'me-2')
+                      = label
+                      = icon('check2', css_class: 'ms-auto theme-option-check')
+              %li
+                %hr.dropdown-divider
+              %li= link_to (icon('box-arrow-right', css_class: 'me-2') + 'Abmelden'), destroy_user_session_path, method: :delete, class: 'dropdown-item'
+
+          -# outside #navbarNav's collapse, so the logo stays visible on mobile
+          .d-flex.align-items-center.order-md-last
+            = render 'layouts/logo_badge'
 
           #navbarNav.collapse.navbar-collapse
             %ul.navbar-nav.me-auto
@@ -43,46 +80,32 @@
             %ul.navbar-nav.align-items-center
               -if can? :read, Site
                 %li.nav-item
-                  = link_to (icon('gear') + ' Konfiguration'), edit_site_path, class: 'nav-link'
-
-              %li.nav-item.dropdown.no-caret
-                %a.nav-link.dropdown-toggle{href: "#", role: "button", "data-bs-toggle" => "dropdown", "aria-expanded" => "false", "aria-label" => "Benutzermenü"}
-                  = avatar(current_user, size: :md)
-                %ul.dropdown-menu.dropdown-menu-end
-                  %li= link_to (avatar(current_user, size: :md) + tag.span(current_user.display_name, class: 'ms-2')), current_user, class: 'dropdown-item d-flex align-items-center'
-                  - unless force_light_theme
-                    %li.dropdown-header Farbschema
-                    - [['light', 'sun', 'Hell'], ['dark', 'moon-stars', 'Dunkel'], ['auto', 'circle-half', 'Automatisch']].each do |value, icon_name, label|
-                      %li
-                        %button.dropdown-item.theme-option.d-flex.align-items-center{type: "button", data: {theme_value: value}, "aria-pressed" => "false"}
-                          = icon(icon_name, css_class: 'me-2')
-                          = label
-                          = icon('check2', css_class: 'ms-auto theme-option-check')
-                  %li
-                    %hr.dropdown-divider
-                  %li= link_to (icon('box-arrow-right', css_class: 'me-2') + 'Abmelden'), destroy_user_session_path, method: :delete, class: 'dropdown-item'
+                  = link_to icon_text('gear', 'Konfiguration'), edit_site_path, class: 'nav-link'
 
 
-    #main(class="#{content_for(:main_class)}")
-      .container
+
+    - sidebar = content_for(:sidebar)
+    #main
+      %div{class: container_class}
         .row
-          #content.col-md-9
-            - flash.each do |name, msg|
-              = boot_alert(msg, name) unless msg.blank?
+          #content(class="#{sidebar.present? ? 'col-lg-9' : 'col-12'}")
+            #flash
+              -# only messages: Devise also flashes a boolean :timedout marker
+              - flash.each do |name, msg|
+                = flash_alert(msg, name) if msg.is_a?(String) && msg.present?
             = yield
 
-          #sidebar.col-md-3
-            %h1.logo.d-none.d-md-block
-              - if @site.logo.present?
-                .logo-badge
-                  %img{:src => rails_representation_url(@site.logo_medium)}
-
-            - if user_signed_in?
-              - actions_content = capture{ render 'layouts/actions' }
-              - if actions_content.present? && actions_content.include?('list-group-item')
-                .contextual_links_panel.card.mb-3
-                  = actions_content
-              = yield :sidebar
+          - if sidebar.present?
+            .col-lg-3
+              .sidebar-sticky
+                #sidebar.offcanvas-lg.offcanvas-end{tabindex: '-1', aria: {labelledby: 'sidebarLabel'}}
+                  .offcanvas-header
+                    %h5#sidebarLabel.offcanvas-title= content_for(:page_title)
+                    %button.btn-close{type: 'button', data: {bs_dismiss: 'offcanvas', bs_target: '#sidebar'}, aria: {label: 'Schliessen'}}
+                  .offcanvas-body
+                    .d-grid.gap-4.w-100
+                      = sidebar
+                      = link_to icon_text('arrow-bar-up', 'Seitenanfang'), '#', class: 'btn btn-link text-secondary'
 
     - if @site.footer_address.present? || @site.footer_email.present?
       #footer

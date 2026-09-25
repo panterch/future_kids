@@ -9,14 +9,13 @@ import Rails from "@rails/ujs";
 import bootstrap from "bootstrap";
 import { register_theme_toggle } from "theme";
 
-// Builds an icon for a JS-constructed element (the sidebar's "Seitenanfang"
-// link here; treeview.js and kid_mentor_schedules.js have their own copies)
-// -- everywhere else icons are rendered server-side by ApplicationHelper#icon
-// straight into the page's HTML, but that helper needs Rails' asset_path to
-// find the sprite's digested filename, which isn't available here. The
-// layout exposes that one path via data-icon-sprite on <body> instead, so
-// this still points at the same bootstrap-icons.svg sprite.
-function iconMarkup(name) {
+// A Bootstrap Icons sprite reference as an HTML string -- the JS twin of
+// ApplicationHelper#icon (same markup, same .icon-svg sizing). The sprite's
+// fingerprinted URL comes from the layout's <body data-icon-sprite>. Also
+// imported by treeview.js (which this module imports in turn): that cycle is
+// safe because this is a hoisted function declaration, only called after
+// every module has loaded -- keep it one, not a const/arrow function.
+export function iconMarkup(name) {
   var sprite = document.body.dataset.iconSprite;
   return '<svg class="icon-svg" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
     '<use href="' + sprite + '#' + name + '"></use></svg>';
@@ -28,17 +27,12 @@ document.addEventListener('DOMContentLoaded', function() {
   register_mentor_journal_date_selectors();
   register_schedule_checkboxes();
   register_todotogglers();
-  register_kidsfilter();
-  register_kidanchors();
-  register_submit_action_in_sidebar();
-  register_back_to_top_link();
   register_exit_at_toggler();
   register_freetext_toggler();
-  register_collapses();
   register_treeview();
   register_document_search();
   register_autogrow_textareas();
-  setTimeout(remove_alerts, 3000);
+  setTimeout(close_flash_alerts, 3000);
 });
 
 
@@ -47,12 +41,8 @@ function register_journal_controls() {
   if (!cancelled) return;
   cancelled.addEventListener('change', function() {
     var show_times = !this.checked;
-    ['journal_start_at', 'journal_end_at'].forEach(function(id) {
-      var input = document.getElementById(id);
-      if (input) {
-        var wrapper = input.closest('.form-group');
-        if (wrapper) wrapper.style.display = show_times ? '' : 'none';
-      }
+    document.querySelectorAll('.journal_start_at, .journal_end_at').forEach(function(el) {
+      el.style.display = show_times ? '' : 'none';
     });
   });
   cancelled.dispatchEvent(new Event('change'));
@@ -89,85 +79,12 @@ function register_todotogglers() {
   });
 }
 
-function register_collapses() {
-  document.querySelectorAll('[data-toggle="collapse"]').forEach(function(trigger) {
-    trigger.addEventListener('click', function(event) {
-      event.preventDefault();
-      var targetSelector = trigger.getAttribute('data-target');
-      var target = targetSelector && document.querySelector(targetSelector);
-      if (target) target.classList.toggle('show');
-    });
-  });
-}
-
-function register_kidsfilter() {
-  document.querySelectorAll('form.filter select, form.filter input').forEach(function(el) {
-    el.addEventListener('change', function() {
-      document.querySelector('form.filter').submit();
-    });
-  });
-}
-
-function register_kidanchors() {
-  document.querySelectorAll('#sidebar .kidanchors a').forEach(function(link) {
-    link.addEventListener('click', function(event) {
-      event.preventDefault();
-      var target = document.querySelector(this.hash);
-      if (!target) return;
-      var header = document.getElementById('header') || document.getElementById('nav');
-      var headerHeight = header ? header.offsetHeight : 0;
-      var top = target.getBoundingClientRect().top + window.scrollY - headerHeight - 3;
-      window.scrollTo({top: top, behavior: 'smooth'});
-    });
-  });
-}
-
-function register_submit_action_in_sidebar() {
-  // input[type=submit]'s label is its `value` attribute, always plain text;
-  // button[type=submit]'s label is its markup content (e.g. an icon, see
-  // schedules/_table.html.haml) -- read/clone each the way it actually
-  // carries its label instead of assuming one shape for both.
-  document.querySelectorAll('#content form input[type=submit], #content form button[type=submit]').forEach(function(submit) {
-    if (submit.closest('.no-sidebar-actions')) return;
-    var variant_match = submit.className.match(/\bbtn-(primary|secondary|success|danger|warning|info|light|dark)\b/);
-    var variant = variant_match ? variant_match[1] : 'primary';
-    var clone = document.createElement('a');
-    clone.href = '#';
-    clone.className = 'list-group-item list-group-item-action list-group-item-' + variant;
-    if (submit.tagName === 'BUTTON') {
-      clone.innerHTML = submit.innerHTML;
-    } else {
-      clone.textContent = submit.value;
-    }
-    clone.addEventListener('click', function(event) {
-      event.preventDefault();
-      submit.click();
-    });
-    var panel = document.querySelector('.contextual_links_panel .list-group');
-    if (panel) panel.prepend(clone);
-  });
-}
-
-function register_back_to_top_link() {
-  if (document.body.scrollHeight <= window.innerHeight) return;
-  var link = document.createElement('a');
-  link.href = '#';
-  link.className = 'list-group-item list-group-item-action';
-  link.innerHTML = iconMarkup('arrow-bar-up') + ' Seitenanfang';
-  link.addEventListener('click', function(event) {
-    event.preventDefault();
-    window.scrollTo({top: 0, behavior: 'smooth'});
-  });
-  var panel = document.querySelector('.contextual_links_panel .list-group');
-  if (panel) panel.append(link);
-}
-
 function register_exit_at_toggler() {
   var selects = document.querySelectorAll('#kid_exit_kind, #mentor_exit_kind');
   selects.forEach(function(select) {
     select.addEventListener('change', function() {
       var show = this.value === 'later';
-      document.querySelectorAll('.mb-3.kid_exit_at, .mb-3.mentor_exit_at').forEach(function(el) {
+      document.querySelectorAll('.kid_exit_at, .mentor_exit_at').forEach(function(el) {
         el.style.display = show ? '' : 'none';
       });
     });
@@ -190,28 +107,19 @@ function register_autogrow_textareas() {
   });
 }
 
-function remove_alert(el) {
-  el.style.transition = 'opacity 0.4s';
-  el.style.opacity = '0';
-  setTimeout(function() { el.style.display = 'none'; }, 400);
+// Flash messages close themselves after a few seconds. Only those: other
+// alerts (form error summaries, the document search's no-results hint)
+// carry information that has to stay on screen.
+function close_flash_alerts() {
+  document.querySelectorAll('#flash .alert').forEach(function(el) {
+    bootstrap.Alert.getOrCreateInstance(el).close();
+  });
 }
-
-function remove_alerts() {
-  document.querySelectorAll('.alert').forEach(remove_alert);
-}
-
-document.addEventListener('click', function(event) {
-  var dismiss = event.target.closest('[data-dismiss="alert"]');
-  if (!dismiss) return;
-  event.preventDefault();
-  var alert = dismiss.closest('.alert');
-  if (alert) remove_alert(alert);
-});
 
 function register_freetext_toggler() {
   document.querySelectorAll('a.freetext').forEach(function(link) {
     link.addEventListener('click', function() {
-      this.closest('.form-group').querySelectorAll('input, textarea, select, button').forEach(function(input) {
+      this.closest('.document_category').querySelectorAll('input, textarea, select, button').forEach(function(input) {
         var isHidden = input.style.display === 'none';
         input.style.display = isHidden ? '' : 'none';
         if (isHidden) {
@@ -231,15 +139,47 @@ function register_freetext_toggler() {
 
 var documentTree = null;
 
+// Which folders of the documents tree are open, kept per browser across
+// page loads (see Treeview's `expanded` path keys). Storage can be
+// unavailable (private windows, blocked site data): then the tree simply
+// starts with its first level open, as without saved state.
+var DOCUMENT_TREE_STATE_KEY = 'documents.tree.expanded';
+
+function loadDocumentTreeState() {
+  try {
+    var paths = JSON.parse(window.localStorage.getItem(DOCUMENT_TREE_STATE_KEY));
+    return Array.isArray(paths) ? paths : null;
+  } catch (e) {
+    return null;
+  }
+}
+
+function saveDocumentTreeState(paths) {
+  try {
+    window.localStorage.setItem(DOCUMENT_TREE_STATE_KEY, JSON.stringify(paths));
+  } catch (e) {
+    // not persisted -- the tree still works for this page view
+  }
+}
+
+// The full (unfiltered) tree, opened as the user last left it. Search
+// results are built separately, fully expanded and without saving, so a
+// search never overwrites the saved state.
+function buildDocumentTree(treeEl, data) {
+  return new Treeview(treeEl, {
+    data: data,
+    enableLinks: true,
+    levels: 1,
+    expanded: loadDocumentTreeState(),
+    onToggle: saveDocumentTreeState
+  });
+}
+
 function register_treeview() {
   var treeEl = document.getElementById('tree');
   if (!treeEl) return;
 
-  documentTree = new Treeview(treeEl, {
-    data: JSON.parse(treeEl.dataset.tree),
-    enableLinks: true,
-    levels: 1
-  });
+  documentTree = buildDocumentTree(treeEl, JSON.parse(treeEl.dataset.tree));
 
   var expandAll = document.getElementById('tree_expand_all');
   if (expandAll) {
@@ -332,7 +272,7 @@ function register_document_search() {
       if (noResults) noResults.style.display = 'none';
       treeEl.style.display = '';
       documentTree.remove();
-      documentTree = new Treeview(treeEl, {data: originalTreeData, enableLinks: true, levels: 1});
+      documentTree = buildDocumentTree(treeEl, originalTreeData);
     } else {
       var filteredData = filterTreeData(originalTreeData, searchTerm);
       documentTree.remove();

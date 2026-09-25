@@ -1,46 +1,22 @@
-- content_for :main_class, 'wide'
+- content_for :wide_layout, true
 
-- content_for :contextual_links do
-  .list-group.list-group-flush
-    = contextual_link_to :xlsx, url_for(params.permit!.merge(format: 'xlsx')), icon: 'file-earmark-excel'
-    = contextual_link_to 'reset_all', destroy_all_kid_mentor_relations_path, method: :delete, data: { confirm: "Sind Sie sicher?" }, icon: 'arrow-counterclockwise'
+= render layout: 'index_header', locals: { title: t('title.kid_mentor_relation_index', count: @kid_mentor_relations.count) } do
+  = xlsx_button
+  = link_to destroy_all_kid_mentor_relations_path, method: :delete, data: { confirm: 'Sind Sie sicher?' }, class: 'btn btn-outline-secondary' do
+    = icon('arrow-counterclockwise')
+    = t_action(:reset_all)
 
-- content_for :sidebar do
-  = form_for :kid_mentor_relation, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
-    .form-group
-      %label
-        = Kid.human_attribute_name(:exit_kind)
-        = Kid.model_name.human
-      = f.select :kid_exit_kind, exit_kind_collection, { :include_blank => true }, class: 'form-select'
-    .form-group
-      %label
-        = Mentor.human_attribute_name(:exit_kind)
-        = Mentor.model_name.human
-      = f.select :mentor_exit_kind, exit_kind_collection, { :include_blank => true }, class: 'form-select'
-    .form-group
-      %label
-        = Mentor.human_attribute_name('ects')
-        = Mentor.model_name.human
-      = f.select :mentor_ects, ects_collection(explicit_mapping: true), { include_blank: true }, class: 'form-select'
-    .form-group
-      %label Einstieg
-      = f.select :simple_term, %w(Frühling Herbst), { :include_blank => true }, class: 'form-select'
-    - if @site.feature_coach?
-      .form-group
-        %label Pädagogischer Coach
-        = f.select :admin_id, admin_collection, { :include_blank => true }, class: 'form-select'
-    .form-group
-      %label= Kid.human_attribute_name(:school)
-      = f.select :school_id, school_collection, { :include_blank => true }, class: 'form-select'
-    .form-group
-      %label Ordnen nach
-      = select_tag 'order_by', order_by_collection_for_kid_mentor_relations(params[:order_by]), class: 'form-select'
-    .form-group
-      = f.button (icon('funnel') + ' Filter anwenden'), class: 'btn btn-primary'
-      = link_to (icon('x-lg') + ' Filter aufheben'), kid_mentor_relations_path, class: 'btn btn-secondary'
+= render layout: 'filter_bar', locals: { record: @kid_mentor_relation } do
+  = render 'filter_dropdown', label: "#{Kid.human_attribute_name(:exit_kind)} #{Kid.model_name.human}", field: :kid_exit_kind, options: exit_kind_collection, record: @kid_mentor_relation
+  = render 'filter_dropdown', label: "#{Mentor.human_attribute_name(:exit_kind)} #{Mentor.model_name.human}", field: :mentor_exit_kind, options: exit_kind_collection, record: @kid_mentor_relation
+  = render 'filter_dropdown', label: "#{Mentor.human_attribute_name('ects')} #{Mentor.model_name.human}", field: :mentor_ects, options: ects_collection(explicit_mapping: true), record: @kid_mentor_relation
+  = render 'filter_dropdown', label: 'Einstieg', field: :simple_term, options: %w[Frühling Herbst].map { |t| [t, t] }, record: @kid_mentor_relation
+  - if @site.feature_coach?
+    = render 'filter_dropdown', label: 'Pädagogischer Coach', field: :admin_id, options: admin_collection, record: @kid_mentor_relation
+  = render 'filter_dropdown', label: Kid.human_attribute_name(:school), field: :school_id, options: school_collection, record: @kid_mentor_relation
+  .vr.mx-1.d-none.d-md-block
+  = render 'filter_dropdown', label: 'Ordnen nach', field: 'order_by', options: [[Kid.model_name.human, 'kid_name'], [Mentor.model_name.human, 'mentor_name']], current_value: params[:order_by].presence || 'kid_name', resettable: false
 
-= boot_page_title do
-  =t('title.kid_mentor_relation_index', count: @kid_mentor_relations.count)
 -if @kid_mentor_relations.present?
   .table-responsive
     %table.table.table-striped.table-hover
@@ -65,7 +41,7 @@
       - @kid_mentor_relations.each do |relation|
         %tr
           %td
-            = avatar_link_to(relation.kid, size: :sm)
+            = avatar_link_to(relation.kid)
           %td
             -if relation.kid.todo.present?
               %a.todotoggle{data: { bs_toggle: 'popover', bs_trigger: 'hover focus', bs_placement: 'left', bs_container: 'body', bs_html: 'true', bs_content: relation.kid.human_todo}, href:  edit_kid_path(relation.kid, :anchor => 'todo') }
@@ -74,7 +50,7 @@
           %td= relation.kid.human_exit_kind
           %td= human_date(relation.kid.exit_at)
           - if relation.mentor.present?
-            %td= avatar_link_to(relation.mentor, size: :sm)
+            %td= avatar_link_to(relation.mentor)
             %td
               -if relation.mentor.todo.present?
                 %a.todotoggle{data: { bs_toggle: 'popover', bs_trigger: 'hover focus', bs_placement: 'left', bs_container: 'body', bs_html: 'true', bs_content: relation.mentor.human_todo}, href:  edit_mentor_path(relation.mentor, :anchor => 'todo') }

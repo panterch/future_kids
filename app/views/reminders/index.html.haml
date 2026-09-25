@@ -1,24 +1,16 @@
-- content_for :main_class, 'wide'
+- content_for :wide_layout, true
 
-- content_for :sidebar do
-  -if current_user.is_a?(Admin)
-    = form_for :reminder, url: { action: 'index' }, html: { method: :get, class: 'filter' } do |f|
-      .form-group
-        %label= Kid.human_attribute_name(:school)
-        = f.select :filter_by_school_id, school_collection, { include_blank: true }, class: 'form-select'
-      .form-group
-        %label=Mentor.human_attribute_name('ects')
-        = f.select :filter_by_ects, ects_collection, { include_blank: true }, class: 'form-select'
-      .form-group
-        = f.button (icon('funnel') + ' Filter anwenden'), class: 'btn btn-primary'
-        = link_to (icon('x-lg') + ' Filter aufheben'), reminders_path, class: 'btn btn-secondary'
+= render layout: 'index_header', locals: { title: 'Erinnerungen' } do
+  = new_button(Reminder)
 
-= boot_page_title do
-  %h2 Erinnerungen
+- if current_user.is_a?(Admin)
+  = render layout: 'filter_bar', locals: { record: @reminder } do
+    = render 'filter_dropdown', label: Kid.human_attribute_name(:school), field: :filter_by_school_id, options: school_collection, record: @reminder
+    = render 'filter_dropdown', label: Mentor.human_attribute_name('ects'), field: :filter_by_ects, options: ects_collection, record: @reminder
 
 - if @reminders.present?
   .table-responsive
-    %table#reminders_table.table.table-striped.table-hover.no-sidebar-actions
+    %table#reminders_table.table.table-striped.table-hover
       %thead
         %tr
           %th Meeting vom
@@ -33,11 +25,11 @@
       - @reminders.each do |reminder|
         %tr
           %td= human_date(reminder.held_at)
-          %td= avatar_link_to(reminder.kid, size: :sm)
-          %td= avatar_link_to(reminder.mentor, size: :sm)
+          %td= avatar_link_to(reminder.kid)
+          %td= avatar_link_to(reminder.mentor)
           %td
             -if reminder.secondary_mentor
-              = avatar_link_to(reminder.secondary_mentor, size: :sm)
+              = avatar_link_to(reminder.secondary_mentor)
           %td= reminder.recipient
           %td= human_date(reminder.created_at.to_date)
           %td

@@ -1,16 +1,8 @@
-- content_for :sidebar do
-  -if current_user.is_a?(Admin)
-    = form_for :admin, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
-      .form-check.mb-3
-        = f.check_box :inactive, class: 'form-check-input'
-        = f.label :inactive, 'Inaktive', class: 'form-check-label'
+= render layout: 'index_header', locals: { title: (current_user.is_a?(Admin) ? "#{@admins.count} " : '') + 'Administratoren' } do
+  = new_button(Admin)
 
-      .form-group
-        = f.button (icon('funnel') + ' Filter anwenden'), class: 'btn btn-primary'
-        = link_to (icon('x-lg') + ' Filter aufheben'), admins_path, class: 'btn btn-secondary'
-
-= boot_page_title do
-  = @admins.count if current_user.is_a?(Admin)
-  Administratoren
+- if current_user.is_a?(Admin)
+  = render layout: 'filter_bar', locals: { record: @admin } do
+    = render 'inactive_filter', record: @admin
 
 = render 'users/list', collection: @admins

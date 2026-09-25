@@ -7,7 +7,7 @@
         = show_for @admin do |show|
           = show.attribute :name
           = show.attribute :prename
-          = show.attribute(:email) { mail_to(@admin.email) { icon('envelope') + ' ' + @admin.email } }
+          = show.attribute(:email) { mail_to(@admin.email) { icon_text('envelope', @admin.email) } }
           = show.attribute :phone
           = show.attribute :address
           = show.attribute :city

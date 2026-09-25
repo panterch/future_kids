@@ -1,14 +1,8 @@
-- content_for :sidebar do
-  -if current_user.is_a?(Admin)
-    = form_for :principal, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
-      .form-check.mb-3
-        = f.check_box :inactive, class: 'form-check-input'
-        = f.label :inactive, 'Inaktive', class: 'form-check-label'
+= render layout: 'index_header' do
+  = new_button(Principal)
 
-      .form-group
-        = f.button (icon('funnel') + ' Filter anwenden'), class: 'btn btn-primary'
-        = link_to (icon('x-lg') + ' Filter aufheben'), principals_path, class: 'btn btn-secondary'
-
-= boot_page_title
+- if current_user.is_a?(Admin)
+  = render layout: 'filter_bar', locals: { record: @principal } do
+    = render 'inactive_filter', record: @principal
 
 = render 'users/list', collection: @principals

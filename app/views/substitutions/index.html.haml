@@ -1,22 +1,13 @@
-- content_for :sidebar do
-  = form_for :substitution, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
-    %label= Substitution.human_attribute_name(:mentor)
-    .form-group
-      = f.select :mentor_id, mentor_collection, { :include_blank => true }, class: 'form-select'
-    .form-check.mb-3
-      = f.check_box :inactive, class: 'form-check-input'
-      = f.label :inactive, 'Inaktive', class: 'form-check-label'
-    .form-group
-      = f.button (icon('funnel') + ' Filter anwenden'), class: 'btn btn-primary'
-      = link_to (icon('x-lg') + ' Filter aufheben'), substitutions_path, class: 'btn btn-secondary'
+= render layout: 'index_header', locals: { title: 'Vertretungen' } do
+  = new_button(Substitution)
 
-
-= boot_page_title do
-  %h2 Vertretungen
+= render layout: 'filter_bar', locals: { record: @substitution } do
+  = render 'filter_dropdown', label: Substitution.human_attribute_name(:mentor), field: :mentor_id, options: mentor_collection, record: @substitution
+  = render 'inactive_filter', record: @substitution
 
 - if @substitutions.present?
   .table-responsive
-    %table.table.table-striped.table-hover.no-sidebar-actions
+    %table.table.table-striped.table-hover
       %thead
         %tr
           %th Mentor*in
@@ -33,13 +24,13 @@
                      ("table-success" if substitution.end_at > DateTime.now() and substitution.secondary_mentor.present?)]
 
         %tr{:class => trclasses}
-          %td= avatar_link_to(substitution.mentor, size: :sm)
+          %td= avatar_link_to(substitution.mentor)
           %td= link_to human_date(substitution.start_at), edit_substitution_path(substitution)
           %td= link_to human_date(substitution.end_at), edit_substitution_path(substitution)
-          %td= avatar_link_to(substitution.kid, size: :sm)
+          %td= avatar_link_to(substitution.kid)
           %td
             - if substitution.secondary_mentor.present?
-              = avatar_link_to(substitution.secondary_mentor, size: :sm)
+              = avatar_link_to(substitution.secondary_mentor)
             - else
               - if substitution.end_at > DateTime.now()
                 =button_to "Ersatz finden", { :controller => "kids", :id => substitution.kid.id, :action => :show_kid_mentors_schedules}, { :method => :get, :class => 'btn btn-secondary', params: { substitution_id: substitution.id } }
@@ -55,9 +46,9 @@
           - else
             %td
               - if substitution.end_at < DateTime.now
-                = button_to (icon('x-circle') + ' Abwesenheit schliessen'), { :action => "inactivate", :id => substitution.id }, { :method => :put, :class => 'btn btn-warning' }
+                = button_to icon_text('x-circle', 'Abwesenheit schliessen'), { :action => "inactivate", :id => substitution.id }, { :method => :put, :class => 'btn btn-warning' }
               - else
-                = button_to (icon('pencil') + ' Bearbeiten'), edit_substitution_path(substitution), { :method => :get, :class => 'btn btn-secondary' }
+                = button_to icon_text('pencil', 'Bearbeiten'), edit_substitution_path(substitution), { :method => :get, :class => 'btn btn-secondary' }
 
 - else
-  %p= icon('inbox') + ' Kein Eintrag vorhanden'
+  %p= icon_text('inbox', 'Kein Eintrag vorhanden')

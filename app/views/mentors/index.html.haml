@@ -1,47 +1,20 @@
-- content_for :contextual_links do
-  = contextual_links do
-    - if current_user.is_a?(Admin)
-      = contextual_link_to :xlsx, url_for(params.permit!.merge(format: 'xlsx')), icon: 'file-earmark-excel'
-
-- content_for :sidebar do
+= render layout: 'index_header', locals: { title: (current_user.is_a?(Admin) ? "#{@mentors.count} " : '') + 'Mentor*innen' } do
   - if current_user.is_a?(Admin)
-    = form_for :mentor, :url => { :action => 'index' }, :html => { :method => :get, :class => 'filter' } do |f|
-      .form-group
-        %label Startzeit
-        = f.select :term, term_collection, { :include_blank => true }, class: 'form-select'
-      .form-group
-        %label Austritt
-        = f.select :exit, term_collection, { :include_blank => true }, class: 'form-select'
-      .form-group
-        %label Einsatzort
-        = f.select :filter_by_school_id, school_collection_by_kind(:kid), { :include_blank => true }, class: 'form-select'
-      .form-group
-        %label Einsatztag
-        = f.select :filter_by_meeting_day, wday_collection, { :include_blank => true }, class: 'form-select'
-      .form-group
-        %label Schule Mentor
-        = f.select :school_id, school_collection_by_kind(:mentor), { :include_blank => true }, class: 'form-select'
-      - if @site.feature_coach?
-        .form-group
-          %label Pädagogischer Coach
-          = f.select :filter_by_coach_id, admin_collection, { :include_blank => true }, class: 'form-select'
-      .form-group
-        %label ÖV
-        = f.select :transport, transport_collection, { :include_blank => true }, class: 'form-select'
-      .form-group
-        %label=Mentor.human_attribute_name('ects')
-        = f.select :ects, ects_collection, { include_blank: true }, class: 'form-select'
+    = xlsx_button
+  = new_button(Mentor)
 
-      .form-check.mb-3
-        = f.check_box :inactive, class: 'form-check-input'
-        = f.label :inactive, 'Inaktive', class: 'form-check-label'
-      .form-group
-        = f.button (icon('funnel') + ' Filter anwenden'), class: 'btn btn-primary'
-        = link_to (icon('x-lg') + ' Filter aufheben'), mentors_path, class: 'btn btn-secondary'
-
-= boot_page_title do
-  = @mentors.count if current_user.is_a?(Admin)
-  Mentor*innen
+- if current_user.is_a?(Admin)
+  = render layout: 'filter_bar', locals: { record: @mentor } do
+    = render 'filter_dropdown', label: 'Startzeit', field: :term, options: term_collection.map { |t| [t, t] }, record: @mentor
+    = render 'filter_dropdown', label: 'Austritt', field: :exit, options: term_collection.map { |t| [t, t] }, record: @mentor
+    = render 'filter_dropdown', label: 'Einsatzort', field: :filter_by_school_id, options: school_collection_by_kind(:kid), record: @mentor
+    = render 'filter_dropdown', label: 'Einsatztag', field: :filter_by_meeting_day, options: wday_collection, record: @mentor
+    = render 'filter_dropdown', label: 'Schule Mentor', field: :school_id, options: school_collection_by_kind(:mentor), record: @mentor
+    - if @site.feature_coach?
+      = render 'filter_dropdown', label: 'Pädagogischer Coach', field: :filter_by_coach_id, options: admin_collection, record: @mentor
+    = render 'filter_dropdown', label: 'ÖV', field: :transport, options: transport_collection.map { |t| [t, t] }, record: @mentor
+    = render 'filter_dropdown', label: Mentor.human_attribute_name('ects'), field: :ects, options: ects_collection, record: @mentor
+    = render 'inactive_filter', record: @mentor
 
 - if @mentors.present?
   .table-responsive
@@ -49,7 +22,7 @@
       %tbody
         - @mentors.each do |mentor|
           %tr
-            %td= avatar_link_to(mentor, size: :sm)
+            %td= avatar_link_to(mentor)
             - if current_user.is_a?(Admin)
               %td
                 - if mentor.email.present?

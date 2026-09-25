@@ -50,12 +50,12 @@
 
 -# times are only visible to the mentor himself or an admin
 - if viewing_own_data?(@mentor)
-  #mentor_journal_date.float-end.d-flex.gap-2
-    = select_month(@month, {}, :class => 'select_mentor_journal_date form-select w-auto')
-    = select_year(@year, {}, :class => 'select_mentor_journal_date form-select w-auto')
   #a(name='mentor_journal_date')
-  %h2.mt-4
-    Zeiterfassung für den Monat
+  .d-flex.justify-content-between.align-items-center.flex-wrap.gap-2.mt-4.mb-2
+    %h2.mb-0 Zeiterfassung für den Monat
+    #mentor_journal_date.d-flex.gap-2
+      = select_month(@month, {}, :class => 'select_mentor_journal_date form-select w-auto')
+      = select_year(@year, {}, :class => 'select_mentor_journal_date form-select w-auto')
   .table-responsive
     %table.table.table-striped.table-hover
       - @journals.each do |journal|

@@ -24,6 +24,24 @@ feature 'Document Tree', :js do
     expect(page).to have_text('Dokument erfassen')
   end
 
+  # Uses the edit form: the document already has its attachment, so the submit
+  # carries no file upload (Cuprite's native click hangs on multipart posts).
+  scenario 'switches a category between dropdown and free text' do
+    doc = create(:document, category0: 'Cat', title: 'Document Title', attachment: file)
+    visit edit_document_path(doc.id)
+
+    expect(page).to have_select('document_category0')
+    expect(page).to have_no_field('document_category0', type: 'text')
+
+    find_by_id('document_category0').ancestor('.document_category').find('a.freetext').click
+    expect(page).to have_no_select('document_category0')
+    fill_in 'document_category0', with: 'Neue Kategorie'
+    find("#edit_document_#{doc.id} input[type=submit]").click
+
+    expect(page).to have_current_path(documents_path)
+    expect(doc.reload.category0).to eq('Neue Kategorie')
+  end
+
   scenario 'renders edit' do
     doc = create(:document, category0: 'Cat', category1: 'Sub', title: 'Document Title', attachment: file)
     visit edit_document_path(doc.id)

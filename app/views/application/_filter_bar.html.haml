@@ -1,0 +1,9 @@
+-# Filter dropdowns (application/_filter_dropdown) of an index page whose
+-# prototype `record` (e.g. @kid) is built from params[:kid]. The reset link
+-# shows whenever the request filters that scope -- read from the params, not
+-# from the dropdowns rendered, since some filters (e.g. the coach) aren't
+-# shown to everyone but still apply.
+.d-flex.flex-wrap.align-items-center.border.rounded.p-2.mb-3
+  = yield
+  - if filters_active?(record)
+    = link_to 'Filter zurücksetzen', request.path, class: 'btn btn-link btn-sm ms-auto'

@@ -2,7 +2,7 @@
 
 // Karla (SIL OFL, https://fonts.google.com/specimen/Karla), vendored to
 // public/ rather than linked from Google Fonts -- same reasoning as the
-// teaser image above (dartsass-rails has no image-url) plus not wanting a
+// teaser image below (dartsass-rails has no image-url) plus not wanting a
 // third-party font host resolving on every page load of an app that
 // otherwise makes no outside requests.
 @font-face {
@@ -25,9 +25,8 @@
     U+1E00-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
 }
 
-// Zilla Slab (SIL OFL) -- heading face for the same direction. Only shipped
-// as static weights (no variable range like Figtree/Karla), so 500 and 600
-// are separate files.
+// Zilla Slab (SIL OFL) -- heading face. Only shipped as static weights (no
+// variable range like Karla), so 500 and 600 are separate files.
 @font-face {
   font-family: 'Zilla Slab';
   font-style: normal;
@@ -76,11 +75,16 @@ $headings-font-weight: 600;
 
 $header-height: 70px;
 $footer-height: 30px;
+// Rendered height of the sticky navbar (#nav): $header-height plus its
+// padding/border, measured in the browser.
+$nav-height: $header-height + 5px;
 
-// Solarized (Ethan Schoonover, https://ethanschoonover.com/solarized/),
-// mapped onto Bootstrap's color-mode variables so light/dark match the
-// canonical Solarized Light/Dark palettes and switch via the existing
-// data-bs-theme toggle (see app/javascript/theme.js).
+// Palette derived from Solarized (Ethan Schoonover,
+// https://ethanschoonover.com/solarized/). The raw values below are the
+// original Solarized colors; the mappings onto Bootstrap's color-mode
+// variables that follow adapt them (darker accents for button contrast, a
+// lighter light mode) and switch via the existing data-bs-theme toggle
+// (see app/javascript/theme.js).
 $solarized-base03:  #002b36;
 $solarized-base02:  #073642;
 $solarized-base01:  #586e75;
@@ -145,30 +149,14 @@ $input-bg: var(--bs-secondary-bg);
 $link-decoration: none;
 $link-hover-decoration: underline;
 
-// The sidebar "Aktionen" panel (contextual_links helper) renders a flush
-// list-group inside a .card -- flush is correct there (a plain .list-group
-// would double up its own border/radius against the card's), but its
-// default item padding (.5rem 1rem) reads as cramped next to the card's
-// own 1rem/1.25rem header padding. Match the two instead of leaving the
-// list-group on its tighter built-in default.
+// The record pages' sidebar (see #sidebar below) and its accordion use
+// list-group cells: give them the same generous padding as the card headers
+// around them instead of Bootstrap's tighter default (.5rem 1rem).
 $list-group-item-padding-y: 1rem;
 $list-group-item-padding-x: 1.25rem;
 
 @import 'bootstrap';
 @import 'react-select';
-@import 'bootstrap-treeview';
-
-// Bootstrap 5 dropped .form-group (its migration guide points to margin
-// utilities like .mb-3 instead), but views across the app -- especially
-// the sidebar filter forms on the index pages -- still use it and were
-// never migrated, leaving fields with no spacing between them. Reviving it
-// here fixes every one of those forms without touching each view; it also
-// stays a hook for the JS in global.js that toggles visibility via
-// .closest('.form-group'). simple_form-generated wrappers use Bootstrap 5's
-// .mb-3 directly instead (see simple_form_bootstrap.rb).
-.form-group {
-  margin-bottom: 1rem;
-}
 
 // Bootstrap 5 removes the chevron and its padding from a <select multiple>
 // (there's no closed state to point at), so its .form-select is otherwise
@@ -220,16 +208,52 @@ textarea.form-control {
   white-space: nowrap;
 }
 
-// The Pendenz popover's content is simple_format output (see
-// ApplicationRecord#text_format) -- its <p> margins sit outside
-// .popover-body's own padding rather than collapsing into it, doubling the
-// vertical gap at the top and bottom edges.
-.popover-body > :first-child {
-  margin-top: 0;
+// simple_format'd text (ApplicationRecord#text_format: the Pendenz popover,
+// human_* show_for values, comment bodies) and show_for's <ul> collections
+// bring browser-default <p>/<ul> margins that sit outside their container's
+// padding or grid gap and double it. Trim just the outer edges, not the gap
+// between paragraphs.
+.popover-body,
+.show-for-value,
+.comment-item {
+  > :first-child {
+    margin-top: 0;
+  }
+
+  > :last-child {
+    margin-bottom: 0;
+  }
 }
 
-.popover-body > :last-child {
-  margin-bottom: 0;
+// Long filter lists (e.g. every active mentor) scroll inside the dropdown
+// instead of running off the page (application/_filter_dropdown).
+.filter-menu {
+  max-height: 60vh;
+  overflow-y: auto;
+}
+
+// The documents tree (app/javascript/treeview.js): a list-group row per node,
+// indented per level. Every row gets the same fixed-width expand-icon slot
+// (empty for documents), so labels line up at each level whether or not the
+// node has children.
+.treeview {
+  .list-group-item {
+    cursor: pointer;
+  }
+
+  .indent,
+  .icon {
+    display: inline-block;
+  }
+
+  .indent {
+    width: 1.25rem;
+  }
+
+  .icon {
+    width: 1em;
+    margin-right: .375rem;
+  }
 }
 
 #header {
@@ -246,18 +270,15 @@ textarea.form-control {
 
   // Not image-url(): that's a Sprockets/sass-rails Sass function dartsass-rails
   // doesn't provide. Vendored to a stable public/ path instead, same reasoning
-  // as the bootstrap font files above.
+  // as the font files above.
   background: var(--bs-body-bg) url("/images/teaser.jpg");
 }
 
 #nav {
   border-bottom: 1px solid var(--bs-border-color);
 
-  // #sidebar-wrapper and #main still offset themselves by $header-height,
-  // a leftover from when this nav lived inside the fixed #header box (see
-  // git history) -- pin the real navbar to that same height so those
-  // offsets keep working until the sidebar/main layout is reworked to not
-  // need a hardcoded height at all.
+  // Pinned to $header-height (see also $nav-height, the rendered height the
+  // sidebar's sticky offset is derived from).
   min-height: $header-height;
 
   // Icon-above-label layout, like a tab bar, once the nav is expanded
@@ -291,7 +312,10 @@ textarea.form-control {
   }
 }
 
-.alert {
+// Flash messages float over the page (and close themselves, see global.js);
+// every other alert (form error summaries, the document search's no-results
+// hint) stays in the normal flow where it was rendered.
+#flash .alert {
   position: fixed;
   left: 0;
   right: 0;
@@ -308,40 +332,9 @@ label em {
   font-style: normal;
 }
 
-// Position mentor journal date picker
-#mentor_journal_date {
-  padding-top: 20px;
-}
-
 // Set default height for textareas
 textarea {
   min-height: 10em;
-}
-
-.page-header {
-  margin-top: 0;
-}
-
-// Fix alignment of text at checkboxes
-.checkbox {
-  input[type=checkbox] {
-    margin-top: 2px;
-    width: 20px; // needed for firefox
-  }
-}
-
-// Fix alignement of html5 datepicker
-input.date[type=date] {
-  line-height: 1.4;
-  background-color: var(--bs-body-bg);
-}
-
-// pages that contain no actions
-body.available_kids.index,
-body.mentor_matchings.index {
-  & .contextual_links_panel {
-    display: none;
-  }
 }
 
 form.schedule {
@@ -363,35 +356,12 @@ form.schedule {
 
 }
 
-#mentor_selection_tab {
-  table {
-    margin-top: 20px;
-  }
-
-  th,
-  td {
-    width: 20%;
-    vertical-align: top;
-    border-left: 1px solid var(--bs-border-color);
-  }
-
-  th {
-    padding: 3px;
-  }
-
-  select {
-    border: 0;
-    padding: 3px;
-  }
-}
-
 #main {
   margin-bottom: $footer-height;
 
   // Baseline vertical rhythm for every signed-in page: breathing room below
   // the sticky nav (so page titles and the sidebar don't start flush
-  // against it) and above the footer. #content/#sidebar and their cards
-  // inherit this for free since they're just columns inside #main.
+  // against it) and above the footer.
   padding-top: 1.5rem;
   padding-bottom: 2rem;
 }
@@ -409,35 +379,80 @@ form.schedule {
   background-color: var(--bs-body-bg);
 }
 
-// Some index pages have tables wide enough that Bootstrap's stepped
-// .container forces horizontal scrolling or line-wrapping (kids,
-// kid_mentor_relations, reminders, schools -- see the `content_for
-// :main_class, 'wide'` call at the top of each of those views). For those
-// only, #content "bleeds" past the container's normal left edge: shift its
-// left edge out towards the viewport while widening it by that same
-// amount, so its right edge -- and #sidebar, which this leaves completely
-// untouched -- stays exactly where .container would put it on a show/edit
-// page. Other index pages (mentors, admins, ...) are narrow enough to stay
-// on the common layout and don't opt in.
-$wide-content-breakpoints: md, lg, xl, xxl;
+// The record pages' right-hand column (layouts/application.html.haml):
+// Bootstrap's responsive offcanvas, a plain column from lg up and a slide-in
+// drawer below. Only .sidebar-sticky sticks -- .offcanvas-lg is
+// position: static from lg up. `top` is the sidebar's natural resting
+// position (navbar + #main's 1.5rem top padding), so it doesn't shift at all
+// when scrolling starts; max-height/overflow keep a long expanded accordion
+// reachable.
+.sidebar-sticky {
+  @include media-breakpoint-up(lg) {
+    position: sticky;
+    top: calc(#{$nav-height} + 1.5rem);
+    max-height: calc(100vh - #{$nav-height + $footer-height + 8px} - 1.5rem);
+    overflow-y: auto;
+  }
+}
 
-@each $breakpoint in $wide-content-breakpoints {
-  $max-width: map-get($container-max-widths, $breakpoint);
+// The sidebar's controls share the list-group/accordion look: buttons take
+// the same vertical padding as a list-group cell (so button rows and
+// accordion entries are the same height), left-align with the same inset as
+// the accordion headers' labels, and use the neutral border color instead of
+// the outline button's darker one, so a button stack and the accordion under
+// it share one border color.
+#sidebar .btn {
+  --bs-btn-padding-y: #{$list-group-item-padding-y};
+  --bs-btn-padding-x: #{$list-group-item-padding-x};
+  text-align: left;
+}
 
-  @include media-breakpoint-up($breakpoint) {
-    #main.wide #content {
-      // 50vw measures the viewport including its scrollbar track, but these
-      // are exactly the tall, scrollbar-triggering pages the bleed exists
-      // for -- so the raw formula overshoots the true edge by roughly half
-      // the scrollbar's width and clips content past x=0. Backing off by
-      // 1rem keeps a small, deliberate gutter (matching the container
-      // padding used everywhere else) instead of an accidental negative one.
-      $bleed: calc(50vw - #{$max-width * .5} - 1rem);
-      margin-left: calc(-1 * #{$bleed});
-      width: calc(75% + #{$bleed});
-      max-width: none;
+#sidebar .btn-outline-secondary {
+  --bs-btn-border-color: var(--bs-border-color);
+}
+
+// The accordion header's serif heading font renders a few px shorter than
+// the body-font rows around it at the same padding; the extra 2.5px per
+// side evens the rows out to the same height as a list cell.
+#sidebar .accordion {
+  --bs-accordion-btn-padding-y: calc(#{$list-group-item-padding-y} + 2.5px);
+}
+
+// The entry count sits right beside the chevron (both pushed to the far
+// edge) instead of floating between the label and the chevron, where both
+// auto margins were splitting the free space.
+#sidebar .accordion-button::after {
+  margin-left: .75rem;
+}
+
+// A "Neues ..." button stack sitting directly under its accordion (kids/
+// _sidebar_section.html.haml): the accordion's last item and the button
+// group's first button trade their touching corners for a shared edge, so
+// the pair reads as one joined control like a list-group would.
+.sidebar-group {
+  .accordion:has(+ .btn-group-vertical) {
+    .accordion-item:last-of-type,
+    .accordion-item:last-of-type > .accordion-collapse,
+    .accordion-item:last-of-type > .accordion-header .accordion-button.collapsed {
+      border-bottom-left-radius: 0;
+      border-bottom-right-radius: 0;
     }
   }
+
+  .accordion + .btn-group-vertical {
+    margin-top: calc(-1 * var(--bs-border-width));
+
+    > .btn:first-child {
+      border-top-left-radius: 0;
+      border-top-right-radius: 0;
+    }
+  }
+}
+
+// Keeps anchor targets (e.g. the kid sidebar's jumps to a journal card)
+// from landing underneath the sticky main nav.
+html {
+  scroll-padding-top: calc(#{$nav-height} + 1rem);
 }
 
 #footer {
@@ -462,7 +477,7 @@ $wide-content-breakpoints: md, lg, xl, xxl;
 // every other row sharing the grid.
 .show-for-grid {
   display: grid;
-  grid-template-columns: fit-content(220px) minmax(0, 1fr);
+  grid-template-columns: var(--show-for-columns, fit-content(220px) minmax(0, 1fr));
   align-items: start;
   column-gap: 1rem;
   row-gap: .5rem;
@@ -499,36 +514,6 @@ $wide-content-breakpoints: md, lg, xl, xxl;
 
 .show-for-value {
   min-width: 0;
-
-  // show_for prefers a human_* method when the model defines one (e.g.
-  // human_todo/human_note, simple_format'd -- see ApplicationRecord
-  // #text_format), and its own collection wrapper is a plain <ul
-  // class="list-unstyled">. Both a <p> and a <ul> carry their own
-  // browser-default margin that .list-unstyled doesn't reset, which stacked
-  // on top of .show-for-grid's own row-gap, doubling the gap below that
-  // particular row versus a plain-text attribute next to it. Trimming just
-  // the outer edges (not any gap *between* multiple paragraphs) keeps
-  // multi-paragraph text's own spacing intact.
-  > :first-child {
-    margin-top: 0;
-  }
-
-  > :last-child {
-    margin-bottom: 0;
-  }
-}
-
-// A comment on a journal entry (comments/_list.html.haml). Flush because
-// this list-group sits inside a .card -- a plain .list-group would double
-// up its own border against the card's, most visible on the left/right
-// edges where the two run parallel for the full height. human_body is
-// simple_format output (a <p>), so trim its trailing margin the same way
-// as .show-for-value above -- here there's only ever one paragraph's worth
-// of margin to trim, never a gap between multiple ones.
-.comment-item {
-  > :last-child {
-    margin-bottom: 0;
-  }
 }
 
 .comment-byline {
@@ -537,26 +522,17 @@ $wide-content-breakpoints: md, lg, xl, xxl;
   gap: .5rem;
   color: var(--bs-secondary-color);
   font-size: .875rem;
-  margin-bottom: .5rem;
 }
 
 // A few edit forms (e.g. schools/_form.html.haml) embed a read-only
 // show_for block -- associations the form itself has no field for -- among
 // their simple_form inputs. Left at its normal fit-content width, its label
 // column lines up with nothing else on the page; matching horizontal_form's
-// col-sm-3/col-sm-9 split (see simple_form_bootstrap.rb) instead keeps every
-// label and value on the same two vertical lines.
+// col-sm-3/col-sm-9 split (see simple_form.rb) instead keeps every
+// label and value on the same two vertical lines. Set as the columns'
+// variable, so .show-for-grid's own mobile override still applies.
 .simple_form .show-for-grid {
-  grid-template-columns: 25% 1fr;
-
-  // .show-for-grid's own mobile override above is a single class and loses
-  // to this rule's two-class specificity regardless of source order, so it
-  // never actually collapsed to one column here -- repeat it at matching
-  // specificity to keep that behavior for a show_for block embedded in a
-  // form too.
-  @include media-breakpoint-down(sm) {
-    grid-template-columns: 1fr;
-  }
+  --show-for-columns: 25% 1fr;
 }
 
 // the school's teacher list tends to run long (dozens of names); splitting
@@ -564,30 +540,6 @@ $wide-content-breakpoints: md, lg, xl, xxl;
 .school_active_teachers .show-for-value ul {
   column-count: 2;
   column-gap: 1.5rem;
-}
-
-// Collapsible card headers (e.g. the kid page's Lernjournale/Gespräche/
-// Auswertung jump-lists). The title sits in a flex row with its count
-// badge (see the views) so short titles share a line with the badge and
-// only long ones (e.g. "Auswertung / Abschluss", wider than the whole
-// sidebar column on its own) wrap. min-width: 0 lets the button shrink
-// below its text's natural width so it wraps instead of overflowing the
-// card -- buttons/inputs otherwise size themselves to their content
-// regardless of the container, unlike a plain inline-block. overflow-wrap:
-// normal overrides Bootstrap's global word-wrap: break-word on body, which
-// otherwise breaks a too-narrow single word (e.g. "Lernjournale") mid-word
-// as a last resort instead of just wrapping the whole button onto its own
-// full-height line.
-.card-title [data-bs-toggle='collapse'] {
-  min-width: 0;
-  overflow-wrap: normal;
-  border: none;
-  background: none;
-  padding: 0;
-  font: inherit;
-  color: inherit;
-  text-align: left;
-  cursor: pointer;
 }
 
 // Sub-skill groups within a goal-picking card (kids/_form.html.haml's
@@ -607,67 +559,17 @@ $wide-content-breakpoints: md, lg, xl, xxl;
   border-top: 1px solid var(--bs-border-color);
 }
 
-#sidebar {
-  .logo {
-    margin-bottom: 20px;
-
-    // The partner logo (e.g. denteo) is a dark-on-transparent asset we
-    // don't control, so it disappears on the dark theme's background.
-    // Pin it to a fixed white backdrop in both themes instead of trying
-    // to theme an image we can't edit, framed the same way as the sidebar's
-    // form fields and .card (same border color/width and radius).
-    .logo-badge {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      width: 100%;
-      background-color: #fff;
-      border: var(--bs-border-width) solid var(--bs-border-color);
-      border-radius: var(--bs-border-radius);
-      padding: 16px 32px;
-    }
-
-    img {
-      // min() so the cap never exceeds the logo-badge's own content box --
-      // a fixed 220px alone overflowed the badge (and its border) on the
-      // md breakpoint's narrower sidebar column.
-      max-width: min(220px, 100%);
-      max-height: 120px;
-      width: auto;
-      object-fit: contain;
-    }
-  }
-
-  // Rendered once, right after #content -- a plain flex row puts it on the
-  // right on desktop and lets it fall in below on mobile, so unlike the old
-  // fixed-position sidebar this needs no separate mobile duplicate.
-  @include media-breakpoint-up(md) {
-    position: sticky;
-    top: $header-height + 8px;
-    align-self: flex-start;
-
-    // Sticky only pins the top edge -- it doesn't give the element its own
-    // scroll, so on pages with a long sidebar (e.g. the kids index filter
-    // form) content past the viewport bottom would otherwise be permanently
-    // unreachable. Capping the height and scrolling internally keeps
-    // everything reachable while the sidebar still stays in view.
-    max-height: calc(100vh - #{$header-height + $footer-height + 16px});
-    overflow-y: auto;
-  }
+// The site logo (layouts/_logo_badge), sized to sit inside the navbar's
+// $header-height without making it taller. The badge itself is a white,
+// bordered box in both themes (Bootstrap utilities in the partial): the
+// partner logo is a dark-on-transparent asset we don't control and would
+// disappear on the dark theme's background.
+.logo-badge img {
+  max-width: 120px;
+  max-height: 36px;
+  width: auto;
+  object-fit: contain;
 }
-
-// The sidebar filter forms (kids/mentors/admins/... index views, all built
-// from the same unmigrated markup) end with a bare "Filter anwenden" +
-// "Filter aufheben" button pair in one .form-group -- two adjacent inline
-// buttons with no gap between them and no defined width, wrapping wherever
-// the narrow sidebar column happens to break. Bootstrap 5's own docs call
-// for a d-grid wrapper with gap for exactly this stacked-full-width-buttons
-// case, so apply it here once instead of touching every view.
-.filter .form-group:last-child {
-  display: grid;
-  gap: 0.5rem;
-}
-
 
 // Circular avatar: a user/kid's uploaded photo, or initials on a
 // type-colored background when there is none. Colors reuse Bootstrap's own
@@ -749,9 +651,22 @@ $wide-content-breakpoints: md, lg, xl, xxl;
   align-items: flex-start;
   min-width: 0;
 
+  // break-word, not anywhere: both only split a word that can't fit
+  // otherwise, but anywhere also lets the name's min-content width shrink
+  // to a single letter -- table auto-layout then squeezes the name columns
+  // to that and names come out broken letter by letter ("Del / Mo / ral"),
+  // while .table-responsive never gets to scroll.
   > a, > span:last-child {
-    overflow-wrap: anywhere;
+    overflow-wrap: break-word;
   }
+}
+
+// Floor for a table's first column (the row's own kid/mentor/user):
+// without it, auto-layout hands spare width to the dates and long headers
+// first and the name ends up wrapped over three or four lines -- past this
+// width .table-responsive scrolls instead.
+.table td:first-child > .avatar-link {
+  min-width: 8rem;
 }
 
 // A user's own full, uncropped photo on their profile page (see
@@ -767,7 +682,6 @@ $wide-content-breakpoints: md, lg, xl, xxl;
     display: block;
   }
 }
-
 
 .kid-mentor-schedules {
   // "Mentoren Filtern:" / "Mentoren anzeigen:" row labels, siblings of
@@ -798,11 +712,11 @@ $wide-content-breakpoints: md, lg, xl, xxl;
 
     td {
       height: $kidMentorSchedulesRowHeight;
-      border-bottom: 1px solid #ccc;
+      border-bottom: var(--bs-border-width) solid var(--bs-border-color);
     }
 
     .time-cell {
-      border-right: 1px solid black;
+      border-right: var(--bs-border-width) solid var(--bs-emphasis-color);
       width: 20%;
       padding-left: 10px;
       padding-right: 10px;
@@ -813,16 +727,16 @@ $wide-content-breakpoints: md, lg, xl, xxl;
       background: repeating-linear-gradient(45deg,
           transparent,
           transparent 10px,
-          #ccc 10px,
-          #ccc 20px),
+          var(--bs-border-color) 10px,
+          var(--bs-border-color) 20px),
         /* on "bottom" */
         linear-gradient(to bottom,
-          #eee,
-          #999);
+          var(--bs-secondary-bg),
+          var(--bs-secondary-color));
     }
 
     .cell-kid {
-      color: #aaa;
+      color: var(--bs-secondary-color);
       position: absolute;
       left: 5px;
       right: 5px;
@@ -832,7 +746,7 @@ $wide-content-breakpoints: md, lg, xl, xxl;
       box-sizing: content-box;
 
       &.time-available {
-        background-color: #eee;
+        background-color: var(--bs-secondary-bg);
       }
     }
 
@@ -862,7 +776,7 @@ $wide-content-breakpoints: md, lg, xl, xxl;
 
     .day-placeholder {
       cursor: pointer;
-      background-color: #EFEFEF;
+      background-color: var(--bs-tertiary-bg);
     }
 
     .show-icon {
@@ -889,8 +803,6 @@ $wide-content-breakpoints: md, lg, xl, xxl;
       height: $kidMentorSchedulesRowHeight;
       overflow: visible;
       cursor: pointer;
-
-
 
       .btn-set-date {
         position: absolute;
@@ -919,7 +831,6 @@ $wide-content-breakpoints: md, lg, xl, xxl;
           .icon {
             display: block;
           }
-
         }
       }
 

@@ -29,8 +29,7 @@ RSpec.describe 'KidMentorRelations' do
       end
 
       scenario 'filters for kids exit kind' do
-        select('Steigt aus', from: 'kid_mentor_relation_kid_exit_kind')
-        click_button('Filter anwenden')
+        choose_filter('Aktueller Stand Schüler*in', 'Steigt aus')
         expect(page).to have_no_text('Kid No / Mentor No')
         expect(page).to have_no_text('Kid No / Mentor Exit')
         expect(page).to have_text('Kid Exit / Mentor No')
@@ -38,8 +37,7 @@ RSpec.describe 'KidMentorRelations' do
       end
 
       scenario 'filters for mentors exit kind' do
-        select('Steigt aus', from: 'kid_mentor_relation_mentor_exit_kind')
-        click_button('Filter anwenden')
+        choose_filter('Aktueller Stand Mentor*in', 'Steigt aus')
         expect(page).to have_no_text('Kid No / Mentor No')
         expect(page).to have_text('Kid No / Mentor Exit')
         expect(page).to have_no_text('Kid Exit / Mentor No')
@@ -47,9 +45,8 @@ RSpec.describe 'KidMentorRelations' do
       end
 
       scenario 'filters for combined exit kind' do
-        select('Steigt aus', from: 'kid_mentor_relation_kid_exit_kind')
-        select('Steigt aus', from: 'kid_mentor_relation_mentor_exit_kind')
-        click_button('Filter anwenden')
+        choose_filter('Aktueller Stand Schüler*in', 'Steigt aus')
+        choose_filter('Aktueller Stand Mentor*in', 'Steigt aus')
         expect(page).to have_no_text('Kid No / Mentor No')
         expect(page).to have_no_text('Kid No / Mentor Exit')
         expect(page).to have_no_text('Kid Exit / Mentor No')

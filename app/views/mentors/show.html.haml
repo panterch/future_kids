@@ -1,10 +1,5 @@
-- content_for :contextual_links do
-  = contextual_links do
-    - if can?(:edit_schedules, @mentor)
-      = contextual_link_to :edit_schedules, edit_schedules_mentor_path(@mentor), icon: 'calendar3-week'
-    - if can?(:create, Substitution)
-      = contextual_link_to :new_substitution, new_substitution_path(:mentor_id=>@mentor.id), icon: 'person-plus'
+- content_for :sidebar_actions do
+  = render 'button_stack', actions: [[t_action(:edit_schedules), edit_schedules_mentor_path(@mentor), 'calendar3-week', can?(:edit_schedules, @mentor)],
+                                     [t_action(:new_substitution), new_substitution_path(mentor_id: @mentor.id), 'person-plus', can?(:create, Substitution)]]
 
-= boot_page_title
-
-= render "show"
+= render template: 'application/show'

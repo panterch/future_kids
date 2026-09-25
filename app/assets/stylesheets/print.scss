@@ -2,10 +2,6 @@ body {
   background-color: #FFF;
 }
 
-img#bg {
-  display: none;
-}
-
 #content, #main, .container {
   margin: 0;
   width: 100%;
@@ -28,8 +24,4 @@ img#bg {
 
 .avatar, .profile-portrait {
   display: none;
-}
-
-a[href]:after {
-  content: "";
 }

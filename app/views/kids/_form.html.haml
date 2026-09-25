@@ -5,7 +5,7 @@
   = form.input :sex, :collection => sex_collection, required: true
   = form.input :dob, as: :date, html5: true
   = form.input :grade, collection: grade_collection, include_blank: true,
-    hint: '(bei Einstieg Future Kids)', wrapper_html: { class: 'kid_grade' }
+    hint: '(bei Einstieg Future Kids)'
 
   = form.input :language, required: true
   = form.input :parent_country, priority: ["AL", "TR", "LK", "XK", "ES", "PT"], :include_blank => true, locale: 'de'
@@ -18,100 +18,29 @@
   = form.input :note
   = form.association :school, collection: @schools, include_blank: @schools_include_blank
 
-  %h2.mt-4
-    Fachliche Förderbereiche
-    %em="- mindestens eines, maximal #{Kid::GOALS_1_MAX}"
-  - if @kid.errors[:goal_1].any?
-    %h3.has-error
-      %span.text-danger= @kid.errors[:goal_1].try(:first)
-
-  .card.mb-4
-    .card-header
-      %h3.card-title.mb-0 Deutsch
-    .card-body
-      .goal-group
-        %p.goal-group-label Hören
-        = form.input :goal_3, wrapper: :vertical_boolean
-        = form.input :goal_4, wrapper: :vertical_boolean
-        = form.input :goal_5, wrapper: :vertical_boolean
-      .goal-group
-        %p.goal-group-label Lesen
-        = form.input :goal_6, wrapper: :vertical_boolean
-        = form.input :goal_7, wrapper: :vertical_boolean
-        = form.input :goal_8, wrapper: :vertical_boolean
-      .goal-group
-        %p.goal-group-label Sprechen
-        = form.input :goal_9, wrapper: :vertical_boolean
-        = form.input :goal_10, wrapper: :vertical_boolean
-      .goal-group
-        %p.goal-group-label Schreiben
-        = form.input :goal_11, wrapper: :vertical_boolean
-        = form.input :goal_12, wrapper: :vertical_boolean
-        = form.input :goal_13, wrapper: :vertical_boolean
-      .goal-group
-        %p.goal-group-label Sprache im Fokus (Grammatik und Rechtschreibung)
-        = form.input :goal_14, wrapper: :vertical_boolean
-        = form.input :goal_15, wrapper: :vertical_boolean
-
-  .card.mb-4
-    .card-header
-      %h3.card-title.mb-0 Mathematik
-    .card-body
-      = form.input :goal_16, wrapper: :vertical_boolean
-      .goal-group
-        %p.goal-group-label Zahl und Variable
-        = form.input :goal_17, wrapper: :vertical_boolean
-        = form.input :goal_18, wrapper: :vertical_boolean
-        = form.input :goal_19, wrapper: :vertical_boolean
-        = form.input :goal_20, wrapper: :vertical_boolean
-      .goal-group
-        %p.goal-group-label Form und Raum
-        = form.input :goal_21, wrapper: :vertical_boolean
-        = form.input :goal_22, wrapper: :vertical_boolean
-      .goal-group
-        %p.goal-group-label Grössen
-        = form.input :goal_23, wrapper: :vertical_boolean
-        = form.input :goal_24, wrapper: :vertical_boolean
-
-  .card.mb-4
-    .card-header
-      %h3.card-title.mb-0 Ergänzungen
-    .card-body
-      = form.input :goal_1, wrapper: :vertical_form
-
-  %h2.mt-4
-    Überfachliche Förderbereiche
-    %em="- mindestens eines, maximal #{Kid::GOALS_2_MAX}"
-  - if @kid.errors[:goal_2].any?
-    %h3.has-error
-      %span.text-danger= @kid.errors[:goal_2].try(:first)
-
-  .card.mb-4
-    .card-header
-      %h3.card-title.mb-0 Personale Förderbereiche
-    .card-body
-      = form.input :goal_25, wrapper: :vertical_boolean
-      = form.input :goal_26, wrapper: :vertical_boolean
-      = form.input :goal_27, wrapper: :vertical_boolean
-      = form.input :goal_28, wrapper: :vertical_boolean
-      = form.input :goal_29, wrapper: :vertical_boolean
-      = form.input :goal_30, wrapper: :vertical_boolean
-      = form.input :goal_31, wrapper: :vertical_boolean
-
-  .card.mb-4
-    .card-header
-      %h3.card-title.mb-0 Methodische Förderbereiche
-    .card-body
-      = form.input :goal_32, wrapper: :vertical_boolean
-      = form.input :goal_33, wrapper: :vertical_boolean
-      = form.input :goal_34, wrapper: :vertical_boolean
-      = form.input :goal_35, wrapper: :vertical_boolean
-
-  .card.mb-4
-    .card-header
-      %h3.card-title.mb-0 Ergänzungen
-    .card-body
-      = form.input :goal_2, wrapper: :vertical_form
+  - KidsHelper::GOAL_SECTIONS.each do |heading, free_text_goal, max, cards|
+    %h2.mt-4
+      = heading
+      %em="- mindestens eines, maximal #{max}"
+    - if @kid.errors[free_text_goal].any?
+      %h3.text-danger= @kid.errors[free_text_goal].first
+    - cards.each do |title, groups|
+      .card.mb-4
+        .card-header
+          %h3.card-title.mb-0= title
+        .card-body
+          -# sub-skill groups, see .goal-group in application.scss
+          - groups.each do |label, goals|
+            %div{class: ('goal-group' if label)}
+              - if label
+                %p.goal-group-label= label
+              - goals.each do |goal|
+                = form.input goal, wrapper: :vertical_boolean
+    .card.mb-4
+      .card-header
+        %h3.card-title.mb-0 Ergänzungen
+      .card-body
+        = form.input free_text_goal, wrapper: :vertical_form
 
   %h2.mt-4 Allgemeine Informationen
   - unless @site.kids_schedule_hourly

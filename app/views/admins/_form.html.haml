@@ -1,10 +1,12 @@
 = simple_form_for @admin do |form|
   = form.input :name
   = form.input :prename
-  = form.input :email
+  -# Not a login form: stop browsers and password managers from filling in the
+  -# signed-in user's own credentials ('new-password' = a password being set).
+  = form.input :email, input_html: { autocomplete: 'off' }
   = form.input :phone
-  = form.input :password
-  = form.input :password_confirmation
+  = form.input :password, input_html: { autocomplete: 'new-password' }
+  = form.input :password_confirmation, input_html: { autocomplete: 'new-password' }
   = form.input :photo
   = form.input :address
   = form.input :city

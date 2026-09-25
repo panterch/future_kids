@@ -4,16 +4,10 @@ import "react-input-autosize";
 import Select from "react-select";
 import htm from "htm";
 
+import { iconMarkup } from "global";
+
 const html = htm.bind(React.createElement);
 const { useState } = React;
-
-// Duplicated in global.js and treeview.js -- see the comment on global.js's
-// copy for why.
-function iconMarkup(name) {
-  var sprite = document.body.dataset.iconSprite;
-  return '<svg class="icon-svg" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">' +
-    '<use href="' + sprite + '#' + name + '"></use></svg>';
-}
 
 const STYLE_DAY_PLACEHOLDER_WIDTH = 4;
 const MAX_MENTORS_TO_DISPLAY = 10;

@@ -11,9 +11,29 @@ module ApplicationHelper
     end
   end
 
+  # Icon followed by its label, the content of most buttons and nav links.
+  def icon_text(name, text)
+    icon(name) + ' ' + text
+  end
+
+  # Flash message as a dismissible alert (see #flash in the layout). Maps the
+  # Rails flash types onto Bootstrap's contextual alert names.
+  def flash_alert(content, type)
+    type = { 'alert' => 'danger', 'notice' => 'info' }.fetch(type.to_s, type.to_s)
+    icon_name = case type
+                when 'danger', 'warning' then 'exclamation-triangle'
+                when 'success' then 'check-circle'
+                else 'info-circle'
+                end
+    tag.div(class: "alert alert-#{type} alert-dismissible fade show") do
+      tag.button(type: 'button', class: 'btn-close', data: { bs_dismiss: 'alert' }, aria: { label: 'Schliessen' }) +
+        icon_text(icon_name, content)
+    end
+  end
+
   # renders form.button :submit (or the given block) aligned under the
   # field column of the horizontal_form simple_form wrapper (see
-  # simple_form_bootstrap.rb), instead of flush with the label column
+  # simple_form.rb), instead of flush with the label column
   def horizontal_form_actions(form, &block)
     content_tag(:div, class: 'row') do
       content_tag(:div, class: 'col-sm-9 offset-sm-3') do
@@ -36,6 +56,40 @@ module ApplicationHelper
 
   def transport_collection
     ['Halbtax', 'GA', 'Zone 10 mit Halbtax', 'Zone 10 ohne Halbtax', 'ZVV Netzpass', 'Regenbogen Kanton']
+  end
+
+  # Current path (not url_for, which resolves kids#index to the root route)
+  # with the given query params -- used by the filter dropdown links
+  # (application/_filter_dropdown), which rebuild the current query string
+  # with a single filter changed.
+  def filter_path(query)
+    "#{request.path}?#{query.to_h.to_query}"
+  end
+
+  # Whether the request filters the index of +record+ (the prototype built
+  # from params[<param_key>]): any of those params left it different from an
+  # unfiltered prototype. Compares the typecast attributes, so an explicit
+  # "Nein" (false) counts while "Alle" ('') and the default "Aktiv" (false,
+  # whether sent as 'false' or '0') don't.
+  def filters_active?(record)
+    unfiltered = record.class.new
+    request.query_parameters.fetch(record.model_name.param_key, {}).keys.any? do |field|
+      record.try(field).to_s != unfiltered.try(field).to_s
+    end
+  end
+
+  # Toolbar buttons of the index pages (see application/_index_header).
+  # The "new" button is skipped when the user may not create the model or
+  # the resource has no new route.
+  def new_button(model)
+    return unless can?(:new, model) && respond_to?("new_#{model.model_name.singular_route_key}_path")
+
+    link_to icon_text('plus-lg', t_action(:new)), new_polymorphic_path(model), class: 'btn btn-primary'
+  end
+
+  def xlsx_button
+    link_to icon_text('file-earmark-excel', t_action(:xlsx)), url_for(params.permit!.merge(format: 'xlsx')),
+            class: 'btn btn-outline-secondary'
   end
 
   def boolean_collection
@@ -105,25 +159,6 @@ module ApplicationHelper
     collection.map { |t| [t.display_name, t.id] }
   end
 
-  def kid_collection
-    collection = Kid.active
-    collection.map { |k| [k.display_name, k.id] }
-  end
-
-  def order_by_collection_for_kids(selected)
-    options = [%w[Name name],
-               %w[Kontrolldatum checked_at],
-               %w[Coachingdatum coached_at],
-               %w[Erfassungsdatum created_at]]
-    options_for_select(options, selected)
-  end
-
-  def order_by_collection_for_kid_mentor_relations(selected)
-    options = [[Kid.model_name.human, 'kid_name'],
-               [Mentor.model_name.human, 'mentor_name']]
-    options_for_select(options, selected)
-  end
-
   # values for the collection select 'weekday'
   # weekdays are mapped to integers, as in ruby core's Time, Sunday is 0
   def wday_collection
@@ -132,21 +167,6 @@ module ApplicationHelper
 
   def grade_collection
     (1..6).to_a.reverse
-  end
-
-  def grade_group_collection(selected)
-    options = [%w[Unterstufe 1-3],
-               %w[Mittelstufe 4-6]]
-    options_for_select(options, selected)
-  end
-
-  def duration_collection
-    [
-      ['30 Minuten', 30],
-      ['1 Stunde', 60],
-      ['1½ Stunden', 90],
-      ['2 Stunden', 120]
-    ]
   end
 
   def goals_reached_collection
@@ -218,7 +238,7 @@ module ApplicationHelper
     else
       link_text = model_name_or_link_text
     end
-    link_text = icon(icon_name) + ' ' + link_text if icon_name
+    link_text = icon_text(icon_name, link_text) if icon_name
     # active state when link corresponds with current page
     # (first test for request is to make testing easier)
     active = request && current_page?(link_path)
@@ -229,28 +249,10 @@ module ApplicationHelper
     end
   end
 
-  # renders a title inside the form, aligned with form fields
-  def form_subtitle(text)
-    tag.p tag.strong text
-  end
-
-  # renders the label of a boolean field when it is set fitting into
-  # a show_for context
-  def conditionally_show_for(obj, field)
-    return unless obj[field]
-
-    tag.div(I18n.t("activerecord.attributes.#{obj.model_name.to_s.downcase}.#{field}"))
-  end
-
-  # renders the labels of every set boolean field in fields, fitting into
-  # a show_for context; falls back to the show_for blank text when none are set,
-  # so groups of boolean fields (e.g. the kid's goal checklists) look consistent
-  # with the rest of a show_for block instead of leaving an empty gap
-  def show_for_boolean_group(obj, *fields)
-    set_fields = fields.select { |field| obj[field] }
-    return tag.div(I18n.t('show_for.blank'), class: 'no_content') if set_fields.empty?
-
-    safe_join(set_fields.map { |field| conditionally_show_for(obj, field) })
+  # The labels of the set boolean fields, one per line -- blank when none is
+  # set, so a show_for block around it falls back to its usual blank text.
+  def boolean_labels(obj, *fields)
+    safe_join(fields.select { |field| obj[field] }.map { |field| tag.div(obj.class.human_attribute_name(field)) })
   end
 
   def human_date(date)
@@ -269,20 +271,6 @@ module ApplicationHelper
     return d[current_user.type.downcase.to_sym] if d.is_a? Hash
 
     d
-  end
-
-  # Returns translated name for the given +attribute+.
-  #
-  # If no +model+ is given, it uses the controller name to guess the model by
-  # singularize it.
-  #
-  # Example:
-  #   t_attr('first_name', Patient) => 'Vorname'
-  #   t_attr('first_name')          => 'Vorname' # when called in patients_controller views
-  #
-  def t_attr(attribute, model = nil)
-    model ||= controller_name.classify.constantize
-    model.human_attribute_name(attribute)
   end
 
   # Returns translated name for the given +model+.
@@ -308,239 +296,27 @@ module ApplicationHelper
     I18n.t("activerecord.models.#{model_key}")
   end
 
-  # Returns translated title for current +action+ on +model+.
-  #
-  # If no +action+ is given, it uses the current action.
-  #
-  # If no +model+ is given, it uses the controller name to guess the model by
-  # singularize it. +model+ can be both a class or an actual instance.
-  #
-  # The translation file comming with the plugin supports the following actions
-  # by default: index, edit, show, new, delete
-  #
-  # You may provide controller specific titles in the translation file. The keys
-  # should have the following format:
-  #
-  #   #{controller_name}.#{action}.title
-  #
-  # Example:
-  #   t_title('new', Account) => 'Konto anlegen'
-  #   t_title('delete')       => 'Konto löschen' # when called in accounts_controller views
-  #   t_title                 => 'Konto ändern'  # when called in accounts_controller edit view
-  #
-  def t_title(action = nil, model = nil)
-    model_key = model&.model_name&.i18n_key || model&.class&.model_name&.i18n_key ||
-      controller_name.underscore
-    I18n.t("#{model_key}.#{action || action_name}.title",
-      default: [:"crud.title.#{action || action_name}"], model: t_model(model))
+  # Page title for the current action: a controller specific
+  # "#{controller_name}.#{action_name}.title" translation if there is one,
+  # otherwise the generic crud.title one (e.g. "Schüler*in bearbeiten").
+  def t_title
+    I18n.t("#{controller_name.underscore}.#{action_name}.title",
+           default: [:"crud.title.#{action_name}"], model: t_model)
   end
-  alias :t_crud :t_title
 
-  # Returns translated string for current +action+.
-  #
-  # If no +action+ is given, it uses the current action.
-  #
-  # The translation file comes with the plugin supports the following actions
-  # by default: index, edit, show, new, delete, back, next, previous
-  #
-  # Example:
-  #   t_action('delete')        => 'Löschen'
-  #   t_action                  => 'Ändern'  # when called in an edit view
-  #
-  def t_action(action = nil, model = nil)
-    I18n.t("crud.action.#{action || action_name}", model: t_model(model))
+  # Button/link label for +action+ from crud.action, e.g.
+  #   t_action(:destroy) => 'Löschen'
+  def t_action(action)
+    I18n.t("crud.action.#{action}", model: t_model)
   end
 
   # Returns translated deletion confirmation for +record+.
   #
-  # It uses +record+.to_s in the message.
-  #
   # Example:
-  #   t_confirm_delete(@account) => 'Konto Kasse wirklich löschen'
+  #   t_confirm_delete(@school) => 'Schule Hirschengraben wirklich löschen?'
   #
   def t_confirm_delete(record)
-    I18n.t('messages.confirm_delete', model: t_model(record), record: record.to_s)
-  end
-
-  # Returns translated drop down field prompt for +model+.
-  #
-  # If no +model+ is given, it tries to guess it from the controller.
-  #
-  # Example:
-  #   t_select_prompt(Account) => 'Konto auswählen'
-  #
-  def t_select_prompt(model = nil)
-    I18n.t('messages.select_prompt', model: t_model(model))
-  end
-
-  # Returns translated identifier
-  def t_page_head
-    if params[:id] && defined?(resource) && resource
-      "#{t_title} #{resource}"
-    else
-      t_title
-    end
-  end
-
-  # CRUD helpers
-  def action_to_icon(action)
-    case action.to_s
-    when 'new'
-      "plus-lg"
-    when 'show'
-      "eye"
-    when 'edit'
-      "pencil"
-    when 'delete', 'destroy'
-      "trash"
-    when "index", "list"
-      "card-list"
-    when "update"
-      "arrow-clockwise"
-    when "copy"
-      "copy"
-    else
-      action
-    end
-  end
-
-  def icon_link_to(action, url = nil, options = {})
-    classes = []
-    if class_options = options.delete(:class)
-      classes << class_options.split(' ')
-    end
-
-    classes << 'list-group-item' << 'list-group-item-action'
-
-    if action.is_a? Symbol
-      url ||= {:action => action}
-      title = t_action(action)
-    else
-      title = action
-    end
-
-    icon = options.delete(:icon)
-    icon ||= action
-
-    type = options.delete(:type)
-    classes << "btn-#{type}" unless type.blank?
-    classes << 'text-danger' if %i[delete destroy].include?(action)
-
-    options.merge!(:class => classes.join(" "))
-    link_to(url_for(url), options) do
-      boot_icon(action_to_icon(icon)) + " " + title
-    end
-  end
-
-  def contextual_link_to(action, resource_or_model = nil, link_options = {})
-    # We don't want to change the passed in link_options
-    options = link_options.dup
-
-    # Handle both symbols and strings
-    action = action.to_sym
-
-    # Resource and Model setup
-    # Use controller name to guess resource or model if not specified
-    case action
-    when :new, :index
-      default_model = controller_name.singularize.camelize.constantize
-      model = resource_or_model || default_model
-      explicit_resource_or_model = default_model != model
-    when :show, :edit, :delete, :destroy
-      default_resource = instance_variable_get("@#{controller_name.singularize}")
-      resource = resource_or_model || default_resource
-      model = resource.class
-      explicit_resource_or_model = default_resource != resource
-    else
-      default_model = controller_name.singularize.camelize.constantize
-      model = resource_or_model || default_model
-      explicit_resource_or_model = default_model != model
-    end
-    model_name = model.to_s.underscore
-
-    unless resource_or_model.is_a?(String)
-      # No link if CanCan is used and current user isn't authorized to call this action
-      return if respond_to?(:cannot?) and cannot?(action.to_sym, model)
-    end
-
-    # Option generation
-    case action
-    when :delete, :destroy
-      options.merge!(:data => { :confirm => t_confirm_delete(resource) }, :method => :delete)
-    end
-
-    begin
-      if resource_or_model.is_a?(String)
-        path = resource_or_model
-      else
-        # Path generation
-        case action
-        when :index
-          if explicit_resource_or_model
-            path = polymorphic_path(model)
-          else
-            path = url_for(:action => nil)
-          end
-        when :delete, :destroy
-          if explicit_resource_or_model
-            path = polymorphic_path(resource)
-          else
-            path = url_for(:action => :destroy)
-          end
-        else
-          if explicit_resource_or_model
-            # polymorphic_path has no "show_kid_path" route to look up -- :show
-            # is its implicit default action, so only pass :action for others.
-            path = if action == :show
-                     polymorphic_path(resource_or_model)
-                   else
-                     polymorphic_path(resource_or_model, :action => action)
-                   end
-          else
-            path = url_for(:action => action)
-          end
-        end
-      end
-
-      return icon_link_to(action, path, options)
-
-    rescue ActionController::UrlGenerationError
-      # This handles cases where we did exclude crud actions in the routing map.
-    end
-  end
-
-  def contextual_links_for(action = nil, resource_or_model = nil, options = {})
-    # Use current action if not specified
-    action ||= action_name
-
-    # Handle both symbols and strings
-    action = action.to_sym
-
-    actions = []
-    case action
-    when :new, :create
-      actions << :index
-    when :show
-      actions += [:edit, :destroy, :index]
-    when :edit, :update
-      actions += [:show, :destroy, :index]
-    when :index
-      actions << :new
-    end
-
-    links = actions.map{|link_for| contextual_link_to(link_for, resource_or_model, options)}
-
-    return links.join("\n").html_safe
-  end
-
-  def contextual_links(action = nil, resource_or_model = nil, options = {}, &block)
-    content_tag('div', :class => 'list-group list-group-flush') do
-      content = contextual_links_for(action, resource_or_model, options)
-      if block_given?
-        additional_content = capture(&block)
-        content += ("\n" + additional_content).html_safe unless additional_content.nil?
-      end
-      content
-    end
+    name = record.try(:display_name) || record.try(:title)
+    I18n.t('messages.confirm_delete', model: t_model(record), record: name).squish
   end
 end

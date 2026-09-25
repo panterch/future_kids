@@ -20,52 +20,43 @@ feature 'Mentor index' do
   end
 
   scenario 'should filter mentors on coaches without repetitions' do
-    select('first, admin', from: 'mentor_filter_by_coach_id')
-    click_button('Filter anwenden')
+    choose_filter('Pädagogischer Coach', 'first, admin')
     expect(page).to have_text('1 Mentor*innen')
     expect(page).to have_css('a', text: 'first, mentor')
-    select('second, admin', from: 'mentor_filter_by_coach_id')
-    click_button('Filter anwenden')
+    choose_filter('Pädagogischer Coach', 'second, admin')
     expect(page).to have_text('2 Mentor*innen')
     expect(page).to have_css('a', text: 'first, mentor')
     expect(page).to have_css('a', text: 'second, mentor')
   end
 
   scenario 'other filters should not be affected' do
-    select('Regenbogen Kanton', from: 'mentor_transport')
-    click_button('Filter anwenden')
+    choose_filter('ÖV', 'Regenbogen Kanton')
     expect(page).to have_text('0 Mentor*innen')
   end
 
   scenario 'filtering on coaches should interact with other filters (other chosen first)' do
-    select('GA', from: 'mentor_transport')
-    click_button('Filter anwenden')
+    choose_filter('ÖV', 'GA')
     expect(page).to have_text('1 Mentor*innen')
     expect(page).to have_css('a', text: 'second, mentor')
-    select('first, admin', from: 'mentor_filter_by_coach_id')
-    click_button('Filter anwenden')
+    choose_filter('Pädagogischer Coach', 'first, admin')
     expect(page).to have_text('0 Mentor*innen')
   end
 
   scenario 'filtering on coaches should interact with other filters (other chosen last, no modification)' do
-    select('first, admin', from: 'mentor_filter_by_coach_id')
-    click_button('Filter anwenden')
+    choose_filter('Pädagogischer Coach', 'first, admin')
     expect(page).to have_text('1 Mentor*innen')
     expect(page).to have_css('a', text: 'first, mentor')
-    select('Halbtax', from: 'mentor_transport')
-    click_button('Filter anwenden')
+    choose_filter('ÖV', 'Halbtax')
     expect(page).to have_text('1 Mentor*innen')
     expect(page).to have_css('a', text: 'first, mentor')
   end
 
   scenario 'filtering on coaches should interact with other filters (other chosen last, with modification)' do
-    select('second, admin', from: 'mentor_filter_by_coach_id')
-    click_button('Filter anwenden')
+    choose_filter('Pädagogischer Coach', 'second, admin')
     expect(page).to have_text('2 Mentor*innen')
     expect(page).to have_css('a', text: 'first, mentor')
     expect(page).to have_css('a', text: 'second, mentor')
-    select('GA', from: 'mentor_transport')
-    click_button('Filter anwenden')
+    choose_filter('ÖV', 'GA')
     expect(page).to have_text('1 Mentor*innen')
     expect(page).to have_css('a', text: 'second, mentor')
   end

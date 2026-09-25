@@ -4,7 +4,7 @@
       %tbody
         - collection.each do |resource|
           %tr
-            %td= avatar_link_to(resource, size: :sm)
+            %td= avatar_link_to(resource)
             - if current_user.is_a?(Admin)
               %td
                 - if resource.email.present?

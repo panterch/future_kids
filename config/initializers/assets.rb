@@ -14,5 +14,5 @@ Rails.application.config.dartsass.builds['print.scss'] = 'print.css'
 # `app.assets` is -- Propshaft also sets `app.assets` (for its own API
 # compatibility), so react-rails mistakes it for Sprockets and crashes on
 # `Sprockets::VERSION` at boot. Moot anyway: no .jsx files remain, the one
-# React component was converted to plain JS (see the plan).
+# React component (kid_mentor_schedules.js) is plain JS with htm.
 Rails.application.config.react.sprockets_strategy = false

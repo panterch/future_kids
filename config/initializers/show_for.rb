@@ -26,7 +26,7 @@ ShowFor.setup do |config|
   config.content_class = 'show-for-value'
 
   # The DOM class set for blank content tags. Default is "blank".
-  config.blank_content_class = 'no_content'
+  config.blank_content_class = 'text-body-secondary'
 
   # Skip blank attributes instead of generating with a default message. Default is false.
   # config.skip_blanks = true

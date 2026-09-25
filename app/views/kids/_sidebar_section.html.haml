@@ -1,0 +1,15 @@
+- collapse_id = "collapse_#{anchor}"
+- heading_id = "heading_#{anchor}"
+.sidebar-group
+  .accordion
+    .accordion-item
+      %h2.accordion-header{id: heading_id}
+        %button.accordion-button.collapsed{type: 'button', data: {bs_toggle: 'collapse', bs_target: "##{collapse_id}"}, aria: {expanded: 'false', controls: collapse_id}}
+          = label
+          %span.badge.rounded-pill.text-bg-secondary.ms-auto= items.size
+      .accordion-collapse.collapse{id: collapse_id, aria: {labelledby: heading_id}, data: {bs_parent: '#kidSections'}}
+        - if items.any?
+          .list-group.list-group-flush
+            - items.each do |item_label, item_anchor|
+              = link_to item_label, "##{item_anchor}", class: 'list-group-item list-group-item-action'
+  = render 'button_stack', actions: new_actions
