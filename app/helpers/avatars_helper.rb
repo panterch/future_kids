@@ -29,11 +29,10 @@ module AvatarsHelper
   # the full, uncropped photo for a user's own profile page (mentors/admins/
   # teachers/principals show pages) -- staff use this to actually recognize
   # the person, so unlike the circular, cover-cropped :lg avatar it must show
-  # the whole uploaded image. Falls back to the regular :lg avatar (initials)
-  # when there's no photo, or for a resource that can't have one (Kid).
+  # the whole uploaded image. Renders nothing when there's no photo -- a big
+  # initials blob is fine as a small avatar but looks off as a portrait.
   def profile_photo(resource)
-    return '' if resource.blank?
-    return content_tag(:div, avatar(resource, size: :lg), class: 'mb-4') unless resource.respond_to?(:photo) && resource.photo.present?
+    return '' unless resource.respond_to?(:photo) && resource.photo.present?
 
     content_tag(:div, class: 'profile-portrait mb-4') do
       image_tag rails_storage_proxy_url(resource.photo_medium), class: 'profile-portrait-img', alt: resource.display_name

@@ -90,13 +90,8 @@ describe AvatarsHelper do
       expect(markup).not_to have_css('.avatar')
     end
 
-    it 'falls back to the regular :lg avatar when there is no photo' do
-      teacher = build(:teacher)
-
-      markup = helper.profile_photo(teacher)
-
-      expect(markup).to have_css('.avatar.avatar-lg')
-      expect(markup).not_to have_css('.profile-portrait')
+    it 'renders nothing when there is no photo' do
+      expect(helper.profile_photo(build(:teacher))).to eq('')
     end
   end
 end

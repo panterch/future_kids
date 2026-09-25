@@ -20,8 +20,6 @@
           = show.attribute :note
           = show.attribute :school do
             = can_link_to(@kid.school)
-  .col-md-4
-    .mb-4= avatar(@kid, size: :lg)
 
 - KidsHelper::GOAL_SECTIONS.each do |heading, free_text_goal, _max, cards|
   .card.mb-4
