@@ -21,6 +21,33 @@
               : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
             document.documentElement.setAttribute('data-bs-theme', theme);
           })();
+    -# Speculation Rules: Chromium browsers fetch a same-origin page as soon
+    -# as its link is hovered (~200ms) or pressed, so the click usually finds
+    -# it already loaded (others ignore this). Prefetch only -- no JS runs
+    -# until the user actually navigates. Excluded because a GET there isn't
+    -# free of side effects or isn't a page: /documents/:id counts a download
+    -# and redirects to the blob, Active Storage files, format URLs (.xlsx,
+    -# .md), rails-ujs method links (logout, deletes), new-tab/download links
+    -# and the exception test. `.no-prefetch` opts any other link out.
+    - if user_signed_in?
+      %script{type: "speculationrules"}
+        :plain
+          {
+            "prefetch": [{
+              "where": {
+                "and": [
+                  { "href_matches": "/*" },
+                  { "not": { "href_matches": "/documents/:id" } },
+                  { "not": { "href_matches": "/rails/*" } },
+                  { "not": { "href_matches": "/*.*" } },
+                  { "not": { "href_matches": "/user/*" } },
+                  { "not": { "href_matches": "/exception_test" } },
+                  { "not": { "selector_matches": "[data-method], [target=_blank], [download], .no-prefetch" } }
+                ]
+              },
+              "eagerness": "moderate"
+            }]
+          }
     = javascript_importmap_tags
     = favicon_link_tag 'favicon.svg', :rel => 'icon', :type => 'image/svg+xml'
     = csrf_meta_tag

@@ -457,6 +457,20 @@ html {
   scroll-padding-top: calc(var(--nav-height, #{$nav-height}) + 1rem);
 }
 
+// Cross-document view transitions: a short crossfade between pages instead
+// of the blank flash of a full page load (Chrome/Edge/Safari; others just
+// navigate as before). The navbar gets its own name so it stays put rather
+// than fading out and back in with the page.
+@media (prefers-reduced-motion: no-preference) {
+  @view-transition {
+    navigation: auto;
+  }
+
+  #nav {
+    view-transition-name: main-nav;
+  }
+}
+
 #footer {
   bottom: 0;
   width: 100%;
