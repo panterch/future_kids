@@ -179,7 +179,7 @@ GEM
       retriable (>= 3.1, < 5.0)
     google-apis-iamcredentials_v1 (0.28.0)
       google-apis-core (>= 0.15.0, < 2.a)
-    google-apis-storage_v1 (0.67.0)
+    google-apis-storage_v1 (0.68.0)
       google-apis-core (>= 0.15.0, < 2.a)
     google-cloud-core (1.9.0)
       google-cloud-env (>= 1.0, < 3.a)
@@ -390,16 +390,16 @@ GEM
       logger
       prism (>= 1.6.0)
       tsort
-    rdoc (8.0.0)
+    rdoc (8.1.0)
       erb
       prism (>= 1.6.0)
       rbs (>= 4.0.0)
       tsort
     redcarpet (3.6.1)
-    regexp_parser (2.13.0)
+    regexp_parser (2.13.1)
     reline (0.7.0)
       io-console (~> 0.5)
-    representable (3.3.0)
+    representable (3.3.1)
       declarative (< 0.1.0)
       trailblazer-option (>= 0.1.1, < 0.2.0)
       uber (< 0.2.0)
