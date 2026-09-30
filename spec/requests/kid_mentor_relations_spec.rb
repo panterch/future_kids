@@ -66,9 +66,25 @@ RSpec.describe 'KidMentorRelations' do
     end
 
     scenario 'reseting all data' do
-      within('#main table') { expect(page).to have_text('Steigt aus') }
+      within('#main table') { expect(page).to have_css('option[selected]', text: 'Steigt aus') }
       click_link('Alle zurücksetzen')
-      within('#main table') { expect(page).to have_no_text('Steigt aus') }
+      within('#main table') { expect(page).to have_no_css('option[selected]', text: 'Steigt aus') }
+    end
+
+    scenario 'offers all exit kinds as dropdown' do
+      within('#main table') do
+        expect(page).to have_select(class: 'form-select',
+                                    with_options: ['Steigt aus', 'Alternatives Ausstiegsdatum',
+                                                   'macht ½ Jahr weiter', 'macht 1 Jahr weiter'])
+      end
+    end
+
+    scenario 'shows the exit date input only for the exit kind later' do
+      create(:kid, name: 'Kid Later', exit_kind: 'later', exit_at: Date.new(2026, 12, 24))
+      visit kid_mentor_relations_path
+      expect(page).to have_field(type: 'date', with: '2026-12-24', count: 1)
+      expect(page).to have_css('input[type=date][min="2001-01-01"]', minimum: 1, visible: :all)
+      expect(page).to have_field(type: 'date', class: 'd-none', visible: :all, minimum: 1)
     end
   end
 
