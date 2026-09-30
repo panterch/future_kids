@@ -36,7 +36,6 @@ Future Kids is a Rails 8 application that manages a mentoring program connecting
 - **Journal** - Weekly meeting logs between mentors and kids; **Comment** - comments on journals (sends notifications)
 - **Schedule** - Polymorphic model for person availability
 - **Review** - Conversations/check-ins about a kid; **FirstYearAssessment**/**TerminationAssessment** - evaluation forms
-- **Substitution** - Temporary replacement mentor for a kid
 - **Reminder** - Missing-journal reminders for mentors
 - **Document** (+ **DocumentTreeview**) - Uploaded files organised in a category tree
 - **PrincipalSchoolRelation** - Principals ↔ schools

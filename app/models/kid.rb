@@ -20,7 +20,6 @@ class Kid < ApplicationRecord
   has_many :termination_assessments, dependent: :destroy
   has_many :reminders, dependent: :destroy
   has_many :schedules, as: :person, dependent: :destroy
-  has_many :substitutions, dependent: :destroy
   has_many :relation_logs, dependent: :nullify
   GOALS_1 = %i[goal_3 goal_4 goal_5 goal_6 goal_7
                goal_8 goal_9 goal_10 goal_11 goal_12 goal_13 goal_14

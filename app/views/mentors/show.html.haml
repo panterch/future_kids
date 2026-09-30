@@ -1,5 +1,4 @@
 - content_for :sidebar_actions do
-  = render 'button_stack', actions: [[t_action(:edit_schedules), edit_schedules_mentor_path(@mentor), 'calendar3-week', can?(:edit_schedules, @mentor)],
-                                     [t_action(:new_substitution), new_substitution_path(mentor_id: @mentor.id), 'person-plus', can?(:create, Substitution)]]
+  = render 'button_stack', actions: [[t_action(:edit_schedules), edit_schedules_mentor_path(@mentor), 'calendar3-week', can?(:edit_schedules, @mentor)]]
 
 = render template: 'application/show'

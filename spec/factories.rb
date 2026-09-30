@@ -16,13 +16,6 @@ FactoryBot.define do
     held_at { Date.parse('2018-10-01') }
   end
 
-  factory :substitution do
-    mentor
-    kid
-    start_at { Date.parse('2015-11-13') }
-    end_at { Date.parse('2015-11-14') }
-  end
-
   factory :user do
     sequence(:name) { |n| "Name #{n}" }
     prename { 'Prename' }

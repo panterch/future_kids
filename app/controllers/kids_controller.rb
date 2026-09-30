@@ -21,7 +21,6 @@ class KidsController < ApplicationController
 
   before_action :cancan_prototypes, only: [:show]
   before_action :assign_current_teacher, only: [:create]
-  before_action :prepare_substitution
   before_action :intercept_school_id
   before_action :load_and_constrain_schools, except: %i[index show show_kid_mentors_schedules]
   after_action :track_creation_relation, only: [:create]
@@ -51,22 +50,12 @@ class KidsController < ApplicationController
     respond_with @kids
   end
 
-  # update may be called from different sources
-  # - normal rails edit form
-  # - react component on show_kid_mentors_schedules
-  # - react component on show_kid_mentors_schedules in substitution workflow
+  # update is called from the normal rails edit form and from the react
+  # component on show_kid_mentors_schedules
   def update
-    unless @kid.update(kid_params)
-      # validation failed
-      return render :edit
-    end
+    return render :edit unless @kid.update(kid_params)
 
-    # normal call - not through substitution workflow
-    return respond_with(@kid) unless @substitution
-
-    # call included substitution_id: sync substitution information
-    @substitution.update!(secondary_mentor: @kid.secondary_mentor)
-    redirect_to substitution_url(@substitution)
+    respond_with @kid
   end
 
   def show
@@ -144,14 +133,6 @@ class KidsController < ApplicationController
         { schedules_attributes: [%i[day hour minute]] }
       ]
     )
-  end
-
-  # this form may be reached from substitutions, this is indicated
-  # by a parameter substitution_id
-  def prepare_substitution
-    return if params[:substitution_id].blank?
-
-    @substitution = Substitution.find(params.expect(:substitution_id))
   end
 
   def load_and_constrain_schools

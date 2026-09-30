@@ -1,6 +1,6 @@
 -# Vertical group of secondary sidebar actions, given as
 -# [[label, path, icon, permitted], ...] -- only the permitted ones are
--# shown (e.g. can?(:create, Substitution)); renders nothing when none are.
+-# shown (e.g. can?(:edit_schedules, @kid)); renders nothing when none are.
 - permitted_actions = actions.select(&:last)
 - if permitted_actions.any?
   .btn-group-vertical.w-100
