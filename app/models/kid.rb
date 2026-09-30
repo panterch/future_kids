@@ -38,8 +38,8 @@ class Kid < ApplicationRecord
   validates :meeting_day, numericality: { only_integer: true, allow_blank: true,
                                           greater_than_or_equal_to: 1, less_than_or_equal_to: 5 }
 
-  # the html5 date submit allows two letter dates (e.g. '21') and translates them to wrong years (like '0021')
-  validates :dob, :exit_at, :checked_at, :coached_at, comparison: { greater_than: Date.new(2001, 1, 1) }, allow_blank: true
+  validates :dob, :exit_at, :checked_at, :coached_at,
+            comparison: { greater_than_or_equal_to: MIN_DATE }, allow_blank: true
 
   # validate that enough goals were given in each group
   validate do |kid|
@@ -137,7 +137,8 @@ class Kid < ApplicationRecord
     [name, prename].compact_blank.join(', ')
   end
 
-  enum :exit_kind, { exit: 'exit', later: 'later', continue_term: 'continue_term', continue: 'continue' }
+  enum :exit_kind, { exit: 'exit', later: 'later', continue_term: 'continue_term', continue: 'continue' },
+       validate: { allow_nil: true }
   enum :sex, { male: 'm', female: 'f', diverse: 'd' }
   human_text_attributes :goal, :goal_1, :goal_2, :simplified_schedule, :note, :todo
   human_time_attributes :meeting_start_at

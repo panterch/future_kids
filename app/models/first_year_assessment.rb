@@ -11,7 +11,7 @@ class FirstYearAssessment < ApplicationRecord
   validates :held_at, :teacher, :mentor, presence: true
 
   # the html5 date submit allows two letter dates (e.g. '21') and translates them to wrong years (like '0021')
-  validates :held_at, comparison: { greater_than: Date.new(2001, 1, 1) }, allow_blank: true
+  validates :held_at, comparison: { greater_than_or_equal_to: MIN_DATE }, allow_blank: true
 
   after_create :send_notification
 

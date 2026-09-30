@@ -21,7 +21,8 @@ class User < ApplicationRecord
     [name, prename].compact_blank.join(', ')
   end
 
-  enum :exit_kind, { exit: 'exit', later: 'later', continue_term: 'continue_term', continue: 'continue' }
+  enum :exit_kind, { exit: 'exit', later: 'later', continue_term: 'continue_term', continue: 'continue' },
+       validate: { allow_nil: true }
   enum :sex, { male: 'm', female: 'f', diverse: 'd' }
 
   human_text_attributes :absence, :available, :note, :todo

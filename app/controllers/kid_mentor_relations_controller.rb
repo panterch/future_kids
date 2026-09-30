@@ -3,7 +3,7 @@
 class KidMentorRelationsController < ApplicationController
   include AdminOnly
 
-  load_and_authorize_resource
+  load_and_authorize_resource except: %i[update_kid update_mentor]
 
   def index
     # a prototype object used for the filter sidebar
@@ -24,6 +24,22 @@ class KidMentorRelationsController < ApplicationController
     end
 
     respond_with @kid_mentor_relations
+  end
+
+  # inline editing of exit kind and exit date on the index. blank values clear
+  # the field. the inputs only allow valid values, so a failing validation is an
+  # error: update! raises and Rails answers 422. without a template Rails
+  # answers a successful PATCH with 204 No Content on its own
+  def update_kid
+    kid = Kid.find(params.expect(:kid_id))
+    authorize! :update, kid
+    kid.update!(params.expect(kid: %i[exit_kind exit_at]))
+  end
+
+  def update_mentor
+    mentor = Mentor.find(params.expect(:mentor_id))
+    authorize! :update, mentor
+    mentor.update!(params.expect(mentor: %i[exit_kind exit_at]))
   end
 
   def destroy

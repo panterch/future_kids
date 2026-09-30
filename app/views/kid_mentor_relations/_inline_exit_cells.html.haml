@@ -1,0 +1,18 @@
+-# Exit kind dropdown and exit date input of a kid or a mentor in the Bewegungen
+-# list, saved in place by register_inline_exit_selects (global.js). The date
+-# input is only shown for exit kind "later".
+-# Locals: record (the kid or the mentor), kid_id (id of the row: a mentor shows
+-# up once per kid, so it keeps the DOM ids unique)
+- role = record.model_name.param_key # 'kid' or 'mentor'
+- url = record.is_a?(Kid) ? update_kid_kid_mentor_relations_path(record.id) : update_mentor_kid_mentor_relations_path(record.id)
+- exit_at_id = "#{role}_#{kid_id}_exit_at"
+%td
+  = select_tag "#{role}[exit_kind]", options_for_select(exit_kind_collection, record.exit_kind),
+    id: nil, include_blank: true, class: 'form-select form-select-sm',
+    'aria-label': Kid.human_attribute_name(:exit_kind),
+    data: { inline_url: url, previous: record.exit_kind.to_s, exit_at_input: exit_at_id }
+%td
+  = date_field_tag "#{role}[exit_at]", record.exit_at, id: exit_at_id, min: ApplicationRecord::MIN_DATE,
+    class: ['form-control form-control-sm', ('d-none' unless record.later?)],
+    'aria-label': Kid.human_attribute_name(:exit_at),
+    data: { inline_url: url, previous: record.exit_at.to_s }

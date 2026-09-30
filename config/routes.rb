@@ -27,8 +27,13 @@ Rails.application.routes.draw do
       patch 'update_schedules'
     end
   end
-  resources :kid_mentor_relations do
+  resources :kid_mentor_relations, except: :update do
     delete :destroy_all, on: :collection
+    # inline editing of the exit kind/date of a kid or of a mentor
+    collection do
+      patch 'kids/:kid_id', action: :update_kid, as: :update_kid
+      patch 'mentors/:mentor_id', action: :update_mentor, as: :update_mentor
+    end
   end
   resources :schedules
   resources :schools
@@ -37,5 +42,6 @@ Rails.application.routes.draw do
   resources :principals
   resource :site
   resource :terms_of_use, only: :show, controller: 'terms_of_use'
+
   get '/exception_test' => 'exception_test#error'
 end

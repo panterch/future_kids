@@ -3,6 +3,10 @@
 class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 
+  # earliest date accepted for the date fields: the html5 date input allows two
+  # digit years (e.g. '21') and turns them into wrong ones (like '0021')
+  MIN_DATE = Date.new(2001, 1, 1)
+
   include ActionView::Helpers::TextHelper
 
   def text_format(text)
