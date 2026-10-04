@@ -40,6 +40,8 @@
             = show.attribute :todo
             = show.attribute :substitute
             = show.attribute :schedules_updated_at
+            = show.attribute :availability_status do
+              = availability_badge(@mentor)
             = show.attribute :inactive
             - if @mentor.inactive?
               = show.attribute :inactive_at

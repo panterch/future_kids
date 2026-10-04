@@ -105,6 +105,22 @@ module ApplicationHelper
     { 'Ja' => true, 'Nein' => false }
   end
 
+  AVAILABILITY_BADGE_CLASSES = {
+    none: 'text-bg-danger',
+    partial: 'text-bg-warning',
+    full: 'text-bg-success'
+  }.freeze
+
+  # filter options: label => status
+  def availability_collection
+    AVAILABILITY_BADGE_CLASSES.keys.map { |status| [t("schedules.availability.#{status}"), status.to_s] }
+  end
+
+  def availability_badge(record)
+    status = Schedule.availability_status(record)
+    tag.span(t("schedules.availability.#{status}"), class: "badge #{AVAILABILITY_BADGE_CLASSES.fetch(status)}")
+  end
+
   def term_collection
     site = Site.load
     (site.term_collection_start..site.term_collection_end)

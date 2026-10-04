@@ -100,6 +100,7 @@ de:
         goal_35: 'Das Kind verfügt über allgemeine Strategien, um wiederkehrende Aufgaben und Probleme zu lösen.'
         goals_updated_at: 'Förderbereiche aktualisiert'
         schedules_updated_at: 'Stundenplan aktualisiert'
+        availability_status: 'Verfügbarkeiten'
         inactive: Inaktiv gesetzt
         todo: Pendenzen
         checked_at: 'Letztes Kontrolldatum'
@@ -209,6 +210,7 @@ de:
         exit_kind_updated_at: "Aktueller Stand aktualisiert"
         exit_at: "Ausstiegsdatum"
         schedules_updated_at: "Stundenplan aktualisiert"
+        availability_status: "Verfügbarkeiten"
         total_duration_last_month: 'Geleistet im letzten Monat'
       teacher:
         kids: Kinder
@@ -381,3 +383,7 @@ de:
 
   schedules:
     alert_message: "Bitte beachte! Von diesen Verfügbarkeiten gehen wir für die Zuteilung deines Mentees aus. Bis zum Ersttreffen mit deinem Mentee sind alle angegebenen Zeitfenster freizuhalten. Besten Dank."
+    availability:
+      none: "Noch keine Verfügbarkeit erfasst"
+      partial: "Wenig Verfügbarkeit erfasst"
+      full: "Verfügbarkeit erfasst"

@@ -12,6 +12,7 @@
     = render 'filter_dropdown', label: 'Schule Mentor', field: :school_id, options: school_collection_by_kind(:mentor), record: @mentor
     - if @site.feature_coach?
       = render 'filter_dropdown', label: 'Pädagogischer Coach', field: :filter_by_coach_id, options: admin_collection, record: @mentor
+    = render 'filter_dropdown', label: Mentor.human_attribute_name(:availability_status), field: :filter_by_availability, options: availability_collection, record: @mentor
     = render 'filter_dropdown', label: 'ÖV', field: :transport, options: transport_collection.map { |t| [t, t] }, record: @mentor
     = render 'filter_dropdown', label: Mentor.human_attribute_name('ects'), field: :ects, options: ects_collection, record: @mentor
     = render 'inactive_filter', record: @mentor

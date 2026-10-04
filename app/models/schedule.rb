@@ -17,6 +17,39 @@ class Schedule < ApplicationRecord
   LAST_MEETING_HOUR = 17
   LAST_MEETING_MIN = 30
 
+  # Availability is classified by the number of 30 minute slots a person
+  # (kid or mentor) has entered; one 1.5 hour window is 3 slots.
+  #   none:    no slot entered
+  #   partial: up to two 1.5 hour windows (1-6 slots)
+  #   full:    more than two 1.5 hour windows (more than 6 slots)
+  SLOTS_PER_WINDOW = 3
+  MAX_PARTIAL_SLOTS = 2 * SLOTS_PER_WINDOW
+  AVAILABILITY_STATUSES = %w[none partial full].freeze
+
+  def self.availability_status(person)
+    slots = person.schedules.size
+    if slots.zero?
+      :none
+    elsif slots <= MAX_PARTIAL_SLOTS
+      :partial
+    else
+      :full
+    end
+  end
+
+  # narrows a relation of kids or mentors to those with the given
+  # availability status; an unknown or blank status leaves it untouched
+  def self.filter_by_availability(people, status)
+    return people unless AVAILABILITY_STATUSES.include?(status.to_s)
+
+    slots = where(person_type: people.klass.polymorphic_name)
+    return people.where.not(id: slots.select(:person_id)) if status.to_s == 'none'
+
+    comparison = status.to_s == 'partial' ? '<=' : '>'
+    with_slots = slots.group(:person_id).having("COUNT(*) #{comparison} ?", MAX_PARTIAL_SLOTS)
+    people.where(id: with_slots.select(:person_id))
+  end
+
   # overwrite == to simplificate comparison of collections
   def ==(other)
     other.is_a?(Schedule) &&

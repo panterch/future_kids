@@ -5,6 +5,8 @@ class Mentor < User
   attr_accessor :filter_by_coach_id
   # Filters mentors by their kids meeting day. Used only in the mentor index form.
   attr_accessor :filter_by_meeting_day
+  # Filters mentors by availability status. Used only in the mentor index form.
+  attr_accessor :filter_by_availability
   # Filters mentors by their kids school. Used only in the mentor index form.
   attr_accessor :filter_by_school_id
 
