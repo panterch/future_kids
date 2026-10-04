@@ -49,7 +49,35 @@ shared_examples 'schedule editing' do |label, path_helper, person_factory|
   end
 end
 
-feature 'Edit schedules as Admin', :js do
-  it_behaves_like 'schedule editing', 'kid',    :edit_schedules_kid_path,    :kid
-  it_behaves_like 'schedule editing', 'mentor', :edit_schedules_mentor_path, :mentor
+feature 'Edit schedules', :js do
+  describe 'as Admin' do
+    it_behaves_like 'schedule editing', 'kid',    :edit_schedules_kid_path,    :kid
+    it_behaves_like 'schedule editing', 'mentor', :edit_schedules_mentor_path, :mentor
+  end
+
+  describe 'as Mentor' do
+    let!(:mentor) { create(:mentor) }
+    let(:alert_message) { I18n.t('schedules.alert_message') }
+
+    background do
+      log_in(mentor)
+      visit edit_schedules_mentor_path(mentor)
+      first('form.schedule input[type=checkbox]').check
+    end
+
+    scenario 'saving asks for confirmation and saves after accepting' do
+      message = accept_confirm { click_button 'Stundenplandaten speichern' }
+
+      expect(message).to eq(alert_message)
+      expect(page).to have_no_current_path(edit_schedules_mentor_path(mentor), wait: 5)
+      expect(mentor.reload.schedules.count).to eq(1)
+    end
+
+    scenario 'dismissing the confirmation does not save' do
+      dismiss_confirm { click_button 'Stundenplandaten speichern' }
+
+      expect(page).to have_current_path(edit_schedules_mentor_path(mentor))
+      expect(mentor.reload.schedules.count).to eq(0)
+    end
+  end
 end
