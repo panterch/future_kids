@@ -43,4 +43,20 @@ describe ApplicationHelper do
       expect(term_collection.last).to eq('2015 Herbst')
     end
   end
+
+  describe 'meeting_time_collection' do
+    it 'lists the half-hour slots' do
+      expect(helper.meeting_time_collection.first).to eq('13:00')
+      expect(helper.meeting_time_collection.last).to eq('17:30')
+    end
+
+    it 'includes an off-grid current time in sorted position' do
+      expect(helper.meeting_time_collection('15:20')).to include('15:20')
+      expect(helper.meeting_time_collection('18:00').last).to eq('18:00')
+    end
+
+    it 'does not duplicate a time that is already in the list' do
+      expect(helper.meeting_time_collection('15:00').count('15:00')).to eq(1)
+    end
+  end
 end

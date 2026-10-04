@@ -10,7 +10,7 @@
     .col-sm-6
       = form.input :meeting_day, :collection => wday_collection, wrapper: :horizontal_select_narrow_label
     .col-sm-6
-      = form.input :meeting_start_at, collection: meeting_time_collection,
+      = form.input :meeting_start_at, collection: meeting_time_collection(@kid.human_meeting_start_at),
         selected: @kid.human_meeting_start_at, include_blank: true, wrapper: :horizontal_select_narrow_label
   .d-none
     = form.submit
