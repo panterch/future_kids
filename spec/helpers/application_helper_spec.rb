@@ -59,4 +59,18 @@ describe ApplicationHelper do
       expect(helper.meeting_time_collection('15:00').count('15:00')).to eq(1)
     end
   end
+
+  describe 'availability badges' do
+    it 'covers exactly the statuses a Schedule can have' do
+      expect(ApplicationHelper::AVAILABILITY_BADGE_CLASSES.keys.map(&:to_s)).to match_array(Schedule::AVAILABILITY_STATUSES)
+    end
+
+    it 'offers a filter option with the translated label per status' do
+      expect(helper.availability_collection).to eq(
+        [['Noch keine Verfügbarkeit erfasst', 'none'],
+         ['Wenig Verfügbarkeit erfasst', 'partial'],
+         ['Verfügbarkeit erfasst', 'full']]
+      )
+    end
+  end
 end

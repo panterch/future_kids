@@ -36,6 +36,9 @@ class KidsController < ApplicationController
       # build a where condition out of all parameters supplied for kid
       filter = kid_params.with_defaults(inactive: '0')
       @kids = @kids.where(filter.to_h.delete_if { |key, val| Kid.column_names.exclude?(key.to_s) || val.blank? })
+      # the availability filter is for admins only
+      availability = filter[:filter_by_availability] if current_user.is_a?(Admin)
+      @kids = Schedule.filter_by_availability(@kids, availability)
       # reorder the kids according to the supplied parameter
 
       @kids = @kids.reorder(params['order_by']) if params['order_by'] && valid_order_by?(Kid, params['order_by'])
@@ -129,7 +132,7 @@ class KidsController < ApplicationController
         :meeting_day, :meeting_start_at, :teacher_id, :secondary_teacher_id,
         :third_teacher_id, :mentor_id, :secondary_mentor_id, :secondary_active, :admin_id, :term,
         :exit, :exit_reason, :exit_kind, :exit_at, :checked_at,
-        :coached_at, :todo, :inactive,
+        :coached_at, :todo, :inactive, :filter_by_availability,
         { schedules_attributes: [%i[day hour minute]] }
       ]
     )

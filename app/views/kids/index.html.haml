@@ -16,6 +16,8 @@
       - if @site.feature_coach?
         = render 'filter_dropdown', label: 'Pädagogischer Coach', field: :admin_id, options: admin_collection, record: @kid
       = render 'filter_dropdown', label: 'Übersetzer', field: :translator, options: boolean_collection, record: @kid
+      - if @site.kids_schedule_hourly
+        = render 'filter_dropdown', label: Kid.human_attribute_name(:availability_status), field: :filter_by_availability, options: availability_collection, record: @kid
       = render 'filter_dropdown', label: Kid.human_attribute_name(:meeting_day), field: :meeting_day, options: wday_collection, record: @kid
 
     = render 'filter_dropdown', label: 'Klasse', field: :grade, options: grade_collection.map { |g| [g.to_s, g] }, record: @kid

@@ -24,13 +24,15 @@ class MentorsController < ApplicationController
     if filter[:filter_by_meeting_day].present?
       @mentors = @mentors.joins(:kids).where(kids: { meeting_day: filter[:filter_by_meeting_day].to_i }).distinct
     end
+    @mentors = Schedule.filter_by_availability(@mentors, filter[:filter_by_availability])
     if filter[:filter_by_school_id].present?
       @mentors = @mentors.joins(:kids).where(kids: { school_id: filter[:filter_by_school_id].to_i }).distinct
     end
 
     # generic query building
     @mentors = @mentors.where(
-      filter.except(:filter_by_coach_id, :filter_by_meeting_day, :filter_by_school_id).to_h.compact_blank!
+      filter.except(:filter_by_coach_id, :filter_by_meeting_day, :filter_by_school_id,
+                    :filter_by_availability).to_h.compact_blank!
     )
 
     # provide a prototype for the filter form
@@ -75,7 +77,7 @@ class MentorsController < ApplicationController
       mentor: [:name, :prename, :email, :password, :password_confirmation, :address, :sex,
                :city, :dob, :phone, :school_id, :field_of_study, :education, :transport,
                :personnel_number, :ects, :term, :absence, :note, :todo, :substitute,
-               :filter_by_school_id, :filter_by_meeting_day, :filter_by_coach_id,
+               :filter_by_school_id, :filter_by_meeting_day, :filter_by_coach_id, :filter_by_availability,
                :exit, :exit_kind, :exit_at,
                :inactive, :photo, { schedules_attributes: [%i[day hour minute]] }]
     )

@@ -79,6 +79,8 @@
           = show.attribute :todo
           - if @site.kids_schedule_hourly
             = show.attribute :schedules_updated_at
+            = show.attribute :availability_status do
+              = availability_badge(@kid)
 
   = render 'relation_logs/collection', resource: @kid
 

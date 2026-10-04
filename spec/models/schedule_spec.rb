@@ -58,4 +58,41 @@ describe Schedule do
       expect(person.reload.schedules).to include(build(:schedule))
     end
   end
+
+  describe 'availability' do
+    def person_with_slots(factory, count)
+      create(factory).tap do |person|
+        count.times { |i| create(:schedule, person: person, day: 1 + (i / 10), hour: 13 + (i % 10), minute: 0) }
+      end
+    end
+
+    shared_examples 'availability' do |factory|
+      let!(:none)   { person_with_slots(factory, 0) }
+      let!(:one)    { person_with_slots(factory, 1) }
+      let!(:window) { person_with_slots(factory, 3) }
+      let!(:six)    { person_with_slots(factory, 6) }
+      let!(:seven)  { person_with_slots(factory, 7) }
+      let(:klass)   { none.class }
+
+      it 'classifies by number of 30 minute slots' do
+        expect([none, one, window, six, seven].map { |p| described_class.availability_status(p) })
+          .to eq(%i[none partial partial partial full])
+      end
+
+      it 'filters a relation by status' do
+        expect(described_class.filter_by_availability(klass.all, 'none')).to contain_exactly(none)
+        expect(described_class.filter_by_availability(klass.all, 'partial')).to contain_exactly(one, window, six)
+        expect(described_class.filter_by_availability(klass.all, 'full')).to contain_exactly(seven)
+        expect(described_class.filter_by_availability(klass.all, '')).to include(none, seven)
+      end
+    end
+
+    describe 'for kids' do
+      it_behaves_like 'availability', :kid
+    end
+
+    describe 'for mentors' do
+      it_behaves_like 'availability', :mentor
+    end
+  end
 end
