@@ -469,4 +469,22 @@ feature 'Kid Mentor planning', :js do
       end
     end
   end
+
+  describe 'meeting time outside the 30 minute grid' do
+    background do
+      kid.update!(meeting_day: 2, meeting_start_at: '18:00')
+      visit show_kid_mentors_schedules_kid_path(id: kid.id)
+    end
+
+    scenario 'is shown and kept when the form is submitted' do
+      within('.kid_meeting_start_at') do
+        expect(page).to have_select('kid_meeting_start_at', selected: '18:00')
+      end
+
+      page.execute_script("document.getElementById('kid_form').submit()")
+
+      expect(page).to have_current_path(kid_path(kid))
+      expect(kid.reload.meeting_start_at.strftime('%H:%M')).to eq('18:00')
+    end
+  end
 end

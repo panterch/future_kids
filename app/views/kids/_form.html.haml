@@ -48,8 +48,8 @@
       hint: 'Bitte mehrere Zeitfenster angeben, in denen das Kind Zeit für das Mentoring hat.'
   - if current_user.is_a?(Admin)
     = form.input :meeting_day, :collection => wday_collection
-    = form.input :meeting_start_at, collection: meeting_time_collection,
-      selected: @kid.human_meeting_start_at, include_blank: true
+    = form.input :meeting_start_at, as: :string,
+      input_html: { type: 'time', value: @kid.human_meeting_start_at }
   -# this form is accessible by admins and teachers. teachers can only set the
   -# the secondary_mentor and ara automatically assigned as first mentor for any kid
   -# they are working on

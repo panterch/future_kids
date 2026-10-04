@@ -23,4 +23,11 @@ feature 'Journal form', :js do
     expect(page).to have_field('journal_start_at')
     expect(page).to have_field('journal_end_at')
   end
+
+  scenario 'presets the kid\'s meeting time even if it is not on the 15 minute grid' do
+    kid.update!(meeting_start_at: '15:20')
+    visit new_kid_journal_path(kid)
+
+    expect(page).to have_select('journal_start_at', selected: '15:20')
+  end
 end

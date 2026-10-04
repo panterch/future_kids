@@ -41,4 +41,31 @@ feature 'Kids as Admin' do
       expect(page).to have_no_text('Verfügbare Zeiten')
     end
   end
+
+  describe 'meeting time' do
+    before do
+      click_link 'Schüler*in'
+      click_link 'Hodler Rolf'
+      click_link 'Bearbeiten'
+    end
+
+    scenario 'can be set to an arbitrary time' do
+      fill_in 'Treffen beginnt um', with: '18:00'
+      click_button 'Schüler*in aktualisieren'
+      expect(Kid.find_by(name: 'Hodler Rolf').meeting_start_at.strftime('%H:%M')).to eq('18:00')
+
+      click_link 'Bearbeiten'
+      fill_in 'Treffen beginnt um', with: '15:20'
+      click_button 'Schüler*in aktualisieren'
+      expect(Kid.find_by(name: 'Hodler Rolf').meeting_start_at.strftime('%H:%M')).to eq('15:20')
+    end
+
+    scenario 'can be cleared' do
+      Kid.find_by(name: 'Hodler Rolf').update!(meeting_start_at: '18:00')
+      refresh
+      fill_in 'Treffen beginnt um', with: ''
+      click_button 'Schüler*in aktualisieren'
+      expect(Kid.find_by(name: 'Hodler Rolf').meeting_start_at).to be_nil
+    end
+  end
 end

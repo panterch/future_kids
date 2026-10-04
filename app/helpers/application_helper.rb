@@ -196,14 +196,17 @@ module ApplicationHelper
        Weiteres]
   end
 
-  def meeting_time_collection
+  # current: an off-grid time (set freely on kid#edit) is added to the options,
+  # so that saving the form doesn't clear it
+  def meeting_time_collection(current = nil)
     min_minutes = Schedule::MIN_HOUR * 60
     max_minutes = (Schedule::LAST_MEETING_HOUR * 60) + Schedule::LAST_MEETING_MIN
     steps = (max_minutes - min_minutes) / 30
-    (0..steps).map do |i|
+    times = (0..steps).map do |i|
       h, m = (min_minutes + (i * 30)).divmod(60)
       format('%<h>02d:%<m>02d', h: h, m: m)
     end
+    current.present? ? (times | [current]).sort : times
   end
 
   def meeting_type_collection
