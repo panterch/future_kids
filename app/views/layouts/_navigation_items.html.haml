@@ -7,9 +7,7 @@
   - mentor_kids.each do |kid|
     = nav_link kid.display_name, kid_path(kid), icon_name: 'person'
     = nav_link t_action(:new_journal), new_kid_journal_path(kid), icon_name: 'journal-plus'
--# FIXME load of teachers for mentors via cancan does not yet
--#       work correctly, see ability_spec.rb. till this is fixed
--#       we do not display this option to mentors
+-# Mentors reach their kids' teachers through the kid page, so no nav entry
 -if current_user.is_a?(Admin) or current_user.is_a?(Principal)
   = nav_link :teacher, icon_name: 'person-workspace'
 -if current_user.is_a?(Admin)
