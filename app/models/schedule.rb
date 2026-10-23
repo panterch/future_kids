@@ -17,20 +17,60 @@ class Schedule < ApplicationRecord
   LAST_MEETING_HOUR = 17
   LAST_MEETING_MIN = 30
 
-  # Availability is classified by the number of 30 minute slots a person
-  # (kid or mentor) has entered; one 1.5 hour window is 3 slots.
-  #   none:    no slot entered
-  #   partial: up to two 1.5 hour windows (1-6 slots)
-  #   full:    more than two 1.5 hour windows (more than 6 slots)
+  # Availability is classified by the number of complete 1.5 hour windows (3
+  # *consecutive* 30 minute slots on the same day) a person (kid or mentor)
+  # has entered. Scattered, non-consecutive slots - even many of them - never
+  # count towards a window.
+  #   none:    no complete window entered
+  #   partial: up to two complete windows
+  #   full:    more than two complete windows
   SLOTS_PER_WINDOW = 3
-  MAX_PARTIAL_SLOTS = 2 * SLOTS_PER_WINDOW
+  MAX_PARTIAL_WINDOWS = 2
   AVAILABILITY_STATUSES = %w[none partial full].freeze
 
+  # a "window" is counted via the classic gaps-and-islands technique: each
+  # schedule row is given a slot index (hour * 2 + minute / 30) and grouped
+  # with its consecutive neighbours on the same day by subtracting a
+  # ROW_NUMBER() counted in the same order - consecutive slots end up with
+  # the same (person_id, day, group) and are thus counted as one run, whose
+  # length (integer-)divided by SLOTS_PER_WINDOW gives its window count.
+  WINDOW_COUNTS_SQL = <<~SQL.squish
+    SELECT person_id, SUM(run_length / #{SLOTS_PER_WINDOW}) AS window_count
+    FROM (
+      SELECT person_id, day, slot_group, COUNT(*) AS run_length
+      FROM (
+        SELECT person_id, day,
+               (hour * 2 + minute / 30) - ROW_NUMBER() OVER (
+                 PARTITION BY person_id, day ORDER BY hour, minute
+               ) AS slot_group
+        FROM schedules
+        WHERE person_type = ?
+      ) AS slots
+      GROUP BY person_id, day, slot_group
+    ) AS runs
+    GROUP BY person_id
+    HAVING SUM(run_length / #{SLOTS_PER_WINDOW}) > 0
+  SQL
+
+  # the number of complete 1.5 hour windows (see AVAILABILITY_STATUSES above)
+  # each person of the given polymorphic type (person_type) has entered,
+  # as a Schedule relation selecting person_id and window_count. people
+  # without a single complete window aren't included at all.
+  def self.window_counts(person_type)
+    sql = sanitize_sql_array([WINDOW_COUNTS_SQL, person_type])
+    from("(#{sql}) AS schedule_window_counts").select(:person_id, :window_count)
+  end
+
   def self.availability_status(person)
-    slots = person.schedules.size
-    if slots.zero?
+    # the derived table above isn't the schedules table itself, so a Hash
+    # condition here would wrongly qualify it as schedules.person_id, a table
+    # no longer in the FROM clause
+    # rubocop:disable-next Rails/WhereEquals
+    window_count = window_counts(person.class.polymorphic_name)
+                   .where('person_id = ?', person.id).pick(:window_count) || 0
+    if window_count.zero?
       :none
-    elsif slots <= MAX_PARTIAL_SLOTS
+    elsif window_count <= MAX_PARTIAL_WINDOWS
       :partial
     else
       :full
@@ -42,12 +82,11 @@ class Schedule < ApplicationRecord
   def self.filter_by_availability(people, status)
     return people unless AVAILABILITY_STATUSES.include?(status.to_s)
 
-    slots = where(person_type: people.klass.polymorphic_name)
-    return people.where.not(id: slots.select(:person_id)) if status.to_s == 'none'
+    counts = window_counts(people.klass.polymorphic_name)
+    return people.where.not(id: counts.reselect(:person_id)) if status.to_s == 'none'
 
-    comparison = status.to_s == 'partial' ? '<=' : '>'
-    with_slots = slots.group(:person_id).having("COUNT(*) #{comparison} ?", MAX_PARTIAL_SLOTS)
-    people.where(id: with_slots.select(:person_id))
+    comparison = status.to_s == 'partial' ? '<= ?' : '> ?'
+    people.where(id: counts.where("window_count #{comparison}", MAX_PARTIAL_WINDOWS).reselect(:person_id))
   end
 
   # overwrite == to simplificate comparison of collections
