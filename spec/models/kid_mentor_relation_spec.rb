@@ -47,4 +47,21 @@ describe KidMentorRelation do
       expect(described_class.count).to be_zero
     end
   end
+
+  describe '.reset_all' do
+    let!(:mentor) do
+      create(:mentor, exit_kind: 'exit', exit_at: Date.new(2026, 12, 24), exit: '2026 Herbst')
+    end
+    let!(:kid) do
+      create(:kid, mentor: mentor, exit_kind: 'exit', exit_at: Date.new(2026, 12, 24),
+                   exit: '2026 Herbst', exit_reason: 'Wegzug')
+    end
+
+    it 'clears the exit kind, exit date, exit term and (for kids) exit reason' do
+      described_class.reset_all
+
+      expect(kid.reload).to have_attributes(exit_kind: nil, exit_at: nil, exit: nil, exit_reason: nil)
+      expect(mentor.reload).to have_attributes(exit_kind: nil, exit_at: nil, exit: nil)
+    end
+  end
 end

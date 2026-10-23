@@ -1,18 +1,25 @@
--# Exit kind dropdown and exit date input of a kid or a mentor in the Bewegungen
--# list, saved in place by register_inline_exit_selects (global.js). The date
--# input is only shown for exit kind "later".
--# Locals: record (the kid or the mentor), kid_id (id of the row: a mentor shows
--# up once per kid, so it keeps the DOM ids unique)
+-# Exit kind, exit term and (kids only) exit reason dropdowns of a kid or a
+-# mentor in the Bewegungen list, saved in place by register_inline_exit_selects
+-# (global.js). "Alternatives Ausstiegsdatum" can't be picked here: that exit
+-# date is only set on the kid's/mentor's own edit page. A record already on
+-# that exit kind still shows it, disabled, so the dropdown doesn't appear
+-# blank.
+-# Locals: record (the kid or the mentor)
 - role = record.model_name.param_key # 'kid' or 'mentor'
 - url = record.is_a?(Kid) ? update_kid_kid_mentor_relations_path(record.id) : update_mentor_kid_mentor_relations_path(record.id)
-- exit_at_id = "#{role}_#{kid_id}_exit_at"
 %td
-  = select_tag "#{role}[exit_kind]", options_for_select(exit_kind_collection, record.exit_kind),
+  = select_tag "#{role}[exit_kind]", options_for_select(exit_kind_collection(include_later: record.later?), selected: record.exit_kind, disabled: 'later'),
     id: nil, include_blank: true, class: 'form-select form-select-sm',
     'aria-label': Kid.human_attribute_name(:exit_kind),
-    data: { inline_url: url, previous: record.exit_kind.to_s, exit_at_input: exit_at_id }
+    data: { inline_url: url, previous: record.exit_kind.to_s }
 %td
-  = date_field_tag "#{role}[exit_at]", record.exit_at, id: exit_at_id, min: ApplicationRecord::MIN_DATE,
-    class: ['form-control form-control-sm', ('d-none' unless record.later?)],
-    'aria-label': Kid.human_attribute_name(:exit_at),
-    data: { inline_url: url, previous: record.exit_at.to_s }
+  = select_tag "#{role}[exit]", options_for_select(term_collection, record.exit),
+    id: nil, include_blank: true, class: 'form-select form-select-sm',
+    'aria-label': Kid.human_attribute_name(:exit),
+    data: { inline_url: url, previous: record.exit.to_s }
+- if record.is_a?(Kid)
+  %td
+    = select_tag "#{role}[exit_reason]", options_for_select(exit_reason_collection, record.exit_reason),
+      id: nil, include_blank: true, class: 'form-select form-select-sm',
+      'aria-label': Kid.human_attribute_name(:exit_reason),
+      data: { inline_url: url, previous: record.exit_reason.to_s }

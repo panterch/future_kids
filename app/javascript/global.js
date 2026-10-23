@@ -108,21 +108,15 @@ function register_exit_at_toggler() {
   });
 }
 
-// The exit kind dropdowns and exit date inputs of the Bewegungen list (see
-// kid_mentor_relations/_inline_exit_cells) save on
-// change, without reloading the page. A failed save puts the previous value
-// back. The date input is only shown while the exit kind is "later".
+// The exit kind dropdowns of the Bewegungen list (see
+// kid_mentor_relations/_inline_exit_cells) save on change, without reloading
+// the page. A failed save puts the previous value back.
 function register_inline_exit_selects() {
   document.querySelectorAll('[data-inline-url]').forEach(function(field) {
-    var date_input = field.dataset.exitAtInput && document.getElementById(field.dataset.exitAtInput);
-    function toggle_date_input() {
-      if (date_input) date_input.classList.toggle('d-none', field.value !== 'later');
-    }
     field.addEventListener('change', function() {
       var body = new FormData();
       body.append(field.name, field.value);
       field.classList.remove('border-success', 'border-danger');
-      toggle_date_input();
       fetch(field.dataset.inlineUrl, {
         method: 'PATCH',
         headers: { 'X-CSRF-Token': Rails.csrfToken() },
@@ -136,7 +130,6 @@ function register_inline_exit_selects() {
         field.classList.add('border-success');
       }).catch(function() {
         field.value = field.dataset.previous;
-        toggle_date_input();
         field.classList.add('border-danger');
       }).finally(function() {
         setTimeout(function() { field.classList.remove('border-success', 'border-danger'); }, 2000);

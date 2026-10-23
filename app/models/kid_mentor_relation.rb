@@ -19,8 +19,8 @@ class KidMentorRelation < ApplicationRecord
   # nulled for all records
   # rubocop:disable Rails/SkipsModelValidations
   def self.reset_all
-    Kid.unscoped.active.update_all(exit_kind: nil, exit_at: nil)
-    Mentor.unscoped.active.update_all(exit_kind: nil, exit_at: nil)
+    Kid.unscoped.active.update_all(exit_kind: nil, exit_at: nil, exit: nil, exit_reason: nil)
+    Mentor.unscoped.active.update_all(exit_kind: nil, exit_at: nil, exit: nil)
   end
   # rubocop:enable Rails/SkipsModelValidations
 

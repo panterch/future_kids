@@ -66,28 +66,10 @@ describe KidMentorRelationsController do
       expect(kid.reload.exit_kind).to eq('later')
     end
 
-    it 'sets the exit date of the kid' do
-      patch :update_kid, params: { kid_id: kid.id, kid: { exit_at: '2026-12-24' } }
+    it 'does not accept an exit date (set on the kid/mentor edit page instead)' do
+      patch :update_kid, params: { kid_id: kid.id, kid: { exit_kind: 'later', exit_at: '2026-12-24' } }
       expect(response).to have_http_status(:no_content)
-      expect(kid.reload.exit_at).to eq(Date.new(2026, 12, 24))
-    end
-
-    it 'sets and clears the exit date of the mentor' do
-      patch :update_mentor, params: { mentor_id: mentor.id, mentor: { exit_at: '2026-12-24' } }
-      expect(mentor.reload.exit_at).to eq(Date.new(2026, 12, 24))
-      patch :update_mentor, params: { mentor_id: mentor.id, mentor: { exit_at: '' } }
-      expect(mentor.reload.exit_at).to be_nil
-    end
-
-    it 'does not accept too old dates' do
-      expect { patch :update_kid, params: { kid_id: kid.id, kid: { exit_at: '1999-01-01' } } }
-        .to raise_error(ActiveRecord::RecordInvalid)
-      expect(kid.reload.exit_at).to be_nil
-    end
-
-    it 'accepts the earliest allowed date' do
-      patch :update_kid, params: { kid_id: kid.id, kid: { exit_at: ApplicationRecord::MIN_DATE.iso8601 } }
-      expect(kid.reload.exit_at).to eq(ApplicationRecord::MIN_DATE)
+      expect(kid.reload).to have_attributes(exit_kind: 'later', exit_at: nil)
     end
 
     it 'does not accept unknown values' do
@@ -107,10 +89,16 @@ describe KidMentorRelationsController do
         .to raise_error(ActionController::ParameterMissing)
     end
 
-    it 'sets exit kind and date together' do
-      patch :update_kid, params: { kid_id: kid.id, kid: { exit_kind: 'later', exit_at: '2026-12-24' } }
+    it 'sets the exit term and exit reason of the kid' do
+      patch :update_kid, params: { kid_id: kid.id, kid: { exit: '2026 Herbst', exit_reason: 'Wegzug' } }
       expect(response).to have_http_status(:no_content)
-      expect(kid.reload).to have_attributes(exit_kind: 'later', exit_at: Date.new(2026, 12, 24))
+      expect(kid.reload).to have_attributes(exit: '2026 Herbst', exit_reason: 'Wegzug')
+    end
+
+    it 'sets the exit term of the mentor' do
+      patch :update_mentor, params: { mentor_id: mentor.id, mentor: { exit: '2026 Herbst' } }
+      expect(response).to have_http_status(:no_content)
+      expect(mentor.reload.exit).to eq('2026 Herbst')
     end
   end
 

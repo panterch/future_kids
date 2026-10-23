@@ -26,20 +26,21 @@ class KidMentorRelationsController < ApplicationController
     respond_with @kid_mentor_relations
   end
 
-  # inline editing of exit kind and exit date on the index. blank values clear
-  # the field. the inputs only allow valid values, so a failing validation is an
-  # error: update! raises and Rails answers 422. without a template Rails
-  # answers a successful PATCH with 204 No Content on its own
+  # inline editing of the exit kind, exit term and (kids only) exit reason on
+  # the index. a blank value clears the field. the inputs only allow valid
+  # values, so a failing validation is an error: update! raises and Rails
+  # answers 422. without a template Rails answers a successful PATCH with
+  # 204 No Content on its own
   def update_kid
     kid = Kid.find(params.expect(:kid_id))
     authorize! :update, kid
-    kid.update!(params.expect(kid: %i[exit_kind exit_at]))
+    kid.update!(params.expect(kid: %i[exit_kind exit exit_reason]))
   end
 
   def update_mentor
     mentor = Mentor.find(params.expect(:mentor_id))
     authorize! :update, mentor
-    mentor.update!(params.expect(mentor: %i[exit_kind exit_at]))
+    mentor.update!(params.expect(mentor: %i[exit_kind exit]))
   end
 
   def destroy
