@@ -96,7 +96,7 @@ $solarized-base1:   #93a1a1;
 $solarized-base2:   #eee8d5;
 $solarized-base3:   #fdf6e3;
 
-$solarized-yellow:  #b58900;
+$solarized-orange:  #cb4b16;
 $solarized-red:     #dc322f;
 $solarized-blue:    #268bd2;
 $solarized-cyan:    #2aa198;
@@ -114,7 +114,7 @@ $primary:   color.adjust($solarized-blue, $lightness: -8%);
 $secondary: $solarized-base01;
 $success:   color.adjust($solarized-green, $lightness: -7%);
 $info:      color.adjust($solarized-cyan, $lightness: -10%);
-$warning:   color.adjust($solarized-yellow, $lightness: -8%);
+$warning:   color.adjust($solarized-orange, $lightness: -5%);
 $danger:    $solarized-red;
 $light:     $solarized-base2;
 $dark:      $solarized-base02;
