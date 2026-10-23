@@ -7,10 +7,12 @@ feature 'Availability filter and badge' do
     Site.load.update!(kids_schedule_hourly: true)
     @mentor_none = create(:mentor, name: 'Leer', prename: 'Mentor')
     @mentor_full = create(:mentor, name: 'Voll', prename: 'Mentor')
-    7.times { |i| create(:schedule, person: @mentor_full, day: 1, hour: 13 + i, minute: 0) }
+    # 3 complete, consecutive 1.5 hour windows (9 consecutive half hour slots)
+    9.times { |i| create(:schedule, person: @mentor_full, day: 1, hour: 13 + (i / 2), minute: (i % 2) * 30) }
     @kid_none = create(:kid, name: 'Leer', prename: 'Kid')
     @kid_one = create(:kid, name: 'Eins', prename: 'Kid')
-    create(:schedule, person: @kid_one)
+    # one complete 1.5 hour window (3 consecutive half hour slots)
+    3.times { |i| create(:schedule, person: @kid_one, day: 1, hour: 13 + (i / 2), minute: (i % 2) * 30) }
     log_in(create(:admin))
   end
 

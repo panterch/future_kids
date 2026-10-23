@@ -60,30 +60,53 @@ describe Schedule do
   end
 
   describe 'availability' do
-    def person_with_slots(factory, count)
+    # `count` schedules of 30 minutes each, consecutive starting at 13:00 on
+    # the given day - i.e. one real meeting-length run, not scattered slots
+    def consecutive_slots(factory, day:, count:, start_hour: 13)
       create(factory).tap do |person|
-        count.times { |i| create(:schedule, person: person, day: 1 + (i / 10), hour: 13 + (i % 10), minute: 0) }
+        count.times do |i|
+          create(:schedule, person: person, day: day, hour: start_hour + (i / 2), minute: (i % 2) * 30)
+        end
+      end
+    end
+
+    # several isolated single slots, each at least an hour apart from the
+    # next so none of them are consecutive with another
+    def scattered_slots(factory, count)
+      create(factory).tap do |person|
+        count.times { |i| create(:schedule, person: person, day: 1 + (i / 5), hour: 13 + (i % 5), minute: 0) }
       end
     end
 
     shared_examples 'availability' do |factory|
-      let!(:none)   { person_with_slots(factory, 0) }
-      let!(:one)    { person_with_slots(factory, 1) }
-      let!(:window) { person_with_slots(factory, 3) }
-      let!(:six)    { person_with_slots(factory, 6) }
-      let!(:seven)  { person_with_slots(factory, 7) }
-      let(:klass)   { none.class }
+      let!(:none) { create(factory) }
+      let!(:scattered) { scattered_slots(factory, 7) }
+      let!(:leftover_after_one_window) { consecutive_slots(factory, day: 1, count: 4) }
+      let!(:one_window) { consecutive_slots(factory, day: 1, count: 3) }
+      let!(:two_windows_one_run) { consecutive_slots(factory, day: 1, count: 6) }
+      let!(:two_windows_two_days) do
+        create(factory).tap do |person|
+          [1, 2].each do |day|
+            3.times { |i| create(:schedule, person: person, day: day, hour: 13 + (i / 2), minute: (i % 2) * 30) }
+          end
+        end
+      end
+      let!(:three_windows) { consecutive_slots(factory, day: 1, count: 9) }
+      let(:klass) { none.class }
 
-      it 'classifies by number of 30 minute slots' do
-        expect([none, one, window, six, seven].map { |p| described_class.availability_status(p) })
-          .to eq(%i[none partial partial partial full])
+      it 'classifies by the number of complete, consecutive 1.5 hour windows' do
+        people = [none, scattered, leftover_after_one_window, one_window,
+                  two_windows_one_run, two_windows_two_days, three_windows]
+        expect(people.map { |p| described_class.availability_status(p) })
+          .to eq(%i[none none partial partial partial partial full])
       end
 
       it 'filters a relation by status' do
-        expect(described_class.filter_by_availability(klass.all, 'none')).to contain_exactly(none)
-        expect(described_class.filter_by_availability(klass.all, 'partial')).to contain_exactly(one, window, six)
-        expect(described_class.filter_by_availability(klass.all, 'full')).to contain_exactly(seven)
-        expect(described_class.filter_by_availability(klass.all, '')).to include(none, seven)
+        expect(described_class.filter_by_availability(klass.all, 'none')).to contain_exactly(none, scattered)
+        expect(described_class.filter_by_availability(klass.all, 'partial'))
+          .to contain_exactly(leftover_after_one_window, one_window, two_windows_one_run, two_windows_two_days)
+        expect(described_class.filter_by_availability(klass.all, 'full')).to contain_exactly(three_windows)
+        expect(described_class.filter_by_availability(klass.all, '')).to include(none, three_windows)
       end
     end
 
