@@ -31,7 +31,7 @@ feature 'Bewegungen inline exit fields', :js do
     exit_select.select(first_term)
     expect(page).to have_select(class: 'border-success', count: 1)
     row.find('select[name="kid[exit_reason]"]').select('Wegzug')
-    expect(page).to have_select(class: 'border-success', count: 2)
+    expect(page).to have_select('kid[exit_reason]', class: 'border-success')
 
     expect(kid.reload).to have_attributes(exit: first_term, exit_reason: 'Wegzug')
   end
@@ -43,5 +43,12 @@ feature 'Bewegungen inline exit fields', :js do
     expect(page).to have_select(class: 'border-success', count: 1)
 
     expect(mentor.reload.exit).to eq(first_term)
+  end
+
+  scenario 'still shows an exit term outside the configured years, instead of a blank dropdown' do
+    kid.update!(exit: '2001 Frühling')
+    visit kid_mentor_relations_path
+
+    expect(row.find('select[name="kid[exit]"]').value).to eq('2001 Frühling')
   end
 end

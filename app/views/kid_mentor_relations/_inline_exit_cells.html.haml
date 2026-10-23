@@ -12,8 +12,9 @@
     id: nil, include_blank: true, class: 'form-select form-select-sm',
     'aria-label': Kid.human_attribute_name(:exit_kind),
     data: { inline_url: url, previous: record.exit_kind.to_s }
+- exit_options = record.exit.present? ? (term_collection | [record.exit]) : term_collection
 %td
-  = select_tag "#{role}[exit]", options_for_select(term_collection, record.exit),
+  = select_tag "#{role}[exit]", options_for_select(exit_options, record.exit),
     id: nil, include_blank: true, class: 'form-select form-select-sm',
     'aria-label': Kid.human_attribute_name(:exit),
     data: { inline_url: url, previous: record.exit.to_s }
