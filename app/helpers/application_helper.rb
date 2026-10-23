@@ -145,8 +145,9 @@ module ApplicationHelper
      'Andere Gründe']
   end
 
-  def exit_kind_collection
-    Kid.exit_kinds.keys.map { |k| [Kid.humanize_enum('exit_kind', k), k] }
+  def exit_kind_collection(include_later: true)
+    keys = include_later ? Kid.exit_kinds.keys : Kid.exit_kinds.keys - ['later']
+    keys.map { |k| [Kid.humanize_enum('exit_kind', k), k] }
   end
 
   def school_collection

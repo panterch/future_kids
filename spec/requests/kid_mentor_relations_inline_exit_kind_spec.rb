@@ -19,7 +19,7 @@ feature 'Bewegungen inline exit kind', :js do
   end
 
   def row_selects
-    find('tr', text: 'Inline Kid').all('select')
+    find('tr', text: 'Inline Kid').all('select[name$="[exit_kind]"]')
   end
 
   scenario 'saves the exit kind of kid and mentor on change, without reloading the page' do
@@ -40,22 +40,19 @@ feature 'Bewegungen inline exit kind', :js do
     expect(mentor_select.value).to eq('exit')
   end
 
-  scenario 'asks for and saves an exit date when later is chosen' do
+  scenario 'does not offer the alternative exit date here' do
     kid_select = row_selects.first
-    date_input = find("#kid_#{kid.id}_exit_at", visible: :all)
-    expect(date_input).not_to be_visible
+    expect(kid_select).to have_no_css('option', text: 'Alternatives Ausstiegsdatum')
+    expect(page).to have_no_css("#kid_#{kid.id}_exit_at", visible: :all)
+  end
 
-    kid_select.select('Alternatives Ausstiegsdatum')
-    expect(date_input).to be_visible
-    expect(page).to have_select(class: 'border-success')
-    expect(kid.reload.exit_kind).to eq('later')
-
-    date_input.set(Date.new(2026, 12, 24))
-    expect(page).to have_field(type: 'date', class: 'border-success')
-    expect(kid.reload.exit_at).to eq(Date.new(2026, 12, 24))
-
+  scenario 'still shows the alternative exit date when already set, but disabled' do
+    kid.update!(exit_kind: 'later', exit_at: Date.new(2026, 12, 24))
     visit kid_mentor_relations_path
-    expect(find("#kid_#{kid.id}_exit_at").value).to eq('2026-12-24')
+
+    kid_select = row_selects.first
+    expect(kid_select.value).to eq('later')
+    expect(kid_select).to have_css('option[disabled]', text: 'Alternatives Ausstiegsdatum')
   end
 
   scenario 'clears the exit kind when the blank option is chosen' do
