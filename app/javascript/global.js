@@ -27,6 +27,7 @@ document.addEventListener('DOMContentLoaded', function() {
   register_journal_controls();
   register_mentor_journal_date_selectors();
   register_schedule_checkboxes();
+  register_goal_limits();
   register_todotogglers();
   register_exit_at_toggler();
   register_inline_exit_selects();
@@ -80,6 +81,23 @@ function register_schedule_checkboxes() {
       siblings.forEach(el => el.disabled = !this.checked);
     });
     siblings.forEach(el => el.disabled = !checkbox.checked);
+  });
+}
+
+// Each Förderbereiche card on the kid form (see kids/_form) allows at most
+// data-max-goals checked goals; once reached, the remaining unchecked boxes
+// in that same card are disabled so the limit can't be exceeded live. The
+// "at least one" half of the rule is server-side only (see Kid#validate).
+function register_goal_limits() {
+  document.querySelectorAll('[data-max-goals]').forEach(function(card) {
+    var max = parseInt(card.dataset.maxGoals, 10);
+    var checkboxes = [...card.querySelectorAll('input[type=checkbox]')];
+    function apply_limit() {
+      var at_limit = checkboxes.filter(cb => cb.checked).length >= max;
+      checkboxes.forEach(cb => cb.disabled = at_limit && !cb.checked);
+    }
+    checkboxes.forEach(cb => cb.addEventListener('change', apply_limit));
+    apply_limit();
   });
 }
 
