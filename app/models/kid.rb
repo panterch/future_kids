@@ -57,8 +57,23 @@ class Kid < ApplicationRecord
   # goal_2) are plain supplementary text and play no part in this
   # validation. The error is added on a synthetic :goal_card_<key> attribute
   # (not a real column) so kids/_form can show it next to the right card.
+  #
+  # most existing kids predate this rule and don't satisfy it (checked with
+  # Kid.unscoped.find_each - the vast majority, including many still active).
+  # A new kid is always fully checked, but an existing one is only re-checked
+  # on a card whose own goals this save is actually touching, so unrelated
+  # edits (address, mentor, ...) to a legacy kid keep saving. "Touching" means
+  # a goal's checked-ness actually flips - not just nil turning into the
+  # equivalent false, which a plain Dirty check would wrongly flag as changed
+  # for nearly every untouched legacy field on every form submit (unchecked
+  # checkboxes always resubmit false).
   validate do |kid|
     GOAL_CARDS.each do |key, card|
+      if kid.persisted?
+        touched = card[:goals].any? { |g| kid.attribute_in_database(g).present? != kid[g].present? }
+        next unless touched
+      end
+
       count = card[:goals].count { |g| kid[g].present? }
       next if count.between?(1, card[:max])
 

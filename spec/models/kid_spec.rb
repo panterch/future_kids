@@ -89,6 +89,41 @@ describe Kid do
       end
     end
 
+    # most existing kids predate the min/max-per-card rule and don't satisfy
+    # it - update_columns bypasses validation to build that state, exactly
+    # like the real legacy data in the database
+    context 'a persisted kid whose goals predate this rule' do
+      let(:kid) do
+        create(:kid).tap do |k|
+          k.update_columns(goal_3: nil, goal_16: nil, goal_25: nil, goal_32: nil) # rubocop:disable Rails/SkipsModelValidations
+        end
+      end
+
+      it 'stays valid, and saveable, as long as nothing in its goals changes' do
+        expect(kid.reload).to be_valid
+        expect(kid.update(note: 'changed')).to be(true)
+      end
+
+      it "re-enforces a card's rule, but only that card, once it's actually touched" do
+        kid.goal_3 = true # deutsch: nil -> true, a genuine touch, now satisfies its min of 1
+        expect(kid).to be_valid
+        expect(kid.errors[:goal_card_mathematik]).to be_empty # untouched, stays skipped
+      end
+
+      it 'fails once a genuinely touched card is left empty' do
+        other = create(:kid) # goal_16 is true here (factory default)
+        other.goal_16 = false # mathematik: true -> false, a genuine touch, now empty
+        expect(other).not_to be_valid
+        expect(other.errors[:goal_card_mathematik])
+          .to include('Bitte geben Sie mindestens einen Förderbereich bei Mathematik an')
+      end
+
+      it 'does not treat an unchecked checkbox resubmitting false as a touch' do
+        kid.goal_3 = false # nil -> false: the same falsy state an untouched form resubmits
+        expect(kid).to be_valid
+      end
+    end
+
     it 'does not let a different card compensate for an empty one' do
       kid.goal_3 = false # empties the deutsch card set up by the factory
       expect(kid).not_to be_valid
