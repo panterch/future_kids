@@ -15,9 +15,6 @@ The tasks are defined in `lib/tasks/schedule.rake`. `schedule:send_journals`
 looks back 24 hours, so it must run exactly once a day; running it twice
 sends journals twice, skipping a day loses them.
 
-`rake schedule:send_test_email` sends a test email to check mail delivery
-from the scheduler.
-
 For a host with cron, `config/crontab.example` can be installed as the app
 user's crontab.
 

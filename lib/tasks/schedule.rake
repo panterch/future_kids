@@ -17,9 +17,4 @@ namespace :schedule do
   task send_journals: :environment do
     Teacher.conditionally_send_journals
   end
-
-  desc 'Send a test email to check functionality of cron emails'
-  task send_test_email: :environment do
-    Notifications.test.deliver_now
-  end
 end
