@@ -49,7 +49,12 @@
             }]
           }
     = javascript_importmap_tags
+    -# favicon.ico and apple-touch-icon.png live in public/ (rendered from
+    -# favicon.svg): Safari and iOS request them at the site root regardless.
+    -# sizes="32x32" keeps browsers that support SVG from picking the .ico
+    = favicon_link_tag '/favicon.ico', :rel => 'icon', :sizes => '32x32', :type => nil
     = favicon_link_tag 'favicon.svg', :rel => 'icon', :type => 'image/svg+xml'
+    = favicon_link_tag '/apple-touch-icon.png', :rel => 'apple-touch-icon', :type => 'image/png'
     = csrf_meta_tag
 
   %body(class="#{controller_name} #{action_name}"){data: {icon_sprite: asset_path('bootstrap-icons.svg')}}
