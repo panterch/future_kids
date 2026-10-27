@@ -7,7 +7,7 @@ module AvatarsHelper
   def avatar(resource, size: :md)
     return '' if resource.blank?
 
-    has_photo = resource.respond_to?(:photo) && resource.photo.present?
+    has_photo = photo_variable?(resource)
     classes = ['avatar', "avatar-#{size}", "avatar-#{avatar_type(resource)}"]
     # the hover-zoom (see .avatar-photo in application.scss) only makes sense
     # over an actual picture -- zooming a two-letter initials blob doesn't
@@ -32,7 +32,7 @@ module AvatarsHelper
   # the whole uploaded image. Renders nothing when there's no photo -- a big
   # initials blob is fine as a small avatar but looks off as a portrait.
   def profile_photo(resource)
-    return '' unless resource.respond_to?(:photo) && resource.photo.present?
+    return '' unless photo_variable?(resource)
 
     content_tag(:div, class: 'profile-portrait mb-4') do
       image_tag rails_storage_proxy_url(resource.photo_medium), class: 'profile-portrait-img', alt: resource.display_name
@@ -52,6 +52,12 @@ module AvatarsHelper
   end
 
   private
+
+  # a photo we can't resize (e.g. a legacy upload with an odd content type) is
+  # treated as no photo: serving the original instead would leak its EXIF data
+  def photo_variable?(resource)
+    resource.respond_to?(:photo) && resource.photo.present? && resource.photo.variable?
+  end
 
   def avatar_type(resource)
     case resource

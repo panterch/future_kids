@@ -51,6 +51,11 @@ module FutureKids
 
     config.active_record.time_zone_aware_types = %i[datetime time]
 
+    # photos uploaded years ago from Internet Explorer were stored as
+    # image/pjpeg, which is plain JPEG to libvips but not in Rails' list of
+    # transformable types -- without this their variants raise InvariableError
+    config.active_storage.variable_content_types += %w[image/pjpeg]
+
     # encrypts sensitive attributes at rest (e.g. Site#ai_api_token). the keys must be set
     # via ENV in production; development/test fall back to fixed insecure values so the app
     # runs out of the box without extra setup

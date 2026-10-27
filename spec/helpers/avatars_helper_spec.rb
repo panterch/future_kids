@@ -40,6 +40,25 @@ describe AvatarsHelper do
       expect(helper.avatar(mentor, size: :lg)).to have_css("img[src='#{helper.rails_storage_proxy_url(mentor.photo_medium)}']")
     end
 
+    it 'renders a legacy image/pjpeg photo as a resized variant' do
+      mentor = create(:mentor)
+      mentor.photo.blob.update!(content_type: 'image/pjpeg')
+
+      expect { mentor.photo_thumb.processed }.not_to raise_error
+      expect(helper.avatar(mentor)).to have_css("img[src='#{helper.rails_storage_proxy_url(mentor.photo_thumb)}']")
+    end
+
+    it 'falls back to initials for a photo that cannot be resized' do
+      mentor = create(:mentor)
+      mentor.photo.blob.update!(content_type: 'image/x-unknown')
+
+      markup = helper.avatar(mentor)
+
+      expect(markup).to have_css('span.avatar-initials')
+      expect(markup).not_to have_css('img')
+      expect(helper.profile_photo(mentor)).to eq('')
+    end
+
     it 'keys the color to the resource type' do
       expect(helper.avatar(create(:mentor))).to have_css('.avatar-mentor')
       expect(helper.avatar(build(:teacher))).to have_css('.avatar-teacher')
