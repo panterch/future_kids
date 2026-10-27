@@ -93,7 +93,7 @@ describe Reminder do
     @reminder = create(:reminder)
     expect do
       @reminder.deliver_mail
-    end.to have_enqueued_job(ActionMailer::MailDeliveryJob)
+    end.to change(ActionMailer::Base.deliveries, :size).by(1)
     expect(@reminder.sent_at).not_to be_nil
   end
 

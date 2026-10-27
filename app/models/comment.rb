@@ -1,8 +1,9 @@
 # frozen_string_literal: true
 
 class Comment < ApplicationRecord
-  after_create :send_notification
-  after_update :send_notification
+  # one callback for both: separate after_create_commit/after_update_commit
+  # with the same method name would silently keep only the last one
+  after_commit :send_notification, on: %i[create update]
 
   belongs_to :journal
   belongs_to :created_by, class_name: 'User'
@@ -75,6 +76,6 @@ class Comment < ApplicationRecord
   protected
 
   def send_notification
-    NotificationsMailer.comment_created(self).deliver_later
+    NotificationsMailer.comment_created(self).deliver_now
   end
 end

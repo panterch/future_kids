@@ -13,7 +13,7 @@ class FirstYearAssessment < ApplicationRecord
   # the html5 date submit allows two letter dates (e.g. '21') and translates them to wrong years (like '0021')
   validates :held_at, comparison: { greater_than_or_equal_to: MIN_DATE }, allow_blank: true
 
-  after_create :send_notification
+  after_create_commit :send_notification
 
   def display_name
     return 'Neues Auswertungsgespräch' if new_record?
@@ -42,6 +42,6 @@ class FirstYearAssessment < ApplicationRecord
   protected
 
   def send_notification
-    NotificationsMailer.first_year_assessment_created(self).deliver_later
+    NotificationsMailer.first_year_assessment_created(self).deliver_now
   end
 end

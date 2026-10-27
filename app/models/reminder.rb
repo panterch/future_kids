@@ -14,8 +14,7 @@ class Reminder < ApplicationRecord
 
   # sends the reminder to the appropriate recipient
   def deliver_mail
-    mail = NotificationsMailer.remind(self)
-    mail.deliver_later
+    NotificationsMailer.remind(self).deliver_now
     update!(sent_at: Time.zone.now)
   end
 

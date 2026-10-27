@@ -27,7 +27,7 @@ feature 'MENTOR::CREATE:FIRST_YEAR_ASSESSMENT', '
     click_link 'Neues Auswertungsgespräch'
     expect do
       click_button 'Auswertungsgespräch erstellen'
-    end.to have_enqueued_job(ActionMailer::MailDeliveryJob)
+    end.to change(ActionMailer::Base.deliveries, :size).by(1)
     expect(page.status_code).to eq(200)
     expect(page).to have_css('h4', text: 'Auswertungsgespräch vom ')
   end

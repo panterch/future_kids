@@ -68,7 +68,12 @@ Rails.application.configure do
       user_name: ENV.fetch('MAILGUN_SMTP_LOGIN', nil),
       password: ENV.fetch('MAILGUN_SMTP_PASSWORD', nil),
       domain: ENV['APP_DOMAIN'],
-      authentication: :plain
+      authentication: :plain,
+      # mails are sent inside the web request (deliver_now), so a hanging
+      # mail server must fail fast instead of running into Heroku's 30s
+      # router timeout (Net::SMTP defaults: 30s open, 60s read)
+      open_timeout: 5,
+      read_timeout: 10
     }
     ActionMailer::Base.delivery_method = :smtp
   else

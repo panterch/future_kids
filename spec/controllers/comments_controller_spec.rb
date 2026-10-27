@@ -80,7 +80,7 @@ describe CommentsController do
       expect do
         post :create, params: { kid_id: @kid.id, journal_id: @journal.id,
                                 comment: attributes_for(:comment) }
-      end.to have_enqueued_job(ActionMailer::MailDeliveryJob)
+      end.to change(ActionMailer::Base.deliveries, :size).by(1)
     end
   end
 

@@ -73,4 +73,23 @@ describe Comment do
       expect(@comment.recipients).to eq([@kid.mentor.email])
     end
   end
+
+  context 'notification' do
+    it 'sends a mail when a comment is created and when it is updated' do
+      comment = nil
+      expect { comment = create(:comment) }.to change(ActionMailer::Base.deliveries, :size).by(1)
+      expect { comment.update!(body: 'changed') }.to change(ActionMailer::Base.deliveries, :size).by(1)
+    end
+
+    it 'sends no mail when the save is rolled back' do
+      journal = create(:journal)
+
+      expect do
+        described_class.transaction(requires_new: true) do
+          create(:comment, journal: journal)
+          raise ActiveRecord::Rollback
+        end
+      end.not_to change(ActionMailer::Base.deliveries, :size)
+    end
+  end
 end

@@ -10,7 +10,7 @@ class TerminationAssessment < ApplicationRecord
   validates :held_at, :teacher, presence: true
   validates :held_at, comparison: { greater_than_or_equal_to: MIN_DATE }, allow_blank: true
 
-  after_create :send_notification
+  after_create_commit :send_notification
 
   def display_name
     return 'Neues Abschluss-Feedback' if new_record?
@@ -32,6 +32,6 @@ class TerminationAssessment < ApplicationRecord
   protected
 
   def send_notification
-    NotificationsMailer.termination_assessment_created(self).deliver_later
+    NotificationsMailer.termination_assessment_created(self).deliver_now
   end
 end

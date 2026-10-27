@@ -20,7 +20,7 @@ class Journal < ApplicationRecord
   before_save :calculate_year
   before_save :calculate_month
 
-  after_create :send_notification, if: :important
+  after_create_commit :send_notification, if: :important
 
   def display_name
     return 'Neuer Lernjournal Eintrag' if new_record?
@@ -69,6 +69,6 @@ class Journal < ApplicationRecord
   end
 
   def send_notification
-    NotificationsMailer.important_journal_created(self).deliver_later
+    NotificationsMailer.important_journal_created(self).deliver_now
   end
 end

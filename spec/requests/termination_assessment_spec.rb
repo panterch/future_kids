@@ -25,7 +25,7 @@ feature 'TEACHER::CREATE:TERMINATION_ASSESSMENT', '
     click_link 'Neues Abschluss-Feedback'
     expect do
       click_button 'Abschluss-Feedback erstellen'
-    end.to have_enqueued_job(ActionMailer::MailDeliveryJob)
+    end.to change(ActionMailer::Base.deliveries, :size).by(1)
     expect(page.status_code).to eq(200)
     expect(page).to have_css('h4', text: 'Abschluss-Feedback vom ')
   end
