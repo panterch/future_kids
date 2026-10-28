@@ -1,26 +1,23 @@
 -if current_user.is_a?(Admin)
   = nav_link Admin.model_name.human, admins_path, icon_name: 'person-badge'
+-if can? :read, Kid
   = nav_link Kid.model_name.human, kids_path, icon_name: 'people'
+-if current_user.is_a?(Mentor)
+  - mentor_kids = (current_user.kids.active.to_a + current_user.secondary_kids.active.to_a).uniq
+  - mentor_kids.each do |kid|
+    = nav_link kid.display_name, kid_path(kid), icon_name: 'person'
+    = nav_link t_action(:new_journal), new_kid_journal_path(kid), icon_name: 'journal-plus'
+-if current_user.is_a?(Admin)
   = nav_link :mentor, icon_name: 'person-hearts'
+-# Mentors reach their kids' teachers through the kid page, so no nav entry
+-if current_user.is_a?(Admin) or current_user.is_a?(Principal)
   = nav_link :teacher, icon_name: 'person-workspace'
+-if current_user.is_a?(Admin)
   = nav_link :principal, icon_name: 'building'
+-if can? :read, School
   = nav_link :school, icon_name: 'bank'
-  = nav_link :document, icon_name: 'folder2-open'
+= nav_link :document, icon_name: 'folder2-open'
+-if current_user.is_a?(Admin)
   = nav_link :kid_mentor_relation, icon_name: 'diagram-3'
+-if can? :read, Reminder
   = nav_link :reminder, icon_name: 'bell'
--else
-  -if can? :read, Kid
-    = nav_link Kid.model_name.human, kids_path, icon_name: 'people'
-  -if current_user.is_a?(Mentor)
-    - mentor_kids = (current_user.kids.active.to_a + current_user.secondary_kids.active.to_a).uniq
-    - mentor_kids.each do |kid|
-      = nav_link kid.display_name, kid_path(kid), icon_name: 'person'
-      = nav_link t_action(:new_journal), new_kid_journal_path(kid), icon_name: 'journal-plus'
-  -# Mentors reach their kids' teachers through the kid page, so no nav entry
-  -if current_user.is_a?(Principal)
-    = nav_link :teacher, icon_name: 'person-workspace'
-  -if can? :read, Reminder
-    = nav_link :reminder, icon_name: 'bell'
-  = nav_link :document, icon_name: 'folder2-open'
-  -if can? :read, School
-    = nav_link :school, icon_name: 'bank'
