@@ -237,8 +237,13 @@ textarea.form-control {
 // The documents tree (app/javascript/treeview.js): a list-group row per node,
 // indented per level. Every row gets the same fixed-width expand-icon slot
 // (empty for documents), so labels line up at each level whether or not the
-// node has children.
+// node has children. Rows use the full body color: Bootstrap's default for
+// action rows is the 75% secondary color, too faint on Solarized's pale text.
 .treeview {
+  .list-group {
+    --bs-list-group-action-color: var(--bs-body-color);
+  }
+
   .list-group-item {
     cursor: pointer;
   }
