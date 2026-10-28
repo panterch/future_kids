@@ -4,12 +4,12 @@ require 'requests/acceptance_helper'
 
 feature 'Mentor index' do
   background do
-    @pw      = 'welcome'
-    @admin1  = create(:admin, name: 'first', prename: 'admin', password: @pw, password_confirmation: @pw)
-    @admin2  = create(:admin, name: 'second', prename: 'admin')
     @mentor_school1 = create(:school, name: 'Gymnasium A', school_kind: :gymnasium)
     @mentor_school2 = create(:school, name: 'Gymnasium B', school_kind: :gymnasium)
     create(:school, name: 'Gymnasium C', school_kind: :gymnasium)
+    @pw      = 'welcome'
+    @admin1  = create(:admin, name: 'first', prename: 'admin', password: @pw, password_confirmation: @pw)
+    @admin2  = create(:admin, name: 'second', prename: 'admin')
     @mentor1 = create(:mentor, name: 'first', prename: 'mentor', school: @mentor_school1)
     @mentor2 = create(:mentor, name: 'second', prename: 'mentor', school: @mentor_school2)
     @kid1    = create(:kid, mentor: @mentor1, admin: @admin1)
