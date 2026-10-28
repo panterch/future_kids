@@ -63,15 +63,15 @@ describe KidsController do
 
     context 'index' do
       it 'filters kids when criteria given' do
-        create(:kid, translator: true)
-        create(:kid, translator: true)
-        get :index, params: { kid: { translator: '1' } }
+        create(:kid, grade: 5)
+        create(:kid, grade: 5)
+        get :index, params: { kid: { grade: '5' } }
         expect(assigns(:kids).length).to eq(2)
       end
 
       it 'creates a criteria instance for search' do
-        get :index, params: { kid: { translator: '1' } }
-        expect(assigns(:kid).translator).to be(true)
+        get :index, params: { kid: { grade: '5' } }
+        expect(assigns(:kid).grade).to eq('5')
       end
 
       it 'excludes inactive kids' do
