@@ -7,8 +7,11 @@ feature 'Mentor index' do
     @pw      = 'welcome'
     @admin1  = create(:admin, name: 'first', prename: 'admin', password: @pw, password_confirmation: @pw)
     @admin2  = create(:admin, name: 'second', prename: 'admin')
-    @mentor1 = create(:mentor, name: 'first', prename: 'mentor', transport: 'Halbtax')
-    @mentor2 = create(:mentor, name: 'second', prename: 'mentor', transport: 'GA')
+    @mentor_school1 = create(:school, name: 'Gymnasium A', school_kind: :gymnasium)
+    @mentor_school2 = create(:school, name: 'Gymnasium B', school_kind: :gymnasium)
+    create(:school, name: 'Gymnasium C', school_kind: :gymnasium)
+    @mentor1 = create(:mentor, name: 'first', prename: 'mentor', school: @mentor_school1)
+    @mentor2 = create(:mentor, name: 'second', prename: 'mentor', school: @mentor_school2)
     @kid1    = create(:kid, mentor: @mentor1, admin: @admin1)
     @kid2    = create(:kid, mentor: @mentor1, admin: @admin2)
     @kid3    = create(:kid, mentor: @mentor1, admin: @admin1)
@@ -30,12 +33,12 @@ feature 'Mentor index' do
   end
 
   scenario 'other filters should not be affected' do
-    choose_filter('ÖV', 'Regenbogen Kanton')
+    choose_filter('Schule Mentor', 'Gymnasium C')
     expect(page).to have_text('0 Mentor*innen')
   end
 
   scenario 'filtering on coaches should interact with other filters (other chosen first)' do
-    choose_filter('ÖV', 'GA')
+    choose_filter('Schule Mentor', 'Gymnasium B')
     expect(page).to have_text('1 Mentor*innen')
     expect(page).to have_css('a', text: 'second, mentor')
     choose_filter('Pädagogischer Coach', 'first, admin')
@@ -46,7 +49,7 @@ feature 'Mentor index' do
     choose_filter('Pädagogischer Coach', 'first, admin')
     expect(page).to have_text('1 Mentor*innen')
     expect(page).to have_css('a', text: 'first, mentor')
-    choose_filter('ÖV', 'Halbtax')
+    choose_filter('Schule Mentor', 'Gymnasium A')
     expect(page).to have_text('1 Mentor*innen')
     expect(page).to have_css('a', text: 'first, mentor')
   end
@@ -56,7 +59,7 @@ feature 'Mentor index' do
     expect(page).to have_text('2 Mentor*innen')
     expect(page).to have_css('a', text: 'first, mentor')
     expect(page).to have_css('a', text: 'second, mentor')
-    choose_filter('ÖV', 'GA')
+    choose_filter('Schule Mentor', 'Gymnasium B')
     expect(page).to have_text('1 Mentor*innen')
     expect(page).to have_css('a', text: 'second, mentor')
   end

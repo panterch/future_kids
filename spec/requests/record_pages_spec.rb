@@ -50,7 +50,7 @@ feature 'Index filter bar' do
   scenario 'treats the default active filter as unfiltered' do
     visit mentors_path(mentor: { inactive: '0' })
     expect(page).to have_no_link('Filter zurücksetzen')
-    visit mentors_path(mentor: { inactive: 'false', transport: '' })
+    visit mentors_path(mentor: { inactive: 'false', school_id: '' })
     expect(page).to have_no_link('Filter zurücksetzen')
   end
 end

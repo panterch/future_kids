@@ -6,8 +6,11 @@ feature 'Mentor index' do
   background do
     @pw = 'welcome'
     @admin1  = create(:admin, name: 'first', prename: 'admin', password: @pw, password_confirmation: @pw)
-    @mentor1 = create(:mentor, name: 'first', prename: 'mentor', transport: 'Halbtax')
-    @mentor2 = create(:mentor, name: 'second', prename: 'mentor', transport: 'GA')
+    @mentor_school1 = create(:school, name: 'Gymnasium A', school_kind: :gymnasium)
+    @mentor_school2 = create(:school, name: 'Gymnasium B', school_kind: :gymnasium)
+    create(:school, name: 'Gymnasium C', school_kind: :gymnasium)
+    @mentor1 = create(:mentor, name: 'first', prename: 'mentor', school: @mentor_school1)
+    @mentor2 = create(:mentor, name: 'second', prename: 'mentor', school: @mentor_school2)
     @kid1    = create(:kid, mentor: @mentor1, meeting_day: '1')
     @kid2    = create(:kid, mentor: @mentor1, meeting_day: '2')
     @kid3    = create(:kid, mentor: @mentor1, meeting_day: '1')
@@ -29,12 +32,12 @@ feature 'Mentor index' do
   end
 
   scenario 'filtering on meeting day should not affect other filters' do
-    choose_filter('ÖV', 'Regenbogen Kanton')
+    choose_filter('Schule Mentor', 'Gymnasium C')
     expect(page).to have_text('0 Mentor*innen')
   end
 
   scenario 'filtering on meeting day should interact with other filters (other chosen first)' do
-    choose_filter('ÖV', 'GA')
+    choose_filter('Schule Mentor', 'Gymnasium B')
     expect(page).to have_text('1 Mentor*innen')
     choose_filter('Einsatztag', 'Montag')
     expect(page).to have_text('0 Mentor*innen')
@@ -44,7 +47,7 @@ feature 'Mentor index' do
     choose_filter('Einsatztag', 'Montag')
     expect(page).to have_text('1 Mentor*innen')
     expect(page).to have_css('a', text: 'first, mentor')
-    choose_filter('ÖV', 'Halbtax')
+    choose_filter('Schule Mentor', 'Gymnasium A')
     expect(page).to have_text('1 Mentor*innen')
     expect(page).to have_css('a', text: 'first, mentor')
   end
@@ -54,7 +57,7 @@ feature 'Mentor index' do
     expect(page).to have_text('2 Mentor*innen')
     expect(page).to have_css('a', text: 'first, mentor')
     expect(page).to have_css('a', text: 'second, mentor')
-    choose_filter('ÖV', 'GA')
+    choose_filter('Schule Mentor', 'Gymnasium B')
     expect(page).to have_text('1 Mentor*innen')
     expect(page).to have_css('a', text: 'second, mentor')
   end
