@@ -21,14 +21,14 @@
           = show.attribute :school do
             = can_link_to(@kid.school)
 
-- KidsHelper::GOAL_SECTIONS.each do |heading, free_text_goal, _max, cards|
+- KidsHelper::GOAL_SECTIONS.each do |heading, free_text_goal, cards|
   .card.mb-4
     .card-header
       %h4.card-title.mb-0= heading
     .card-body
       = details_for @kid do |show|
-        - cards.each do |title, groups|
-          = show.attribute :"goals_#{title.parameterize(separator: '_')}", label: title do
+        - cards.each do |key, groups|
+          = show.attribute :"goals_#{key}", label: Kid::GOAL_CARDS.fetch(key)[:label] do
             = boolean_labels(@kid, *groups.flat_map(&:last))
         = show.attribute free_text_goal
 
