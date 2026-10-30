@@ -457,9 +457,16 @@ form.schedule {
 }
 
 // Keeps anchor targets (e.g. the kid sidebar's jumps to a journal card)
-// from landing underneath the sticky main nav.
+// from landing underneath the sticky main nav. The bottom padding does the
+// same for the fixed footer (md and up, see #footer): the browser honours it
+// when it scrolls a textarea's caret into view while typing, which would
+// otherwise end up underneath the footer.
 html {
   scroll-padding-top: calc(var(--nav-height, #{$nav-height}) + 1rem);
+
+  @include media-breakpoint-up(md) {
+    scroll-padding-bottom: $footer-height + 16px;
+  }
 }
 
 // Cross-document view transitions: a short crossfade between pages instead
