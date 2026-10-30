@@ -139,12 +139,18 @@ function register_inline_exit_selects() {
 }
 
 // grows a textarea to fit its content as the user types, so the full text
-// stays visible instead of scrolling inside a fixed-height box
+// stays visible instead of scrolling inside a fixed-height box.
+// Measuring needs a brief height: auto, which collapses a long textarea and
+// with it the page -- the browser then clamps the page scroll, and would
+// (smooth-)scroll back to the caret on every keystroke. So the scroll
+// position is put back right away, instantly, before anything is painted.
 function register_autogrow_textareas() {
   document.querySelectorAll('textarea.form-control').forEach(function(textarea) {
     function resize() {
+      var scrollY = window.scrollY;
       textarea.style.height = 'auto';
       textarea.style.height = textarea.scrollHeight + 'px';
+      if (window.scrollY !== scrollY) window.scrollTo({ top: scrollY, behavior: 'instant' });
     }
     textarea.addEventListener('input', resize);
     resize();
