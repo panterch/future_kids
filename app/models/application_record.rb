@@ -7,11 +7,9 @@ class ApplicationRecord < ActiveRecord::Base
   # digit years (e.g. '21') and turns them into wrong ones (like '0021')
   MIN_DATE = Date.new(2001, 1, 1)
 
-  include ActionView::Helpers::TextHelper
-
   def text_format(text)
     text = 'Keine Angabe' if text.blank?
-    simple_format(text)
+    TextFormatter.to_html(text)
   end
 
   def self.human_text_attributes(*attrs)
