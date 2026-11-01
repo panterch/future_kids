@@ -63,7 +63,7 @@
         Förderbereich:
       </th>
       <td>
-        <%= simple_format(@journal.goal) %>
+        <%= @journal.human_goal %>
       </td>
     </tr>
 
@@ -72,7 +72,7 @@
         Fach / Thema:
       </th>
       <td>
-        <%= simple_format(@journal.subject) %>
+        <%= @journal.human_subject %>
       </td>
     </tr>
 
@@ -81,7 +81,7 @@
         Beobachtungen und Vorgehensweise:
       </th>
       <td>
-        <%= simple_format(@journal.method) %>
+        <%= @journal.human_method %>
       </td>
     </tr>
 
@@ -90,7 +90,7 @@
         Erfolge / Schwierigkeiten und Interpretation:
       </th>
       <td>
-        <%= simple_format(@journal.outcome) %>
+        <%= @journal.human_outcome %>
       </td>
     </tr>
 
@@ -99,7 +99,7 @@
         Bemerkungen:
       </th>
       <td>
-        <%= simple_format(@journal.note) %>
+        <%= @journal.human_note %>
       </td>
     </tr>
   <%- end %>

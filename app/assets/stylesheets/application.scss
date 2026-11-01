@@ -227,6 +227,18 @@ textarea.form-control {
   }
 }
 
+// Lists in free text (TextFormatter: lines starting with "-" or "1.") sit
+// right below the line introducing them, with a small indent, instead of
+// Bootstrap's paragraph-sized gaps and 2rem indent.
+.text-list {
+  padding-left: 1.25rem;
+  margin-bottom: .5rem;
+}
+
+p:has(+ .text-list) {
+  margin-bottom: .25rem;
+}
+
 // Long filter lists (e.g. every active mentor) scroll inside the dropdown
 // instead of running off the page (application/_filter_dropdown).
 .filter-menu {
