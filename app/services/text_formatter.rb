@@ -134,17 +134,28 @@ class TextFormatter
     index if @lines[index + 1]&.type == type
   end
 
+  # .text-list keeps them tight to the surrounding text (application.scss)
   def list_html(type, items)
-    lis = safe_join(items.map { |lines| list_item(lines) })
-    # .text-list keeps them tight to the surrounding text (application.scss)
-    return tag.ul(lis, class: 'text-list') if type == :bullet
+    return tag.ul(safe_join(items.map { |lines| list_item(lines) }), class: 'text-list') if type == :bullet
 
     start = items.first.first.number
-    tag.ol(lis, class: 'text-list', start: (start unless start == 1))
+    tag.ol(safe_join(numbered_items(items)), class: 'text-list', start: (start unless start == 1))
   end
 
-  def list_item(lines)
-    tag.li(safe_join(lines.map { |line| sanitize(line.content) }, tag.br))
+  # an item not numbered its predecessor + 1 ("1." followed by "3.") keeps
+  # its own number
+  def numbered_items(items)
+    previous = nil
+    items.map do |lines|
+      number = lines.first.number
+      value = number unless previous.nil? || number == previous + 1
+      previous = number
+      list_item(lines, value)
+    end
+  end
+
+  def list_item(lines, value = nil)
+    tag.li(safe_join(lines.map { |line| sanitize(line.content) }, tag.br), value:)
   end
 
   # the blank lines around a list belong to neither side

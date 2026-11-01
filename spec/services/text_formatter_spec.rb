@@ -94,6 +94,12 @@ describe TextFormatter do
       expect(html("3. Lesen\n4. Rechnen")).to eq('<ol class="text-list" start="3"><li>Lesen</li><li>Rechnen</li></ol>')
     end
 
+    it 'keeps the number of an item that skips or restarts the sequence' do
+      expect(html("1. First\n3. Third\n4. Fourth\n1. Again"))
+        .to eq('<ol class="text-list"><li>First</li><li value="3">Third</li><li>Fourth</li>' \
+               '<li value="1">Again</li></ol>')
+    end
+
     it 'keeps a single numbered line as text' do
       expect(html('3. Treffen im Mai')).to eq('<p>3. Treffen im Mai</p>')
     end
