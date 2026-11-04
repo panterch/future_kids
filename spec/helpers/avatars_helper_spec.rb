@@ -31,6 +31,7 @@ describe AvatarsHelper do
 
       expect(markup).to have_css('span.avatar.avatar-mentor.avatar-photo')
       expect(markup).to have_css("img.avatar-img[alt='#{mentor.display_name}']")
+      expect(markup).to have_css("img.avatar-img[loading='lazy']")
     end
 
     it 'uses the thumb variant for sm/md, and the medium one for lg' do

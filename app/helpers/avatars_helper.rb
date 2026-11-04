@@ -19,7 +19,7 @@ module AvatarsHelper
         # :lg is much bigger than photo_thumb has resolution for, so it uses
         # photo_medium -- cropped to a circle by CSS anyway.
         variant = size == :lg ? resource.photo_medium : resource.photo_thumb
-        image_tag rails_storage_proxy_url(variant), class: 'avatar-img', alt: resource.display_name
+        image_tag rails_storage_proxy_url(variant), class: 'avatar-img', alt: resource.display_name, loading: 'lazy'
       else
         content_tag(:span, avatar_initials(resource), class: 'avatar-initials', 'aria-hidden': true)
       end
