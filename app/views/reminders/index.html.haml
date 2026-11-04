@@ -33,9 +33,9 @@
           %td= reminder.recipient
           %td= human_date(reminder.created_at.to_date)
           %td
-            -if reminder.kid.last_journal_entry
+            -if (last_held_at = @last_journal_dates[reminder.kid_id])
               = link_to kid_path(reminder.kid, :anchor => 'journals') do
-                = human_date(reminder.kid.last_journal_entry.held_at)
+                = human_date(last_held_at)
           %td
             - if reminder.sent_at
               = human_date(reminder.sent_at.to_date)

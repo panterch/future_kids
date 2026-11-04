@@ -1,4 +1,5 @@
-- if current_user.is_a?(Admin) && !resource.relation_logs.empty?
+- relation_logs = resource.relation_logs.includes(:kid, user: { photo_attachment: :blob }) if current_user.is_a?(Admin)
+- if relation_logs.present?
   - show_kid_column = !resource.is_a?(Kid)
   %h2.mt-4#relation_logs= RelationLog.model_name.human
   .table-responsive
@@ -10,7 +11,7 @@
         %th= RelationLog.human_attribute_name(:role)
         - if show_kid_column
           %th= RelationLog.human_attribute_name(:kid)
-      - resource.relation_logs.each do |relation_log|
+      - relation_logs.each do |relation_log|
         %tr
           %td
             = human_date(relation_log.start_at)

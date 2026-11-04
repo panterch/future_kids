@@ -14,7 +14,8 @@ class PrincipalsController < ApplicationController
     # prototype is not present, it is built here with default values
     filter = principal_params
     filter = filter.with_defaults(inactive: '0') if current_user.is_a?(Admin)
-    @principals = @principals.where(filter.to_h.compact_blank!)
+    # with_attached_photo: preload the avatar of every row (users/_list)
+    @principals = @principals.where(filter.to_h.compact_blank!).with_attached_photo
 
     # provide a prototype principal for the filter form
     @principal = Principal.new(filter)

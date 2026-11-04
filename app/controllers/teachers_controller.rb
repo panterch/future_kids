@@ -12,7 +12,8 @@ class TeachersController < ApplicationController
     filter = teacher_params
     filter = filter.with_defaults(inactive: '0') if current_user.is_a?(Admin)
 
-    @teachers = @teachers.where(filter.to_h.compact_blank!)
+    # with_attached_photo: preload the avatar of every row (users/_list)
+    @teachers = @teachers.where(filter.to_h.compact_blank!).with_attached_photo
 
     @teacher = Teacher.new(filter)
 
