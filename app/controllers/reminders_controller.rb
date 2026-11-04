@@ -19,6 +19,8 @@ class RemindersController < ApplicationController
                              .where({ mentor: { ects: filter[:filter_by_ects] } })
     end
 
+    preload_rows
+
     @reminder = Reminder.new(filter)
     respond_with @reminders
   end
@@ -51,6 +53,17 @@ class RemindersController < ApplicationController
   end
 
   private
+
+  # each row shows the kid, both mentors' avatars and the kid's latest journal
+  # date. the dates (kid_id => held_at) come from one grouped query instead of
+  # Kid#last_journal_entry per row. reorder: the Journal default scope orders
+  # by held_at, which a grouped query rejects
+  def preload_rows
+    @reminders = @reminders.includes(:kid, mentor: { photo_attachment: :blob },
+                                           secondary_mentor: { photo_attachment: :blob })
+    @last_journal_dates = Journal.where(kid_id: @reminders.map(&:kid_id)).reorder(nil)
+                                 .group(:kid_id).maximum(:held_at)
+  end
 
   def reminder_params
     return {} if params[:reminder].blank?

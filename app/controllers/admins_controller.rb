@@ -8,7 +8,8 @@ class AdminsController < ApplicationController
     # a prototyped admin is submitted with each index query. if the prototype
     # is not present, it is built here with default values
     filter = admin_params.with_defaults(inactive: '0')
-    @admins = @admins.where(filter.to_h.compact_blank!)
+    # with_attached_photo: preload the avatar of every row (users/_list)
+    @admins = @admins.where(filter.to_h.compact_blank!).with_attached_photo
 
     # provide a prototype admin for the filter form
     @admin = Admin.new(filter)

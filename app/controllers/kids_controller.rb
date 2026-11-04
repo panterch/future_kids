@@ -46,6 +46,9 @@ class KidsController < ApplicationController
       @kid = Kid.new(filter)
     end
 
+    # each row shows the mentor's and the coach's avatar
+    @kids = @kids.includes(mentor: { photo_attachment: :blob }, admin: { photo_attachment: :blob })
+
     if current_user.is_a?(Admin) && params[:format] == 'xlsx'
       return render xlsx: 'index', filename: "kids-#{Time.current.strftime('%Y-%m-%d-%H-%M')}.xlsx"
     end
@@ -70,6 +73,7 @@ class KidsController < ApplicationController
       return render formats: [:md]
     end
 
+    preload_history
     respond_with @kid
   end
 
@@ -114,6 +118,21 @@ class KidsController < ApplicationController
   end
 
   private
+
+  # the kid page lists every journal (with its comments) and assessment, each
+  # rendering a user's avatar - load them up front instead of per entry
+  def preload_history
+    photo = { photo_attachment: :blob }
+    ActiveRecord::Associations::Preloader.new(
+      records: [@kid],
+      associations: [
+        :teacher, :secondary_teacher, :third_teacher, :mentor, :secondary_mentor, :admin, :school,
+        { journals: [{ mentor: photo }, { comments: { created_by: photo } }],
+          first_year_assessments: [{ mentor: photo }, { teacher: photo }],
+          termination_assessments: { teacher: photo } }
+      ]
+    ).call
+  end
 
   def kid_params
     return {} if params[:kid].blank?

@@ -18,6 +18,10 @@ class KidMentorRelationsController < ApplicationController
                             else
                               @kid_mentor_relations.reorder('kid_name')
                             end
+    # per row: the mentor's avatar, the school link and kid.mentor (used by
+    # #inactivatable?) - kid, mentor and admin come from the default scope
+    @kid_mentor_relations = @kid_mentor_relations.includes(:school, kid: :mentor,
+                                                                    mentor: { photo_attachment: :blob })
 
     if params[:format] == 'xlsx'
       return render xlsx: 'index', filename: "kid-mentor-relations-#{Time.current.strftime('%Y-%m-%d-%H-%M')}.xlsx"

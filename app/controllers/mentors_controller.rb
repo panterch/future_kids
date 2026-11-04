@@ -35,6 +35,10 @@ class MentorsController < ApplicationController
                     :filter_by_availability).to_h.compact_blank!
     )
 
+    # every row renders the mentor's avatar - preload photo attachment and blob
+    # instead of two queries per mentor
+    @mentors = @mentors.with_attached_photo
+
     # provide a prototype for the filter form
     @mentor = Mentor.new(filter)
 
@@ -55,7 +59,7 @@ class MentorsController < ApplicationController
     # given year / month
     @year =  (params[:year] || Time.zone.today.year).to_i
     @month = (params[:month] || Time.zone.today.month).to_i
-    @journals = @mentor.journals.where(month: @month, year: @year)
+    @journals = @mentor.journals.where(month: @month, year: @year).includes(:kid)
 
     # decouple journals from database to allow adding the virtual record
     # below and use Enumerables sum instead of ARs sum in view
