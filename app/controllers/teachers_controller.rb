@@ -3,19 +3,16 @@
 class TeachersController < ApplicationController
   load_and_authorize_resource
   include CrudActions
+  include IndexFilters # filter_index
 
   before_action :load_and_constrain_schools, except: %i[index show]
 
   def index
-    # a prototyped teacher is submitted with each index query. if the prototype
-    # is not present, it is built here with default values
-    filter = teacher_params
-    filter = filter.with_defaults(inactive: '0') if current_user.is_a?(Admin)
+    @teachers = filter_index(@teachers, teacher_params)
+    return if performed?
 
     # with_attached_photo: preload the avatar of every row (users/_list)
-    @teachers = @teachers.where(filter.to_h.compact_blank!).with_attached_photo
-
-    @teacher = Teacher.new(filter)
+    @teachers = @teachers.with_attached_photo
 
     # when only one record is present, show it immediatelly. this is not for
     # admins, since they could have no chance to alter their filter settings in

@@ -1,11 +1,14 @@
 # frozen_string_literal: true
 
 class Reminder < ApplicationRecord
-  # virtual attributes to support filter parameters
-  attr_accessor :filter_by_school_id
-  attr_accessor :filter_by_ects
-
   default_scope { order(held_at: :desc, id: :asc) }
+
+  # filters of the reminders index: by the kid's school and the mentor's ects
+  filter_scope :filter_by_school_id, ->(id) { joins(kid: [:school]).where(kids: { school_id: id.to_i }) }
+  # an unknown ects would be cast to nil and match mentors without ects
+  filter_scope :filter_by_ects, lambda { |ects|
+    Mentor.ects.key?(ects.to_s) ? joins(:mentor).where(mentor: { ects: }) : none
+  }
   scope :active, -> { where(reminders: { acknowledged_at: nil }) }
 
   belongs_to :mentor

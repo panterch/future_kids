@@ -3,6 +3,8 @@
 class ApplicationRecord < ActiveRecord::Base
   self.abstract_class = true
 
+  include FilterScopes # filter_scope, for the index filter bars
+
   # earliest date accepted for the date fields: the html5 date input allows two
   # digit years (e.g. '21') and turns them into wrong ones (like '0021')
   MIN_DATE = Date.new(2001, 1, 1)

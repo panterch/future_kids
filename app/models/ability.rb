@@ -121,6 +121,9 @@ class Ability
     can %i[read update], Principal, id: user.id
     can :create, Kid
     can %i[read update], Kid, school_id: user.school_ids
+    # filter bar of the kids index (IndexFilters) - by any column kid_params
+    # permits; admins filter all indexes via :manage
+    can :filter, Kid
     can :create, Teacher
     can %i[read update], Teacher, school_id: user.school_ids, inactive: false
     can :read, Journal, kid: { school_id: user.school_ids }

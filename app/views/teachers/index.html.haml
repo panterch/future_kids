@@ -1,9 +1,9 @@
 = render layout: 'index_header', locals: { title: (current_user.is_a?(Admin) ? "#{@teachers.count} " : '') + 'Lehrpersonen' } do
   = new_button(Teacher)
 
-- if current_user.is_a?(Admin)
-  = render layout: 'filter_bar', locals: { record: @teacher } do
-    = render 'filter_dropdown', label: Kid.human_attribute_name(:school), field: :school_id, options: school_collection_by_kind(:teacher), record: @teacher
-    = render 'inactive_filter', record: @teacher
+- if can?(:filter, Teacher)
+  = render layout: 'filter_bar', locals: { record: @filter } do
+    = render 'filter_dropdown', label: Kid.human_attribute_name(:school), field: :school_id, options: school_collection_by_kind(:teacher), record: @filter
+    = render 'inactive_filter', record: @filter
 
 = render 'users/list', collection: @teachers

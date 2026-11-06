@@ -1,14 +1,12 @@
 # frozen_string_literal: true
 
 class Mentor < User
-  # Filters mentors by their kids coach. Used only in the mentor index form.
-  attr_accessor :filter_by_coach_id
-  # Filters mentors by their kids meeting day. Used only in the mentor index form.
-  attr_accessor :filter_by_meeting_day
-  # Filters mentors by availability status. Used only in the mentor index form.
-  attr_accessor :filter_by_availability
-  # Filters mentors by their kids school. Used only in the mentor index form.
-  attr_accessor :filter_by_school_id
+  # filters of the mentors index: by their kids' coach, meeting day and
+  # school, and by the mentors' availability
+  filter_scope :filter_by_coach_id, ->(id) { joins(:admins).where(kids: { admin_id: id.to_i }).distinct }
+  filter_scope :filter_by_meeting_day, ->(day) { joins(:kids).where(kids: { meeting_day: day.to_i }).distinct }
+  filter_scope :filter_by_school_id, ->(id) { joins(:kids).where(kids: { school_id: id.to_i }).distinct }
+  filter_scope :filter_by_availability, ->(status) { Schedule.filter_by_availability(all, status) }
 
   has_many :kids, dependent: :nullify
   has_many :admins, through: :kids

@@ -6,16 +6,15 @@
     = icon('arrow-counterclockwise')
     = t_action(:reset_all)
 
-= render layout: 'filter_bar', locals: { record: @kid_mentor_relation } do
-  = render 'filter_dropdown', label: "#{Kid.human_attribute_name(:exit_kind)} #{Kid.model_name.human}", field: :kid_exit_kind, options: exit_kind_collection, record: @kid_mentor_relation
-  = render 'filter_dropdown', label: "#{Mentor.human_attribute_name(:exit_kind)} #{Mentor.model_name.human}", field: :mentor_exit_kind, options: exit_kind_collection, record: @kid_mentor_relation
-  = render 'filter_dropdown', label: "#{Mentor.human_attribute_name('ects')} #{Mentor.model_name.human}", field: :mentor_ects, options: ects_collection(explicit_mapping: true), record: @kid_mentor_relation
-  = render 'filter_dropdown', label: 'Einstieg', field: :simple_term, options: %w[Frühling Herbst].map { |t| [t, t] }, record: @kid_mentor_relation
-  - if @site.feature_coach?
-    = render 'filter_dropdown', label: 'Pädagogischer Coach', field: :admin_id, options: admin_collection, record: @kid_mentor_relation
-  = render 'filter_dropdown', label: Kid.human_attribute_name(:school), field: :school_id, options: school_collection, record: @kid_mentor_relation
-  .vr.mx-1.d-none.d-md-block
-  = render 'filter_dropdown', label: 'Ordnen nach', field: 'order_by', options: [[Kid.model_name.human, 'kid_name'], [Mentor.model_name.human, 'mentor_name']], current_value: params[:order_by].presence || 'kid_name', resettable: false
+- if can?(:filter, KidMentorRelation)
+  = render layout: 'filter_bar', locals: { record: @filter } do
+    = render 'filter_dropdown', label: "#{Kid.human_attribute_name(:exit_kind)} #{Kid.model_name.human}", field: :kid_exit_kind, options: exit_kind_collection, record: @filter
+    = render 'filter_dropdown', label: "#{Mentor.human_attribute_name(:exit_kind)} #{Mentor.model_name.human}", field: :mentor_exit_kind, options: exit_kind_collection, record: @filter
+    = render 'filter_dropdown', label: "#{Mentor.human_attribute_name('ects')} #{Mentor.model_name.human}", field: :mentor_ects, options: ects_collection(explicit_mapping: true), record: @filter
+    = render 'filter_dropdown', label: 'Einstieg', field: :simple_term, options: %w[Frühling Herbst].map { |t| [t, t] }, record: @filter
+    - if @site.feature_coach?
+      = render 'filter_dropdown', label: 'Pädagogischer Coach', field: :admin_id, options: admin_collection, record: @filter
+    = render 'filter_dropdown', label: Kid.human_attribute_name(:school), field: :school_id, options: school_collection, record: @filter
 
 -if @kid_mentor_relations.present?
   .table-responsive

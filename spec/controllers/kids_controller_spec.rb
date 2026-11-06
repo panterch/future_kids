@@ -71,7 +71,7 @@ describe KidsController do
 
       it 'creates a criteria instance for search' do
         get :index, params: { kid: { grade: '5' } }
-        expect(assigns(:kid).grade).to eq('5')
+        expect(assigns(:filter).grade).to eq('5')
       end
 
       it 'excludes inactive kids' do

@@ -3,25 +3,14 @@
 class RemindersController < ApplicationController
   load_and_authorize_resource
   include CrudActions
+  include IndexFilters # filter_index
 
   def index
+    @reminders = filter_index(@reminders, reminder_params)
+    return if performed?
+
     @reminders = @reminders.active
-
-    filter = reminder_params
-
-    if filter[:filter_by_school_id].present?
-      @reminders = @reminders.joins(kid: [:school])
-                             .where({ kids: { school_id: filter[:filter_by_school_id].to_i } })
-    end
-
-    if filter[:filter_by_ects].present?
-      @reminders = @reminders.joins(:mentor)
-                             .where({ mentor: { ects: filter[:filter_by_ects] } })
-    end
-
     preload_rows
-
-    @reminder = Reminder.new(filter)
     respond_with @reminders
   end
 

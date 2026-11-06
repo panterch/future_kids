@@ -5,6 +5,7 @@ class KidsController < ApplicationController
 
   load_and_authorize_resource
   include CrudActions
+  include IndexFilters # filter_index
   include ManageSchedules # edit_schedules & update_schedules
 
   # mentor/admin assignment and exit/termination fields are only editable by
@@ -26,25 +27,8 @@ class KidsController < ApplicationController
   after_action :track_creation_relation, only: [:create]
 
   def index
-    # for admin users, the kids view may be filtered. these code is only
-    # executed for admins since else we would have to take care that no other
-    # user overwrites its filter constraints by adding a certain query parameter
-    # here
-    if current_user.is_a?(Admin) || current_user.is_a?(Principal)
-      # a prototyped kid is submitted with each index query. if the prototype
-      # is not present, it is built here with default values
-      # build a where condition out of all parameters supplied for kid
-      filter = kid_params.with_defaults(inactive: '0')
-      @kids = @kids.where(filter.to_h.delete_if { |key, val| Kid.column_names.exclude?(key.to_s) || val.blank? })
-      # the availability filter is for admins only
-      availability = filter[:filter_by_availability] if current_user.is_a?(Admin)
-      @kids = Schedule.filter_by_availability(@kids, availability)
-      # reorder the kids according to the supplied parameter
-
-      @kids = @kids.reorder(params['order_by']) if params['order_by'] && valid_order_by?(Kid, params['order_by'])
-      # provide a prototype for the filter form
-      @kid = Kid.new(filter)
-    end
+    @kids = filter_index(@kids, kid_params)
+    return if performed?
 
     # each row shows the mentor's and the coach's avatar
     @kids = @kids.includes(mentor: { photo_attachment: :blob }, admin: { photo_attachment: :blob })

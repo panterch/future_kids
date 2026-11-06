@@ -4,20 +4,12 @@ class KidMentorRelationsController < ApplicationController
   include AdminOnly
 
   load_and_authorize_resource except: %i[update_kid update_mentor]
+  include IndexFilters # filter_index
 
   def index
-    # a prototype object used for the filter sidebar
-    #
-    # all fields to filter here have to be present in the sql view
-    @kid_mentor_relation = KidMentorRelation.new(filter_params)
-    @kid_mentor_relations = @kid_mentor_relations.where(filter_params.to_h.delete_if do |key, val|
-      KidMentorRelation.column_names.exclude?(key.to_s) || val.blank?
-    end)
-    @kid_mentor_relations = if params['order_by'] && valid_order_by?(Kid, params['order_by'])
-                              @kid_mentor_relations.reorder(params['order_by'])
-                            else
-                              @kid_mentor_relations.reorder('kid_name')
-                            end
+    @kid_mentor_relations = filter_index(@kid_mentor_relations, kid_mentor_relation_params)
+    return if performed?
+
     # per row: the mentor's avatar, the school link and kid.mentor (used by
     # #inactivatable?) - kid, mentor and admin come from the default scope
     @kid_mentor_relations = @kid_mentor_relations.includes(:school, kid: :mentor,
@@ -59,7 +51,8 @@ class KidMentorRelationsController < ApplicationController
 
   protected
 
-  def filter_params
+  # all fields to filter here have to be present in the sql view
+  def kid_mentor_relation_params
     return {} if params[:kid_mentor_relation].blank?
 
     params.expect(
