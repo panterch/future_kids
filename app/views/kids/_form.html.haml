@@ -18,17 +18,18 @@
   = form.input :note
   = form.association :school, collection: @schools, include_blank: @schools_include_blank
 
-  - KidsHelper::GOAL_SECTIONS.each do |heading, free_text_goal, max, cards|
-    %h2.mt-4
-      = heading
-      %em="- mindestens eines, maximal #{max}"
-    - if @kid.errors[free_text_goal].any?
-      %h3.text-danger= @kid.errors[free_text_goal].first
-    - cards.each do |title, groups|
-      .card.mb-4
+  - KidsHelper::GOAL_SECTIONS.each do |heading, free_text_goal, cards|
+    %h2.mt-4= heading
+    - cards.each do |key, groups|
+      - card = Kid::GOAL_CARDS.fetch(key)
+      .card.mb-4{data: {max_goals: card[:max]}}
         .card-header
-          %h3.card-title.mb-0= title
+          %h3.card-title.mb-0
+            = card[:label]
+            %em="- mindestens 1, maximal #{card[:max]}"
         .card-body
+          - if @kid.errors[:"goal_card_#{key}"].any?
+            %p.text-danger= @kid.errors[:"goal_card_#{key}"].first
           -# sub-skill groups, see .goal-group in application.scss
           - groups.each do |label, goals|
             %div{class: ('goal-group' if label)}

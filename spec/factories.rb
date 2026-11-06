@@ -68,6 +68,11 @@ FactoryBot.define do
     phone { '123456789' }
     goal_1 { 'Ein fachliches Lernziel' }
     goal_2 { 'Ein überfachliches Lernziel' }
+    # one checked goal per Kid::GOAL_CARDS card, the minimum each needs
+    goal_3 { true }
+    goal_16 { true }
+    goal_25 { true }
+    goal_32 { true }
     simplified_schedule { 'immer nachmittags' }
   end
 

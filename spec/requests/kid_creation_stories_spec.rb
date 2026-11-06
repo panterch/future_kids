@@ -30,7 +30,9 @@ RSpec.describe 'Kid creation stories' do
     fill_in 'kid_name', with: 'Last Name'
     fill_in 'kid_prename', with: 'First Name'
     check 'kid_goal_3'
-    check 'kid_goal_33'
+    check 'kid_goal_16'
+    check 'kid_goal_25'
+    check 'kid_goal_32'
     click_button 'Schüler*in erstellen'
     expect(page.status_code).to eq(200)
     expect(page).to have_css('h1', text: 'Last Name, First Name')
@@ -42,7 +44,9 @@ RSpec.describe 'Kid creation stories' do
     fill_in 'kid_name', with: 'Last Name'
     fill_in 'kid_prename', with: 'First Name'
     check 'kid_goal_3'
-    check 'kid_goal_33'
+    check 'kid_goal_16'
+    check 'kid_goal_25'
+    check 'kid_goal_32'
     expect(page).to have_select('kid_parent_country',
                                 with_options: ['Albanien', 'Türkei', 'Sri Lanka', 'Kosovo', 'Spanien', 'Portugal'])
     select('Syrien, Arabische Republik', from: 'kid_parent_country')
@@ -79,7 +83,9 @@ end
       fill_in 'kid_name', with: 'Last Name'
       fill_in 'kid_prename', with: 'First Name'
       check 'kid_goal_3'
-      check 'kid_goal_33'
+      check 'kid_goal_16'
+      check 'kid_goal_25'
+      check 'kid_goal_32'
       click_button 'Schüler*in erstellen'
       expect(page.status_code).to eq(200)
       expect(page).to have_css('h1', text: 'Last Name, First Name')
@@ -92,6 +98,10 @@ end
       fill_in 'kid_prename', with: 'First Name'
       fill_in 'kid_goal_1', with: 'Fachliches Lernziel'
       fill_in 'kid_goal_2', with: 'Ueberfachliches Lernziel'
+      check 'kid_goal_3'
+      check 'kid_goal_16'
+      check 'kid_goal_25'
+      check 'kid_goal_32'
       expect(page).to have_select('kid_parent_country',
                                   with_options: ['Albanien', 'Türkei', 'Sri Lanka', 'Kosovo', 'Spanien', 'Portugal'])
       select('Syrien, Arabische Republik', from: 'kid_parent_country')

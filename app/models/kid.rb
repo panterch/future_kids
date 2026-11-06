@@ -24,15 +24,23 @@ class Kid < ApplicationRecord
   has_many :reminders, dependent: :destroy
   has_many :schedules, as: :person, dependent: :destroy
   has_many :relation_logs, dependent: :nullify
-  GOALS_1 = %i[goal_3 goal_4 goal_5 goal_6 goal_7
-               goal_8 goal_9 goal_10 goal_11 goal_12 goal_13 goal_14
-               goal_15 goal_16 goal_17 goal_18 goal_19 goal_20 goal_21
-               goal_22 goal_23 goal_24].freeze
-  GOALS_1_MAX = 4
-
-  GOALS_2 = %i[goal_25 goal_26 goal_27 goal_28 goal_29 goal_30 goal_31
-               goal_32 goal_33 goal_34 goal_35].freeze
-  GOALS_2_MAX = 2
+  # The goal checkboxes (see KidsHelper::SUBJECT_GOAL_CARDS/GENERAL_GOAL_CARDS
+  # for their sub-group display layout), grouped exactly as shown on the kid
+  # form's four cards. Each card independently requires at least one and at
+  # most :max checked goals - see the validation below; :label names the
+  # card in both the form and the validation messages.
+  GOAL_CARDS = {
+    deutsch: { label: 'Deutsch',
+               goals: %i[goal_3 goal_4 goal_5 goal_6 goal_7 goal_8 goal_9
+                         goal_10 goal_11 goal_12 goal_13 goal_14 goal_15], max: 4 },
+    mathematik: { label: 'Mathematik',
+                  goals: %i[goal_16 goal_17 goal_18 goal_19 goal_20 goal_21
+                            goal_22 goal_23 goal_24], max: 4 },
+    personale: { label: 'Personale Förderbereiche',
+                 goals: %i[goal_25 goal_26 goal_27 goal_28 goal_29 goal_30 goal_31], max: 2 },
+    methodische: { label: 'Methodische Förderbereiche',
+                   goals: %i[goal_32 goal_33 goal_34 goal_35], max: 2 }
+  }.freeze
 
   accepts_nested_attributes_for :journals, :reviews, :schedules
 
@@ -44,27 +52,48 @@ class Kid < ApplicationRecord
   validates :dob, :exit_at, :checked_at, :coached_at,
             comparison: { greater_than_or_equal_to: MIN_DATE }, allow_blank: true
 
-  # validate that enough goals were given in each group
+  # each of the four goal cards independently needs at least one and allows
+  # at most :max checked goals; the free-text "Ergänzungen" fields (goal_1,
+  # goal_2) are plain supplementary text and play no part in this
+  # validation. The error is added on a synthetic :goal_card_<key> attribute
+  # (not a real column) so kids/_form can show it next to the right card.
+  #
+  # most existing kids predate this rule and don't satisfy it (checked with
+  # Kid.unscoped.find_each - the vast majority, including many still active).
+  # A new kid is always fully checked, but an existing one is only re-checked
+  # on a card whose own goals this save is actually touching, so unrelated
+  # edits (address, mentor, ...) to a legacy kid keep saving. "Touching" means
+  # a goal's checked-ness actually flips - not just nil turning into the
+  # equivalent false, which a plain Dirty check would wrongly flag as changed
+  # for nearly every untouched legacy field on every form submit (unchecked
+  # checkboxes always resubmit false).
   validate do |kid|
-    goals_1_count = GOALS_1.count { |g| kid[g].present? }
-    if kid[:goal_1].blank? && goals_1_count.zero?
-      GOALS_1.each { |g| errors.add g, :invalid, message: '' }
-      errors.add :goal_1, :invalid, message: 'Bitte geben Sie mindestens einen fachlichen Förderbereich an'
-      # this code would hard constrain goals to maximum. at the moment it is only a soft constraint
-      # elsif GOALS_1_MAX < goals_1_count
-      # GOALS_1.each { |g| errors.add g, :invalid, message: '' }
-      # errors.add :goal_1, :invalid, message: "Bitte geben Sie maximal #{GOALS_1_MAX}  Fachliche Förderbereiche an"
-    end
+    GOAL_CARDS.each do |key, card|
+      if kid.persisted?
+        touched = card[:goals].any? { |g| kid.attribute_in_database(g).present? != kid[g].present? }
+        next unless touched
+      end
 
-    goals_2_count = GOALS_2.count { |g| kid[g].present? }
-    if kid[:goal_2].blank? && goals_2_count.zero?
-      GOALS_2.each { |g| errors.add g, :invalid, message: '' }
-      errors.add :goal_2, :invalid, message: 'Bitte geben Sie mindestens einen überfachlichen Förderbereich an'
-      # this code would hard constrain goals to maximum. at the moment it is only a soft constraint
-      # elsif GOALS_2_MAX < goals_2_count
-      # GOALS_2.each { |g| errors.add g, :invalid, message: '' }
-      # errors.add :goal_2, :invalid, message: "Bitte geben Sie maximal #{GOALS_2_MAX} Überfachliche Förderbereich an"
+      count = card[:goals].count { |g| kid[g].present? }
+      next if count.between?(1, card[:max])
+
+      card[:goals].each { |g| errors.add g, :invalid, message: '' }
+      message = if count.zero?
+                  "Bitte geben Sie mindestens einen Förderbereich bei #{card[:label]} an"
+                else
+                  "Bitte geben Sie maximal #{card[:max]} Förderbereiche bei #{card[:label]} an"
+                end
+      errors.add :"goal_card_#{key}", :invalid, message: message
     end
+  end
+
+  # errors.add reads the current value of the attribute it's attached to;
+  # goal_card_* (see above) isn't a real column/method, so without this it
+  # would raise instead of just leaving the error's value blank
+  def read_attribute_for_validation(key)
+    return nil if key.to_s.start_with?('goal_card_')
+
+    super
   end
 
   after_validation :track_goal_updates
