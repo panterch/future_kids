@@ -1,8 +1,8 @@
 = render layout: 'index_header' do
   = new_button(Principal)
 
-- if current_user.is_a?(Admin)
-  = render layout: 'filter_bar', locals: { record: @principal } do
-    = render 'inactive_filter', record: @principal
+- if can?(:filter, Principal)
+  = render layout: 'filter_bar', locals: { record: @filter } do
+    = render 'inactive_filter', record: @filter
 
 = render 'users/list', collection: @principals

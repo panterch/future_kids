@@ -3,8 +3,8 @@
 class Kid < ApplicationRecord
   default_scope { order(:name, :prename) }
 
-  # Filters kids by availability status. Used only in the kid index form.
-  attr_accessor :filter_by_availability
+  # filter of the kids index
+  filter_scope :filter_by_availability, ->(status) { Schedule.filter_by_availability(all, status) }
 
   scope :active, -> { where(inactive: false) }
   scope :with_mentor, -> { where.not(mentor_id: nil) }

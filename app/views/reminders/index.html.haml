@@ -3,10 +3,10 @@
 = render layout: 'index_header', locals: { title: 'Erinnerungen' } do
   = new_button(Reminder)
 
-- if current_user.is_a?(Admin)
-  = render layout: 'filter_bar', locals: { record: @reminder } do
-    = render 'filter_dropdown', label: Kid.human_attribute_name(:school), field: :filter_by_school_id, options: school_collection, record: @reminder
-    = render 'filter_dropdown', label: Mentor.human_attribute_name('ects'), field: :filter_by_ects, options: ects_collection, record: @reminder
+- if can?(:filter, Reminder)
+  = render layout: 'filter_bar', locals: { record: @filter } do
+    = render 'filter_dropdown', label: Kid.human_attribute_name(:school), field: :filter_by_school_id, options: school_collection, record: @filter
+    = render 'filter_dropdown', label: Mentor.human_attribute_name('ects'), field: :filter_by_ects, options: ects_collection, record: @filter
 
 - if @reminders.present?
   .table-responsive

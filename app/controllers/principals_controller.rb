@@ -3,6 +3,7 @@
 class PrincipalsController < ApplicationController
   load_and_authorize_resource
   include CrudActions
+  include IndexFilters # filter_index
 
   # school assignment is only manageable by admins - a principal changing
   # their own schools would let them reach kids/teachers outside their
@@ -10,15 +11,11 @@ class PrincipalsController < ApplicationController
   guards_privileged_fields :principal, %w[school_ids]
 
   def index
-    # a prototyped principal is submitted with each index query. if the
-    # prototype is not present, it is built here with default values
-    filter = principal_params
-    filter = filter.with_defaults(inactive: '0') if current_user.is_a?(Admin)
-    # with_attached_photo: preload the avatar of every row (users/_list)
-    @principals = @principals.where(filter.to_h.compact_blank!).with_attached_photo
+    @principals = filter_index(@principals, principal_params)
+    return if performed?
 
-    # provide a prototype principal for the filter form
-    @principal = Principal.new(filter)
+    # with_attached_photo: preload the avatar of every row (users/_list)
+    @principals = @principals.with_attached_photo
 
     respond_with @principals
   end

@@ -1,6 +1,6 @@
 - content_for :wide_layout, true
 
-- has_filters = current_user.is_a?(Admin) || current_user.is_a?(Principal)
+- has_filters = can?(:filter, Kid)
 
 = render layout: 'index_header', locals: { title: (has_filters ? "#{@kids.count} " : '') + 'Schüler*innen', description: page_description } do
   - if current_user.is_a?(Admin)
@@ -8,19 +8,19 @@
   = new_button(Kid)
 
 - if has_filters
-  = render layout: 'filter_bar', locals: { record: @kid } do
+  = render layout: 'filter_bar', locals: { record: @filter } do
     - if current_user.is_a?(Admin)
-      = render 'filter_dropdown', label: Kid.human_attribute_name(:term), field: :term, options: term_collection.map { |t| [t, t] }, record: @kid
-      = render 'filter_dropdown', label: Kid.human_attribute_name(:exit), field: :exit, options: term_collection.map { |t| [t, t] }, record: @kid
-      = render 'filter_dropdown', label: Kid.human_attribute_name(:school), field: :school_id, options: school_collection_by_kind(:kid), record: @kid
+      = render 'filter_dropdown', label: Kid.human_attribute_name(:term), field: :term, options: term_collection.map { |t| [t, t] }, record: @filter
+      = render 'filter_dropdown', label: Kid.human_attribute_name(:exit), field: :exit, options: term_collection.map { |t| [t, t] }, record: @filter
+      = render 'filter_dropdown', label: Kid.human_attribute_name(:school), field: :school_id, options: school_collection_by_kind(:kid), record: @filter
       - if @site.feature_coach?
-        = render 'filter_dropdown', label: 'Pädagogischer Coach', field: :admin_id, options: admin_collection, record: @kid
+        = render 'filter_dropdown', label: 'Pädagogischer Coach', field: :admin_id, options: admin_collection, record: @filter
       - if @site.kids_schedule_hourly
-        = render 'filter_dropdown', label: Kid.human_attribute_name(:availability_status), field: :filter_by_availability, options: availability_collection, record: @kid
-      = render 'filter_dropdown', label: Kid.human_attribute_name(:meeting_day), field: :meeting_day, options: wday_collection, record: @kid
+        = render 'filter_dropdown', label: Kid.human_attribute_name(:availability_status), field: :filter_by_availability, options: availability_collection, record: @filter
+      = render 'filter_dropdown', label: Kid.human_attribute_name(:meeting_day), field: :meeting_day, options: wday_collection, record: @filter
 
-    = render 'filter_dropdown', label: 'Klasse', field: :grade, options: grade_collection.map { |g| [g.to_s, g] }, record: @kid
-    = render 'inactive_filter', record: @kid
+    = render 'filter_dropdown', label: 'Klasse', field: :grade, options: grade_collection.map { |g| [g.to_s, g] }, record: @filter
+    = render 'inactive_filter', record: @filter
 
     .vr.mx-1.d-none.d-md-block
     = render 'filter_dropdown', label: 'Ordnen nach', field: 'order_by', options: [%w[Name name], %w[Kontrolldatum checked_at], %w[Coachingdatum coached_at], %w[Erfassungsdatum created_at]], current_value: params[:order_by].presence || 'name', resettable: false

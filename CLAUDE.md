@@ -75,6 +75,25 @@ Future Kids is a Rails 8 application that manages a mentoring program connecting
 - Polymorphic associations for Schedules
 - Validation concerns and callbacks for data integrity
 - Excel export via caxlsx / caxlsx_rails
+- Index filters (`IndexFilters` concern): each filtered index action starts with
+  `@kids = filter_index(@kids, kid_params)` and `return if performed?`. Who may
+  filter is the CanCan `:filter` ability (admins everything, principals `Kid`);
+  everyone else gets `.active` and their filter params are ignored. Filters are
+  the controller's strong params (must return `{}` without params): column
+  matches, model `filter_scope`s (`FilterScopes`) for non-column filters, and
+  an `order_by` validated against the model's columns. They are kept per page
+  in the session and dropped via `?reset_filters=1`. Views: the filter bar
+  (`application/_filter_bar`, `_filter_dropdown`) takes `record: @filter`;
+  link helpers are in `FiltersHelper`
+
+## Coding Style
+- Prefer explicit code over metaprogramming (`send`, `instance_variable_get/set`,
+  callbacks with hidden effects); an explicit line in the action is fine
+- No indirection without a second caller: no override points, config options or
+  generic code for a single use case; remove unused features instead of generalizing them
+- Use the framework first: authorization belongs in CanCanCan's `Ability`, input
+  in strong params, existing helpers/concerns before new ones
+- Keep related logic together, guarded in one place
 
 ## Database
 - PostgreSQL in production

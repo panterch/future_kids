@@ -1,8 +1,8 @@
 = render layout: 'index_header', locals: { title: (current_user.is_a?(Admin) ? "#{@admins.count} " : '') + 'Administratoren' } do
   = new_button(Admin)
 
-- if current_user.is_a?(Admin)
-  = render layout: 'filter_bar', locals: { record: @admin } do
-    = render 'inactive_filter', record: @admin
+- if can?(:filter, Admin)
+  = render layout: 'filter_bar', locals: { record: @filter } do
+    = render 'inactive_filter', record: @filter
 
 = render 'users/list', collection: @admins

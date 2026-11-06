@@ -13,7 +13,7 @@ class KidMentorRelation < ApplicationRecord
   belongs_to :admin
   belongs_to :school
 
-  default_scope { includes(:kid, :mentor, :admin) }
+  default_scope { includes(:kid, :mentor, :admin).order(:kid_name) }
 
   # bulk reset without callbacks or validations - the columns are simply
   # nulled for all records

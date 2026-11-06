@@ -3,6 +3,7 @@
 class MentorsController < ApplicationController
   load_and_authorize_resource
   include CrudActions
+  include IndexFilters # filter_index
   include ManageSchedules # edit_schedules & update_schedules
 
   # personnel_number/ects/term/exit/absence/substitute are only editable by
@@ -12,35 +13,12 @@ class MentorsController < ApplicationController
   guards_privileged_fields :mentor, %w[personnel_number ects term exit exit_kind exit_at absence substitute]
 
   def index
-    # a prototyped mentor is submitted with each index query. if the prototype
-    # is not present, it is built here with default values
-    filter = mentor_params.with_defaults(inactive: '0')
-
-    # mentors are filtered by the custom criteria below; these are virtual
-    # attributes and may not appear in the generic where condition
-    if filter[:filter_by_coach_id].present?
-      @mentors = @mentors.joins(:admins).where(kids: { admin_id: filter[:filter_by_coach_id].to_i }).distinct
-    end
-    if filter[:filter_by_meeting_day].present?
-      @mentors = @mentors.joins(:kids).where(kids: { meeting_day: filter[:filter_by_meeting_day].to_i }).distinct
-    end
-    @mentors = Schedule.filter_by_availability(@mentors, filter[:filter_by_availability])
-    if filter[:filter_by_school_id].present?
-      @mentors = @mentors.joins(:kids).where(kids: { school_id: filter[:filter_by_school_id].to_i }).distinct
-    end
-
-    # generic query building
-    @mentors = @mentors.where(
-      filter.except(:filter_by_coach_id, :filter_by_meeting_day, :filter_by_school_id,
-                    :filter_by_availability).to_h.compact_blank!
-    )
+    @mentors = filter_index(@mentors, mentor_params)
+    return if performed?
 
     # every row renders the mentor's avatar - preload photo attachment and blob
     # instead of two queries per mentor
     @mentors = @mentors.with_attached_photo
-
-    # provide a prototype for the filter form
-    @mentor = Mentor.new(filter)
 
     if current_user.is_a?(Admin) && params[:format] == 'xlsx'
       render xlsx: 'index', filename: "mentors-#{Time.current.strftime('%Y-%m-%d-%H-%M')}.xlsx"
