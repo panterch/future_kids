@@ -42,17 +42,25 @@ module FiltersHelper
   # from params[<param_key>]): any of those params left it different from an
   # unfiltered prototype. Compares the typecast attributes, so an explicit
   # "Nein" (false) counts while "Alle" ('') and the default "Aktiv" (false,
-  # whether sent as 'false' or '0') don't. Only keys naming an assignable
-  # attribute (incl. virtual ones like Mentor#filter_by_coach_id) are read --
-  # the rest of the query is user input and must not become a method call.
+  # whether sent as 'false' or '0') don't. Only keys naming an attribute with
+  # a writer and a reader (incl. virtual ones like Mentor#filter_by_coach_id)
+  # are read -- the rest of the query is user input and must not become a
+  # method call; writers without reader (e.g. schedules_attributes=) are skipped.
   def filters_active?(record)
     unfiltered = record.class.new
     filters = request.query_parameters.fetch(record.model_name.param_key, {})
     return false unless filters.respond_to?(:keys)
 
     filters.keys.any? do |field|
-      record.respond_to?("#{field}=") &&
+      filter_attribute?(record, field) &&
         record.public_send(field).to_s != unfiltered.public_send(field).to_s
     end
+  end
+
+  private
+
+  # +field+ names an attribute of +record+ with a writer and a reader
+  def filter_attribute?(record, field)
+    record.respond_to?("#{field}=") && record.respond_to?(field)
   end
 end

@@ -92,6 +92,19 @@ feature 'Persistent index filters' do
       expect(page).to have_current_path('/kids')
     end
 
+    scenario 'large filters on several pages keep the session cookie small enough' do
+      long = 'x' * 800
+      %w[kids mentors teachers admins principals].each do |path|
+        visit "/#{path}?#{{ path.singularize => { 'name' => long } }.to_query}"
+      end
+
+      # the most recent pages are kept, the least recent ones were dropped
+      visit '/principals'
+      expect(current_query).to eq('principal' => { 'name' => long })
+      visit '/kids'
+      expect(page).to have_current_path('/kids')
+    end
+
     scenario 'logging out forgets the filters' do
       user = create(:admin)
       visit '/kids?kid[grade]=3'

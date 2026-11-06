@@ -5,7 +5,10 @@ class Reminder < ApplicationRecord
 
   # filters of the reminders index: by the kid's school and the mentor's ects
   filter_scope :filter_by_school_id, ->(id) { joins(kid: [:school]).where(kids: { school_id: id.to_i }) }
-  filter_scope :filter_by_ects, ->(ects) { joins(:mentor).where(mentor: { ects: }) }
+  # an unknown ects would be cast to nil and match mentors without ects
+  filter_scope :filter_by_ects, lambda { |ects|
+    Mentor.ects.key?(ects.to_s) ? joins(:mentor).where(mentor: { ects: }) : none
+  }
   scope :active, -> { where(reminders: { acknowledged_at: nil }) }
 
   belongs_to :mentor

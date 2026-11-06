@@ -38,6 +38,18 @@ describe FiltersHelper do
     end
   end
 
+  describe '#filters_active?' do
+    it 'is true for a filtered attribute' do
+      stub_request('kid' => { 'grade' => '3' })
+      expect(helper.filters_active?(Kid.new(grade: '3'))).to be(true)
+    end
+
+    it 'skips writers without a reader, e.g. nested attributes' do
+      stub_request('kid' => { 'schedules_attributes' => [{ 'day' => '1' }] })
+      expect(helper.filters_active?(Kid.new)).to be(false)
+    end
+  end
+
   describe '#selected_filter_label' do
     let(:inactive_options) { [['Aktiv', false], ['Inaktiv', true]] }
 

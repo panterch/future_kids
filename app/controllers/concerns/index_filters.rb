@@ -38,8 +38,11 @@ module IndexFilters
   SESSION_KEY = :filters
   RESET_PARAM = 'reset_filters'
   ORDER_PARAM = 'order_by'
-  # the session lives in a ~4 KB cookie shared by all index pages
+  # the session lives in a 4 KB cookie (encrypted and base64 encoded, which
+  # adds about a third) shared with Devise and the CSRF token: one page's
+  # query and the kept queries of all pages together stay well below it
   MAX_QUERY_BYTES = 1024
+  MAX_STORE_BYTES = 1536
 
   private
 
@@ -98,12 +101,20 @@ module IndexFilters
     request.query_parameters.slice(model.model_name.param_key, ORDER_PARAM)
   end
 
+  # Keeps +filters+ as the most recent page.
   def store_filters(filters)
-    if filters.to_query.bytesize > MAX_QUERY_BYTES
-      filter_store.delete(filter_slot)
-    else
-      filter_store[filter_slot] = filters
-    end
+    filter_store.delete(filter_slot)
+    return if filters.to_query.bytesize > MAX_QUERY_BYTES
+
+    filter_store[filter_slot] = filters
+    drop_oldest_filters
+  end
+
+  # Drops the least recently stored pages while all kept filters together
+  # exceed MAX_STORE_BYTES - the current page is always kept.
+  def drop_oldest_filters
+    store = filter_store
+    store.delete(store.keys.first) while store.size > 1 && store.to_json.bytesize > MAX_STORE_BYTES
   end
 
   def restore_filters

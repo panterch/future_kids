@@ -107,5 +107,16 @@ describe Reminder do
       create(:reminder, acknowledged_at: Time.zone.now)
       expect(described_class.active).to be_empty
     end
+
+    it 'filters by the mentor ects' do
+      reminder = create(:reminder, mentor: create(:mentor, ects: :currently))
+      create(:reminder, mentor: create(:mentor, ects: :alumni))
+      expect(described_class.filter_by_ects('currently')).to eq([reminder])
+    end
+
+    it 'finds nothing for an unknown ects, also not mentors without ects' do
+      create(:reminder, mentor: create(:mentor, ects: nil))
+      expect(described_class.filter_by_ects('bogus')).to be_empty
+    end
   end
 end
