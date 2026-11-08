@@ -34,6 +34,13 @@ class Kid < ApplicationRecord
                goal_32 goal_33 goal_34 goal_35].freeze
   GOALS_2_MAX = 2
 
+  # the recent part of a kid's profile (kids/show.md.erb): the journal
+  # statistics compare it with the time before, and the timeline lists it as a
+  # section of its own ("Aktueller Verlauf") for the AI review's "Aktuelle
+  # Entwicklungen". Texts show its start date rather than its length, so
+  # changing it needs no text changes
+  RECENT_PERIOD = 2.months
+
   accepts_nested_attributes_for :journals, :reviews, :schedules
 
   validates :name, :prename, presence: true
@@ -120,13 +127,54 @@ class Kid < ApplicationRecord
     journals.order(held_at: :desc).first
   end
 
-  # true if journal entries were added or edited after the summary was generated,
-  # or if no summary has been generated yet while entries exist
-  def journal_summary_stale?
-    return false unless journals.exists?
-    return true if journal_summary_generated_at.blank?
+  # true if a journal was created after the last AI review (KidAiReviewer), or
+  # if the kid has journals but was never reviewed
+  def ai_review_due?
+    last_journal_at = journals.maximum(:created_at)
+    last_journal_at.present? && (ai_review_generated_at.nil? || last_journal_at > ai_review_generated_at)
+  end
 
-    journals.maximum(:updated_at) > journal_summary_generated_at
+  # journal statistics for kids/show.md.erb (and so for KidAiReviewer):
+  # plain numbers and dates, the wording lives in the template
+
+  def self.recent_since(date = Date.current)
+    date - RECENT_PERIOD
+  end
+
+  def recent_journals
+    journals.where(held_at: Kid.recent_since..).reorder(held_at: :asc, id: :asc).to_a
+  end
+
+  def earlier_journals
+    journals.where(held_at: ...Kid.recent_since).reorder(held_at: :asc, id: :asc).to_a
+  end
+
+  def journals_cancelled_count(entries = journals)
+    entries.count(&:cancelled?)
+  end
+
+  # nil when there are no held (non-cancelled) journals among the entries
+  def journals_average_duration(entries)
+    held = entries.reject(&:cancelled?)
+    return nil if held.empty?
+
+    held.sum(&:duration).to_f / held.size
+  end
+
+  # nil when there are fewer than two held journals to compare
+  def longest_journal_gap_days
+    dates = journals.reject(&:cancelled?).map(&:held_at).sort
+    return nil if dates.size < 2
+
+    dates.each_cons(2).map { |a, b| (b - a).to_i }.max
+  end
+
+  # dates of the actual mentor changes: the first journal of each further
+  # mentor. Derived from who wrote the journals, not from RelationLog, which
+  # also holds administrative corrections that never were a real change; a
+  # mentor and a secondary mentor alternating don't count as changes
+  def mentor_change_dates
+    journals.reorder(nil).group(:mentor_id).minimum(:held_at).values.sort.drop(1)
   end
 
   # shows when last schedule relation entry was edited
@@ -160,17 +208,19 @@ class Kid < ApplicationRecord
     c.translations[I18n.locale.to_s] || c.name
   end
 
-  # the AI summary may contain markdown (e.g. emphasis) despite the prompt
-  # asking for plain flowing text, so it is rendered like
-  # Site#terms_of_use_html rather than through simple_format. it comes from a
-  # third-party AI response, so raw HTML is escaped rather than passed through
-  def human_journal_summary
-    return unless journal_summary
+  # the AI review is markdown (section headings, lists, emphasis), so it is
+  # rendered with Redcarpet rather than TextFormatter (which deliberately
+  # isn't markdown). no_intra_emphasis keeps gender stars ("Mentor*innen",
+  # copied from the journals) from turning the text between them into
+  # emphasis. it comes from a third-party AI response, so raw HTML is escaped
+  # rather than passed through
+  def human_ai_review
+    return if ai_review.nil?
 
     markdown = Redcarpet::Markdown.new(
-      Redcarpet::Render::HTML.new(escape_html: true, safe_links_only: true), autolink: true, tables: true
+      Redcarpet::Render::HTML.new(escape_html: true, safe_links_only: true), no_intra_emphasis: true
     )
-    markdown.render(journal_summary).html_safe # rubocop:disable Rails/OutputSafety
+    markdown.render(ai_review).html_safe # rubocop:disable Rails/OutputSafety
   end
 
   protected

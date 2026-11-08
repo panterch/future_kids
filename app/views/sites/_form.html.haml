@@ -20,7 +20,5 @@
   - token_hint = 'Das Feld zeigt den gespeicherten Token nicht an. Leer lassen, um den bestehenden Token zu behalten.'
   = form.input :ai_api_token, as: :string, input_html: { value: '', placeholder: @site.ai_api_token.present? ? '••••••••' : nil }, hint: token_hint
   = form.input :ai_model
-  - prompt_hint = 'Leer lassen, um die Standardanweisung (siehe Platzhalter) zu verwenden.'
-  = form.input :ai_summary_prompt, as: :text, placeholder: JournalSummarizer::DEFAULT_PROMPT, hint: prompt_hint
 
   = horizontal_form_actions(form)
