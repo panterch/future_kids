@@ -264,48 +264,147 @@ describe Kid do
     end
   end
 
-  context 'journal summary staleness' do
-    let(:kid) { create(:kid) }
+  context 'journal statistics' do
+    let(:mentor) { create(:mentor) }
+    let(:kid) { create(:kid, mentor: mentor) }
 
-    it 'is not stale without journal entries' do
-      expect(kid).not_to be_journal_summary_stale
+    def journal(held_at, cancelled: false, mentor: self.mentor, minutes: 60)
+      if cancelled
+        create(:cancelled_journal, kid: kid, mentor: mentor, held_at: held_at)
+      else
+        create(:journal, kid: kid, mentor: mentor, held_at: held_at,
+                         start_at: Time.zone.parse('13:00'), end_at: Time.zone.parse('13:00') + minutes.minutes)
+      end
     end
 
-    it 'is stale when journals exist but no summary was generated yet' do
-      create(:journal, kid: kid)
-      expect(kid).to be_journal_summary_stale
+    it 'splits the journals at the start of the recent period, oldest first' do
+      since = described_class.recent_since
+      later = journal(since + 1.week)
+      older = journal(since - 1.day)
+      first_recent = journal(since)
+      expect(kid.recent_journals).to eq([first_recent, later])
+      expect(kid.earlier_journals).to eq([older])
     end
 
-    it 'is not stale when the summary was generated after the last journal update' do
-      journal = create(:journal, kid: kid)
-      kid.update!(journal_summary: 'text', journal_summary_generated_at: journal.updated_at + 1.hour)
-      expect(kid).not_to be_journal_summary_stale
+    it 'starts the recent period two months before the given date' do
+      expect(described_class.recent_since(Date.new(2026, 12, 1))).to eq(Date.new(2026, 10, 1))
     end
 
-    it 'is stale when a journal was updated after the summary was generated' do
-      journal = create(:journal, kid: kid)
-      kid.update!(journal_summary: 'text', journal_summary_generated_at: journal.updated_at - 1.hour)
-      expect(kid).to be_journal_summary_stale
+    it 'counts cancelled journals, of all journals or of the given ones' do
+      journal(Date.new(2024, 3, 1), cancelled: true)
+      journal(Date.new(2024, 3, 8))
+      last = journal(Date.new(2024, 3, 15), cancelled: true)
+      expect(kid.journals_cancelled_count).to eq(2)
+      expect(kid.journals_cancelled_count([last])).to eq(1)
+    end
+
+    it 'averages the duration of the held journals only' do
+      entries = [journal(Date.new(2024, 3, 1), minutes: 60), journal(Date.new(2024, 3, 8), minutes: 90),
+                 journal(Date.new(2024, 3, 15), cancelled: true)]
+      expect(kid.journals_average_duration(entries)).to eq(75.0)
+    end
+
+    it 'has no average duration without held journals' do
+      expect(kid.journals_average_duration([journal(Date.new(2024, 3, 1), cancelled: true)])).to be_nil
+    end
+
+    it 'finds the longest gap in days between two held journals, ignoring cancelled ones' do
+      journal(Date.new(2024, 3, 1))
+      journal(Date.new(2024, 3, 8), cancelled: true)
+      journal(Date.new(2024, 3, 15))
+      journal(Date.new(2024, 3, 20))
+      expect(kid.longest_journal_gap_days).to eq(14)
+    end
+
+    it 'has no longest gap with fewer than two held journals' do
+      journal(Date.new(2024, 3, 1))
+      journal(Date.new(2024, 3, 8), cancelled: true)
+      expect(kid.longest_journal_gap_days).to be_nil
+    end
+
+    context 'mentor changes' do
+      let(:other_mentor) { create(:mentor) }
+
+      it 'has none while the same mentor writes all journals' do
+        journal(Date.new(2024, 3, 1))
+        journal(Date.new(2024, 3, 8))
+        expect(kid.mentor_change_dates).to eq([])
+      end
+
+      it 'dates a change at the first journal of a further mentor' do
+        journal(Date.new(2024, 3, 1))
+        journal(Date.new(2024, 3, 8))
+        journal(Date.new(2024, 9, 2), mentor: other_mentor)
+        journal(Date.new(2024, 9, 9), mentor: other_mentor)
+        expect(kid.mentor_change_dates).to eq([Date.new(2024, 9, 2)])
+      end
+
+      it 'counts a second mentor once, at their first journal, however often the mentors alternate' do
+        journal(Date.new(2024, 3, 1))
+        journal(Date.new(2024, 3, 8), mentor: other_mentor)
+        journal(Date.new(2024, 3, 15))
+        journal(Date.new(2024, 3, 22), mentor: other_mentor)
+        expect(kid.mentor_change_dates).to eq([Date.new(2024, 3, 8)])
+      end
+
+      it 'ignores mentor assignments in the relation log that never wrote a journal' do
+        journal(Date.new(2024, 3, 1))
+        kid.update!(mentor: other_mentor)
+        kid.update!(mentor: mentor)
+        expect(kid.relation_logs.count).to be > 1
+        expect(kid.mentor_change_dates).to eq([])
+      end
     end
   end
 
-  context '#human_journal_summary' do
-    let(:kid) { create(:kid) }
+  describe '#ai_review_due?' do
+    let(:kid) { create(:kid, mentor: create(:mentor)) }
 
-    it 'renders markdown emphasis as HTML' do
-      kid.journal_summary = '**Wichtig:** grosse Fortschritte'
-      expect(kid.human_journal_summary).to include('<strong>Wichtig:</strong>')
+    it 'is due when never reviewed and journals exist' do
+      create(:journal, kid: kid)
+      expect(kid).to be_ai_review_due
+    end
+
+    it 'is not due when never reviewed and there are no journals' do
+      expect(kid).not_to be_ai_review_due
+    end
+
+    it 'is due when a journal was created after the last review' do
+      create(:journal, kid: kid)
+      kid.update!(ai_review_generated_at: 1.hour.ago)
+      expect(kid).to be_ai_review_due
+    end
+
+    it 'is not due without a journal created since the last review' do
+      create(:journal, kid: kid)
+      kid.update!(ai_review_generated_at: 1.hour.from_now)
+      expect(kid).not_to be_ai_review_due
+    end
+  end
+
+  describe '#human_ai_review' do
+    let(:kid) { build(:kid) }
+
+    it 'renders the markdown answer, headings and emphasis, as HTML' do
+      kid.ai_review = "## Zusammenfassung\n\n**Wichtig:** grosse Fortschritte"
+      expect(kid.human_ai_review).to include('<h2>Zusammenfassung</h2>', '<strong>Wichtig:</strong>')
+    end
+
+    it 'keeps gender stars as they are instead of turning them into emphasis' do
+      kid.ai_review = 'Sara und ihre Mentor*innen besprachen mit den Lehrer*innen die **Ziele**.'
+      html = kid.human_ai_review
+      expect(html).to include('Mentor*innen besprachen mit den Lehrer*innen', '<strong>Ziele</strong>')
+      expect(html).not_to include('<em>')
     end
 
     it 'escapes raw HTML in the AI response instead of passing it through' do
-      kid.journal_summary = '<script>alert(1)</script>'
-      expect(kid.human_journal_summary).not_to include('<script>')
-      expect(kid.human_journal_summary).to include('&lt;script&gt;')
+      kid.ai_review = '<script>alert(1)</script>'
+      expect(kid.human_ai_review).not_to include('<script>')
+      expect(kid.human_ai_review).to include('&lt;script&gt;')
     end
 
-    it 'returns nil when there is no summary' do
-      kid.journal_summary = nil
-      expect(kid.human_journal_summary).to be_nil
+    it 'returns nil when there is no review' do
+      expect(kid.human_ai_review).to be_nil
     end
   end
 

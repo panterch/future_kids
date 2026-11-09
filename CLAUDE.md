@@ -58,8 +58,8 @@ Future Kids is a Rails 8 application that manages a mentoring program connecting
 - **Schedule Management**: Availability coordination between mentors/kids
 - **Assessment System**: First-year and termination evaluations
 - **Multi-language Support**: German localization (primary language)
-- **AI Kid Summaries**: `JournalSummarizer` (`app/services/`) sends a kid's markdown profile (`kids/show.md.erb`, also at `/kids/:id.md`) to an OpenAI-compatible API configured per Site. Real names are replaced by placeholders via `NameRedactor`/`PersonDictionary` before sending and restored afterwards; `/kids/:id.md?redacted=true` previews what is sent
-- **Scheduled jobs**: daily journal digest and mentor reminders (`lib/tasks/schedule.rake`), scheduled per deployment, not by anything in the repo; see DEPLOYMENT.md
+- **AI Kid Review**: `KidAiReviewer` (`app/services/`) runs monthly (`schedule:monthly_kid_review`, no manual trigger) for kids with new journals and sends a kid's markdown profile (`kids/show.md.erb`, also at `/kids/:id.md`, incl. "Kennzahlen zu Terminen" from `Kid` statistics methods) to an OpenAI-compatible API configured per Site. One call returns both a summary and signals (mentoring problems, welfare concerns), stored as one markdown text on the kid (`ai_review`) and shown as returned to admins only on the kid page; assessing it is left to the admins. Real names are replaced by placeholders via `NameRedactor`/`PersonDictionary` before sending and restored afterwards; `/kids/:id.md?redacted=true` previews what is sent
+- **Scheduled jobs**: daily journal digest, mentor reminders and the monthly AI review (`lib/tasks/schedule.rake`), scheduled per deployment, not by anything in the repo; see DEPLOYMENT.md
 - **File uploads**: Active Storage for user photos, the site logo and documents (photos/logo served as resized, metadata-stripped variants)
 
 ### File Structure

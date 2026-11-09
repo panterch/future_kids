@@ -39,17 +39,19 @@ describe KidsController do
     end
 
     context 'show' do
-      it 'renders without a journal summary yet' do
+      it 'renders without an AI review yet' do
         create(:journal, kid: @kid, mentor: @mentor)
         get :show, params: { id: @kid }
         expect(response).to be_successful
       end
 
-      it 'renders with a generated journal summary' do
+      it 'renders without showing the AI review, which is for admins only' do
+        Site.load.update!(ai_features_enabled: true)
         create(:journal, kid: @kid, mentor: @mentor)
-        @kid.update!(journal_summary: 'Zusammenfassung', journal_summary_generated_at: Time.zone.now)
+        @kid.update!(ai_review: "## Signale\nInstabilität: viele Ausfälle", ai_review_generated_at: Time.zone.now)
         get :show, params: { id: @kid }
         expect(response).to be_successful
+        expect(response.body).not_to include('Instabilität', 'KI-Auswertung')
       end
     end
   end
@@ -111,6 +113,121 @@ describe KidsController do
         expect(response.media_type).to eq('text/markdown')
         expect(response.body).not_to include('Lea')
         expect(response.body).to match(/\[Mentor\d+\]/)
+      end
+
+      it 'redacts names in the planned exit' do
+        mentor = create(:mentor, name: 'Fischer', prename: 'Lea')
+        create(:journal, kid: @kid, mentor: mentor)
+        @kid.update!(exit: '2026 Herbst', exit_reason: 'Wechsel zu Lea')
+
+        get :show, params: { id: @kid, redacted: 'true' }, format: :md
+
+        expect(response.body).to match(/^- Geplanter Austritt: 2026 Herbst \(Wechsel zu \[Mentor\d+\]\)$/)
+        expect(response.body).not_to include('Lea')
+      end
+
+      it 'renders the journal statistics before the timeline' do
+        mentor = create(:mentor)
+        create(:journal, kid: @kid, mentor: mentor, held_at: Date.new(2024, 1, 10))
+        create(:cancelled_journal, kid: @kid, mentor: mentor, held_at: Date.new(2024, 1, 17))
+        create(:journal, kid: @kid, mentor: create(:mentor), held_at: Date.new(2024, 1, 31))
+
+        get :show, params: { id: @kid }, format: :md
+
+        expect(response.body).to include(<<~STATS)
+          ## Kennzahlen zu Terminen
+
+          - Einträge gesamt: 3
+          - Ausfälle gesamt: 1/3
+          - Ausfälle im aktuellen Verlauf (seit #{I18n.l(Kid.recent_since)}): keine Einträge (davor: 1/3)
+          - Ø Dauer im aktuellen Verlauf (seit #{I18n.l(Kid.recent_since)}): keine durchgeführten Termine (davor: 60 Min.)
+            (Hinweis: Nachholstunden/Doppellektionen können diesen Wert nach oben verzerren)
+          - Grösster Abstand zwischen zwei Terminen: 21 Tage
+          - Mentor:innen-Wechsel: 1 (31.01.2024)
+
+          ## Früherer Verlauf (bis #{I18n.l(Kid.recent_since - 1.day)})
+        STATS
+      end
+
+      it 'renders the journal statistics of the last two months compared with the time before' do
+        mentor = create(:mentor)
+        since = Kid.recent_since
+        create(:journal, kid: @kid, mentor: mentor, held_at: since - 1.week)
+        create(:journal, kid: @kid, mentor: mentor, held_at: since,
+                         start_at: Time.zone.parse('13:00'), end_at: Time.zone.parse('14:30'))
+        create(:cancelled_journal, kid: @kid, mentor: mentor, held_at: since + 1.week)
+
+        get :show, params: { id: @kid }, format: :md
+
+        period = "im aktuellen Verlauf (seit #{I18n.l(since)})"
+        expect(response.body).to include("- Ausfälle #{period}: 1/2 (davor: 0/1)")
+        expect(response.body).to include("- Ø Dauer #{period}: 90 Min. (davor: 60 Min.)")
+        expect(response.body).to include('- Mentor:innen-Wechsel: 0')
+      end
+
+      it 'splits the timeline into the earlier entries and those of the last two months' do
+        since = Kid.recent_since
+        create(:journal, kid: @kid, subject: 'Alt', held_at: since - 1.day)
+        create(:journal, kid: @kid, subject: 'Neu', held_at: since)
+
+        get :show, params: { id: @kid }, format: :md
+
+        earlier, recent = response.body.split("## Aktueller Verlauf (seit #{I18n.l(since)})\n")
+        expect(earlier).to include("## Früherer Verlauf (bis #{I18n.l(since - 1.day)})", 'Fach / Thema: Alt')
+        expect(earlier).not_to include('Neu')
+        expect(recent).to include('Fach / Thema: Neu')
+        expect(recent).not_to include('Alt')
+      end
+
+      it 'says so when there are no entries in a part of the timeline' do
+        create(:journal, kid: @kid, held_at: Date.current - 1.year)
+
+        get :show, params: { id: @kid }, format: :md
+
+        expect(response.body)
+          .to end_with("seit #{I18n.l(Kid.recent_since)})\n\nKeine Einträge in diesem Zeitraum.\n\n")
+      end
+
+      it 'includes the planned exit with its reason' do
+        @kid.update!(exit: '2026 Herbst', exit_reason: 'Übertritt')
+
+        get :show, params: { id: @kid }, format: :md
+
+        expect(response.body).to include("- Geplanter Austritt: 2026 Herbst (Übertritt)\n")
+      end
+
+      it 'renders a note instead of the statistics without journals' do
+        get :show, params: { id: @kid }, format: :md
+
+        expect(response.body)
+          .to include("## Kennzahlen zu Terminen\n\nKeine Lernjournal-Einträge vorhanden.\n\n## Früherer Verlauf (bis ")
+      end
+    end
+
+    context 'show with the AI review' do
+      before do
+        Site.load.update!(ai_features_enabled: true)
+        create(:journal, kid: @kid)
+      end
+
+      it 'shows the AI review as returned and when it was generated' do
+        @kid.update!(ai_review: "## Zusammenfassung\nGute Fortschritte.\n\n## Signale\nInstabilität: viele Ausfälle.",
+                     ai_review_generated_at: Time.zone.parse('2026-10-31 22:00'))
+
+        get :show, params: { id: @kid }
+
+        expect(response.body)
+          .to include('<h2>Zusammenfassung</h2>', 'Gute Fortschritte.', 'Instabilität: viele Ausfälle.')
+        expect(response.body).to include('Generiert am 31. Okt', 'hat ein KI-Modell aus den Einträgen erstellt')
+        expect(response.body).to include('Nächste Aktualisierung')
+        expect(response.body).not_to include('Zusammenfassung erstellen')
+      end
+
+      it 'says that no review exists yet' do
+        get :show, params: { id: @kid }
+
+        expect(response.body).to include('Es wurde noch keine KI-Auswertung erstellt.')
+        expect(response.body).not_to include('hat ein KI-Modell aus den Einträgen erstellt')
       end
     end
 

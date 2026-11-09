@@ -7,3 +7,7 @@ CRON_TZ=UTC
 
 # Missing-journal reminders for mentors
 0 22 * * * cd /path/to/future_kids && RAILS_ENV=production bin/rails schedule:create_reminders
+
+# Kid AI review (summary + signals), on the 1st of the month (the task checks
+# the day itself too, for schedulers that can only run daily)
+0 2 1 * * cd /path/to/future_kids && RAILS_ENV=production bin/rails schedule:monthly_kid_review

@@ -6,7 +6,7 @@
 # initials ("M." for "Mira") via Jaro-Winkler similarity. Each matched person
 # gets a unique, stable placeholder so #rehydrate can later reverse the
 # substitution unambiguously (e.g. two different mentors both mentioned in
-# the same text don't collapse into one placeholder). See JournalSummarizer,
+# the same text don't collapse into one placeholder). See KidAiReviewer,
 # which redacts the outgoing prompt and rehydrates the AI's response with
 # the same instance/mapping.
 class NameRedactor

@@ -895,3 +895,16 @@ html {
     }
   }
 }
+// The AI review on the kid page (Kid#human_ai_review) is the AI's markdown
+// answer as is, with its own "## Aktuelle Entwicklungen" / ... / "## Rückmeldungen" headings:
+// keep them below the card header's h4 rather than page-sized h2s.
+.ai-review {
+  h1, h2, h3 {
+    font-size: 1.1rem;
+    margin-top: 1rem;
+  }
+
+  > :first-child {
+    margin-top: 0;
+  }
+}

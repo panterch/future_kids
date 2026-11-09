@@ -7,6 +7,7 @@
 
 ## Allgemeine Informationen
 
+- Datum dieser Auswertung: <%= I18n.l(Date.current) %>
 <% if @kid.sex.present? -%>
 - <%= Kid.human_attribute_name(:sex) %>: <%= @kid.human_sex %>
 <% end -%>
@@ -15,6 +16,9 @@
 <% end -%>
 <% if @kid.grade.present? -%>
 - <%= Kid.human_attribute_name(:grade) %> (bei Einstieg): <%= @kid.grade %>
+<% end -%>
+<% if @kid.exit.present? -%>
+- Geplanter Austritt: <%= redact.(@kid.exit) %><% if @kid.exit_reason.present? %> (<%= redact.(@kid.exit_reason) %>)<% end %>
 <% end -%>
 <% if @kid.language.present? -%>
 - <%= Kid.human_attribute_name(:language) %>: <%= @kid.language %>
@@ -162,7 +166,28 @@
 - <%= Kid.human_attribute_name(:goal_2) %>: <%= redact.(@kid.goal_2) %>
 <% end -%>
 
-## Verlauf
+## Kennzahlen zu Terminen
+
+<% if @kid.journals.none? -%>
+Keine Lernjournal-Einträge vorhanden.
+<% else -%>
+<%
+  recent = @kid.recent_journals
+  earlier = @kid.earlier_journals
+  recent_label = "im aktuellen Verlauf (seit #{I18n.l(Kid.recent_since)})"
+  gap = @kid.longest_journal_gap_days
+  mentor_dates = @kid.mentor_change_dates
+  format_cancelled = ->(entries) { entries.empty? ? 'keine Einträge' : "#{@kid.journals_cancelled_count(entries)}/#{entries.size}" }
+  format_duration = ->(entries) { (avg = @kid.journals_average_duration(entries)) ? "#{avg.round} Min." : 'keine durchgeführten Termine' }
+-%>
+- Einträge gesamt: <%= @kid.journals.size %>
+- Ausfälle gesamt: <%= @kid.journals_cancelled_count %>/<%= @kid.journals.size %>
+- Ausfälle <%= recent_label %>: <%= format_cancelled.(recent) %><% if earlier.any? %> (davor: <%= format_cancelled.(earlier) %>)<% end %>
+- Ø Dauer <%= recent_label %>: <%= format_duration.(recent) %><% if earlier.any? %> (davor: <%= format_duration.(earlier) %>)<% end %>
+  (Hinweis: Nachholstunden/Doppellektionen können diesen Wert nach oben verzerren)
+- Grösster Abstand zwischen zwei Terminen: <%= gap ? "#{gap} Tage" : 'nicht ermittelbar' %>
+- Mentor:innen-Wechsel: <%= mentor_dates.size %><% if mentor_dates.any? %> (<%= mentor_dates.map { |date| I18n.l(date) }.join(', ') %>)<% end %>
+<% end -%>
 
 <%
   timeline = []
@@ -181,8 +206,22 @@
     timeline << { date: date.to_date, record: relation_log }
   end
   timeline.sort_by! { |entry| entry[:date] }
+  # the recent part (Kid::RECENT_PERIOD) is a section of its own, for the AI
+  # review's "Aktuelle Entwicklungen" (KidAiReviewer), so the model doesn't have
+  # to compare dates itself
+  recent_since = Kid.recent_since
+  earlier, recent = timeline.partition { |entry| entry[:date] < recent_since }
+  sections = { "Früherer Verlauf (bis #{I18n.l(recent_since - 1.day)})" => earlier,
+               "Aktueller Verlauf (seit #{I18n.l(recent_since)})" => recent }
 -%>
-<% timeline.each do |entry| -%>
+<% sections.each do |title, entries| -%>
+## <%= title %>
+
+<% if entries.empty? -%>
+Keine Einträge in diesem Zeitraum.
+
+<% end -%>
+<% entries.each do |entry| -%>
 <% record = entry[:record] -%>
 ### <%= record.class.model_name.human %> vom <%= I18n.l(entry[:date]) %><% if record.is_a?(Journal) && record.cancelled? %> (<%= Journal.human_attribute_name(:cancelled) %>)<% end %>
 
@@ -299,4 +338,5 @@
 - <%= record.end_at ? 'Entfernt' : 'Zugeordnet' %> als <%= Kid.human_attribute_name(record.role) %>: <%= name_of.(record.user) %>
 <% end -%>
 
+<% end -%>
 <% end -%>

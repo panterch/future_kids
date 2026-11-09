@@ -6,7 +6,6 @@ de:
     school_inactivated: 'Schule wurde inaktiv gesetzt'
     access_denied: 'Sie haben keinen Zugriff (mehr) auf diese Seite.'
     assign_mentor_first: 'Bitte vorher einen Mentor zuordnen.'
-    journal_summary_generated: 'KI-Zusammenfassung wurde erstellt.'
 
   activerecord:
     models:
@@ -38,7 +37,8 @@ de:
         distance: "Entfernung"
         street_no: "Hausnummer"
         note: "Wichtig zu wissen"
-        journal_summary: "KI-Zusammenfassung der Lernjournale"
+        ai_review: "KI-Auswertung"
+        ai_review_generated_at: "KI-Auswertung generiert am"
         sex: "Geschlecht"
         grade: "Klassenstufe"
         available: "Mögliche Termine"
@@ -273,7 +273,6 @@ de:
         ai_api_base_url: "KI-Anbieter: API Basis-URL"
         ai_api_token: "KI-Anbieter: API-Token"
         ai_model: "KI-Anbieter: Modell"
-        ai_summary_prompt: "KI-Zusammenfassung: Anweisung"
         css: Seitenspezifisches CSS
 
     errors:
