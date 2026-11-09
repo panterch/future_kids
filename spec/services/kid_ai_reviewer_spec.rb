@@ -111,12 +111,15 @@ describe KidAiReviewer do
         expect(prompt).to include("## Allgemeine Informationen\n\n- Datum dieser Auswertung: #{I18n.l(Date.current)}\n")
       end
 
-      it 'names the recent period by its start date, not by its length' do
+      it 'names the recent period by its start date in the profile, by its length only as a label' do
         stub_ai_response
         described_class.new(kid).call
         prompt = posted_prompt
-        expect(prompt).to include("## Aktueller Verlauf (seit #{I18n.l(Kid.recent_since)})")
-        expect(prompt).not_to match(/(zwei|drei|vier|\d+) Monate/i)
+        profile = prompt.delete_prefix(described_class::INSTRUCTIONS.strip)
+                        .delete_suffix(described_class::ANSWER_FORMAT)
+        expect(profile).to include("## Aktueller Verlauf (seit #{I18n.l(Kid.recent_since)})")
+        expect(profile).not_to match(/(zwei|drei|vier|\d+) Monate/i)
+        expect(described_class::INSTRUCTIONS).to include('"die letzten 2 Monate"')
       end
 
       it 'keeps free text from closing the profile tag early' do
@@ -192,7 +195,7 @@ describe KidAiReviewer do
       expect(kid.reload.ai_review).to eq(answer)
     end
 
-    it 'skips a failing kid, leaves it due and goes on with the others' do
+    it 'retries a failing kid once at the end, then leaves it due and goes on with the others' do
       other = create(:kid, mentor: create(:mentor))
       create(:journal, kid: other)
       allow(Rails.logger).to receive(:error)
@@ -203,10 +206,26 @@ describe KidAiReviewer do
 
       described_class.review_due_kids
 
+      expect(failing).to have_received(:review!).twice
       expect(@http_double).to have_received(:post).once
       expect(kid.reload.ai_review_generated_at).to be_nil
       expect(other.reload.ai_review).to eq(answer)
-      expect(Rails.logger).to have_received(:error).with(/kid #{kid.id} failed.*boom/)
+      expect(Rails.logger).to have_received(:error).with(/kid #{kid.id} failed.*boom/).twice
+    end
+
+    it 'stores the review of a kid that only fails the first time' do
+      allow(Rails.logger).to receive(:error)
+      failing_once = instance_double(described_class)
+      allow(failing_once).to receive(:review!).and_raise(described_class::Error, 'boom')
+      calls = 0
+      allow(described_class).to(receive(:new).and_wrap_original do |new, k|
+        (calls += 1) == 1 ? failing_once : new.call(k)
+      end)
+      stub_ai_response
+
+      described_class.review_due_kids
+
+      expect(kid.reload.ai_review).to eq(answer)
     end
 
     it 'skips inactive kids and kids without a mentor' do

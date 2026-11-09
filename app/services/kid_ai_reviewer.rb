@@ -22,7 +22,7 @@ class KidAiReviewer # rubocop:disable Metrics/ClassLength -- most of it is the p
   # refer to the profile's sections (kids/show.md.erb) and to the answer
   # format, so these change together. The signal wording was calibrated in a
   # backtest against real historical data, change it with care.
-  INSTRUCTIONS = <<~PROMPT
+  INSTRUCTIONS = <<~PROMPT.freeze
     Du unterstützt ein Mentoring-Programm, das Primarschulkinder ausserhalb
     der Schule fördert. Im Folgenden erhältst du zwischen <profil> und
     </profil> das Markdown-Profil eines Kindes: allgemeine Angaben (inkl.
@@ -46,7 +46,9 @@ class KidAiReviewer # rubocop:disable Metrics/ClassLength -- most of it is the p
     Lernfortschritt und Inhalte, Motivation und Arbeitsweise des Kindes,
     die Beziehung zur Mentorin/zum Mentor, Termine und Ausfälle, Gespräche
     und Kommentare sowie Veränderungen im Umfeld des Kindes. Was ist neu,
-    was hat sich verändert, was ist gleich geblieben? Beschreibe, ohne zu
+    was hat sich verändert, was ist gleich geblieben? Bezeichne diesen
+    Zeitraum in deiner Antwort als "die letzten #{Kid::RECENT_PERIOD.in_months.to_i} Monate", nicht mit
+    dem Datum, ab dem der Abschnitt beginnt. Beschreibe, ohne zu
     bewerten - ob daraus ein Muster entsteht, das Anlass zur Rückmeldung
     gibt, beurteilst du ausschliesslich in Aufgabe 3 (Rückmeldungen).
 
@@ -183,20 +185,27 @@ class KidAiReviewer # rubocop:disable Metrics/ClassLength -- most of it is the p
   PROFILE_TAG = %r{</?profil>}i
 
   # reviews all active kids with a mentor that are due for a review
-  # (Kid#ai_review_due?). A failing kid is logged and skipped; it stays due and
-  # is retried with the next run. The results are only shown on the kid page,
-  # assessing them is up to the admins.
+  # (Kid#ai_review_due?). A failing kid is logged and tried once more at the
+  # end of the run (a few hours later, when a short outage or overload of the
+  # provider is usually over); if it fails again it stays due for the next
+  # run. The results are only shown on the kid page, assessing them is up to
+  # the admins.
   def self.review_due_kids
     return unless Site.load.ai_features_enabled?
 
-    Kid.active.with_mentor.find_each do |kid|
-      next unless kid.ai_review_due?
-
-      new(kid).review!
-    rescue StandardError => e
-      Rails.logger.error("KidAiReviewer: kid #{kid.id} failed: #{e.class}: #{e.message}")
-    end
+    failed = Kid.active.with_mentor.find_each.select { |kid| kid.ai_review_due? && !review_logging_errors(kid) }
+    failed.each { |kid| review_logging_errors(kid) }
   end
+
+  # true if the kid was reviewed, false if it failed (logged)
+  def self.review_logging_errors(kid)
+    new(kid).review!
+    true
+  rescue StandardError => e
+    Rails.logger.error("KidAiReviewer: kid #{kid.id} failed: #{e.class}: #{e.message}")
+    false
+  end
+  private_class_method :review_logging_errors
 
   # the date of the next scheduled run (the 1st of the month, see
   # lib/tasks/schedule.rake), shown on the kid page
@@ -253,9 +262,10 @@ class KidAiReviewer # rubocop:disable Metrics/ClassLength -- most of it is the p
     body = { model: @site.ai_model, messages: [{ role: 'user', content: prompt }], temperature: 0.2 }.to_json
     uri = endpoint
     # a long read timeout: this runs as a batch job, and large models (which
-    # reason before answering) took up to two minutes for a long profile
+    # reason before answering) took up to 4.5 minutes for a long profile in
+    # the first production run, some more than 5
     response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https', open_timeout: 10,
-                                                   read_timeout: 300) { |http| http.post(uri, body, headers) }
+                                                   read_timeout: 600) { |http| http.post(uri, body, headers) }
     raise Error, "Die Anfrage an die KI ist fehlgeschlagen (#{response.code})." unless response.is_a?(Net::HTTPSuccess)
 
     response
