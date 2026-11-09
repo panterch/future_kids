@@ -39,16 +39,7 @@ class KidAiReviewer # rubocop:disable Metrics/ClassLength -- most of it is the p
     Erledige die folgenden drei Aufgaben. Das verlangte Antwortformat folgt
     nach dem Profil.
 
-    Aufgabe 1 - Zusammenfassung:
-
-    Fasse den gesamten Verlauf (beide Verlaufs-Abschnitte) zusammen. Im
-    Mittelpunkt steht das Kind: woran es gearbeitet hat, was ihm leicht-
-    oder schwerfällt, welche Themen und Förderbereiche immer wiederkehren
-    und welche Fortschritte erkennbar sind. Die Arbeit der Mentor:innen und Coaches, Termine und
-    Ausfälle sowie die Beziehung gehören nicht hierher - darum geht es in
-    Aufgabe 2 und 3.
-
-    Aufgabe 2 - Aktuelle Entwicklungen:
+    Aufgabe 1 - Aktuelle Entwicklungen:
 
     Beschreibe, was im Abschnitt "Aktueller Verlauf" des Profils steht -
     alles, was für das Mentoring relevant ist:
@@ -57,9 +48,18 @@ class KidAiReviewer # rubocop:disable Metrics/ClassLength -- most of it is the p
     und Kommentare sowie Veränderungen im Umfeld des Kindes. Was ist neu,
     was hat sich verändert, was ist gleich geblieben? Beschreibe, ohne zu
     bewerten - ob daraus ein Muster entsteht, das Anlass zur Rückmeldung
-    gibt, beurteilst du ausschliesslich in Aufgabe 3 (Signale).
+    gibt, beurteilst du ausschliesslich in Aufgabe 3 (Rückmeldungen).
 
-    Aufgabe 3 - Signale:
+    Aufgabe 2 - Zusammenfassung über gesamte Laufzeit:
+
+    Fasse den gesamten Verlauf (beide Verlaufs-Abschnitte) zusammen. Im
+    Mittelpunkt steht das Kind: woran es gearbeitet hat, was ihm leicht-
+    oder schwerfällt, welche Themen und Förderbereiche immer wiederkehren
+    und welche Fortschritte erkennbar sind. Die Arbeit der Mentor:innen und Coaches, Termine und
+    Ausfälle sowie die Beziehung gehören nicht hierher - darum geht es in
+    Aufgabe 1 und 3.
+
+    Aufgabe 3 - Rückmeldungen:
 
     Prüfe, ob eines der folgenden Muster erkennbar ist - nicht als
     einzelner Eintrag, sondern als Trend über mehrere Einträge. Nimm dabei
@@ -152,7 +152,7 @@ class KidAiReviewer # rubocop:disable Metrics/ClassLength -- most of it is the p
     Aufzählungszeichen oder nummerierte Listen, ohne Trennlinien und ohne
     Fettschrift - alle Texte sind Fliesstext in Absätzen.
 
-    Im Abschnitt "Signale" steht, wenn kein Muster erkennbar ist,
+    Im Abschnitt "Rückmeldungen" steht, wenn kein Muster erkennbar ist,
     ausschliesslich der Satz "Kein Anlass zur Rückmeldung." und sonst
     nichts. Andernfalls folgt pro erkanntem Muster ein eigener kurzer
     Absatz im Format "<Kategorie>: <Erklärung in zwei bis drei Sätzen -
@@ -164,15 +164,15 @@ class KidAiReviewer # rubocop:disable Metrics/ClassLength -- most of it is the p
     Verwende genau diese drei Überschriften in dieser Reihenfolge und keine
     weiteren:
 
-    ## Zusammenfassung
-
-    <Aufgabe 1: zwei bis drei kurze Absätze, insgesamt etwa 150–250 Wörter>
-
     ## Aktuelle Entwicklungen
 
-    <Aufgabe 2: ein bis zwei kurze Absätze, insgesamt etwa 80–150 Wörter>
+    <Aufgabe 1: ein bis zwei kurze Absätze, insgesamt etwa 80–150 Wörter>
 
-    ## Signale
+    ## Zusammenfassung über gesamte Laufzeit
+
+    <Aufgabe 2: zwei bis drei kurze Absätze, insgesamt etwa 150–250 Wörter>
+
+    ## Rückmeldungen
 
     <Aufgabe 3: "Kein Anlass zur Rückmeldung." oder je ein Absatz pro Muster>
   PROMPT
