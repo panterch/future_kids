@@ -94,11 +94,18 @@ class NameRedactor
   def rehydrate(text)
     return text if text.blank?
 
-    @mapping.each { |placeholder, name| text = text.gsub(placeholder) { name } }
+    @mapping.each { |placeholder, name| text = text.gsub(placeholder_pattern(placeholder)) { name } }
     text
   end
 
   private
+
+  # the AI sometimes drops the brackets ("Kind1" for "[Kind1]", seen with
+  # Kimi in production), so they are optional here; the letter and digit
+  # boundaries keep "Kind1" from matching inside "Kind10"
+  def placeholder_pattern(placeholder)
+    /\[?(?<![\p{L}\d])#{Regexp.escape(placeholder.delete('[]'))}(?!\d)\]?/
+  end
 
   def redact_match(match_data)
     match = match_data.to_s

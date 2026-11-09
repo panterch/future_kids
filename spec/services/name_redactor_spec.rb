@@ -181,6 +181,19 @@ describe NameRedactor do
       expect(redactor.rehydrate(redacted)).to eq('Mira war heute motiviert.')
     end
 
+    it 'restores a placeholder whose brackets the AI dropped' do
+      redactor = described_class.new(kid)
+      redactor.redact('Mira war heute motiviert.')
+      expect(redactor.rehydrate('Kind1 las vor, Kind1s Mutter rief an, [Kind1].'))
+        .to eq('Mira las vor, Miras Mutter rief an, Mira.')
+    end
+
+    it 'does not restore a placeholder inside a longer one or a word' do
+      redactor = described_class.new(kid)
+      redactor.redact('Mira war heute motiviert.')
+      expect(redactor.rehydrate('Kind10 und XKind1')).to eq('Kind10 und XKind1')
+    end
+
     it 'returns text unchanged when no placeholders were ever produced' do
       redactor = described_class.new(kid)
       expect(redactor.rehydrate('Ein normaler Satz.')).to eq('Ein normaler Satz.')

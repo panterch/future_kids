@@ -152,6 +152,9 @@ class KidAiReviewer # rubocop:disable Metrics/ClassLength -- most of it is the p
     Aufzählungszeichen oder nummerierte Listen, ohne Trennlinien und ohne
     Fettschrift - alle Texte sind Fliesstext in Absätzen.
 
+    Personen erscheinen im Profil als Platzhalter wie [Kind1] oder
+    [Mentor2]. Übernimm sie unverändert mit den eckigen Klammern.
+
     Im Abschnitt "Rückmeldungen" steht, wenn kein Muster erkennbar ist,
     ausschliesslich der Satz "Kein Anlass zur Rückmeldung." und sonst
     nichts. Andernfalls folgt pro erkanntem Muster ein eigener kurzer
