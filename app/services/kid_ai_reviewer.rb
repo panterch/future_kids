@@ -177,6 +177,8 @@ class KidAiReviewer # rubocop:disable Metrics/ClassLength -- most of it is the p
     <Aufgabe 3: "Kein Anlass zur Rückmeldung." oder je ein Absatz pro Muster>
   PROMPT
 
+  PROFILE_TAG = %r{</?profil>}i
+
   # reviews all active kids with a mentor that are due for a review
   # (Kid#ai_review_due?). A failing kid is logged and skipped; it stays due and
   # is retried with the next run. The results are only shown on the kid page,
@@ -211,11 +213,13 @@ class KidAiReviewer # rubocop:disable Metrics/ClassLength -- most of it is the p
     redactor.rehydrate(answer(request(build_prompt(redactor))))
   end
 
-  # #call and store the answer on the kid
+  # #call and store the answer on the kid. Only these two columns are written,
+  # without the kid's validations and callbacks: a kid with older data that no
+  # longer passes them (e.g. no Förderbereiche) still gets its review
   def review!
     # taken before the request, so a journal created meanwhile is new next time
     started_at = Time.zone.now
-    @kid.update!(ai_review: call, ai_review_generated_at: started_at)
+    @kid.update_columns(ai_review: call, ai_review_generated_at: started_at) # rubocop:disable Rails/SkipsModelValidations
   end
 
   private
@@ -223,8 +227,10 @@ class KidAiReviewer # rubocop:disable Metrics/ClassLength -- most of it is the p
   def build_prompt(redactor)
     markdown = ApplicationController.renderer.render(template: 'kids/show', formats: [:md], assigns: { kid: @kid },
                                                      locals: { redactor: redactor })
-    # free text can't close the <profil> tag early and pose as instructions
-    markdown = markdown.gsub(%r{</?profil>}i, '')
+    # free text can't close the <profil> tag early and pose as instructions;
+    # repeated, since removing one tag can join the parts of another
+    # ("</pro</profil>fil>")
+    markdown = markdown.gsub(PROFILE_TAG, '') while markdown.match?(PROFILE_TAG)
     "#{INSTRUCTIONS.strip}\n\n<profil>\n#{markdown}</profil>\n\n#{ANSWER_FORMAT}"
   end
 

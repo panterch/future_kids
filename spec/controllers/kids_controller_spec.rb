@@ -115,6 +115,17 @@ describe KidsController do
         expect(response.body).to match(/\[Mentor\d+\]/)
       end
 
+      it 'redacts names in the planned exit' do
+        mentor = create(:mentor, name: 'Fischer', prename: 'Lea')
+        create(:journal, kid: @kid, mentor: mentor)
+        @kid.update!(exit: '2026 Herbst', exit_reason: 'Wechsel zu Lea')
+
+        get :show, params: { id: @kid, redacted: 'true' }, format: :md
+
+        expect(response.body).to match(/^- Geplanter Austritt: 2026 Herbst \(Wechsel zu \[Mentor\d+\]\)$/)
+        expect(response.body).not_to include('Lea')
+      end
+
       it 'renders the journal statistics before the timeline' do
         mentor = create(:mentor)
         create(:journal, kid: @kid, mentor: mentor, held_at: Date.new(2024, 1, 10))

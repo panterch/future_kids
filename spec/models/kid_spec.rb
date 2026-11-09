@@ -339,7 +339,7 @@ describe Kid do
         expect(kid.mentor_change_dates).to eq([Date.new(2024, 9, 2)])
       end
 
-      it 'does not count a mentor and a secondary mentor alternating as changes' do
+      it 'counts a second mentor once, at their first journal, however often the mentors alternate' do
         journal(Date.new(2024, 3, 1))
         journal(Date.new(2024, 3, 8), mentor: other_mentor)
         journal(Date.new(2024, 3, 15))

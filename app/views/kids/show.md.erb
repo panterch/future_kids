@@ -18,7 +18,7 @@
 - <%= Kid.human_attribute_name(:grade) %> (bei Einstieg): <%= @kid.grade %>
 <% end -%>
 <% if @kid.exit.present? -%>
-- Geplanter Austritt: <%= @kid.exit %><% if @kid.exit_reason.present? %> (<%= @kid.exit_reason %>)<% end %>
+- Geplanter Austritt: <%= redact.(@kid.exit) %><% if @kid.exit_reason.present? %> (<%= redact.(@kid.exit_reason) %>)<% end %>
 <% end -%>
 <% if @kid.language.present? -%>
 - <%= Kid.human_attribute_name(:language) %>: <%= @kid.language %>

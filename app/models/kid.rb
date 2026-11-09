@@ -171,8 +171,10 @@ class Kid < ApplicationRecord
 
   # dates of the actual mentor changes: the first journal of each further
   # mentor. Derived from who wrote the journals, not from RelationLog, which
-  # also holds administrative corrections that never were a real change; a
-  # mentor and a secondary mentor alternating don't count as changes
+  # also holds administrative corrections that never were a real change. Each
+  # further mentor counts once - a secondary mentor too, at their first
+  # journal - however often mentors alternate afterwards (journals.mentor_id
+  # is NOT NULL)
   def mentor_change_dates
     journals.reorder(nil).group(:mentor_id).minimum(:held_at).values.sort.drop(1)
   end
