@@ -93,7 +93,7 @@ class PersonDictionary
 
     # split on hyphens too (not just whitespace) so "Meier-Müller" yields
     # "Meier" and "Müller" as independently matchable tokens - see
-    # NameRedactor::CORE_PATTERN for why free text is tokenized the same way
+    # NameRedactor::WORD_PATTERN for why free text is tokenized the same way
     value.split(/[\s-]+/).reject { |w| w.length < MIN_NAME_TOKEN_LENGTH || NAME_PARTICLES.include?(w.downcase) }
   end
 

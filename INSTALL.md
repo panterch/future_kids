@@ -7,7 +7,7 @@ Here are some guidelines that needs to be followed:
 ## Pre-requisite
 * Rails , preferable with rbenv wrapper
 * Postgresql
-* ImageMagick
+* libvips (image variants)
 
 ## Issue Tracker
 

@@ -36,7 +36,7 @@ Metrics/BlockLength:
     - 'app/views/kids/_index.xlsx.axlsx'
     - 'app/views/mentors/_index.xlsx.axlsx'
     - 'config/environments/production.rb'
-    - 'config/initializers/simple_form_bootstrap.rb'
+    - 'config/initializers/simple_form.rb'
     - 'config/routes.rb'
     - 'lib/tasks/active_storage.rake'
 
