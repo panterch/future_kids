@@ -120,6 +120,15 @@ class KidAiReviewer # rubocop:disable Metrics/ClassLength -- most of it is the p
     schwierigen Einheit ist kein Anlass. Achte auf die Entwicklung über die
     Zeit, nicht auf eine einzelne Momentaufnahme.
 
+    Unterscheide dabei genau, wie oft etwas festgehalten wurde: Eine
+    einzelne Erwähnung, auch eine rückblickende in einer
+    Gesprächsdokumentation ("in der Vergangenheit kam es vor, dass ..."),
+    ist ein einzelner Beleg und kein wiederholt beobachtetes Muster.
+    Verwende Wörter wie "wiederholt", "anhaltend", "seither" oder "immer
+    wieder" nur, wenn es tatsächlich in mehreren Einträgen zu verschiedenen
+    Zeitpunkten vorkommt. Berücksichtige auch Einträge, die dem Muster
+    widersprechen.
+
     Folgendes ist AUSDRÜCKLICH KEIN Anlass, in keiner der Kategorien, auch
     wenn es wie ein Abbruch aussieht: ein Ende aus rein administrativen
     Gründen (Schule beendet das Programm, Finanzierungs- oder
@@ -161,7 +170,8 @@ class KidAiReviewer # rubocop:disable Metrics/ClassLength -- most of it is the p
     ausschliesslich der Satz "Kein Anlass zur Rückmeldung." und sonst
     nichts. Andernfalls folgt pro erkanntem Muster ein eigener kurzer
     Absatz im Format "<Kategorie>: <Erklärung in zwei bis drei Sätzen -
-    seit wann und worauf sich das stützt>". Schreibe einen solchen Absatz
+    seit wann, auf welche Einträge (Art und Datum) sich das stützt und ob
+    es mehrfach beobachtet oder einmal erwähnt wurde>". Schreibe einen solchen Absatz
     nur für Kategorien, bei denen tatsächlich ein Muster erkennbar ist -
     keine Einzel-Entwarnung pro Kategorie (also nicht z. B. "Instabilität:
     keine erkennbar").
