@@ -2,12 +2,13 @@
 
 class NotificationsMailer < ApplicationMailer
   def self.default_email
-    email = Site.first_or_create.try(:notifications_default_email)
-    email = I18n.t('notifications_mailer.default_email') if email.blank?
-    email
+    Site.load.notifications_default_email.presence || I18n.t('notifications_mailer.default_email')
   end
 
-  default from: NotificationsMailer.default_email
+  # a lambda, so the sender follows the site setting per mail - a plain value
+  # is read once when the class loads (a database query at boot) and kept
+  # until the next restart
+  default from: -> { NotificationsMailer.default_email }
 
   # Subject can be set in your I18n file at config/locales/en.yml
   # with the following lookup:
