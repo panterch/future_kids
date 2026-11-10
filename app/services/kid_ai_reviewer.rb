@@ -194,6 +194,9 @@ class KidAiReviewer # rubocop:disable Metrics/ClassLength -- most of it is the p
 
   PROFILE_TAG = %r{</?profil>}i
 
+  # low, so that the same profile gives a similar review each month
+  TEMPERATURE = 0.2
+
   # reviews all active kids with a mentor that are due for a review
   # (Kid#ai_review_due?). A failing kid is logged and tried once more at the
   # end of the run (a few hours later, when a short outage or overload of the
@@ -232,7 +235,7 @@ class KidAiReviewer # rubocop:disable Metrics/ClassLength -- most of it is the p
     raise Error, 'Es sind keine Lernjournal-Einträge vorhanden.' if @kid.journals.empty?
 
     redactor = NameRedactor.new(@kid)
-    redactor.rehydrate(answer(request(build_prompt(redactor))))
+    redactor.rehydrate(answer(build_prompt(redactor)))
   end
 
   # #call and store the answer on the kid. Only these two columns are written,
@@ -257,30 +260,56 @@ class KidAiReviewer # rubocop:disable Metrics/ClassLength -- most of it is the p
   end
 
   # the whole markdown answer, stored and shown as is - assessing it is up to
-  # the admins
-  def answer(response)
-    content = JSON.parse(response.body).dig('choices', 0, 'message', 'content')
+  # the admins. Pieces without content (the model's reasoning, if the
+  # provider sends it) are left out
+  def answer(prompt)
+    content = +''
+    stream(prompt) { |event| content << event.dig('choices', 0, 'delta', 'content').to_s }
     raise Error, 'Die Antwort der KI enthielt keinen Inhalt.' if content.blank?
 
     content.strip
-  rescue JSON::ParserError
-    raise Error, 'Die Antwort der KI konnte nicht gelesen werden.'
   end
 
-  def request(prompt)
+  # The answer is streamed: it comes in small pieces while the model works,
+  # so the connection is never silent for long. Without streaming, models
+  # that reason before answering kept it silent for many minutes, and the
+  # provider closed it ("end of file reached"). The read timeout is the
+  # longest pause between two pieces, not the time for the whole answer.
+  # Yields each event as parsed JSON.
+  def stream(prompt, &)
     check_configuration!
-    body = { model: @site.ai_model, messages: [{ role: 'user', content: prompt }], temperature: 0.2 }.to_json
     uri = endpoint
-    # a long read timeout: this runs as a batch job, and large models (which
-    # reason before answering) took more than 5 minutes for some profiles in
-    # the first production run, and 7.5 minutes for a long one in testing
-    response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https', open_timeout: 10,
-                                                   read_timeout: 1000) { |http| http.post(uri, body, headers) }
-    raise Error, "Die Anfrage an die KI ist fehlgeschlagen (#{response.code})." unless response.is_a?(Net::HTTPSuccess)
-
-    response
+    Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https', open_timeout: 10, read_timeout: 240) do |http|
+      http.request(streaming_request(uri, prompt)) { |response| each_event(response, &) }
+    end
+  rescue JSON::ParserError
+    raise Error, 'Die Antwort der KI konnte nicht gelesen werden.'
   rescue Timeout::Error, SocketError, OpenSSL::SSL::SSLError, SystemCallError, EOFError => e
     raise Error, "Verbindung zur KI ist fehlgeschlagen: #{e.message}"
+  end
+
+  def streaming_request(uri, prompt)
+    request = Net::HTTP::Post.new(uri, headers)
+    request.body = { model: @site.ai_model, messages: [{ role: 'user', content: prompt }],
+                     temperature: TEMPERATURE, stream: true }.to_json
+    request
+  end
+
+  # server-sent events: one "data: <json>" line per event, the stream ends
+  # with "data: [DONE]"; other lines (blank separators, ": keep-alive"
+  # comments) carry nothing. A chunk can end in the middle of a line, so
+  # only complete lines are read
+  def each_event(response)
+    raise Error, "Die Anfrage an die KI ist fehlgeschlagen (#{response.code})." unless response.is_a?(Net::HTTPSuccess)
+
+    buffer = +''
+    response.read_body do |chunk|
+      buffer << chunk
+      while (line = buffer.slice!(/\A.*\n/))
+        data = line.delete_prefix('data:').strip
+        yield JSON.parse(data) if line.start_with?('data:') && data != '[DONE]'
+      end
+    end
   end
 
   def endpoint

@@ -17,23 +17,37 @@ describe KidAiReviewer do
     )
   end
 
-  def ai_body(content)
-    { choices: [{ message: { content: content } }] }.to_json
+  # a streamed answer (server-sent events) of the given events
+  def sse(*events)
+    "#{events.map { |event| "data: #{event.to_json}\n\n" }.join}data: [DONE]\n\n"
   end
 
-  def stub_ai_response(code: '200', body: ai_body(answer))
-    response = instance_double(Net::HTTPSuccess, code: code, body: body, is_a?: (code == '200'))
-    @http_double = instance_double(Net::HTTP, post: response)
-    allow(Net::HTTP).to receive(:start).and_yield(@http_double)
+  def ai_body(content)
+    sse({ choices: [{ delta: { content: content } }] })
+  end
+
+  # the body arrives in small chunks that split lines and events, like over
+  # the network
+  def streamed_response(body, code: '200')
+    response = instance_double(Net::HTTPSuccess, code: code, is_a?: (code == '200'))
+    allow(response).to receive(:read_body) { |&block| body.chars.each_slice(7) { |chunk| block.call(chunk.join) } }
     response
   end
 
+  def stub_ai_response(code: '200', body: ai_body(answer))
+    @http_double = instance_double(Net::HTTP)
+    allow(@http_double).to receive(:request).and_yield(streamed_response(body, code: code))
+    allow(Net::HTTP).to receive(:start).and_yield(@http_double)
+  end
+
+  def posted_request
+    request = nil
+    expect(@http_double).to have_received(:request) { |r| request = r }
+    request
+  end
+
   def posted_prompt
-    prompt = nil
-    expect(@http_double).to have_received(:post) do |_uri, body, _headers|
-      prompt = JSON.parse(body)['messages'].first['content']
-    end
-    prompt
+    JSON.parse(posted_request.body)['messages'].first['content']
   end
 
   context 'without journal entries' do
@@ -64,10 +78,16 @@ describe KidAiReviewer do
       Site.load.update!(ai_api_base_url: 'https://api.example.com/v1/')
       stub_ai_response
       described_class.new(kid).call
-      expect(@http_double).to have_received(:post) do |uri, _body, headers|
-        expect(uri.to_s).to eq('https://api.example.com/v1/chat/completions')
-        expect(headers['Authorization']).to eq('Bearer test-token')
-      end
+      request = posted_request
+      expect(request.uri.to_s).to eq('https://api.example.com/v1/chat/completions')
+      expect(request['Authorization']).to eq('Bearer test-token')
+    end
+
+    it 'asks for a streamed answer with the model and temperature' do
+      stub_ai_response
+      described_class.new(kid).call
+      expect(JSON.parse(posted_request.body))
+        .to include('model' => 'llama3', 'stream' => true, 'temperature' => described_class::TEMPERATURE)
     end
 
     context 'reading the answer' do
@@ -76,13 +96,24 @@ describe KidAiReviewer do
         expect(described_class.new(kid).call).to eq("#{answer}\n\n---")
       end
 
+      it 'joins the content of the events and leaves out reasoning and keep-alives' do
+        events = sse(
+          { choices: [{ delta: { reasoning_content: 'Ich denke nach.' } }] },
+          { choices: [{ delta: { content: '## Aktuelle ' } }] },
+          { choices: [{ delta: { content: 'Entwicklungen' } }] },
+          { choices: [{ delta: {}, finish_reason: 'stop' }] }
+        )
+        stub_ai_response(body: ": keep-alive\n\n#{events}")
+        expect(described_class.new(kid).call).to eq('## Aktuelle Entwicklungen')
+      end
+
       it 'raises an error when the response has no content' do
-        stub_ai_response(body: { choices: [] }.to_json)
+        stub_ai_response(body: sse({ choices: [] }))
         expect { described_class.new(kid).call }.to raise_error(described_class::Error, /keinen Inhalt/)
       end
 
-      it 'raises an error when the response body is not valid JSON' do
-        stub_ai_response(body: 'not json')
+      it 'raises an error when an event is not valid JSON' do
+        stub_ai_response(body: "data: not json\n\n")
         expect { described_class.new(kid).call }.to raise_error(described_class::Error, /nicht gelesen/)
       end
     end
@@ -152,13 +183,13 @@ describe KidAiReviewer do
     it 'redacts the name from the prompt and rehydrates it in the answer' do
       http_double = instance_double(Net::HTTP)
       allow(Net::HTTP).to receive(:start).and_yield(http_double)
-      allow(http_double).to receive(:post) do |_uri, body, _headers|
-        prompt = JSON.parse(body)['messages'].first['content']
+      allow(http_double).to receive(:request) do |request, &block|
+        prompt = JSON.parse(request.body)['messages'].first['content']
         expect(prompt).not_to include('Lea')
         placeholder = prompt[/\[Mentor\d+\]/]
         content = "## Signale\nBelastung: #{placeholder} ist erschöpft.\n" \
                   "## Zusammenfassung\nBericht über #{placeholder}."
-        instance_double(Net::HTTPSuccess, code: '200', body: ai_body(content), is_a?: true)
+        block.call(streamed_response(ai_body(content)))
       end
 
       expect(described_class.new(kid).call)
@@ -182,7 +213,7 @@ describe KidAiReviewer do
       expect(kid.reload.ai_review).to eq(answer)
       expect(kid.ai_review_generated_at).to be_between(started_at, Time.zone.now)
       expect(reviewed_kid.reload.ai_review).to eq('alt')
-      expect(@http_double).to have_received(:post).once
+      expect(@http_double).to have_received(:request).once
     end
 
     it 'stores the review of a kid whose older data no longer passes the validations' do
@@ -207,7 +238,7 @@ describe KidAiReviewer do
       described_class.review_due_kids
 
       expect(failing).to have_received(:review!).twice
-      expect(@http_double).to have_received(:post).once
+      expect(@http_double).to have_received(:request).once
       expect(kid.reload.ai_review_generated_at).to be_nil
       expect(other.reload.ai_review).to eq(answer)
       expect(Rails.logger).to have_received(:error).with(/kid #{kid.id} failed.*boom/).twice
@@ -239,7 +270,7 @@ describe KidAiReviewer do
 
       expect(inactive.reload.ai_review_generated_at).to be_nil
       expect(without_mentor.reload.ai_review_generated_at).to be_nil
-      expect(@http_double).to have_received(:post).once
+      expect(@http_double).to have_received(:request).once
     end
 
     it 'does nothing while AI features are disabled' do
