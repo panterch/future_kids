@@ -15,6 +15,8 @@
             %li= can_link_to(k)
           = show.association :secondary_kids do |k|
             %li= can_link_to(k)
+          = show.association :third_kids do |k|
+            %li= can_link_to(k)
           = show.attribute :receive_journals
   .col-md-4
     = profile_photo(@teacher)

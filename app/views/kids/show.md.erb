@@ -323,7 +323,7 @@ Keine Einträge in diesem Zeitraum.
 - <%= TerminationAssessment.human_attribute_name(:goals) %>: <%= redact.(record.goals) %>
 <% end -%>
 <% if record.goals_reached.present? -%>
-- <%= TerminationAssessment.human_attribute_name(:goals_reached) %>: <%= redact.(record.goals_reached) %>
+- <%= TerminationAssessment.human_attribute_name(:goals_reached) %>: <%= record.human_goals_reached %>
 <% end -%>
 <% if record.collaboration.present? -%>
 - <%= TerminationAssessment.human_attribute_name(:collaboration) %>: <%= redact.(record.collaboration) %>

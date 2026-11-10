@@ -220,9 +220,14 @@ de:
         receive_journals: "Neue Lernjournale per EMail zustellen"
       document:
         title: Titel
-        category: Kategorie
-        subcategory: Unterkategorie
-        description: Beschreibung
+        category0: Kategorie
+        category1: Unterkategorie 1
+        category2: Unterkategorie 2
+        category3: Unterkategorie 3
+        category4: Unterkategorie 4
+        category5: Unterkategorie 5
+        category6: Unterkategorie 6
+        category7: Unterkategorie 7
         attachment: Datei
         admin_only: "Nur für Admins und Coaches einsehbar"
         download_count: "Anzahl Downloads"
