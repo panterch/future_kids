@@ -16,7 +16,7 @@ class RemindersController < ApplicationController
 
   # update is used to trigger the mail delivery and to set the state
   # of the reminder to delivered. it will be displayed further on reminders
-  # page until it is acknowledged (which is mapped t:fallback_locationo the destroy action)
+  # page until it is acknowledged (which is mapped to the destroy action)
   def update
     @reminder.deliver_mail # will also set sent_at flag
 
@@ -45,8 +45,8 @@ class RemindersController < ApplicationController
 
   # each row shows the kid, both mentors' avatars and the kid's latest journal
   # date. the dates (kid_id => held_at) come from one grouped query instead of
-  # Kid#last_journal_entry per row. reorder: the Journal default scope orders
-  # by held_at, which a grouped query rejects
+  # one query per row. reorder: the Journal default scope orders by held_at,
+  # which a grouped query rejects
   def preload_rows
     @reminders = @reminders.includes(:kid, mentor: { photo_attachment: :blob },
                                            secondary_mentor: { photo_attachment: :blob })

@@ -29,12 +29,6 @@ class FirstYearAssessment < ApplicationRecord
     self.breaking_off = false
   end
 
-  def human_duration
-    return '' if duration.nil?
-
-    "#{duration} Minuten"
-  end
-
   human_text_attributes :development_teacher, :development_mentor, :goals_teacher, :goals_mentor,
                         :relation_mentor, :motivation, :collaboration, :breaking_reason,
                         :goal_1, :goal_2, :goal_3, :improvements, :note

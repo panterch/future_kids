@@ -42,10 +42,4 @@ module CrudActions
     @resource.destroy
     respond_with @resource
   end
-
-  private
-
-  def alias_as_resource
-    @resource = instance_variable_get("@#{resource_name}")
-  end
 end

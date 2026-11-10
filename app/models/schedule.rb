@@ -109,24 +109,6 @@ class Schedule < ApplicationRecord
     end
   end
 
-  def human_day
-    return nil if day.nil?
-
-    I18n.t('date.day_names')[day]
-  end
-
-  def human_hour
-    return nil if hour.nil?
-
-    format('%02d', hour)
-  end
-
-  def human_minute
-    return nil if minute.nil?
-
-    format('%02d', minute)
-  end
-
   def last_meeting?
     return false if hour != LAST_MEETING_HOUR
 

@@ -121,12 +121,6 @@ class Kid < ApplicationRecord
     (meeting_time + 1.day) < time
   end
 
-  # when controlling reminders it is useful to know the date of the most recent
-  # journal entry made for the associated kid
-  def last_journal_entry
-    journals.order(held_at: :desc).first
-  end
-
   # true if a journal was created after the last AI review (KidAiReviewer), or
   # if the kid has journals but was never reviewed
   def ai_review_due?

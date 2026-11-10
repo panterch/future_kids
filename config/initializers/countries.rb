@@ -8,5 +8,3 @@ ISO3166::Data.register(
     'de' => 'Kosovo'
   }
 )
-
-ISO3166::Country.new('XK').iso_short_name == 'Kosovo'
