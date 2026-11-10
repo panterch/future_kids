@@ -188,6 +188,13 @@ describe NameRedactor do
         .to eq('Mira las vor, Miras Mutter rief an, Mira.')
     end
 
+    it 'restores a name stored with trailing whitespace without it' do
+      kid.update_columns(prename: "Mira\t") # rubocop:disable Rails/SkipsModelValidations
+      redactor = described_class.new(kid)
+      redacted = redactor.redact('Mira war heute motiviert.')
+      expect(redactor.rehydrate(redacted)).to eq('Mira war heute motiviert.')
+    end
+
     it 'does not restore a placeholder inside a longer one or a word' do
       redactor = described_class.new(kid)
       redactor.redact('Mira war heute motiviert.')

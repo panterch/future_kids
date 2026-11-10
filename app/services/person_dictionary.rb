@@ -76,9 +76,11 @@ class PersonDictionary
 
   # the AI summary reads as flowing German prose, so rehydrating with the
   # admin-listing "Nachname, Vorname" format (User/Kid#display_name) would
-  # read unnaturally - use the first name people are actually referred to by
+  # read unnaturally - use the first name people are actually referred to by.
+  # Stripped: some names are stored with a trailing tab or space, which would
+  # end up in the rehydrated text ("Lisa\t erneut")
   def self.readable_name(record)
-    record.prename.presence || record.name
+    (record.prename.presence || record.name).to_s.strip
   end
 
   # real names can be multi-word (compound surnames, multiple given names) -

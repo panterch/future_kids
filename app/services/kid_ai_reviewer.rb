@@ -272,10 +272,10 @@ class KidAiReviewer # rubocop:disable Metrics/ClassLength -- most of it is the p
     body = { model: @site.ai_model, messages: [{ role: 'user', content: prompt }], temperature: 0.2 }.to_json
     uri = endpoint
     # a long read timeout: this runs as a batch job, and large models (which
-    # reason before answering) took up to 4.5 minutes for a long profile in
-    # the first production run, some more than 5
+    # reason before answering) took more than 5 minutes for some profiles in
+    # the first production run, and 7.5 minutes for a long one in testing
     response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == 'https', open_timeout: 10,
-                                                   read_timeout: 600) { |http| http.post(uri, body, headers) }
+                                                   read_timeout: 1000) { |http| http.post(uri, body, headers) }
     raise Error, "Die Anfrage an die KI ist fehlgeschlagen (#{response.code})." unless response.is_a?(Net::HTTPSuccess)
 
     response
