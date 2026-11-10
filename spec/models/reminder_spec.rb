@@ -83,9 +83,16 @@ describe Reminder do
       expect(ActionMailer::Base.deliveries).to be_empty
     end
 
-    it 'does not send admin mail when reminder are created' do
+    it 'sends admin mail when reminders are created' do
       described_class.conditionally_create_reminders(tuesday)
       expect(ActionMailer::Base.deliveries.size).to eq(1)
+    end
+
+    it 'skips a kid with only a secondary mentor without aborting the run' do
+      create(:kid, secondary_mentor: create(:mentor), meeting_day: 1,
+                   meeting_start_at: Time.zone.parse('13:30'))
+      expect(described_class.conditionally_create_reminders(tuesday)).to eq(1)
+      expect(@mentor.reminders.count).to eq(1)
     end
   end
 

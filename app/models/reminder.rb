@@ -96,8 +96,11 @@ class Reminder < ApplicationRecord
         'journal entry present'
       elsif kid.reminder_entry_for_week(time)
         'reminder entry present'
-      elsif kid.mentor.nil? && kid.secondary_mentor.nil?
-        'no mentors set'
+      elsif kid.mentor.nil?
+        # a reminder belongs to the kid's mentor (reminders.mentor_id is NOT
+        # NULL): for a kid with only a secondary mentor creating one raises,
+        # which used to abort the whole run
+        'no mentor set'
       else
         reminder = Reminder.create_for(kid, time)
         reminder_created = true
