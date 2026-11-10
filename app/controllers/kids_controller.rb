@@ -34,6 +34,8 @@ class KidsController < ApplicationController
     @kids = @kids.includes(mentor: { photo_attachment: :blob }, admin: { photo_attachment: :blob })
 
     if current_user.is_a?(Admin) && params[:format] == 'xlsx'
+      # the export also lists every kid's school, teacher and secondary mentor
+      @kids = @kids.includes(:school, :teacher, :secondary_mentor)
       return render xlsx: 'index', filename: "kids-#{Time.current.strftime('%Y-%m-%d-%H-%M')}.xlsx"
     end
 

@@ -21,6 +21,8 @@ class MentorsController < ApplicationController
     @mentors = @mentors.with_attached_photo
 
     if current_user.is_a?(Admin) && params[:format] == 'xlsx'
+      # the export lists every mentor's school, kids and their schools
+      @mentors = @mentors.includes(:school, :schools, :kids, :secondary_kids)
       render xlsx: 'index', filename: "mentors-#{Time.current.strftime('%Y-%m-%d-%H-%M')}.xlsx"
     # when only one record is present, show it immediately. this is not for
     # admins, since they could have no chance to alter their filter settings in
@@ -64,5 +66,4 @@ class MentorsController < ApplicationController
                :inactive, :photo, { schedules_attributes: [%i[day hour minute]] }]
     )
   end
-
 end
