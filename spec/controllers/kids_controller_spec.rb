@@ -196,6 +196,36 @@ describe KidsController do
         expect(response.body).to include("- Geplanter Austritt: 2026 Herbst (Übertritt)\n")
       end
 
+      it 'includes the exit recommendation and the plans for the coming year of a first year assessment' do
+        create(:first_year_assessment, kid: @kid, breaking_off: true,
+                                       breaking_reason: 'Lehrperson: fehlende Motivation',
+                                       goal_1: 'Lesen', goal_2: 'Selbständigkeit', goal_3: 'Pünktlich beginnen')
+
+        get :show, params: { id: @kid }, format: :md
+
+        expect(response.body).to include(
+          "- Wird empfohlen, dass das Kind nach Beenden des laufenden Future Kids Semesters aussteigt?: Ja\n" \
+          "- Wenn ja: Von wem und weshalb?: Lehrperson: fehlende Motivation\n" \
+          "- Fachliche Förderbereiche für das kommende Jahr: Lesen\n" \
+          "- Überfachliche Förderbereiche für das kommende Jahr: Selbständigkeit\n" \
+          "- Wichtig zu beachten im kommenden Jahr: Pünktlich beginnen\n"
+        )
+      end
+
+      it 'redacts names in the exit reason of a first year assessment and leaves out empty fields' do
+        mentor = create(:mentor, name: 'Fischer', prename: 'Lea')
+        create(:journal, kid: @kid, mentor: mentor)
+        create(:first_year_assessment, kid: @kid, mentor: mentor, breaking_off: false,
+                                       breaking_reason: 'Lea möchte weitermachen')
+
+        get :show, params: { id: @kid, redacted: 'true' }, format: :md
+
+        expect(response.body)
+          .to match(/aussteigt\?: Nein\n- Wenn ja: Von wem und weshalb\?: \[Mentor\d+\] möchte weitermachen\n/)
+        expect(response.body).not_to include('Lea')
+        expect(response.body).not_to include('Fachliche Förderbereiche für das kommende Jahr')
+      end
+
       it 'renders a note instead of the statistics without journals' do
         get :show, params: { id: @kid }, format: :md
 

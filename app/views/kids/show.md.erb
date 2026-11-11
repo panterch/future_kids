@@ -306,6 +306,21 @@ Keine Einträge in diesem Zeitraum.
 <% if record.collaboration.present? -%>
 - <%= FirstYearAssessment.human_attribute_name(:collaboration) %>: <%= redact.(record.collaboration) %>
 <% end -%>
+<% unless record.breaking_off.nil? -%>
+- <%= FirstYearAssessment.human_attribute_name(:breaking_off) %>: <%= record.breaking_off ? I18n.t('details.yes') : I18n.t('details.no') %>
+<% end -%>
+<% if record.breaking_reason.present? -%>
+- <%= FirstYearAssessment.human_attribute_name(:breaking_reason) %>: <%= redact.(record.breaking_reason) %>
+<% end -%>
+<% if record.goal_1.present? -%>
+- <%= FirstYearAssessment.human_attribute_name(:goal_1) %>: <%= redact.(record.goal_1) %>
+<% end -%>
+<% if record.goal_2.present? -%>
+- <%= FirstYearAssessment.human_attribute_name(:goal_2) %>: <%= redact.(record.goal_2) %>
+<% end -%>
+<% if record.goal_3.present? -%>
+- <%= FirstYearAssessment.human_attribute_name(:goal_3) %>: <%= redact.(record.goal_3) %>
+<% end -%>
 <% if record.improvements.present? -%>
 - <%= FirstYearAssessment.human_attribute_name(:improvements) %>: <%= redact.(record.improvements) %>
 <% end -%>
