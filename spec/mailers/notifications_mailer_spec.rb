@@ -20,6 +20,14 @@ describe NotificationsMailer do
       expect(@mail.body.encoded).to match(@reminder.kid.name)
     end
 
+    # the closing comes from layouts/notifications_mailer.text.erb, which Rails
+    # finds by the mailer's name: renaming the mailer without the layout drops
+    # the closing from all plain text mails
+    it 'closes with the layout of the plain text mails' do
+      expect(@mail.body.encoded).to include('Das Future Kids Team')
+      expect(@mail.body.encoded).to include('automatisch generierte E-Mail')
+    end
+
     it 'delivers the email' do
       @mail.deliver_now
       expect(ActionMailer::Base.deliveries).not_to be_empty
