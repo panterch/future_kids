@@ -1,7 +1,9 @@
 # frozen_string_literal: true
 
 Devise.setup do |config|
-  config.mailer_sender = 'info@aoz-futurekids.ch'
+  # the sender of all other mails (site settings). A proc, so it is read per
+  # mail and not once at boot
+  config.mailer_sender = ->(_scope) { NotificationsMailer.default_email }
   require 'devise/orm/active_record'
   config.case_insensitive_keys = [:email]
   config.strip_whitespace_keys = [:email]
