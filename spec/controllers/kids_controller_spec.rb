@@ -372,6 +372,15 @@ describe KidsController do
         expect(response).to be_redirect
       end
 
+      it 'can assign itself as third teacher' do
+        post :create, params: { kid: attributes_for(:kid, third_teacher_id: @teacher.id, school_id: @school.id) }
+        kid = Kid.find(assigns(:kid).id)
+        expect(kid.teacher).to be_nil
+        expect(kid.third_teacher).to eq(@teacher)
+        expect(kid.school).to eq(@school)
+        expect(response).to be_redirect
+      end
+
       it 'cannot assign a foreign school' do
         expect do
           post :create, params: { kid: attributes_for(:kid, school_id: 'non-existant') }

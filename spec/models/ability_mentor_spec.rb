@@ -298,9 +298,33 @@ describe Ability do
                                                     secondary_kids: [secondary_kid]))
       end
 
+      it 'can read third teacher of assigned kid' do
+        expect(ability).to be_able_to(:read, create(:teacher, third_kids: [kid]))
+      end
+
+      it 'can read third teacher of secondary kid' do
+        expect(ability).to be_able_to(:read, create(:teacher, third_kids: [secondary_kid]))
+      end
+
+      it 'cannot read third teacher of a foreign kid' do
+        expect(ability).not_to be_able_to(:read, create(:teacher, third_kids: [foreign_kid]))
+      end
+
+      it 'cannot read third teacher of a kid with an inactive secondary assignment' do
+        inactive_secondary_kid = create(:kid, secondary_mentor: mentor, secondary_active: false)
+        expect(ability).not_to be_able_to(:read, create(:teacher, third_kids: [inactive_secondary_kid]))
+      end
+
       it 'does retrieve teachers that can be read' do
         teacher = create(:teacher, kids: [kid])
         expect(Teacher.accessible_by(ability, :read)).to eq([teacher])
+      end
+
+      it 'does retrieve the first, second and third teacher of a kid' do
+        teachers = [create(:teacher, kids: [kid]), create(:teacher, secondary_kids: [kid]),
+                    create(:teacher, third_kids: [kid])]
+        create(:teacher, third_kids: [foreign_kid])
+        expect(Teacher.accessible_by(ability, :read)).to match_array(teachers)
       end
     end
 

@@ -139,4 +139,45 @@ describe TeachersController do
       end
     end
   end
+
+  context 'as a mentor' do
+    before do
+      @mentor = create(:mentor)
+      @teacher = create(:teacher)
+      create(:kid, name: 'Eigenes', prename: 'Kind', mentor: @mentor, teacher: @teacher)
+      sign_in @mentor
+    end
+
+    # the three lists of the teacher page are handled alike: whether the
+    # teacher is first, second or third teacher of a kid makes no difference
+    %i[teacher secondary_teacher third_teacher].each do |position|
+      it "does not show a kid the mentor may not read (#{position})" do
+        create(:kid, name: 'Fremdes', prename: 'Kind', position => @teacher)
+        get :show, params: { id: @teacher.id }
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('Eigenes, Kind')
+        expect(response.body).not_to include('Fremdes')
+      end
+
+      it "shows the own kid and may open the page (#{position})" do
+        teacher = create(:teacher)
+        create(:kid, name: 'Zweites', prename: 'Kind', mentor: @mentor, position => teacher)
+        get :show, params: { id: teacher.id }
+        expect(response).to have_http_status(:ok)
+        expect(response.body).to include('Zweites, Kind')
+      end
+    end
+  end
+
+  context 'as a teacher' do
+    it 'sees the kids of all three lists on the own page' do
+      teacher = create(:teacher)
+      create(:kid, name: 'Erstes', teacher: teacher)
+      create(:kid, name: 'Zweites', secondary_teacher: teacher)
+      create(:kid, name: 'Drittes', third_teacher: teacher)
+      sign_in teacher
+      get :show, params: { id: teacher.id }
+      expect(response.body).to include('Erstes').and include('Zweites').and include('Drittes')
+    end
+  end
 end
