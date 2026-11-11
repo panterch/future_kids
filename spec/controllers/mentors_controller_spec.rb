@@ -95,6 +95,17 @@ describe MentorsController do
         expect(response.headers['Content-Disposition'])
           .to match(/filename="mentors-\d{4}-\d{2}-\d{2}-\d{2}-\d{2}\.xlsx"/)
       end
+
+      # the filters find mentors by one of their kids; the export still
+      # lists all kids of the mentors found
+      it 'exports all kids of a mentor found by the meeting day of one of them' do
+        monday_kid = create(:kid, mentor: @mentor, meeting_day: 1)
+        tuesday_kid = create(:kid, mentor: @mentor, meeting_day: 2)
+        get :index, format: 'xlsx', params: { mentor: { filter_by_meeting_day: 1 } }
+        exported = assigns(:mentors).to_a
+        expect(exported).to eq([@mentor])
+        expect(exported.first.kids).to contain_exactly(monday_kid, tuesday_kid)
+      end
     end
   end
 end
