@@ -3,7 +3,6 @@ de:
     session_expired: 'Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.'
     too_many_requests: 'Zu viele Anfragen. Bitte versuchen Sie es in einigen Minuten erneut.'
     user_inactive: 'Benutzer*in inaktiv'
-    school_inactivated: 'Schule wurde inaktiv gesetzt'
     access_denied: 'Sie haben keinen Zugriff (mehr) auf diese Seite.'
     assign_mentor_first: 'Bitte vorher einen Mentor zuordnen.'
     kid_mentor_relation_inactivated: 'Schüler*in und Mentor*in wurden inaktiv gesetzt.'
@@ -47,15 +46,12 @@ de:
         address: "Strasse, Nr."
         city: "PLZ, Ort"
         zip: "PLZ"
-        distance: "Entfernung"
-        street_no: "Hausnummer"
         note: "Wichtig zu wissen"
         ai_review: "KI-Auswertung"
         ai_review_generated_at: "KI-Auswertung generiert am"
         sex: "Geschlecht"
         grade: "Klassenstufe"
         available: "Mögliche Termine"
-        entered_at: "Datum des Einstiegs"
         term: "Eintritt"
         exit: "Austritt"
         exit_reason: "Grund für Ausstieg"
@@ -130,7 +126,6 @@ de:
         cancelled: Ausgefallen
         important: 'Bitte sofort lesen.'
         duration: Dauer
-        title: Titel
         goal: Förderbereich
         subject: "Fach / Thema"
         method: "Beobachtungen und Vorgehensweise"
@@ -143,7 +138,6 @@ de:
         held_at: Datum
         reason: Anlass
         kind: "Art des Gesprächs"
-        members: "Teilnehmende"
         content: "Inhalt"
         outcome: "Abmachungen"
         note: "Beobachtungen / Anmerkungen"
@@ -189,7 +183,6 @@ de:
         address: "Strasse, Nr."
         city: "PLZ, Ort"
         zip: "PLZ"
-        street_no: "Hausnummer"
         dob: Geburtsdatum
         transport: "ÖV"
         phone: Telefon
@@ -199,7 +192,6 @@ de:
         school: Schule
         schools: Schule(n)
         ects: Einsatz
-        entry_date: Datum des Einstiges
         remember_me: Angemeldet bleiben
         inactive: Inaktiv gesetzt
         inactive_at: Inaktiviert am
@@ -210,14 +202,12 @@ de:
         absence: "Bekannte Absenzen / Verfügbarkeit"
         school: Hochschule / Gymnasium
         schools: Einsatzort(e)
-        primary_kids_meeting_day: "Einsatztag"
         term: "Startzeit"
         exit: "Austritt"
         kids: Kinder
         secondary_kids: "Kinder (Vertretung)"
         journals: "Lernjournal Einträge"
         substitute: "Ersatzmentor*in"
-        college: 'Hochschule'
         exit_kind: "Aktueller Stand"
         exit_kind_updated_at: "Aktueller Stand aktualisiert"
         exit_at: "Ausstiegsdatum"
@@ -254,7 +244,6 @@ de:
         inactive: Inaktiv
         inactive_at: Inaktiviert am
         street: "Strasse, Nr."
-        street_no: Hausnummer
         zip: PLZ
         city: "PLZ, Ort"
         phone: Telefon Teamzimmer
