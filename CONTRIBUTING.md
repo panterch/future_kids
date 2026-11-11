@@ -1,39 +1,44 @@
 # Contributing to Future Kids
 
-Looking forward to contribute to future kids? Then please take a moment to review this document in order to make the contribution process easy and effective for everyone involved.
+Looking forward to contributing to Future Kids? Then please take a moment to review this document, it keeps the contribution process easy and effective for everyone involved.
 
-Here are some guidelines that needs to be followed:
+## Prerequisites
 
-## Pre-requisite
-* Rails , preferable with rbenv wrapper
-* Postgresql
+* Ruby in the version given in `.ruby-version`, for example installed with rbenv
+* PostgreSQL
 * libvips (image variants)
 
 ## Issue Tracker
 
-* Please be sure that you verify if there is any [issue](https://github.com/panterch/future_kids/issues) reported or fixed before reporting a new [issue](https://github.com/panterch/future_kids/issues).
-* Please make sure that __clear title__ and __description__ is given while creating new issue.
+* Before reporting a new [issue](https://github.com/panterch/future_kids/issues), please check whether it has already been reported or fixed.
+* Please give a new issue a __clear title__ and __description__.
 
-## Installation Instructions and Pull Requests
+## Setup
 
-Please follow the below process to share your contribution via PR.
-
-1. [Fork](https://help.github.com/articles/fork-a-repo) the repository, and configure the remotes:
+1. Clone the repository. Without write access, [fork](https://help.github.com/articles/fork-a-repo) it first and clone your fork instead:
     ```
-    # Clone your fork of the repo into the current directory
     git clone https://github.com/panterch/future_kids.git
-    # Navigate to the newly cloned directory
     cd future_kids
     ```
-2. After cloning, the ruby version is configured in .ruby-version, then its dependencies are installed as follows:
+2. Install the dependencies, create and seed the database and start the app:
     ```
-    bundle install
-    bundle exec rake db:create 
-    bundle exec rake db:migrate 
-    bundle exec rake db:seed
-    bin/dev
+    bin/setup
     ```
-3. Make your contributions.
-4. [Open a Pull Request](https://help.github.com/articles/about-pull-requests/) with __clear title__ and __description__ against the _master_ branch.
+    The script can be run again at any time, for example after pulling changes. It ends by starting the development server (`bin/dev`, port 3000); pass `--skip-server` to leave that out. The seeds create a few sample users to sign in with, see `db/seeds.rb`.
 
-__Note:__ It would be great to have an automated tests included and running test suite.
+## Tests
+
+1. Initialize the test database:
+    ```
+    bin/rails db:test:prepare
+    ```
+2. Run the specs:
+    ```
+    bundle exec rspec
+    ```
+
+Please add or adapt specs for what you change.
+
+## Pull Requests
+
+[Open a Pull Request](https://help.github.com/articles/about-pull-requests/) with a __clear title__ and __description__ against the _develop_ branch.
