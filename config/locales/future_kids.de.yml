@@ -6,6 +6,17 @@ de:
     school_inactivated: 'Schule wurde inaktiv gesetzt'
     access_denied: 'Sie haben keinen Zugriff (mehr) auf diese Seite.'
     assign_mentor_first: 'Bitte vorher einen Mentor zuordnen.'
+    # shown by Responders::FlashResponder after respond_with (ApplicationResponder).
+    # Without the record's name: journals, reviews and assessments respond with
+    # their kid
+    actions:
+      create:
+        notice: 'Gespeichert.'
+      update:
+        notice: 'Gespeichert.'
+      destroy:
+        notice: 'Gelöscht.'
+        alert: 'Konnte nicht gelöscht werden.'
 
   activerecord:
     models:
@@ -368,7 +379,6 @@ de:
       new_termination_assessment: Neues Abschluss-Feedback
       xlsx: "Excel Export"
       reset_all: 'Alle zurücksetzen'
-      update_success: 'Erfolgreich gespeichert'
       expand_all: "Alle anzeigen"
       collapse_all: "Alle einklappen"
 

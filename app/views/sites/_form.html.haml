@@ -1,4 +1,6 @@
-= simple_form_for @site do |form|
+-# url: for the singular resource Rails would build "/site.1" from the record,
+-# with the id as the format - which respond_with answers with 406
+= simple_form_for @site, url: site_path do |form|
   = form.input :title
   = form.input :footer_address
   = form.input :footer_email

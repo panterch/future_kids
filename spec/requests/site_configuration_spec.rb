@@ -8,6 +8,8 @@ feature 'Site' do
     visit edit_site_url
     fill_in 'Adressangaben in Fusszeile', with: 'Adresse im Footer'
     click_button 'Seitenweite Konfiguration aktualisieren'
+    expect(page).to have_current_path(edit_site_path)
+    expect(page).to have_text('Gespeichert.')
     visit root_url
     expect(page).to have_text('Adresse im Footer')
   end

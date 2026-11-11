@@ -19,7 +19,7 @@ class CommentsController < ApplicationController
     @comment.created_by = current_user
     authorize! :create, @comment
     if @comment.save
-      redirect_to kid_url(id: @journal.kid_id, anchor: "journal_#{@journal.id}")
+      respond_with @comment, location: kid_url(id: @journal.kid_id, anchor: "journal_#{@journal.id}")
     else
       render :new
     end
@@ -29,7 +29,7 @@ class CommentsController < ApplicationController
     @comment = @journal.comments.find(params.expect(:id))
     authorize! :update, @comment
     if @comment.update(comment_params)
-      redirect_to kid_url(id: @journal.kid_id, anchor: "journal_#{@journal.id}")
+      respond_with @comment, location: kid_url(id: @journal.kid_id, anchor: "journal_#{@journal.id}")
     else
       render :edit
     end

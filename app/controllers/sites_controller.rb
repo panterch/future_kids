@@ -23,7 +23,7 @@ class SitesController < ApplicationController
 
   def update
     if @site.update(site_params)
-      redirect_to edit_site_url, notice: I18n.t('crud.action.update_success')
+      respond_with @site, location: edit_site_url
     else
       render action: :edit
     end
