@@ -46,7 +46,7 @@ class FirstYearAssessmentsController < ApplicationController
 
   def first_year_assessment_params
     params.expect(
-      first_year_assessment: %i[held_at teacher_id mentor_id duration
+      first_year_assessment: %i[held_at teacher_id mentor_id
                                 development_teacher development_mentor
                                 goals_teacher goals_mentor relation_mentor motivation collaboration
                                 breaking_off breaking_reason goal_1 goal_2 goal_3 improvements
