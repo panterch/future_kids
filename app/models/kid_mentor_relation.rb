@@ -31,8 +31,10 @@ class KidMentorRelation < ApplicationRecord
   # rubocop:disable Rails/SkipsModelValidations
   def self.inactivate(kid_id)
     kid = Kid.find(kid_id)
-    kid.mentor.update_attribute(:inactive, true)
-    kid.update_attribute(:inactive, true)
+    transaction do
+      kid.mentor.update_attribute(:inactive, true)
+      kid.update_attribute(:inactive, true)
+    end
   end
   # rubocop:enable Rails/SkipsModelValidations
 

@@ -6,6 +6,8 @@ de:
     school_inactivated: 'Schule wurde inaktiv gesetzt'
     access_denied: 'Sie haben keinen Zugriff (mehr) auf diese Seite.'
     assign_mentor_first: 'Bitte vorher einen Mentor zuordnen.'
+    kid_mentor_relation_inactivated: 'Schüler*in und Mentor*in wurden inaktiv gesetzt.'
+    kid_mentor_relation_not_inactivatable: 'Nicht inaktiv gesetzt: Schüler*in und Mentor*in haben nicht mehr beide den Stand «Steigt aus».'
     # shown by Responders::FlashResponder after respond_with (ApplicationResponder).
     # Without the record's name: journals, reviews and assessments respond with
     # their kid

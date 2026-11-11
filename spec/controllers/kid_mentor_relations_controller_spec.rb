@@ -102,6 +102,45 @@ describe KidMentorRelationsController do
     end
   end
 
+  context 'as an admin inactivating a relation' do
+    let(:mentor) { create(:mentor) }
+
+    before { sign_in create(:admin) }
+
+    it 'inactivates kid and mentor when both are leaving' do
+      kid = create(:kid, mentor: mentor, exit_kind: 'exit')
+      mentor.update!(exit_kind: 'exit')
+      delete :destroy, params: { id: kid.id }
+      expect(flash[:notice]).to eq(I18n.t('flash.kid_mentor_relation_inactivated'))
+      expect(kid.reload).to be_inactive
+      expect(mentor.reload).to be_inactive
+    end
+
+    it 'changes nothing when only the kid is leaving' do
+      kid = create(:kid, mentor: mentor, exit_kind: 'exit')
+      delete :destroy, params: { id: kid.id }
+      expect(flash[:alert]).to eq(I18n.t('flash.kid_mentor_relation_not_inactivatable'))
+      expect(kid.reload).not_to be_inactive
+      expect(mentor.reload).not_to be_inactive
+    end
+
+    it 'changes nothing when only the mentor is leaving' do
+      kid = create(:kid, mentor: mentor)
+      mentor.update!(exit_kind: 'exit')
+      delete :destroy, params: { id: kid.id }
+      expect(flash[:alert]).to eq(I18n.t('flash.kid_mentor_relation_not_inactivatable'))
+      expect(kid.reload).not_to be_inactive
+      expect(mentor.reload).not_to be_inactive
+    end
+
+    it 'changes nothing and does not raise when the kid has no mentor' do
+      kid = create(:kid, exit_kind: 'exit')
+      expect { delete :destroy, params: { id: kid.id } }.not_to raise_error
+      expect(flash[:alert]).to eq(I18n.t('flash.kid_mentor_relation_not_inactivatable'))
+      expect(kid.reload).not_to be_inactive
+    end
+  end
+
   context 'as a mentor' do
     before do
       @mentor = create(:mentor)
