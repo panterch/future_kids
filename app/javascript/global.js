@@ -170,8 +170,10 @@ function register_freetext_toggler() {
   document.querySelectorAll('a.freetext').forEach(function(link) {
     link.addEventListener('click', function() {
       this.closest('.document_category').querySelectorAll('input, textarea, select, button').forEach(function(input) {
-        var isHidden = input.style.display === 'none';
-        input.style.display = isHidden ? '' : 'none';
+        // the hidden attribute, not an inline style: the content security
+        // policy does not allow style attributes in the markup
+        var isHidden = input.hidden;
+        input.hidden = !isHidden;
         if (isHidden) {
           if (input.dataset.savedName !== undefined) {
             input.setAttribute('name', input.dataset.savedName);
@@ -316,10 +318,10 @@ function register_document_search() {
     var searchTerm = this.value.toLowerCase().trim();
     var noResults = document.getElementById('search_no_results');
 
-    if (clearButton) clearButton.style.display = searchTerm === '' ? 'none' : '';
+    if (clearButton) clearButton.hidden = searchTerm === '';
 
     if (searchTerm === '') {
-      if (noResults) noResults.style.display = 'none';
+      if (noResults) noResults.hidden = true;
       treeEl.style.display = '';
       documentTree.remove();
       documentTree = buildDocumentTree(treeEl, originalTreeData);
@@ -329,9 +331,9 @@ function register_document_search() {
 
       if (filteredData.length === 0) {
         treeEl.style.display = 'none';
-        if (noResults) noResults.style.display = '';
+        if (noResults) noResults.hidden = false;
       } else {
-        if (noResults) noResults.style.display = 'none';
+        if (noResults) noResults.hidden = true;
         treeEl.style.display = '';
         documentTree = new Treeview(treeEl, {data: filteredData, enableLinks: true, levels: 10});
       }
