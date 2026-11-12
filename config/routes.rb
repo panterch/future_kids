@@ -1,6 +1,10 @@
 # frozen_string_literal: true
 
 Rails.application.routes.draw do
+  # for uptime monitors: answers 200 once the app has booted, without a login
+  # and without a database query
+  get 'up' => 'rails/health#show', as: :rails_health_check
+
   devise_for :user, controllers: { sessions: 'users/sessions', passwords: 'users/passwords' }
 
   root to: 'kids#index'
