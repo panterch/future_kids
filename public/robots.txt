@@ -1,1 +1,3 @@
-# See https://www.robotstxt.org/robotstxt.html for documentation on how to use the robots.txt file
+# Login-only application with personal data of minors: nothing here should be indexed.
+User-agent: *
+Disallow: /
