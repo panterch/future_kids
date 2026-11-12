@@ -51,26 +51,19 @@ class Kid < ApplicationRecord
   validates :dob, :exit_at, :checked_at, :coached_at,
             comparison: { greater_than_or_equal_to: MIN_DATE }, allow_blank: true
 
-  # validate that enough goals were given in each group
+  # validate that enough goals were given in each group. The maximum per group
+  # (GOALS_1_MAX, GOALS_2_MAX) is only a hint in the form and is not enforced
   validate do |kid|
     goals_1_count = GOALS_1.count { |g| kid[g].present? }
     if kid[:goal_1].blank? && goals_1_count.zero?
       GOALS_1.each { |g| errors.add g, :invalid, message: '' }
       errors.add :goal_1, :invalid, message: 'Bitte geben Sie mindestens einen fachlichen Förderbereich an'
-      # this code would hard constrain goals to maximum. at the moment it is only a soft constraint
-      # elsif GOALS_1_MAX < goals_1_count
-      # GOALS_1.each { |g| errors.add g, :invalid, message: '' }
-      # errors.add :goal_1, :invalid, message: "Bitte geben Sie maximal #{GOALS_1_MAX}  Fachliche Förderbereiche an"
     end
 
     goals_2_count = GOALS_2.count { |g| kid[g].present? }
     if kid[:goal_2].blank? && goals_2_count.zero?
       GOALS_2.each { |g| errors.add g, :invalid, message: '' }
       errors.add :goal_2, :invalid, message: 'Bitte geben Sie mindestens einen überfachlichen Förderbereich an'
-      # this code would hard constrain goals to maximum. at the moment it is only a soft constraint
-      # elsif GOALS_2_MAX < goals_2_count
-      # GOALS_2.each { |g| errors.add g, :invalid, message: '' }
-      # errors.add :goal_2, :invalid, message: "Bitte geben Sie maximal #{GOALS_2_MAX} Überfachliche Förderbereich an"
     end
   end
 

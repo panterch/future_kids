@@ -37,7 +37,7 @@ class SchoolsController < ApplicationController
     return {} if params[:school].blank?
 
     params.expect(
-      school: %i[name school_kind principal_id street city phone homepage social
+      school: %i[name school_kind street city phone homepage social
                  district note term inactive]
     )
   end
