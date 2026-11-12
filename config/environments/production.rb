@@ -48,8 +48,13 @@ Rails.application.configure do
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
 
-  # Replace the default in-process memory cache store with a durable alternative.
-  # config.cache_store = :mem_cache_store
+  # No cache store is configured, so Rails uses the file store in tmp/cache. That
+  # lives on the local disk of the server: it is not shared between servers and may be
+  # emptied on every restart or deploy. The login and password reset rate limits
+  # (Users::SessionsController, Users::PasswordsController) count in it, which is fine
+  # with one server and one Puma process, as deployed. With several servers each one
+  # counts on its own and the limits multiply: switch to a shared store (e.g. Solid
+  # Cache) before scaling out.
 
   # Replace the default in-process and non-durable queuing backend for Active Job.
   # config.active_job.queue_adapter = :resque
