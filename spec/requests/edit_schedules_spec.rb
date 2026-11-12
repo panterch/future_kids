@@ -43,7 +43,7 @@ shared_examples 'schedule editing' do |label, path_helper, person_factory|
       # doesn't cause a false failure. Verifies register_schedule_checkboxes ran.
       unchecked_checkbox = first('form.schedule table input[type=checkbox]:not(:checked)')
       within(unchecked_checkbox.find(:xpath, '..')) do
-        expect(page).to have_no_selector('input[type=hidden]:not([disabled])', visible: :all)
+        expect(page).to have_no_css('input[type=hidden]:not([disabled])', visible: :all)
       end
     end
   end

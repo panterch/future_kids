@@ -3,6 +3,11 @@
 require 'spec_helper'
 
 describe Comment do
+  it 'addresses no teacher by default, the third one like the others' do
+    expect(described_class.new.attributes.values_at('to_teacher', 'to_secondary_teacher', 'to_third_teacher'))
+      .to eq([false, false, false])
+  end
+
   context 'default values from last journal comment' do
     before do
       @previous = create(:comment)
@@ -22,16 +27,26 @@ describe Comment do
 
     it 'does set recipients from previous' do
       @previous.update(to_teacher: true,
-                       to_secondary_teacher: true)
+                       to_secondary_teacher: true,
+                       to_third_teacher: true)
       @comment.initialize_default_values(@journal.mentor)
       expect(@comment.to_teacher).to be(true)
       expect(@comment.to_secondary_teacher).to be(true)
+      expect(@comment.to_third_teacher).to be(true)
     end
 
     it 'does set teacher as recipient when creator' do
       @journal.kid.update!(teacher: create(:teacher))
       @comment.initialize_default_values(@journal.kid.teacher)
       expect(@comment.to_teacher).to be(true)
+      expect(@comment.to_secondary_teacher).to be(false)
+    end
+
+    it 'does set third teacher as recipient when creator' do
+      @journal.kid.update!(third_teacher: create(:teacher))
+      @comment.initialize_default_values(@journal.kid.third_teacher)
+      expect(@comment.to_third_teacher).to be(true)
+      expect(@comment.to_teacher).to be(false)
       expect(@comment.to_secondary_teacher).to be(false)
     end
   end
@@ -61,15 +76,18 @@ describe Comment do
     it 'adds the teachers if requested' do
       @kid.update!(teacher: @teacher1 = create(:teacher))
       @kid.update!(secondary_teacher: @teacher2 = create(:teacher))
+      @kid.update!(third_teacher: @teacher3 = create(:teacher))
       @comment.update(to_teacher: true,
-                      to_secondary_teacher: true)
+                      to_secondary_teacher: true,
+                      to_third_teacher: true)
       expect(@comment.recipients).to eq([@kid.mentor.email,
-                                         @teacher1.email, @teacher2.email])
+                                         @teacher1.email, @teacher2.email, @teacher3.email])
     end
 
     it 'does not add present teacher if not requested' do
       @kid.update!(teacher: create(:teacher))
       @kid.update!(secondary_teacher: create(:teacher))
+      @kid.update!(third_teacher: create(:teacher))
       expect(@comment.recipients).to eq([@kid.mentor.email])
     end
   end

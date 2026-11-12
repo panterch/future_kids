@@ -62,9 +62,13 @@ module FutureKids
     config.active_record.encryption.primary_key =
       ENV.fetch('ACTIVE_RECORD_ENCRYPTION_PRIMARY_KEY') { Rails.env.production? ? nil : 'insecure-dev-primary-key' }
     config.active_record.encryption.deterministic_key =
-      ENV.fetch('ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY') { Rails.env.production? ? nil : 'insecure-dev-deterministic-key' }
+      ENV.fetch('ACTIVE_RECORD_ENCRYPTION_DETERMINISTIC_KEY') do
+        Rails.env.production? ? nil : 'insecure-dev-deterministic-key'
+      end
     config.active_record.encryption.key_derivation_salt =
-      ENV.fetch('ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT') { Rails.env.production? ? nil : 'insecure-dev-key-derivation-salt' }
+      ENV.fetch('ACTIVE_RECORD_ENCRYPTION_KEY_DERIVATION_SALT') do
+        Rails.env.production? ? nil : 'insecure-dev-key-derivation-salt'
+      end
 
     # OPTIMIZE: country select only to available locales (this does not to work automatically with
     # i18n active_record)
@@ -75,8 +79,8 @@ module FutureKids
     # Don't generate system test files.
     config.generators.system_tests = nil
 
-    # Brute-force protection: rack-attack's railtie auto-inserts its middleware; throttle
-    # rules for auth endpoints live in config/initializers/rack_attack.rb. Devise's
-    # :lockable is the per-account backstop.
+    # Brute-force protection: the auth endpoints are throttled with Rails' rate_limit in
+    # Users::SessionsController and Users::PasswordsController. Devise's :lockable is the
+    # per-account backstop.
   end
 end

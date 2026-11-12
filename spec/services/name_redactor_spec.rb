@@ -77,7 +77,8 @@ describe NameRedactor do
       kid.update!(parent: 'Anna a Marca de Muster // Beispiel Fritz (wohnt in Musterhausen)')
       redactor = described_class.new(kid)
       redacted = redactor.redact('Beispiel rief an.')
-      expect(redactor.rehydrate(redacted)).to eq('Anna a Marca de Muster // Beispiel Fritz (wohnt in Musterhausen) rief an.')
+      expect(redactor.rehydrate(redacted))
+        .to eq('Anna a Marca de Muster // Beispiel Fritz (wohnt in Musterhausen) rief an.')
     end
 
     it 'does not treat a guardian name particle as a standalone match token' do
@@ -108,7 +109,7 @@ describe NameRedactor do
     end
 
     it 'redacts admins even when not assigned to this kid' do
-      admin = create(:admin, name: 'Wyss', prename: 'Sara')
+      create(:admin, name: 'Wyss', prename: 'Sara')
 
       expect(described_class.new(kid).redact('Sara war zu Besuch.'))
         .to eq('[Coach1] war zu Besuch.')

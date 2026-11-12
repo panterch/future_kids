@@ -65,6 +65,7 @@
               = link_to relation.school.display_name, relation.school
           %td
             - if relation.inactivatable?
-              =button_to "Inaktiv setzen", kid_mentor_relation_path(id: relation.kid_id), method: :delete, class: 'btn btn-danger'
+              - confirm = "#{relation.kid.display_name} und #{relation.mentor.display_name} wirklich inaktiv setzen? Das Kind verliert seine Zuordnungen, die Mentor*in auch die zu allen anderen Kindern. Das lässt sich nicht automatisch wiederherstellen."
+              =button_to "Inaktiv setzen", kid_mentor_relation_path(id: relation.kid_id), method: :delete, class: 'btn btn-danger', data: { confirm: confirm }
 -else
   %p Kein Eintrag vorhanden

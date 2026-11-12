@@ -331,17 +331,37 @@ p:has(+ .text-list) {
   }
 }
 
-// Flash messages float over the page (and close themselves, see global.js);
-// every other alert (form error summaries, the document search's no-results
-// hint) stays in the normal flow where it was rendered.
-#flash .alert {
+// Flash messages float over the page (and close themselves, see global.js),
+// centred over the navigation (signed out: over the teaser bar) and only as
+// wide as their text, so they hide a few menu entries for a moment rather
+// than the whole bar, and nothing of the page below it. Every other alert
+// (form error summaries, the document search's no-results hint) stays in the
+// normal flow where it was rendered.
+#flash {
   position: fixed;
-  left: 0;
-  right: 0;
-  top: 10px;
+  top: .5rem;
+  left: 50%;
+  transform: translateX(-50%);
   z-index: 1030;
-  margin: auto;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .5rem;
+  width: max-content;
+  max-width: calc(100vw - 2rem);
+
+  // on phones the top bar is just the menu button, the user menu and the
+  // logo, and right below it come the page title and its action buttons, so
+  // the message goes to the bottom instead (the footer is only fixed from md
+  // up)
+  @include media-breakpoint-down(md) {
+    top: auto;
+    bottom: 1rem;
+  }
+
+  .alert {
+    margin: 0;
+  }
 }
 
 // red text to emphasize parts of certain labels

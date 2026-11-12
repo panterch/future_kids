@@ -12,10 +12,12 @@ describe Teacher do
     let(:teacher) { create(:teacher, receive_journals: true) }
     let(:kid) { create(:kid, teacher: teacher) }
     let(:secondary_kid) { create(:kid, secondary_teacher: teacher) }
+    let(:third_kid) { create(:kid, third_teacher: teacher) }
 
     it 'finds todays journals' do
       journals = [create(:journal, kid: kid),
-                  create(:journal, kid: secondary_kid)]
+                  create(:journal, kid: secondary_kid),
+                  create(:journal, kid: third_kid)]
       expect(teacher.todays_journals.sort).to eq(journals.sort)
     end
 
@@ -47,6 +49,17 @@ describe Teacher do
       create(:journal)
       described_class.conditionally_send_journals
       expect(ActionMailer::Base.deliveries).to be_empty
+    end
+  end
+
+  describe 'inactive setting' do
+    it 'releases the kids as first, second and third teacher' do
+      teacher = create(:teacher)
+      kids = [create(:kid, teacher: teacher), create(:kid, secondary_teacher: teacher),
+              create(:kid, third_teacher: teacher)]
+      teacher.reload.update!(inactive: true)
+      kids.each(&:reload)
+      expect(kids.map { |kid| [kid.teacher, kid.secondary_teacher, kid.third_teacher] }.flatten).to all(be_nil)
     end
   end
 end

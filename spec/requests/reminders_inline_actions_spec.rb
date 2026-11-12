@@ -27,7 +27,7 @@ feature 'reminders inline actions', :js do
       expect(page).to have_text(reminder.kid.name)
     end
     expect(page).to have_current_path(reminders_path, ignore_query: true)
-    expect(page.evaluate_script('window.no_reload_marker')).to eq(true)
+    expect(page.evaluate_script('window.no_reload_marker')).to be(true)
     expect(reminder.reload.sent_at).to be_present
   end
 
@@ -37,7 +37,7 @@ feature 'reminders inline actions', :js do
       expect(page).to have_no_text(reminder.kid.name)
     end
     expect(page).to have_current_path(reminders_path, ignore_query: true)
-    expect(page.evaluate_script('window.no_reload_marker')).to eq(true)
+    expect(page.evaluate_script('window.no_reload_marker')).to be(true)
     expect(reminder.reload.acknowledged_at).to be_present
   end
 end

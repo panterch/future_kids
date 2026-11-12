@@ -31,7 +31,8 @@ describe DetailsHelper do
 
   it 'marks blank values' do
     html = render_details { |d| d.attribute(:secondary_mentor) }
-    expect(html).to have_css('.kid_secondary_mentor.text-body-secondary .show-for-value.text-body-secondary', text: 'Keine Angabe')
+    expect(html).to have_css('.kid_secondary_mentor.text-body-secondary .show-for-value.text-body-secondary',
+                             text: 'Keine Angabe')
   end
 
   it 'uses a block without arguments as the value' do

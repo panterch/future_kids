@@ -80,11 +80,14 @@ class Ability
     can %i[create read update], FirstYearAssessment, kid: { mentor_id: user.id }
     can %i[create read update], FirstYearAssessment,
         kid: { secondary_mentor_id: user.id, secondary_active: true }
-    # has read access to teachers he is connected
+    # has read access to teachers he is connected - the first, second and
+    # third teacher of a kid alike
     can :read, Teacher, kids: { mentor_id: user.id }
     can :read, Teacher, secondary_kids: { mentor_id: user.id }
+    can :read, Teacher, third_kids: { mentor_id: user.id }
     can :read, Teacher, kids: { secondary_mentor_id: user.id, secondary_active: true }
     can :read, Teacher, secondary_kids: { secondary_mentor_id: user.id, secondary_active: true }
+    can :read, Teacher, third_kids: { secondary_mentor_id: user.id, secondary_active: true }
   end
 
   def teacher_abilities(user)

@@ -6,20 +6,14 @@
       .card-body
         = details_for @mentor do |show|
           = render "details", show: show, mentor: @mentor
-          = show.association :schools do |k|
-            %li
-              = can_link_to k
-          = show.association :kids do |k|
-            %li
-              = can_link_to k
-              = "am #{k.human_meeting_day}" if k.meeting_day.present?
-              = "in #{k.city}" if k.city.present?
-          = show.association :secondary_kids do |k|
-            %li
-
-              = can_link_to k
-              = "am #{k.human_meeting_day}" if k.meeting_day.present?
-              = "in #{k.city}" if k.city.present?
+          -# only the kids the viewer may read: can_link_to prints the name of a
+          -# kid it doesn't link, e.g. to a teacher of another kid of this mentor
+          = show.attribute :kids do
+            - @mentor.kids.accessible_by(current_ability).includes(:school).each do |k|
+              %div= render 'kid', kid: k
+          = show.attribute :secondary_kids do
+            - @mentor.secondary_kids.accessible_by(current_ability).includes(:school).each do |k|
+              %div= render 'kid', kid: k
 
     -if current_user.is_a?(Admin)
       .card.mb-4
@@ -52,7 +46,6 @@
 
 -# times are only visible to the mentor himself or an admin
 - if viewing_own_data?(@mentor)
-  #a(name='mentor_journal_date')
   .d-flex.justify-content-between.align-items-center.flex-wrap.gap-2.mt-4.mb-2
     %h2.mb-0 Zeiterfassung für den Monat
     #mentor_journal_date.d-flex.gap-2

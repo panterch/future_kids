@@ -9,10 +9,5 @@
               %td
                 - if resource.email.present?
                   = mail_to(resource.email) { icon('envelope') + " <#{resource.email}>" }
-              %td
-                -# if resource.todo.present?
-                  %a.todotoggle.btn.btn-sm{data: { bs_toggle: 'popover', bs_trigger: 'hover focus', bs_placement: 'left', bs_container: 'body', bs_html: 'true', bs_content: resource.human_todo}, href:  edit_resource_path(resource, :anchor => 'todo') }
-                    = icon('info-circle')
-                    Pendenz
 - else
   %p Kein Eintrag vorhanden

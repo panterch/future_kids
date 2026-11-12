@@ -49,8 +49,8 @@ class TeachersController < ApplicationController
   # not by role-conditional permitting here
   def teacher_params
     if params[:teacher].present?
-      params.require(:teacher).permit(:name, :prename, :email, :password, :password_confirmation, :school_id,
-                                       :phone, :receive_journals, :todo, :note, :inactive, :photo)
+      params.expect(teacher: %i[name prename email password password_confirmation school_id
+                                phone receive_journals todo note inactive photo])
     else
       {}
     end

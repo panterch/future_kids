@@ -1,3 +1,5 @@
+# frozen_string_literal: true
+
 # Mitigation for CVE-2026-66066: prevent libvips from executing unsafe
 # operations (e.g. arbitrary file read/RCE) when processing untrusted
 # uploads (User#photo, Site#logo) via Active Storage variants.

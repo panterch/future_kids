@@ -15,10 +15,6 @@ module ResourceHelpers
     send("#{resource_name}_params")
   end
 
-  def resource_class
-    resource_name.classify.constantize
-  end
-
   def alias_as_resource
     @resource = instance_variable_get("@#{resource_name}")
   end

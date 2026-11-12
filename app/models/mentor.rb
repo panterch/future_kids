@@ -38,24 +38,6 @@ class Mentor < User
   validates :exit_at, comparison: { greater_than_or_equal_to: MIN_DATE }, allow_blank: true
   validates :dob, comparison: { greater_than: Date.new(1900, 1, 1) }, allow_blank: true
 
-  def self.mentors_grouped_by_assigned_kids
-    groups = { both: [], only_primary: [], only_secondary: [],
-               none: [], substitute: [] }
-    Mentor.active.each do |m|
-      if m.substitute?
-        groups[:substitute] << m
-        next
-      end
-      case [m.kids.present?, m.secondary_kids.present?]
-      when [true, true] then groups[:both] << m
-      when [true, false] then groups[:only_primary] << m
-      when [false, true] then groups[:only_secondary] << m
-      when [false, false] then groups[:none] << m
-      end
-    end
-    groups
-  end
-
   def total_duration
     journals.sum(:duration)
   end

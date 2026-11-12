@@ -8,10 +8,9 @@
     %title= @site.title.present? ? @site.title : "FutureKids"
     = stylesheet_link_tag 'application', :media => :all
     = stylesheet_link_tag 'print', :media => :print
-    - if @site.css.present?
-      %style=raw(@site.css)
+    -# the nonce lets these inline scripts pass the content security policy
     - unless force_light_theme
-      %script
+      %script{nonce: content_security_policy_nonce}
         :plain
           (function() {
             var stored = null;
@@ -30,7 +29,7 @@
     -# .md), rails-ujs method links (logout, deletes), new-tab/download links
     -# and the exception test. `.no-prefetch` opts any other link out.
     - if user_signed_in?
-      %script{type: "speculationrules"}
+      %script{type: "speculationrules", nonce: content_security_policy_nonce}
         :plain
           {
             "prefetch": [{
@@ -56,6 +55,8 @@
     = favicon_link_tag 'favicon.svg', :rel => 'icon', :type => 'image/svg+xml'
     = favicon_link_tag '/apple-touch-icon.png', :rel => 'apple-touch-icon', :type => 'image/png'
     = csrf_meta_tag
+    -# rails-ujs takes the nonce from here for the JavaScript it gets as an answer
+    = csp_meta_tag
 
   %body(class="#{controller_name} #{action_name}"){data: {icon_sprite: asset_path('bootstrap-icons.svg')}}
     - if !user_signed_in?
@@ -148,5 +149,3 @@
               = mail_to @site.footer_email
             - if @site.terms_of_use_content.present?
               = link_to t('activerecord.attributes.site.terms_of_use_content'), terms_of_use_path, class: 'ms-2'
-
--

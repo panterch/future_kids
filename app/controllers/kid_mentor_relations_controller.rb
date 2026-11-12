@@ -40,8 +40,14 @@ class KidMentorRelationsController < ApplicationController
   end
 
   def destroy
-    KidMentorRelation.inactivate(params[:id])
-    redirect_back_or_to(kids_url)
+    # the exit selects on the index save in place without redrawing the row,
+    # so the button may be out of date: check again before releasing anything
+    if @kid_mentor_relation.inactivatable?
+      KidMentorRelation.inactivate(params[:id])
+      redirect_back_or_to(kids_url, notice: t('flash.kid_mentor_relation_inactivated'))
+    else
+      redirect_back_or_to(kids_url, alert: t('flash.kid_mentor_relation_not_inactivatable'))
+    end
   end
 
   def destroy_all

@@ -1,6 +1,11 @@
-= show_for(@<%= singular_name %>) do |s|
+= details_for(@<%= singular_name %>) do |d|
 <%- attributes.each do |attribute| -%>
-  = s.<%= attribute.reference? ? :association : :attribute %> :<%= attribute.name %>
+<%- if attribute.reference? -%>
+  = d.attribute :<%= attribute.name %> do
+    = can_link_to(@<%= singular_name %>.<%= attribute.name %>)
+<%- else -%>
+  = d.attribute :<%= attribute.name %>
+<%- end -%>
 <% end -%>
 
 = link_to 'Edit', edit_<%= singular_name %>_path(@<%= singular_name %>)

@@ -18,7 +18,7 @@ class DocumentsController < ApplicationController
   def create
     @document = Document.create(document_params)
     if @document.valid?
-      redirect_to action: :index
+      respond_with @document, location: documents_path
     else
       render :new
     end
@@ -27,14 +27,17 @@ class DocumentsController < ApplicationController
   def update
     @document.update(document_params)
     if @document.valid?
-      redirect_to action: :index
+      respond_with @document, location: documents_path
     else
       render :edit
     end
   end
 
+  # the tree deletes by ajax and reloads the page, which then shows the
+  # notice. set by hand: there is no respond_with for the ajax answer
   def destroy
     @document.destroy
+    flash[:notice] = t('flash.actions.destroy.notice')
     if request.xhr?
       head :no_content
     else

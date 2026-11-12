@@ -103,8 +103,4 @@ class ApplicationController < ActionController::Base
     sign_out current_user
     redirect_to root_url, alert: t('flash.user_inactive')
   end
-
-  def valid_grade_group?(grade_group)
-    %w[1-3 4-6].include?(grade_group)
-  end
 end

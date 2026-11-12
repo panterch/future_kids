@@ -34,18 +34,12 @@ class KidsController < ApplicationController
     @kids = @kids.includes(mentor: { photo_attachment: :blob }, admin: { photo_attachment: :blob })
 
     if current_user.is_a?(Admin) && params[:format] == 'xlsx'
+      # the export also lists every kid's school, teacher and secondary mentor
+      @kids = @kids.includes(:school, :teacher, :secondary_mentor)
       return render xlsx: 'index', filename: "kids-#{Time.current.strftime('%Y-%m-%d-%H-%M')}.xlsx"
     end
 
     respond_with @kids
-  end
-
-  # update is called from the normal rails edit form and from the react
-  # component on show_kid_mentors_schedules
-  def update
-    return render :edit unless @kid.update(kid_params)
-
-    respond_with @kid
   end
 
   def show
@@ -58,6 +52,14 @@ class KidsController < ApplicationController
     end
 
     preload_history
+    respond_with @kid
+  end
+
+  # update is called from the normal rails edit form and from the react
+  # component on show_kid_mentors_schedules
+  def update
+    return render :edit unless @kid.update(kid_params)
+
     respond_with @kid
   end
 

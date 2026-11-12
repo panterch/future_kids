@@ -27,8 +27,9 @@ class PrincipalsController < ApplicationController
   def principal_params
     return {} if params[:principal].blank?
 
-    params.require(:principal).permit(
-      :name, :prename, :email, :password, :password_confirmation, :phone, :inactive, :photo, school_ids: []
+    params.expect(
+      principal: [:name, :prename, :email, :password, :password_confirmation, :phone, :inactive, :photo,
+                  { school_ids: [] }]
     )
   end
 end

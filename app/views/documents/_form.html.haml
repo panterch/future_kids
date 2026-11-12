@@ -8,7 +8,7 @@
         = Document.human_attribute_name("category#{i}")
         %a.freetext(href="#" aria-label="Freitext eingeben")= icon('pencil')
       .col-sm-9
-        = form.select "category#{i}", Document.categories(i), {}, class: 'select optional form-select', style: 'display: none;'
+        = form.select "category#{i}", Document.categories(i), {}, class: 'select optional form-select', hidden: true
         = form.text_field "category#{i}", class: 'string optional form-control'
   = form.input :title
   = form.input :attachment

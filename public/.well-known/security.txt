@@ -1,3 +1,3 @@
-Contact: mailto:seb@panter.ch
+Contact: mailto:github.booted220@simplelogin.com
+Policy: https://github.com/panterch/future_kids/blob/master/SECURITY.md
 Expires: 2099-12-31T22:59:00.000Z
-

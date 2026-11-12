@@ -170,7 +170,7 @@ CREATE TABLE public.comments (
     updated_at timestamp without time zone NOT NULL,
     to_teacher boolean DEFAULT false,
     to_secondary_teacher boolean DEFAULT false,
-    to_third_teacher boolean,
+    to_third_teacher boolean DEFAULT false NOT NULL,
     created_by_id integer,
     to_principal boolean DEFAULT false NOT NULL
 );
@@ -826,7 +826,6 @@ CREATE TABLE public.sites (
     terms_of_use_content_parsed text,
     public_signups_active boolean DEFAULT false,
     title character varying,
-    css text,
     ai_api_base_url character varying,
     ai_api_token character varying,
     ai_model character varying,
@@ -1271,10 +1270,45 @@ CREATE UNIQUE INDEX index_active_storage_variant_records_uniqueness ON public.ac
 
 
 --
+-- Name: index_comments_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_created_by_id ON public.comments USING btree (created_by_id);
+
+
+--
+-- Name: index_comments_on_journal_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_comments_on_journal_id ON public.comments USING btree (journal_id);
+
+
+--
+-- Name: index_first_year_assessments_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_first_year_assessments_on_created_by_id ON public.first_year_assessments USING btree (created_by_id);
+
+
+--
 -- Name: index_first_year_assessments_on_kid_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_first_year_assessments_on_kid_id ON public.first_year_assessments USING btree (kid_id);
+
+
+--
+-- Name: index_first_year_assessments_on_mentor_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_first_year_assessments_on_mentor_id ON public.first_year_assessments USING btree (mentor_id);
+
+
+--
+-- Name: index_first_year_assessments_on_teacher_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_first_year_assessments_on_teacher_id ON public.first_year_assessments USING btree (teacher_id);
 
 
 --
@@ -1306,6 +1340,13 @@ CREATE INDEX index_journals_on_month ON public.journals USING btree (month);
 
 
 --
+-- Name: index_kids_on_admin_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_kids_on_admin_id ON public.kids USING btree (admin_id);
+
+
+--
 -- Name: index_kids_on_inactive; Type: INDEX; Schema: public; Owner: -
 --
 
@@ -1313,10 +1354,45 @@ CREATE INDEX index_kids_on_inactive ON public.kids USING btree (inactive);
 
 
 --
+-- Name: index_kids_on_mentor_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_kids_on_mentor_id ON public.kids USING btree (mentor_id);
+
+
+--
 -- Name: index_kids_on_school_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_kids_on_school_id ON public.kids USING btree (school_id);
+
+
+--
+-- Name: index_kids_on_secondary_mentor_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_kids_on_secondary_mentor_id ON public.kids USING btree (secondary_mentor_id);
+
+
+--
+-- Name: index_kids_on_secondary_teacher_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_kids_on_secondary_teacher_id ON public.kids USING btree (secondary_teacher_id);
+
+
+--
+-- Name: index_kids_on_teacher_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_kids_on_teacher_id ON public.kids USING btree (teacher_id);
+
+
+--
+-- Name: index_kids_on_third_teacher_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_kids_on_third_teacher_id ON public.kids USING btree (third_teacher_id);
 
 
 --
@@ -1331,6 +1407,20 @@ CREATE INDEX index_mentor_matchings_on_kid_id ON public.mentor_matchings USING b
 --
 
 CREATE INDEX index_mentor_matchings_on_mentor_id ON public.mentor_matchings USING btree (mentor_id);
+
+
+--
+-- Name: index_principal_school_relations_on_principal_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_principal_school_relations_on_principal_id ON public.principal_school_relations USING btree (principal_id);
+
+
+--
+-- Name: index_principal_school_relations_on_school_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_principal_school_relations_on_school_id ON public.principal_school_relations USING btree (school_id);
 
 
 --
@@ -1432,10 +1522,24 @@ CREATE INDEX index_substitutions_on_secondary_mentor_id ON public.substitutions 
 
 
 --
+-- Name: index_termination_assessments_on_created_by_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_termination_assessments_on_created_by_id ON public.termination_assessments USING btree (created_by_id);
+
+
+--
 -- Name: index_termination_assessments_on_kid_id; Type: INDEX; Schema: public; Owner: -
 --
 
 CREATE INDEX index_termination_assessments_on_kid_id ON public.termination_assessments USING btree (kid_id);
+
+
+--
+-- Name: index_termination_assessments_on_teacher_id; Type: INDEX; Schema: public; Owner: -
+--
+
+CREATE INDEX index_termination_assessments_on_teacher_id ON public.termination_assessments USING btree (teacher_id);
 
 
 --
@@ -1528,6 +1632,10 @@ ALTER TABLE ONLY public.mentor_matchings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261112100000'),
+('20261112090000'),
+('20261111130000'),
+('20261111120000'),
 ('20261108120000'),
 ('20260821181122'),
 ('20260719160153'),

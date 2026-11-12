@@ -16,9 +16,9 @@ class FirstYearAssessment < ApplicationRecord
   after_create_commit :send_notification
 
   def display_name
-    return 'Neues Auswertungsgespräch' if new_record?
+    return 'Neues Auswertungsgespräch' if new_record?
 
-    "Auswertungsgespräch vom #{I18n.l(held_at.to_date)}" if held_at
+    "Auswertungsgespräch vom #{I18n.l(held_at.to_date)}" if held_at
   end
 
   def initialize_default_values(kid)
@@ -27,12 +27,6 @@ class FirstYearAssessment < ApplicationRecord
     self.teacher_id = kid.teacher_id
     self.mentor_id = kid.mentor_id
     self.breaking_off = false
-  end
-
-  def human_duration
-    return '' if duration.nil?
-
-    "#{duration} Minuten"
   end
 
   human_text_attributes :development_teacher, :development_mentor, :goals_teacher, :goals_mentor,

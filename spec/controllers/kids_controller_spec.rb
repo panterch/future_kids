@@ -196,6 +196,36 @@ describe KidsController do
         expect(response.body).to include("- Geplanter Austritt: 2026 Herbst (Übertritt)\n")
       end
 
+      it 'includes the exit recommendation and the plans for the coming year of a first year assessment' do
+        create(:first_year_assessment, kid: @kid, breaking_off: true,
+                                       breaking_reason: 'Lehrperson: fehlende Motivation',
+                                       goal_1: 'Lesen', goal_2: 'Selbständigkeit', goal_3: 'Pünktlich beginnen')
+
+        get :show, params: { id: @kid }, format: :md
+
+        expect(response.body).to include(
+          "- Wird empfohlen, dass das Kind nach Beenden des laufenden Future Kids Semesters aussteigt?: Ja\n" \
+          "- Wenn ja: Von wem und weshalb?: Lehrperson: fehlende Motivation\n" \
+          "- Fachliche Förderbereiche für das kommende Jahr: Lesen\n" \
+          "- Überfachliche Förderbereiche für das kommende Jahr: Selbständigkeit\n" \
+          "- Wichtig zu beachten im kommenden Jahr: Pünktlich beginnen\n"
+        )
+      end
+
+      it 'redacts names in the exit reason of a first year assessment and leaves out empty fields' do
+        mentor = create(:mentor, name: 'Fischer', prename: 'Lea')
+        create(:journal, kid: @kid, mentor: mentor)
+        create(:first_year_assessment, kid: @kid, mentor: mentor, breaking_off: false,
+                                       breaking_reason: 'Lea möchte weitermachen')
+
+        get :show, params: { id: @kid, redacted: 'true' }, format: :md
+
+        expect(response.body)
+          .to match(/aussteigt\?: Nein\n- Wenn ja: Von wem und weshalb\?: \[Mentor\d+\] möchte weitermachen\n/)
+        expect(response.body).not_to include('Lea')
+        expect(response.body).not_to include('Fachliche Förderbereiche für das kommende Jahr')
+      end
+
       it 'renders a note instead of the statistics without journals' do
         get :show, params: { id: @kid }, format: :md
 
@@ -280,6 +310,33 @@ describe KidsController do
         post :update_schedules, params: { id: @kid, kid: { schedules_attributes: [attributes_for(:schedule)] } }
         expect(response).to be_redirect
         expect(@kid.schedules.count).to eq(1)
+      end
+
+      it 'replaces the existing schedule' do
+        create(:schedule, person: @kid, day: 1, hour: 14, minute: 0)
+        post :update_schedules, params: { id: @kid, kid: { schedules_attributes: [{ day: 2, hour: 15, minute: 30 }] } }
+        expect(@kid.schedules.pluck(:day, :hour, :minute)).to eq([[2, 15, 30]])
+        expect(flash[:alert]).to be_blank
+      end
+
+      it 'empties the schedule when nothing is submitted' do
+        create(:schedule, person: @kid, day: 1, hour: 14, minute: 0)
+        post :update_schedules, params: { id: @kid }
+        expect(@kid.schedules.count).to eq(0)
+        expect(flash[:alert]).to be_blank
+      end
+
+      it 'keeps the existing schedule and alerts when the kid does not validate' do
+        create(:schedule, person: @kid, day: 1, hour: 14, minute: 0)
+        # an older kid without the required goals
+        @kid.update_columns(goal_1: nil, goal_2: nil) # rubocop:disable Rails/SkipsModelValidations
+        expect(@kid.reload).not_to be_valid
+
+        post :update_schedules, params: { id: @kid, kid: { schedules_attributes: [{ day: 2, hour: 15, minute: 30 }] } }
+
+        expect(response).to redirect_to(action: :show)
+        expect(@kid.schedules.pluck(:day, :hour, :minute)).to eq([[1, 14, 0]])
+        expect(flash[:alert]).to eq(I18n.t('flash.schedules_not_saved'))
       end
     end
 
@@ -368,6 +425,15 @@ describe KidsController do
         kid = Kid.find(assigns(:kid).id)
         expect(kid.teacher).to be_nil
         expect(kid.secondary_teacher).to eq(@teacher)
+        expect(kid.school).to eq(@school)
+        expect(response).to be_redirect
+      end
+
+      it 'can assign itself as third teacher' do
+        post :create, params: { kid: attributes_for(:kid, third_teacher_id: @teacher.id, school_id: @school.id) }
+        kid = Kid.find(assigns(:kid).id)
+        expect(kid.teacher).to be_nil
+        expect(kid.third_teacher).to eq(@teacher)
         expect(kid.school).to eq(@school)
         expect(response).to be_redirect
       end

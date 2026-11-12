@@ -3,9 +3,22 @@ de:
     session_expired: 'Ihre Sitzung ist abgelaufen. Bitte melden Sie sich erneut an.'
     too_many_requests: 'Zu viele Anfragen. Bitte versuchen Sie es in einigen Minuten erneut.'
     user_inactive: 'Benutzer*in inaktiv'
-    school_inactivated: 'Schule wurde inaktiv gesetzt'
     access_denied: 'Sie haben keinen Zugriff (mehr) auf diese Seite.'
     assign_mentor_first: 'Bitte vorher einen Mentor zuordnen.'
+    schedules_not_saved: 'Der Stundenplan wurde nicht gespeichert, weil die übrigen Angaben nicht gültig sind. Bitte zuerst diese korrigieren. Der bisherige Stundenplan bleibt erhalten.'
+    kid_mentor_relation_inactivated: 'Schüler*in und Mentor*in wurden inaktiv gesetzt.'
+    kid_mentor_relation_not_inactivatable: 'Nicht inaktiv gesetzt: Schüler*in und Mentor*in haben nicht mehr beide den Stand «Steigt aus».'
+    # shown by Responders::FlashResponder after respond_with (ApplicationResponder).
+    # Without the record's name: journals, reviews and assessments respond with
+    # their kid
+    actions:
+      create:
+        notice: 'Gespeichert.'
+      update:
+        notice: 'Gespeichert.'
+      destroy:
+        notice: 'Gelöscht.'
+        alert: 'Konnte nicht gelöscht werden.'
 
   activerecord:
     models:
@@ -34,15 +47,12 @@ de:
         address: "Strasse, Nr."
         city: "PLZ, Ort"
         zip: "PLZ"
-        distance: "Entfernung"
-        street_no: "Hausnummer"
         note: "Wichtig zu wissen"
         ai_review: "KI-Auswertung"
         ai_review_generated_at: "KI-Auswertung generiert am"
         sex: "Geschlecht"
         grade: "Klassenstufe"
         available: "Mögliche Termine"
-        entered_at: "Datum des Einstiegs"
         term: "Eintritt"
         exit: "Austritt"
         exit_reason: "Grund für Ausstieg"
@@ -117,7 +127,6 @@ de:
         cancelled: Ausgefallen
         important: 'Bitte sofort lesen.'
         duration: Dauer
-        title: Titel
         goal: Förderbereich
         subject: "Fach / Thema"
         method: "Beobachtungen und Vorgehensweise"
@@ -130,7 +139,6 @@ de:
         held_at: Datum
         reason: Anlass
         kind: "Art des Gesprächs"
-        members: "Teilnehmende"
         content: "Inhalt"
         outcome: "Abmachungen"
         note: "Beobachtungen / Anmerkungen"
@@ -140,29 +148,28 @@ de:
         kid: "Kind"
         teacher: "Lehrperson"
         mentor: "Mentor*in"
-        duration: "Dauer des Gesprächs"
         development: "Schulische Entwicklung des Kindes, insbesondere im Hinblick auf die fachlichen Förderbereiche"
         development_teacher: "Sicht Lehrperson"
         development_mentor: "Sicht Mentor*in"
         goals: "Persönliche Entwicklung des Kindes, insbesondere im Hinblick auf die überfachlichen Förderbereiche"
         goals_teacher: "Sicht Lehrperson"
         goals_mentor: "Sicht Mentor*in"
-        relation_mentor: "Wie nimmt Mentor*in die persönliche Beziehung zum Kind wahr?"
+        relation_mentor: "Wie nimmt Mentor*in die persönliche Beziehung zum Kind wahr?"
         motivation: "Wie beurteilt Mentor*in die Arbeitshaltung des Kindes?"
-        collaboration: "Wie beurteilt Mentor*in die Zusammenarbeit mit der Familie (Erreichbarkeit, Zuverlässigkeit)?"
+        collaboration: "Wie beurteilt Mentor*in die Zusammenarbeit mit der Familie (Erreichbarkeit, Zuverlässigkeit)?"
         breaking_off: "Wird empfohlen, dass das Kind nach Beenden des laufenden Future Kids Semesters aussteigt?"
         breaking_reason: "Wenn ja: Von wem und weshalb?"
-        goal_1: "Fachliche Förderbereiche für das kommende Jahr"
-        goal_2: "Überfachliche Förderbereiche für das kommende Jahr"
+        goal_1: "Fachliche Förderbereiche für das kommende Jahr"
+        goal_2: "Überfachliche Förderbereiche für das kommende Jahr"
         goal_3: "Wichtig zu beachten im kommenden Jahr"
-        improvements: "Verbesserungsmöglichkeiten in der Zusammenarbeit zwischen LP und Mentor*in?"
+        improvements: "Verbesserungsmöglichkeiten in der Zusammenarbeit zwischen LP und Mentor*in?"
         note: "Weitere Bemerkungen"  
       termination_assessment:
         held_at: "Datum"
         kid: "Kind"
         teacher: "Lehrperson"
         development: "Wie ist die schulische Entwicklung des Kindes seit Beginn von Future Kids, insbesondere im Hinblick auf die fachlichen Förderbereiche?"
-        goals: "Wie ist die persönliche Entwicklung des Kindes seit Beginn von Future Kids, insbesondere im Hinblick auf die überfachlichen Förderbereiche?"
+        goals: "Wie ist die persönliche Entwicklung des Kindes seit Beginn von Future Kids, insbesondere im Hinblick auf die überfachlichen Förderbereiche?"
         goals_reached: "Konnte das Kind in den zwei Jahren Fortschritte in den definierten Förderbereichen erzielen?"
         collaboration: "Wie beurteilen Sie die Zusammenarbeit mit Mentor*in?"
         improvements: "Was ist in der verbleibenden Future Kids-Zeit wichtig zu beachten? Auf welche Themen sollte eingegangen werden?"
@@ -177,7 +184,6 @@ de:
         address: "Strasse, Nr."
         city: "PLZ, Ort"
         zip: "PLZ"
-        street_no: "Hausnummer"
         dob: Geburtsdatum
         transport: "ÖV"
         phone: Telefon
@@ -187,7 +193,6 @@ de:
         school: Schule
         schools: Schule(n)
         ects: Einsatz
-        entry_date: Datum des Einstiges
         remember_me: Angemeldet bleiben
         inactive: Inaktiv gesetzt
         inactive_at: Inaktiviert am
@@ -198,14 +203,12 @@ de:
         absence: "Bekannte Absenzen / Verfügbarkeit"
         school: Hochschule / Gymnasium
         schools: Einsatzort(e)
-        primary_kids_meeting_day: "Einsatztag"
         term: "Startzeit"
         exit: "Austritt"
         kids: Kinder
         secondary_kids: "Kinder (Vertretung)"
         journals: "Lernjournal Einträge"
         substitute: "Ersatzmentor*in"
-        college: 'Hochschule'
         exit_kind: "Aktueller Stand"
         exit_kind_updated_at: "Aktueller Stand aktualisiert"
         exit_at: "Ausstiegsdatum"
@@ -220,9 +223,14 @@ de:
         receive_journals: "Neue Lernjournale per EMail zustellen"
       document:
         title: Titel
-        category: Kategorie
-        subcategory: Unterkategorie
-        description: Beschreibung
+        category0: Kategorie
+        category1: Unterkategorie 1
+        category2: Unterkategorie 2
+        category3: Unterkategorie 3
+        category4: Unterkategorie 4
+        category5: Unterkategorie 5
+        category6: Unterkategorie 6
+        category7: Unterkategorie 7
         attachment: Datei
         admin_only: "Nur für Admins und Coaches einsehbar"
         download_count: "Anzahl Downloads"
@@ -237,7 +245,6 @@ de:
         inactive: Inaktiv
         inactive_at: Inaktiviert am
         street: "Strasse, Nr."
-        street_no: Hausnummer
         zip: PLZ
         city: "PLZ, Ort"
         phone: Telefon Teamzimmer
@@ -273,7 +280,6 @@ de:
         ai_api_base_url: "KI-Anbieter: API Basis-URL"
         ai_api_token: "KI-Anbieter: API-Token"
         ai_model: "KI-Anbieter: Modell"
-        css: Seitenspezifisches CSS
 
     errors:
       models:
@@ -363,7 +369,6 @@ de:
       new_termination_assessment: Neues Abschluss-Feedback
       xlsx: "Excel Export"
       reset_all: 'Alle zurücksetzen'
-      update_success: 'Erfolgreich gespeichert'
       expand_all: "Alle anzeigen"
       collapse_all: "Alle einklappen"
 

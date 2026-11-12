@@ -11,10 +11,19 @@
           = show.attribute :school do
             = can_link_to(@teacher.school)
           = show.attribute :phone
-          = show.association :kids do |k|
-            %li= can_link_to(k)
-          = show.association :secondary_kids do |k|
-            %li= can_link_to(k)
+          -# the kids as first, second and third teacher, handled alike. each
+          -# list only holds the kids the viewer may read: can_link_to prints
+          -# the name of a kid it doesn't link, e.g. to a mentor of another
+          -# kid of this teacher
+          = show.attribute :kids do
+            - @teacher.kids.accessible_by(current_ability).each do |k|
+              %div= can_link_to(k)
+          = show.attribute :secondary_kids do
+            - @teacher.secondary_kids.accessible_by(current_ability).each do |k|
+              %div= can_link_to(k)
+          = show.attribute :third_kids do
+            - @teacher.third_kids.accessible_by(current_ability).each do |k|
+              %div= can_link_to(k)
           = show.attribute :receive_journals
   .col-md-4
     = profile_photo(@teacher)

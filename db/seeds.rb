@@ -8,24 +8,22 @@
 #   cities = City.create([{ :name => 'Chicago' }, { :name => 'Copenhagen' }])
 #   Mayor.create(:name => 'Daley', :city => cities.first)
 
-schools = []
 unless School.any?
-  schools << School.create!(name: 'Primary school', school_kind: 'primary_school').id
-  schools << School.create!(name: 'Secondary school', school_kind: 'secondary_school').id
-  schools << School.create!(name: 'Gymnasium', school_kind: 'gymnasium').id
-  schools << School.create!(name: 'High school', school_kind: 'high_school').id
+  primary_school = School.create!(name: 'Primary school', school_kind: 'primary_school')
+  gymnasium = School.create!(name: 'Gymnasium', school_kind: 'gymnasium')
+  high_school = School.create!(name: 'High school', school_kind: 'high_school')
 end
 
 unless Mentor.any?
   Mentor.create!(name: 'Haller', prename: 'Frederik',
                  email: 'mentor@example.com', password: 'welcome',
-                 password_confirmation: 'welcome', sex: 'm', school_id: schools[2])
+                 password_confirmation: 'welcome', sex: 'm', school: gymnasium)
   Mentor.create!(name: 'Rohner', prename: 'Melanie',
                  email: 'mentor2@example.com', password: 'welcome',
-                 password_confirmation: 'welcome', sex: 'f', school_id: schools[2])
+                 password_confirmation: 'welcome', sex: 'f', school: gymnasium)
   Mentor.create!(name: 'Steiner', prename: 'Max',
                  email: 'mentor3@example.com', password: 'welcome',
-                 password_confirmation: 'welcome', sex: 'm', school_id: schools[3])
+                 password_confirmation: 'welcome', sex: 'm', school: high_school)
 end
 
 unless Admin.any?
@@ -37,7 +35,7 @@ end
 unless Teacher.any?
   Teacher.create!(name: 'Meckler', prename: 'Janine',
                   email: 'teacher@example.com', password: 'welcome',
-                  password_confirmation: 'welcome', sex: 'f', school_id: schools[0])
+                  password_confirmation: 'welcome', sex: 'f', school: primary_school)
 end
 
 unless Kid.any?

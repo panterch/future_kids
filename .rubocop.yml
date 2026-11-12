@@ -8,7 +8,7 @@ plugins:
   - rubocop-capybara
 
 AllCops:
-  TargetRubyVersion: 3.4
+  # no TargetRubyVersion: RuboCop takes it from .ruby-version
   NewCops: enable
   Exclude:
     - 'db/schema.rb'

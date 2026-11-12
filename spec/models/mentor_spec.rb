@@ -47,27 +47,6 @@ describe Mentor do
     end
   end
 
-  context 'mentors grouped by assigned kids' do
-    it 'does correctly group' do
-      @both = create(:mentor)
-      create(:kid, mentor: @both)
-      create(:kid, secondary_mentor: @both)
-      @only_primary = create(:mentor)
-      create(:kid, mentor: @only_primary)
-      @only_secondary = create(:mentor)
-      create(:kid, secondary_mentor: @only_secondary)
-      @substitute = create(:mentor, substitute: true)
-      @none = create(:mentor)
-
-      res = described_class.mentors_grouped_by_assigned_kids
-      expect(res[:both]).to eq [@both]
-      expect(res[:only_primary]).to eq [@only_primary]
-      expect(res[:only_secondary]).to eq [@only_secondary]
-      expect(res[:substitute]).to eq [@substitute]
-      expect(res[:none]).to eq [@none]
-    end
-  end
-
   context 'inactive setting' do
     it 'releases kids when set inactive' do
       @mentor = create(:mentor)

@@ -2,7 +2,7 @@
 
 require 'spec_helper'
 
-RSpec.describe 'Rate limiting', type: :request do
+RSpec.describe 'Rate limiting' do
   # The test environment uses a null cache store so rate limit counters never persist
   # (see config/environments/test.rb). rate_limit captures the store when the controller
   # class is loaded, so route its counters to a real store just for these examples.

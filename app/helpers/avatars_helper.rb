@@ -4,6 +4,7 @@ module AvatarsHelper
   # renders a circular avatar for a User (Mentor/Teacher/Admin/Principal) or
   # Kid: their uploaded photo if present, otherwise initials on a color
   # keyed to their type (see avatar_type). size is :sm, :md, or :lg.
+  # rubocop:disable-next Metrics/MethodLength
   def avatar(resource, size: :md)
     return '' if resource.blank?
 
@@ -35,7 +36,8 @@ module AvatarsHelper
     return '' unless photo_variable?(resource)
 
     content_tag(:div, class: 'profile-portrait mb-4') do
-      image_tag rails_storage_proxy_url(resource.photo_medium), class: 'profile-portrait-img', alt: resource.display_name
+      image_tag rails_storage_proxy_url(resource.photo_medium),
+                class: 'profile-portrait-img', alt: resource.display_name
     end
   end
 
@@ -75,6 +77,6 @@ module AvatarsHelper
     return '?' if parts.empty?
     return parts.first[0, 2].upcase if parts.size == 1
 
-    parts.map { |part| part[0] }.join.upcase
+    parts.map(&:first).join.upcase
   end
 end

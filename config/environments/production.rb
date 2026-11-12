@@ -26,9 +26,6 @@ Rails.application.configure do
   # Enable serving of images, stylesheets, and JavaScripts from an asset server.
   # config.asset_host = "http://assets.example.com"
 
-  # Store uploaded files on the local file system (see config/storage.yml for options).
-  config.active_storage.service = :local
-
   # Assume all access to the app is happening through a SSL-terminating reverse proxy.
   # config.assume_ssl = true
 
@@ -51,8 +48,13 @@ Rails.application.configure do
   # Don't log any deprecations.
   config.active_support.report_deprecations = false
 
-  # Replace the default in-process memory cache store with a durable alternative.
-  # config.cache_store = :mem_cache_store
+  # No cache store is configured, so Rails uses the file store in tmp/cache. That
+  # lives on the local disk of the server: it is not shared between servers and may be
+  # emptied on every restart or deploy. The login and password reset rate limits
+  # (Users::SessionsController, Users::PasswordsController) count in it, which is fine
+  # with one server and one Puma process, as deployed. With several servers each one
+  # counts on its own and the limits multiply: switch to a shared store (e.g. Solid
+  # Cache) before scaling out.
 
   # Replace the default in-process and non-durable queuing backend for Active Job.
   # config.active_job.queue_adapter = :resque
@@ -105,6 +107,8 @@ Rails.application.configure do
   # Skip DNS rebinding protection for the default health check endpoint.
   # config.host_authorization = { exclude: ->(request) { request.path == "/up" } }
 
+  # Store uploaded files in Google Cloud Storage when configured, otherwise on
+  # the local file system (see config/storage.yml).
   config.active_storage.service = if ENV.fetch('GOOGLE_PROJECT_ID', '').present?
                                     :google
                                   else

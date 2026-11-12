@@ -5,7 +5,7 @@
   .input-group.w-auto.flex-grow-1
     %span.input-group-text= icon('search')
     %input#document_search.form-control{type: 'text', placeholder: 'Dokumente durchsuchen...'}
-    %button#document_search_clear.btn.btn-outline-secondary{type: 'button', style: 'display: none;'}
+    %button#document_search_clear.btn.btn-outline-secondary{type: 'button', hidden: true}
       = icon('x-lg')
       Suche löschen
   .d-flex.flex-wrap.gap-2
@@ -23,7 +23,7 @@
         = icon('trash')
         = t_action(:delete)
 
-#search_no_results.alert.alert-info{style: 'display: none;'}
+#search_no_results.alert.alert-info{hidden: true}
   = icon('inbox')
   Keine Dokumente gefunden für den Suchbegriff.
 

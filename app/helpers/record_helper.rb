@@ -54,9 +54,9 @@ module RecordHelper
   # same actions, and a missing route is only detectable by url_for raising.
   def action_path(action)
     @action_paths ||= {}
-    return @action_paths[action] if @action_paths.key?(action)
+    return @action_paths[action] if @action_paths.key?(action) # rubocop:disable Rails/HelperInstanceVariable
 
-    @action_paths[action] = begin
+    @action_paths[action] = begin # rubocop:disable Rails/HelperInstanceVariable
       url_for(action: action)
     rescue ActionController::UrlGenerationError
       nil

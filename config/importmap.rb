@@ -1,15 +1,17 @@
+# frozen_string_literal: true
+
 # Pin npm packages by running ./bin/importmap
 
-pin "application"
-pin "global"
-pin "theme"
-pin "treeview"
+pin 'application'
+pin 'global'
+pin 'theme'
+pin 'treeview'
 
 # Vendored from the bootstrap/popper_js gems (see vendor/javascript/), same
 # hand-patched-to-be-a-real-ES-module treatment as the react-* pins below --
 # needed on every page for the navbar's collapse/dropdown, so preload: true.
-pin "popper", preload: true
-pin "bootstrap", preload: true
+pin 'popper', preload: true
+pin 'bootstrap', preload: true
 
 # actionview's own rails-ujs.esm.js -- a genuine ES module, no UMD patching
 # needed (unlike the react-* files below). Named rails_ujs_esm.js, not
@@ -27,9 +29,9 @@ pin '@rails/ujs', to: 'rails_ujs_esm.js'
 # code to make it a real ES module (see git history for the exact diff):
 # importmap-rails does no bundling/transformation, so these need to be
 # loadable as native ES modules as-is.
-pin "kid_mentor_schedules", preload: false
-pin "htm", preload: false # @3.1.1
-pin "react", to: Rails.env.production? ? 'react.production.js' : 'react.development.js', preload: false
+pin 'kid_mentor_schedules', preload: false
+pin 'htm', preload: false # @3.1.1
+pin 'react', to: Rails.env.production? ? 'react.production.js' : 'react.development.js', preload: false
 pin 'classnames', preload: false
 pin 'react-input-autosize', preload: false
 pin 'react-select', preload: false

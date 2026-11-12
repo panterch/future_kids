@@ -14,6 +14,7 @@ feature 'Terms of use' do
   scenario 'are not linked and not found when empty' do
     Site.load.update!(terms_of_use_content: '')
     visit new_user_session_path
+    expect(page).to have_field(type: 'password')
     expect(page).to have_no_link('Nutzungsbedingungen')
     visit terms_of_use_path
     expect(page.status_code).to eq(404)

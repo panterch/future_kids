@@ -17,7 +17,7 @@ class SchoolsController < ApplicationController
   def create
     @school = School.new(school_params)
     if @school.save
-      redirect_to action: :index
+      respond_with @school, location: schools_path
     else
       render :new
     end
@@ -25,7 +25,7 @@ class SchoolsController < ApplicationController
 
   def update
     if @school.update(school_params)
-      redirect_to action: :index
+      respond_with @school, location: schools_path
     else
       render :edit
     end
@@ -37,7 +37,7 @@ class SchoolsController < ApplicationController
     return {} if params[:school].blank?
 
     params.expect(
-      school: %i[name school_kind principal_id street city phone homepage social
+      school: %i[name school_kind street city phone homepage social
                  district note term inactive]
     )
   end

@@ -10,7 +10,6 @@
       "Bash(bin/rails stats)",
       "Bash(bin/rails -T)",
       "Bash(bin/rails assets:precompile)",
-      "Bash(bin/rspec *)",
       "Bash(bundle exec rspec *)",
       "Bash(bundle exec rubocop *)",
       "Bash(bundle install)",
