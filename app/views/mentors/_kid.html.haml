@@ -1,0 +1,6 @@
+= can_link_to kid
+= "am #{kid.human_meeting_day}" if kid.meeting_day.present?
+= "in #{kid.city}" if kid.city.present?
+- if kid.school
+  Schule
+  = can_link_to kid.school
