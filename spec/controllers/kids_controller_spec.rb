@@ -311,6 +311,33 @@ describe KidsController do
         expect(response).to be_redirect
         expect(@kid.schedules.count).to eq(1)
       end
+
+      it 'replaces the existing schedule' do
+        create(:schedule, person: @kid, day: 1, hour: 14, minute: 0)
+        post :update_schedules, params: { id: @kid, kid: { schedules_attributes: [{ day: 2, hour: 15, minute: 30 }] } }
+        expect(@kid.schedules.pluck(:day, :hour, :minute)).to eq([[2, 15, 30]])
+        expect(flash[:alert]).to be_blank
+      end
+
+      it 'empties the schedule when nothing is submitted' do
+        create(:schedule, person: @kid, day: 1, hour: 14, minute: 0)
+        post :update_schedules, params: { id: @kid }
+        expect(@kid.schedules.count).to eq(0)
+        expect(flash[:alert]).to be_blank
+      end
+
+      it 'keeps the existing schedule and alerts when the kid does not validate' do
+        create(:schedule, person: @kid, day: 1, hour: 14, minute: 0)
+        # an older kid without the required goals
+        @kid.update_columns(goal_1: nil, goal_2: nil) # rubocop:disable Rails/SkipsModelValidations
+        expect(@kid.reload).not_to be_valid
+
+        post :update_schedules, params: { id: @kid, kid: { schedules_attributes: [{ day: 2, hour: 15, minute: 30 }] } }
+
+        expect(response).to redirect_to(action: :show)
+        expect(@kid.schedules.pluck(:day, :hour, :minute)).to eq([[1, 14, 0]])
+        expect(flash[:alert]).to eq(I18n.t('flash.schedules_not_saved'))
+      end
     end
 
     context 'destroy' do

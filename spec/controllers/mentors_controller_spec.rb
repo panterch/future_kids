@@ -35,6 +35,19 @@ describe MentorsController do
         } }
         expect(@mentor.reload.schedules.count).to eq(2)
       end
+
+      it 'keeps the existing schedule and alerts when the mentor does not validate' do
+        create(:schedule, person: @mentor, day: 1, hour: 14, minute: 0)
+        @mentor.update_columns(dob: Date.new(1800, 1, 1)) # rubocop:disable Rails/SkipsModelValidations
+        expect(@mentor.reload).not_to be_valid
+
+        put :update_schedules, params: { id: @mentor.id, mentor: {
+          schedules_attributes: [{ day: 2, hour: 15, minute: 30 }]
+        } }
+
+        expect(@mentor.schedules.pluck(:day, :hour, :minute)).to eq([[1, 14, 0]])
+        expect(flash[:alert]).to eq(I18n.t('flash.schedules_not_saved'))
+      end
     end
 
     context 'update' do

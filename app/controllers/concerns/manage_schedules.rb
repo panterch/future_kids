@@ -19,12 +19,18 @@ module ManageSchedules
   def update_schedules
     # we do not bother with the deletion / update of schedule records.  So if we
     # except a successful save we just destroy all records and create them again
-    # from the submitted data.
-    @resource.schedules.destroy_all
-    schedule_attributes =
-      resource_params && # guard against none attributes submitted
-      resource_params[:schedules_attributes]
-    @resource.update(schedules_attributes: schedule_attributes) if schedule_attributes.present?
+    # from the submitted data. Both steps run in one transaction: if the save
+    # fails (the whole record is validated, not only the schedules), the old
+    # schedules are kept.
+    schedule_attributes = resource_params&.dig(:schedules_attributes) # guard against none attributes submitted
+    saved = false
+    @resource.transaction do
+      @resource.schedules.destroy_all
+      # nothing submitted means all slots were unchecked: the schedule stays empty
+      saved = schedule_attributes.blank? || @resource.update(schedules_attributes: schedule_attributes)
+      raise ActiveRecord::Rollback unless saved
+    end
+    flash[:alert] = t('flash.schedules_not_saved') unless saved
     redirect_to action: :show
   end
 end
