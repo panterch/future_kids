@@ -12,6 +12,7 @@ public/system/**/*
 .sass-cache/
 **.orig
 .idea
+.vscode
 *.swp
 config/newrelic.yml
 *.tmproj
