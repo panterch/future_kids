@@ -170,7 +170,7 @@ CREATE TABLE public.comments (
     updated_at timestamp without time zone NOT NULL,
     to_teacher boolean DEFAULT false,
     to_secondary_teacher boolean DEFAULT false,
-    to_third_teacher boolean,
+    to_third_teacher boolean DEFAULT false NOT NULL,
     created_by_id integer,
     to_principal boolean DEFAULT false NOT NULL
 );
@@ -1632,6 +1632,7 @@ ALTER TABLE ONLY public.mentor_matchings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261112100000'),
 ('20261112090000'),
 ('20261111130000'),
 ('20261111120000'),

@@ -3,6 +3,11 @@
 require 'spec_helper'
 
 describe Comment do
+  it 'addresses no teacher by default, the third one like the others' do
+    expect(described_class.new.attributes.values_at('to_teacher', 'to_secondary_teacher', 'to_third_teacher'))
+      .to eq([false, false, false])
+  end
+
   context 'default values from last journal comment' do
     before do
       @previous = create(:comment)

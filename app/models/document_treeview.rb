@@ -2,6 +2,8 @@
 
 # helps building the json format that is used by the treeview plugin
 class DocumentTreeview
+  CATEGORIES = %i[category0 category1 category2 category3 category4 category5 category6 category7].freeze
+
   def initialize(user_class)
     @user_class = user_class
   end
@@ -10,8 +12,7 @@ class DocumentTreeview
   # them into a tree structure
   def categories_tree
     tree = {}
-    category_keys = retrieve_documents.order(:category0).pluck(:category0, :category1, :category2, :category3,
-                                                               :category4, :category5, :category6, :category7)
+    category_keys = retrieve_documents.order(*CATEGORIES).pluck(*CATEGORIES)
     category_keys.each do |keys|
       next if keys.first.blank?
 
