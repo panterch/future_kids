@@ -6,14 +6,14 @@ module ApplicationHelper
   # "trash" or "arrow-clockwise".
   def icon(name, css_class: nil)
     content_tag(:svg, class: ['icon-svg', css_class].compact.join(' '),
-                       viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg', 'aria-hidden': true) do
+                      viewBox: '0 0 16 16', xmlns: 'http://www.w3.org/2000/svg', 'aria-hidden': true) do
       tag.use(href: "#{asset_path('bootstrap-icons.svg')}##{name}")
     end
   end
 
   # Icon followed by its label, the content of most buttons and nav links.
   def icon_text(name, text)
-    icon(name) + ' ' + text
+    safe_join([icon(name), text], ' ')
   end
 
   # Flash message as a dismissible alert (see #flash in the layout). Maps the
@@ -34,10 +34,10 @@ module ApplicationHelper
   # renders form.button :submit (or the given block) aligned under the
   # field column of the horizontal_form simple_form wrapper (see
   # simple_form.rb), instead of flush with the label column
-  def horizontal_form_actions(form, &block)
+  def horizontal_form_actions(form, &)
     content_tag(:div, class: 'row') do
       content_tag(:div, class: 'col-sm-9 offset-sm-3') do
-        block_given? ? capture(&block) : form.button(:submit)
+        block_given? ? capture(&) : form.button(:submit)
       end
     end
   end
@@ -286,9 +286,11 @@ module ApplicationHelper
   #   t_model(Account.new) => 'Konto'
   #   t_model              => 'Konto' # when called in patients_controller views
   #
+  # rubocop:disable-next Metrics/AbcSize
   def t_model(model = nil)
     return model.model_name.human if model.is_a? ActiveModel::Naming
     return model.class.model_name.human if model.class.is_a? ActiveModel::Naming
+
     model_key = if model.is_a? Class
                   model.name.underscore
                 elsif model.nil?

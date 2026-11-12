@@ -26,6 +26,7 @@ module DetailsHelper
     # Renders one label/value row. A block without arguments replaces the
     # value; a block with one argument renders each element of a collection
     # value into a <ul>.
+    # rubocop:disable-next Metrics/AbcSize, Metrics/MethodLength
     def attribute(name, label: nil, &block)
       content = if block && block.arity != 1
                   @template.capture(&block)
@@ -50,14 +51,15 @@ module DetailsHelper
       @object.respond_to?(human) ? @object.public_send(human) : @object.public_send(name)
     end
 
-    def format(value, &block)
+    # rubocop:disable-next Metrics/CyclomaticComplexity
+    def format(value, &)
       value = value.to_a if value.respond_to?(:to_ary)
       case value
       when Date, Time then I18n.l(value)
       when true then I18n.t('details.yes')
       when false then I18n.t('details.no')
       when Numeric then value.to_s
-      when Array then collection(value, &block) if value.any?
+      when Array then collection(value, &) if value.any?
       else value.presence
       end
     end

@@ -113,6 +113,7 @@ class PersonDictionary
 
   private
 
+  # rubocop:disable-next Metrics/AbcSize, Metrics/CyclomaticComplexity, Metrics/MethodLength, Metrics/PerceivedComplexity
   def build_people
     [
       self.class.person_for(@kid, :kid),

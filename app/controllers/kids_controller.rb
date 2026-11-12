@@ -42,14 +42,6 @@ class KidsController < ApplicationController
     respond_with @kids
   end
 
-  # update is called from the normal rails edit form and from the react
-  # component on show_kid_mentors_schedules
-  def update
-    return render :edit unless @kid.update(kid_params)
-
-    respond_with @kid
-  end
-
   def show
     if params[:format] == 'md'
       raise CanCan::AccessDenied unless current_user.is_a?(Admin)
@@ -60,6 +52,14 @@ class KidsController < ApplicationController
     end
 
     preload_history
+    respond_with @kid
+  end
+
+  # update is called from the normal rails edit form and from the react
+  # component on show_kid_mentors_schedules
+  def update
+    return render :edit unless @kid.update(kid_params)
+
     respond_with @kid
   end
 

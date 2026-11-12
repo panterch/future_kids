@@ -20,6 +20,7 @@ module PrivilegedFieldGuard
     end
   end
 
+  # rubocop:disable-next Metrics/AbcSize, Metrics/CyclomaticComplexity
   def intercept_privileged_fields
     return true unless %w[update create].include?(action_name)
     return if current_user.is_a?(Admin)

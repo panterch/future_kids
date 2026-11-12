@@ -16,7 +16,10 @@ end
 # `open: true` to click the toggle first, as a user would -- the options are
 # only visible (and clickable in a real browser) once the menu is open.
 def choose_filter(label, option, open: false)
-  dropdown = all('.dropdown').find { |d| d.first('.dropdown-toggle')&.text&.split(': ')&.first == label }
+  dropdown = all('.dropdown').find do |d|
+    toggle = d.first('.dropdown-toggle')
+    toggle && toggle.text.split(': ').first == label
+  end
   raise Capybara::ElementNotFound, "Unable to find filter dropdown #{label.inspect}" unless dropdown
 
   dropdown.find('.dropdown-toggle').click if open

@@ -39,6 +39,7 @@ module KidsHelper
   end
 
   # Props for the React component on show_kid_mentors_schedules
+  # rubocop:disable-next Metrics/AbcSize, Metrics/MethodLength
   def kid_mentor_schedules_data(kid, mentors, schools)
     {
       mentors: mentors.to_h { |mentor| [mentor.id.to_s, mentor_schedules_data(mentor)] },
@@ -68,6 +69,7 @@ module KidsHelper
 
   private
 
+  # rubocop:disable-next Metrics/AbcSize, Metrics/MethodLength
   def mentor_schedules_data(mentor)
     {
       id: mentor.id,

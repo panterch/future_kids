@@ -15,7 +15,7 @@ describe AvatarsHelper do
 
       expect(markup).to have_css('span.avatar.avatar-md.avatar-teacher')
       expect(markup).to have_css('span.avatar-initials[aria-hidden="true"]', text: 'HM')
-      expect(markup).not_to have_css('img')
+      expect(markup).to have_no_css('img')
     end
 
     it 'falls back to two letters of the name when there is no prename' do
@@ -37,8 +37,10 @@ describe AvatarsHelper do
     it 'uses the thumb variant for sm/md, and the medium one for lg' do
       mentor = create(:mentor)
 
-      expect(helper.avatar(mentor, size: :md)).to have_css("img[src='#{helper.rails_storage_proxy_url(mentor.photo_thumb)}']")
-      expect(helper.avatar(mentor, size: :lg)).to have_css("img[src='#{helper.rails_storage_proxy_url(mentor.photo_medium)}']")
+      thumb = helper.rails_storage_proxy_url(mentor.photo_thumb)
+      medium = helper.rails_storage_proxy_url(mentor.photo_medium)
+      expect(helper.avatar(mentor, size: :md)).to have_css("img[src='#{thumb}']")
+      expect(helper.avatar(mentor, size: :lg)).to have_css("img[src='#{medium}']")
     end
 
     it 'renders a legacy image/pjpeg photo as a resized variant' do
@@ -56,7 +58,7 @@ describe AvatarsHelper do
       markup = helper.avatar(mentor)
 
       expect(markup).to have_css('span.avatar-initials')
-      expect(markup).not_to have_css('img')
+      expect(markup).to have_no_css('img')
       expect(helper.profile_photo(mentor)).to eq('')
     end
 
@@ -92,7 +94,7 @@ describe AvatarsHelper do
       markup = helper.avatar_link_to(kid)
 
       expect(markup).to have_text(kid.display_name)
-      expect(markup).not_to have_link(kid.display_name)
+      expect(markup).to have_no_link(kid.display_name)
     end
   end
 
@@ -106,8 +108,9 @@ describe AvatarsHelper do
 
       markup = helper.profile_photo(mentor)
 
-      expect(markup).to have_css("div.profile-portrait img.profile-portrait-img[src='#{helper.rails_storage_proxy_url(mentor.photo_medium)}']")
-      expect(markup).not_to have_css('.avatar')
+      src = helper.rails_storage_proxy_url(mentor.photo_medium)
+      expect(markup).to have_css("div.profile-portrait img.profile-portrait-img[src='#{src}']")
+      expect(markup).to have_no_css('.avatar')
     end
 
     it 'renders nothing when there is no photo' do
