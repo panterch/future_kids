@@ -1,5 +1,4 @@
 /.bundle
-/config/database.yml
 /vendor/bundle
 /log/*
 /tmp/*
