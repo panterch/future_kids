@@ -8,8 +8,6 @@
     %title= @site.title.present? ? @site.title : "FutureKids"
     = stylesheet_link_tag 'application', :media => :all
     = stylesheet_link_tag 'print', :media => :print
-    - if @site.css.present?
-      %style=raw(@site.css)
     - unless force_light_theme
       %script
         :plain

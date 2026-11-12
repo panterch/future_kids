@@ -279,7 +279,6 @@ de:
         ai_api_base_url: "KI-Anbieter: API Basis-URL"
         ai_api_token: "KI-Anbieter: API-Token"
         ai_model: "KI-Anbieter: Modell"
-        css: Seitenspezifisches CSS
 
     errors:
       models:
