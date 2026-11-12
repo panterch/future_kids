@@ -7,6 +7,10 @@ Devise.setup do |config|
   require 'devise/orm/active_record'
   config.case_insensitive_keys = [:email]
   config.strip_whitespace_keys = [:email]
+
+  # the password reset form answers alike for known and unknown addresses (and
+  # for locked accounts), so it does not tell who has an account
+  config.paranoid = true
   config.skip_session_storage = [:http_auth]
   config.stretches = Rails.env.test? ? 1 : 10
   config.reconfirmable = true
