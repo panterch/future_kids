@@ -208,8 +208,19 @@ module ApplicationHelper
     School.school_kinds.keys.map { |s| [School.humanize_enum('school_kind', s), s] }
   end
 
-  def school_district_collection
-    School.unscoped.distinct.order(:district).pluck(:district).compact_blank.map { |d| [d, d] }
+  # the values in use of a free text school column (district, subdistrict)
+  def school_values(column)
+    School.unscoped.distinct.order(column).pluck(column).compact_blank
+  end
+
+  # what the school form suggests for a free text column: the values the site
+  # lists (one per line) plus those already in use
+  def school_suggestions(listed, column)
+    (listed.to_s.lines.map(&:strip) + school_values(column)).compact_blank.uniq.sort
+  end
+
+  def school_collection(column)
+    school_values(column).map { |value| [value, value] }
   end
 
   # can be used in view to display private data only to their owners (and

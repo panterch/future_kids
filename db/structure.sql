@@ -780,7 +780,8 @@ CREATE TABLE public.schools (
     note text,
     school_kind public.school_kind,
     inactive boolean DEFAULT false NOT NULL,
-    inactive_at timestamp(6) without time zone
+    inactive_at timestamp(6) without time zone,
+    subdistrict character varying
 );
 
 
@@ -829,7 +830,9 @@ CREATE TABLE public.sites (
     ai_api_base_url character varying,
     ai_api_token character varying,
     ai_model character varying,
-    ai_features_enabled boolean DEFAULT false NOT NULL
+    ai_features_enabled boolean DEFAULT false NOT NULL,
+    school_districts text,
+    school_subdistricts text
 );
 
 
@@ -1632,6 +1635,8 @@ ALTER TABLE ONLY public.mentor_matchings
 SET search_path TO "$user", public;
 
 INSERT INTO "schema_migrations" (version) VALUES
+('20261113110000'),
+('20261113100000'),
 ('20261112100000'),
 ('20261112090000'),
 ('20261111130000'),

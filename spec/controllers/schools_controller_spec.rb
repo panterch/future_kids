@@ -52,6 +52,46 @@ describe SchoolsController do
     end
   end
 
+  context 'index filtered by subdistrict' do
+    it 'shows only the schools of the subdistrict' do
+      uto = create(:school, subdistrict: 'Uto')
+      create(:school, subdistrict: 'Letzi')
+      create(:school)
+      get :index, params: { school: { subdistrict: 'Uto' } }
+      expect(assigns(:schools)).to eq([uto])
+    end
+
+    it 'offers only the filter when a subdistrict is in use' do
+      create(:school)
+      get :index
+      expect(response.body).not_to include('Schulkreis')
+      create(:school, subdistrict: 'Uto')
+      get :index
+      expect(response.body).to include('Schulkreis')
+    end
+  end
+
+  context 'new' do
+    render_views
+
+    it 'suggests the listed and the used values' do
+      Site.load.update!(school_subdistricts: "Uto\nLetzi\n")
+      create(:school, subdistrict: 'Waidberg', district: 'Schlieren')
+      get :new
+      options = ->(id) { Nokogiri::HTML(response.body).css("datalist##{id} option").pluck(:value) }
+      expect(options.call('districts')).to eq(%w[Schlieren])
+      expect(options.call('subdistricts')).to eq(%w[Letzi Uto Waidberg])
+    end
+  end
+
+  context 'update' do
+    it 'saves the subdistrict' do
+      school = create(:school)
+      patch :update, params: { id: school.id, school: { subdistrict: 'Uto' } }
+      expect(school.reload.subdistrict).to eq('Uto')
+    end
+  end
+
   context 'inactivate via update' do
     before do
       @school = create(:school)

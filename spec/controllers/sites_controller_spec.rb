@@ -18,6 +18,12 @@ describe SitesController do
     end
 
     context 'update' do
+      it 'saves the suggested school values' do
+        put :update, params: { site: { school_districts: "Winterthur\nSchlieren", school_subdistricts: 'Uto' } }
+        expect(Site.load.school_districts).to eq("Winterthur\nSchlieren")
+        expect(Site.load.school_subdistricts).to eq('Uto')
+      end
+
       it 'updates the ai api token when given' do
         put :update, params: { site: { ai_api_token: 'new-token' } }
         expect(Site.load.ai_api_token).to eq('new-token')
