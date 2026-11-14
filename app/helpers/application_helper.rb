@@ -219,7 +219,7 @@ module ApplicationHelper
     (listed.to_s.lines.map(&:strip) + school_values(column)).compact_blank.uniq.sort
   end
 
-  def school_collection(column)
+  def school_value_collection(column)
     school_values(column).map { |value| [value, value] }
   end
 
