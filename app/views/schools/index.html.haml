@@ -6,9 +6,8 @@
 - if can?(:filter, School)
   = render layout: 'filter_bar', locals: { record: @filter } do
     = render 'filter_dropdown', label: School.human_attribute_name(:school_kind), field: :school_kind, options: school_kind_collection, record: @filter
-    = render 'filter_dropdown', label: School.human_attribute_name(:district), field: :district, options: school_value_collection(:district), record: @filter
-    - if school_values(:subdistrict).any?
-      = render 'filter_dropdown', label: School.human_attribute_name(:subdistrict), field: :subdistrict, options: school_value_collection(:subdistrict), record: @filter
+    = render 'filter_dropdown', label: School.human_attribute_name(:district), field: :district, options: school_value_collection(:district, @filter.district), record: @filter
+    = render 'filter_dropdown', label: School.human_attribute_name(:subdistrict), field: :subdistrict, options: school_value_collection(:subdistrict, @filter.subdistrict), record: @filter
     = render 'inactive_filter', record: @filter
 
 .table-responsive

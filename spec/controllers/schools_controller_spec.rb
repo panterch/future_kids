@@ -74,13 +74,23 @@ describe SchoolsController do
       expect(assigns(:schools)).to eq([uto])
     end
 
-    it 'offers only the filter when a subdistrict is in use' do
-      create(:school)
-      get :index
-      expect(response.body).not_to include('Schulkreis')
-      create(:school, subdistrict: 'Uto')
-      get :index
-      expect(response.body).to include('Schulkreis')
+    context 'with rendered views' do
+      render_views
+
+      it 'always offers the subdistrict filter' do
+        create(:school)
+        get :index
+        expect(response.body).to include('Schulkreis')
+      end
+
+      it 'keeps a filtered value no school has any more selectable and resettable' do
+        create(:school, subdistrict: 'Letzi')
+        get :index, params: { school: { subdistrict: 'Uto', district: 'Altstadt' } }
+        expect(assigns(:schools)).to be_empty
+        expect(response.body).to include('Schulkreis: Uto', 'Schulgemeinde: Altstadt', 'Filter zurücksetzen')
+        options = response.parsed_body.css('.filter-menu a').map(&:text)
+        expect(options).to include('Letzi', 'Uto', 'Altstadt')
+      end
     end
   end
 

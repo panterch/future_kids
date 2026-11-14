@@ -219,8 +219,13 @@ module ApplicationHelper
     (listed.to_s.lines.map(&:strip) + school_values(column)).compact_blank.uniq.sort
   end
 
-  def school_value_collection(column)
-    school_values(column).map { |value| [value, value] }
+  # options of a free text school filter. +current+ (the filtered value) is
+  # kept in the options when no school has it any more, so that the filter
+  # stays visible as selected and can be reset
+  def school_value_collection(column, current = nil)
+    values = school_values(column)
+    values << current if current.present? && values.exclude?(current)
+    values.map { |value| [value, value] }
   end
 
   # can be used in view to display private data only to their owners (and
