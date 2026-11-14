@@ -6,7 +6,14 @@
   = form.input :phone
   = form.input :homepage
   = form.input :social
-  = form.input :district
+  = form.input :district, input_html: { list: 'districts' }
+  %datalist#districts
+    - school_suggestions(@site.school_districts, :district).each do |value|
+      %option{ value: value }
+  = form.input :subdistrict, input_html: { list: 'subdistricts' }
+  %datalist#subdistricts
+    - school_suggestions(@site.school_subdistricts, :subdistrict).each do |value|
+      %option{ value: value }
   = form.input :term, :collection => term_collection
   = form.input :note
 

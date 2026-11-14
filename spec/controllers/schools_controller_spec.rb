@@ -12,6 +12,19 @@ describe SchoolsController do
       get :new
       expect(response).to be_successful
     end
+
+    context 'with rendered views' do
+      render_views
+
+      it 'suggests the listed and the used values' do
+        Site.load.update!(school_subdistricts: "Uto\nLetzi\n")
+        create(:school, subdistrict: 'Waidberg', district: 'Schlieren')
+        get :new
+        options = ->(id) { response.parsed_body.css("datalist##{id} option").pluck(:value) }
+        expect(options.call('districts')).to eq(%w[Schlieren])
+        expect(options.call('subdistricts')).to eq(%w[Letzi Uto Waidberg])
+      end
+    end
   end
 
   context 'create' do
@@ -49,6 +62,25 @@ describe SchoolsController do
       inactive = create(:school, inactive: true)
       get :index, params: { school: { inactive: '1' } }
       expect(assigns(:schools)).to eq([inactive])
+    end
+  end
+
+  context 'index filtered by subdistrict' do
+    it 'shows only the schools of the subdistrict' do
+      uto = create(:school, subdistrict: 'Uto')
+      create(:school, subdistrict: 'Letzi')
+      create(:school)
+      get :index, params: { school: { subdistrict: 'Uto' } }
+      expect(assigns(:schools)).to eq([uto])
+    end
+
+    it 'offers only the filter when a subdistrict is in use' do
+      create(:school)
+      get :index
+      expect(response.body).not_to include('Schulkreis')
+      create(:school, subdistrict: 'Uto')
+      get :index
+      expect(response.body).to include('Schulkreis')
     end
   end
 
@@ -96,6 +128,11 @@ describe SchoolsController do
       put :create, params: { id: @school.id, school: { name: 'updated' } }
       expect(assigns(:school).name).to eq('updated')
       expect(response).to be_redirect
+    end
+
+    it 'saves the subdistrict' do
+      put :update, params: { id: @school.id, school: { subdistrict: 'Uto' } }
+      expect(@school.reload.subdistrict).to eq('Uto')
     end
   end
 end

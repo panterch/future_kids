@@ -255,6 +255,7 @@ de:
         active_teachers: Lehrpersonen
         social: Schulsozialarbeiter*in
         district: Schulgemeinde
+        subdistrict: Schulkreis
         note: Bemerkungen
         term: Startzeit
         school_kind: Schultyp
@@ -275,6 +276,8 @@ de:
         teachers_can_access_reviews: Lehrpersonen können Gesprächsnotizen einsehen
         kids_schedule_hourly: Stundenplan aktivieren
         terms_of_use_content: Nutzungsbedingungen
+        school_districts: "Vorschläge für Schulgemeinde"
+        school_subdistricts: "Vorschläge für Schulkreis"
         title: Titel des Browsertabs
         ai_features_enabled: "KI Nutzung erlauben"
         ai_api_base_url: "KI-Anbieter: API Basis-URL"

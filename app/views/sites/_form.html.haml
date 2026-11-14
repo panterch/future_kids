@@ -12,6 +12,8 @@
   .mb-3
     = form.label :terms_of_use_content, class: 'form-label'
     = form.text_area :terms_of_use_content, class: 'form-control'
+  = form.input :school_districts, as: :text, hint: 'Ein Wert pro Zeile. Wird im Schulformular als Vorschlag angezeigt.'
+  = form.input :school_subdistricts, as: :text, hint: 'Ein Wert pro Zeile. Wird im Schulformular als Vorschlag angezeigt.'
   = form.input :logo
   = form.input :teachers_can_access_reviews
   = form.input :kids_schedule_hourly

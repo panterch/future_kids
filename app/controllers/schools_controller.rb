@@ -38,7 +38,7 @@ class SchoolsController < ApplicationController
 
     params.expect(
       school: %i[name school_kind street city phone homepage social
-                 district note term inactive]
+                 district subdistrict note term inactive]
     )
   end
 end
